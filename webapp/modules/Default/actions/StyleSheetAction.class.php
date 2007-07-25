@@ -20,7 +20,10 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function handleError () {
-		return $this->controller->forward(MO_ERROR_404_MODULE, MO_ERROR_404_ACTION);
+		return $this->controller->forward(
+			BSController::NOT_FOUND_MODULE,
+			BSController::NOT_FOUND_ACTION
+		);
 	}
 }
 
