@@ -90,18 +90,14 @@ try {
 	require_once(BS_LIB_DIR . '/carrot/file/BSDirectoryFinder.class.php');
 
 	if (php_sapi_name() == 'cli') {
-		$options = getopt('s:m:a:');
-		if (!$options['s']) {
-			trigger_error('サーバ名が指定されていません。', E_USER_ERROR);
-		}
-		$_SERVER['SERVER_NAME'] = $options['s'];
+		$_SERVER['SERVER_NAME'] = $_SERVER['HOST'];
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Console';
 	}
 
 	$name = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $_SERVER['SERVER_NAME']);
 	if (!is_readable($name)) {
-		trigger_error('サーバ定義ファイルが見つかりません。', E_USER_ERROR);
+		trigger_error('"' . basename($name) . '" is not found.', E_USER_ERROR);
 	}
 	ConfigCache::import($name);
 

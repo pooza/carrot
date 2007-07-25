@@ -24,30 +24,28 @@ abstract class BSSmartyView extends BSView {
 	public function initialize ($context) {
 		parent::initialize($context);
 
-		// Smartyを設定
 		$this->setEngine(new BSSmarty());
 		$this->setDirectory($this->context->getModuleDirectory() . '/templates');
 		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
 		$this->getEngine()->addModifier('sanitize');
-		$this->getEngine()->addOutputFilter('trim');
 
-		// ケータイの場合はエンコーディングを変更
+		if (!BSController::getInstance()->isCLI()) {
+			$this->getEngine()->addOutputFilter('trim');
+		}
+
 		if ($this->useragent->isMobile()) {
 			$this->getEngine()->setEncoding('sjis');
 			$this->getEngine()->addOutputFilter('mobile');
 		}
 
-		// ヘッダを設定
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
 
-		// デフォルトで、アクションと同名のテンプレートを使用
 		$action = $this->context->getActionName();
 		if ($this->getEngine()->getTemplatesDirectory()->getEntry($action)) {
 			$this->setTemplate($action);
 		}
 
-		// 各種属性をアサイン
 		$this->setAttribute('module', $this->context->getModuleName());
 		$this->setAttribute('action', $this->context->getActionName());
 		$this->setAttribute('errors', $this->request->getErrors());

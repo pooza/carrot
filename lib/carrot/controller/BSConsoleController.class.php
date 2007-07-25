@@ -37,7 +37,6 @@ class BSConsoleController extends BSController {
 		parent::initialize();
 
 		$options = array(
-			self::SERVER_ACCESSOR,
 			self::MODULE_ACCESSOR,
 			self::ACTION_ACCESSOR,
 			null,

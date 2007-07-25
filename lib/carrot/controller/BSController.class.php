@@ -15,7 +15,6 @@
 abstract class BSController extends Controller {
 	const MODULE_ACCESSOR = MO_MODULE_ACCESSOR;
 	const ACTION_ACCESSOR = MO_ACTION_ACCESSOR;
-	const SERVER_ACCESSOR = BS_SERVER_ACCESSOR;
 	const DEFAULT_MODULE = MO_DEFAULT_MODULE;
 	const DEFAULT_ACTION = MO_DEFAULT_ACTION;
 	const NOT_FOUND_MODULE = MO_ERROR_404_MODULE;
@@ -186,6 +185,8 @@ abstract class BSController extends Controller {
 		if (!$this->useragent) {
 			if ($this->isDebugMode() && $this->request->hasParameter('ua')) {
 				$name = $this->request->getParameter('ua');
+			} else if ($this->isCLI()) {
+				$name = 'Console';
 			} else {
 				$name = $this->getEnvironment('HTTP_USER_AGENT');
 			}

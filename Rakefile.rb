@@ -15,7 +15,7 @@ desc '運用環境の構築'
 task :production => [:chmod_var]
 
 desc 'テスト環境の構築'
-task :development => [:install, :svn_pset, 'www/doc']
+task :development => [:chmod_var, :svn_pset, 'www/doc']
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do

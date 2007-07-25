@@ -213,6 +213,7 @@ class BSUserAgent {
 			'Docomo',
 			'Au',
 			'SoftBank',
+			'Console',
 		);
 	}
 
