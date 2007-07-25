@@ -31,6 +31,23 @@ function __autoload ($class) {
 	require_once($classes[$class]);
 }
 
+/**
+ * デバッグ出力
+ *
+ * @access public
+ * @param mixed $var 出力対象
+ */
+function p ($var) {
+	header('Content-Type: text/html; charset=utf-8');
+	if (extension_loaded('xdebug')) {
+		var_dump($var);
+	} else {
+		print("<pre>\n");
+		print_r($var);
+		print("</pre>\n");
+	}
+}
+
 
 /*
  * ここから処理開始
