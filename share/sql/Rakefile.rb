@@ -4,7 +4,7 @@
 #
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
-# @version $Id: Rakefile.rb 359 2007-07-14 12:12:10Z pooza $
+# @version $Id$
 
 $KCODE = 'u'
 
