@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSDefineConfigHandler extends DefineConfigHandler {
+class BSDefineConfigHandler extends IniConfigHandler {
 	public function & execute ($config) {
 		$body = array(
 			'<?php',
