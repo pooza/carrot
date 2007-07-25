@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSJapaneseHolidayList.class.php 258 2007-01-03 08:45:20Z pooza $
+ * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
 	private static $instance;

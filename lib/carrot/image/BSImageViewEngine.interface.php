@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSImageViewEngine.interface.php 273 2007-02-03 11:59:01Z pooza $
+ * @version $Id$
  */
 interface BSImageViewEngine extends BSViewEngine {
 

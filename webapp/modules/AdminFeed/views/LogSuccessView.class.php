@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage AdminFeed
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: LogSuccessView.class.php 280 2007-02-10 12:02:15Z pooza $
+ * @version $Id$
  */
 class LogSuccessView extends BSXMLView {
 	const FEED_CLASS = BS_FEED_CLASS;

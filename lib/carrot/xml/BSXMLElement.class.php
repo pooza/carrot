@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSXMLElement.class.php 319 2007-04-24 09:45:43Z pooza $
+ * @version $Id$
  */
 class BSXMLElement implements IteratorAggregate {
 	protected $writer;

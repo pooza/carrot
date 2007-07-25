@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSmartyView.class.php 339 2007-06-12 13:46:38Z pooza $
+ * @version $Id$
  * @link http://ozaki.kyoichi.jp/mojavi3/smarty.html 参考
  * @abstract
  */

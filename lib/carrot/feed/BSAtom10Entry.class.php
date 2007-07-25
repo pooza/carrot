@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSAtom10Entry.class.php 70 2006-05-24 13:05:39Z pooza $
+ * @version $Id$
  */
 class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';

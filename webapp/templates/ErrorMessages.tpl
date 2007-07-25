@@ -3,7 +3,7 @@
 
 @package jp.co.b-shock.carrot
 @author 小石達也 <tkoishi@b-shock.co.jp>
-@version $Id: ErrorMessages.tpl 285 2007-02-14 14:06:31Z pooza $
+@version $Id$
 *}
 {if $errors}
 <p class="alert">

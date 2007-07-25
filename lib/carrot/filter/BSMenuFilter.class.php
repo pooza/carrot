@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSMenuFilter.class.php 367 2007-07-25 04:53:57Z pooza $
+ * @version $Id$
  */
 class BSMenuFilter extends BSFilter {
 	private $menu = array();

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSXMLDocument.class.php 328 2007-05-17 03:35:03Z pooza $
+ * @version $Id$
  */
 class BSXMLDocument extends BSXMLElement implements BSViewEngine {
 	private $error;

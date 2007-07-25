@@ -3,7 +3,7 @@
 
 @package jp.co.b-shock.carrot
 @author 小石達也 <tkoishi@b-shock.co.jp>
-@version $Id: AdminHeader.tpl 367 2007-07-25 04:53:57Z pooza $
+@version $Id$
 *}
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

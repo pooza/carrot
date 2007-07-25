@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSQLiteTableProfile.class.php 107 2006-06-11 13:35:45Z pooza $
+ * @version $Id$
  */
 class BSSQLiteTableProfile extends BSTableProfile {
 

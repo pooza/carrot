@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTwitterException.class.php 335 2007-06-11 13:56:47Z pooza $
+ * @version $Id$
  */
 class BSTwitterException extends BSException {
 }

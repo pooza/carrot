@@ -12,7 +12,7 @@ ini_set('auto_detect_line_endings', true);
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSFile.class.php 332 2007-06-08 03:07:57Z pooza $
+ * @version $Id$
  */
 class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	private $basename;

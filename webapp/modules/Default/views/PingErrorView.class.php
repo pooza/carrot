@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: PingErrorView.class.php 339 2007-06-12 13:46:38Z pooza $
+ * @version $Id$
  */
 class PingErrorView extends BSSmartyView {
 	public function execute () {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSODBCDatabase.class.php 327 2007-05-17 02:57:26Z pooza $
+ * @version $Id$
  */
 class BSODBCDatabase extends BSDatabase {
 	private static $instance;

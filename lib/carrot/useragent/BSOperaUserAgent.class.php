@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSOperaUserAgent.class.php 290 2007-02-16 14:45:36Z pooza $
+ * @version $Id$
  */
 class BSOperaUserAgent extends BSUserAgent {
 

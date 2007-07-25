@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDictionary.interface.php 108 2006-06-16 17:01:08Z pooza $
+ * @version $Id$
  */
 interface BSDictionary {
 

@@ -3,7 +3,7 @@
  *
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: ahah.js 358 2007-07-14 11:39:53Z pooza $
+ * @version $Id$
  */
 
 function ahah (divID, url) {

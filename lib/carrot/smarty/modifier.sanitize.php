@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: modifier.sanitize.php 365 2007-07-24 15:55:31Z pooza $
+ * @version $Id$
  */
 function smarty_modifier_sanitize ($value) {
 	if (is_array($value) || preg_match('/&([a-z]+|#[0-9]+);/', $value)) {

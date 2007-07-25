@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDirectory.class.php 332 2007-06-08 03:07:57Z pooza $
+ * @version $Id$
  */
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	private $suffix = '';

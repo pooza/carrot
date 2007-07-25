@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: DefaultSuccessView.class.php 862 2007-06-29 09:15:49Z pooza $
+ * @version $Id$
  */
 class DefaultSuccessView extends BSSmartyView {
 	public function execute () {

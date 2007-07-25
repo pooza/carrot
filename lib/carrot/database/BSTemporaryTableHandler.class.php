@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTemporaryTableHandler.class.php 323 2007-05-15 11:51:34Z pooza $
+ * @version $Id$
  * @todo 今のところMySQLだけなので、他のDBMSに対応する様に。
  */
 class BSTemporaryTableHandler extends BSTableHandler {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCSVView.class.php 270 2007-02-03 04:21:24Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSCSVView extends BSView {

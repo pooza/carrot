@@ -4,7 +4,7 @@ phpDocumentor 生成画面テンプレート
 @package jp.co.b-shock.carrot
 @subpackage DevelopDocumentor
 @author 小石達也 <tkoishi@b-shock.co.jp>
-@version $Id: Generate.tpl 355 2007-06-27 13:02:34Z pooza $
+@version $Id$
 *}
 
 {include file='AdminHeader'}

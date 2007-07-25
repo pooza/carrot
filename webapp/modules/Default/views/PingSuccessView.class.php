@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: PingSuccessView.class.php 339 2007-06-12 13:46:38Z pooza $
+ * @version $Id$
  */
 class PingSuccessView extends BSSmartyView {
 	public function execute () {

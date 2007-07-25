@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSAuthor.class.php 307 2007-03-25 14:19:25Z pooza $
+ * @version $Id$
  * @abstract
  */
 class BSAuthor implements BSActor {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSImage.class.php 337 2007-06-12 09:09:00Z pooza $
+ * @version $Id$
  */
 class BSImage implements BSImageViewEngine {
 	private $colors = array();

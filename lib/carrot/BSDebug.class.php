@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDebug.class.php 272 2007-02-03 09:53:15Z pooza $
+ * @version $Id$
  */
 class BSDebug {
 	private $smtp;

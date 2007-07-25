@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSMSIEUserAgent.class.php 293 2007-02-20 13:33:02Z pooza $
+ * @version $Id$
  */
 class BSMSIEUserAgent extends BSUserAgent {
 

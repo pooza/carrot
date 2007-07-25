@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSRSS20Entry.class.php 70 2006-05-24 13:05:39Z pooza $
+ * @version $Id$
  */
 class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	const DATE_FORMAT = 'r';

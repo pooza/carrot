@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTypeList.class.php 274 2007-02-03 12:48:53Z pooza $
+ * @version $Id$
  */
 class BSTypeList extends BSList {
 	private static $instance;

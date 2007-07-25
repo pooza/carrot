@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSConstantsDictionary.class.php 226 2006-10-29 06:42:19Z pooza $
+ * @version $Id$
  */
 class BSConstantsDictionary implements BSDictionary {
 

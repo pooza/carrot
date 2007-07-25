@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDirectoryIterator.class.php 90 2006-05-29 12:41:11Z pooza $
+ * @version $Id$
  */
 class BSDirectoryIterator implements Iterator {
 	private $directory;

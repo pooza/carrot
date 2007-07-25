@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage Console
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: CleaningTemporaryFilesAction.class.php 300 2007-03-10 12:56:23Z pooza $
+ * @version $Id$
  */
 class CleaningTemporaryFilesAction extends BSAction {
 	public function execute () {

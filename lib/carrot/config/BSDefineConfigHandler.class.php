@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDefineConfigHandler.class.php 333 2007-06-08 05:48:46Z pooza $
+ * @version $Id$
  */
 class BSDefineConfigHandler extends DefineConfigHandler {
 	public static function & replaceConstants ($value) {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: outputfilter.mobile.php 238 2006-12-03 04:54:37Z pooza $
+ * @version $Id$
  */
 function smarty_outputfilter_mobile ($source, &$smarty) {
 	$source = BSString::convertKana($source, 'kas');

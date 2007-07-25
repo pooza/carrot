@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: modifier.bs_date_format.php 166 2006-07-22 07:35:31Z pooza $
+ * @version $Id$
  */
 function smarty_modifier_bs_date_format ($value, $format = 'Y/m/d H:i:s') {
 	if (is_array($value)) {

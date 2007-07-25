@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTableProfile.class.php 334 2007-06-08 11:59:26Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSTableProfile {

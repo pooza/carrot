@@ -3,7 +3,7 @@
  *
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: password.js 366 2007-07-25 00:47:15Z pooza $
+ * @version $Id$
  */
 
 function getRandomPassword (length) {

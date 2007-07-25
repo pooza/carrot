@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSKanaValidator.class.php 149 2006-07-09 11:28:49Z pooza $
+ * @version $Id$
  */
 class BSKanaValidator extends Validator {
 	const PATTERN = '^[ぁ-んァ-ンヴー0-9]*$';

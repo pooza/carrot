@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSPDFView.class.php 283 2007-02-11 02:12:36Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSPDFView extends BSView {

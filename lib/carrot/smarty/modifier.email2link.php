@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: modifier.email2link.php 230 2006-12-02 06:12:36Z pooza $
+ * @version $Id$
  */
 function smarty_modifier_email2link ($value) {
 	if (is_array($value)) {

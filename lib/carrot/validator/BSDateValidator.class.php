@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDateValidator.class.php 318 2007-04-19 11:25:09Z pooza $
+ * @version $Id$
  */
 class BSDateValidator extends Validator {
 

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSXMPP.class.php 339 2007-06-12 13:46:38Z pooza $
+ * @version $Id$
  */
 class BSXMPP extends BSSocket {
 	private $streamID;

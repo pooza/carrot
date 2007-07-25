@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSJabberIDValidator.class.php 87 2006-05-28 16:42:49Z pooza $
+ * @version $Id$
  */
 class BSJabberIDValidator extends RegexValidator {
 	/**

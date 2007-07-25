@@ -4,7 +4,7 @@
 @package jp.co.b-shock.carrot
 @subpackage AdminXMPPBot
 @author 小石達也 <tkoishi@b-shock.co.jp>
-@version $Id: Summary.tpl 364 2007-07-24 14:52:08Z pooza $
+@version $Id$
 *}
 
 {include file='AdminHeader'}

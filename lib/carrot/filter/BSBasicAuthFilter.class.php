@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSBasicAuthFilter.class.php 365 2007-07-24 15:55:31Z pooza $
+ * @version $Id$
  */
 class BSBasicAuthFilter extends BSFilter {
 

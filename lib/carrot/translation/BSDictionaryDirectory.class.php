@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDictionaryDirectory.class.php 300 2007-03-10 12:56:23Z pooza $
+ * @version $Id$
  */
 class BSDictionaryDirectory extends BSDirectory {
 	const DEFAULT_ENTRY_CLASS = 'BSDictionaryFile';

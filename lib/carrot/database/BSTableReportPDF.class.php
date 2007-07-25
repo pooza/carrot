@@ -8,7 +8,7 @@
  * TableReport出力用PDF
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: BSTableReportPDF.class.php 107 2006-06-11 13:35:45Z pooza $
+ * @version $Id$
  */
 class BSTableReportPDF extends BSFPDF {
 	private $sectionNumber = 0;

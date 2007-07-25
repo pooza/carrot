@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage AdminXMPPBot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: SummaryAction.class.php 169 2006-07-22 14:27:31Z pooza $
+ * @version $Id$
  */
 class SummaryAction extends BSAction {
 	public function execute () {

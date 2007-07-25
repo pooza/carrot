@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopDocumentor
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: GenerateAction.class.php 302 2007-03-13 19:20:44Z pooza $
+ * @version $Id$
  */
 class GenerateAction extends BSAction {
 	public function execute () {

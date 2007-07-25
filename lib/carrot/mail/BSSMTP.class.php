@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSMTP.class.php 356 2007-07-02 02:21:04Z pooza $
+ * @version $Id$
  */
 class BSSMTP extends BSSocket {
 	private $from;

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSURLValidator.class.php 49 2006-05-12 11:43:18Z pooza $
+ * @version $Id$
  */
 class BSURLValidator extends RegexValidator {
 	/**

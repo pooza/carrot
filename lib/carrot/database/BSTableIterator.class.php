@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTableIterator.class.php 190 2006-08-09 05:09:04Z pooza $
+ * @version $Id$
  */
 class BSTableIterator implements Iterator {
 	private $table;

@@ -11,7 +11,7 @@ BSController::includeLegacy('/pear/HTML/CSS.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCSS.class.php 346 2007-06-26 12:02:41Z pooza $
+ * @version $Id$
  */
 class BSCSS extends HTML_CSS implements BSViewEngine {
 	private $files = array();

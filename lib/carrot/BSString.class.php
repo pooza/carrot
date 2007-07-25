@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSString.class.php 362 2007-07-15 12:56:48Z pooza $
+ * @version $Id$
  */
 class BSString {
 	const SCRIPT_ENCODING = BS_SCRIPT_ENCODING;

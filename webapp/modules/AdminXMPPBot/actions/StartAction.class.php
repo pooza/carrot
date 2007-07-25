@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage AdminXMPPBot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: StartAction.class.php 300 2007-03-10 12:56:23Z pooza $
+ * @version $Id$
  */
 class StartAction extends BSAction {
 	public function execute () {

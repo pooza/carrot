@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopTableReport
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: DetailSuccessView.class.php 311 2007-04-15 12:26:04Z pooza $
+ * @version $Id$
  */
 class DetailSuccessView extends BSSmartyView {
 	public function execute () {

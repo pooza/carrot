@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSFeedDocument.interface.php 71 2006-05-24 13:07:55Z pooza $
+ * @version $Id$
  */
 interface BSFeedDocument extends BSViewEngine {
 

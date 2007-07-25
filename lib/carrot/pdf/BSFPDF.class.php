@@ -13,7 +13,7 @@ BSController::includeLegacy('/fpdf/mbfpdf.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSFPDF.class.php 328 2007-05-17 03:35:03Z pooza $
+ * @version $Id$
  */
 class BSFPDF extends MBFPDF implements BSViewEngine {
 	private $error;

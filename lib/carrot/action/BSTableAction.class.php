@@ -8,7 +8,7 @@
  * 一覧画面用 アクションひな形
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: BSTableAction.class.php 361 2007-07-15 12:42:45Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSTableAction extends BSAction {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSHeaderCSVData.class.php 309 2007-04-03 06:10:43Z pooza $
+ * @version $Id$
  */
 class BSHeaderCSVData extends BSCSVData {
 	private $fields = array();

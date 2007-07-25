@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSConsoleController.class.php 280 2007-02-10 12:02:15Z pooza $
+ * @version $Id$
  */
 class BSConsoleController extends BSController {
 	private static $instance;

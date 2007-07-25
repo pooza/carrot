@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: DefaultAction.class.php 34 2006-05-08 08:35:43Z pooza $
+ * @version $Id$
  */
 class DefaultAction extends BSAction {
 	public function execute () {

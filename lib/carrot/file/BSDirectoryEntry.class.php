@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDirectoryEntry.class.php 332 2007-06-08 03:07:57Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSDirectoryEntry {

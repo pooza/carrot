@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSXMPPBotClient.class.php 241 2006-12-03 08:16:03Z pooza $
+ * @version $Id$
  */
 class BSXMPPBotClient extends BSSocket {
 

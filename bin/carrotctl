@@ -5,7 +5,7 @@
  *
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: carrotctl 357 2007-07-14 11:33:48Z pooza $
+ * @version $Id$
  */
 
 define('BS_ROOT_DIR', dirname(dirname(__FILE__)));

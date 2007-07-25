@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSLogDirectory.class.php 301 2007-03-10 16:19:41Z pooza $
+ * @version $Id$
  */
 class BSLogDirectory extends BSDirectory {
 	const DEFAULT_ENTRY_CLASS = 'BSLogFile';

@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopDocumentor
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: GenerateInputView.class.php 354 2007-06-27 08:09:37Z pooza $
+ * @version $Id$
  */
 class GenerateInputView extends BSSmartyView {
 	public function execute () {

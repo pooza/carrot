@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSGeckoUserAgent.class.php 299 2007-03-01 05:25:15Z pooza $
+ * @version $Id$
  */
 class BSGeckoUserAgent extends BSUserAgent {
 
