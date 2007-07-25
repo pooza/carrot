@@ -1,0 +1,16 @@
+/**
+ * carrot標準スタイルシート 詳細画面
+ *
+ * @package jp.co.b-shock.carrot
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id: carrot.Detail.css 357 2007-07-14 11:33:48Z pooza $
+ */
+
+table.Detail th {
+	width: 120px;
+	text-align: left;
+}
+
+table.Detail td {
+	width: 480px;
+}

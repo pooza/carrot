@@ -1,0 +1,39 @@
+1.0.0 - 2005/08/??
+
+- Renamed NS_Server class to Nanoserv
+
+
+0.9.65 - 2005/05/11
+
+- Added NS_Timer class and NS_Server::New_Timer() static method
+- Fixed parse error in NS_HTTP_Service_Handler
+
+
+0.9.64 - 2005/05/08
+
+- Fixed queries with trailing cr/lf in NS_HTTP_Service_Handler (2ni)
+- Fixed pipelined queries handling in NS_HTTP_Service_Handler
+- Fixed NS_HTTP_Service_Handler::Send_Response() to account for added headers
+- Added examples/time_server.php
+- Fixed many documentation glitches
+
+
+0.9.63 - 2005/02/15
+
+- Added NS_Server::Fork() static method and example "fork_with_shared.php"
+- Changed "<?" short opening tags to standard "<?php"
+- NS_Server::[New|Free]_Listener() now wraps [New|Free]_Datagram_Handler
+- Added mkhugenanoserv.sh shell script to compile core+handlers in one file
+- Added subpackage and version info to documentation
+
+
+0.9.61 - 2005/02/14
+
+- Added UDP support (lots of changes, see NS_Server::New_Datagram_Handler())
+- Added handlers/NS_Syslog_Handler.php
+- Moved line input connection handler class out of core lib
+
+
+0.9.58 - 2005/02/13
+
+- First public beta

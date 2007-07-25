@@ -1,0 +1,129 @@
+/**
+ * carrot標準スタイルシート
+ *
+ * @package jp.co.b-shock.carrot
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id: carrot.css 353 2007-06-26 16:12:40Z pooza $
+ */
+
+* {
+	color: black;
+	font-family: serif;
+	font-size: 12px;
+	line-height: 16px;
+	font-weight: normal;
+	text-decoration: none;
+	line-break: strict;
+}
+
+pre,textarea,code,tt {
+	font-family: monospace;
+}
+
+form,ol,ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h1,h2,h3,h4,h5,h6,h7 {
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+a {
+	font-family: sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	color: #0000d2;
+}
+a:hover {
+	color: white;
+	background-color: #0000d2;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+h1 {
+	font-size: 16px;
+	line-height: 22px;
+	margin-top: 16px;
+	margin-bottom: 0px;
+}
+
+h2 {
+	font-size: 14px;
+	line-height: 18px;
+	margin-top: 14px;
+	margin-bottom: 0px;
+}
+
+h3 {
+	font-size: 12px;
+	line-height: 16px;
+	margin-top: 12px;
+	margin-bottom: 0px;
+}
+
+li {
+	list-style-type: disc;
+}
+
+table {
+	border-collapse: collapse;
+	border: solid 2px black;
+}
+
+table caption {
+	font-family: sans-serif;
+	text-align: left;
+}
+
+table th {
+	vertical-align: top;
+	font-family: sans-serif;
+	font-weight: bold;
+	background-color: #BFFFBF;
+	text-decoration: none;
+	border: solid 1px black;
+}
+
+table td {
+	font-family: serif;
+	line-height: 14px;
+	background-color: #EFEFEF;
+	vertical-align: top;
+	border: solid 1px black;
+	word-wrap: break-word;
+}
+
+input,textarea {
+	ime-mode: active;
+}
+
+input.english,textarea.english {
+	ime-mode: inactive;
+	font-family: monospace;
+}
+
+.alert {
+	color: red;
+}
+
+#Header {
+	font-family: sans-serif;
+	color: gray;
+	border-bottom: solid 2px gray;
+	margin-bottom: 12px
+}
+
+#Footer {
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 10px;
+	color: gray;
+	line-height: 12px;
+	border-top: solid 2px gray;
+	margin-top: 12px;
+}

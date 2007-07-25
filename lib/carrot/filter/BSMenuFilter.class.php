@@ -1,0 +1,70 @@
+<?php
+/**
+ * @package jp.co.b-shock.carrot
+ * @subpackage filter
+ */
+
+/**
+ * メニュー構築フィルタ
+ *
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @copyright (c)b-shock. co., ltd.
+ * @version $Id: BSMenuFilter.class.php 367 2007-07-25 04:53:57Z pooza $
+ */
+class BSMenuFilter extends BSFilter {
+	private $menu = array();
+
+	public function execute ($filters) {
+		$module = new BSModuleProfile($this->context->getModuleName());
+		$this->request->setAttribute('title', $module->getConfig('DESCRIPTION'));
+		$this->request->setAttribute('menu', $this->getMenu());
+		$filters->execute();
+	}
+
+	/**
+	 * メニュー配列を取得
+	 *
+	 * @access private
+	 * @return string[][] メニュー配列
+	 */
+	private function getMenu () {
+		if (!$this->menu) {
+			// $menuへの代入を行う
+			require_once(ConfigCache::checkConfig($this->getMenuFile()->getPath()));
+
+			foreach ($menu as $menuitem) {
+				if (isset($menuitem['module'])) {
+					$module = new BSModuleProfile($menuitem['module']);
+					if ($this->context->getModuleName() == $module->getName()) {
+						$menuitem['on'] = true;
+					}
+
+					$credential = $module->getCredential();
+					if (!$credential || $this->user->hasCredential($credential)) {
+						$this->menu[] = $menuitem;
+					}
+				} else if (isset($menuitem['href'])) {
+					$this->menu[] = $menuitem;
+				}
+			}
+		}
+		return $this->menu;
+	}
+
+	/**
+	 * メニューファイルを取得
+	 *
+	 * @access private
+	 * @return BSFile メニューファイル
+	 */
+	private function getMenuFile () {
+		$name = $this->getParameter('name');
+		if (!$file = $this->controller->getDirectory('menu')->getEntry($name)) {
+			throw new BSFileException('メニューファイル"%s"が見つかりません。', $name);
+		}
+		return $file;
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>

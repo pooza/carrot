@@ -1,0 +1,38 @@
+<?php
+/**
+ * FeedLogSuccessビュー
+ *
+ * @package jp.co.b-shock.carrot
+ * @subpackage AdminFeed
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id: LogSuccessView.class.php 280 2007-02-10 12:02:15Z pooza $
+ */
+class LogSuccessView extends BSXMLView {
+	const FEED_CLASS = BS_FEED_CLASS;
+
+	public function initialize ($context) {
+		parent::initialize($context);
+		$class = self::FEED_CLASS;
+		$this->setEngine(new $class);
+		return true;
+	}
+
+	public function execute () {
+		$url = new BSURL();
+		$url->setAttribute('query', 'a=Login');
+		$this->getEngine()->setTitle($this->controller->getServerHost()->getName());
+		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログです。');
+		$this->getEngine()->setLink($url);
+
+		foreach ($this->request->getAttribute('logs') as $log) {
+			unset($log['exception']);
+			$entry = $this->getEngine()->createEntry();
+			$entry->setTitle($log['description']);
+			$entry->setDate(new BSDate($log['date']));
+			$entry->setBody(implode("\n", $log));
+		}
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>

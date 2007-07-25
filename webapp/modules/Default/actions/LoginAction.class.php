@@ -1,0 +1,62 @@
+<?php
+/**
+ * Loginアクション
+ *
+ * @package __PACKAGE__
+ * @subpackage Default
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id$
+ */
+class LoginAction extends BSAction {
+	const TEST_COOKIE_NAME = 'CARROT';
+	const DEFAULT_MODULE_NAME = 'AdminLog';
+
+	public function execute () {
+		$this->controller->removeCookie(self::TEST_COOKIE_NAME);
+		$this->user->setAuthenticated(true);
+		$this->user->addCredential('Admin');
+		if ($this->controller->isDebugMode()) {
+			$this->user->addCredential('Develop');
+		}
+		$url = new BSURL(BS_ROOT_URL_HTTPS);
+		$params = array(BSController::MODULE_ACCESSOR => self::DEFAULT_MODULE_NAME);
+		$url->setParameters($params);
+		return $this->controller->redirect($url);
+	}
+
+	public function getDefaultView () {
+		$this->request->clearAttributes();
+		$this->user->clearAttributes();
+		$this->user->setAuthenticated(false);
+		$this->user->clearCredentials();
+		$this->controller->setCookie(self::TEST_COOKIE_NAME, true);
+		return View::INPUT;
+	}
+
+	public function handleError () {
+		return $this->getDefaultView();
+	}
+
+	public function validate () {
+		if (!$this->controller->getCookie(self::TEST_COOKIE_NAME)) {
+			$this->request->setError('cookie', 'Cookieを受け入れる設定にして下さい。');
+		}
+
+		$result = BSAdministrator::auth(
+			$this->request->getParameter('email'),
+			$this->request->getParameter('password')
+		);
+		if (!$result) {
+			$this->request->setError('password', 'ユーザー又はパスワードが違います。');
+		}
+
+		return (count($this->request->getErrors()) == 0);
+	}
+
+	public function getRequestMethods () {
+		return Request::POST;
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>

@@ -1,0 +1,28 @@
+<?php
+/**
+ * StyleSheetアクション
+ *
+ * @package jp.co.b-shock.carrot
+ * @subpackage Default
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id: StyleSheetAction.class.php 363 2007-07-21 15:47:57Z pooza $
+ */
+class StyleSheetAction extends BSAction {
+	public function execute () {
+		return View::SUCCESS;
+	}
+
+	public function validate () {
+		if (!$this->request->hasParameter('style')) {
+			$this->request->setParameter('style', 'carrot');
+		}
+		return (BSCSS::getStyleSet($this->request->getParameter('style')) != null);
+	}
+
+	public function handleError () {
+		return $this->controller->forward(MO_ERROR_404_MODULE, MO_ERROR_404_ACTION);
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>

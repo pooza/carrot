@@ -1,0 +1,77 @@
+<?php
+/**
+ * @package jp.co.b-shock.carrot
+ * @subpackage database
+ */
+
+/**
+ * PDOのDOBCデータベース用ラッパー
+ *
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @copyright (c)b-shock. co., ltd.
+ * @version $Id: BSODBCDatabase.class.php 327 2007-05-17 02:57:26Z pooza $
+ */
+class BSODBCDatabase extends BSDatabase {
+	private static $instance;
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSODBCDatabase インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			try {
+				$db = new BSODBCDatabase(self::DSN, self::UID, self::PASSWORD);
+				$db->dsn = self::DSN;
+				$db->user = self::UID;
+				self::$instance = $db;
+			} catch (Exception $e) {
+				$e = new BSDatabaseException(
+					'DB接続エラーです。DSN:[%s] (%s)',
+					BSString::convertEncoding($e->getMessage()),
+					self::DSN
+				);
+				throw $e;
+			}
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * 文字列をクォートする
+	 *
+	 * @access public
+	 * @param string $string 対象文字列
+	 * @return string クォート後の文字列
+	 */
+	public function quote ($string, $type = PDO::PARAM_STR) {
+		return '\'' . addslashes($string) . '\'';
+	}
+
+	/**
+	 * テーブル名のリストを配列で返す
+	 *
+	 * @access public
+	 * @return string[] テーブル名のリスト
+	 */
+	public function getTableNames () {
+		// ODBC接続では、テーブル名のリストを返せない
+		return array();
+	}
+
+	/**
+	 * DSNスキーマを返す
+	 *
+	 * @access public
+	 * @return string DSNスキーマ
+	 */
+	public function getScheme () {
+		return 'odbc';
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>
