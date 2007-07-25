@@ -22,9 +22,9 @@ class BSLayoutConfigHandler extends IniConfigHandler {
 			foreach ($params as $key => $value) {
 				$body[] = sprintf(
 					'$this->directories[%s][%s] = %s;',
-					$this->literalize($name),
-					$this->literalize($key),
-					$this->literalize($value)
+					self::literalize($name),
+					self::literalize($key),
+					self::literalize($value)
 				);
 			}
 		}

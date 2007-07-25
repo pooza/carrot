@@ -34,9 +34,9 @@ class BSMenuConfigHandler extends IniConfigHandler {
 			foreach ($values as $key => $value) {
 				$body[] = sprintf(
 					'$menu[%s][%s]=%s;',
-					$this->literalize($module),
-					$this->literalize(strtolower($key)),
-					$this->literalize($value)
+					self::literalize($module),
+					self::literalize(strtolower($key)),
+					self::literalize($value)
 				);
 			}
 		}

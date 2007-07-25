@@ -22,9 +22,9 @@ class BSStyleSetConfigHandler extends IniConfigHandler {
 			foreach ($params['files'] as $key => $value) {
 				$body[] = sprintf(
 					'$stylesets[%s][%s][] = %s;',
-					$this->literalize($name),
-					$this->literalize('files'),
-					$this->literalize($value)
+					self::literalize($name),
+					self::literalize('files'),
+					self::literalize($value)
 				);
 			}
 		}
