@@ -10,7 +10,7 @@
 class StartAction extends BSAction {
 	public function execute () {
 		$command = sprintf(
-			'%s/carrotctl -s %s -a %s > /dev/null &',
+			'%s/carrotctl.php -s %s -a %s > /dev/null &',
 			$this->controller->getPath('bin'),
 			$this->controller->getServerHost()->getName(),
 			'XMPPBot'

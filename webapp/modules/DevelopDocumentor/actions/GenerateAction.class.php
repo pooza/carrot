@@ -10,7 +10,7 @@
 class GenerateAction extends BSAction {
 	public function execute () {
 		$command = sprintf(
-			'/usr/local/bin/phpdoc -d %s -t %s -o %s > /dev/null &',
+			'/usr/bin/env phpdoc -d %s -t %s -o %s > /dev/null &',
 			implode(',', $this->request->getParameter('directories')),
 			$this->controller->getPath('doc'),
 			$this->request->getParameter('format')
