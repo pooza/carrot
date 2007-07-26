@@ -69,6 +69,8 @@ def media_types
     'jpeg' => 'image/jpeg',
     'js' => 'text/javascript',
     'php' => '',
+    'pl' => '',
+    'pm' => '',
     'png' => 'image/png',
     'rb' => '',
     'sql' => '',
