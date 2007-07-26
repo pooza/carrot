@@ -107,16 +107,28 @@ try {
 	require_once(BS_LIB_DIR . '/carrot/file/BSDirectoryFinder.class.php');
 
 	if (php_sapi_name() == 'cli') {
-		$_SERVER['SERVER_NAME'] = $_SERVER['HOST'];
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Console';
 	}
 
-	$name = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $_SERVER['SERVER_NAME']);
-	if (!is_readable($name)) {
-		trigger_error('"' . basename($name) . '" is not found.', E_USER_ERROR);
+	$initialized = false;
+	$names = array(
+		$_SERVER['SERVER_NAME'],
+		$_SERVER['HOST'],
+		basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'],
+	);
+	foreach ($names as $name) {
+		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $name);
+		if (is_readable($path)) {
+			ConfigCache::import($path);
+			$_SERVER['SERVER_NAME'] = $name;
+			$initialized = true;
+			break;
+		}
 	}
-	ConfigCache::import($name);
+	if (!$initialized) {
+		trigger_error('サーバ定義ファイルが見つかりません。', E_USER_ERROR);
+	}
 
 	if (BS_DEBUG) {
 		ConfigCache::clear();
