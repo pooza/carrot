@@ -12,7 +12,7 @@ desc '運用環境の構築（productionと同じ）'
 task :install => :production
 
 desc '運用環境の構築'
-task :production => [:chmod_var]
+task :production => [:chmod_var, 'www/awstats']
 
 desc 'テスト環境の構築'
 task :development => [:chmod_var, :svn_pset, 'www/doc']
@@ -34,6 +34,7 @@ task :svn_pset do
     system 'svn pdel svn:executable `find . -name \'*.' + extension + '\'`'
   end
   system 'svn pset svn:executable ON bin/*'
+  system 'svn pset svn:executable ON lib/awstats/awstats.pl'
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
@@ -45,6 +46,13 @@ desc 'APIドキュメントへのシンボリックリンクを公開領域に'
 file 'www/doc' do
   sh 'ln -s ../var/doc www/doc'
   sh 'svn pset svn:ignore doc www'
+end
+
+desc 'AWStatsレポートへのシンボリックリンクを公開領域に'
+file 'www/awstats' do
+  sh 'ln -s ../lib/awstats www/awstats'
+  sh 'ln -s ../var/awstats_report www/awstats_report'
+  sh 'svn pset svn:ignore awstats* www'
 end
 
 def media_types
