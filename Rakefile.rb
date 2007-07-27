@@ -51,8 +51,8 @@ end
 desc 'AWStatsレポートへのシンボリックリンクを公開領域に'
 file 'www/awstats' do
   sh 'ln -s ../lib/awstats www/awstats'
+  sh 'ln -s ../../var/tmp/awstats.conf lib/awstats/awstats.conf'
   sh 'ln -s ../var/awstats_report www/awstats_report'
-  sh 'svn pset svn:ignore awstats* www'
 end
 
 def media_types

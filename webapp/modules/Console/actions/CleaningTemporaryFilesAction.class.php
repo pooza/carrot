@@ -9,9 +9,7 @@
  */
 class CleaningTemporaryFilesAction extends BSAction {
 	public function execute () {
-		$expire = BSDate::getNow();
-		$expire->setAttribute('day', '-1');
-
+		$expire = BSDate::getNow()->setAttribute('day', '-1');
 		foreach ($this->controller->getDirectory('tmp') as $entry) {
 			if ($entry->isDirectory() || $entry->isDoted()) {
 				continue;
