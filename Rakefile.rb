@@ -34,7 +34,7 @@ task :svn_pset do
     system 'svn pdel svn:executable `find . -name \'*.' + extension + '\'`'
   end
   system 'svn pset svn:executable ON bin/*'
-  system 'svn pset svn:executable ON lib/awstats/awstats.pl'
+  system 'svn pset svn:executable ON lib/AWStats/awstats.pl'
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
@@ -53,7 +53,7 @@ desc 'AWStatsを有効に'
 task :awstats => ['www/awstats', 'www/awstats_report', 'lib/AWStats/awstats.conf']
 
 file 'www/awstats' do
-  sh 'ln -s ../lib/awstats www/awstats'
+  sh 'ln -s ../lib/AWStats www/awstats'
 end
 
 file 'www/awstats_report' do
