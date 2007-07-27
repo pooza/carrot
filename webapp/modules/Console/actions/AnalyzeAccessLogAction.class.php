@@ -47,12 +47,6 @@ class AnalyzeAccessLogAction extends BSAction {
 		chdir($this->controller->getPath('awstats'));
 		shell_exec('./awstats.pl -config=awstats.conf');
 
-		$command = sprintf(
-			'./awstats.pl -config=awstats.conf -output > %s/index.html',
-			$this->controller->getPath('awstats_report')
-		);
-		shell_exec($command);
-
 		return View::NONE;
 	}
 }

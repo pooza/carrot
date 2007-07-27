@@ -50,14 +50,10 @@ file 'www/doc' do
 end
 
 desc 'AWStatsを有効に'
-task :awstats => ['www/awstats', 'www/awstats_report', 'lib/AWStats/awstats.conf']
+task :awstats => ['www/awstats', 'lib/AWStats/awstats.conf']
 
 file 'www/awstats' do
   sh 'ln -s ../lib/AWStats www/awstats'
-end
-
-file 'www/awstats_report' do
-  sh 'ln -s ../var/awstats_report www/awstats_report'
 end
 
 file 'lib/AWStats/awstats.conf' do
