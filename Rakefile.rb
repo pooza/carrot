@@ -12,10 +12,10 @@ desc '運用環境の構築（productionと同じ）'
 task :install => :production
 
 desc '運用環境の構築'
-task :production => [:chmod_var, 'www/awstats']
+task :production => [:chmod_var, :awstats]
 
 desc 'テスト環境の構築'
-task :development => [:chmod_var, :svn_pset, 'www/doc']
+task :development => [:chmod_var, :svn_pset, :phpdoc]
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do
@@ -42,17 +42,26 @@ task :clean do
   sh 'sudo rm -R var/*/*'
 end
 
-desc 'APIドキュメントへのシンボリックリンクを公開領域に'
+desc 'PHPDocumentorを有効に'
+task :phpdoc => ['www/doc']
+
 file 'www/doc' do
   sh 'ln -s ../var/doc www/doc'
-  sh 'svn pset svn:ignore doc www'
 end
 
-desc 'AWStatsレポートへのシンボリックリンクを公開領域に'
+desc 'AWStatsを有効に'
+task :awstats => ['www/awstats', 'www/awstats_report', 'lib/AWStats/awstats.conf']
+
 file 'www/awstats' do
   sh 'ln -s ../lib/awstats www/awstats'
-  sh 'ln -s ../../var/tmp/awstats.conf lib/awstats/awstats.conf'
+end
+
+file 'www/awstats_report' do
   sh 'ln -s ../var/awstats_report www/awstats_report'
+end
+
+file 'lib/AWStats/awstats.conf' do
+  sh 'ln -s ../../var/cache/awstats.conf lib/AWStats/awstats.conf'
 end
 
 def media_types
