@@ -28,7 +28,7 @@
  * nanoserv current version number
  */
 
-define("NS_VERSION", "1.0.0");
+define("NS_VERSION", "1.0.2");
 
 /**
  * Base socket class
@@ -665,6 +665,18 @@ class NS_Write_Buffer {
 	private $data;
 
 	/**
+	 * Buffered data pointer
+	 * @var int
+	 */
+	private $pointer = 0;
+	
+	/**
+	 * Data length in bytes
+	 * @var int
+	 */
+	private $length;
+	
+	/**
 	 * End-of-write Callback
 	 * @var mixed
 	 */
@@ -681,6 +693,7 @@ class NS_Write_Buffer {
 
 		$this->socket = $socket;
 		$this->data = $data;
+		$this->length = strlen($data);
 		$this->callback = $callback;
 	
 	}
@@ -694,20 +707,11 @@ class NS_Write_Buffer {
 	 */
 	public function Fetch_Data($length=16384) {
 
-		$s = substr($this->data, 0, $length);
+		$s = substr($this->data, $this->pointer, $length);
+
+		$this->pointer += $length;
+		
 		return $s;
-	
-	}
-
-	/**
-	 * Clear the <var>$length</var> first bytes of the buffer
-	 *
-	 * @param int $length
-	 * @since 0.9
-	 */
-	public function Clear_Buffer($length) {
-
-		$this->data = substr($this->data, $length);
 	
 	}
 
@@ -719,8 +723,8 @@ class NS_Write_Buffer {
 	 */
 	public function Waiting_Data() {
 
-		return (strlen($this->data) != 0);
-	
+		return $this->pointer < $this->length;
+		
 	}
 
 	/**
@@ -984,7 +988,7 @@ class NS_Listener {
 	/**
 	 * Handler options
 	 *
-	 * this is passed as the $options property of each spawned connection handlers
+	 * this is passed as the first constructor parameter of each spawned connection handlers
 	 *
 	 * @var mixed
 	 */
@@ -1604,7 +1608,7 @@ final class Nanoserv {
 
 					while ($wb->Waiting_Data() && !$wb->socket->blocked) {
 							
-						$wb->Clear_Buffer($wb->socket->Write($wb->Fetch_Data()));
+						$wb->socket->Write($wb->Fetch_Data());
 
 						if (!$wb->Waiting_Data()) {
 								
@@ -1697,6 +1701,8 @@ final class Nanoserv {
 						if (strlen($data) === 0) {
 
 							// Disconnected socket
+							
+							$handler->socket->connected = false;
 							
 							$handler->on_Disconnect();
 							self::Free_Connection($handler);

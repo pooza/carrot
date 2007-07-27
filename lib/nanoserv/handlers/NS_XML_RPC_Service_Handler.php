@@ -245,11 +245,25 @@ abstract class NS_XML_RPC_Service_Handler extends NS_HTTP_Service_Handler {
 	
 	}
 	
+	/**
+	 * Add XMLRPC response envelope
+	 *
+	 * @param string $xml_result
+	 * @return string
+	 */
+	static protected function XML_Add_MethodResponse_Envelope($xml_result) {
+
+		return "<methodResponse><params><param>{$xml_result}</param></params></methodResponse>";
+
+	}
+	
 	final public function on_Request($url) {
 
 		$this->request_url = $url;
 		
-		if (!$xreq = @simplexml_load_string($this->request_content)) {
+		$xreq = @simplexml_load_string($this->request_content);
+		
+		if ($xreq === false) {
 
 			$this->Set_Response_Status(400);
 			return "";
@@ -275,7 +289,7 @@ abstract class NS_XML_RPC_Service_Handler extends NS_HTTP_Service_Handler {
 		
 		$this->Set_Content_Type("text/xml");
 
-		return self::Variable_To_XML_String($this->on_Call($method, isset($params) ? self::XML_Params_To_Array($params) : NULL));
+		return self::XML_Add_MethodResponse_Envelope(self::Variable_To_XML_String($this->on_Call($method, isset($params) ? self::XML_Params_To_Array($params) : NULL)));
 	
 	}
 

@@ -40,7 +40,7 @@ abstract class NS_HTTP_Service_Handler extends NS_Connection_Handler {
 	/**
 	 * Max request length
 	 */
-	const MAX_LENGTH = 1048576;
+	const MAX_REQUEST_LENGTH = 1048576;
 	
 	/**
 	 * Default content type
@@ -145,7 +145,16 @@ abstract class NS_HTTP_Service_Handler extends NS_Connection_Handler {
 			
 			} else {
 
-				return;
+				if (strlen($this->request_buffer) > self::MAX_REQUEST_LENGTH) {
+
+					$this->Set_Response_Status(414);
+					$this->Send_Response("Request too large");
+				
+				} else {
+				
+					return;
+
+				}
 
 			}
 
@@ -178,7 +187,16 @@ abstract class NS_HTTP_Service_Handler extends NS_Connection_Handler {
 		
 			if ((isset($this->request_headers["CONTENT-LENGTH"])) && ($cl = $this->request_headers["CONTENT-LENGTH"])) {
 
-				if (strlen($cnt) < $cl) return;
+				if ($c1 > self::MAX_REQUEST_LENGTH) {
+
+					$this->Set_Response_Status(413);
+					$this->Send_Response("Request too large");
+				
+				} else if (strlen($cnt) < $cl) {
+				
+					return;
+
+				}
 
 				$this->request_content = substr($cnt, 0, $cl);
 				$this->request_buffer = ltrim(substr($cnt, $cl));
@@ -190,7 +208,16 @@ abstract class NS_HTTP_Service_Handler extends NS_Connection_Handler {
 
 			}
 
-			$this->Send_Response($this->on_Request($url));
+			if (substr($this->request_protocol, 0, 4) !== "HTTP") {
+
+				$this->Set_Response_Status(400);
+				$this->Send_Response("Bad Request");
+			
+			} else {
+
+				$this->Send_Response($this->on_Request($url));
+
+			}
 
 		}
 	
