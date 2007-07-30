@@ -23,6 +23,8 @@ class CleaningTemporaryFilesAction extends BSAction {
 				$e->sendNotify();
 			}
 		}
+
+		BSLog::put(get_class($this) . 'を実行しました。');
 		return View::NONE;
 	}
 }

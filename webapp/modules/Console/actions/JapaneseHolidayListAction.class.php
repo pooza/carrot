@@ -12,6 +12,8 @@ class JapaneseHolidayListAction extends BSAction {
 		// キャッシュを更新
 		$this->controller->removeAttribute('BSJapaneseHolidayList');
 		BSJapaneseHolidayList::getInstance();
+
+		BSLog::put(get_class($this) . 'を実行しました。');
 		return View::NONE;
 	}
 }
