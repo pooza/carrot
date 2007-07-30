@@ -44,7 +44,7 @@ class AnalyzeAccessLogAction extends BSAction {
 		$file->putLine($smarty->getContents());
 		$file->close();
 
-		sprintf(
+		$command = sprintf(
 			'%s/awstats.pl -config=awstats.conf -update',
 			$this->controller->getPath('awstats')
 		);
