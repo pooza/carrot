@@ -146,7 +146,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function createTemporaryTable ($table, $fields, $constraints = array()) {
-		return sprintf('CREATE TABLE %s (%s)', $table, implode(',' $fields + $constraints));
+		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $fields + $constraints));
 	}
 
 	/**

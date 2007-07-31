@@ -504,16 +504,6 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * 主キーフィールド名を返す
-	 *
-	 * @access public
-	 * @return string 主キーフィールド名
-	 */
-	public function getKeyField () {
-		return 'id';
-	}
-
-	/**
 	 * オートインクリメントのテーブルか？
 	 *
 	 * @access public
