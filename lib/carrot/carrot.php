@@ -106,17 +106,19 @@ try {
 	require_once(BS_LIB_DIR . '/carrot/config/BSAutoloadConfigHandler.class.php');
 	require_once(BS_LIB_DIR . '/carrot/file/BSDirectoryFinder.class.php');
 
+	$names = array();
 	if (php_sapi_name() == 'cli') {
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Console';
+		$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
+		$names[] = $_SERVER['HOST'];
+		$names[] = basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'];
+	} else {
+		$names[] = $_SERVER['SERVER_NAME'];
 	}
+	$names[] = 'localhost';
 
 	$initialized = false;
-	$names = array(
-		$_SERVER['SERVER_NAME'],
-		$_SERVER['HOST'],
-		basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'],
-	);
 	foreach ($names as $name) {
 		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $name);
 		if (is_readable($path)) {
@@ -127,7 +129,11 @@ try {
 		}
 	}
 	if (!$initialized) {
-		trigger_error('サーバ定義ファイルが見つかりません。', E_USER_ERROR);
+		$message = sprintf(
+			'サーバ定義ファイル (%s).ini が見つかりません。',
+			implode('|', $names)
+		);
+		trigger_error($message, E_USER_ERROR);
 	}
 
 	if (BS_DEBUG) {
