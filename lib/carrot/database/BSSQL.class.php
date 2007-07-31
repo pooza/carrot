@@ -133,11 +133,20 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getDeleteQueryString ($table, $criteria) {
-		return sprintf(
-			'DELETE FROM %s WHERE %s',
-			$table,
-			self::getCriteriaString($criteria)
-		);
+		return sprintf('DELETE FROM %s WHERE %s', $table, self::getCriteriaString($criteria));
+	}
+
+	/**
+	 * CREATE TABLEクエリー文字列を返す
+	 *
+	 * @access public
+	 * @param string $table テーブル名
+	 * @param string[] $fields フィールド
+	 * @param string[] $constraints 制約
+	 * @static
+	 */
+	public static function createTemporaryTable ($table, $fields, $constraints = array()) {
+		return sprintf('CREATE TABLE %s (%s)', $table, implode(',' $fields + $constraints));
 	}
 
 	/**

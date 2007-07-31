@@ -10,29 +10,25 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
- * @todo 今のところMySQLだけなので、他のDBMSに対応する様に。
+ * @abstract
  */
-class BSTemporaryTableHandler extends BSTableHandler {
+abstract class BSTemporaryTableHandler extends BSTableHandler {
 	private $name;
-	private $keyFields = array('id');
 
 	/**
 	 * コンストラクタ
 	 *
 	 * @access public
-	 * @param string[] $fields フィールド定義
+	 * @param string $criteria 抽出条件
+	 * @param string $order ソート順
 	 */
-	public function __construct ($fields) {
-		if (!is_array($fields)) {
-			$fields = array($fields);
-		}
-
-		$query = sprintf(
-			'CREATE TEMPORARY TABLE %s (%s) Engine=MEMORY',
+	public function __construct ($criteria = null, $order = null) {
+		parent::__construct($criteria, $order);
+		$this->database->createTemporaryTable(
 			$this->getName(),
-			implode(',', $fields)
+			$this->getFields(),
+			sprintf('PRIMARY KEY (%s)', $this->getKeyField())
 		);
-		$this->database->exec($query);
 	}
 
 	/**
@@ -62,49 +58,33 @@ class BSTemporaryTableHandler extends BSTableHandler {
 	 */
 	public function getName () {
 		if (!$this->name) {
-			$this->name = sprintf(
-				'temporary_%s_%s',
+			$name = array(
+				strtolower($this->getRecordClassName()),
 				BSDate::getNow('YmdHis'),
-				BSNumeric::getRandom()
+				BSNumeric::getRandom(),
 			);
+			$this->name = implode('_', $name);
 		}
 		return $this->name;
 	}
 
 	/**
-	 * 主キーフィールド名を返す
+	 * フィールド定義を返す
 	 *
-	 * @access public
-	 * @return string[] 主キーフィールド名
+	 * @access protected
+	 * @return string[] フィールド定義
+	 * @abstract
 	 */
-	public function getKeyFields () {
-		return $this->keyFields;
-	}
-
-	/**
-	 * 主キーフィールド名を設定する
-	 *
-	 * @access public
-	 * @param string[] $fields 主キーフィールド名
-	 */
-	public function setKeyFields ($fields) {
-		if (!is_array($fields)) {
-			$fields = array($fields);
-		}
-		$this->keyFields = $fields;
-	}
+	abstract protected function getFields ();
 
 	/**
 	 * レコードクラス名を返す
 	 *
 	 * @access protected
 	 * @return string レコードクラス名
+	 * @abstract
 	 */
-	protected function getRecordClassName () {
-		throw new BSDatabaseException(
-			'"%s"のクラス名が正しくありません。', get_class($this)
-		);
-	}
+	abstract protected function getRecordClassName ();
 }
 
 /* vim:set tabstop=4 ai: */

@@ -43,7 +43,7 @@ class BSTableIterator implements Iterator {
 	public function current () {
 		$records = $this->table->getResult();
 		$record = $records[$this->cursor];
-		$key = $this->getKey($record);
+		$key = $record[$this->table->getKeyField()];
 		return $this->table->getRecord($key);
 	}
 
@@ -56,7 +56,7 @@ class BSTableIterator implements Iterator {
 	public function next () {
 		$records = $this->table->getResult();
 		$record = $records[$this->cursor ++];
-		$key = $this->getKey($record);
+		$key = $record[$this->table->getKeyField()];
 		return $this->table->getRecord($key);
 	}
 
@@ -79,26 +79,6 @@ class BSTableIterator implements Iterator {
 	public function valid () {
 		$records = $this->table->getResult();
 		return isset($records[$this->cursor]);
-	}
-
-	/**
-	 * 値配列からキー値を返す
-	 *
-	 * @access private
-	 * @param string[] $record 値配列
-	 * @return string[] キー値
-	 */
-	private function getKey ($record) {
-		$key = array();
-		foreach ($this->table->getKeyFields() as $name) {
-			if (!isset($record[$name])) {
-				// フィールド名が 'table.id' 形式の場合
-				$name = explode('.', $name);
-				$name = $name[1];
-			}
-			$key[$name] = $record[$name];
-		}
-		return $key;
 	}
 }
 

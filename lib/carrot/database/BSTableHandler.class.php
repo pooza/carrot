@@ -14,8 +14,9 @@
  */
 abstract class BSTableHandler implements IteratorAggregate {
 	private $fields = '*';
+	private $key = 'id';
 	private $criteria;
-	private $order = 'id';
+	private $order;
 	private $page;
 	private $pagesize = 20;
 	private $executed = false;
@@ -95,6 +96,26 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
+	 * 主キーフィールド名を返す
+	 *
+	 * @access public
+	 * @return string 主キーフィールド名
+	 */
+	public function getKeyField () {
+		return $this->key;
+	}
+
+	/**
+	 * 主キーフィールドを設定する
+	 *
+	 * @access public
+	 * @param string $key 主キーフィールド
+	 */
+	public function setKeyField ($key) {
+		$this->key = $key;
+	}
+
+	/**
 	 * 抽出条件文字列を返す
 	 *
 	 * @access public
@@ -124,6 +145,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return string ソート順文字列
 	 */
 	public function getOrder () {
+		if (!$this->order) {
+			$this->setOrder($this->getKeyField());
+		}
 		return $this->order;
 	}
 
@@ -193,30 +217,18 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * レコードを返す
 	 *
 	 * @access public
-	 * @param mixed[] $values 検索条件
+	 * @param mixed[] $primaryKey 検索条件
 	 */
-	public function getRecord ($values) {
-		if (!is_array($values)) {
-			$fields = $this->getKeyFields();
-			if (count($fields) == 1) {
-				$values = array($fields[0] => $values);
-			} else {
-				throw new BSDatabaseException(
-					'キーの値が不適切で、レコードを特定出来ません。'
-				);
-			}
+	public function getRecord ($primaryKey) {
+		if (!is_array($primaryKey)) {
+			$primaryKey = array($this->getKeyField() => $primaryKey);
 		}
 
 		if ($this->isExecuted()) {
 			foreach ($this->getResult() as $record) {
 				$match = true;
-				foreach ($values as $key => $value) {
-					if (!isset($record[$key])) {
-						if (preg_match('/^[^\.]+\.([^\.]+)$/', $key, $matches)) {
-							$key = $matches[1];
-						}
-					}
-					if ($record[$key] != $value) {
+				foreach ($primaryKey as $field => $value) {
+					if ($record[$field] != $value) {
 						$match = false;
 					}
 				}
@@ -227,8 +239,8 @@ abstract class BSTableHandler implements IteratorAggregate {
 			}
 		} else {
 			$criteria = array();
-			foreach ($values as $key => $value) {
-				$criteria[] = $key . '=' . BSSQL::quote($value);
+			foreach ($primaryKey as $field => $value) {
+				$criteria[] = $field . '=' . BSSQL::quote($value);
 			}
 			$this->setCriteria($criteria);
 			if ($this->getRecordCount() == 1) {
@@ -243,31 +255,24 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
+	 * @return string レコードの主キー
 	 */
 	public function createRecord ($values) {
 		if (!$this->isInsertable()) {
 			throw new BSDatabaseException('%sへのレコード挿入は許可されていません。', $this);
 		}
 
-		$this->database->exec(BSSQL::getInsertQueryString($this->getName(), $values));
+		$query = BSSQL::getInsertQueryString($this->getName(), $values);
+		$this->database->exec($query);
 		if ($this->isAutoIncrement()) {
-			$fields = $this->getKeyFields();
-			$key = array($fields[0] => $this->database->lastInsertId());
+			$id = $this->database->lastInsertId();
 		} else {
-			$key = array();
-			foreach ($this->getKeyFields() as $name) {
-				$key[$name] = $values[$name];
-			}
+			$id = $values[$this->getKeyField()];
 		}
 
 		$this->setExecuted(false);
-		$message = sprintf(
-			'%s(%s)を作成しました。',
-			$this->getRecordClassName(),
-			BSString::toString($key)
-		);
-		BSLog::put($message);
-		return $key;
+		BSLog::put(sprintf('%s(%s)を作成しました。', $this->getRecordClassName(), $id));
+		return $id;
 	}
 
 	/**
@@ -347,7 +352,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	public function getRecordCount ($mode = self::WITH_PAGING) {
 		if ($mode == self::WITHOUT_PAGING) {
 			$query = BSSQL::getSelectQueryString(
-				$this->getKeyFields(),
+				$this->getKeyField(),
 				$this->getName(),
 				$this->getCriteria()
 			);
@@ -395,7 +400,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @param string[] $criteria 検索条件
 	 */
 	public function isExist ($criteria) {
-		$this->setFields($this->getKeyFields());
+		$this->setFields($this->getKeyField());
 		$this->setCriteria($criteria);
 		return (0 < $this->getRecordCount());
 	}
@@ -431,15 +436,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return string[] ラベルの配列
 	 */
 	public function getLabels ($language = 'ja') {
-		$fields = $this->getKeyFields();
-		if (count($fields) != 1) {
-			throw new BSDatabaseException('主キーの設定が変更されています。');
-		}
-
 		$labels = array();
 		foreach ($this as $record) {
-			$name = $record->getAttribute($fields[0]);
-			$labels[$name] = $record->getLabel($language);
+			$labels[$record->getID()] = $record->getLabel($language);
 		}
 		return $labels;
 	}
@@ -508,10 +507,10 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * 主キーフィールド名を返す
 	 *
 	 * @access public
-	 * @return string[] 主キーフィールド名
+	 * @return string 主キーフィールド名
 	 */
-	public function getKeyFields () {
-		return array('id');
+	public function getKeyField () {
+		return 'id';
 	}
 
 	/**

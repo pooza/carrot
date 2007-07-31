@@ -187,6 +187,18 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * 一時テーブルを作成する
+	 *
+	 * @access public
+	 * @param string $table テーブル名
+	 * @param string[] $fields フィールド
+	 * @param string[] $constraints 制約
+	 */
+	public function createTemporaryTable ($table, $fields, $constraints = array()) {
+		$this->exec(BSSQL::getCreateTableString($table, $fields, $constraints));
+	}
+
+	/**
 	 * DSNスキーマを返す
 	 *
 	 * @access public

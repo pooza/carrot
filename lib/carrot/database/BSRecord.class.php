@@ -58,12 +58,6 @@ abstract class BSRecord {
 		$name = strtolower($name);
 		if (isset($this->attributes[$name])) {
 			return $this->attributes[$name];
-		} else if (preg_match('/^[^\.]+\.([^\.]+)$/', $name, $matches)) {
-			// 属性名が table.id 形式の場合
-			$name = strtolower($matches[1]);
-			if (isset($this->attributes[$name])) {
-				return $this->attributes[$name];
-			}
 		}
 	}
 
@@ -116,11 +110,11 @@ abstract class BSRecord {
 	 */
 	public function getCriteria () {
 		if (!$this->criteria) {
-			$criteria = array();
-			foreach ($this->getTable()->getKeyFields() as $key) {
-				$criteria[] = $key . '=' . BSSQL::quote($this->getAttribute($key));
-			}
-			$this->criteria = BSSQL::getCriteriaString($criteria);
+			$this->criteria = sprintf(
+				'%s=%s',
+				$this->getTable()->getKeyField(),
+				BSSQL::quote($this->getID())
+			);
 		}
 		return $this->criteria;
 	}
@@ -202,7 +196,7 @@ abstract class BSRecord {
 	 * @return integer ID
 	 */
 	public function getID () {
-		return $this->getAttribute('id');
+		return $this->getAttribute($this->getTable()->getKeyField());
 	}
 
 	/**
@@ -233,11 +227,7 @@ abstract class BSRecord {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		$values = array();
-		foreach ($this->getTable()->getKeyFields() as $key) {
-			$values[] = $key . $this->getAttribute($key);
-		}
-		return sprintf('%s(%s)', $this->getRecordClassName(), implode(',', $values));
+		return sprintf('%s(%s)', $this->getRecordClassName(), $this->getID());
 	}
 }
 
