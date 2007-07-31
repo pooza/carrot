@@ -116,9 +116,8 @@ class BSDirectoryFinder {
 	 * @static
 	 */
 	public static function & replaceConstants ($value) {
-		foreach (array('LIB', 'VAR', 'SHARE', 'WEBAPP', 'WWW') as $key) {
-			$key = 'BS_' . $key . '_DIR';
-			$value = str_replace('%' . $key . '%', constant($key), $value);
+		while (preg_match('/%([A-Z0-9_]+)%/', $value, $matches)) {
+			$value = str_replace($matches[0], constant($matches[1]), $value);
 		}
 		return $value;
 	}
