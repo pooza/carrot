@@ -43,6 +43,10 @@ class BSConsoleController extends BSController {
 		);
 		$options = implode(':', $options);
 		$this->request->setParameters(getopt($options));
+
+		if (!$this->request->getParameter(self::MODULE_ACCESSOR)) {
+			$this->request->setParameter(self::MODULE_ACCESSOR, 'Console');
+		}
 	}
 
 	/**

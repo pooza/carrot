@@ -9,7 +9,6 @@
  */
 
 define('BS_ROOT_DIR', dirname(dirname(__FILE__)));
-define('MO_DEFAULT_MODULE', 'Console');
 require_once(BS_ROOT_DIR . '/lib/carrot/carrot.php');
 
 /* vim:set tabstop=4 ai: */
