@@ -141,12 +141,22 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $table テーブル名
-	 * @param string[] $fields フィールド
-	 * @param string[] $constraints 制約
+	 * @param string[] $details フィールド定義等
 	 * @static
 	 */
-	public static function createTemporaryTable ($table, $fields, $constraints = array()) {
-		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $fields + $constraints));
+	public static function getCreateTableQueryString ($table, $details) {
+		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $details));
+	}
+
+	/**
+	 * DROP TABLEクエリー文字列を返す
+	 *
+	 * @access public
+	 * @param string $table テーブル名
+	 * @static
+	 */
+	public static function getDropTableQueryString ($table) {
+		return sprintf('DROP TABLE %s', $table);
 	}
 
 	/**

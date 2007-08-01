@@ -59,20 +59,22 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * 一時テーブルを作成する
+	 * 一時テーブルを生成して返す
 	 *
 	 * @access public
-	 * @param string $table テーブル名
-	 * @param string[] $fields フィールド
-	 * @param string[] $constraints 制約
+	 * @param string[] $details フィールド定義等
+	 * @param string $class クラス名
+	 * @return BSTemporaryTableHandler 一時テーブル
 	 */
-	public function createTemporaryTable ($table, $fields, $constraints = array()) {
+	public function getTemporaryTable ($details, $class = 'BSTemporaryTableHandler') {
+		$table = new $class;
 		$query = sprintf(
 			'CREATE TEMPORARY TABLE %s (%s) Engine=MEMORY',
-			$table,
-			implode(',', $fields + $constraints)
+			$table->getName(),
+			implode(',', $details)
 		);
 		$this->exec($query);
+		return $table;
 	}
 
 	/**
