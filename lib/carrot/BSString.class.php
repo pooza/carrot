@@ -142,6 +142,81 @@ class BSString {
 	}
 
 	/**
+	 * Camel化された文字列を返す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	public static function camelize ($value) {
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item = self::camelize($item);
+			}
+		} else {
+			if ($parts = preg_split('/[_ ]/', $value)) {
+				$dest = strtolower(array_shift($parts));
+				foreach ($parts as $part) {
+					$dest .= self::capitalize($part);
+				}
+				$value = $dest;
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Palcal化された文字列を返す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	public static function pascalize ($value) {
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item = self::pascalize($item);
+			}
+		} else {
+			$dest = '';
+			foreach (preg_split('/[_ ]/', $value) as $part) {
+				$dest .= self::capitalize($part);
+			}
+			$value = $dest;
+		}
+		return $value;
+	}
+
+	/**
+	 * アンダースコア化された文字列を返す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	public static function underscorize ($value) {
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item = self::underscorize($item);
+			}
+		} else {
+			foreach (array('/[A-Z][a-z0-9]+/', '/[A-Z]{2,}/', '/[A-Z]/') as $pattern) {
+				while (preg_match($pattern, $value, $matches)) {
+					$word = $matches[0];
+					$value = str_replace($word, '_' . strtolower($word), $value);
+				}
+			}
+			$value = preg_replace('/_+/', '_', $value);
+			$value = preg_replace('/^_/', '', $value);
+			$value = strtolower($value);
+		}
+		return $value;
+	}
+
+	/**
 	 * 指定幅で折り畳む
 	 *
 	 * @access public

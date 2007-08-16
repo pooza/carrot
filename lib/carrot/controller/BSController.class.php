@@ -198,6 +198,20 @@ abstract class BSController extends Controller {
 	}
 
 	/**
+	 * モジュール情報を返す
+	 *
+	 * @access public
+	 * @param string $name モジュール名
+	 * @return BSModuleProfile モジュール情報
+	 */
+	public function getModuleProfile ($name = null) {
+		if (!$name) {
+			$name = $this->getContext()->getModuleName();
+		}
+		return new BSModuleProfile($name);
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public

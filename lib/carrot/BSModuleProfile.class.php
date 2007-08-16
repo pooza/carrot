@@ -14,6 +14,8 @@ class BSModuleProfile {
 	private $name;
 	private $directory;
 	private $config = array();
+	private $prefix;
+	private static $prefixes = array();
 
 	/**
 	 * コンストラクタ
@@ -91,6 +93,40 @@ class BSModuleProfile {
 	 */
 	public function getCredential () {
 		return $this->getConfig('param.credential', 'BSCredentialSecurityFilter', 'filters');
+	}
+
+	/**
+	 * モジュール名プレフィックスを返す
+	 *
+	 * @access public
+	 * @return string モジュール名プレフィックス
+	 */
+	public function getPrefix () {
+		if (!$this->prefix) {
+			$pattern = sprintf('/^(%s)/', implode('|', self::getPrefixes()));
+			if (preg_match($pattern, $this->getName(), $matches)) {
+				$this->prefix = $matches[1];
+			}
+		}
+		return $this->prefix;
+	}
+
+	/**
+	 * 全てのモジュール名プレフィックスを配列で返す
+	 *
+	 * @access public
+	 * @return string[] モジュール名プレフィックス
+	 * @static
+	 */
+	public static function getPrefixes () {
+		if (!self::$prefixes) {
+			if (defined('APP_MODULE_PREFIXES') && APP_MODULE_PREFIXES) {
+				self::$prefixes = BSString::capitalize(explode(',', APP_MODULE_PREFIXES));
+			} else {
+				self::$prefixes = array('Admin', 'User');
+			}
+		}
+		return self::$prefixes;
 	}
 
 	/**

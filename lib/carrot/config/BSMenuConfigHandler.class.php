@@ -26,7 +26,7 @@ class BSMenuConfigHandler extends IniConfigHandler {
 					$values['MODULE'] = $module;
 				}
 				if (!isset($values['TITLE'])) {
-					$profile = new BSModuleProfile($module);
+					$profile = BSController::getInstance()->getModuleProfile($module);
 					$values['TITLE'] = $profile->getConfig('TITLE');
 				}
 			}

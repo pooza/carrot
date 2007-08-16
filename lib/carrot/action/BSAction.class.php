@@ -24,12 +24,7 @@ abstract class BSAction extends Action {
 	 */
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
-			if (defined('APP_MODULE_PREFIXES') && APP_MODULE_PREFIXES) {
-				$prefixes = BSString::capitalize(explode(',', APP_MODULE_PREFIXES));
-			} else {
-				$prefixes = array('Admin', 'User');
-			}
-
+			$prefixes = BSModuleProfile::getPrefixes();
 			$module = $this->context->getModuleName();
 			$pattern = sprintf('/^(%s)([A-Z][a-z]+)$/', implode('|', $prefixes));
 			if (preg_match($pattern, $module, $matches)) {
