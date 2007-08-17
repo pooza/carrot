@@ -1,7 +1,6 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage numeric
  */
 
 /**
@@ -12,6 +11,7 @@
  * @version $Id$
  */
 class BSNumeric {
+
 	/**
 	 * コンストラクタ
 	 *
@@ -38,14 +38,15 @@ class BSNumeric {
 	 *
 	 * @access public
 	 * @param float $num 処理対象の数値
-	 * @return string カンマ区切りされた数値、小数の場合は下2桁まで表示
+	 * @param int $digits 処理対象が小数であったときの有効桁数、既定値は2。
+	 * @return string カンマ区切りされた数値
 	 * @static
 	 */
-	public static function getString ($num) {
+	public static function getString ($num, $digits = 2) {
 		if (!$num) {
 			return '';
 		} else if ($num != floor($num)) {
-			return number_format($num, 2);
+			return number_format($num, $digits);
 		} else {
 			return number_format($num);
 		}
@@ -62,9 +63,7 @@ class BSNumeric {
 	public static function getSign ($num) {
 		if (0 < $num) {
 			return '+';
-		} else if ($num == 0) {
-			return '&plusmn;';
-		} else {
+		} else if ($num < 0) {
 			return '-';
 		}
 	}
@@ -95,8 +94,7 @@ class BSNumeric {
 	 * @static
 	 */
 	public static function getRandom ($from = 1000000, $to = 9999999) {
-		$random = BSRandom::getInstance();
-		return $random->getRandom($from, $to);
+		return mt_rand($from, $to);
 	}
 }
 
