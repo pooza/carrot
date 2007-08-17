@@ -35,23 +35,23 @@ class BSDate {
 	}
 
 	/**
-	 * 日付設定
+	 * 日付を設定する
 	 *
 	 * @access public
 	 * @param string $str 日付文字列
 	 */
 	public function setDate ($str) {
 		if ($time = strtotime($str)) {
-			return $this->setTimestamp($time);
+			$this->setTimestamp($time);
+		} else {
+			$str = preg_replace('/[^0-9]+/', '', $str);
+			$this->setAttribute('year', substr($str, 0, 4));
+			$this->setAttribute('month', substr($str, 4, 2));
+			$this->setAttribute('day', substr($str, 6, 2));
+			$this->setAttribute('hour', substr($str, 8, 2));
+			$this->setAttribute('minute', substr($str, 10, 2));
+			$this->setAttribute('second', substr($str, 12, 2));
 		}
-	
-		$str = preg_replace('/[^0-9]+/', '', $str);
-		$this->setAttribute('year', substr($str, 0, 4));
-		$this->setAttribute('month', substr($str, 4, 2));
-		$this->setAttribute('day', substr($str, 6, 2));
-		$this->setAttribute('hour', substr($str, 8, 2));
-		$this->setAttribute('minute', substr($str, 10, 2));
-		$this->setAttribute('second', substr($str, 12, 2));
 
 		if (!$this->validate()) {
 			throw new BSDateException('%sは正しくない日付です。', $this);
@@ -153,7 +153,7 @@ class BSDate {
 	 *
 	 * @access public
 	 * @param string $name 属性の名前
-	 * @param integer $value 値
+	 * @param integer $value 属性の値、(+|-)で始まる文字列も可。
 	 */
 	public function setAttribute ($name, $value) {
 		if (preg_match('/^[\-+]/', $value)) {
@@ -357,7 +357,11 @@ class BSDate {
 	 * @static
 	 */
 	public static function getMonths () {
-		return range(1, 12);
+		$months = array();
+		foreach (range(1, 12) as $month) {
+			$months[$month] = $month;
+		}
+		return $months;
 	}
 
 	/**
@@ -368,7 +372,11 @@ class BSDate {
 	 * @static
 	 */
 	public static function getDays () {
-		return range(1, 31);
+		$days = array();
+		foreach (range(1, 31) as $day) {
+			$days[$day] = $day;
+		}
+		return $days;
 	}
 
 	/**
