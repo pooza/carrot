@@ -29,7 +29,8 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenu () {
 		if (!$this->menu) {
-			// $menuへの代入を行う
+			$menu = array();
+			// $menuへの代入
 			require_once(ConfigCache::checkConfig($this->getMenuFile()->getPath()));
 
 			foreach ($menu as $menuitem) {

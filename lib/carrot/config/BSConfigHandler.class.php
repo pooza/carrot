@@ -25,6 +25,26 @@ abstract class BSConfigHandler extends ConfigHandler {
 	}
 
 	/**
+	 * プロパティ取得のオーバライド
+	 *
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'controller':
+				return BSController::getInstance();
+			case 'request':
+				return $this->getContext()->getRequest();
+			case 'user':
+				return $this->getContext()->getUser();
+			case 'context':
+				return $this->controller->getContext();
+		}
+	}
+
+	/**
 	 * 変換後のphpステートメントを返す
 	 *
 	 * @access public

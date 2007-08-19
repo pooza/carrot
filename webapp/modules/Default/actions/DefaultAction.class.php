@@ -13,7 +13,12 @@ class DefaultAction extends BSAction {
 	}
 
 	public function handleError () {
-		$url = new BSURL(BS_ROOT_URL . 'index.html');
+		$url = new BSURL();
+		if (defined('APP_HOME_HREF')) {
+			$url->setAttribute('path', APP_HOME_HREF);
+		} else {
+			$url->setAttribute('path', '/index.html');
+		}
 		return $this->controller->redirect($url);
 	}
 

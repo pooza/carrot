@@ -14,6 +14,7 @@
 class BSDefineConfigHandler extends BSConfigHandler {
 	public function & execute ($path) {
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
+		$this->putLine('$constants = array(');
 		foreach ($this->getConfig($path) as $category => $values) {
 			foreach ($values as $key => $value) {
 				if (preg_match('/^\\./', $category)) {
@@ -21,17 +22,18 @@ class BSDefineConfigHandler extends BSConfigHandler {
 				} else {
 					$key = array($prefix, $category, $key);
 				}
-				$key = strtoupper(implode('_', $key));
-				if (!defined($key)) {
-					$line = sprintf(
-						'define(%s, %s);',
-						self::literalize($key),
-						self::literalize($value)
-					);
-					$this->putLine($line);
-				}
+				$line = sprintf(
+					'  %s => %s,',
+					self::literalize(strtoupper(implode('_', $key))),
+					self::literalize($value)
+				);
+				$this->putLine($line);
 			}
 		}
+		$this->putLine(');');
+		$this->putLine('foreach ($constants as $name => $value) {');
+		$this->putLine('  if (!defined($name)) {define($name, $value);}');
+		$this->putLine('}');
 		$body = $this->getBody();
 		return $body;
 	}

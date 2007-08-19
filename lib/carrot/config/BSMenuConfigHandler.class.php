@@ -13,14 +13,13 @@
  */
 class BSMenuConfigHandler extends BSConfigHandler {
 	public function & execute ($path) {
-		$this->putLine('$menu = array();');
 		foreach ($this->getConfig($path) as $module => $values) {
 			if (!isset($values['HREF'])) {
 				if (!isset($values['MODULE'])) {
 					$values['MODULE'] = $module;
 				}
 				if (!isset($values['TITLE'])) {
-					$profile = BSController::getInstance()->getModuleProfile($module);
+					$profile = $this->controller->getModuleProfile($module);
 					$values['TITLE'] = $profile->getConfig('TITLE');
 				}
 			}
