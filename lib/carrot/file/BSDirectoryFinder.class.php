@@ -116,9 +116,11 @@ class BSDirectoryFinder {
 	 * @static
 	 */
 	public static function & replaceConstants ($value) {
+		$value = str_replace('%%', '##PERCENT##', $value);
 		while (preg_match('/%([A-Z0-9_]+)%/', $value, $matches)) {
 			$value = str_replace($matches[0], constant($matches[1]), $value);
 		}
+		$value = str_replace('##PERCENT##', '%', $value);
 		return $value;
 	}
 }
