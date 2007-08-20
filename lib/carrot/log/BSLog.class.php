@@ -37,9 +37,13 @@ class BSLog {
 		$log->putLine(self::getMessage($message, $priority));
 		$log->close();
 
-		if (BSController::getInstance()->isCLI()) {
-			print self::getMessage($message, $priority) . "\n";
+		openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
+		if (preg_match('/Exception$/', $priority)) {
+			syslog(LOG_ERR, $message);
+		} else {
+			syslog(LOG_NOTICE, $message);
 		}
+		closelog();
 	}
 
 	/**
