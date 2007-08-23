@@ -38,30 +38,6 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	}
 
 	/**
-	 * 抽出条件文字列を設定
-	 *
-	 * @access public
-	 * @param mixed $criteria 配列または文字列による抽出条件
-	 */
-	public function setCriteria ($criteria) {
-		if ($criteria) {
-			throw new BSDatabaseException('変更出来ません。');
-		}
-	}
-
-	/**
-	 * ソート順文字列を設定
-	 *
-	 * @access public
-	 * @param mixed $order 配列または文字列によるソート順
-	 */
-	public function setOrder ($order) {
-		if ($order) {
-			throw new BSDatabaseException('変更出来ません。');
-		}
-	}
-
-	/**
 	 * 名前からIDを返す
 	 *
 	 * @access public
