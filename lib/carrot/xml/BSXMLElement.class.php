@@ -375,11 +375,14 @@ class BSXMLElement implements IteratorAggregate {
 		$this->setCdata();
 		$this->contents = $contents;
 
-		$stack = array();
-		$this->reader = new XMLReader();
-		if (!$this->reader->xml($this->contents)) {
+		$xml = new DOMDocument;
+		if (@$xml->loadXML($contents) === false) {
 			throw new BSXMLException('パースエラーです。');
 		}
+
+		$stack = array();
+		$this->reader = new XMLReader();
+		$this->reader->xml($contents);
 		while ($this->reader->read()) {
 			switch ($this->reader->nodeType) {
 				case XMLReader::ELEMENT:
