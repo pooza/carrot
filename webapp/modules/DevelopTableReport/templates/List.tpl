@@ -13,7 +13,7 @@
 <ul>
 {foreach from=$tables item=table}
 	<li>
-		<a href="/{$module}/Detail&amp;table={$table}">{$table}</a>
+		<a href="/{$module}/Detail?table={$table}">{$table}</a>
 		<small>{$table|translate}</small>
 	</li>
 {foreachelse}
