@@ -11,7 +11,7 @@
 <head>
 <title>{'app_name'|translate} {$title}</title>
 <script type="text/javascript" src="js/carrot.js" charset="utf-8"></script>
-<link rel="stylesheet" type="text/css" href="/?a=StyleSheet{if $styleset}&amp;style={$styleset}{/if}" />
+<link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?style={$styleset}{/if}" />
 </head>
 <body>
 <div id="Header">
@@ -19,9 +19,9 @@
 	{if $item.href}
 	[<a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a>]
 	{elseif !$item.action}
-	[<a href="/?m={$item.module}">{$item.title}</a>]
+	[<a href="/{$item.module}/">{$item.title}</a>]
 	{else}
-	[<a href="/?m={$item.module}&amp;a={$item.action}">{$item.title}</a>]
+	[<a href="/{$item.module}/{$item.action}">{$item.title}</a>]
 	{/if}
 {/foreach}
 </div>

@@ -9,10 +9,7 @@
 
 {include file='AdminHeader'}
 
-<form method="post" id="LoginForm" action="/">
-	<input type="hidden" name="m" value="{$module}" />
-	<input type="hidden" name="a" value="{$action}" />
-
+<form method="post" id="LoginForm" action="/{$module}/{$action}">
 	<h1>{'app_name'|translate}</h1>
 
 	{include file='ErrorMessages' show_error_code=false}

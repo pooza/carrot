@@ -9,12 +9,10 @@
 
 {include file='AdminHeader'}
 
-<form method="get" action="/">
-	<input type="hidden" name="m" value="{$module}" />
-	<input type="hidden" name="a" value="{$action}" />
+<form method="get" action="/{$module}/{$action}">
 	{html_options name='logfile' options=$logfiles selected=$logfile}
 	<input type="submit" value="表示" />
-	<a href="/?m=AdminFeed&amp;a=Log"><img src="/images/feed.gif" width="16" height="16" alt="FEED" border="0" /></a>
+	<a href="/AdminFeed/Log"><img src="/images/feed.gif" width="16" height="16" alt="FEED" border="0" /></a>
 </form>
 
 <h1>管理ログ</h1>

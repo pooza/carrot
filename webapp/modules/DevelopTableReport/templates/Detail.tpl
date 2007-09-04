@@ -92,7 +92,7 @@
 
 </table>
 
-<p><a href="/?m={$module}">テーブル一覧に戻る</a></p>
+<p><a href="/{$module}/">テーブル一覧に戻る</a></p>
 
 {include file='AdminFooter'}
 

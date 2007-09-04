@@ -11,10 +11,7 @@ phpDocumentor 生成画面テンプレート
 {include file='ErrorMessages'}
 
 <h1>APIドキュメント生成</h1>
-<form name="frm" method="post" action="/">
-	<input type="hidden" name="m" value="{$module}" />
-	<input type="hidden" name="a" value="{$action}" />
-
+<form name="frm" method="post" action="/{$module}/{$action}">
 	<table class="Detail">
 		<tr>
 			<th width="120">ディレクトリ</th>

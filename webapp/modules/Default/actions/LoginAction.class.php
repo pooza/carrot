@@ -19,8 +19,7 @@ class LoginAction extends BSAction {
 			$this->user->addCredential('Develop');
 		}
 		$url = new BSURL(BS_ROOT_URL_HTTPS);
-		$params = array(BSController::MODULE_ACCESSOR => self::DEFAULT_MODULE_NAME);
-		$url->setParameters($params);
+		$url->setAttribute('path', '/' . self::DEFAULT_MODULE_NAME . '/');
 		return $this->controller->redirect($url);
 	}
 

@@ -13,7 +13,7 @@
 <ul>
 {foreach from=$tables item=table}
 	<li>
-		<a href="/?m={$module}&amp;a=Detail&amp;table={$table}">{$table}</a>
+		<a href="/{$module}/Detail&amp;table={$table}">{$table}</a>
 		<small>{$table|translate}</small>
 	</li>
 {foreachelse}
@@ -22,9 +22,9 @@
 </ul>
 
 {if $useragent.is_msie}
-<p><a href="/?m={$module}&amp;a=DetailAll">PDFをダウンロードする</a></p>
+<p><a href="/{$module}/DetailAll">PDFをダウンロードする</a></p>
 {else}
-<p><a href="/?m={$module}&amp;a=DetailAll" target="_blank">PDFに出力する</a></p>
+<p><a href="/{$module}/DetailAll" target="_blank">PDFに出力する</a></p>
 {/if}
 
 {include file='AdminFooter'}

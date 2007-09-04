@@ -31,17 +31,15 @@
 
 {if $pid}
 <h1>管理者へIM送信</h1>
-<form method="post" action="/">
-	<input type="hidden" name="m" value="{$module}" />
-	<input type="hidden" name="a" value="Send" />
+<form method="post" action="/{$module}/Send">
 	<input type="text" size="40" name="command" />
 	<input type="submit" value="送信" /><br />
-	<a href='/?m={$module}&a=Stop'>XMPPBotを停止</a>
+	<a href='/{$module}/Stop'>XMPPBotを停止</a>
 </form>
 {else}
 <p class='alert'>
 	XMPPBotは起動していません。
-	<a href='/?m={$module}&amp;a=Start'>起動</a>
+	<a href='/{$module}/Start'>起動</a>
 </p>
 {/if}
 
