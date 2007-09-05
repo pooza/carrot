@@ -26,6 +26,21 @@ class BSExcelCSVData extends BSHeaderCSVData {
 	}
 
 	/**
+	 * 見出しを設定する
+	 *
+	 * @access public
+	 * @param string[] $fields 見出し
+	 */
+	public function setFieldNames ($fields) {
+		// 誤認識対策
+		if (strtolower($fields[0]) == 'id') {
+			$fields[0] = '_ID';
+		}
+
+		parent::setFieldNames($fields);
+	}
+
+	/**
 	 * 内容を返す
 	 *
 	 * @access public
@@ -42,7 +57,7 @@ class BSExcelCSVData extends BSHeaderCSVData {
 				$this->contents .= self::LINE_SEPARATOR;
 			}
 		}
-		return BSString::convertEncoding($this->getHeader() . $this->contents, 'Shift_JIS');
+		return BSString::convertEncoding($this->getHeader() . $this->contents, 'sjis');
 	}
 }
 

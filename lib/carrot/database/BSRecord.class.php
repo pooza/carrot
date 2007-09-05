@@ -152,6 +152,17 @@ abstract class BSRecord {
 	}
 
 	/**
+	 * 更新日付のみ更新
+	 *
+	 * updateメソッドを適切にオーバーライドする必要あり。
+	 *
+	 * @access public
+	 */
+	public function touch () {
+		$this->update(array());
+	}
+
+	/**
 	 * 削除
 	 *
 	 * @access public

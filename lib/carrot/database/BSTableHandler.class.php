@@ -455,13 +455,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			if ($result = $this->getResult()) {
 				$translator = BSTranslator::getInstance();
 				foreach ($result[0] as $key => $value) {
-					$this->fieldNames[] = $translator->translate($key, $language);
-				}
-
-				// Excelの誤認識対策
-				if (strtolower($this->fieldNames[0]) == 'id') {
-					$name = $translator->translate($this->getName(), $language) . 'ID';
-					$this->fieldNames[0] = $name;
+					$this->fieldNames[$key] = $translator->translate($key, $language);
 				}
 			}
 		}
@@ -476,10 +470,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 */
 	public function getName () {
 		if (!$this->name) {
-			$name = preg_replace('/[A-Z]/', '_\\0', $this->getRecordClassName());
-			$name = preg_replace('/^_/', '', $name);
-			$name = strtolower($name);
-			$this->name = $name;
+			$this->name = BSString::underscorize($this->getRecordClassName());
 		}
 		return $this->name;
 	}
