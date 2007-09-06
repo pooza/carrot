@@ -7,9 +7,9 @@
  */
 
 function redirect (m, a, id) {
-  url = '/?m=' + m + '&a=' + a;
+  url = '/' + m + '/' + a;
   if (id) {
-    url += '&id=' + id;
+    url += '/' + id;
   }
   window.location.href = url;
 }
