@@ -10,7 +10,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <title>{'app_name'|translate} {$title}</title>
-<script type="text/javascript" src="js/carrot.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/carrot.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/ahah.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?style={$styleset}{/if}" />
 </head>
 <body>
