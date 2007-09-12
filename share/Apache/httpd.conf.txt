@@ -6,13 +6,14 @@
 
 # 以下のモジュールが必要。
 
-LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule rewrite_module modules/mod_rewrite.so
 
 # アクセスログに対する設定。
 
-SetEnvIf Request_URI "/carrotctl.php" proxylog
+SetEnvIf Request_URI "^/carrotctl.php" nolog
+SetEnvIf Request_URI "^/(Admin|Develop)" nolog
+SetEnvIf Request_URI "^/StyleSheet" nolog
+SetEnvIf Request_URI "^/awstats" nolog
 
 # VirtualHostブロックは以下の様な内容で。
 
@@ -20,13 +21,13 @@ SetEnvIf Request_URI "/carrotctl.php" proxylog
   ServerName www.example.com
   ServerAlias example.com
   DocumentRoot htdocs/carrot/www
-  CustomLog "| /usr/local/sbin/cronolog /var/log/httpd/www.example.com/access_%Y%m.log" combined env=!proxylog
+  CustomLog "| /usr/local/sbin/cronolog /var/log/httpd/www.kodenshi.us/access_%Y%m.log" combined env=!nolog
 
   RewriteEngine on
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [P,L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [P,L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [P,L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [P,L,QSA]
+  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [L,QSA]
+  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [L,QSA]
+  RewriteRule ^/([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
+  RewriteRule ^/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [L,QSA]
 
   <Location /awstats>
     Options +ExecCGI
