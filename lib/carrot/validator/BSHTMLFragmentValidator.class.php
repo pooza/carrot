@@ -23,8 +23,10 @@ class BSHTMLFragmentValidator extends Validator {
 	 */
 	public function execute (&$value, &$error) {
 		try {
+			$body = preg_replace('/&[^;]+;/', '', $value); //実体参照を無視
+			$body = '<div>' . $body . '</div>';
 			$element = new BSXMLElement();
-			$element->setContents('<div>' . $value . '</div>');
+			$element->setContents($body);
 			if (!self::isValidElement($element)) {
 				throw new BSXMLException('許可されていない要素又は属性が含まれています。');
 			}
