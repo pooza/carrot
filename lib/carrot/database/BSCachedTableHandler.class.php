@@ -76,6 +76,7 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	 */
 	public function getResult () {
 		if ($result = BSController::getInstance()->getAttribute(get_class($this))) {
+			$this->setExecuted(true);
 			return $result;
 		} else {
 			return $this->query();
