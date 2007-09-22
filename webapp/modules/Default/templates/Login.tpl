@@ -12,7 +12,7 @@
 <form method="post" id="LoginForm" action="/{$module}/{$action}">
 	<h1>{'app_name'|translate}</h1>
 
-	{include file='ErrorMessages' show_error_code=false}
+	{include file='ErrorMessages' hide_error_code=true}
 
 	<table class="LoginPane">
 		<tr>

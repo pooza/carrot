@@ -75,27 +75,23 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	 * @return string[] 結果の配列
 	 */
 	public function getResult () {
-		if (!$this->isExecuted()) {
-			if ($result = BSController::getInstance()->getAttribute(get_class($this))) {
-				$this->result = $result;
-			} else {
-				$this->requery();
-			}
-			$this->setExecuted(true);
+		if ($result = BSController::getInstance()->getAttribute(get_class($this))) {
+			return $result;
+		} else {
+			return $this->query();
 		}
-		return $this->result;
 	}
 
 	/**
-	 * 再クエリー
+	 * クエリーを送信し直して結果を返す
 	 *
 	 * @access public
+	 * @return string[] 結果の配列
 	 */
-	public function requery () {
-		$rs = $this->database->query($this->getQueryString());
-		$this->result = $rs->fetchAll();
-		BSController::getInstance()->setAttribute(get_class($this), $this->result);
-		$this->setExecuted(true);
+	public function query () {
+		$result = parent::query();
+		BSController::getInstance()->setAttribute(get_class($this), $result);
+		return $result;
 	}
 }
 

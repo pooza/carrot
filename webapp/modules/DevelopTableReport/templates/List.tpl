@@ -8,8 +8,10 @@
 *}
 
 {include file='AdminHeader'}
+{include file='ErrorMessages' hide_error_code=true}
 
 <h1>テーブル一覧</h1>
+
 <ul>
 {foreach from=$tables item=table}
 	<li>
@@ -21,11 +23,16 @@
 {/foreach}
 </ul>
 
-{if $useragent.is_msie}
-<p><a href="/{$module}/DetailAll">PDFをダウンロードする</a></p>
-{else}
-<p><a href="/{$module}/DetailAll" target="_blank">PDFに出力する</a></p>
+{if !$errors}
+<div>
+	{if $useragent.is_msie}
+	<a href="/{$module}/DetailAll">PDFをダウンロードする</a>
+	{else}
+	<a href="/{$module}/DetailAll" target="_blank">PDFに出力する</a>
+	{/if}
+</div>
 {/if}
+
 
 {include file='AdminFooter'}
 

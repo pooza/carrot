@@ -36,7 +36,8 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 			$name = get_class($this) . '.' . $this->getName();
 			$expire = $this->getUpdateDate();
 
-			if (!$this->contents = $controller->getAttribute($name, $expire)) {
+			$this->contents = $controller->getAttribute($name, $expire);
+			if ($this->contents === null) {
 				$this->contents = $this->getEngine()->getRecords();
 				$controller->setAttribute($name, $this->contents);
 			}

@@ -9,7 +9,11 @@
  */
 class ListAction extends BSAction {
 	public function execute () {
-		$this->request->setAttribute('tables', $this->database->getTableNames());
+		try {
+			$this->request->setAttribute('tables', $this->database->getTableNames());
+		} catch (BSDatabaseException $e) {
+			$this->request->setError('tables', $e->getMessage());
+		}
 		return View::SUCCESS;
 	}
 

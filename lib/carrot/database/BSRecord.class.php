@@ -72,7 +72,9 @@ abstract class BSRecord {
 	}
 
 	/**
-	 * 内容を返す - getAttributesへのエイリアス
+	 * 内容を返す
+	 *
+	 * getAttributesのエイリアス
 	 *
 	 * @access public
 	 * @return string[] 全属性値
@@ -211,7 +213,7 @@ abstract class BSRecord {
 	}
 
 	/**
-	 * ラベルを返す - 適宜オーバーライドすること
+	 * ラベルを返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -219,6 +221,19 @@ abstract class BSRecord {
 	 */
 	public function getLabel ($language = 'ja') {
 		return $this->getAttribute('name');
+	}
+
+	/**
+	 * ラベルを返す
+	 *
+	 * getLabelのエイリアス
+	 *
+	 * @access public
+	 * @param string $language 言語
+	 * @return string ラベル
+	 */
+	public function getName ($language = 'ja') {
+		return $this->getLabel($language);
 	}
 
 	/**

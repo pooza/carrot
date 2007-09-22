@@ -238,12 +238,13 @@ abstract class BSTableHandler implements IteratorAggregate {
 				}
 			}
 		} else {
+			$table = clone $this;
 			$criteria = array();
 			foreach ($primaryKey as $field => $value) {
 				$criteria[] = $field . '=' . BSSQL::quote($value);
 			}
-			$this->setCriteria($criteria);
-			if ($this->getRecordCount() == 1) {
+			$table->setCriteria($criteria);
+			if ($table->getRecordCount() == 1) {
 				$class = $this->getRecordClassName();
 				return new $class($this, $this->result[0]);
 			}
@@ -336,9 +337,20 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 */
 	public function getResult () {
 		if (!$this->isExecuted()) {
-			$this->result = $this->database->query($this->getQueryString())->fetchAll();
-			$this->setExecuted(true);
+			$this->query();
 		}
+		return $this->result;
+	}
+
+	/**
+	 * クエリーを送信し直して結果を返す
+	 *
+	 * @access public
+	 * @return string[] 結果の配列
+	 */
+	public function query () {
+		$this->result = $this->database->query($this->getQueryString())->fetchAll();
+		$this->setExecuted(true);
 		return $this->result;
 	}
 
@@ -400,9 +412,10 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @param string[] $criteria 検索条件
 	 */
 	public function isExist ($criteria) {
-		$this->setFields($this->getKeyField());
-		$this->setCriteria($criteria);
-		return (0 < $this->getRecordCount());
+		$table = clone $this;
+		$table->setFields($this->getKeyField());
+		$table->setCriteria($criteria);
+		return (0 < $table->getRecordCount());
 	}
 
 	/**

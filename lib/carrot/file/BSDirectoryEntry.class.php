@@ -82,10 +82,10 @@ abstract class BSDirectoryEntry {
 	 * @access public
 	 * @param BSDirectory $dir 移動先ディレクトリ
 	 */
-	public function moveTo ($dir) {
+	public function moveTo (BSDirectory $dir) {
 		if (!$this->isExists()) {
 			throw new BSFileException('%sが存在しません。', $this);
-		} else if (!$this->isWritable($this->getPath())) {
+		} else if (!$this->isWritable() || !$dir->isWritable()) {
 			throw new BSFileException('%sを移動出来ません。', $this);
 		}
 

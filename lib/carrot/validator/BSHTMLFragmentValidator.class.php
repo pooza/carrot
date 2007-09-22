@@ -23,7 +23,7 @@ class BSHTMLFragmentValidator extends Validator {
 	 */
 	public function execute (&$value, &$error) {
 		try {
-			$body = preg_replace('/&[^;]+;/', '', $value); //実体参照を無視
+			$body = preg_replace('/&(#[0-9]+|[a-z]+);/i', '', $value); //実体参照を無視
 			$body = '<div>' . $body . '</div>';
 			$element = new BSXMLElement();
 			$element->setContents($body);
@@ -74,8 +74,8 @@ class BSHTMLFragmentValidator extends Validator {
 	 */
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
-			$tags = explode(',', $this->getParameter('allowed_tags'));
-			foreach ($tags as $tag) {
+			$this->allowedTags[] = 'div';
+			foreach (explode(',', $this->getParameter('allowed_tags')) as $tag) {
 				if ($tag) {
 					$this->allowedTags[] = strtolower($tag);
 				}
