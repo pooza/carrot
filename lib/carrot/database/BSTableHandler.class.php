@@ -320,7 +320,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * 内容を返す - getResultへのエイリアス
+	 * 内容を返す
+	 *
+	 * getResultのエイリアス
 	 *
 	 * @access public
 	 * @return string[] 結果の配列
@@ -363,13 +365,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 */
 	public function getRecordCount ($mode = self::WITH_PAGING) {
 		if ($mode == self::WITHOUT_PAGING) {
-			$query = BSSQL::getSelectQueryString(
-				$this->getKeyField(),
-				$this->getName(),
-				$this->getCriteria()
-			);
-			$rs = $this->database->query($query);
-			return count($rs->fetchAll());
+			$table = clone $this;
+			$table->setFields($this->getKeyField());
+			return count($table->getResult());
 		} else {
 			return count($this->getResult());
 		}
