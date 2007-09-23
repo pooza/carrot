@@ -126,7 +126,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * 新しく作ったエントリーを書き込みモードにして返す
+	 * 新しく作ったエントリーを作って返す
 	 *
 	 * @access public
 	 * @param string $name エントリーの名前
@@ -137,7 +137,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$pattern = '/' . str_replace('\.', '\\\.', $this->getSuffix()) . '$/';
 		$name = preg_replace($pattern, '', $name);
 		$file = new $class($this->getPath() . '/' . $name . $this->getSuffix());
-		$file->open('w');
+		$file->setContents(null);
 		$this->entries = array();
 		return $file;
 	}

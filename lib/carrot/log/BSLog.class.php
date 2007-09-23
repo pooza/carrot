@@ -29,11 +29,11 @@ class BSLog {
 	 * @static
 	 */
 	public static function put ($message, $priority = 'Info') {
-		if ($log = self::getDirectory()->getEntry(BSDate::getNow('Y-m-d'))) {
-			$log->open('a');
-		} else {
-			$log = self::getDirectory()->createEntry(BSDate::getNow('Y-m-d'));
+		$name = BSDate::getNow('Y-m-d');
+		if (!$log = self::getDirectory()->getEntry($name)) {
+			$log = self::getDirectory()->createEntry($name);
 		}
+		$log->open('a');
 		$log->putLine(self::getMessage($message, $priority));
 		$log->close();
 

@@ -160,10 +160,7 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 		if (!$this->handle = fopen($this->getPath(), $mode)) {
 			$this->handle = null;
 			$this->mode = null;
-			throw new BSFileException('%sをモード"%s"で開くことが出来ませんでした。',
-				$mode,
-				$this
-			);
+			throw new BSFileException('%sを%sモードで開くことが出来ません。', $this, $mode);
 		}
 
 		$this->mode = $mode;
@@ -256,9 +253,7 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	 * @param string $contents 書き込む内容
 	 */
 	public function setContents ($contents) {
-		$this->open('w');
-		$this->putLine($contents);
-		$this->close();
+		return file_put_contents($this->getPath(), $contents);
 	}
 
 	/**
