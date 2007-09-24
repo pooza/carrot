@@ -91,8 +91,7 @@ class BSCookieHandler extends BSList {
 	 */
 	public function getExpiredDate () {
 		if (!$this->expire) {
-			$this->expire = BSDate::getNow();
-			$this->expire->setAttribute('month', '+1');
+			$this->expire = BSDate::getNow()->setAttribute('month', '+1');
 		}
 		return $this->expire;
 	}

@@ -253,7 +253,8 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	 * @param string $contents 書き込む内容
 	 */
 	public function setContents ($contents) {
-		return file_put_contents($this->getPath(), $contents);
+		file_put_contents($this->getPath(), $contents);
+		$this->contents = $contents;
 	}
 
 	/**

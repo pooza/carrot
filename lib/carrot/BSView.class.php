@@ -204,8 +204,9 @@ abstract class BSView extends View {
 		// WinIEのバグ対応
 		if (($mode == self::ATTACHMENT)
 			&& $this->controller->isSSL()
+			&& ($this->useragent->getAttribute('Platform') == 'Win32')
 			&& ($this->useragent->getType() == 'MSIE')
-			&& ($this->useragent->getPlathome() == 'Windows')
+			&& ($this->useragent->getAttribute('MajorVer') < 7)
 		) {
 			$this->setHeader('Cache-Control', 'private');
 			$this->setHeader('Pragma', 'private');

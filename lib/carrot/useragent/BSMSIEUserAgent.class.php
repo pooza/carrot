@@ -24,45 +24,6 @@ class BSMSIEUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * メジャーバージョンを返す
-	 *
-	 * @access public
-	 * @return string メジャーバージョン
-	 */
-	public function getMajorVersion () {
-		preg_match('/MSIE ([0-9]+)\./', $this->getName(), $matches);
-		return $matches[1];
-	}
-
-	/**
-	 * マイナーバージョンを返す
-	 *
-	 * @access public
-	 * @return string マイナーバージョン
-	 */
-	public function getMinorVersion () {
-		preg_match('/MSIE ([0-9]+\.[0-9]+)/', $this->getName(), $matches);
-		return $matches[1];
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 属性の配列
-	 */
-	public function getAttributes () {
-		return array_merge(
-			array(
-				'is_msie' => true,
-				'is_msie' . $this->getMajorVersion() => true,
-				'is_msie' . $this->getMinorVersion() => true,
-			),
-			parent::getAttributes()
-		);
-	}
-
-	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
 	 *
 	 * @access public

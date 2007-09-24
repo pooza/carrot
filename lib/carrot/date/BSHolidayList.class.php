@@ -23,19 +23,15 @@ abstract class BSHolidayList extends BSList {
 	 * @return mixed[] 全ての属性
 	 */
 	public function getAttributes () {
-		$expire = BSDate::getNow();
-		$expire->setAttribute('month', '-1');
-
 		if (!$this->attributes) {
 			$this->attributes = BSController::getInstance()->getAttribute(
-				$this->getName(), $expire
+				$this->getName(),
+				BSDate::getNow()->setAttribute('month', '-1')
 			);
 			if (!$this->attributes) {
 				$this->setRules();
 				$this->setHolidays();
-				BSController::getInstance()->setAttribute(
-					$this->getName(), $this->attributes
-				);
+				BSController::getInstance()->setAttribute($this->getName(), $this->attributes);
 			}
 		}
 		return $this->attributes;

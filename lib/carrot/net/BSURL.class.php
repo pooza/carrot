@@ -249,6 +249,27 @@ class BSURL {
 	}
 
 	/**
+	 * Curlでフェッチして文字列で返す
+	 *
+	 * @access public
+	 * @return string フェッチした内容
+	 */
+	public function fetch () {
+		if (!$this->validate()) {
+			throw new BSNetException('URLが正しくありません。');
+		} else if (!in_array($this->getAttribute('scheme'), array('http', 'https'))) {
+			throw new BSNetException('URLのスキーム"%s"が正しくありません。');
+		}
+
+		try {
+			$http = new BSCurlHTTP($this->getAttribute('host'));
+			return $http->sendGetRequest($this->getFullPath());
+		} catch (BSException $e) {
+			throw new BSHTTPException('"%s"を取得出来ませんでした。', $this->getContents());
+		}
+	}
+
+	/**
 	 * 妥当なURLか？
 	 *
 	 * @access public

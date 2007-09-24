@@ -40,7 +40,7 @@ class BSGeckoUserAgent extends BSUserAgent {
 	 * @return string アップロードボタンのラベル
 	 */
 	public function getUploadButtonLabel () {
-		if ($this->getPlathome() == 'MacOSX') {
+		if ($this->getAttribute('Platform') == 'MacOSX') {
 			return '選択...';
 		}
 		return parent::getUploadButtonLabel();

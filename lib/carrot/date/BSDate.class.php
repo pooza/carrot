@@ -154,6 +154,7 @@ class BSDate {
 	 * @access public
 	 * @param string $name 属性の名前
 	 * @param integer $value 属性の値、(+|-)で始まる文字列も可。
+	 * @return BSDate 適用後の自分自身
 	 */
 	public function setAttribute ($name, $value) {
 		if (preg_match('/^[\-+]/', $value)) {
@@ -169,6 +170,7 @@ class BSDate {
 			$this->attributes[$name] = (int)$value;
 			$this->timestamp = null;
 		}
+		return $this;
 	}
 
 	/**

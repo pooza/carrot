@@ -14,7 +14,7 @@
 class BSUserAgent {
 	private $name;
 	private $type;
-	private $plathome;
+	private $browscap;
 
 	/**
 	 * コンストラクタ
@@ -98,10 +98,17 @@ class BSUserAgent {
 		if (isset($attributes[$name])) {
 			return $attributes[$name];
 		}
+
+		if (!$this->browscap) {
+			$this->browscap = BSBrowscap::getInstance()->getInfo($this->getName());
+		}
+		if (isset($this->browscap[$name])) {
+			return $this->browscap[$name];
+		}
 	}
 
 	/**
-	 * 全ての属性を返す
+	 * 全ての基本属性を返す
 	 *
 	 * @access public
 	 * @return mixed[] 属性の配列
@@ -109,11 +116,9 @@ class BSUserAgent {
 	public function getAttributes () {
 		return array(
 			'name' => $this->getName(),
-			'is_mobile' => $this->isMobile(),
-			'is_' . strtolower($this->getType()) => true,
-			'is_' . strtolower($this->getPlathome()) => true,
 			'type' => $this->getTypeName(),
-			'plathome' => $this->getPlathome(),
+			'is_' . strtolower($this->getType()) => true,
+			'is_mobile' => $this->isMobile(),
 			'upload_button_label' => $this->getUploadButtonLabel(),
 		);
 	}
@@ -125,16 +130,6 @@ class BSUserAgent {
 	 * @return boolean ケータイ環境ならTrue
 	 */
 	public function isMobile () {
-		return false;
-	}
-
-	/**
-	 * ロボットか？
-	 *
-	 * @access public
-	 * @return boolean ロボットならTrue
-	 */
-	public function isRobot () {
 		return false;
 	}
 
@@ -158,31 +153,6 @@ class BSUserAgent {
 	public function getEncodedFileName ($name) {
 		$name = BSSMTP::base64Encode($name);
 		return BSString::sanitize($name);
-	}
-
-	/**
-	 * プラットホーム名を返す
-	 *
-	 * @access public
-	 * @return string プラットホーム名
-	 */
-	public function getPlathome () {
-		if (!$this->plathome) {
-			$this->plathome = 'UnknownPlathome';
-			$patterns = array(
-				'Windows' => '/windows/i',
-				'MacOSX' => '/mac ?os ?x/i',
-				'MacOS' => '/mac( ?os|_powerpc|_68k)/i',
-				'X11' => '/x11/i',
-			);
-			foreach ($patterns as $key => $pattern) {
-				if (preg_match($pattern, $this->getName())) {
-					$this->plathome = $key;
-					return $this->plathome;
-				}
-			}
-		}
-		return $this->plathome;
 	}
 
 	/**

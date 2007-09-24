@@ -66,19 +66,17 @@ class BSTwitterAccount {
 	}
 
 	/**
-	 * アイコンを返す
+	 * アイコン画像を返す
 	 *
 	 * @access public
-	 * @return BSImage アイコン
+	 * @return BSImage アイコン画像
 	 */
 	public function getIcon () {
 		if (!$this->icon && $this->getAttribute('profile_image_url')) {
 			try {
 				$url = new BSURL($this->getAttribute('profile_image_url'));
-				$http = new BSCurlHTTP($url->getAttribute('host'));
-				$icon = new BSImage();
-				$icon->setImage($http->sendGetRequest($url->getFullPath()));
-				$this->icon = $icon;
+				$this->icon = new BSImage();
+				$this->icon->setImage($url->fetch());
 			} catch (BSException $e) {
 				return null;
 			}
