@@ -246,7 +246,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			$table->setCriteria($criteria);
 			if ($table->getRecordCount() == 1) {
 				$class = $this->getRecordClassName();
-				return new $class($this, $this->result[0]);
+				return new $class($this, $table->result[0]);
 			}
 		}
 	}
