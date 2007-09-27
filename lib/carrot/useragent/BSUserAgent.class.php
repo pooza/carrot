@@ -119,7 +119,6 @@ class BSUserAgent {
 			'type' => $this->getTypeName(),
 			'is_' . strtolower($this->getType()) => true,
 			'is_mobile' => $this->isMobile(),
-			'upload_button_label' => $this->getUploadButtonLabel(),
 		);
 	}
 
