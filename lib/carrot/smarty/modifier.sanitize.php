@@ -12,7 +12,7 @@
  * @version $Id$
  */
 function smarty_modifier_sanitize ($value) {
-	if (is_array($value) || preg_match('/&([a-z]+|#[0-9]+);/', $value)) {
+	if (is_array($value)) {
 		return $value;
 	} else if ($value) {
 		return BSString::sanitize($value);

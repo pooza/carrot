@@ -1,6 +1,6 @@
 <?php
 /**
- * carrotメインロジック
+ * carrotブートローダー
  *
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
@@ -38,7 +38,9 @@ function __autoload ($class) {
  * @param mixed $var 出力対象
  */
 function p ($var) {
-	header('Content-Type: text/html; charset=utf-8');
+	if (!headers_sent()) {
+		header('Content-Type: text/html; charset=utf-8');
+	}
 	if (extension_loaded('xdebug')) {
 		var_dump($var);
 	} else {

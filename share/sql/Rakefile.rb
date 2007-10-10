@@ -1,18 +1,50 @@
 #!/usr/bin/env rake
 
-# データベース初期化タスク
+# データベースダンプ生成タスク
 #
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
+ROOT_DIR = File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))
 $KCODE = 'u'
+$LOAD_PATH.unshift(ROOT_DIR + '/lib/ruby')
 
-MYSQLDUMP = 'mysqldump'
-DBHOST = 'localhost'
-DBUSER = 'root'
-DBPASS = ''
-DBNAME = ''
+# サーバ環境定義iniファイルを取得
+require 'ini_file'
+names = []
+names.push(Socket.gethostname)
+names.push(File.basename(ROOT_DIR) + '.' + Socket.gethostname)
+names.push('localhost')
+ini = nil
+names.each do |name|
+  path = ROOT_DIR + '/webapp/config/server/' + name + '.ini'
+  if File.exist?(path)
+    ini = IniFile.new(path)
+    break
+  end
+end
+ini.prefix = 'bs'
+
+# DSNをパース
+dsn = {}
+ini.settings['BS_PDO_DSN'].split(/[:;]/).each do |param|
+  param = param.split('=')
+  dsn[param[0]] = param[1]
+end
+
+# コマンドラインを生成
+command_line = []
+command_line.push('mysqldump')
+command_line.push('-h' + dsn['host'])
+command_line.push('-u' + ini.settings['BS_PDO_UID'])
+if ini.settings['BS_PDO_PASSWORD'] != ''
+  command_line.push('-p' + ini.settings['BS_PDO_PASSWORD'])
+end
+command_line.push(dsn['dbname'])
+command_line = command_line.join(' ')
+
+
 
 task :default => :all
 
@@ -26,30 +58,10 @@ end
 
 desc 'schema.sql'
 file 'schema.sql' do
-  sh dump_command_line + ' --no-data > schema.sql'
+  sh command_line + ' --no-data > schema.sql'
 end
 
 desc 'init.sql'
 file 'init.sql' do
-  sh dump_command_line + ' > init.sql'
-end
-
-def dump_command_line
-  command_line = []
-  command_line.push(MYSQLDUMP)
-  command_line.push('-h' + DBHOST)
-  command_line.push('-u' + DBUSER)
-  if DBPASS.to_s != ''
-    command_line.push('-p' + DBPASS)
-  end
-  command_line.push(dbname)
-  return command_line.join(' ')
-end
-
-def dbname
-  if DBNAME.to_s == ''
-    return File.basename(File.dirname(File.dirname(File.dirname(__FILE__))))
-  else
-    return DBNAME
-  end
+  sh command_line + ' > init.sql'
 end

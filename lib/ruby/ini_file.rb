@@ -12,7 +12,8 @@ class IniFile < File
       @lines = []
       File.open(self.path) do |file|
         file.readlines.each do |line|
-          line.chomp!.gsub!(/;.*$/, '')
+          line.chomp!
+          #line = line.gsub(/;.*$/, '')
           @lines.push(line) if (/^ *$/ != line)
         end
       end
@@ -41,8 +42,3 @@ class IniFile < File
     return @settings
   end
 end
-
-ROOT_DIR = File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))
-ini = IniFile.new(ROOT_DIR + '/webapp/config/constant/carrot.ini')
-ini.prefix = 'bs'
-p ini.settings
