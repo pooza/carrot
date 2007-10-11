@@ -19,9 +19,9 @@ class LogSuccessView extends BSXMLView {
 
 	public function execute () {
 		$url = new BSURL();
-		$url->setAttribute('query', 'a=Login');
+		$url->setAttribute('path', '/AdminLog/');
 		$this->getEngine()->setTitle($this->controller->getServerHost()->getName());
-		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログです。');
+		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログ');
 		$this->getEngine()->setLink($url);
 
 		foreach ($this->request->getAttribute('logs') as $log) {
