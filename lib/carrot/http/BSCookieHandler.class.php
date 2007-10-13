@@ -68,6 +68,9 @@ class BSCookieHandler extends BSList {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
+		if (headers_sent()) {
+			throw new BSHTTPException('Cookieの送信に失敗しました。');
+		}
 		setcookie($name, $value, $this->getExpiredDate()->getTimestamp());
 		$this->attributes[$name] = $value;
 	}
