@@ -26,7 +26,6 @@ class BSODBCDatabase extends BSDatabase {
 			try {
 				$db = new BSODBCDatabase(self::DSN, self::UID, self::PASSWORD);
 				$db->dsn = self::DSN;
-				$db->user = self::UID;
 				self::$instance = $db;
 			} catch (Exception $e) {
 				$e = new BSDatabaseException(

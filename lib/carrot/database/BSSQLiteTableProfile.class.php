@@ -14,22 +14,6 @@
 class BSSQLiteTableProfile extends BSTableProfile {
 
 	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return string[][] 全ての属性
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = array(
-				'dsn' => $this->database->getDSN(),
-				'name' => $this->getName(),
-			);
-		}
-		return $this->attributes;
-	}
-
-	/**
 	 * テーブルのフィールドリストを配列で返す
 	 *
 	 * @access public

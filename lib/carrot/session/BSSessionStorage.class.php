@@ -39,7 +39,11 @@ class BSSessionStorage extends SessionStorage {
 				);
 				break;
 		}
-		parent::initialize($context, $parameters);
+
+		if (headers_sent()) {
+			throw new BSHTTPException('セッションの開始に失敗しました。');
+		}
+		session_start();
 	}
 
 	/**

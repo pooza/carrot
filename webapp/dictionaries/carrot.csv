@@ -1,10 +1,13 @@
 label,ja
 create_date,作成日
+data,データ
 directories,ディレクトリ
 format,形式
 id,ID
 name,名前
 remote_host,リモートホスト
 status,状態
+stored_session,ストアードセッション
+time,タイムスタンプ
 update_date,更新日
 user_agent,ユーザーエージェント

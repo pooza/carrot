@@ -61,9 +61,16 @@ abstract class BSTableProfile {
 	 *
 	 * @access public
 	 * @return string[][] 全ての属性
-	 * @abstract
 	 */
-	abstract public function getAttributes ();
+	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = array(
+				'dsn' => $this->database->getDSN(),
+				'name' => $this->getName(),
+			);
+		}
+		return $this->attributes;
+	}
 
 	/**
 	 * テーブルのフィールドリストを配列で返す

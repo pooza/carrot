@@ -27,7 +27,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 			);
 
 			$fields = array('Engine', 'Row_format', 'Collation');
-			$query = 'SHOW TABLE STATUS LIKE \'' . $this->getName() . '\'';
+			$query = 'SHOW TABLE STATUS LIKE ' . BSSQL::quote($this->getName());
 			foreach ($this->database->query($query)->fetch() as $key => $value) {
 				if (in_array($key, $fields)) {
 					$this->attributes[strtolower($key)] = $value;

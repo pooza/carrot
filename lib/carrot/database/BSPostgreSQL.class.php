@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
- * @todo 未検証
  */
 class BSPostgreSQL extends BSDatabase {
 	private static $instance;
@@ -25,13 +24,8 @@ class BSPostgreSQL extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				$db = new BSPostgreSQL(self::DSN, self::UID, self::PASSWORD);
+				$db = new BSPostgreSQL(self::DSN);
 				$db->dsn = self::DSN;
-				preg_match('/^pgsql:host=([^;]+);dbname=([^;]+)$/', $db->dsn, $matches);
-				$db->host = new BSHost($matches[1]);
-				$db->port = self::getDefaultPort();
-				$db->name = $matches[2];
-				$db->user = self::UID;
 				self::$instance = $db;
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
@@ -50,7 +44,11 @@ class BSPostgreSQL extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$query = BSSQL::getSelectQueryString('tablename', 'pg_tables');
+			$query = BSSQL::getSelectQueryString(
+				'tablename',
+				'pg_tables',
+				'schemaname=' . BSSQL::quote('public')
+			);
 			foreach ($this->query($query) as $row) {
 				$this->tables[] = $row['tablename'];
 			}

@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSCookieHandler extends BSList {
-	private $expire;
 	private static $instance;
 
 	/**
@@ -55,7 +54,7 @@ class BSCookieHandler extends BSList {
 	 */
 	public function getAttributes () {
 		if (!$this->attributes) {
-			$this->attributes = &$_COOKIE;
+			$this->attributes =& $_COOKIE;
 		}
 		return $this->attributes;
 	}
@@ -71,7 +70,7 @@ class BSCookieHandler extends BSList {
 		if (headers_sent()) {
 			throw new BSHTTPException('Cookieの送信に失敗しました。');
 		}
-		setcookie($name, $value, $this->getExpiredDate()->getTimestamp());
+		setcookie($name, $value, BSDate::getNow()->setAttribute('month', '+1')->getTimestamp());
 		$this->attributes[$name] = $value;
 	}
 
@@ -82,21 +81,8 @@ class BSCookieHandler extends BSList {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		setcookie($name, 0, BSDate::getNow()->getTimestamp() - 3600);
+		setcookie($name, 0, BSDate::getNow()->setAttribute('hour', '-1')->getTimestamp());
 		unset($this->attributes[$name]);
-	}
-
-	/**
-	 * 期限を返す
-	 *
-	 * @access public
-	 * @return BSDate 期限
-	 */
-	public function getExpiredDate () {
-		if (!$this->expire) {
-			$this->expire = BSDate::getNow()->setAttribute('month', '+1');
-		}
-		return $this->expire;
 	}
 }
 

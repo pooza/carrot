@@ -8,13 +8,33 @@
  * @version $Id$
  */
 class DetailAction extends BSAction {
+	private $tableProfile;
+
+	/**
+	 * テーブルプロフィールを返す
+	 *
+	 * @access public
+	 * @return BSTableProfile テーブルプロフィール
+	 */
+	private function getTableProfile () {
+		if (!$this->tableProfile) {
+			$this->tableProfile = $this->database->getTableProfile(
+				$this->request->getParameter('table')
+			);
+		}
+		return $this->tableProfile;
+	}
+
 	public function execute () {
-		$table = $this->database->getTableProfile($this->request->getParameter('table'));
-		$this->request->setAttribute('tablename', $table->getName());
-		$this->request->setAttribute('attributes', $table->getAttributes());
-		$this->request->setAttribute('fields', $table->getFields());
-		$this->request->setAttribute('keys', $table->getKeys());
+		$this->request->setAttribute('tablename', $this->getTableProfile()->getName());
+		$this->request->setAttribute('attributes', $this->getTableProfile()->getAttributes());
+		$this->request->setAttribute('fields', $this->getTableProfile()->getFields());
+		$this->request->setAttribute('keys', $this->getTableProfile()->getKeys());
 		return View::SUCCESS;
+	}
+
+	public function validate () {
+		return ($this->getTableProfile() != null);
 	}
 
 	public function getRequestMethods () {
