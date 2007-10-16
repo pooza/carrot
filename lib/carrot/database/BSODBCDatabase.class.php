@@ -24,9 +24,7 @@ class BSODBCDatabase extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				$db = new BSODBCDatabase(self::DSN, self::UID, self::PASSWORD);
-				$db->dsn = self::DSN;
-				self::$instance = $db;
+				self::$instance = new BSODBCDatabase(self::DSN, self::UID, self::PASSWORD);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException(
 					'DB接続エラーです。DSN:[%s] (%s)',

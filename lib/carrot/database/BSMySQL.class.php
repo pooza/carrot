@@ -24,22 +24,28 @@ class BSMySQL extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				$db = new BSMySQL(self::DSN, self::UID, self::PASSWORD);
-				$db->dsn = self::DSN;
-				preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $db->dsn, $matches);
-				$db->host = new BSHost($matches[1]);
-				$db->port = self::getDefaultPort();
-				$db->name = $matches[2];
-				$db->user = self::UID;
-				$db->exec('SET NAMES ' . self::getEncoding());
-				self::$instance = $db;
+				self::$instance = new BSMySQL(self::DSN, self::UID, self::PASSWORD);
+				self::$instance->exec('SET NAMES ' . self::getEncoding());
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-				$e->sendNotify();
+				$e->sendAlert();
 				throw $e;
 			}
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * DSNをパースしてプロパティに格納する
+	 *
+	 * @access protected
+	 */
+	protected function parseDSN () {
+		parent::parseDSN();
+		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this->getAttribute('dsn'), $matches);
+		$this->attributes['host'] = new BSHost($matches[1]);
+		$this->attributes['port'] = self::getDefaultPort();
+		$this->attributes['name'] = $matches[2];
 	}
 
 	/**
@@ -87,6 +93,35 @@ class BSMySQL extends BSDatabase {
 		if (!preg_match('/^SET NAMES/i', $query)) {
 			BSLog::put($query, self::LOG_TYPE);
 		}
+	}
+
+	/**
+	 * ダンプ生成コマンドを返す
+	 *
+	 * @access protected
+	 * @return string ダンプ生成コマンド
+	 */
+	protected function getDumpCommand () {
+		$command = array(
+			'/usr/bin/env mysqldump',
+			'-h' . $this->getAttribute('host')->getAddress(),
+			'-u' . $this->getAttribute('user'),
+		);
+		
+		if ($password = $this->getAttribute('password')) {
+			$command[] = '-p' . $password;
+		}
+
+		$command[] = $this->getName();
+		$command[] = '>';
+		$command[] = sprintf(
+			'%s/%s_%s.sql',
+			BSController::getInstance()->getPath('dump'),
+			$this->getName(),
+			BSDate::getNow('Y-m-d')
+		);
+
+		return implode(' ', $command);
 	}
 
 	/**

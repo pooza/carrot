@@ -66,7 +66,7 @@ class BSException extends MojaviException {
 	 *
 	 * @access public
 	 */
-	public function sendNotify () {
+	public function sendAlert () {
 		try {
 			$controller = BSController::getInstance();
 			$xmpp = new BSXMPPBotClient($controller->getServerHost());

@@ -24,16 +24,42 @@ class BSPostgreSQL extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				$db = new BSPostgreSQL(self::DSN);
-				$db->dsn = self::DSN;
-				self::$instance = $db;
+				self::$instance = new BSPostgreSQL(self::DSN);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-				$e->sendNotify();
+				$e->sendAlert();
 				throw $e;
 			}
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * DSNをパースしてプロパティに格納する
+	 *
+	 * @access protected
+	 */
+	protected function parseDSN () {
+		parent::parseDSN();
+		preg_match('/^pgsql:(.+)$/', $this->getAttribute('dsn'), $matches);
+	
+		$values = array(
+			'host' => null,
+			'dbname' => null,
+			'user' => null,
+			'password' => null,
+			'port' => self::getDefaultPort(),
+		);
+		foreach (preg_split('/ +/', $matches[1]) as $config) {
+			$config = explode('=', $config);
+			$values[$config[0]] = $config[1];
+		}
+	
+		$this->attributes['host'] = new BSHost($values['host']);
+		$this->attributes['port'] = $values['port'];
+		$this->attributes['name'] = $values['dbname'];
+		$this->attributes['user'] = $values['user'];
+		$this->attributes['password'] = $values['password'];
 	}
 
 	/**
@@ -54,6 +80,24 @@ class BSPostgreSQL extends BSDatabase {
 			}
 		}
 		return $this->tables;
+	}
+
+	/**
+	 * ダンプ生成コマンドを返す
+	 *
+	 * @access protected
+	 * @return string ダンプ生成コマンド
+	 */
+	protected function getDumpCommand () {
+		return sprintf(
+			'/usr/bin/env pg_dump --host=%s --user=%s %s > %s/%s_%s.sql',
+			$this->getAttribute('host')->getName(),
+			$this->getAttribute('user'),
+			$this->getName(),
+			BSController::getInstance()->getPath('dump'),
+			$this->getName(),
+			BSDate::getNow('Y-m-d')
+		);
 	}
 
 	/**

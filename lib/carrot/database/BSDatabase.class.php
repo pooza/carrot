@@ -13,11 +13,7 @@
  * @abstract
  */
 abstract class BSDatabase extends PDO {
-	protected $host;
-	protected $port;
-	protected $name;
-	protected $dsn;
-	protected $user;
+	protected $attributes;
 	protected $tables = array();
 	private $dbms;
 	const DSN = BS_PDO_DSN;
@@ -66,6 +62,17 @@ abstract class BSDatabase extends PDO {
 	 * @abstract
 	 */
 	abstract public function getTableNames ();
+
+	/**
+	 * DSNをパースしてプロパティに格納する
+	 *
+	 * @access protected
+	 */
+	protected function parseDSN () {
+		$this->attributes['dsn'] = self::DSN;
+		$this->attributes['user'] = self::UID;
+		$this->attributes['password'] = self::PASSWORD;
+	}
 
 	/**
 	 * クエリーを実行してPDOStatementを返す
@@ -140,17 +147,19 @@ abstract class BSDatabase extends PDO {
 	 * @return string データベース名
 	 */
 	public function getDatabaseName () {
-		return $this->name;
+		return $this->getAttribute('name');
 	}
 
 	/**
-	 * データベース名を返す - getDatabaseNameのエイリアス
+	 * データベース名を返す
+	 *
+	 * getDatabaseNameのエイリアス
 	 *
 	 * @access public
 	 * @return string データベース名
 	 */
 	public function getName () {
-		return $this->getDatabaseName();
+		return $this->getAttribute('name');
 	}
 
 	/**
@@ -211,6 +220,22 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * 属性値を返す
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return mixed 属性値
+	 */
+	public function getAttribute ($name) {
+		if (!isset($this->attributes[$name])) {
+			$this->parseDSN();
+		}
+		if (isset($this->attributes[$name])) {
+			return $this->attributes[$name];
+		}
+	}
+
+	/**
 	 * DSNスキーマを返す
 	 *
 	 * @access public
@@ -227,7 +252,28 @@ abstract class BSDatabase extends PDO {
 	 * @return string DSN
 	 */
 	public function getDSN () {
-		return $this->dsn;
+		return $this->getAttribute('dsn');
+	}
+
+	/**
+	 * ダンプを生成する
+	 *
+	 * @access public
+	 */
+	public function dump () {
+		if ($command = $this->getDumpCommand()) {
+			shell_exec($command);
+		}
+	}
+
+	/**
+	 * ダンプ生成コマンドを返す
+	 *
+	 * @access protected
+	 * @return string ダンプ生成コマンド
+	 */
+	protected function getDumpCommand () {
+		return null;
 	}
 
 	/**

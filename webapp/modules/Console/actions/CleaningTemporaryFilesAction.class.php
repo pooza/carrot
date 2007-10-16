@@ -14,13 +14,12 @@ class CleaningTemporaryFilesAction extends BSAction {
 			if ($entry->isDirectory() || $entry->isDoted()) {
 				continue;
 			}
-
-			try {
-				if ($entry->getUpdateDate()->isAgo($expire)) {
+			if ($entry->getUpdateDate()->isAgo($expire)) {
+				try {
 					$entry->delete();
+				} catch (BSFileException $e) {
+					$e->sendAlert();
 				}
-			} catch (BSFileException $e) {
-				$e->sendNotify();
 			}
 		}
 

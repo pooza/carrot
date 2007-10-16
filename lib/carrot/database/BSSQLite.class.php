@@ -24,12 +24,10 @@ class BSSQLite extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				$db = new BSSQLite(self::DSN);
-				$db->dsn = self::DSN;
-				self::$instance = $db;
+				self::$instance = new BSSQLite(self::DSN);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-				$e->sendNotify();
+				$e->sendAlert();
 				throw $e;
 			}
 		}
