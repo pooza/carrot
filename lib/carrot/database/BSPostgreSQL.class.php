@@ -83,21 +83,56 @@ class BSPostgreSQL extends BSDatabase {
 	}
 
 	/**
-	 * ダンプ生成コマンドを返す
+	 * ダンプファイルを生成する
 	 *
-	 * @access protected
-	 * @return string ダンプ生成コマンド
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile ダンプファイル
 	 */
-	protected function getDumpCommand () {
-		return sprintf(
-			'/usr/bin/env pg_dump --host=%s --user=%s %s > %s/%s_%s.sql',
-			$this->getAttribute('host')->getName(),
-			$this->getAttribute('user'),
-			$this->getName(),
-			BSController::getInstance()->getPath('dump'),
-			$this->getName(),
-			BSDate::getNow('Y-m-d')
-		);
+	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+
+		$command = array();
+		$command[] = '/usr/bin/env pg_dump';
+		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
+		$command[] = '--user=' . $this->getAttribute('user');
+		$command[] = $this->getName();
+		$command[] = '>';
+		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
+		$command = implode(' ', $command);
+		shell_exec($command);
+
+		return $dir->getEntry($filename);
+	}
+
+	/**
+	 * スキーマファイルを生成する
+	 *
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile スキーマファイル
+	 */
+	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+
+		$command = array();
+		$command[] = '/usr/bin/env pg_dump';
+		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
+		$command[] = '--user=' . $this->getAttribute('user');
+		$command[] = '--schema-only';
+		$command[] = $this->getName();
+		$command[] = '>';
+		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
+		$command = implode(' ', $command);
+		shell_exec($command);
+
+		return $dir->getEntry($filename);
 	}
 
 	/**

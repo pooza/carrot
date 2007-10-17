@@ -12,7 +12,7 @@
 <title>{'app_name'|translate} {$title}</title>
 <script type="text/javascript" src="/js/carrot.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/ahah.js" charset="utf-8"></script>
-<link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?style={$styleset}{/if}" />
+<link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
 </head>
 <body>
 <div id="Header">

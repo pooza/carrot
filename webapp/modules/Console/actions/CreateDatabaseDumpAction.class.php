@@ -1,15 +1,16 @@
 <?php
 /**
- * StyleSheetSuccessビュー
+ * CreateDatabaseDumpアクション
  *
  * @package jp.co.b-shock.carrot
- * @subpackage Default
+ * @subpackage Console
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class StyleSheetSuccessView extends BSView {
+class CreateDatabaseDumpAction extends BSAction {
 	public function execute () {
-		$this->setEngine(new BSCSS($this->request->getParameter('styleset')));
+		BSDatabase::getInstance()->createDumpFile();
+		return View::NONE;
 	}
 }
 

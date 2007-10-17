@@ -13,10 +13,10 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function validate () {
-		if (!$this->request->hasParameter('style')) {
-			$this->request->setParameter('style', 'carrot');
+		if (!$this->request->hasParameter('styleset')) {
+			$this->request->setParameter('styleset', 'carrot');
 		}
-		return (BSCSS::getStyleSet($this->request->getParameter('style')) != null);
+		return (BSCSS::getStyleSet($this->request->getParameter('styleset')) != null);
 	}
 
 	public function handleError () {

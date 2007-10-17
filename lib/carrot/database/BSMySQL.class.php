@@ -96,32 +96,62 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * ダンプ生成コマンドを返す
+	 * ダンプファイルを生成する
 	 *
-	 * @access protected
-	 * @return string ダンプ生成コマンド
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile ダンプファイル
 	 */
-	protected function getDumpCommand () {
-		$command = array(
-			'/usr/bin/env mysqldump',
-			'-h' . $this->getAttribute('host')->getAddress(),
-			'-u' . $this->getAttribute('user'),
-		);
-		
-		if ($password = $this->getAttribute('password')) {
-			$command[] = '-p' . $password;
+	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 
+		$command = array();
+		$command[] = '/usr/bin/env mysqldump';
+		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
+		$command[] = '--user=' . $this->getAttribute('user');
+		if ($password = $this->getAttribute('password')) {
+			$command[] = '--password=' . $password;
+		}
 		$command[] = $this->getName();
 		$command[] = '>';
-		$command[] = sprintf(
-			'%s/%s_%s.sql',
-			BSController::getInstance()->getPath('dump'),
-			$this->getName(),
-			BSDate::getNow('Y-m-d')
-		);
+		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
+		$command = implode(' ', $command);
+		shell_exec($command);
 
-		return implode(' ', $command);
+		return $dir->getEntry($filename);
+	}
+
+	/**
+	 * スキーマファイルを生成する
+	 *
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile スキーマファイル
+	 */
+	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+
+		$command = array();
+		$command[] = '/usr/bin/env mysqldump';
+		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
+		$command[] = '--user=' . $this->getAttribute('user');
+		if ($password = $this->getAttribute('password')) {
+			$command[] = '--password=' . $password;
+		}
+		$command[] = '--no-data';
+		$command[] = $this->getName();
+		$command[] = '>';
+		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
+		$command = implode(' ', $command);
+		shell_exec($command);
+
+		return $dir->getEntry($filename);
 	}
 
 	/**

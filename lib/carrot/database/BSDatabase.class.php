@@ -256,24 +256,25 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * ダンプを生成する
+	 * ダンプファイルを生成する
 	 *
 	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile ダンプファイル
 	 */
-	public function dump () {
-		if ($command = $this->getDumpCommand()) {
-			shell_exec($command);
-		}
+	public function createDumpFile ($filename = null, BSDirectory $dir = null) {
 	}
 
 	/**
-	 * ダンプ生成コマンドを返す
+	 * スキーマファイルを生成する
 	 *
-	 * @access protected
-	 * @return string ダンプ生成コマンド
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile スキーマファイル
 	 */
-	protected function getDumpCommand () {
-		return null;
+	public function createSchemaFile ($filename = null, BSDirectory $dir = null) {
 	}
 
 	/**

@@ -1,16 +1,15 @@
 <?php
 /**
- * DumpDatabaseアクション
+ * CreateDatabaseSchemaアクション
  *
  * @package jp.co.b-shock.carrot
  * @subpackage Console
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DumpDatabaseAction extends BSAction {
+class CreateDatabaseSchemaAction extends BSAction {
 	public function execute () {
-		BSDatabase::getInstance()->dump();
-		BSLog::put(get_class($this) . 'を実行しました。');
+		BSDatabase::getInstance()->createSchemaFile();
 		return View::NONE;
 	}
 }
