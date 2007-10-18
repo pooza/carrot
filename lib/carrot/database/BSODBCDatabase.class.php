@@ -58,16 +58,6 @@ class BSODBCDatabase extends BSDatabase {
 		// ODBC接続では、テーブル名のリストを返せない
 		return array();
 	}
-
-	/**
-	 * DSNスキーマを返す
-	 *
-	 * @access public
-	 * @return string DSNスキーマ
-	 */
-	public function getScheme () {
-		return 'odbc';
-	}
 }
 
 /* vim:set tabstop=4 ai: */

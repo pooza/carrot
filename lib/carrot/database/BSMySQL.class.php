@@ -42,7 +42,7 @@ class BSMySQL extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this->getAttribute('dsn'), $matches);
+		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this->getDSN(), $matches);
 		$this->attributes['host'] = new BSHost($matches[1]);
 		$this->attributes['port'] = self::getDefaultPort();
 		$this->attributes['name'] = $matches[2];
@@ -56,7 +56,7 @@ class BSMySQL extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$nameColumn = 'Tables_in_' . $this->getDatabaseName();
+			$nameColumn = 'Tables_in_' . $this->getName();
 			foreach ($this->query('SHOW TABLES') as $row) {
 				$this->tables[] = $row[$nameColumn];
 			}
@@ -104,10 +104,6 @@ class BSMySQL extends BSDatabase {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
-		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
-		}
-
 		$command = array();
 		$command[] = '/usr/bin/env mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
@@ -116,12 +112,14 @@ class BSMySQL extends BSDatabase {
 			$command[] = '--password=' . $password;
 		}
 		$command[] = $this->getName();
-		$command[] = '>';
-		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
-		$command = implode(' ', $command);
-		shell_exec($command);
+		$contents = shell_exec(implode(' ', $command));
 
-		return $dir->getEntry($filename);
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
 	}
 
 	/**
@@ -133,10 +131,6 @@ class BSMySQL extends BSDatabase {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
-		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
-		}
-
 		$command = array();
 		$command[] = '/usr/bin/env mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
@@ -146,12 +140,14 @@ class BSMySQL extends BSDatabase {
 		}
 		$command[] = '--no-data';
 		$command[] = $this->getName();
-		$command[] = '>';
-		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
-		$command = implode(' ', $command);
-		shell_exec($command);
+		$contents = shell_exec(implode(' ', $command));
 
-		return $dir->getEntry($filename);
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
 	}
 
 	/**

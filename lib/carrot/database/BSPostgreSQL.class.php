@@ -41,7 +41,7 @@ class BSPostgreSQL extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^pgsql:(.+)$/', $this->getAttribute('dsn'), $matches);
+		preg_match('/^pgsql:(.+)$/', $this->getDSN(), $matches);
 	
 		$values = array(
 			'host' => null,
@@ -91,21 +91,19 @@ class BSPostgreSQL extends BSDatabase {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
+		$command = array();
+		$command[] = '/usr/bin/env pg_dump';
+		$command[] = '--host=' . $this->getAttribute('host')->getName();
+		$command[] = '--user=' . $this->getAttribute('user');
+		$command[] = $this->getName();
+		$contents = shell_exec(implode(' ', $command));
+
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-
-		$command = array();
-		$command[] = '/usr/bin/env pg_dump';
-		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
-		$command[] = '--user=' . $this->getAttribute('user');
-		$command[] = $this->getName();
-		$command[] = '>';
-		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
-		$command = implode(' ', $command);
-		shell_exec($command);
-
-		return $dir->getEntry($filename);
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
 	}
 
 	/**
@@ -117,22 +115,20 @@ class BSPostgreSQL extends BSDatabase {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
-		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
-		}
-
 		$command = array();
 		$command[] = '/usr/bin/env pg_dump';
-		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
+		$command[] = '--host=' . $this->getAttribute('host')->getName();
 		$command[] = '--user=' . $this->getAttribute('user');
 		$command[] = '--schema-only';
 		$command[] = $this->getName();
-		$command[] = '>';
-		$command[] = $dir->getPath() . '/' . $filename . $dir->getSuffix();
-		$command = implode(' ', $command);
-		shell_exec($command);
+		$contents = shell_exec(implode(' ', $command));
 
-		return $dir->getEntry($filename);
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
 	}
 
 	/**
@@ -148,16 +144,6 @@ class BSPostgreSQL extends BSDatabase {
 				return $port;
 			}
 		}
-	}
-
-	/**
-	 * DSNスキーマを返す
-	 *
-	 * @access public
-	 * @return string DSNスキーマ
-	 */
-	public function getScheme () {
-		return 'pgsql';
 	}
 }
 

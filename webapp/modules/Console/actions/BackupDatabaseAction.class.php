@@ -11,7 +11,8 @@ class BackupDatabaseAction extends BSAction {
 	public function execute () {
 		$dir = $this->controller->getDirectory('dump');
 		$name = $this->database->getName() . '_' . BSDate::getNow('Y-m-d');
-		if (BSDatabase::getInstance()->createDumpFile($name, $dir)) {
+		if ($file = BSDatabase::getInstance()->createDumpFile($name, $dir)) {
+			$file->compress();
 			BSLog::put(get_class($this) . 'を実行しました。');
 		}
 		return View::NONE;

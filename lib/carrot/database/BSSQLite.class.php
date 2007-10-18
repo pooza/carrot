@@ -45,7 +45,7 @@ class BSSQLite extends BSDatabase {
 			$query = BSSQL::getSelectQueryString(
 				'name',
 				'sqlite_master',
-				'name NOT LIKE \'sqlite_%\'' //システムが使用するテーブルは含めない。
+				'name NOT LIKE ' . BSSQL::quote('sqlite_%')
 			);
 			foreach ($this->query($query) as $row) {
 				$this->tables[] = $row['name'];

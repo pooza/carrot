@@ -153,6 +153,8 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 			throw new BSFileException('モード"%s"が正しくありません。', $mode);
 		} else if (($mode == 'r') && !$this->isExists()) {
 			throw new BSFileException('%sが存在しません。', $this);
+		} else if ($this->isCompressed()) {
+			throw new BSFileException('%sはgzip圧縮されています。', $this);
 		} else if ($this->isOpened()) {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
@@ -228,7 +230,11 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	 */
 	public function getLines () {
 		if (!$this->lines) {
-			$this->lines = file($this->getPath());
+			if ($this->isCompressed()) {
+				$this->lines = gzfile($this->getPath());
+			} else {
+				$this->lines = file($this->getPath());
+			}
 			foreach ($this->lines as &$line) {
 				$line = rtrim($line);
 			}
@@ -243,7 +249,11 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	 * @return string 読み込んだ内容
 	 */
 	public function getContents () {
-		return file_get_contents($this->getPath());
+		if ($this->isCompressed()) {
+			return readgzfile($this->getPath());
+		} else {
+			return file_get_contents($this->getPath());
+		}
 	}
 
 	/**
@@ -253,8 +263,36 @@ class BSFile extends BSDirectoryEntry implements BSViewEngine {
 	 * @param string $contents 書き込む内容
 	 */
 	public function setContents ($contents) {
-		file_put_contents($this->getPath(), $contents);
-		$this->contents = $contents;
+		if ($this->isCompressed()) {
+			file_put_contents($this->getPath(), gzencode($contents, 9));
+		} else {
+			file_put_contents($this->getPath(), $contents);
+		}
+	}
+
+	/**
+	 * gzip圧縮する
+	 *
+	 * @access public
+	 */
+	public function compress () {
+		if ($this->isCompressed()) {
+			throw new BSFileException('%sをgzip圧縮することは出来ません。', $this);
+		}
+		$contents = gzencode($this->getContents(), 9);
+		$this->setContents($contents);
+		$this->rename($this->getName() . '.gz');
+	}
+
+	/**
+	 * gzip圧縮されているか
+	 *
+	 * @access public
+	 * @return boolean gzip圧縮されていたらTrue
+	 * @todo 拡張子で判断せずに、ファイルの内容で判断出来ればベター
+	 */
+	public function isCompressed () {
+		return ($this->getSuffix() == '.gz');
 	}
 
 	/**

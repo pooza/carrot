@@ -64,6 +64,32 @@ abstract class BSDatabase extends PDO {
 	abstract public function getTableNames ();
 
 	/**
+	 * 属性値を返す
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return mixed 属性値
+	 */
+	public function getAttribute ($name) {
+		if (!isset($this->attributes[$name])) {
+			$this->parseDSN();
+		}
+		if (isset($this->attributes[$name])) {
+			return $this->attributes[$name];
+		}
+	}
+
+	/**
+	 * DSNを返す
+	 *
+	 * @access public
+	 * @return string DSN
+	 */
+	public function getDSN () {
+		return $this->getAttribute('dsn');
+	}
+
+	/**
 	 * DSNをパースしてプロパティに格納する
 	 *
 	 * @access protected
@@ -146,18 +172,6 @@ abstract class BSDatabase extends PDO {
 	 * @access public
 	 * @return string データベース名
 	 */
-	public function getDatabaseName () {
-		return $this->getAttribute('name');
-	}
-
-	/**
-	 * データベース名を返す
-	 *
-	 * getDatabaseNameのエイリアス
-	 *
-	 * @access public
-	 * @return string データベース名
-	 */
 	public function getName () {
 		return $this->getAttribute('name');
 	}
@@ -220,42 +234,6 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 属性値を返す
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @return mixed 属性値
-	 */
-	public function getAttribute ($name) {
-		if (!isset($this->attributes[$name])) {
-			$this->parseDSN();
-		}
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
-	}
-
-	/**
-	 * DSNスキーマを返す
-	 *
-	 * @access public
-	 * @return string DSNスキーマ
-	 */
-	public function getScheme () {
-		return strtolower($this->getDBMS());
-	}
-
-	/**
-	 * DSNを返す
-	 *
-	 * @access public
-	 * @return string DSN
-	 */
-	public function getDSN () {
-		return $this->getAttribute('dsn');
-	}
-
-	/**
 	 * ダンプファイルを生成する
 	 *
 	 * @access public
@@ -264,6 +242,7 @@ abstract class BSDatabase extends PDO {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($filename = null, BSDirectory $dir = null) {
+		return null;
 	}
 
 	/**
@@ -275,6 +254,7 @@ abstract class BSDatabase extends PDO {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($filename = null, BSDirectory $dir = null) {
+		return null;
 	}
 
 	/**
