@@ -64,8 +64,8 @@ def media_types
   return {
     'conf' => '',
     'css' => 'text/css',
-    'csv' => 'application/csv',
-    'dat' => '',
+    'csv' => 'text/plain',
+    'dat' => 'application/octet-stream',
     'gif' => 'image/gif',
     'htm' => 'text/html',
     'html' => 'text/html',

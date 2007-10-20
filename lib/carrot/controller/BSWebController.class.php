@@ -35,22 +35,10 @@ class BSWebController extends BSController {
 	 * @param string $target リダイレクト先URL
 	 */
 	public function redirect ($target) {
-		$url = new BSURL();
 		if (is_object($target) && ($target instanceof BSURL)) {
 			$url = $target;
-		} else if (is_array($target)) {
-			if (isset($target['scheme'])) {
-				$url->setAttribute('scheme', $target['scheme']);
-				unset($target['scheme']);
-			}
-			$url->setParameters($target);
-		} else if ($url == self::NOT_FOUND_ACTION) {
-			$params = array(
-				self::MODULE_ACCESSOR => self::NOT_FOUND_MODULE,
-				self::ACTION_ACCESSOR => self::NOT_FOUND_ACTION,
-			);
-			$url->setParameters($params);
 		} else {
+			$url = new BSURL();
 			$url->setAttribute('path', $target);
 		}
 

@@ -334,6 +334,16 @@ abstract class BSController extends Controller {
 	}
 
 	/**
+	 * タイムリミットを設定
+	 *
+	 * @access public
+	 * @param integer $seconds 秒単位のタイムリミット
+	 */
+	public function setTimeLimit ($seconds) {
+		return set_time_limit($seconds);
+	}
+
+	/**
 	 * エラーチェックなしでインクルード
 	 *
 	 * @access public
