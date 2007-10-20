@@ -143,6 +143,20 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
+	 * 削除
+	 *
+	 * @access public
+	 */
+	public function delete () {
+		foreach ($this as $entry) {
+			$entry->delete();
+		}
+		if (!rmdir($this->getPath())) {
+			throw new BSFileException('%sを削除できませんでした。', $this);
+		}
+	}
+
+	/**
 	 * 新規ディレクトリを作り、返す
 	 *
 	 * @access public
@@ -151,7 +165,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function createDirectory ($name) {
 		$path = $this->getPath() . '/' . $name;
-		if (file_exist($path)) {
+		if (file_exists($path)) {
 			if (!is_dir($path)) {
 				throw new BSFileException('"%s"と同名のファイルが存在します。', $path);
 			}
