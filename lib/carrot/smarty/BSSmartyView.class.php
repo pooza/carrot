@@ -50,6 +50,7 @@ abstract class BSSmartyView extends BSView {
 		$this->setAttribute('action', $this->context->getActionName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
+		$this->setAttribute('credentials', $this->user->getCredentials());
 		$this->setAttribute('useragent', $this->useragent->getAttributes());
 		$this->setAttribute('menu', $this->request->getAttribute('menu'));
 		$this->setAttribute('title', $this->request->getAttribute('title'));

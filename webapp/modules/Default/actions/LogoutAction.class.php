@@ -11,7 +11,6 @@ class LogoutAction extends BSAction {
 	public function execute () {
 		$this->request->clearAttributes();
 		$this->user->clearAttributes();
-		$this->user->setAuthenticated(false);
 		$this->user->clearCredentials();
 		return $this->controller->redirect('/Login');
 	}

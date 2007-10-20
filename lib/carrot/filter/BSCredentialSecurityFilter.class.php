@@ -40,9 +40,7 @@ class BSCredentialSecurityFilter extends SecurityFilter {
 			$credential = $this->getParameter('credential');
 		}
 
-		if (!$this->user->isAuthenticated()) {
-			return $this->controller->forward(MO_LOGIN_MODULE, MO_LOGIN_ACTION);
-		} else if ($credential && !$this->user->hasCredential($credential)) {
+		if ($credential && !$this->user->hasCredential($credential)) {
 			$e = new BSException('クレデンシャル"%s"がありません。', $credential);
 			$e->sendAlert();
 			return $this->controller->forward(MO_SECURE_MODULE, MO_SECURE_ACTION);

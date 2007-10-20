@@ -13,7 +13,6 @@ class LoginAction extends BSAction {
 
 	public function execute () {
 		$this->controller->removeCookie(self::TEST_COOKIE_NAME);
-		$this->user->setAuthenticated(true);
 		$this->user->addCredential('Admin');
 		if ($this->controller->isDebugMode()) {
 			$this->user->addCredential('Develop');
@@ -26,7 +25,6 @@ class LoginAction extends BSAction {
 	public function getDefaultView () {
 		$this->request->clearAttributes();
 		$this->user->clearAttributes();
-		$this->user->setAuthenticated(false);
 		$this->user->clearCredentials();
 		$this->controller->setCookie(self::TEST_COOKIE_NAME, true);
 		return View::INPUT;
