@@ -296,8 +296,25 @@ class BSDate {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		$date = new BSDate($this->format('Y') . '0201');
-		return ($date->getLastDateOfMonth()->getAttribute('day') == 29);
+		return ($this->format('L') == 1);
+	}
+
+	/**
+	 * 休日か？
+	 *
+	 * @access public
+	 * @return boolean 日曜日か祭日ならTrue
+	 */
+	public function isHoliday () {
+		if (!$this->validate()) {
+			throw new BSDateException('日付が初期化されていません。');
+		}
+		if ($this->getWeekday() == self::SUN) {
+			return true;
+		}
+
+		$holidays = BSHolidayList::getInstance()->getAttributes();
+		return isset($holidays[$this->format('Ymd')]);
 	}
 
 	/**

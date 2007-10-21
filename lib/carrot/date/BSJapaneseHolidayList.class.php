@@ -12,30 +12,6 @@
  * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
-	private static $instance;
-
-	/**
-	 * コンストラクタ
-	 *
-	 * @access private
-	 */
-	private function __construct () {
-		// インスタンス化禁止
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSJapaneseHolidayList インスタンス
-	 * @static
-	 */
-	public static function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new BSJapaneseHolidayList();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * ICSカレンダーをパースしてルール配列に格納

@@ -15,6 +15,26 @@
 abstract class BSHolidayList extends BSList {
 	protected $url;
 	protected $rules = array();
+	private static $instance;
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSJapaneseHolidayList インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			if (defined('APP_HOLIDAYS_CLASS')) {
+				$class = APP_HOLIDAYS_CLASS;
+			} else {
+				$class = 'BSJapaneseHolidayList';
+			}
+			self::$instance = new $class();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * 全ての属性を返す
@@ -26,7 +46,7 @@ abstract class BSHolidayList extends BSList {
 		if (!$this->attributes) {
 			$this->attributes = BSController::getInstance()->getAttribute(
 				$this->getName(),
-				BSDate::getNow()->setAttribute('month', '-1')
+				BSDate::getNow()->setAttribute('day', '-7')
 			);
 			if (!$this->attributes) {
 				$this->setRules();
