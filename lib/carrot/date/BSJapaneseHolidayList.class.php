@@ -12,6 +12,7 @@
  * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
+	const URL = 'http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics';
 
 	/**
 	 * ICSカレンダーをパースしてルール配列に格納
@@ -78,9 +79,9 @@ class BSJapaneseHolidayList extends BSHolidayList {
 			switch ($rule['rule']) {
 				case 1: //毎年日付が変わらない祝日
 					$date = clone $this->getStartDate();
-					while ($date->format('Ymd') <= $this->getFinishDate()->format('Ymd')) {
+					while ($date->format('Ymd') <= $this->getEndDate()->format('Ymd')) {
 						if ($date->format('md') == $rule['date']) {
-							$this->attributes[$date->format('Ymd')] = $rule['name'];
+							$this->attributes[$date->format('Y-m-d')] = $rule['name'];
 						}
 						$date->setAttribute('day', '+1');
 					}
@@ -88,7 +89,7 @@ class BSJapaneseHolidayList extends BSHolidayList {
 				case 2: //ハッピーマンデー
 					$date = clone $this->getStartDate();
 					$date->setAttribute('day', 1);
-					while ($date->format('Ymd') <= $this->getFinishDate()->format('Ymd')) {
+					while ($date->format('Ymd') <= $this->getEndDate()->format('Ymd')) {
 						if ($date->getAttribute('day') == 1) {
 							$week = 0;
 						}
@@ -98,7 +99,7 @@ class BSJapaneseHolidayList extends BSHolidayList {
 								&& ($date->getAttribute('month') == $rule['month'])
 								&& ($week == $rule['week'])) {
 
-								$this->attributes[$date->format('Ymd')] = $rule['name'];
+								$this->attributes[$date->format('Y-m-d')] = $rule['name'];
 							}
 						}
 						$date->setAttribute('day', '+1');
@@ -108,11 +109,11 @@ class BSJapaneseHolidayList extends BSHolidayList {
 					$date = new BSDate($rule['date']);
 					if ($date->format('Ymd') < $this->getStartDate()->format('Ymd')) {
 						continue;
-					} else if ($this->getFinishDate()->format('Ymd') < $date->format('Ymd')) {
+					} else if ($this->getEndDate()->format('Ymd') < $date->format('Ymd')) {
 						continue;
 					}
 
-					$this->attributes[$date->format('Ymd')] = $rule['name'];
+					$this->attributes[$date->format('Y-m-d')] = $rule['name'];
 					break;
 			}
 		}
@@ -127,9 +128,7 @@ class BSJapaneseHolidayList extends BSHolidayList {
 	 */
 	protected function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL(
-				'http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics'
-			);
+			$this->url = new BSURL(self::URL);
 		}
 		return $this->url;
 	}

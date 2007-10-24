@@ -78,7 +78,7 @@ abstract class BSHolidayList extends BSList {
 	 * @access public
 	 * @return BSDate 終了日付
 	 */
-	public function getFinishDate () {
+	public function getEndDate () {
 		$date = BSDate::getNow();
 		$date->setAttribute('year', '+1');
 		$date->setAttribute('hour', 0);
@@ -111,22 +111,22 @@ abstract class BSHolidayList extends BSList {
 	 *
 	 * @access protected
 	 * @param BSDate $start 開始日
-	 * @param BSDate $finish 終了日
+	 * @param BSDate $end 終了日
 	 * @return string[] 祝日の配列
 	 */
-	public function getHolidays (BSDate $start = null, BSDate $finish = null) {
+	public function getHolidays (BSDate $start = null, BSDate $end = null) {
 		if (!$start) {
 			$start = $this->getStartDate();
 		}
-		if (!$finish) {
-			$finish = $this->getFinishDate();
+		if (!$end) {
+			$end = $this->getEndDate();
 		}
 
 		$holidays = array();
 		foreach ($this as $name => $value) {
-			if ($finish->format('Ymd') < $name) {
+			if ($end->format('Y-m-d') < $name) {
 				break;
-			} else if ($start->format('Ymd') <= $name) {
+			} else if ($start->format('Y-m-d') <= $name) {
 				$holidays[$name] = $value;
 			}
 		}
