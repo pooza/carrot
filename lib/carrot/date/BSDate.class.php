@@ -314,7 +314,7 @@ class BSDate {
 		}
 
 		$holidays = BSHolidayList::getInstance()->getAttributes();
-		return isset($holidays[$this->format('Ymd')]);
+		return isset($holidays[$this->format('Y-m-d')]);
 	}
 
 	/**
