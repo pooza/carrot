@@ -110,14 +110,14 @@ class BSStoredSessionHandler extends BSTableHandler {
 		if ($record = $this->getRecord($name)) {
 			$values = array(
 				'data' => $value,
-				'time' => BSDate::getNow()->getTimeStamp(),
+				'update_date' => BSDate::getNow('Y-m-d H:i:s'),
 			);
 			$record->update($values);
 		} else {
 			$values = array(
 				'id' => $name,
 				'data' => $value,
-				'time' => BSDate::getNow()->getTimeStamp(),
+				'update_date' => BSDate::getNow('Y-m-d H:i:s'),
 			);
 			$this->createRecord($values);
 		}

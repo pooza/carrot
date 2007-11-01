@@ -51,8 +51,11 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function open () {
-		parent::open();
+		if (!BSSocket::isResolvable()) {
+			return;
+		}
 
+		parent::open();
 		$this->putLine('EHLO ' . BSController::getInstance()->getServerHost()->getName());
 		$code = $this->getResultCode();
 		if (!in_array($code, array(220, 250))) {
@@ -67,6 +70,10 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function close () {
+		if (!BSSocket::isResolvable()) {
+			return;
+		}
+
 		$this->putLine('QUIT');
 		$code = $this->getResultCode();
 		if ($code != 221) {
@@ -82,6 +89,10 @@ class BSSMTP extends BSSocket {
 	 * @param boolean $mode テストモード
 	 */
 	public function send ($mode = false) {
+		if (!BSSocket::isResolvable()) {
+			return;
+		}
+
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			try {
 				$this->clearMessageID();

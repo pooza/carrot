@@ -206,7 +206,9 @@ abstract class BSDatabase extends PDO {
 	 * @param string $query クエリーログ
 	 */
 	protected function putQueryLog ($query) {
-		BSLog::put($query, self::LOG_TYPE);
+		if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
+			BSLog::put($query, self::LOG_TYPE);
+		}
 	}
 
 	/**

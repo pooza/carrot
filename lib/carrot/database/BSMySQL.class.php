@@ -84,18 +84,6 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * クエリーログを書き込む
-	 *
-	 * @access protected
-	 * @param string $query クエリーログ
-	 */
-	protected function putQueryLog ($query) {
-		if (!preg_match('/^SET NAMES/i', $query)) {
-			BSLog::put($query, self::LOG_TYPE);
-		}
-	}
-
-	/**
 	 * ダンプファイルを生成する
 	 *
 	 * @access public

@@ -29,14 +29,16 @@ class BSSessionStorage extends SessionStorage {
 
 		switch ($this->getStorageType()) {
 			case 'database':
-				session_set_save_handler(
-					array($this->getTable(), 'open'),
-					array($this->getTable(), 'close'),
-					array($this->getTable(), 'getAttribute'),
-					array($this->getTable(), 'setAttribute'),
-					array($this->getTable(), 'removeAttribute'),
-					array($this->getTable(), 'clean')
-				);
+				if (!BSController::getInstance()->isCLI()) {
+					session_set_save_handler(
+						array($this->getTable(), 'open'),
+						array($this->getTable(), 'close'),
+						array($this->getTable(), 'getAttribute'),
+						array($this->getTable(), 'setAttribute'),
+						array($this->getTable(), 'removeAttribute'),
+						array($this->getTable(), 'clean')
+					);
+				}
 				break;
 		}
 
@@ -65,7 +67,6 @@ class BSSessionStorage extends SessionStorage {
 	 *
 	 * @access public
 	 * @return BSTableHandler ストレージテーブル
-	 * @todo テーブルの自動作成が、MySQLにしか対応指定ない。
 	 */
 	public function getTable () {
 		if (!$this->table) {
@@ -73,7 +74,7 @@ class BSSessionStorage extends SessionStorage {
 			if (!in_array(self::TABLE_NAME, $db->getTableNames())) {
 				$fields = array(
 					'id varchar(128) NOT NULL PRIMARY KEY',
-					'time BIGINT',
+					'update_date timestamp NOT NULL',
 					'data TEXT',
 				);
 				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);

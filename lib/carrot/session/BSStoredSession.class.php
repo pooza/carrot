@@ -42,8 +42,7 @@ class BSStoredSession extends BSRecord {
 	 */
 	function getUpdateDate () {
 		if (!$this->dateUpdate) {
-			$this->dataUpdate = new BSDate;
-			$this->dataUpdate->setTimeStamp($this->getAttribute('time'));
+			$this->dataUpdate = new BSDate($this->getAttribute('update_date'));
 		}
 		return $this->dataUpdate;
 	}
