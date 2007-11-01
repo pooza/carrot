@@ -8,7 +8,23 @@
  * @version $Id$
  */
 class StyleSheetAction extends BSAction {
+	private $styleset;
+
+	/**
+	 * スタイルセットを返す
+	 *
+	 * @access private
+	 * @return BSStyleSet スタイルセット
+	 */
+	private function getStyleSet () {
+		if (!$this->styleset) {
+			$this->styleset = new BSStyleSet($this->request->getParameter('styleset'));
+		}
+		return $this->styleset;
+	}
+
 	public function execute () {
+		$this->request->setAttribute('styleset', $this->getStyleSet());
 		return View::SUCCESS;
 	}
 
@@ -16,7 +32,7 @@ class StyleSheetAction extends BSAction {
 		if (!$this->request->hasParameter('styleset')) {
 			$this->request->setParameter('styleset', 'carrot');
 		}
-		return (BSCSS::getStyleSet($this->request->getParameter('styleset')) != null);
+		return ($this->getStyleSet() != null);
 	}
 
 	public function handleError () {

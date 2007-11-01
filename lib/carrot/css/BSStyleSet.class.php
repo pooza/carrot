@@ -13,7 +13,7 @@ BSController::includeLegacy('/pear/HTML/CSS.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCSS extends HTML_CSS implements BSViewEngine {
+class BSStyleSet extends HTML_CSS implements BSViewEngine {
 	private $files = array();
 	private $rules = array();
 	private static $stylesets = array();
@@ -22,11 +22,25 @@ class BSCSS extends HTML_CSS implements BSViewEngine {
 	 * コンストラクタ
 	 *
 	 * @access public
-	 * @param string $style スタイル名
+	 * @param string $styleset スタイルセット名
 	 */
-	public function __construct ($style = 'carrot') {
+	public function __construct ($styleset = 'carrot') {
 		$this->setCharset();
-		foreach (self::getStyleSet($style) as $file) {
+
+		$stylesets = self::getStyleSets();
+		$files = array();
+		$dir = BSController::getInstance()->getDirectory('css');
+		if (isset($stylesets[$styleset]['files'])) {
+			foreach ($stylesets[$styleset]['files'] as $file) {
+				if ($entry = $dir->getEntry($file)) {
+					$files[] = $entry;
+				}
+			}
+		} else if ($entry = $dir->getEntry($styleset)) {
+			$files[] = $entry;
+		}
+
+		foreach ($files as $file) {
 			$this->parseFile($file);
 		}
 	}
@@ -199,33 +213,34 @@ class BSCSS extends HTML_CSS implements BSViewEngine {
 	}
 
 	/**
-	 * スタイルセット情報を返す
+	 * 全てのスタイルセットを返す
 	 *
-	 * @access public
-	 * @param string $style スタイルセット名
-	 * @return BSFile[] 構成するCSSファイルの配列、スタイルセットが存在しない場合は空配列
+	 * @access private
+	 * @return string[][] スタイルセットを配列で返す
 	 * @static
 	 */
-	public static function getStyleSet ($style) {
+	private static function getStyleSets () {
 		if (!self::$stylesets) {
 			$stylesets = array();
 			require_once(ConfigCache::checkConfig('config/styleset/application.ini'));
 			require_once(ConfigCache::checkConfig('config/styleset/carrot.ini'));
 			self::$stylesets = $stylesets;
 		}
+		return self::$stylesets;
+	}
 
-		$files = array();
-		$dir = BSController::getInstance()->getDirectory('css');
-		if (isset(self::$stylesets[$style]['files'])) {
-			foreach (self::$stylesets[$style]['files'] as $file) {
-				if ($entry = $dir->getEntry($file)) {
-					$files[] = $entry;
-				}
-			}
-		} else if ($entry = $dir->getEntry($style)) {
-			$files[] = $entry;
-		}
-		return $files;
+	/**
+	 * 全てのスタイルセットの名前を返す
+	 *
+	 * @access public
+	 * @return string[] スタイルセットの名前を配列で返す
+	 * @static
+	 */
+	public static function getStyleSetNames () {
+		$names = array_keys(self::getStyleSets());
+		$names[] = 'carrot';
+		sort($names);
+		return $names;
 	}
 }
 

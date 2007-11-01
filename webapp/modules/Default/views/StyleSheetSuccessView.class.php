@@ -9,7 +9,7 @@
  */
 class StyleSheetSuccessView extends BSView {
 	public function execute () {
-		$this->setEngine(new BSCSS($this->request->getParameter('styleset')));
+		$this->setEngine($this->request->getAttribute('styleset'));
 	}
 }
 

@@ -65,7 +65,11 @@ class BSHost {
 	 */
 	public function getName () {
 		if (!$this->fqdn) {
-			$this->fqdn = gethostbyaddr($this->getAddress());
+			if (BSSocket::isResolvable()) {
+				$this->fqdn = gethostbyaddr($this->getAddress());
+			} else {
+				$this->fqdn = $this->getAddress();
+			}
 		}
 		return $this->fqdn;
 	}

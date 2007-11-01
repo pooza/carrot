@@ -214,6 +214,21 @@ class BSSocket {
 			$this->getPort()
 		);
 	}
+
+	/**
+	 * リゾルバは有効か？
+	 *
+	 * @access public
+	 * @return boolean デバッグモードならTrue
+	 * @static
+	 */
+	public static function isResolvable () {
+		if (defined('BS_RESOLVABLE') && !BS_RESOLVABLE) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
 
 /* vim:set tabstop=4 ai: */
