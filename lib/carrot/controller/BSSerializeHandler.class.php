@@ -119,6 +119,20 @@ class BSSerializeHandler extends BSList {
 		}
 		return $this->attributes;
 	}
+
+	/**
+	 * 属性の更新日を返す
+	 *
+	 * @access public
+	 * @param string $name 属性の名前
+	 * @return BSDate 更新日
+	 */
+	public function getUpdateDate ($name) {
+		if (!$file = $this->getDirectory()->getEntry($name)) {
+			return null;
+		}
+		return $file->getUpdateDate();
+	}
 }
 
 /* vim:set tabstop=4 ai: */

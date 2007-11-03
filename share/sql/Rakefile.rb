@@ -19,12 +19,13 @@ task :clean do
   sh 'rm *.sql'
 end
 
-desc 'schema.sql'
+desc '全てのSQLファイルを再度作成'
+task :refresh => [:clean, :all]
+
 file 'schema.sql' do
   sh ROOT_DIR + '/bin/carrotctl.php -a CreateDatabaseSchema'
 end
 
-desc 'init.sql'
 file 'init.sql' do
   sh ROOT_DIR + '/bin/carrotctl.php -a CreateDatabaseDump'
 end

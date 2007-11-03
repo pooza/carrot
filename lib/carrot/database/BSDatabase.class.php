@@ -260,6 +260,14 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * 最適化する
+	 *
+	 * @access public
+	 */
+	public function optimize () {
+	}
+
+	/**
 	 * DBMSを返す
 	 *
 	 * @access public

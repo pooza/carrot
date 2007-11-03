@@ -92,6 +92,16 @@ abstract class BSView extends View {
 		$contents = $this->getEngine()->getContents();
 		$this->setHeader('Content-Type', $this->getEngine()->getType());
 
+		// WinIEのバグ対応
+		if ($this->controller->isSSL()
+			&& ($this->useragent->getAttribute('Platform') == 'Win32')
+			&& ($this->useragent->getType() == 'MSIE')
+			&& ($this->useragent->getAttribute('MajorVer') < 7)) {
+
+			$this->setHeader('Cache-Control', null);
+			$this->setHeader('Pragma', null);
+		}
+
 		if ($this->controller->getRenderMode() == View::RENDER_CLIENT) {
 			$this->setHeader('Content-Length', strlen($contents));
 			foreach ($this->getHeaders() as $name => $value) {
@@ -200,17 +210,6 @@ abstract class BSView extends View {
 		$this->filename = $name;
 		$name = $this->useragent->getEncodedFileName($name);
 		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
-
-		// WinIEのバグ対応
-		if (($mode == self::ATTACHMENT)
-			&& $this->controller->isSSL()
-			&& ($this->useragent->getAttribute('Platform') == 'Win32')
-			&& ($this->useragent->getType() == 'MSIE')
-			&& ($this->useragent->getAttribute('MajorVer') < 7)
-		) {
-			$this->setHeader('Cache-Control', 'private');
-			$this->setHeader('Pragma', 'private');
-		}
 	}
 
 	public function setAttribute ($name, $value) {}

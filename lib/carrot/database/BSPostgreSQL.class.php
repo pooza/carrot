@@ -132,6 +132,31 @@ class BSPostgreSQL extends BSDatabase {
 	}
 
 	/**
+	 * 最適化する
+	 *
+	 * @access public
+	 */
+	public function optimize () {
+		$command = array();
+		$command[] = '/usr/bin/env vacuumdb';
+		$command[] = '--host=' . $this->getAttribute('host')->getName();
+		$command[] = '--user=' . $this->getAttribute('user');
+		$command[] = $this->getName();
+		shell_exec(implode(' ', $command));
+	}
+
+	/**
+	 * 最適化する
+	 *
+	 * optimizeのエイリアス
+	 *
+	 * @access public
+	 */
+	public function vacuum () {
+		return $this->optimize();
+	}
+
+	/**
 	 * 規定のポート番号を返す
 	 *
 	 * @access public

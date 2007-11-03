@@ -74,6 +74,7 @@ abstract class BSRecordAction extends BSAction {
 		// フリガナをカタカナに変換
 		foreach ($this->request->getParameters() as $key => $value) {
 			if (preg_match('/_read/', $key)) {
+				$value = str_replace(' ', '', $value);
 				$value = BSString::convertKana($value, 'KVC');
 				$this->request->setParameter($key, $value);
 			}

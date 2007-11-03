@@ -139,6 +139,18 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
+	 * 最適化する
+	 *
+	 * @access public
+	 */
+	public function optimize () {
+		foreach ($this->getTableNames() as $name) {
+			$query = sprintf('OPTIMIZE TABLE %s', $name);
+			$this->exec($query);
+		}
+	}
+
+	/**
 	 * キャラクターセットを返す
 	 *
 	 * @access public
