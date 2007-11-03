@@ -1,30 +1,39 @@
 /**
- * エレベータDiv JavaScript
+ * エレベータ処理
+ *
+ * example:
+ * var elevator = new Elevator('div_id', 200, 20, 10);
+ * setInterval('elevator.move()', 500);
  *
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
 
-setInterval('moveDiv()', 500);
-var div = document.getElementById(divID);
-div.style.position = 'absolute';
-moveDiv();
+function Elevator (id, x, yMin, yMargin) {
+  this.element = document.getElementById(id);
+  this.x = x;
+  this.yMin = yMin;
+  this.yMargin = yMargin;
 
-function moveDiv () {
-  div.style.left = x + 'px';
-  div.style.top = getDivY() + 'px';
-}
+  this.move = function () {
+    if (navigator.userAgent.match(/MSIE/)){
+      var y = (document.body.scrollTop || document.documentElement.scrollTop);
+    } else  {
+      var y = self.pageYOffset;
+    }
+    if (y < this.yMin) {
+      y = this.yMin;
+    } else {
+      y = y + this.yMargin;
+    }
 
-function getDivY () {
-  if (navigator.userAgent.match(/MSIE/)){
-    y = (document.body.scrollTop || document.documentElement.scrollTop);
-  } else  {
-    y = self.pageYOffset;
+    this.element.style.position = 'absolute';
+    this.element.style.left = x + 'px';
+    this.element.style.top = y + 'px';
   }
-  if (y < yMin) {
-    return yMin;
-  } else {
-    return y + yMargin;
+
+  this.getElement = function () {
+    return this.element;
   }
 }

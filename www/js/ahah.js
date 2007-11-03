@@ -6,17 +6,7 @@
  * @version $Id$
  */
 
-function ahah (divID, url) {
-  function setAHAHContents () {
-    if (req.readyState < 4) {
-      return;
-    } else if (req.status == 200) {
-      document.getElementById(divID).innerHTML = req.responseText;
-    } else {
-      document.getElementById(divID).innerHTML = 'AHAH Error: ' + req.statusText;
-    }
-  }
-
+function ahah (id, href) {
   if (window.XMLHttpRequest) {
     var req = new XMLHttpRequest();
   } else if (window.ActiveXObject) {
@@ -25,9 +15,16 @@ function ahah (divID, url) {
     return false;
   }
 
+  var element = document.getElementById(id);
   req.onreadystatechange = function() {
-    setAHAHContents();
-  };
-  req.open('GET', url, true);
+    if (req.readyState < 4) {
+      return;
+    } else if (req.status == 200) {
+      element.innerHTML = req.responseText;
+    } else {
+      element.innerHTML = 'AHAH Error: ' + req.statusText;
+    }
+  }
+  req.open('GET', href, true);
   req.send('');
 }
