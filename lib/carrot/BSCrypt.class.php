@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSCrypt {
+
 	/**
 	 * コンストラクタ
 	 *
@@ -63,7 +64,7 @@ class BSCrypt {
 	public static function getRC4 ($str) {
 		BSController::includeLegacy('/pear/Crypt/Rc4.php');
 		$engine = new Crypt_RC4;
-		$key = BS_RC4_KEY;
+		$key = BS_CRYPT_SALT;
 		@$engine->key($key);
 		@$engine->crypt($str);
 		return $str;

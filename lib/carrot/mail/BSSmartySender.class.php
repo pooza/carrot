@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSSmartySender extends BSSMTP {
-	private $engine;
+	private $renderer;
 
 	/**
 	 * 未定義メソッドの呼び出し
@@ -22,29 +22,42 @@ class BSSmartySender extends BSSMTP {
 	 * @param mixed[] $values 引数
 	 */
 	public function __call ($method, $values) {
-		if (!method_exists($this->getEngine(), $method)) {
+		if (!method_exists($this->getRenderer(), $method)) {
 			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
 		}
 
-		// 処理をエンジンに委譲
+		// 処理をレンダラーに委譲
 		$args = array();
 		for ($i = 0 ; $i < count($values) ; $i ++) {
 			$args[] = '$values[' . $i . ']';
 		}
-		eval(sprintf('return $this->getEngine()->%s(%s);', $method, implode(', ', $args)));
+		eval(sprintf('return $this->getRenderer()->%s(%s);', $method, implode(', ', $args)));
 	}
 
 	/**
-	 * エンジンを返す
+	 * レンダラーを返す
 	 *
 	 * @access public
-	 * @return BSCSVData エンジン
+	 * @return BSSmarty レンダラー
 	 */
-	public function getEngine () {
-		if (!$this->engine) {
-			$this->engine = new BSSmarty();
+	public function getRenderer () {
+		if (!$this->renderer) {
+			$this->renderer = new BSSmarty();
 		}
-		return $this->engine;
+		return $this->renderer;
+	}
+
+	/**
+	 * レンダラーを返す
+	 *
+	 * getRendererのエイリアス
+	 *
+	 * @access public
+	 * @return BSSmarty レンダラー
+	 * @final
+	 */
+	final public function getEngine () {
+		return $this->getRenderer();
 	}
 
 	/**
@@ -53,11 +66,11 @@ class BSSmartySender extends BSSMTP {
 	 * @access public
 	 */
 	public function render () {
-		if (!$this->getEngine()->getTemplate()) {
+		if (!$this->getRenderer()->getTemplate()) {
 			throw new BSSmartyException('テンプレートが指定されていません。');
 		}
 		$contents = BSString::convertEncoding(
-			$this->getEngine()->getContents(),
+			$this->getRenderer()->getContents(),
 			BSString::SCRIPT_ENCODING,
 			BSString::TEMPLATE_ENCODING
 		);

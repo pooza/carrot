@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSImageFile extends BSFile {
-	private $engine;
+	private $renderer;
 	const LINE_SEPARATOR = null;
 	const DEFAULT_ENGINE_CLASS = 'BSImage';
 
@@ -40,9 +40,9 @@ class BSImageFile extends BSFile {
 				default:
 					throw new BSImageException('%sの形式が不明です。', $this);
 			}
-			$this->setEngine(new $class($info[0], $info[1]));
-			$this->getEngine()->setType($type);
-			$this->getEngine()->setImage($image);
+			$this->setRenderer(new $class($info[0], $info[1]));
+			$this->getRenderer()->setType($type);
+			$this->getRenderer()->setImage($image);
 		}
 	}
 
@@ -54,7 +54,7 @@ class BSImageFile extends BSFile {
 	 * @param mixed[] $values 引数
 	 */
 	public function __call ($method, $values) {
-		if (!method_exists($this->getEngine(), $method)) {
+		if (!method_exists($this->getRenderer(), $method)) {
 			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
 		}
 
@@ -63,7 +63,7 @@ class BSImageFile extends BSFile {
 		for ($i = 0 ; $i < count($values) ; $i ++) {
 			$args[] = '$values[' . $i . ']';
 		}
-		eval(sprintf('return $this->getEngine()->%s(%s);', $method, implode(', ', $args)));
+		eval(sprintf('return $this->getRenderer()->%s(%s);', $method, implode(', ', $args)));
 	}
 
 	/**
@@ -72,21 +72,47 @@ class BSImageFile extends BSFile {
 	 * @access public
 	 * @return BSImageRenderer レンダラー
 	 */
-	public function & getEngine () {
-		if (!$this->engine) {
+	public function & getRenderer () {
+		if (!$this->renderer) {
 			throw new BSFileException('レンダラーが未設定です。');
 		}
-		return $this->engine;
+		return $this->renderer;
+	}
+
+	/**
+	 * レンダラーを返す
+	 *
+	 * getRendererのエイリアス
+	 *
+	 * @access public
+	 * @return BSImageRenderer レンダラー
+	 * @final
+	 */
+	final public function & getEngine () {
+		return $this->getRenderer();
 	}
 
 	/**
 	 * レンダラーを設定
 	 *
 	 * @access public
-	 * @param BSImageRenderer $engine レンダラー
+	 * @param BSImageRenderer $renderer レンダラー
 	 */
-	public function setEngine (BSImageRenderer $engine) {
-		$this->engine = $engine;
+	public function setRenderer (BSImageRenderer $renderer) {
+		$this->renderer = $renderer;
+	}
+
+	/**
+	 * レンダラーを設定
+	 *
+	 * setRendererのエイリアス
+	 *
+	 * @access public
+	 * @param BSImageRenderer $renderer レンダラー
+	 * @final
+	 */
+	final public function setEngine (BSImageRenderer $renderer) {
+		$this->setRenderer($renderer);
 	}
 
 	/**
@@ -97,10 +123,10 @@ class BSImageFile extends BSFile {
 	 */
 	public function getInfo () {
 		return array(
-			'width' => $this->getEngine()->getWidth(),
-			'height' => $this->getEngine()->getHeight(),
+			'width' => $this->getRenderer()->getWidth(),
+			'height' => $this->getRenderer()->getHeight(),
 			'alt' => $this->getName(),
-			'type' => $this->getEngine()->getType(),
+			'type' => $this->getRenderer()->getType(),
 		);
 	}
 
@@ -114,20 +140,20 @@ class BSImageFile extends BSFile {
 			throw new BSFileException('%sに書き込むことが出来ません。', $this);
 		}
 
-		$types = array('application/octet-stream', $this->getEngine()->getType());
+		$types = array('application/octet-stream', $this->getRenderer()->getType());
 		if (!in_array($this->getType(), $types)) {
 			throw new BSImageException('%sのメディアタイプがレンダラーと一致しません。', $this);
 		}
 
-		switch ($this->getEngine()->getType()) {
+		switch ($this->getRenderer()->getType()) {
 			case 'image/jpeg':
-				imagejpeg($this->getEngine()->getImage(), $this->getPath());
+				imagejpeg($this->getRenderer()->getImage(), $this->getPath());
 				break;
 			case 'image/gif':
-				imagegif($this->getEngine()->getImage(), $this->getPath());
+				imagegif($this->getRenderer()->getImage(), $this->getPath());
 				break;
 			case 'image/png':
-				imagepng($this->getEngine()->getImage(), $this->getPath());
+				imagepng($this->getRenderer()->getImage(), $this->getPath());
 				break;
 			default:
 				throw new BSImageException('%sのメディアタイプが正しくありません。', $this);
