@@ -40,7 +40,6 @@ abstract class BSView extends View {
 			case 'renderer':
 				return $this->getRenderer();
 		}
-		}
 	}
 
 	/**
