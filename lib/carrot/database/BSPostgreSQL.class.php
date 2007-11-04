@@ -42,24 +42,20 @@ class BSPostgreSQL extends BSDatabase {
 	protected function parseDSN () {
 		parent::parseDSN();
 		preg_match('/^pgsql:(.+)$/', $this->getDSN(), $matches);
-	
-		$values = array(
-			'host' => null,
-			'dbname' => null,
-			'user' => null,
-			'password' => null,
-			'port' => self::getDefaultPort(),
-		);
+		$this->attributes['port'] = self::getDefaultPort();
+
 		foreach (preg_split('/ +/', $matches[1]) as $config) {
 			$config = explode('=', $config);
-			$values[$config[0]] = $config[1];
+			$value = $config[1];
+			switch ($name = $config[0]) {
+				case 'host':
+					$this->attributes[$name] = new BSHost($value);
+					break;
+				default:
+					$this->attributes[$name] = $value;
+					break;
+			}
 		}
-	
-		$this->attributes['host'] = new BSHost($values['host']);
-		$this->attributes['port'] = $values['port'];
-		$this->attributes['name'] = $values['dbname'];
-		$this->attributes['user'] = $values['user'];
-		$this->attributes['password'] = $values['password'];
 	}
 
 	/**
@@ -137,23 +133,7 @@ class BSPostgreSQL extends BSDatabase {
 	 * @access public
 	 */
 	public function optimize () {
-		$command = array();
-		$command[] = '/usr/bin/env vacuumdb';
-		$command[] = '--host=' . $this->getAttribute('host')->getName();
-		$command[] = '--user=' . $this->getAttribute('user');
-		$command[] = $this->getName();
-		shell_exec(implode(' ', $command));
-	}
-
-	/**
-	 * 最適化する
-	 *
-	 * optimizeのエイリアス
-	 *
-	 * @access public
-	 */
-	public function vacuum () {
-		return $this->optimize();
+		$this->exec('VACUUM');
 	}
 
 	/**

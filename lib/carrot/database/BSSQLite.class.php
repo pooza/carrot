@@ -53,6 +53,15 @@ class BSSQLite extends BSDatabase {
 		}
 		return $this->tables;
 	}
+
+	/**
+	 * 最適化する
+	 *
+	 * @access public
+	 */
+	public function optimize () {
+		$this->exec('VACUUM');
+	}
 }
 
 /* vim:set tabstop=4 ai: */

@@ -268,6 +268,17 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * 最適化する
+	 *
+	 * optimizeのエイリアス
+	 *
+	 * @access public
+	 */
+	public function vacuum () {
+		return $this->optimize();
+	}
+
+	/**
 	 * DBMSを返す
 	 *
 	 * @access public

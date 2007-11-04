@@ -145,8 +145,7 @@ class BSMySQL extends BSDatabase {
 	 */
 	public function optimize () {
 		foreach ($this->getTableNames() as $name) {
-			$query = sprintf('OPTIMIZE TABLE %s', $name);
-			$this->exec($query);
+			$this->exec('OPTIMIZE TABLE ' . $name);
 		}
 	}
 
