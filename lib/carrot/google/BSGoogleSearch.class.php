@@ -53,14 +53,17 @@ class BSGoogleSearch {
 	}
 
 	/**
-	 * 実行 - queryのエイリアス
+	 * 実行
+	 *
+	 * queryのエイリアス
 	 *
 	 * @access public
 	 * @param string $query 検索文字列
 	 * @param integer $limit 件数の上限
 	 * @return mixed[][] 検索結果
+	 * @final
 	 */
-	public function execute ($query, $limit = 5) {
+	final public function execute ($query, $limit = 5) {
 		return $this->query($query, $limit);
 	}
 
@@ -118,12 +121,15 @@ class BSGoogleSearch {
 	}
 
 	/**
-	 * 直近の検索結果を返す - getContentsのエイリアス
+	 * 直近の検索結果を返す
+	 *
+	 * getContentsのエイリアス
 	 *
 	 * @access public
 	 * @return mixed[][] 直近の検索結果
+	 * @final
 	 */
-	public function getResult () {
+	final public function getResult () {
 		return $this->getContents();
 	}
 

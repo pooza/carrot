@@ -13,7 +13,7 @@ BSController::includeLegacy('/Smarty/Smarty.class.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSmarty extends Smarty implements BSViewEngine {
+class BSSmarty extends Smarty implements BSRenderer {
 	private $encoding;
 	private $template;
 	private $templatesDirectory;

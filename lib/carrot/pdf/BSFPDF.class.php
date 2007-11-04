@@ -15,7 +15,7 @@ BSController::includeLegacy('/fpdf/mbfpdf.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSFPDF extends MBFPDF implements BSViewEngine {
+class BSFPDF extends MBFPDF implements BSRenderer {
 	private $error;
 	const MINCHO_FONT = 'MSPMincho';
 	const GOTHIC_FONT = 'MSPGothic';

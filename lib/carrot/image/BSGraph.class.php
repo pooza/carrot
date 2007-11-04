@@ -13,7 +13,7 @@ BSController::includeLegacy('/phplot/phplot.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSGraph extends PHPlot implements BSImageViewEngine {
+class BSGraph extends PHPlot implements BSImageRenderer {
 	private $width;
 	private $height;
 	private $type;

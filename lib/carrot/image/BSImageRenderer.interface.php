@@ -5,13 +5,13 @@
  */
 
 /**
- * 画像を扱うビューエンジン
+ * 画像を扱うレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSImageViewEngine extends BSViewEngine {
+interface BSImageRenderer extends BSRenderer {
 
 	/**
 	 * GDイメージリソースを返す

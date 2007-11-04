@@ -273,8 +273,9 @@ abstract class BSDatabase extends PDO {
 	 * optimizeのエイリアス
 	 *
 	 * @access public
+	 * @final
 	 */
-	public function vacuum () {
+	final public function vacuum () {
 		return $this->optimize();
 	}
 

@@ -27,23 +27,29 @@ abstract class BSFileDownloadView extends BSView {
 	}
 
 	/**
-	 * ファイルを設定 - setEngineのエイリアス
+	 * ファイルを設定
+	 *
+	 * setRendererのエイリアス
 	 *
 	 * @access public
 	 * @param BSFile $file ファイル
+	 * @final
 	 */
-	public function setFile (BSFile $file) {
-		$this->setEngine($file);
+	final public function setFile (BSFile $file) {
+		$this->setRenderer($file);
 	}
 
 	/**
-	 * ファイルを返す - getEngineのエイリアス
+	 * ファイルを返す
+	 *
+	 * getRendererのエイリアス
 	 *
 	 * @access public
 	 * @return BSFile ファイル
+	 * @final
 	 */
-	public function getFile () {
-		return $this->getEngine();
+	final public function getFile () {
+		return $this->getRenderer();
 	}
 
 	/**

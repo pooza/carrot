@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCSVData implements BSViewEngine {
+class BSCSVData implements BSRenderer {
 	protected $contents;
 	protected $records = array();
 	protected $error;

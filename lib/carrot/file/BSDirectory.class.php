@@ -98,12 +98,15 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * 内容を返す - getEntryNamesのエイリアス
+	 * 内容を返す
+	 *
+	 * getEntryNamesのエイリアス
 	 *
 	 * @access public
 	 * @return string[] 全エントリー
+	 * @final
 	 */
-	public function getContents () {
+	final public function getContents () {
 		return $this->getEntryNames();
 	}
 

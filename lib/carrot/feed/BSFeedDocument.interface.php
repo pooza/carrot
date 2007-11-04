@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSFeedDocument extends BSViewEngine {
+interface BSFeedDocument extends BSRenderer {
 
 	/**
 	 * タイトルを設定する

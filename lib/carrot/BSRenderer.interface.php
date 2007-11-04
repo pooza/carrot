@@ -4,13 +4,13 @@
  */
 
 /**
- * ビューエンジン - BSView::setEngineの為のインターフェース
+ * レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSViewEngine {
+interface BSRenderer {
 
 	/**
 	 * 出力内容を返す

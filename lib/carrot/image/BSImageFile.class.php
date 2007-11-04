@@ -21,7 +21,7 @@ class BSImageFile extends BSFile {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @param string $class 画像エンジンのクラス名
+	 * @param string $class レンダラーのクラス名
 	 */
 	public function __construct ($path, $class = self::DEFAULT_ENGINE_CLASS) {
 		parent::__construct($path);
@@ -67,25 +67,25 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
-	 * 画像エンジンを返す
+	 * レンダラーを返す
 	 *
 	 * @access public
-	 * @return BSImageViewEngine 画像エンジン
+	 * @return BSImageRenderer レンダラー
 	 */
 	public function & getEngine () {
 		if (!$this->engine) {
-			throw new BSFileException('画像エンジンが未設定です。');
+			throw new BSFileException('レンダラーが未設定です。');
 		}
 		return $this->engine;
 	}
 
 	/**
-	 * 画像エンジンを設定
+	 * レンダラーを設定
 	 *
 	 * @access public
-	 * @param BSImageViewEngine $engine 画像エンジン
+	 * @param BSImageRenderer $engine レンダラー
 	 */
-	public function setEngine (BSImageViewEngine $engine) {
+	public function setEngine (BSImageRenderer $engine) {
 		$this->engine = $engine;
 	}
 
@@ -116,7 +116,7 @@ class BSImageFile extends BSFile {
 
 		$types = array('application/octet-stream', $this->getEngine()->getType());
 		if (!in_array($this->getType(), $types)) {
-			throw new BSImageException('%sのメディアタイプが画像エンジンと一致しません。', $this);
+			throw new BSImageException('%sのメディアタイプがレンダラーと一致しません。', $this);
 		}
 
 		switch ($this->getEngine()->getType()) {

@@ -78,8 +78,9 @@ abstract class BSRecord {
 	 *
 	 * @access public
 	 * @return string[] 全属性値
+	 * @final
 	 */
-	public function getContents () {
+	final public function getContents () {
 		return $this->getAttributes();
 	}
 
@@ -231,8 +232,9 @@ abstract class BSRecord {
 	 * @access public
 	 * @param string $language 言語
 	 * @return string ラベル
+	 * @final
 	 */
-	public function getName ($language = 'ja') {
+	final public function getName ($language = 'ja') {
 		return $this->getLabel($language);
 	}
 

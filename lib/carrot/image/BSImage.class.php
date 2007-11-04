@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSImage implements BSImageViewEngine {
+class BSImage implements BSImageRenderer {
 	private $colors = array();
 	private $type;
 	private $image;
@@ -63,7 +63,7 @@ class BSImage implements BSImageViewEngine {
 	public function setImage ($image) {
 		if (is_resource($image)) {
 			$this->image = $image;
-		} else if ($image instanceof BSImageViewEngine) {
+		} else if ($image instanceof BSImageRenderer) {
 			$this->image = $image->getImage();
 		} else if ($image instanceof BSImageFile) {
 			$this->image = $image->getEngine()->getImage();

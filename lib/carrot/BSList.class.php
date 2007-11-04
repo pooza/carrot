@@ -38,12 +38,15 @@ abstract class BSList implements IteratorAggregate {
 	abstract public function getAttributes ();
 
 	/**
-	 * 内容を返す - getAttributesへのエイリアス
+	 * 内容を返す
+	 *
+	 * getAttributesへのエイリアス
 	 *
 	 * @access public
 	 * @return mixed[] 全ての属性
+	 * @final
 	 */
-	public function getContents () {
+	final public function getContents () {
 		return $this->getAttributes();
 	}
 

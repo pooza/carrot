@@ -14,7 +14,7 @@ BSController::includeLegacy('/qrcode/qrcode_img.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSQRCode extends QRCode_image implements BSImageViewEngine {
+class BSQRCode extends QRCode_image implements BSImageRenderer {
 	private $type;
 	private $image;
 	private $data;

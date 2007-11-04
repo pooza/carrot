@@ -12,7 +12,7 @@
  * @abstract
  */
 abstract class BSView extends View {
-	private $engine;
+	private $renderer;
 	private $headers = array();
 	private $filename;
 	const ATTACHMENT = 'attachment';
@@ -37,6 +37,9 @@ abstract class BSView extends View {
 				return $this->getContext();
 			case 'useragent':
 				return $this->getContext()->getController()->getUserAgent();
+			case 'renderer':
+				return $this->getRenderer();
+		}
 		}
 	}
 
@@ -48,7 +51,7 @@ abstract class BSView extends View {
 	 * @param mixed[] $values 引数
 	 */
 	public function __call ($method, $values) {
-		if (!method_exists($this->getEngine(), $method)) {
+		if (!method_exists($this->renderer, $method)) {
 			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
 		}
 
@@ -57,7 +60,7 @@ abstract class BSView extends View {
 		for ($i = 0 ; $i < count($values) ; $i ++) {
 			$args[] = '$values[' . $i . ']';
 		}
-		eval(sprintf('return $this->getEngine()->%s(%s);', $method, implode(', ', $args)));
+		eval(sprintf('return $this->renderer->%s(%s);', $method, implode(', ', $args)));
 	}
 
 	/**
@@ -66,17 +69,17 @@ abstract class BSView extends View {
 	 * @access protected
 	 */
 	protected function preRenderCheck () {
-		if (!$this->getEngine()) {
-			throw new BSException('ビューエンジンが指定されていません。');
-		} else if (!$this->getEngine()->validate()) {
-			if (!$message = $this->getEngine()->getError()) {
-				$message = 'ビューエンジンに登録された情報が正しくありません。';
+		if (!$this->renderer) {
+			throw new BSException('レンダラーが指定されていません。');
+		} else if (!$this->renderer->validate()) {
+			if (!$message = $this->renderer->getError()) {
+				$message = 'レンダラーに登録された情報が正しくありません。';
 			}
 			throw new BSException($message);
 		}
 
 		$types = BSTypeList::getInstance();
-		preg_match('/^([a-z0-9]+\/[^;]+).*$/i', $this->getEngine()->getType(), $matches);
+		preg_match('/^([a-z0-9]+\/[^;]+).*$/i', $this->renderer->getType(), $matches);
 		if (!$matches || !in_array($matches[1], $types->getAttributes())) {
 			throw new BSException('メディアタイプ"%s"は正しくありません。', $matches[1]);
 		}
@@ -89,8 +92,8 @@ abstract class BSView extends View {
 	 */
 	public function & render () {
 		$this->preRenderCheck();
-		$contents = $this->getEngine()->getContents();
-		$this->setHeader('Content-Type', $this->getEngine()->getType());
+		$contents = $this->renderer->getContents();
+		$this->setHeader('Content-Type', $this->renderer->getType());
 
 		// WinIEのバグ対応
 		if ($this->controller->isSSL()
@@ -131,8 +134,8 @@ abstract class BSView extends View {
 	 * @return mixed 属性
 	 */
 	public function & getAttribute ($name) {
-		if (isset($this->getEngine()->$name)) {
-			return $this->getEngine()->$name;
+		if (isset($this->renderer->$name)) {
+			return $this->renderer->$name;
 		}
 	}
 
@@ -143,30 +146,56 @@ abstract class BSView extends View {
 	 * @return mixed[] 全ての属性
 	 */
 	public function getAttributes () {
-		return get_object_vars($this->getEngine());
+		return get_object_vars($this->renderer);
 	}
 
 	/**
-	 * ビューエンジンを返す
+	 * レンダラーを返す
 	 *
 	 * @access public
-	 * @return BSViewEngine ビューエンジン
+	 * @return BSRenderer レンダラー
 	 */
-	public function & getEngine () {
-		if (!$this->engine) {
-			throw new BSException('ビューエンジンが未設定です。');
+	public function & getRenderer () {
+		if (!$this->renderer) {
+			throw new BSException('レンダラーが未設定です。');
 		}
-		return $this->engine;
+		return $this->renderer;
 	}
 
 	/**
-	 * ビューエンジンを設定
+	 * レンダラーを返す
+	 *
+	 * getRendererのエイリアス
 	 *
 	 * @access public
-	 * @param BSViewEngine $engine ビューエンジン
+	 * @return BSRenderer レンダラー
+	 * @final
 	 */
-	public function setEngine (BSViewEngine $engine) {
-		$this->engine = $engine;
+	final public function & getEngine () {
+		return $this->getRenderer();
+	}
+
+	/**
+	 * レンダラーを設定
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 */
+	public function setRenderer (BSRenderer $renderer) {
+		$this->renderer = $renderer;
+	}
+
+	/**
+	 * レンダラーを設定
+	 *
+	 * setRendererのエイリアス
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @final
+	 */
+	final public function setEngine (BSRenderer $renderer) {
+		$this->setRenderer($renderer);
 	}
 
 	/**

@@ -99,12 +99,15 @@ class BSURL {
 	}
 
 	/**
-	 * URLを設定する - setContentsのエイリアス
+	 * URLを設定する
+	 *
+	 * setContentsのエイリアス
 	 *
 	 * @access public
 	 * @param string $url URL
+	 * @final
 	 */
-	public function setURL ($url) {
+	final public function setURL ($url) {
 		$this->setContents($url);
 	}
 

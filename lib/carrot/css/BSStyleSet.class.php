@@ -13,7 +13,7 @@ BSController::includeLegacy('/pear/HTML/CSS.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSStyleSet extends HTML_CSS implements BSViewEngine {
+class BSStyleSet extends HTML_CSS implements BSRenderer {
 	private $files = array();
 	private $rules = array();
 	private static $stylesets = array();

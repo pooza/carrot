@@ -257,13 +257,16 @@ abstract class BSController extends Controller {
 	}
 
 	/**
-	 * アプリケーション名を返す - getApplicationNameのエイリアス
+	 * アプリケーション名を返す
+	 *
+	 * getApplicationNameのエイリアス
 	 *
 	 * @access public
 	 * @param string $lang 言語
 	 * @return string アプリケーション名
+	 * @final
 	 */
-	public static function getName ($lang = 'ja') {
+	final public static function getName ($lang = 'ja') {
 		return self::getApplicationName($lang);
 	}
 
@@ -284,14 +287,17 @@ abstract class BSController extends Controller {
 	}
 
 	/**
-	 * バージョン番号込みのアプリケーション名を返す - getFullApplicationNameのエイリアス
+	 * バージョン番号込みのアプリケーション名を返す
+	 *
+	 * getFullApplicationNameのエイリアス
 	 *
 	 * @access public
 	 * @param string $lang 言語
 	 * @return string アプリケーション名
 	 * @static
+	 * @final
 	 */
-	public static function getFullName ($lang = 'ja') {
+	final public static function getFullName ($lang = 'ja') {
 		return self::getFullApplicationName($lang);
 	}
 

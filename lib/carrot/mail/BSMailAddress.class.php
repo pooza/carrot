@@ -41,12 +41,15 @@ class BSMailAddress {
 	}
 
 	/**
-	 * 内容を返す - getAddressのエイリアス
+	 * 内容を返す
+	 *
+	 * getAddressのエイリアス
 	 *
 	 * @access public
 	 * @return string メールアドレス
+	 * @final
 	 */
-	public function getContents () {
+	final public function getContents () {
 		return $this->getAddress();
 	}
 

@@ -14,7 +14,7 @@ ini_set('auto_detect_line_endings', true);
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSFile extends BSDirectoryEntry implements BSViewEngine {
+class BSFile extends BSDirectoryEntry implements BSRenderer {
 	private $basename;
 	private $suffix;
 	private $mode;

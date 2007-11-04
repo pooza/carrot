@@ -326,8 +326,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @return string[] 結果の配列
+	 * @final
 	 */
-	public function getContents () {
+	final public function getContents () {
 		return $this->getResult();
 	}
 

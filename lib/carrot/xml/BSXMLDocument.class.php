@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSXMLDocument extends BSXMLElement implements BSViewEngine {
+class BSXMLDocument extends BSXMLElement implements BSRenderer {
 	private $error;
 
 	/**

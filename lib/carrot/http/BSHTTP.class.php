@@ -87,13 +87,16 @@ class BSHTTP extends BSSocket {
 	}
 
 	/**
-	 * 内容を返す - sendGetRequestへのエイリアス
+	 * 内容を返す
+	 *
+	 * sendGetRequestへのエイリアス
 	 *
 	 * @access public
 	 * @param string $path ファイルのパス
 	 * @return string 読み込んだ内容
+	 * @final
 	 */
-	public function getContents ($path = '/') {
+	final public function getContents ($path = '/') {
 		return $this->sendGetRequest($path);
 	}
 
