@@ -116,6 +116,7 @@ input.english,textarea.english {
 	color: gray;
 	border-bottom: solid 2px gray;
 	margin-bottom: 12px
+	clear: both;
 }
 
 #Footer {
@@ -126,4 +127,5 @@ input.english,textarea.english {
 	line-height: 12px;
 	border-top: solid 2px gray;
 	margin-top: 12px;
+	clear: both;
 }
