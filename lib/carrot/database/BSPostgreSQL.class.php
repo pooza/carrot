@@ -51,6 +51,9 @@ class BSPostgreSQL extends BSDatabase {
 				case 'host':
 					$this->attributes[$name] = new BSHost($value);
 					break;
+				case 'dbname':
+					$this->attributes['name'] = $value;
+					break;
 				default:
 					$this->attributes[$name] = $value;
 					break;
