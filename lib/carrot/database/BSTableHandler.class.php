@@ -266,7 +266,8 @@ abstract class BSTableHandler implements IteratorAggregate {
 		$query = BSSQL::getInsertQueryString($this->getName(), $values);
 		$this->database->exec($query);
 		if ($this->isAutoIncrement()) {
-			$id = $this->database->lastInsertId();
+			$sequence = $this->database->getSequenceName($this->getName(), $this->getKeyField());
+			$id = $this->database->lastInsertId($sequence);
 		} else {
 			$id = $values[$this->getKeyField()];
 		}

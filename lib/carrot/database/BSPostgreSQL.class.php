@@ -62,6 +62,18 @@ class BSPostgreSQL extends BSDatabase {
 	}
 
 	/**
+	 * 命名規則に従い、シーケンス名を返す
+	 *
+	 * @access public
+	 * @param string $table テーブル名
+	 * @param string $field 主キーフィールド名
+	 * @return string シーケンス名
+	 */
+	public function getSequenceName ($table, $field = 'id') {
+		return implode('_', array($table, $field, 'seq'));
+	}
+
+	/**
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
