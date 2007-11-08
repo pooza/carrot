@@ -4,6 +4,8 @@
  * @subpackage date
  */
 
+date_default_timezone_set(BS_TIMEZONE);
+
 /**
  * 日付
  *
