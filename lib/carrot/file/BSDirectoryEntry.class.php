@@ -130,6 +130,7 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException('%sが存在しません。', $this);
 		}
 
+		clearstatcache();
 		$date = new BSDate();
 		$date->setTimestamp(filectime($this->getPath()));
 		return $date;
@@ -146,6 +147,7 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException('%sが存在しません。', $this);
 		}
 
+		clearstatcache();
 		$date = new BSDate();
 		$date->setTimestamp(filemtime($this->getPath()));
 		return $date;
