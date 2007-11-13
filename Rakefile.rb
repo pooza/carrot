@@ -74,6 +74,7 @@ def media_types
     'jpg' => 'image/jpeg',
     'jpeg' => 'image/jpeg',
     'js' => 'text/javascript',
+    'pdf' => 'application/pdf',
     'php' => '',
     'pl' => '',
     'pm' => '',
