@@ -340,6 +340,16 @@ abstract class BSController extends Controller {
 	}
 
 	/**
+	 * リゾルバは有効か？
+	 *
+	 * @access public
+	 * @return boolean デバッグモードならTrue
+	 */
+	public function isResolvable () {
+		return BSSocket::isResolvable();
+	}
+
+	/**
 	 * タイムリミットを設定
 	 *
 	 * @access public

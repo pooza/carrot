@@ -67,23 +67,13 @@ class BSUserAgent {
 	}
 
 	/**
-	 * メジャーバージョンを返す
+	 * キャッシングに関するバグがあるか
 	 *
 	 * @access public
-	 * @return string メジャーバージョン
+	 * @return boolean バグがあるならTrue
 	 */
-	public function getMajorVersion () {
-		return null;
-	}
-
-	/**
-	 * マイナーバージョンを返す
-	 *
-	 * @access public
-	 * @return string マイナーバージョン
-	 */
-	public function getMinorVersion () {
-		return null;
+	public function hasCachingBug () {
+		return false;
 	}
 
 	/**

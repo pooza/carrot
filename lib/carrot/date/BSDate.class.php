@@ -4,8 +4,6 @@
  * @subpackage date
  */
 
-date_default_timezone_set(BS_TIMEZONE);
-
 /**
  * 日付
  *
@@ -23,6 +21,7 @@ class BSDate {
 	const SAT = 6;
 	private $attributes = array();
 	private $timestamp;
+	static private $timezone;
 
 	/**
 	 * コンストラクタ
@@ -31,6 +30,9 @@ class BSDate {
 	 * @param string $str 日付文字列
 	 */
 	public function __construct ($str = null) {
+		if (!self::$timezone && defined('BS_TIMEZONE')){
+			date_default_timezone_set(BS_TIMEZONE);
+		}
 		if ($str) {
 			$this->setDate($str);
 		}

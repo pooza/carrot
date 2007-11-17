@@ -53,7 +53,7 @@ class BSHost {
 	public function setAddress ($address) {
 		$this->setAttribute('ip', $address);
 		if (!$this->address->validateIP($address)) {
-			throw new BSNetException('"%s"のパースに失敗しました。', $this);
+			throw new BSNetException('"%s"のリゾルブに失敗しました。', $this);
 		}
 	}
 
@@ -65,7 +65,7 @@ class BSHost {
 	 */
 	public function getName () {
 		if (!$this->fqdn) {
-			if (BSSocket::isResolvable()) {
+			if (BSController::getInstance()->isResolvable()) {
 				$this->fqdn = gethostbyaddr($this->getAddress());
 			} else {
 				$this->fqdn = $this->getAddress();

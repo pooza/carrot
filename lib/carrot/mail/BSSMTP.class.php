@@ -51,7 +51,7 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function open () {
-		if (!BSSocket::isResolvable()) {
+		if (!BSController::getInstance()->isResolvable()) {
 			return;
 		}
 
@@ -70,7 +70,7 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function close () {
-		if (!BSSocket::isResolvable()) {
+		if (!BSController::getInstance()->isResolvable()) {
 			return;
 		}
 
@@ -89,7 +89,7 @@ class BSSMTP extends BSSocket {
 	 * @param boolean $mode テストモード
 	 */
 	public function send ($mode = false) {
-		if (!BSSocket::isResolvable()) {
+		if (!BSController::getInstance()->isResolvable() {
 			return;
 		}
 

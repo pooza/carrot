@@ -5,7 +5,7 @@
  */
 
 /**
- * 翻訳機能
+ * 簡易翻訳機能
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.

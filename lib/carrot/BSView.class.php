@@ -94,12 +94,7 @@ abstract class BSView extends View {
 		$contents = $this->renderer->getContents();
 		$this->setHeader('Content-Type', $this->renderer->getType());
 
-		// WinIEのバグ対応
-		if ($this->controller->isSSL()
-			&& ($this->useragent->getAttribute('Platform') == 'Win32')
-			&& ($this->useragent->getType() == 'MSIE')
-			&& ($this->useragent->getAttribute('MajorVer') < 7)) {
-
+		if ($this->useragent->hasCachingBug()) {
 			$this->setHeader('Cache-Control', null);
 			$this->setHeader('Pragma', null);
 		}
