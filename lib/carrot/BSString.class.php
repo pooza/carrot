@@ -226,16 +226,16 @@ class BSString {
 	 * @static
 	 */
 	public static function split ($str, $width = 74) {
-		$str = self::convertEncoding($str, 'euc-jp', self::SCRIPT_ENCODING);
+		$str = self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING);
 
 		BSController::includeLegacy('/OME/OME.php');
-		mb_internal_encoding('euc-jp');
+		mb_internal_encoding('eucjp-win');
 		$ome = new OME();
 		$ome->setBodyWidth($width);
 		$str = @$ome->devideWithLimitingWidth($str);
 		mb_internal_encoding(self::SCRIPT_ENCODING);
 
-		$str = self::convertEncoding($str, self::SCRIPT_ENCODING, 'euc-jp');
+		$str = self::convertEncoding($str, self::SCRIPT_ENCODING, 'eucjp-win');
 		return $str;
 	}
 
