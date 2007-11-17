@@ -20,6 +20,14 @@ interface BSRenderer {
 	public function getContents ();
 
 	/**
+	 * 出力内容のサイズを返す
+	 *
+	 * @access public
+	 * @return integer サイズ
+	 */
+	public function getSize ();
+
+	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public

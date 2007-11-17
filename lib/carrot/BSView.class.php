@@ -92,21 +92,21 @@ abstract class BSView extends View {
 	public function & render () {
 		$this->preRenderCheck();
 		$contents = $this->renderer->getContents();
-		$this->setHeader('Content-Type', $this->renderer->getType());
-
-		if ($this->useragent->hasCachingBug()) {
-			$this->setHeader('Cache-Control', null);
-			$this->setHeader('Pragma', null);
-		}
 
 		if ($this->controller->getRenderMode() == View::RENDER_CLIENT) {
-			$this->setHeader('Content-Length', strlen($contents));
+			$this->setHeader('Content-Type', $this->renderer->getType());
+			$this->setHeader('Content-Length', $this->renderer->getSize());
+			if ($this->useragent->hasCachingBug()) {
+				$this->setHeader('Cache-Control', null);
+				$this->setHeader('Pragma', null);
+			}
 			foreach ($this->getHeaders() as $name => $value) {
 				$this->controller->sendHeader(sprintf('%s: %s', $name, $value));
 			}
 			mb_http_output('pass');
 			print $contents;
 		}
+
 		return $contents;
 	}
 

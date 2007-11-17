@@ -104,6 +104,16 @@ class BSCSVData implements BSRenderer {
 	}
 
 	/**
+	 * 出力内容のサイズを返す
+	 *
+	 * @access public
+	 * @return integer サイズ
+	 */
+	public function getSize () {
+		return strlen($this->getContents());
+	}
+
+	/**
 	 * セパレータタグを置換して返す
 	 *
 	 * @access public

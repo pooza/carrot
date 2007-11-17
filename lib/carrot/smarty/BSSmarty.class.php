@@ -123,6 +123,16 @@ class BSSmarty extends Smarty implements BSRenderer {
 	}
 
 	/**
+	 * 出力内容のサイズを返す
+	 *
+	 * @access public
+	 * @return integer サイズ
+	 */
+	public function getSize () {
+		return strlen($this->getContents());
+	}
+
+	/**
 	 * 対象UserAgentを返す
 	 *
 	 * @access public
