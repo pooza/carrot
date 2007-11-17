@@ -24,10 +24,7 @@ class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	 */
 	public function __construct ($salt = null) {
 		if (!$salt) {
-			if (!defined('BS_CRYPT_SALT')) {
-				throw new BSCryptException('BS_CRYPT_SALTが未定義です。');
-			}
-			$salt = BS_CRYPT_SALT;
+			$salt = BSCrypt::getDefaultSalt();
 		}
 		parent::Crypt_Blowfish($salt);
 	}

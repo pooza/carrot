@@ -131,6 +131,20 @@ class BSCrypt {
 	}
 
 	/**
+	 * 規定のソルトを返す
+	 *
+	 * @access public
+	 * @return string ソルト
+	 * @static
+	 */
+	public static function getDefaultSalt () {
+		if (!defined('BS_CRYPT_SALT')) {
+			throw new BSCryptException('BS_CRYPT_SALTが未定義です。');
+		}
+		return BS_CRYPT_SALT;
+	}
+
+	/**
 	 * md5ダイジェストを返す
 	 *
 	 * @access public
