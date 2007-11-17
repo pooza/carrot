@@ -99,7 +99,7 @@ abstract class BSSmartyView extends BSView {
 	 */
 	public function setDirectory ($directory) {
 		$dir = new BSDirectory($directory);
-		$dir->setSuffix('.tpl');
+		$dir->setDefaultSuffix('.tpl');
 		$this->getEngine()->setTemplatesDirectory($dir);
 		$this->directory = $dir->getPath();
 	}

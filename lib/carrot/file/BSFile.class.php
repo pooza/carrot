@@ -15,8 +15,6 @@ ini_set('auto_detect_line_endings', true);
  * @version $Id$
  */
 class BSFile extends BSDirectoryEntry implements BSRenderer {
-	private $basename;
-	private $suffix;
 	private $mode;
 	private $lines;
 	private $size;
@@ -47,22 +45,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * サフィックスを返す
-	 *
-	 * @access public
-	 * @return string サフィックス
-	 */
-	public function getSuffix () {
-		if (!$this->suffix) {
-			$name = explode('.', $this->getName());
-			if (1 < count($name)) {
-				$this->suffix = '.' . end($name);
-			}
-		}
-		return $this->suffix;
-	}
-
-	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public
@@ -73,31 +55,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 			$this->type = BSTypeList::getType($this->getSuffix());
 		}
 		return $this->type;
-	}
-
-	/**
-	 * パスを設定する
-	 *
-	 * @access public
-	 * @param string $path パス
-	 */
-	public function setPath ($path) {
-		parent::setPath($path);
-		$this->basename = null;
-		$this->suffix = null;
-	}
-
-	/**
-	 * ベース名を返す
-	 *
-	 * @access public
-	 * @return string ベース名
-	 */
-	public function getBaseName () {
-		if (!$this->basename) {
-			$this->basename = basename($this->getPath(), $this->getSuffix());
-		}
-		return $this->basename;
 	}
 
 	/**

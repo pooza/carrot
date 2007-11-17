@@ -25,7 +25,7 @@ class BSLogDirectory extends BSDirectory {
 	public function getEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
 		if (is_file($path = $this->getPath() . '/' . $name)) {
 			return new $class($path);
-		} else if (is_file($path .= $this->getSuffix())) {
+		} else if (is_file($path .= $this->getDefaultSuffix())) {
 			return new $class($path);
 		}
 	}

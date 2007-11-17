@@ -15,6 +15,8 @@
 abstract class BSDirectoryEntry {
 	protected $name;
 	protected $path;
+	private $suffix;
+	private $basename;
 	protected $directory;
 
 	/**
@@ -31,27 +33,16 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * パスを返す
+	 * 名前を設定する
+	 *
+	 * renameのエイリアス
 	 *
 	 * @access public
-	 * @return string パス
+	 * @param string $name 新しい名前
+	 * @final
 	 */
-	public function getPath () {
-		return $this->path;
-	}
-
-	/**
-	 * パスを設定する
-	 *
-	 * @access public
-	 * @param string $path パス
-	 */
-	public function setPath ($path) {
-		if (!Toolkit::isPathAbsolute($path) || preg_match('/\.\./', $path)) {
-			throw new BSFileException('パス"%s"が正しくありません。', $path);
-		}
-		$this->path = $path;
-		$this->name = null;
+	final public function setName ($name) {
+		return $this->rename($name);
 	}
 
 	/**
@@ -77,6 +68,32 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
+	 * パスを返す
+	 *
+	 * @access public
+	 * @return string パス
+	 */
+	public function getPath () {
+		return $this->path;
+	}
+
+	/**
+	 * パスを設定する
+	 *
+	 * @access public
+	 * @param string $path パス
+	 */
+	public function setPath ($path) {
+		if (!Toolkit::isPathAbsolute($path) || preg_match('/\.\./', $path)) {
+			throw new BSFileException('パス"%s"が正しくありません。', $path);
+		}
+		$this->path = $path;
+		$this->name = null;
+		$this->basename = null;
+		$this->suffix = null;
+	}
+
+	/**
 	 * 移動
 	 *
 	 * @access public
@@ -94,6 +111,35 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException('%sを移動出来ません。', $this);
 		}
 		$this->setPath($path);
+	}
+
+	/**
+	 * サフィックスを返す
+	 *
+	 * @access public
+	 * @return string サフィックス
+	 */
+	public function getSuffix () {
+		if (!$this->suffix) {
+			$name = explode('.', $this->getName());
+			if (1 < count($name)) {
+				$this->suffix = '.' . end($name);
+			}
+		}
+		return $this->suffix;
+	}
+
+	/**
+	 * ベース名を返す
+	 *
+	 * @access public
+	 * @return string ベース名
+	 */
+	public function getBaseName () {
+		if (!$this->basename) {
+			$this->basename = basename($this->getPath(), $this->getSuffix());
+		}
+		return $this->basename;
 	}
 
 	/**

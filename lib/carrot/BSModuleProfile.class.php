@@ -63,7 +63,7 @@ class BSModuleProfile {
 	 */
 	private function getIniFile ($name = 'module') {
 		$dir = $this->getDirectory()->getEntry('config');
-		$dir->setSuffix('.ini');
+		$dir->setDefaultSuffix('.ini');
 		return $dir->getEntry($name, 'BSIniFile');
 	}
 

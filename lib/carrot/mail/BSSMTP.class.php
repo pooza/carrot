@@ -89,7 +89,7 @@ class BSSMTP extends BSSocket {
 	 * @param boolean $mode テストモード
 	 */
 	public function send ($mode = false) {
-		if (!BSController::getInstance()->isResolvable() {
+		if (!BSController::getInstance()->isResolvable()) {
 			return;
 		}
 

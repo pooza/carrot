@@ -57,7 +57,7 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @param BSDirectory $dir テンプレートディレクトリ
 	 */
 	public function setTemplatesDirectory (BSDirectory $dir) {
-		$dir->setSuffix('.tpl');
+		$dir->setDefaultSuffix('.tpl');
 		$this->template_dir = $dir->getPath();
 		$this->templatesDirectory = $dir;
 	}

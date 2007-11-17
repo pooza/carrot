@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
-	private $suffix = '';
+	private $defaultSuffix = '';
 	private $entries = array();
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
@@ -26,7 +26,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function __construct ($path) {
 		$this->setPath($path);
-		$this->setSuffix();
 		if (!is_dir($this->getPath())) {
 			throw new BSFileException('%sを開くことが出来ません。', $this);
 		}
@@ -44,26 +43,24 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * サフィックスを返す
+	 * 規定サフィックスを返す
 	 *
 	 * @access public
 	 * @return string サフィックス
 	 */
-	public function getSuffix () {
-		return $this->suffix;
+	public function getDefaultSuffix () {
+		return $this->defaultSuffix;
 	}
 
 	/**
-	 * サフィックスを設定する
+	 * 規定サフィックスを設定する
 	 *
 	 * @access public
 	 * @param string $suffix 
 	 */
-	public function setSuffix ($suffix = null) {
-		if (!$suffix) {
-			$suffix = $this->getDefaultSuffix();
-		}
-		$this->suffix = preg_replace('/^\**/', '', $suffix);
+	public function setDefaultSuffix ($suffix) {
+		$suffix = preg_replace('/^\**/', '', $suffix);
+		$this->defaultSuffix = $suffix;
 		$this->entries = array();
 	}
 
@@ -79,13 +76,12 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			while ($entry = $dir->read()) {
 				if (preg_match("/^\.+$/", $entry)) {
 					continue;
-				} else if ($this->getSuffix()) {
-					$suffix = sprintf('/%s$/i', str_replace('.', '\\.', $this->getSuffix()));
-					if (!preg_match($suffix, $entry)) {
+				} else if ($suffix = $this->getDefaultSuffix()) {
+					if (!fnmatch('*' . $suffix, $entry)) {
 						continue;
 					}
 				}
-				$this->entries[] = basename($entry, $this->getSuffix());
+				$this->entries[] = basename($entry, $suffix);
 			}
 			$dir->close();
 			if ($this->getSortOrder() == self::SORT_DESC) {
@@ -123,7 +119,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			return new BSDirectory($path);
 		} else if (is_file($path)) {
 			return new $class($path);
-		} else if (is_file($path .= $this->getSuffix())) {
+		} else if (is_file($path .= $this->getDefaultSuffix())) {
 			return new $class($path);
 		}
 	}
@@ -137,9 +133,9 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSFile ファイル
 	 */
 	public function createEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
-		$pattern = '/' . str_replace('\.', '\\\.', $this->getSuffix()) . '$/';
-		$name = preg_replace($pattern, '', $name);
-		$file = new $class($this->getPath() . '/' . $name . $this->getSuffix());
+		$name = basename($name, $this->getDefaultSuffix());
+		$path = $this->getPath() . '/' . $name . $this->getDefaultSuffix();
+		$file = new $class($path);
 		$file->setContents(null);
 		$this->entries = array();
 		return $file;
@@ -216,16 +212,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function getSortOrder () {
 		return self::SORT_ASC;
-	}
-
-	/**
-	 * 規定のサフィックスを返す
-	 *
-	 * @access public
-	 * @return string 規定のサフィックス
-	 */
-	public function getDefaultSuffix () {
-		return '';
 	}
 
 	/**

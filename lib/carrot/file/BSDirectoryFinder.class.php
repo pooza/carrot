@@ -91,7 +91,7 @@ class BSDirectoryFinder {
 			$dir = new $class($dir->getPath());
 		}
 		if (isset($params['suffix'])) {
-			$dir->setSuffix($params['suffix']);
+			$dir->setDefaultSuffix($params['suffix']);
 		}
 
 		return $dir;
