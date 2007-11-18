@@ -42,7 +42,7 @@ abstract class BSPDFView extends BSView {
 		}
 
 		if (!$mode) {
-			if ($this->useragent->getType() == 'MSIE') {
+			if ($this->useragent->hasCachingBug()) {
 				$mode = self::ATTACHMENT;
 			} else {
 				$mode = self::INLINE;

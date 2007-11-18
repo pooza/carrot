@@ -25,6 +25,7 @@ class BSDictionaryDirectory extends BSDirectory {
 			$path = BSController::getInstance()->getPath('dictionaries');
 		}
 		parent::__construct($path);
+		$this->setDefaultSuffix('.csv');
 	}
 
 	/**
@@ -41,16 +42,6 @@ class BSDictionaryDirectory extends BSDirectory {
 		} else if (is_file($path .= $this->getDefaultSuffix())) {
 			return new $class($path);
 		}
-	}
-
-	/**
-	 * 規定のサフィックスを返す
-	 *
-	 * @access public
-	 * @return string 規定のサフィックス
-	 */
-	public function getDefaultSuffix () {
-		return '.csv';
 	}
 }
 

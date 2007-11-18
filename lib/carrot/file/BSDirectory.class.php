@@ -76,12 +76,10 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			while ($entry = $dir->read()) {
 				if (preg_match("/^\.+$/", $entry)) {
 					continue;
-				} else if ($suffix = $this->getDefaultSuffix()) {
-					if (!fnmatch('*' . $suffix, $entry)) {
-						continue;
-					}
+				} else if (!fnmatch('*' . $this->getDefaultSuffix(), $entry)) {
+					continue;
 				}
-				$this->entries[] = basename($entry, $suffix);
+				$this->entries[] = basename($entry, $this->getDefaultSuffix());
 			}
 			$dir->close();
 			if ($this->getSortOrder() == self::SORT_DESC) {

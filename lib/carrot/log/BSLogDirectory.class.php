@@ -15,6 +15,20 @@ class BSLogDirectory extends BSDirectory {
 	const DEFAULT_ENTRY_CLASS = 'BSLogFile';
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access public
+	 * @param string $path ディレクトリのパス
+	 */
+	public function __construct ($path = null) {
+		if (!$path) {
+			$path = BSController::getInstance()->getPath('log');
+		}
+		parent::__construct($path);
+		$this->setDefaultSuffix('.log');
+	}
+
+	/**
 	 * エントリーを返す
 	 *
 	 * @access public
@@ -57,16 +71,6 @@ class BSLogDirectory extends BSDirectory {
 			$names[$date->format('Y-m')][$name] = $date->format('Y-m-d (ww)');
 		}
 		return $names;
-	}
-
-	/**
-	 * 規定のサフィックスを返す
-	 *
-	 * @access public
-	 * @return string 規定のサフィックス
-	 */
-	public function getDefaultSuffix () {
-		return '.log';
 	}
 
 	/**
