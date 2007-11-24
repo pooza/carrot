@@ -4,21 +4,19 @@
  * @subpackage image
  */
 
-define('QRCODE_DATA_PATH', BS_SHARE_DIR . '/qrcode');
-BSController::includeLegacy('/qrcode/qrcode_img.php');
-
 /**
- * QRCode_imageのラッパー
+ * QRCodeレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSQRCode extends QRCode_image implements BSImageRenderer {
-	private $type;
+class BSQRCode implements BSImageRenderer {
 	private $image;
+	private $type;
 	private $data;
 	private $error;
+	private $engine;
 
 	/**
 	 * コンストラクタ
@@ -26,8 +24,32 @@ class BSQRCode extends QRCode_image implements BSImageRenderer {
 	 * @access public
 	 */
 	public function __construct () {
+		if (!extension_loaded('qr')) {
+			throw new BSImageException('"qr"モジュールがロードされていません。');
+		}
+		$this->engine = new QRCode;
+		$this->engine->setMagnify(3);
 		$this->setType('image/gif');
-		parent::QRCode_image();
+	}
+
+	/**
+	 * 未定義メソッドの呼び出し
+	 *
+	 * @access public
+	 * @param string $method メソッド名
+	 * @param mixed[] $values 引数
+	 */
+	public function __call ($method, $values) {
+		if (!method_exists($this->engine, $method)) {
+			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
+		}
+
+		// 処理をエンジンに委譲
+		$args = array();
+		for ($i = 0 ; $i < count($values) ; $i ++) {
+			$args[] = '$values[' . $i . ']';
+		}
+		eval(sprintf('return $this->engine->%s(%s);', $method, implode(', ', $args)));
 	}
 
 	/**
@@ -47,8 +69,13 @@ class BSQRCode extends QRCode_image implements BSImageRenderer {
 	 * @param string $data エンコード対象データ
 	 */
 	public function setData ($data) {
-		$this->data = $data;
-		$this->image = $this->mkimage($this->cal_qrcode($this->getData()));
+		if ($this->data) {
+			throw new BSImageException('エンコード対象は設定済みです。');
+		} else {
+			$this->data = $data;
+			$this->engine->addData($data);
+			$this->engine->finalize();
+		}
 	}
 
 	/**
@@ -68,7 +95,19 @@ class BSQRCode extends QRCode_image implements BSImageRenderer {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		$this->type = $type;
+		switch ($this->type = $type) {
+			case 'image/jpeg':
+				$this->engine->setFormat(QR_FMT_JPEG);
+				break;
+			case 'image/gif':
+				$this->engine->setFormat(QR_FMT_GIF);
+				break;
+			case 'image/png':
+				$this->engine->setFormat(QR_FMT_PNG);
+				break;
+			default:
+				throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
+		}
 	}
 
 	/**
@@ -78,8 +117,8 @@ class BSQRCode extends QRCode_image implements BSImageRenderer {
 	 * @return resource GDイメージリソース
 	 */
 	public function getImage () {
-		if (!$this->image) {
-			throw new BSImageException('有効な画像リソースがありません。');
+		if (!$this->image && $this->getData()) {
+			$this->image = $this->engine->getImageResource();
 		}
 		return $this->image;
 	}
@@ -112,20 +151,7 @@ class BSQRCode extends QRCode_image implements BSImageRenderer {
 	 */
 	public function getContents () {
 		ob_start();
-		switch ($type = $this->getType()) {
-			case 'image/png':
-				imagepng($this->getImage());
-				break;
-			case 'image/jpeg':
-				imagejpeg($this->getImage());
-				break;
-			case 'image/gif':
-				imagegif($this->getImage());
-				break;
-			default:
-				ob_end_clean();
-				throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
-		}
+		$this->engine->outputSymbol();
 		$contents = ob_get_contents();
 		ob_end_clean();
 		return $contents;

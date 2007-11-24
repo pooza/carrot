@@ -144,7 +144,8 @@ try {
 		error_reporting(E_ALL | E_STRICT);
 	} else {
 		ini_set('display_errors', 0);
-		error_reporting(0);
+		ini_set('log_errors', 1);
+		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
 	}
 
 	ConfigCache::import('config/constant/application.ini');
@@ -154,7 +155,14 @@ try {
 
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {
-	throw $e;
+	if (defined('BS_DEBUG') && BS_DEBUG) {
+		throw $e;
+	}
+	$message = array(
+		'只今、サーバへのアクセスが集中しています。',
+		'お手数ですが、5秒程度お待ち頂いてからブラウザの戻るボタンの押下を行って下さい。',
+	);
+	print implode("<br/>\n", $message);
 } catch (Exception $e) {
 	throw new BSException($e->getMessage());
 }
