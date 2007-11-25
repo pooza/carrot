@@ -76,7 +76,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @access public
 	 * @param BSDirectory $dir 移動先ディレクトリ
 	 */
-	public function moveTo ($dir) {
+	public function moveTo (BSDirectory $dir) {
 		if ($this->isOpened()) {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
