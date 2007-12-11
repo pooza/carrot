@@ -26,8 +26,8 @@ abstract class BSHolidayList extends BSList {
 	 */
 	public static function getInstance () {
 		if (!self::$instance) {
-			if (defined('APP_HOLIDAYS_CLASS')) {
-				$class = APP_HOLIDAYS_CLASS;
+			if (defined('BS_DATE_APP_HOLIDAYS_CLASS')) {
+				$class = BS_DATE_APP_HOLIDAYS_CLASS;
 			} else {
 				$class = 'BSJapaneseHolidayList';
 			}
@@ -46,7 +46,7 @@ abstract class BSHolidayList extends BSList {
 		if (!$this->attributes) {
 			$this->attributes = BSController::getInstance()->getAttribute(
 				$this->getName(),
-				BSDate::getNow()->setAttribute('day', '-7')
+				BSDate::getNow()->setAttribute('day', '-1')
 			);
 			if (!$this->attributes) {
 				$this->setRules();

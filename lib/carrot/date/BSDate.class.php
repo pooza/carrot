@@ -12,13 +12,13 @@
  * @version $Id$
  */
 class BSDate {
-	const SUN = 0;
 	const MON = 1;
 	const TUE = 2;
 	const WED = 3;
 	const THU = 4;
 	const FRI = 5;
 	const SAT = 6;
+	const SUN = 7;
 	private $attributes = array();
 	private $timestamp;
 	static private $timezone;
@@ -30,8 +30,8 @@ class BSDate {
 	 * @param string $str 日付文字列
 	 */
 	public function __construct ($str = null) {
-		if (!self::$timezone && defined('BS_TIMEZONE')){
-			date_default_timezone_set(BS_TIMEZONE);
+		if (!self::$timezone && defined('BS_DATE_TIMEZONE')){
+			date_default_timezone_set(BS_DATE_TIMEZONE);
 		}
 		if ($str) {
 			$this->setDate($str);
@@ -276,7 +276,7 @@ class BSDate {
 	public function getLastDateOfWeek ($weekday = self::SUN) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
-		} else if (($weekday < self::SUN) || (self::SAT < $weekday)) {
+		} else if (($weekday < self::MON) || (self::SUN < $weekday)) {
 			throw new BSDateException('曜日が正しくありません。');
 		}
 
@@ -304,21 +304,30 @@ class BSDate {
 	}
 
 	/**
+	 * 休日ならば、その名前を返す
+	 *
+	 * @access public
+	 * @return string 休日の名前
+	 */
+	public function getHolidayName () {
+		if (!$this->validate()) {
+			throw new BSDateException('日付が初期化されていません。');
+		}
+
+		$holidays = BSHolidayList::getInstance()->getAttributes();
+		if (isset($holidays[$this->format('Y-m-d')])) {
+			return $holidays[$this->format('Y-m-d')];
+		}
+	}
+
+	/**
 	 * 休日か？
 	 *
 	 * @access public
 	 * @return boolean 日曜日か祭日ならTrue
 	 */
 	public function isHoliday () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-		if ($this->getWeekday() == self::SUN) {
-			return true;
-		}
-
-		$holidays = BSHolidayList::getInstance()->getAttributes();
-		return isset($holidays[$this->format('Y-m-d')]);
+		return ($this->getWeekday() == self::SUN) || ($this->getHolidayName() != null);
 	}
 
 	/**
@@ -331,7 +340,7 @@ class BSDate {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		return date('w', $this->getTimestamp());
+		return date('N', $this->getTimestamp());
 	}
 
 	/**
@@ -347,7 +356,7 @@ class BSDate {
 		}
 
 		if (preg_match('/ww/', $format)) {
-			$weekdays = array('日', '月', '火', '水', '木', '金', '土');
+			$weekdays = array(null, '月', '火', '水', '木', '金', '土', '日');
 			$format = str_replace('ww', $weekdays[$this->getWeekday()], $format);
 		}
 		return date($format, $this->getTimestamp());

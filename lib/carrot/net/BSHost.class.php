@@ -53,7 +53,7 @@ class BSHost {
 	public function setAddress ($address) {
 		$this->setAttribute('ip', $address);
 		if (!$this->address->validateIP($address)) {
-			throw new BSNetException('"%s"のリゾルブに失敗しました。', $this);
+			throw new BSNetException('"%s"の名前解決に失敗しました。', $this);
 		}
 	}
 
