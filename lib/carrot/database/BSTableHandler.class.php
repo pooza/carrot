@@ -368,11 +368,12 @@ abstract class BSTableHandler implements IteratorAggregate {
 	public function getRecordCount ($mode = self::WITH_PAGING) {
 		if ($mode == self::WITHOUT_PAGING) {
 			$sql = BSSQL::getSelectQueryString(
-				$this->getKeyField(),
+				'count(*) AS cnt',
 				$this->getName(),
 				$this->getCriteria()
 			);
-			return $this->database->query($sql)->rowCount();
+			$row = $this->database->query($sql)->fetch();
+			return $row['cnt'];
 		} else {
 			return count($this->getResult());
 		}
