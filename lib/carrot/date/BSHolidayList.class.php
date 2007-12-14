@@ -94,15 +94,8 @@ abstract class BSHolidayList extends BSList {
 	 * @return string カレンダーの内容
 	 */
 	protected function getBody () {
-		try {
-			$http = new BSCurlHTTP($this->getURL()->getAttribute('host'));
-			$http->setAttribute('http_version', CURL_HTTP_VERSION_1_1);
-			$body = $http->getContents($this->getURL()->getAttribute('path'));
-		} catch (Exception $e) {
-			throw new BSDateException('カレンダーを取得出来ません。');
-		}
-
-		$body = BSString::convertEncoding($body, null, 'utf-8');
+		$body = $this->getURL()->fetch();
+		$body = BSString::convertEncoding($body);
 		return $body;
 	}
 
