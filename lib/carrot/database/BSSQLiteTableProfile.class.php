@@ -30,6 +30,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 					'notnull' => $row['notnull'],
 					'default' => $row['dflt_value'],
 					'primarykey' => $row['pk'],
+					'extra' => null,
 				);
 			}
 			$this->fields = $fields;
