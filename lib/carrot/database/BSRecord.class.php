@@ -16,6 +16,7 @@ abstract class BSRecord {
 	private $attributes = array();
 	private $table;
 	private $criteria;
+	private $records = array();
 
 	/**
 	 * コンストラクタ
@@ -38,11 +39,14 @@ abstract class BSRecord {
 	 */
 	public function __call ($method, $values) {
 		if (preg_match('/^get([A-Z][A-Za-z0-9]+)$/', $method, $matches)) {
-			$class = $matches[1] . 'Handler';
-
-			$table = new $class;
-			$id = $this->getAttribute($table->getName() . '_id');
-			return $table->getRecord($id);
+			$name = $matches[1];
+			if (!isset($this->records[$name])) {
+				$class = $name . 'Handler';
+				$table = new $class;
+				$id = $this->getAttribute($table->getName() . '_id');
+				$this->records[$name] = $table->getRecord($id);
+			}
+			return $this->records[$name];
 		} 
 		throw new BSDatabaseException('仮想メソッド"%s"は未定義です。', $method);
 	}
