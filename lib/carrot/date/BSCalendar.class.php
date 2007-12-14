@@ -1,6 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
+ * @subpackage date
  */
 
 /**
