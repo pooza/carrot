@@ -5,13 +5,13 @@
  */
 
 /**
- * URLバリデータ
+ * パスワードバリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSURLValidator extends RegexValidator {
+class BSPasswordValidator extends RegexValidator {
 
 	/**
 	 * 初期化
@@ -21,12 +21,13 @@ class BSURLValidator extends RegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		$defaults = array(
-			'match' => 'Yes',
-			'match_error' => '正しいURLではありません。',
-			'pattern' => BSURL::PATTERN,
-		);
-		$parameters = $defaults + (array)$parameters;
+		if (!isset($parameters['digits'])) {
+			$parameters['digits'] = 6;
+		}
+		$parameters['match'] = 'Yes';
+		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
+		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
+
 		return parent::initialize($context, $parameters);
 	}
 }

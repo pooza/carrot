@@ -20,10 +20,11 @@ class BSKanaValidator extends Validator {
 	 * @access public
 	 * @param string $value 検査対象
 	 * @param string $error エラーメッセージ
+	 * @return boolean 結果
 	 */
 	public function execute (&$value, &$error) {
 		if (!mb_ereg(self::PATTERN, $value)) {
-			$error = '使用出来ない文字が含まれています。';
+			$error = 'フリガナとして使用出来ない文字が含まれています。';
 			return false;
 		}
 		return true;

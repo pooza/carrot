@@ -5,13 +5,13 @@
  */
 
 /**
- * 日付バリデータ
+ * レコードバリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSDateValidator extends Validator {
+class BSRecordValidator extends Validator {
 
 	/**
 	 * 実行
@@ -19,13 +19,15 @@ class BSDateValidator extends Validator {
 	 * @access public
 	 * @param string $value バリデーション対象
 	 * @param string $error エラーメッセージ代入先
-	 * @return boolean 結果
+	 * @return boolean そのIDを持ったレコードが存在すればTrue
 	 */
 	public function execute (&$value, &$error) {
 		try {
-			$date = new BSDate($value);
-		} catch (BSDateException $e) {
-			$error = '日付が正しくありません。';
+			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
+			$table = new $class;
+			return ($table->getRecord($value) != null);
+		} catch (Exception $e) {
+			$error = $e->getMessage();
 			return false;
 		}
 		return true;

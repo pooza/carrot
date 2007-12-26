@@ -115,7 +115,7 @@ class BSSecurityUser extends SecurityUser {
 	/**
 	 * 認証フラグをセット
 	 *
-	 * BasicSecurityUserとの互換性の為。何もしない。クレデンシャルを追加すればよい。
+	 * BasicSecurityUserとの互換性の為のメソッド。実際には何もしない。
 	 *
 	 * @access public
 	 * @param boolean $authenticated 認証フラグ

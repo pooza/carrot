@@ -20,6 +20,7 @@ class BSHTMLFragmentValidator extends Validator {
 	 * @access public
 	 * @param string $value バリデーション対象
 	 * @param string $error エラーメッセージ代入先
+	 * @return boolean 結果
 	 */
 	public function execute (&$value, &$error) {
 		try {

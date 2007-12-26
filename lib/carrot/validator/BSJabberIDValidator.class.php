@@ -12,6 +12,7 @@
  * @version $Id$
  */
 class BSJabberIDValidator extends RegexValidator {
+
 	/**
 	 * 初期化
 	 *
@@ -19,10 +20,10 @@ class BSJabberIDValidator extends RegexValidator {
 	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = null) {
+	public function initialize ($context, $parameters = array()) {
 		$defaults = array(
 			'match' => 'Yes',
-			'match_error' => '書式が異なります。',
+			'match_error' => '正しいJabberIDではありません。',
 			'pattern' => BSJabberID::PATTERN,
 		);
 		$parameters = $defaults + (array)$parameters;

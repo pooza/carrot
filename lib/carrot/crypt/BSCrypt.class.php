@@ -153,7 +153,11 @@ class BSCrypt {
 	 * @static
 	 */
 	public static function getMD5 ($value) {
-		return hash('md5', $value);
+		if (extension_loaded('hash')) {
+			return hash('md5', $value);
+		} else {
+			return md5($value);
+		}
 	}
 
 	/**
@@ -165,7 +169,11 @@ class BSCrypt {
 	 * @static
 	 */
 	public static function getSHA1 ($value) {
-		return hash('sha1', $value);
+		if (extension_loaded('hash')) {
+			return hash('sha1', $value);
+		} else {
+			return sha1($value);
+		}
 	}
 }
 
