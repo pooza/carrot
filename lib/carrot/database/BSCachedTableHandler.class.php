@@ -22,7 +22,7 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	 * @param string $order ソート順
 	 */
 	public function __construct ($criteria = null, $order = null) {
-		$this->query();
+		$this->getContents();
 	}
 
 	/**

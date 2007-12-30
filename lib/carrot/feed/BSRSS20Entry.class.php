@@ -33,7 +33,7 @@ class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 		if (!$element = $this->getElement('link')) {
 			$element = $this->createElement('link');
 		}
-		$element->setBody($link->getContents());
+		$element->setBody($url->getContents());
 	}
 
 	/**
