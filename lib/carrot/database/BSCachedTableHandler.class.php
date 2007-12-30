@@ -15,6 +15,17 @@
 abstract class BSCachedTableHandler extends BSTableHandler {
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access public
+	 * @param string $criteria 抽出条件
+	 * @param string $order ソート順
+	 */
+	public function __construct ($criteria = null, $order = null) {
+		$this->query();
+	}
+
+	/**
 	 * 出力フィールド文字列を設定
 	 *
 	 * @access public
