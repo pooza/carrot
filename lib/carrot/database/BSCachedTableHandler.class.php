@@ -32,7 +32,9 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	 * @param mixed $fields 配列または文字列による出力フィールド
 	 */
 	public function setFields ($fields) {
-		throw new BSDatabaseException('変更出来ません。');
+		if ($fields) {
+			throw new BSDatabaseException('変更出来ません。');
+		}
 	}
 
 	/**
