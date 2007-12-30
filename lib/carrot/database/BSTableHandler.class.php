@@ -25,6 +25,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	private $recordClassName;
 	private $name;
 	private $fieldNames = array();
+	private $ids = array();
 	const WITH_PAGING = true;
 	const WITHOUT_PAGING = false;
 
@@ -415,11 +416,24 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @access public
 	 * @param string[] $criteria 検索条件
 	 */
-	public function isExist ($criteria) {
+	public function isExists ($criteria) {
 		$table = clone $this;
 		$table->setFields($this->getKeyField());
 		$table->setCriteria($criteria);
 		return (0 < $table->getRecordCount());
+	}
+
+	/**
+	 * レコードは存在するか
+	 *
+	 * isExistsのエイリアス
+	 *
+	 * @access public
+	 * @param string[] $criteria 検索条件
+	 * @final
+	 */
+	public final function isExist ($criteria) {
+		return self::isExists($criteria);
 	}
 
 	/**
@@ -477,6 +491,21 @@ abstract class BSTableHandler implements IteratorAggregate {
 			}
 		}
 		return $this->fieldNames;
+	}
+
+	/**
+	 * 全ての主キーを返す
+	 *
+	 * @access public
+	 * @return integer[] 主キーの配列
+	 */
+	public function getIDs () {
+		if (!$this->ids) {
+			foreach ($this as $record) {
+				$this->ids[] = $record->getID();
+			}
+		}
+		return $this->ids;
 	}
 
 	/**

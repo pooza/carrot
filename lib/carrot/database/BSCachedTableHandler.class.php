@@ -15,26 +15,13 @@
 abstract class BSCachedTableHandler extends BSTableHandler {
 
 	/**
-	 * コンストラクタ
-	 *
-	 * @access public
-	 * @param string $criteria 抽出条件
-	 * @param string $order ソート順
-	 */
-	public function __construct ($criteria = null, $order = null) {
-		$this->getResult();
-	}
-
-	/**
 	 * 出力フィールド文字列を設定
 	 *
 	 * @access public
 	 * @param mixed $fields 配列または文字列による出力フィールド
 	 */
 	public function setFields ($fields) {
-		if ($fields) {
-			throw new BSDatabaseException('変更出来ません。');
-		}
+		throw new BSDatabaseException('変更出来ません。');
 	}
 
 	/**
@@ -50,22 +37,6 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 				return $record->getID();
 			}
 		}
-	}
-
-	/**
-	 * 存在する名前か？
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @return boolean 存在するならTrue
-	 */
-	public function isExists ($name) {
-		foreach ($this as $record) {
-			if ($record->getAttribute('name') == $name) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
