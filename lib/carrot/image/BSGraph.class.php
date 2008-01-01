@@ -7,7 +7,7 @@
 BSController::includeLegacy('/phplot/phplot.php');
 
 /**
- * PHPlotのラッパー
+ * グラフレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.

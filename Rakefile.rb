@@ -83,7 +83,7 @@ def media_types
     'sql' => '',
     'swf' => 'application/x-shockwave-flash',
     'tpl' => '',
-    'ttf' => '',
+    'ttf' => 'application/x-truetype-font',
     'txt' => 'text/plain',
     'xml' => 'application/xml',
   }

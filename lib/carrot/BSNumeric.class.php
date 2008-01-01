@@ -25,8 +25,8 @@ class BSNumeric {
 	 * 数値を四捨五入
 	 *
 	 * @access public
-	 * @return integer 四捨五入された数値
 	 * @param float $num 処理対象の数値
+	 * @return integer 四捨五入された数値
 	 * @static
 	 */
 	public static function round ($num) {

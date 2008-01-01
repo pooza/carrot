@@ -5,7 +5,7 @@
  */
 
 /**
- * GD画像
+ * GD画像レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -17,12 +17,13 @@ class BSImage implements BSImageRenderer {
 	private $image;
 	private $height;
 	private $width;
+	private $antialias = false;
 	private $fontname;
 	private $fontsize;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
-	const DEFAULT_FONT = 'wlmaru2004p';
+	const DEFAULT_FONT = 'VL-PGothic-Regular';
 	const DEFAULT_FONT_SIZE = 9;
 
 	/**
@@ -33,15 +34,16 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function __construct ($width = self::DEFAULT_WIDTH, $height = self::DEFAULT_HEIGHT) {
-		$this->width = ceil($width);
-		$this->height = ceil($height);
+		$this->width = BSNumeric::round($width);
+		$this->height = BSNumeric::round($height);
 		$this->setType('image/gif');
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
+		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
 		$this->setColor('black', 0, 0, 0);
 		$this->setColor('white', 255, 255, 255);
-		imagefill($this->getImage(), 0, 0, $this->getColor('white'));
+		$this->fill($this->getCoordinate(0, 0), 'white');
 	}
 
 	/**
@@ -94,10 +96,20 @@ class BSImage implements BSImageRenderer {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		if (!in_array($type, array('image/jpeg', 'image/gif', 'image/png'))) {
+		if (!in_array($type, self::getTypes())) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}
 		$this->type = $type;
+	}
+
+	/**
+	 * 縦横比を返す
+	 *
+	 * @access public
+	 * @return float 縦横比
+	 */
+	public function getAspect () {
+		return $this->getWidth() / $this->getHeight();
 	}
 
 	/**
@@ -150,6 +162,31 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
+	 * アンチエイリアス状態を返す
+	 *
+	 * @access public
+	 * @return boolean アンチエイリアスの有無
+	 */
+	public function getAntialias () {
+		return $this->antialias;
+	}
+
+	/**
+	 * アンチエイリアス状態を設定する
+	 *
+	 * @access public
+	 * @param boolean $mode アンチエイリアスの有無
+	 */
+	public function setAntialias ($mode) {
+		if (function_exists('imageantialias')) {
+			imageantialias($this->getImage(), $mode);
+		} else {
+			$mode = false;
+		}
+		$this->antialias = $mode;
+	}
+
+	/**
 	 * 色を返す
 	 *
 	 * @access public
@@ -182,6 +219,18 @@ class BSImage implements BSImageRenderer {
 				$red, $green, $blue
 			);
 		}
+	}
+
+	/**
+	 * 座標を生成して返す
+	 *
+	 * @access public
+	 * @param integer $x X座標
+	 * @param integer $y Y座標
+	 * @return BSCoordinate 座標
+	 */
+	public function getCoordinate ($x, $y) {
+		return new BSCoordinate($this, $x, $y);
 	}
 
 	/**
@@ -219,15 +268,30 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
+	 * 塗りつぶす
+	 *
+	 * @access public
+	 * @param BSCoordinate $coord 始点の座標
+	 * @param string $color 色の名前
+	 */
+	public function fill (BSCoordinate $coord, $color) {
+		imagefill(
+			$this->getImage(),
+			$coord->getX(),
+			$coord->getY(),
+			$this->getColor($color)
+		);
+	}
+
+	/**
 	 * 文字を書く
 	 *
 	 * @access public
 	 * @param string 文字
-	 * @param integer $x 最初の文字の左下のX座標
-	 * @param integer $y 最初の文字の左下のY座標
+	 * @param BSCoordinate $coord 最初の文字の左下の座標
 	 * @param string $color 色の名前
 	 */
-	public function drawText ($text, $x, $y, $color = 'black') {
+	public function drawText ($text, BSCoordinate $coord, $color = 'black') {
 		$dir = BSController::getInstance()->getDirectory('font');
 		if (!$fontfile = $dir->getEntry($this->getFontName())) {
 			throw new BSImageException('フォントファイルが見つかりません。');
@@ -239,10 +303,10 @@ class BSImage implements BSImageRenderer {
 			$this->getImage(),
 			$this->getFontSize(),
 			0, //角度
-			$x, $y,
+			$coord->getX(), $coord->getY(),
 			$this->getColor($color),
 			$fontfile->getPath(),
-			BSString::convertEncoding($text, 'SJIS')
+			$text
 		);
 	}
 
@@ -297,34 +361,27 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		$image = new BSImage($width, $height);
-		$aspectSrc = $this->getWidth() / $this->getHeight();
-		$aspectDst = $image->getWidth() / $image->getHeight();
-
-		if ($aspectSrc < $aspectDst) {
-			$widthDst = $image->getHeight() * $aspectSrc;
-			$heightDst = $image->getHeight();
-			$x = floor(($image->getWidth() - $widthDst) / 2);
-			$y = 0;
+		$dest = new BSImage($width, $height);
+		if ($this->getAspect() < $dest->getAspect()) {
+			$width = $dest->getHeight() * $this->getAspect();
+			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);
+			$coord = $dest->getCoordinate($x, 0);
 		} else {
-			$widthDst = $image->getWidth();
-			$heightDst = $image->getWidth() / $aspectSrc;
-			$x = 0;
-			$y = floor(($image->getHeight() - $heightDst) / 2);
+			$height = $dest->getWidth() / $this->getAspect();
+			$y = BSNumeric::round(($dest->getHeight() - $height) / 2);
+			$coord = $dest->getCoordinate(0, $y);
 		}
 
-		$resource = $image->getImage();
-		ImageCopyResampled(
-			$resource, //コピー先
+		$coordSrc = $this->getCoordinate(0, 0);
+		imagecopyresampled(
+			$dest->getImage(), //コピー先
 			$this->getImage(), //コピー元
-			$x, $y, //コピー先始点座標
-			0, 0, //コピー元始点座標
-			$widthDst, $heightDst, //コピー先サイズ
+			$coord->getX(), $coord->getY(),
+			$coordSrc->getX(), $coordSrc->getY(),
+			$width, $height, //コピー先サイズ
 			$this->getWidth(), $this->getHeight() //コピー元サイズ
 		);
-		$this->setImage($resource);
-		$this->width = $image->getWidth();
-		$this->height = $image->getHeight();
+		$this->setImage($dest->getImage());
 	}
 
 	/**
@@ -349,6 +406,20 @@ class BSImage implements BSImageRenderer {
 	 */
 	public function getError () {
 		return $this->error;
+	}
+
+	/**
+	 * 利用可能なメディアタイプを返す
+	 *
+	 * @access public
+	 * @return string[] メディアタイプ
+	 */
+	public static function getTypes () {
+		$types = array();
+		foreach (array('.gif', '.jpg', '.png') as $suffix) {
+			$types[$suffix] = BSTypeList::getType($suffix);
+		}
+		return $types;
 	}
 }
 
