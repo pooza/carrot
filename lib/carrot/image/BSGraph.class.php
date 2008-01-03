@@ -64,7 +64,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			ob_end_clean();
 			$image = new BSImage($this->getWidth(), $this->getHeight());
 			$image->setType($this->getType());
-			$image->drawText($e->getMessage(), 6, 18);
+			$image->drawText($e->getMessage(), $image->getCoodinate(6, 18));
 			$this->img = $image->getImage();
 			return $image->getContents();
 		}
