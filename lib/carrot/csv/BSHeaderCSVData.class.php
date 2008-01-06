@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSHeaderCSVData extends BSCSVData {
-	private $fields = array();
+	protected $fields = array();
 
 	/**
 	 * 見出しを返す

@@ -385,7 +385,7 @@ class BSDate {
 	 * 月の配列を返す
 	 *
 	 * @access public
-	 * @return string[] 月の配列
+	 * @return integer[] 月の配列
 	 * @static
 	 */
 	public static function getMonths () {
@@ -397,10 +397,10 @@ class BSDate {
 	}
 
 	/**
-	 * 日付の配列を返す
+	 * 日の配列を返す
 	 *
 	 * @access public
-	 * @return string[] 日付の配列
+	 * @return integer[] 日の配列
 	 * @static
 	 */
 	public static function getDays () {
@@ -409,6 +409,21 @@ class BSDate {
 			$days[$day] = $day;
 		}
 		return $days;
+	}
+
+	/**
+	 * 年の配列を返す
+	 *
+	 * @access public
+	 * @return integer[] 年の配列
+	 * @static
+	 */
+	public static function getYears () {
+		$years = array();
+		foreach (range(BSDate::getNow('Y'), 1900) as $year) {
+			$years[$year] = $year;
+		}
+		return $years;
 	}
 
 	/**

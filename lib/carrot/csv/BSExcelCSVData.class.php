@@ -13,7 +13,7 @@
  * @todo エクスポートしか出来ない。
  */
 class BSExcelCSVData extends BSHeaderCSVData {
-	private $fields = array();
+	protected $fields = array();
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
@@ -37,8 +37,22 @@ class BSExcelCSVData extends BSHeaderCSVData {
 		if (strtolower($fields[0]) == 'id') {
 			$fields[0] = '_ID';
 		}
-
 		parent::setFieldNames($fields);
+	}
+
+	/**
+	 * レコードを追加する
+	 *
+	 * @access public
+	 * @param string[] $record 
+	 */
+	public function addRecord ($record) {
+		// 誤認識対策
+		if ($this->getFieldName() == '_ID') {
+			$id = array_shift($record);
+			$record = array('_ID' => $id) + $record;
+		}
+		parent::addRecord($record);
 	}
 
 	/**
@@ -58,7 +72,7 @@ class BSExcelCSVData extends BSHeaderCSVData {
 				$this->contents .= self::LINE_SEPARATOR;
 			}
 		}
-		return BSString::convertEncoding($this->getHeader() . $this->contents, 'sjis');
+		return BSString::convertEncoding($this->getHeader() . $this->contents, 'sjis-win');
 	}
 }
 
