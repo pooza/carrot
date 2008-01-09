@@ -55,6 +55,25 @@ class BSSQLite extends BSDatabase {
 	}
 
 	/**
+	 * 一時テーブルを生成して返す
+	 *
+	 * @access public
+	 * @param string[] $details フィールド定義等
+	 * @param string $class クラス名
+	 * @return BSTemporaryTableHandler 一時テーブル
+	 */
+	public function getTemporaryTable ($details, $class = 'BSTemporaryTableHandler') {
+		$table = new $class;
+		$query = sprintf(
+			'CREATE TEMPORARY TABLE %s (%s)',
+			$table->getName(),
+			implode(',', $details)
+		);
+		$this->exec($query);
+		return $table;
+	}
+
+	/**
 	 * 最適化する
 	 *
 	 * @access public
