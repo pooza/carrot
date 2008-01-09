@@ -5,7 +5,9 @@
  */
 
 /**
- * クレデンシャル認証 BasicSecurityFilterとほぼ同機能
+ * クレデンシャル認証
+ *
+ * BasicSecurityFilterとほぼ同機能
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -41,9 +43,19 @@ class BSCredentialSecurityFilter extends SecurityFilter {
 		}
 
 		if ($credential && !$this->user->hasCredential($credential)) {
-			$e = new BSException('クレデンシャル"%s"がありません。', $credential);
-			$e->sendAlert();
-			return $this->controller->forward(MO_SECURE_MODULE, MO_SECURE_ACTION);
+			if (defined('APP_SECURE_MODULE')) {
+				$module = APP_SECURE_MODULE;
+			} else {
+				$module = MO_SECURE_MODULE;
+			}
+
+			if (defined('APP_SECURE_ACTION')) {
+				$action = APP_SECURE_ACTION;
+			} else {
+				$action = MO_SECURE_ACTION;
+			}
+
+			return $this->controller->forward($module, $action);
 		}
 
 		$filters->execute();
