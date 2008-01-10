@@ -5,7 +5,7 @@
  */
 
 /**
- * 添付メールに対応したメール送信
+ * メール送信
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -14,6 +14,7 @@
 class BSSMTP extends BSSocket {
 	private $from;
 	private $to;
+	private $bcc = array();
 	private $headers = array();
 	private $body;
 	private $parts = array();
@@ -146,7 +147,7 @@ class BSSMTP extends BSSocket {
 			$addresses[] = BSAdministrator::EMAIL;
 		} else {
 			$addresses[] = $this->to->getAddress();
-			foreach (BSMailAddress::getBCCAddresses() as $address) {
+			foreach ($this->bcc as $address) {
 				$addresses[] = $address->getAddress(); 
 			}
 		}
@@ -209,7 +210,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		if (ereg('[[:cntrl:]]', $value)) {
+		if (preg_match('/[[:cntrl:]]/', $value)) {
 			throw new BSMailException('"%s"にコントロールコードが含まれています。', $name);
 		}
 		$this->headers[$name] = $value;
@@ -263,22 +264,41 @@ class BSSMTP extends BSSocket {
 	 * 送信者を設定する
 	 *
 	 * @access public
-	 * @param BSMailAddress $from 送信者
+	 * @param BSMailAddress $email 送信者
 	 */
-	public function setFrom (BSMailAddress $from) {
-		$this->from = $from;
-		$this->setHeader('From', $from->format());
+	public function setFrom (BSMailAddress $email) {
+		$this->from = $email;
+		$this->setHeader('From', $email->format());
 	}
 
 	/**
 	 * 宛先を設定する
 	 *
 	 * @access public
-	 * @param BSMailAddress $to 宛先
+	 * @param BSMailAddress $email 宛先
 	 */
-	public function setTo (BSMailAddress $to) {
-		$this->to = $to;
-		$this->setHeader('To', $to->format());
+	public function setTo (BSMailAddress $email) {
+		$this->to = $email;
+		$this->setHeader('To', $email->format());
+	}
+
+	/**
+	 * BCCをクリアする
+	 *
+	 * @access public
+	 */
+	public function clearBCC () {
+		$this->bcc[] = array();
+	}
+
+	/**
+	 * BCCを加える
+	 *
+	 * @access public
+	 * @param BSMailAddress $bcc 宛先
+	 */
+	public function addBCC (BSMailAddress $bcc) {
+		$this->bcc[] = $bcc;
 	}
 
 	/**
@@ -403,7 +423,6 @@ class BSSMTP extends BSSocket {
 			$this->parts[0] = array('headers' => array(), 'body' => null);
 			$this->setBody($this->body);
 		}
-
 		if (!$type) {
 			$file = new BSFile($name);
 			$type = $file->getType();

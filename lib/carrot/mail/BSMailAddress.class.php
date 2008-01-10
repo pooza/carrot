@@ -17,7 +17,6 @@ class BSMailAddress {
 	private $account;
 	private $domain;
 	private $mx = array();
-	private static $bcc = array();
 	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
 	const NO_ENCODE = false;
 
@@ -144,26 +143,6 @@ class BSMailAddress {
 				return $type;
 			}
 		}
-	}
-
-	/**
-	 * BCC送信先を返す
-	 *
-	 * @access public
-	 * @return BSMailAddress[] メールアドレスの配列
-	 * @static
-	 */
-	public static function getBCCAddresses () {
-		if (!defined('BS_SMTP_BCC_EMAIL')) {
-			return array();
-		}
-
-		if (!self::$bcc) {
-			foreach (explode(',', BS_SMTP_BCC_EMAIL) as $address) {
-				self::$bcc[] = new BSMailAddress($address);
-			}
-		}
-		return self::$bcc;
 	}
 
 	/**
