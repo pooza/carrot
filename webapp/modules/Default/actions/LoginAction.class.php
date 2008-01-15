@@ -8,11 +8,10 @@
  * @version $Id$
  */
 class LoginAction extends BSAction {
-	const TEST_COOKIE_NAME = 'CARROT';
 	const DEFAULT_MODULE_NAME = 'AdminLog';
 
 	public function execute () {
-		$this->controller->removeCookie(self::TEST_COOKIE_NAME);
+		$this->controller->removeCookie(BSCookieHandler::getTestCookieName());
 		$this->user->addCredential('Admin');
 		if ($this->controller->isDebugMode()) {
 			$this->user->addCredential('Develop');
@@ -26,7 +25,7 @@ class LoginAction extends BSAction {
 		$this->request->clearAttributes();
 		$this->user->clearAttributes();
 		$this->user->clearCredentials();
-		$this->controller->setCookie(self::TEST_COOKIE_NAME, true);
+		$this->controller->setCookie(BSCookieHandler::getTestCookieName(), true);
 		return View::INPUT;
 	}
 
@@ -35,7 +34,7 @@ class LoginAction extends BSAction {
 	}
 
 	public function validate () {
-		if (!$this->controller->getCookie(self::TEST_COOKIE_NAME)) {
+		if (!$this->controller->getCookie(BSCookieHandler::getTestCookieName())) {
 			$this->request->setError('cookie', 'Cookieを受け入れる設定にして下さい。');
 		}
 

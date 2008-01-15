@@ -19,9 +19,10 @@ abstract class BSRecordAction extends BSAction {
 	 *
 	 * @access protected
 	 * @return mixed[] フィールド値の連想配列
-	 * @abstract
 	 */
-	abstract protected function getRecordValues ();
+	protected function getRecordValues () {
+		return $this->getRecord()->getAttributes();
+	}
 
 	/**
 	 * 編集中レコードを返す
@@ -30,11 +31,10 @@ abstract class BSRecordAction extends BSAction {
 	 * @return BSRecord 編集中レコード
 	 */
 	protected function getRecord () {
-		if (!$id = $this->getRecordID()) {
-			return null;
-		}
 		if (!$this->record) {
-			$this->record = $this->getTable()->getRecord($id);
+			if ($id = $this->getRecordID()) {
+				$this->record = $this->getTable()->getRecord($id);
+			}
 		}
 		return $this->record;
 	}
@@ -66,21 +66,6 @@ abstract class BSRecordAction extends BSAction {
 			}
 		}
 		$this->user->setAttribute($this->getRecordClassName() . 'ID', $id);
-	}
-
-	public function initialize ($context) {
-		parent::initialize($context);
-
-		// フリガナをカタカナに変換
-		foreach ($this->request->getParameters() as $key => $value) {
-			if (preg_match('/_read/', $key)) {
-				$value = str_replace(' ', '', $value);
-				$value = BSString::convertKana($value, 'KVC');
-				$this->request->setParameter($key, $value);
-			}
-		}
-
-		return true;
 	}
 }
 

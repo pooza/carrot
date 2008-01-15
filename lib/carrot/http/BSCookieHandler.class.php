@@ -7,6 +7,8 @@
 /**
  * クッキー管理
  *
+ * 可能な限りBSSessionStorageのほうを使うこと。
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
@@ -70,12 +72,8 @@ class BSCookieHandler extends BSList {
 		if (headers_sent()) {
 			throw new BSHTTPException('Cookieの送信に失敗しました。');
 		}
-		setcookie(
-			$name,
-			$value,
-			BSDate::getNow()->setAttribute('month', '+1')->getTimestamp(),
-			'/'
-		);
+		$expire = BSDate::getNow()->setAttribute('month', '+1')->getTimestamp();
+		setcookie($name, $value, $expire, '/');
 		$this->attributes[$name] = $value;
 	}
 
@@ -86,13 +84,23 @@ class BSCookieHandler extends BSList {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		setcookie(
-			$name,
-			null,
-			BSDate::getNow()->setAttribute('hour', '-1')->getTimestamp(),
-			'/'
-		);
+		if (headers_sent()) {
+			throw new BSHTTPException('Cookieの送信に失敗しました。');
+		}
+		$expire = BSDate::getNow()->setAttribute('hour', '-1')->getTimestamp();
+		setcookie($name, null, $expire, '/');
 		unset($this->attributes[$name]);
+	}
+
+	/**
+	 * テスト用Cookieの名前を返す
+	 *
+	 * @access public
+	 * @return string テスト用Cookieの名前
+	 * @static
+	 */
+	public static function getTestCookieName () {
+		return BSString::underscorize(BSController::getInstance()->getName('en'));
 	}
 }
 
