@@ -100,7 +100,10 @@ class BSCookieHandler extends BSList {
 	 * @static
 	 */
 	public static function getTestCookieName () {
-		return BSString::underscorize(BSController::getInstance()->getName('en'));
+		$name = BSController::getInstance()->getName('en');
+		$name = strtoupper($name);
+		$name = preg_replace('/[^A-Z0-9]/', '', $name);
+		return $name;
 	}
 }
 

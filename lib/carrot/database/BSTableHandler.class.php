@@ -182,7 +182,9 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @param integer $page ページ番号
 	 */
 	function setPage ($page = null) {
-		if ($this->getLastPage() < $page) {
+		if (!$page) {
+			//何もしない
+		} else if ($this->getLastPage() < $page) {
 			$page = $this->getLastPage();
 		} else if ($page < 1){
 			$page = 1;
