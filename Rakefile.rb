@@ -16,7 +16,7 @@ desc '運用環境の構築'
 task :production => [:chmod_var, :awstats, :production_local]
 
 desc 'テスト環境の構築'
-task :development => [:chmod_var, :svn_pset, :phpdoc, :development_local]
+task :development => [:chmod_var, :phpdoc, :development_local]
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do
@@ -24,7 +24,7 @@ task :chmod_var do
 end
 
 desc '全ファイルのsvn属性を設定'
-task :svn_pset do
+task :pset do
   system 'svn pset svn:ignore \'*\' var/*'
   media_types.each do |extension, type|
     if type != ''
