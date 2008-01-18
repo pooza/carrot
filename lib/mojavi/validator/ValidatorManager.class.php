@@ -341,7 +341,10 @@ class ValidatorManager extends MojaviObject
         }
 
         // now for the dirty work
-        if ($value == null || strlen($value) == 0)
+        //if ($value == null || strlen($value) == 0)
+        // 空欄と判断する条件を変更 2008.1.18 tkoishi@b-shock.co.jp
+        if (!$value)
+        //
         {
 
             if (!$data['required'] || !$force)
