@@ -18,10 +18,11 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	private $height;
 	private $type;
 	private $error;
+	private $min = 0;
 	protected $img;
 	protected $data;
 	protected $num_data_rows;
-	const DEFAULT_FONT = 'wlmaru2004p';
+	const DEFAULT_FONT = 'VL-PGothic-Regular';
 
 	/**
 	 * コンストラクタ
@@ -64,7 +65,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			ob_end_clean();
 			$image = new BSImage($this->getWidth(), $this->getHeight());
 			$image->setType($this->getType());
-			$image->drawText($e->getMessage(), $image->getCoodinate(6, 18));
+			$image->drawText($e->getMessage(), $image->getCoordinate(6, 18));
 			$this->img = $image->getImage();
 			return $image->getContents();
 		}
@@ -151,7 +152,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		if (!$this->num_data_row) {
+		if (!$this->num_data_rows) {
 			$this->error = 'グラフデータが未定義です。';
 			return false;
 		}
@@ -176,7 +177,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 */
 	public function setDataValues ($source) {
 		$values = array();
-		$source = BSString::convertEncoding($source, 'sjis');
 
 		if ($this->plot_type == 'pie') {
 			$this->setDataType('text-data-single');
@@ -204,7 +204,11 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				$values[] = $row;
 			}
 			$max = (ceil($max / $this->y_tick_inc) + 1) * $this->y_tick_inc;
-			$min = (floor($min / $this->y_tick_inc) - 1) * $this->y_tick_inc;
+			if (!is_null($this->min)) {
+				$min = $this->min;
+			} else {
+				$min = (floor($min / $this->y_tick_inc) - 1) * $this->y_tick_inc;
+			}
 			$this->setPlotAreaWorld(0, $min, count($source), $max);
 		}
 

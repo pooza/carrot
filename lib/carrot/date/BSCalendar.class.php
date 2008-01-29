@@ -127,18 +127,35 @@ class BSCalendar {
 	 * 特定の曜日を定休日にする
 	 *
 	 * @access public
-	 * @param integer $weekday 曜日
+	 * @param integer[] $weekdays 曜日
 	 */
-	public function setRegularHoliday ($weekday) {
+	public function setRegularHolidays ($weekdays) {
+		if (!is_array($weekdays)) {
+			$weekdays = array($weekdays);
+		}
+
 		$days = array();
 		$date = clone $this->start;
 		while ($date <= $this->end) {
-			if ($date->getWeekday() == $weekday) {
+			if (in_array($date->getWeekday(), $weekdays)) {
 				$days[$date->format('Y-m-d')] = true;
 			}
 			$date->setAttribute('day', '+1');
 		}
 		$this->setValues('regular_holiday', $days);
+	}
+
+	/**
+	 * 特定の曜日を定休日にする
+	 *
+	 * setRegularHolidaysのエイリアス
+	 *
+	 * @access public
+	 * @param integer[] $weekday 曜日
+	 * @final
+	 */
+	final public function setRegularHoliday ($weekday) {
+		$this->setRegularHolidays($weekday);
 	}
 
 	/**

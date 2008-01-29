@@ -123,6 +123,33 @@ class BSString {
 	}
 
 	/**
+	 * 文字を規定の長さで切り詰める
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @param integer $length 長さ
+	 * @param string $suffix サフィックス
+	 * @return mixed 変換後
+	 * @static
+	 */
+	public static function truncate ($value, $length, $suffix = '...') {
+		if (is_array($value)) {
+			foreach ($value as &$item) {
+				$item = self::truncate($item, $length, $suffix);
+			}
+		} else {
+			$value = self::convertEncoding($value, 'eucjp-win', self::SCRIPT_ENCODING);
+			mb_internal_encoding('eucjp-win');
+			if ($length < mb_strlen($value)) {
+				$value = mb_substr($value, 0, $length) . $suffix;
+			}
+			mb_internal_encoding(self::SCRIPT_ENCODING);
+			$value = self::convertEncoding($value, self::SCRIPT_ENCODING, 'eucjp-win');
+		}
+		return $value;
+	}
+
+	/**
 	 * キャピタライズされた文字列を返す
 	 *
 	 * @access public
