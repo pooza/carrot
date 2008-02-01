@@ -209,7 +209,9 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			} else {
 				$min = (floor($min / $this->y_tick_inc) - 1) * $this->y_tick_inc;
 			}
-			$this->setPlotAreaWorld(0, $min, count($source), $max);
+			if ($this->plot_type != 'stackedbars') {
+				$this->setPlotAreaWorld(0, $min, count($source), $max);
+			}
 		}
 
 		parent::setDataValues($values);

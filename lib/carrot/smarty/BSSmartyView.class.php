@@ -55,6 +55,7 @@ abstract class BSSmartyView extends BSView {
 		$this->setAttribute('menu', $this->request->getAttribute('menu'));
 		$this->setAttribute('title', $this->request->getAttribute('title'));
 		$this->setAttribute('is_debug', $this->controller->isDebugMode());
+		$this->setAttribute('is_ssl', $this->controller->isSSL());
 
 		return true;
 	}
