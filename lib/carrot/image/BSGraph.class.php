@@ -203,13 +203,13 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				}
 				$values[] = $row;
 			}
-			$max = (ceil($max / $this->y_tick_inc) + 1) * $this->y_tick_inc;
-			if (!is_null($this->min)) {
-				$min = $this->min;
-			} else {
-				$min = (floor($min / $this->y_tick_inc) - 1) * $this->y_tick_inc;
-			}
 			if ($this->plot_type != 'stackedbars') {
+				$max = (ceil($max / $this->y_tick_inc) + 1) * $this->y_tick_inc;
+				if (!is_null($this->min)) {
+					$min = $this->min;
+				} else {
+					$min = (floor($min / $this->y_tick_inc) - 1) * $this->y_tick_inc;
+				}
 				$this->setPlotAreaWorld(0, $min, count($source), $max);
 			}
 		}

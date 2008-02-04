@@ -25,11 +25,12 @@ abstract class BSSmartyView extends BSView {
 		parent::initialize($context);
 
 		$this->setEngine(new BSSmarty());
-		$this->setDirectory($this->context->getModuleDirectory() . '/templates');
+		$module = $this->controller->getModuleProfile();
+		$this->setDirectory($module->getDirectory()->getEntry('templates')->getPath());
 		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
 		$this->getEngine()->addModifier('sanitize');
 
-		if (!BSController::getInstance()->isCLI()) {
+		if (!$this->controller->isCLI()) {
 			$this->getEngine()->addOutputFilter('trim');
 		}
 
