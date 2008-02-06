@@ -85,11 +85,16 @@ abstract class BSTableAction extends BSAction {
 		unset($params[BSController::MODULE_ACCESSOR]);
 		unset($params[BSController::ACTION_ACCESSOR]);
 		unset($params['page']);
+		unset($params['order']);
 		$name = $this->context->getModuleName() . 'Criteria';
 		if (!$criteria = $this->user->getAttribute($name)) {
 			$criteria = $this->getDefaultCriteria();
 		}
-		$criteria += $params;
+		foreach ($this->request->getParameters() as $key => $value) {
+			if ($this->request->hasParameter($key)) {
+				$criteria[$key] = $value;
+			}
+		}
 		$this->user->setAttribute($name, $criteria);
 		$this->request->setParameters($criteria);
 	}

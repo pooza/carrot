@@ -1,0 +1,2 @@
+^[ \t]*(.*function.*) {$	\1
+^((abstract )?(class|interface).*) {$	\1	Bold
