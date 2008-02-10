@@ -21,7 +21,12 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	private $min = 0;
 	protected $img;
 	protected $data;
-	protected $num_data_rows;
+	public $num_data_rows;
+	public $plot_max_x;
+	public $plot_min_x;
+	public $plot_max_y;
+	public $plot_min_y;
+	public $plot_area;
 	const DEFAULT_FONT = 'VL-PGothic-Regular';
 
 	/**
@@ -46,6 +51,15 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$this->setXTickLabelPos('none');
 		$this->setXTickPos('none');
 		$this->setYTickIncrement(1);
+		$this->setShading(2);
+
+		$colors = array(
+			'SlateBlue', 'green', 'peru', 'salmon', 'blue',
+			'YellowGreen', 'beige', 'red', 'SkyBlue', 'yellow',
+			'pink', 'cyan', 'orange', 'tan', 'maroon',
+			'DarkGreen', 'gold', 'brown', 'magenta', 'plum',
+		);
+		$this->setDataColors($colors);
 	}
 
 	/**
@@ -183,7 +197,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$legends = array();
 			foreach ($source as $row) {
 				$row = array_values($row);
-				$legends[] = $row[0];
+				$legends[] = BSString::truncate($row[0], 16);
 				$values[] = $row;
 			}
 			$this->setLegend($legends);
@@ -191,6 +205,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$this->setDataType('text-data');
 			foreach ($source as $row) {
 				$row = array_values($row);
+				$row[0] = BSString::truncate($row[0], 16);
 				for ($i = 1 ; $i < count($row) ; $i ++) { //見出要素を除いてループ
 					if ($value = $row[$i]) {
 						if (!isset($max) || ($max < $value)) {
@@ -213,7 +228,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				$this->setPlotAreaWorld(0, $min, count($source), $max);
 			}
 		}
-
 		parent::setDataValues($values);
 	}
 
@@ -268,6 +282,101 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 */
 	public function drawError ($message) {
 		throw new BSImageException($message);
+	}
+
+	/**
+	 * 円グラフ描画のオーバライド
+	 *
+	 * @access public
+	 */
+	public function drawPieChart() {
+		$xpos = $this->plot_area[0] + $this->plot_area_width/2;
+		if ($this->legend) {
+			$ypos = $this->plot_area[1] + count($this->legend) * $this->legend_font['size'] * 2 + 240;
+		} else {
+			$ypos = $this->plot_area[1] + $this->plot_area_height/2;
+		}
+		$diameter = min($this->plot_area_width, $this->plot_area_height);
+		$radius = $diameter/2;
+
+		switch ($this->data_type) {
+			case 'text-data':
+				for ($i = 0; $i < $this->num_data_rows; $i++) {
+					for ($j = 1; $j < $this->num_recs[$i]; $j++) {
+						@ $sumarr[$j] += abs($this->data[$i][$j]);
+					}
+				}
+				break;
+			case 'text-data-single':
+				for ($i = 0; $i < $this->num_data_rows; $i++) {
+					$legend[$i] = $this->data[$i][0];
+					$sumarr[$i] = $this->data[$i][1];
+				}
+				break;
+			case 'data-data':
+				for ($i = 0; $i < $this->num_data_rows; $i++) {
+					for ($j = 2; $j < $this->num_recs[$i]; $j++) {
+						@ $sumarr[$j] += abs($this->data[$i][$j]);
+					}
+				}
+				break;
+			default:
+				throw new BSImageException('Data type "%s" not supported.', $this->data_type);
+		}
+
+		if (!$total = array_sum($sumarr)) {
+			throw new BSImageException('Empty data set');
+		}
+
+		if ($this->shading) {
+			$diam2 = $diameter / 2;
+		} else {
+			$diam2 = $diameter;
+		}
+		$max_data_colors = count($this->data_colors);
+
+		for ($h = $this->shading; $h >= 0; $h--) {
+			$color_index = 0;
+			$start_angle = 0;
+			$end_angle = 0;
+			foreach ($sumarr as $val) {
+				if ($h == 0) {
+					$slicecol = $this->ndx_data_colors[$color_index];
+				} else {
+					$slicecol = $this->ndx_data_dark_colors[$color_index];
+				}
+
+				$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
+				$val = 360 * ($val / $total);
+				$start_angle = $end_angle;
+				$end_angle += $val;
+				$mid_angle = deg2rad($end_angle - ($val / 2));
+
+				ImageFilledArc(
+					$this->img, $xpos, $ypos+$h, $diameter*0.7, $diam2,
+					360-$end_angle, 360-$start_angle, $slicecol, IMG_ARC_PIE
+				);
+
+				if ($h == 0) {
+					if (!$this->shading) {
+						ImageFilledArc(
+							$this->img, $xpos, $ypos+$h, $diameter*0.7, $diam2,
+							360-$end_angle, 360-$start_angle,
+							$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
+						);
+					}
+
+					$label_x = $xpos + ($diameter * 0.8 * cos($mid_angle)) * $this->label_scale_position;
+					$label_y = $ypos+$h - ($diam2 * 1.1 * sin($mid_angle)) * $this->label_scale_position;
+
+					$this->DrawText($this->generic_font, 0, $label_x, $label_y,
+						$this->ndx_grid_color, $label_txt, 'center', 'center'
+					);
+				}
+				$color_index ++;
+				$color_index = $color_index % $max_data_colors;
+			}
+		}
 	}
 }
 
