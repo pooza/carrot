@@ -153,6 +153,20 @@ try {
 	ConfigCache::import('config/constant/mojavi.ini');
 	ConfigCache::import('config/compile.conf');
 
+	if (BS_DEBUG && isset($_GET['ua']) && $_GET['ua']) {
+		$name = $_GET['ua'];
+	} else {
+		$name = $_SERVER['HTTP_USER_AGENT'];
+	}
+	foreach (array('Docomo', 'Au', 'SoftBank') as $carrier) {
+		$class = sprintf('BS%sUserAgent', $carrier);
+		$useragent = new $class;
+		if (preg_match($useragent->getPattern(), $name)) {
+			ini_set('session.use_only_cookies', 0);
+			break;
+		}
+	}
+
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {
 	if (defined('BS_DEBUG') && BS_DEBUG) {

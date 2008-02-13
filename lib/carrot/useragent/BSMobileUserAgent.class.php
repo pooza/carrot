@@ -24,6 +24,23 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	abstract public function getDomainSuffix ();
 
 	/**
+	 * 全ての基本属性を返す
+	 *
+	 * @access public
+	 * @return mixed[] 属性の配列
+	 */
+	public function getAttributes () {
+		$controller = BSController::getInstance();
+		$params = session_name() . '=' . session_id();
+		if ($controller->isDebugMode()) {
+			$params .= '&ua=' . $controller->getUserAgent()->getName();
+		}
+		$attributes = parent::getAttributes();
+		$attributes['optional_params'] = $params;
+		return $attributes;
+	}
+
+	/**
 	 * ケータイ環境か？
 	 *
 	 * @access public
