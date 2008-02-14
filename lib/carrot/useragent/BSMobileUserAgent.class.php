@@ -30,13 +30,13 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return mixed[] 属性の配列
 	 */
 	public function getAttributes () {
-		$controller = BSController::getInstance();
-		$params = session_name() . '=' . session_id();
-		if ($controller->isDebugMode()) {
-			$params .= '&ua=' . $controller->getUserAgent()->getName();
+		$query = array(session_name() => session_id());
+		if (BSController::getInstance()->isDebugMode()) {
+			$query['ua'] = BSController::getInstance()->getUserAgent()->getName();
 		}
 		$attributes = parent::getAttributes();
-		$attributes['optional_params'] = $params;
+		$attributes['query'] = $query;
+		$attributes['query_params'] = BSString::toString($query, '=', '&');
 		return $attributes;
 	}
 
