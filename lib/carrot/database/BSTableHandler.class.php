@@ -221,6 +221,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param mixed[] $primaryKey 検索条件
+	 * @return BSRecord レコード
 	 */
 	public function getRecord ($primaryKey) {
 		if (!is_array($primaryKey)) {
@@ -278,6 +279,32 @@ abstract class BSTableHandler implements IteratorAggregate {
 		$this->setExecuted(false);
 		BSLog::put(sprintf('%s(%s)を作成しました。', $this->getRecordClassName(), $id));
 		return $id;
+	}
+
+	/**
+	 * 最終レコードを返す
+	 *
+	 * @access public
+	 * @return BSRecord レコード
+	 */
+	public function getLastRecord () {
+		if ($this->getRecordCount()) {
+			foreach ($this as $record) {
+			}
+			return $record;
+		}
+	}
+
+	/**
+	 * 先頭レコードを返す
+	 *
+	 * @access public
+	 * @return BSRecord レコード
+	 */
+	public function getFirstRecord () {
+		if ($this->getRecordCount()) {
+			return $this->getIterator()->current();
+		}
 	}
 
 	/**
