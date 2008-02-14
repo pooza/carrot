@@ -391,47 +391,48 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			throw new BSImageException('Bar plots must be "text-data"');
 		}
 
-        // This is the X offset from the bar's label center point to the left side of the bar.
-        $x_first_bar = $this->record_bar_width / 2 - $this->bar_adjust_gap;
+		$x_first_bar = $this->record_bar_width / 2 - $this->bar_adjust_gap;
+		for ($row = 0; $row < $this->num_data_rows; $row++) {
+			$x_now_pixels = $this->xtr(0.5 + $row);
+			if ($this->x_data_label_pos != 'none') {
+				$this->DrawXDataLabel($this->data[$row][0], $x_now_pixels);
+			}
 
-        for ($row = 0; $row < $this->num_data_rows; $row++) {
-            $x_now_pixels = $this->xtr(0.5 + $row);         // Place text-data at X = 0.5, 1.5, 2.5, etc...
+			$x1 = $x_now_pixels - $x_first_bar;
+			$x2 = $x1 + $this->actual_bar_width;
 
-            if ($this->x_data_label_pos != 'none')          // Draw X Data labels?
-                $this->DrawXDataLabel($this->data[$row][0], $x_now_pixels);
-
-            // Lower left and lower right X of the bars in this group:
-            $x1 = $x_now_pixels - $x_first_bar;
-            $x2 = $x1 + $this->actual_bar_width;
-
-            // Draw the bars
-            $oldv = 0;
-            for ($record = $this->num_recs[$row] - 1 ; 0 < $record ; $record--) {
-                if (is_numeric($this->data[$row][$record])) {       // Allow for missing Y data
-                    $y1 = $this->ytr(abs($this->data[$row][$record]) + $oldv);
-                    $y2 = $this->ytr($this->x_axis_position + $oldv);
-                    $oldv += abs($this->data[$row][$record]);
-
-                    // Draw the bar
-                    ImageFilledRectangle($this->img, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]);
-
-                    if ($this->shading) {                           // Draw the shade?
-                        ImageFilledPolygon($this->img, array($x1, $y1,
-                                                       $x1 + $this->shading, $y1 - $this->shading,
-                                                       $x2 + $this->shading, $y1 - $this->shading,
-                                                       $x2 + $this->shading, $y2 - $this->shading,
-                                                       $x2, $y2,
-                                                       $x2, $y1),
-                                           6, $this->ndx_data_dark_colors[$record - 1]);
-                    }
-                    // Or draw a border?
-                    else {
-                        ImageRectangle($this->img, $x1, $y1, $x2,$y2, $this->ndx_data_border_colors[$record - 1]);
-                    }
-                }
-            }   // end for
-        }   // end for
-    } //function DrawStackedBars
+			$oldv = 0;
+			for ($record = $this->num_recs[$row] - 1 ; 0 < $record ; $record--) {
+				if (is_numeric($this->data[$row][$record])) {
+					$y1 = $this->ytr(abs($this->data[$row][$record]) + $oldv);
+					$y2 = $this->ytr($this->x_axis_position + $oldv);
+					$oldv += abs($this->data[$row][$record]);
+					ImageFilledRectangle(
+						$this->img, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]
+					);
+					if ($this->shading) {
+						ImageFilledPolygon(
+							$this->img,
+							array(
+								$x1, $y1,
+								$x1 + $this->shading, $y1 - $this->shading,
+								$x2 + $this->shading, $y1 - $this->shading,
+								$x2 + $this->shading, $y2 - $this->shading,
+								$x2, $y2,
+								$x2, $y1
+							),
+							6, $this->ndx_data_dark_colors[$record - 1]
+						);
+					} else {
+						ImageRectangle(
+							$this->img, $x1, $y1, $x2,$y2,
+							$this->ndx_data_border_colors[$record - 1]
+						);
+					}
+				}
+			}
+		}
+	}
 }
 
 /* vim:set tabstop=4 ai: */
