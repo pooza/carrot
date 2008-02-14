@@ -346,7 +346,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$slicecol = $this->ndx_data_dark_colors[$color_index];
 				}
 
-				$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
 				$val = 360 * ($val / $total);
 				$start_angle = $end_angle;
 				$end_angle += $val;
@@ -366,18 +365,73 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 						);
 					}
 
-					$label_x = $xpos + ($diameter * 0.8 * cos($mid_angle)) * $this->label_scale_position;
-					$label_y = $ypos+$h - ($diam2 * 1.1 * sin($mid_angle)) * $this->label_scale_position;
+					if (2 <= ($val / $total * 100)) {
+						$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
+						$label_x = $xpos + ($diameter * 0.8 * cos($mid_angle)) * $this->label_scale_position;
+						$label_y = $ypos+$h - ($diam2 * 1.1 * sin($mid_angle)) * $this->label_scale_position;
 
-					$this->DrawText($this->generic_font, 0, $label_x, $label_y,
-						$this->ndx_grid_color, $label_txt, 'center', 'center'
-					);
+						$this->DrawText($this->generic_font, 0, $label_x, $label_y,
+							$this->ndx_grid_color, $label_txt, 'center', 'center'
+						);
+					}
 				}
 				$color_index ++;
 				$color_index = $color_index % $max_data_colors;
 			}
 		}
 	}
+
+	/**
+	 * 積み上げ棒グラフ描画のオーバライド
+	 *
+	 * @access public
+	 */
+	public function drawStackedBars() {
+		if ($this->data_type != 'text-data') {
+			throw new BSImageException('Bar plots must be "text-data"');
+		}
+
+        // This is the X offset from the bar's label center point to the left side of the bar.
+        $x_first_bar = $this->record_bar_width / 2 - $this->bar_adjust_gap;
+
+        for ($row = 0; $row < $this->num_data_rows; $row++) {
+            $x_now_pixels = $this->xtr(0.5 + $row);         // Place text-data at X = 0.5, 1.5, 2.5, etc...
+
+            if ($this->x_data_label_pos != 'none')          // Draw X Data labels?
+                $this->DrawXDataLabel($this->data[$row][0], $x_now_pixels);
+
+            // Lower left and lower right X of the bars in this group:
+            $x1 = $x_now_pixels - $x_first_bar;
+            $x2 = $x1 + $this->actual_bar_width;
+
+            // Draw the bars
+            $oldv = 0;
+            for ($record = $this->num_recs[$row] - 1 ; 0 < $record ; $record--) {
+                if (is_numeric($this->data[$row][$record])) {       // Allow for missing Y data
+                    $y1 = $this->ytr(abs($this->data[$row][$record]) + $oldv);
+                    $y2 = $this->ytr($this->x_axis_position + $oldv);
+                    $oldv += abs($this->data[$row][$record]);
+
+                    // Draw the bar
+                    ImageFilledRectangle($this->img, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]);
+
+                    if ($this->shading) {                           // Draw the shade?
+                        ImageFilledPolygon($this->img, array($x1, $y1,
+                                                       $x1 + $this->shading, $y1 - $this->shading,
+                                                       $x2 + $this->shading, $y1 - $this->shading,
+                                                       $x2 + $this->shading, $y2 - $this->shading,
+                                                       $x2, $y2,
+                                                       $x2, $y1),
+                                           6, $this->ndx_data_dark_colors[$record - 1]);
+                    }
+                    // Or draw a border?
+                    else {
+                        ImageRectangle($this->img, $x1, $y1, $x2,$y2, $this->ndx_data_border_colors[$record - 1]);
+                    }
+                }
+            }   // end for
+        }   // end for
+    } //function DrawStackedBars
 }
 
 /* vim:set tabstop=4 ai: */
