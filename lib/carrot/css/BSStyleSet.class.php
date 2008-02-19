@@ -80,7 +80,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 			$name = sprintf('%s.%s', get_class($this), $this->getName());
 			if (!$this->contents = BSController::getInstance()->getAttribute($name, $date)) {
 				foreach ($this->getRules() as $key => $value) {
-					$this->contents = sprintf("@%s \"%s\";\n", $key, $value);
+					$this->contents .= sprintf("@%s \"%s\";\n", $key, $value);
 				}
 				$this->contents .= $this->toString();
 				BSController::getInstance()->setAttribute($name, $this->contents);
