@@ -21,7 +21,7 @@ SetEnvIf Request_URI "^/awstats" nolog
   ServerName www.example.com
   ServerAlias example.com
   DocumentRoot htdocs/carrot/www
-  CustomLog "| /usr/local/sbin/cronolog /var/log/httpd/access_%Y%m.log" combined env=!nolog
+  CustomLog "| /usr/local/sbin/cronolog /var/log/httpd/www.example.com/%Y/%m/access_%Y%m%d.log" combined env=!nolog
 
   RewriteEngine on
   RewriteRule ^/$ /carrotctl.php [L,QSA] #この行は必要に応じてコメントアウト
