@@ -36,7 +36,7 @@ class AnalyzeAccessLogAction extends BSAction {
 
 			if ($this->isDaily()) {
 				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
-					. '/%%YYYY/%%MM/access_%%YYYY%%MM%%DD.log';
+					. '/%YYYY/%MM/access_%YYYY%MM%DD.log';
 			} else {
 				$this->config['logfile'] = BS_AWSTATS_LOG_FILE;
 			}
@@ -74,10 +74,10 @@ class AnalyzeAccessLogAction extends BSAction {
 	}
 
 	public function execute () {
-		$this->controller->setMemoryLimit('128M');
 		$smarty = new BSSmarty();
 		$smarty->setTemplate('awstats.conf');
 		$smarty->setAttribute('config', $this->getConfig());
+p($smarty);
 		$file = $this->controller->getDirectory('cache')->createEntry('awstats.conf');
 		$file->setContents($smarty->getContents());
 
@@ -91,6 +91,7 @@ class AnalyzeAccessLogAction extends BSAction {
 					$name = 'access_' . $yesterday->format('Ymd');
 					if ($file = $dir->getEntry($name)) {
 						$this->analyze($file);
+						$this->controller->setMemoryLimit(-1);
 						$file->compress();
 					}
 				}
