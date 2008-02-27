@@ -360,6 +360,16 @@ abstract class BSController extends Controller {
 	}
 
 	/**
+	 * メモリリミットを設定
+	 *
+	 * @access public
+	 * @param string $limit メモリリミット文字列
+	 */
+	public function setMemoryLimit ($limit) {
+		ini_set('memory_limit', $linit);
+	}
+
+	/**
 	 * エラーチェックなしでインクルード
 	 *
 	 * @access public

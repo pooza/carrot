@@ -74,6 +74,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	}
 
 	public function execute () {
+		$this->controller->setMemoryLimit('128M');
 		$smarty = new BSSmarty();
 		$smarty->setTemplate('awstats.conf');
 		$smarty->setAttribute('config', $this->getConfig());
