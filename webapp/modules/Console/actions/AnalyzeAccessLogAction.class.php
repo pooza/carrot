@@ -8,31 +8,68 @@
  * @version $Id$
  */
 class AnalyzeAccessLogAction extends BSAction {
+	private $config;
 
 	/**
 	 * 設定値を返す
 	 *
 	 * @access private
-	 * @return string[] 設定値の配列
+	 * @return BSArray 設定値
 	 */
 	private function getConfig () {
-		$networks = array();
-		foreach (BSAdministrator::getAllowedNetworks() as $network) {
-			$networks[] = sprintf(
-				'%s-%s',
-				$network->getAttribute('network'),
-				$network->getAttribute('broadcast')
-			);
+		if (!$this->config) {
+			$networks = new BSArray;
+			foreach (BSAdministrator::getAllowedNetworks() as $network) {
+				$networks[] = sprintf(
+					'%s-%s',
+					$network->getAttribute('network'),
+					$network->getAttribute('broadcast')
+				);
+			}
+
+			if ($this->isDaily()) {
+				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
+					. '/%%YYYY/%%MM/access_%%YYYY%%MM%%DD.log';
+			} else {
+				$this->config['logfile'] = BS_AWSTATS_LOG_FILE;
+			}
+
+			$this->config['server_name'] = $this->controller->getServerHost()->getName();
+			$this->config['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
+			$this->config['awstat_data_dir'] = $this->controller->getPath('awstats_data');
+			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
+			$this->config['admin_networks'] = $networks->implode(' ');
+		}
+		return $this->config;
+	}
+
+	/**
+	 * 日次モードか？
+	 *
+	 * @access private
+	 * @return boolean 日次モードならTrue
+	 */
+	private function isDaily () {
+		return defined('BS_AWSTATS_DAILY') && BS_AWSTATS_DAILY;
+	}
+
+	/**
+	 * 解析を実行する
+	 *
+	 * @access private
+	 * @param BSFile $file 対象ファイル
+	 */
+	private function analyze (BSFile $file = null) {
+		$command = new BSArray;
+		$command[] = $this->controller->getPath('awstats') . '/awstats.pl';
+		$command[] = '-config=awstats.conf';
+
+		if ($file) {
+			$command[] = '-logfile=' . $file->getPath();
 		}
 
-		return array(
-			'logfile' => BS_AWSTATS_LOG_FILE,
-			'server_name' => $this->controller->getServerHost()->getName(),
-			'server_name_aliases' => BS_AWSTATS_SERVER_NAME_ALIASES,
-			'awstat_data_dir' => $this->controller->getPath('awstats_data'),
-			'awstat_dir' => $this->controller->getPath('awstats'),
-			'admin_networks' => implode(' ', $networks),
-		);
+		$command[] = '-update';
+		shell_exec($command->join(' '));
 	}
 
 	public function execute () {
@@ -42,11 +79,24 @@ class AnalyzeAccessLogAction extends BSAction {
 		$file = $this->controller->getDirectory('cache')->createEntry('awstats.conf');
 		$file->setContents($smarty->getContents());
 
-		$command = sprintf(
-			'%s/awstats.pl -config=awstats.conf -update',
-			$this->controller->getPath('awstats')
-		);
-		shell_exec($command);
+		if ($this->isDaily()) {
+			$dir = new BSDirectory(BS_AWSTATS_LOG_DIR);
+			$yesterday = BSDate::getNow()->setAttribute('day', '-1');
+
+			if ($dir = $dir->getEntry($yesterday->format('Y'))) {
+				if ($dir = $dir->getEntry($yesterday->format('m'))) {
+					$dir->setDefaultSuffix('.log');
+					$name = 'access_' . $yesterday->format('Ymd');
+					if ($file = $dir->getEntry($name)) {
+						$this->analyze($file);
+						$file->compress();
+					}
+					$this->analyze();
+				}
+			}
+		} else {
+			$this->analyze();
+		}
 
 		BSLog::put(get_class($this) . 'を実行しました。');
 		return View::NONE;

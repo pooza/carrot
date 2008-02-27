@@ -86,6 +86,31 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	}
 
 	/**
+	 * セパレータで結合した文字列を返す
+	 *
+	 * @access public
+	 * @param string $separator セパレータ
+	 * @return string 結果文字列
+	 */
+	public function implode ($separator = null) {
+		return implode($separator, $this->getParameters());
+	}
+
+	/**
+	 * セパレータで結合した文字列を返す
+	 *
+	 * implodeのエイリアス
+	 *
+	 * @access public
+	 * @param string $separator セパレータ
+	 * @return string 結果文字列
+	 * @final
+	 */
+	public final function join ($separator = null) {
+		return $this->implode($separator);
+	}
+
+	/**
 	 * イテレータを返す
 	 *
 	 * @access public
