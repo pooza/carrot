@@ -18,6 +18,12 @@ class AnalyzeAccessLogAction extends BSAction {
 	 */
 	private function getConfig () {
 		if (!$this->config) {
+			$this->config = new BSArray;
+			$this->config['server_name'] = $this->controller->getServerHost()->getName();
+			$this->config['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
+			$this->config['awstat_data_dir'] = $this->controller->getPath('awstats_data');
+			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
+
 			$networks = new BSArray;
 			foreach (BSAdministrator::getAllowedNetworks() as $network) {
 				$networks[] = sprintf(
@@ -26,6 +32,7 @@ class AnalyzeAccessLogAction extends BSAction {
 					$network->getAttribute('broadcast')
 				);
 			}
+			$this->config['admin_networks'] = $networks->implode(' ');
 
 			if ($this->isDaily()) {
 				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
@@ -33,12 +40,6 @@ class AnalyzeAccessLogAction extends BSAction {
 			} else {
 				$this->config['logfile'] = BS_AWSTATS_LOG_FILE;
 			}
-
-			$this->config['server_name'] = $this->controller->getServerHost()->getName();
-			$this->config['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
-			$this->config['awstat_data_dir'] = $this->controller->getPath('awstats_data');
-			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
-			$this->config['admin_networks'] = $networks->implode(' ');
 		}
 		return $this->config;
 	}
@@ -91,12 +92,10 @@ class AnalyzeAccessLogAction extends BSAction {
 						$this->analyze($file);
 						$file->compress();
 					}
-					$this->analyze();
 				}
 			}
-		} else {
-			$this->analyze();
 		}
+		$this->analyze();
 
 		BSLog::put(get_class($this) . 'を実行しました。');
 		return View::NONE;
