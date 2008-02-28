@@ -9,6 +9,7 @@
  */
 class AnalyzeAccessLogAction extends BSAction {
 	private $config;
+	private $prev;
 
 	/**
 	 * 設定値を返す
@@ -73,29 +74,48 @@ class AnalyzeAccessLogAction extends BSAction {
 		shell_exec($command->join(' '));
 	}
 
-	public function execute () {
-		$smarty = new BSSmarty();
-		$smarty->setTemplate('awstats.conf');
-		$smarty->setAttribute('config', $this->getConfig());
-p($smarty);
-		$file = $this->controller->getDirectory('cache')->createEntry('awstats.conf');
-		$file->setContents($smarty->getContents());
-
-		if ($this->isDaily()) {
-			$dir = new BSDirectory(BS_AWSTATS_LOG_DIR);
-			$yesterday = BSDate::getNow()->setAttribute('day', '-1');
-
-			if ($dir = $dir->getEntry($yesterday->format('Y'))) {
-				if ($dir = $dir->getEntry($yesterday->format('m'))) {
-					$dir->setDefaultSuffix('.log');
-					$name = 'access_' . $yesterday->format('Ymd');
-					if ($file = $dir->getEntry($name)) {
-						$this->analyze($file);
-						$this->controller->setMemoryLimit(-1);
-						$file->compress();
+	/**
+	 * 昨日のアクセスログを返す
+	 *
+	 * @access private
+	 * @return BSFile 昨日のアクセスログ
+	 */
+	private function getPrevLogFile () {
+		if (!$this->prev && $this->isDaily()) {
+			if ($dir = $this->controller->getDirectory('awstats_log')) {
+				$yesterday = BSDate::getNow()->setAttribute('day', '-1');
+				if ($dir = $dir->getEntry($yesterday->format('Y'))) {
+					if ($dir = $dir->getEntry($yesterday->format('m'))) {
+						$dir->setDefaultSuffix('.log');
+						$name = 'access_' . $yesterday->format('Ymd');
+						if ($file = $dir->getEntry($name)) {
+							$this->prev = $file;
+						}
 					}
 				}
 			}
+		}
+		return $this->prev;
+	}
+
+	/**
+	 * 設定ファイルを更新
+	 *
+	 * @access private
+	 */
+	private function updateConfig () {
+		$smarty = new BSSmarty();
+		$smarty->setTemplate('awstats.conf');
+		$smarty->setAttribute('config', $this->getConfig());
+		$file = $this->controller->getDirectory('cache')->createEntry('awstats.conf');
+		$file->setContents($smarty->getContents());
+	}
+
+	public function execute () {
+		$this->updateConfig();
+
+		if ($file = $this->getPrevLogFile()) {
+			$this->analyze($file);
 		}
 		$this->analyze();
 
