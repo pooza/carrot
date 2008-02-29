@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSCalendar {
-	private $weeks;
+	private $weeks = array();
 	private $start;
 	private $end;
 
@@ -42,15 +42,15 @@ class BSCalendar {
 	 * @access private
 	 */
 	private function initialize () {
-		$this->weeks = new BSArray;
 		$date = clone $this->start;
 		$date->setAttribute('day', '-' . ($date->format('N') - 1));
 		$end = clone $this->end;
 		$end->setAttribute('day', '+' . (7 - $end->format('N')));
 		while ($date <= $end) {
-			$values = new BSArray;
-			$values['day'] = $date->getAttribute('day');
-			$values['weekday'] = $date->format('ww');
+			$values = array(
+				'day' => $date->getAttribute('day'),
+				'weekday' => $date->format('ww'),
+			);
 			if ($date->isAgo($this->start) || $this->end->isAgo($date)) {
 				$values['disabled'] = true;
 			} else {
@@ -68,9 +68,6 @@ class BSCalendar {
 					$values['holiday_name'] = $date->getHolidayName();
 				}
 			}
-			if (!$this->weeks[$date->format('Y-W')]) {
-				$this->weeks[$date->format('Y-W')] = new BSArray;
-			}
 			$this->weeks[$date->format('Y-W')][$date->format('Y-m-d')] = $values;
 			$date->setAttribute('day', '+1');
 		}
@@ -80,9 +77,8 @@ class BSCalendar {
 			$ym = explode('-', $key);
 			$year = $ym[0];
 			if (isset($yearPrev) && ($year != $yearPrev)) {
-				$this->weeks[$key]->setParameters($weekPrev->getParameters());
-				$this->weeks[$key]->sort();
-				$this->weeks->removeParameter($keyPrev);
+				$this->weeks[$key] = $weekPrev + $week;
+				unset($this->weeks[$keyPrev]);
 			}
 			$keyPrev = $key;
 			$weekPrev = $week;
@@ -118,10 +114,10 @@ class BSCalendar {
 	 * @param mixed[] $values 値の連想配列
 	 */
 	public function setValues ($name, $values) {
-		foreach ($this->weeks as $keyWeek => $week) {
-			foreach ($week as $keyDay => $day) {
-				if (isset($values[$keyDay])) {
-					$this->weeks[$keyWeek][$keyDay] = $values[$keyDay];
+		foreach ($this->weeks as &$week) {
+			foreach ($week as $key => &$day) {
+				if (isset($values[$key])) {
+					$day[$name] = $values[$key];
 				}
 			}
 		}
