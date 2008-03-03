@@ -116,7 +116,9 @@ class BSCrypt {
 	 * @return string 暗号化された文字列
 	 */
 	public function encrypt ($value) {
-		return $this->getEngine()->encrypt($value);
+		if ($value) {
+			return $this->getEngine()->encrypt($value);
+		}
 	}
 
 	/**
@@ -127,7 +129,9 @@ class BSCrypt {
 	 * @return string 複号化された文字列
 	 */
 	public function decrypt ($value) {
-		return $this->getEngine()->decrypt($value);
+		if ($value) {
+			return $this->getEngine()->decrypt($value);
+		}
 	}
 
 	/**
