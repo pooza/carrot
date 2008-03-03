@@ -16,7 +16,7 @@ task :all => ['schema.sql', 'init.sql']
 
 desc '全てのSQLファイルを削除'
 task :clean do
-  sh 'rm *.sql'
+  system('rm *.sql')
 end
 
 desc '全てのSQLファイルを再度作成'

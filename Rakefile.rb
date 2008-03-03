@@ -13,10 +13,10 @@ desc '運用環境の構築（productionと同じ）'
 task :install => :production
 
 desc '運用環境の構築'
-task :production => [:chmod_var, :awstats, :production_local]
+task :production => [:chmod_var, :awstats, :ajaxzip2, :production_local]
 
 desc 'テスト環境の構築'
-task :development => [:chmod_var, :phpdoc, :development_local]
+task :development => [:chmod_var, :phpdoc, :ajaxzip2, :development_local]
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do
@@ -35,7 +35,6 @@ task :pset do
     system 'svn pdel svn:executable `find . -name \'*.' + extension + '\'`'
   end
   system 'svn pset svn:executable ON bin/*'
-  system 'svn pset svn:executable ON lib/AWStats/awstats.pl'
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
@@ -51,7 +50,9 @@ file 'www/doc' do
 end
 
 desc 'AWStatsを有効に'
-task :awstats => ['www/awstats', 'lib/AWStats/awstats.conf']
+task :awstats => ['www/awstats', 'lib/AWStats/awstats.conf'] do
+  system 'svn pset svn:executable ON lib/AWStats/awstats.pl'
+end
 
 file 'www/awstats' do
   sh 'ln -s ../lib/AWStats www/awstats'
@@ -59,6 +60,19 @@ end
 
 file 'lib/AWStats/awstats.conf' do
   sh 'ln -s ../../var/cache/awstats.conf lib/AWStats/awstats.conf'
+end
+
+desc 'ajaxzip2を有効に'
+task :ajaxzip2 => ['www/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
+  system 'svn pset svn:executable ON lib/ajaxzip2/csv2jsonzip.pl'
+end
+
+file 'www/js/ajaxzip2/data' do
+  sh 'ln -s ../../../var/zipcode www/js/ajaxzip2/data'
+end
+
+file 'lib/ajaxzip2/data' do
+  sh 'ln -s ../../var/zipcode lib/ajaxzip2/data'
 end
 
 def media_types
@@ -74,6 +88,7 @@ def media_types
     'jpg' => 'image/jpeg',
     'jpeg' => 'image/jpeg',
     'js' => 'text/javascript',
+    'json' => 'application/json',
     'pdf' => 'application/pdf',
     'php' => '',
     'pl' => '',
