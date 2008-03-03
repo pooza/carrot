@@ -65,6 +65,7 @@ end
 desc 'ajaxzip2を有効に'
 task :ajaxzip2 => ['www/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
   system 'svn pset svn:executable ON lib/ajaxzip2/csv2jsonzip.pl'
+  sh 'cd lib/ajaxzip2; rake all'
 end
 
 file 'www/js/ajaxzip2/data' do
