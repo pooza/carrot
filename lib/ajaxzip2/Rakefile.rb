@@ -4,21 +4,28 @@
 #
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
-# @version $Id: Rakefile.rb 82 2007-11-03 17:51:31Z pooza $
+# @version $Id$
 
 $KCODE = 'u'
 
 task :default => :all
 
 desc '郵便番号辞書の作成'
-task :all => ['data/ken_all.csv'] do
-  sh './csv2jsonzip.pl data/ken_all.csv'
-  system('rm data/*.lzh data/*.csv')
-end
+task :all => [:json, :clean_temp]
 
 desc '郵便番号辞書を削除'
-task :clean do
-  system('rm data/*.json data/*.lzh data/*.csv')
+task :clean => [:clean_temp, :clean_json]
+
+task :json => ['data/ken_all.csv'] do
+  sh './csv2jsonzip.pl data/ken_all.csv'
+end
+
+task :clean_temp do
+  system 'rm data/ken_all.*'
+end
+
+task :clean_json do
+  system 'rm data/*.json'
 end
 
 desc '郵便番号辞書の更新'
