@@ -37,8 +37,9 @@ class BSCredentialSecurityFilter extends SecurityFilter {
 
 	public function execute ($filters) {
 		$action = $this->controller->getActionStack()->getLastEntry()->getActionInstance();
-		if (!$credential = $action->getCredential()) {
-			// filters.ini の param.credential 値も参照
+		if ($action->getCredential() !== null) {
+			$credential = $action->getCredential();
+		} else {
 			$credential = $this->getParameter('credential');
 		}
 

@@ -37,7 +37,7 @@ abstract class BSAction extends Action {
 	/**
 	 * テーブルを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return BSTableHandler テーブル
 	 */
 	protected function getTable () {
