@@ -12,7 +12,7 @@ task :default => :all
 
 desc '郵便番号辞書の作成'
 task :all => ['data/ken_all.csv'] do
-  sh 'perl ./csv2jsonzip.pl ./data/ken_all.csv'
+  sh './csv2jsonzip.pl data/ken_all.csv'
   system('rm data/*.lzh data/*.csv')
 end
 
