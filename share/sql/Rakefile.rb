@@ -7,7 +7,6 @@
 # @version $Id$
 
 $KCODE = 'u'
-ROOT_DIR = File.dirname(File.dirname(File.dirname(File.expand_path(__FILE__))))
 
 task :default => :all
 
@@ -16,16 +15,16 @@ task :all => ['schema.sql', 'init.sql']
 
 desc '全てのSQLファイルを削除'
 task :clean do
-  system('rm *.sql')
+  system 'rm *.sql'
 end
 
 desc '全てのSQLファイルを再度作成'
 task :refresh => [:clean, :all]
 
 file 'schema.sql' do
-  sh ROOT_DIR + '/bin/carrotctl.php -a CreateDatabaseSchema'
+  sh '../../bin/carrotctl.php -a CreateDatabaseSchema'
 end
 
 file 'init.sql' do
-  sh ROOT_DIR + '/bin/carrotctl.php -a CreateDatabaseDump'
+  sh '../../bin/carrotctl.php -a CreateDatabaseDump'
 end
