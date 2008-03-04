@@ -86,6 +86,17 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	}
 
 	/**
+	 * 値が含まれているか？
+	 *
+	 * @access public
+	 * @param mixed $value 値
+	 * @return boolean 値が含まれていればTrue
+	 */
+	public function isIncluded ($value) {
+		return in_array($value, $this->getParameters());
+	}
+
+	/**
 	 * セパレータで結合した文字列を返す
 	 *
 	 * @access public

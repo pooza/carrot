@@ -107,6 +107,10 @@ input.english,textarea.english {
 	font-family: monospace;
 }
 
+table tr.hide td {
+	color: gray;
+}
+
 .alert {
 	color: red;
 }
