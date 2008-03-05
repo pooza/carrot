@@ -14,6 +14,7 @@
 class BSImageFile extends BSFile {
 	private $renderer;
 	const LINE_SEPARATOR = null;
+	const MAX_FILE_SIZE = 2; //MB単位で
 	const DEFAULT_ENGINE_CLASS = 'BSImage';
 
 	/**
@@ -127,6 +128,19 @@ class BSImageFile extends BSFile {
 			'height' => $this->getRenderer()->getHeight(),
 			'alt' => $this->getName(),
 			'type' => $this->getRenderer()->getType(),
+		);
+	}
+
+	/**
+	 * 登録可能なファイルか
+	 *
+	 * @access public
+	 * @return boolean 登録可能ならTrue
+	 */
+	public function isRegisterable () {
+		return (($this->getSize() < (self::MAX_FILE_SIZE * 1024 * 1024))
+			&& BSImage::getTypes()->isIncluded($this->getEngine()->getType())
+			&& $this->isUploaded()
 		);
 	}
 

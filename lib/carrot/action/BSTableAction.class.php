@@ -33,7 +33,7 @@ abstract class BSTableAction extends BSAction {
 	/**
 	 * テーブルを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return BSTableHandler テーブル
 	 */
 	protected function getTable () {
@@ -69,18 +69,18 @@ abstract class BSTableAction extends BSAction {
 	/**
 	 * カレントレコードIDをクリアする
 	 *
-	 * @access private
+	 * @access protected
 	 */
-	private function clearRecordID () {
+	protected function clearRecordID () {
 		$this->user->removeAttribute($this->getRecordClassName() . 'ID');
 	}
 
 	/**
 	 * 検索条件をセッションにキャッシュする
 	 *
-	 * @access private
+	 * @access protected
 	 */
-	private function cacheCriteria () {
+	protected function cacheCriteria () {
 		$params = $this->request->getParameters();
 		unset($params[BSController::MODULE_ACCESSOR]);
 		unset($params[BSController::ACTION_ACCESSOR]);

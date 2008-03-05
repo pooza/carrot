@@ -96,7 +96,7 @@ class BSImage implements BSImageRenderer {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		if (!in_array($type, self::getTypes())) {
+		if (!self::getTypes()->isIncluded($type)) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}
 		$this->type = $type;
@@ -412,14 +412,28 @@ class BSImage implements BSImageRenderer {
 	 * 利用可能なメディアタイプを返す
 	 *
 	 * @access public
-	 * @return string[] メディアタイプ
+	 * @return BSArray メディアタイプ
 	 */
 	public static function getTypes () {
-		$types = array();
+		$types = new BSArray;
 		foreach (array('.gif', '.jpg', '.png') as $suffix) {
 			$types[$suffix] = BSTypeList::getType($suffix);
 		}
 		return $types;
+	}
+
+	/**
+	 * 利用可能な拡張子を返す
+	 *
+	 * @access public
+	 * @return BSArray 拡張子
+	 */
+	public static function getSuffixes () {
+		$suffixes = new BSArray;
+		foreach (self::getTypes() as $suffix => $type) {
+			$suffixes[$type] = $suffix;
+		}
+		return $suffixes;
 	}
 }
 
