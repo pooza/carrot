@@ -12,7 +12,9 @@
  * @version $Id$
  */
 function smarty_modifier_encoding ($value) {
-	if (is_array($value)) {
+	if ($value == '0') {
+		return '0';
+	} else if (is_array($value)) {
 		return $value;
 	} else if ($value) {
 		return BSString::convertEncoding($value, BSString::TEMPLATE_ENCODING);
