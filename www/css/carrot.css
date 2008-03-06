@@ -115,11 +115,53 @@ table tr.hide td {
 	color: red;
 }
 
+#Contents {
+	margin-left: 160px;
+}
+
+#Menu {
+	width: 140px;
+	padding: 4px;
+	border: 1px solid black;
+	background-color: #BFFFBF;
+}
+
+#Menu ul {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+#Menu ul li {
+	list-style-type: none;
+}
+
+#BreadCrumbs {
+	font-family: sans-serif;
+	font-weight: bold;
+	background-color: gray;
+	color: white;
+	padding: 2px;
+	margin-bottom: 6px;
+}
+
+#BreadCrumbs a {
+	background-color: gray;
+	color: white;
+	text-decoration: underline;
+}
+
+#BreadCrumbs a:hover {
+	text-decoration: none;
+	background-color: white;
+	color: gray;
+}
+
 #Header {
 	font-family: sans-serif;
 	color: gray;
 	border-bottom: solid 2px gray;
-	margin-bottom: 12px;
+	margin-bottom: 3px;
+	text-align: center;
 	clear: both;
 }
 

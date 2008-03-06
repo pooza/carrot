@@ -8,6 +8,7 @@
 <div id="Footer">
 {'app_name'|translate:'en'} {'app_ver'|translate} (Powered by Carrot Framework {'bs_carrot_ver'|translate})
 </div>
+</div>
 </body>
 </html>
 

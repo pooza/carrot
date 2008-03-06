@@ -13,19 +13,35 @@
 <script type="text/javascript" src="/js/carrot.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/prototype.js" charset="utf-8"></script>
 <script type="text/javascript" src="/js/ahah.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/elevator.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
 </head>
 <body>
-<div id="Header">
+
+{if $menu}
+<div id="Menu">
+	<ul>
 {foreach from=$menu item=item}
 	{if $item.href}
-	[<a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a>]
+		<li>[<a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a>]</li>
 	{elseif !$item.action}
-	[<a href="/{$item.module}/">{$item.title}</a>]
+		<li>[<a href="/{$item.module}/">{$item.title}</a>]</li>
 	{else}
-	[<a href="/{$item.module}/{$item.action}">{$item.title}</a>]
+		<li>[<a href="/{$item.module}/{$item.action}">{$item.title}</a>]</li>
 	{/if}
 {/foreach}
+	</ul>
+</div>
+<script type="text/javascript">
+	var elevator = new Elevator('Menu', 10, 10, 10);
+	setInterval('elevator.move()', 10);
+</script>
+{/if}
+
+<div id="Contents">
+
+<div id="Header">
+{'app_name'|translate} {$title}
 </div>
 
 {* vim: set tabstop=4 ai filetype=html: *}
