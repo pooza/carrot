@@ -12,11 +12,11 @@
  * @version $Id$
  */
 function smarty_modifier_tel2link ($value) {
-	if ($value == '0') {
-		return '0';
-	} else if (is_array($value)) {
+	if (is_array($value)) {
 		return $value;
-	} else if ($value) {
+	} else if ($value instanceof BSArray) {
+		return $value->getParameters();
+	} else if ($value != '') {
 		return preg_replace(
 			"/[0-9]{2,4}\-[0-9]{2,4}\-[0-9]{4}/",
 			"<a href=\"tel:\\0\">\\0</a>",

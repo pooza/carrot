@@ -34,9 +34,9 @@ class BSString {
 	 * @static
 	 */
 	public static function convertEncoding ($value, $encodingTo = null, $encodingFrom = null) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::convertEncoding($item, $encodingTo, $encodingFrom);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertEncoding($item, $encodingTo, $encodingFrom);
 			}
 		} else {
 			if (!$encodingTo) {
@@ -73,9 +73,9 @@ class BSString {
 	 * @static
 	 */
 	public static function sanitize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::sanitize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::sanitize($item);
 			}
 		} else {
 			$value = htmlspecialchars($value, ENT_QUOTES);
@@ -92,9 +92,9 @@ class BSString {
 	 * @static
 	 */
 	public static function unsanitize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::unsanitize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::unsanitize($item);
 			}
 		} else {
 			$value = htmlspecialchars_decode($value, ENT_QUOTES);
@@ -112,9 +112,9 @@ class BSString {
 	 * @static
 	 */
 	public static function convertKana ($value, $format = 'KVa') {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::convertKana($item, $format);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertKana($item, $format);
 			}
 		} else {
 			$value = mb_convert_kana($value, $format, self::SCRIPT_ENCODING);
@@ -133,9 +133,9 @@ class BSString {
 	 * @static
 	 */
 	public static function truncate ($value, $length, $suffix = '...') {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::truncate($item, $length, $suffix);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::truncate($item, $length, $suffix);
 			}
 		} else {
 			$value = self::convertEncoding($value, 'eucjp-win', self::SCRIPT_ENCODING);
@@ -158,9 +158,9 @@ class BSString {
 	 * @static
 	 */
 	public static function capitalize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::capitalize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::capitalize($item);
 			}
 		} else {
 			$value = ucfirst(strtolower($value));
@@ -177,9 +177,9 @@ class BSString {
 	 * @static
 	 */
 	public static function camelize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::camelize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::camelize($item);
 			}
 		} else {
 			if ($parts = preg_split('/[_ ]/', $value)) {
@@ -202,9 +202,9 @@ class BSString {
 	 * @static
 	 */
 	public static function pascalize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::pascalize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::pascalize($item);
 			}
 		} else {
 			$dest = '';
@@ -225,9 +225,9 @@ class BSString {
 	 * @static
 	 */
 	public static function underscorize ($value) {
-		if (is_array($value)) {
-			foreach ($value as &$item) {
-				$item = self::underscorize($item);
+		if (is_array($value) || ($value instanceof BSArray)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::underscorize($item);
 			}
 		} else {
 			foreach (array('/[A-Z][a-z0-9]+/', '/[A-Z]{2,}/', '/[A-Z]/') as $pattern) {

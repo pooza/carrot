@@ -12,11 +12,11 @@
  * @version $Id$
  */
 function smarty_modifier_strip_html_tag ($value) {
-	if ($value == '0') {
-		return '0';
-	} else if (is_array($value)) {
+	if (is_array($value)) {
 		return $value;
-	} else if ($value) {
+	} else if ($value instanceof BSArray) {
+		return $value->getParameters();
+	} else if ($value != '') {
 		while (preg_match('/<\/?[^>]>/', $value, $matches)) {
 			$value = str_replace($matches[0], '', $value);
 		} 

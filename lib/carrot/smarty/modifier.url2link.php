@@ -12,11 +12,11 @@
  * @version $Id$
  */
 function smarty_modifier_url2link ($value) {
-	if ($value == '0') {
-		return '0';
-	} else if (is_array($value)) {
+	if (is_array($value)) {
 		return $value;
-	} else if ($value) {
+	} else if ($value instanceof BSArray) {
+		return $value->getParameters();
+	} else if ($value != '') {
 		return preg_replace(
 			"/https?:\/\/[a-zA-Z0-9_~.,:;\/?&=+$%#!\-]+/",
 			"<a href=\"\\0\" target=\"_blank\">\\0</a>",

@@ -12,7 +12,11 @@
  * @version $Id$
  */
 function smarty_modifier_mb_truncate ($value, $length = 80, $suffix = '...') {
-	if (!is_array($value)) {
+	if (is_array($value)) {
+		return $value;
+	} else if ($value instanceof BSArray) {
+		return $value->getParameters();
+	} else if ($value != '') {
 		return BSString::truncate($value, $length, $suffix);
 	}
 	return $value;

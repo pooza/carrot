@@ -129,10 +129,10 @@ class BSTranslator {
 	 * @access public
 	 * @param string[] $words 見出し語の配列
 	 * @param string $language 言語
-	 * @return string[] ハッシュ
+	 * @return BSArray ハッシュ
 	 */
 	public function getHash ($words, $language = 'ja') {
-		$hash = array();
+		$hash = new BSArray;
 		foreach ($words as $word) {
 			$hash[$word] = $this->translate($word, $language);
 		}
@@ -143,18 +143,18 @@ class BSTranslator {
 	 * 言語キー配列を出力
 	 *
 	 * @access public
-	 * @return string[] 言語キー配列
+	 * @return BSArray 言語キー配列
 	 * @static
 	 */
 	public static function getLanguageNames () {
-		return array_keys(self::getLanguages());
+		return self::getLanguages()->getKeys();
 	}
 
 	/**
 	 * 言語配列を返す
 	 *
 	 * @access public
-	 * @return string[] 言語配列
+	 * @return BSArray 言語配列
 	 * @static
 	 */
 	public static function getLanguages () {
