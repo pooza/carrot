@@ -133,31 +133,15 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * サムネイルのサイズ情報を返す
-	 *
-	 * @access public
-	 * @param integer $pixel サイズ上限
-	 * @return integer[] サムネイルのサイズ情報
-	 */
-	public function getThumbnailSize ($pixel) {
-		if (($pixel < $this->getWidth()) || ($pixel < $this->getHeight())) {
-			return array('width' => $pixel, 'height' => $pixel);
-		} else {
-			return array('width' => $this->getWidth(), 'height' => $this->getHeight());
-		}
-	}
-
-	/**
 	 * サムネイルを返す
 	 *
 	 * @access public
-	 * @param integer $pixel サイズ上限
+	 * @param integer $pixel サイズ
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail ($pixel) {
-		$info = $this->getThumbnailSize($pixel);
 		$image = clone $this;
-		$image->resize($info['width'], $info['height']);
+		$image->resize($pixel, $pixel);
 		return $image;
 	}
 
