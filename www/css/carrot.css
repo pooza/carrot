@@ -108,7 +108,7 @@ input.english,textarea.english {
 }
 
 table tr.hide td {
-	color: gray;
+	background-color: gray;
 }
 
 .alert {

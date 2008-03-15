@@ -35,6 +35,7 @@ task :pset do
     system 'svn pdel svn:executable `find . -name \'*.' + extension + '\'`'
   end
   system 'svn pset svn:executable ON bin/*'
+  system 'svn pset svn:executable ON lib/*/*.pl'
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
