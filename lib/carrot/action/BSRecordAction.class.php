@@ -13,6 +13,7 @@
  */
 abstract class BSRecordAction extends BSAction {
 	private $record;
+	private $table;
 
 	/**
 	 * 更新レコードのフィールド値を配列で返す
@@ -25,12 +26,26 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
+	 * テーブルを返す
+	 *
+	 * @access public
+	 * @return BSTableHandler テーブル
+	 */
+	public function getTable () {
+		if (!$this->table && $this->getRecordClassName()) {
+			$name = $this->getRecordClassName() . 'Handler';
+			$this->table = new $name();
+		}
+		return $this->table;
+	}
+
+	/**
 	 * 編集中レコードを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return BSRecord 編集中レコード
 	 */
-	protected function getRecord () {
+	public function getRecord () {
 		if (!$this->record) {
 			if ($id = $this->getRecordID()) {
 				$this->record = $this->getTable()->getRecord($id);
@@ -42,11 +57,14 @@ abstract class BSRecordAction extends BSAction {
 	/**
 	 * カレントレコードIDを返す
 	 *
-	 * @access protected
+	 * @access public
+	 * @return integer カレントレコードID
 	 */
-	protected function getRecordID () {
+	public function getRecordID () {
 		if ($id = $this->request->getParameter('id')) {
-			$this->setRecordID($id);
+			if (get_class($this) != 'CreateAction') {
+				$this->setRecordID($id);
+			}
 		}
 		return $this->user->getAttribute($this->getRecordClassName() . 'ID');
 	}

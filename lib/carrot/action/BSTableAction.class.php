@@ -16,6 +16,7 @@ abstract class BSTableAction extends BSAction {
 	protected $order;
 	protected $rows = array();
 	private $isShowRows = false;
+	private $table;
 
 	/**
 	 * アクションを初期化する
@@ -33,10 +34,10 @@ abstract class BSTableAction extends BSAction {
 	/**
 	 * テーブルを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return BSTableHandler テーブル
 	 */
-	protected function getTable () {
+	public function getTable () {
 		if (!$this->table) {
 			$name = $this->getRecordClassName() . 'Handler';
 			$this->table = new $name(

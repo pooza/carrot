@@ -14,6 +14,20 @@
 class BSRecordValidator extends Validator {
 
 	/**
+	 * 初期化
+	 *
+	 * @access public
+	 * @param Context $context mojaviコンテキスト
+	 * @param string[] $parameters パラメータ配列
+	 */
+	public function initialize ($context, $parameters = array()) {
+		return parent::initialize(
+			$context,
+			array_merge(array('exist' => true), $parameters)
+		);
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public
@@ -25,9 +39,16 @@ class BSRecordValidator extends Validator {
 		try {
 			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
 			$table = new $class;
-			return ($table->getRecord($value) != null);
+			$isExist = ($table->getRecord($value) != null);
 		} catch (Exception $e) {
-			$error = $e->getMessage();
+			$isExist = false;
+		}
+
+		if ($this->getParameter('exist') && !$isExist) {
+			$error = "存在しません。";
+			return false;
+		} else if (!$this->getParameter('exist') && $isExist) {
+			$error = "重複します。";
 			return false;
 		}
 		return true;

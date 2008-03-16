@@ -14,7 +14,6 @@
  */
 abstract class BSAction extends Action {
 	protected $recordClassName;
-	protected $table;
 
 	/**
 	 * レコードクラス名を返す
@@ -32,20 +31,6 @@ abstract class BSAction extends Action {
 			}
 		}
 		return $this->recordClassName;
-	}
-
-	/**
-	 * テーブルを返す
-	 *
-	 * @access protected
-	 * @return BSTableHandler テーブル
-	 */
-	protected function getTable () {
-		if (!$this->table && $this->getRecordClassName()) {
-			$name = $this->getRecordClassName() . 'Handler';
-			$this->table = new $name();
-		}
-		return $this->table;
 	}
 
 	public function __get ($name) {
