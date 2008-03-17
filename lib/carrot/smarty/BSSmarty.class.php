@@ -304,6 +304,9 @@ class BSSmarty extends Smarty implements BSRenderer {
 			);
 			$names = array($name);
 			if ($this->getUserAgent()) {
+				if ($this->getUserAgent()->isMobile()) {
+					$names[] = $name . '.mobile';
+				}
 				$names[] = $name . '.' . $this->getUserAgent()->getType();
 				rsort($names);
 			}
