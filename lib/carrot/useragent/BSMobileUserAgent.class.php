@@ -37,7 +37,29 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		$attributes = parent::getAttributes();
 		$attributes['query'] = $query;
 		$attributes['query_params'] = BSString::toString($query, '=', '&');
+		$attributes['is_unsupported'] = $this->isUnsupported();
 		return $attributes;
+	}
+
+	/**
+	 * 非対応端末か？
+	 *
+	 * @access public
+	 * @return boolean 非対応端末ならTrue
+	 */
+	public function isUnsupported () {
+		require_once(ConfigCache::checkConfig('config/mobile_info/unsupport_terminals.ini'));
+		if (!isset($terminals[$this->getTypeName()])) {
+			return false;
+		}
+		$patterns = new BSArray($terminals[$this->getTypeName()]);
+
+		foreach ($patterns as $pattern) {
+			if (strpos($this->getName(), $pattern) !== false) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
