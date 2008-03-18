@@ -16,7 +16,17 @@ function smarty_modifier_emoji_number ($value) {
 		return $value;
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
-	} else if ($value != '') {
+	} else if ($value == '0') {
+		switch (BSController::getInstance()->getUserAgent()->getType()) {
+			case 'Docomo':
+			case 'au':
+				return '&#63888;';
+			case 'SoftBank';
+				return '&#57893;';
+			default:
+				return $value;
+		}
+	} else if (in_array($value, range(1, 9))) {
 		switch (BSController::getInstance()->getUserAgent()->getType()) {
 			case 'Docomo':
 			case 'au':
@@ -26,6 +36,8 @@ function smarty_modifier_emoji_number ($value) {
 			default:
 				return $value;
 		}
+	} else if ($value != '') {
+		return $value;
 	}
 }
 
