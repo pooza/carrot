@@ -13,6 +13,7 @@
 class BSString {
 	const SCRIPT_ENCODING = BS_SCRIPT_ENCODING;
 	const TEMPLATE_ENCODING = BS_SMARTY_TEMPLATE_ENCODING;
+	const DETECT_ORDER = 'ascii,jis,utf-8,euc-jp,sjis';
 
 	/**
 	 * コンストラクタ
@@ -24,7 +25,7 @@ class BSString {
 	}
 
 	/**
-	 * 文字コード変換
+	 * 文字セット変換
 	 *
 	 * @access public
 	 * @param mixed $value 変換対象の文字列又は配列
@@ -43,7 +44,7 @@ class BSString {
 				$encodingTo = self::SCRIPT_ENCODING;
 			}
 			if (!$encodingFrom) {
-				$encodingFrom = 'utf-8,euc-jp,sjis,jis';
+				$encodingFrom = self::DETECT_ORDER;
 			}
 			if ($encodingFrom != $encodingTo) {
 				$value = mb_convert_encoding($value, $encodingTo, $encodingFrom);
@@ -53,15 +54,15 @@ class BSString {
 	}
 
 	/**
-	 * 文字コードを返す
+	 * 文字セットを返す
 	 *
 	 * @access public
 	 * @param string $str 評価対象の文字列
-	 * @return string 文字コード
+	 * @return string 文字セット
 	 * @static
 	 */
 	public static function getEncoding ($str) {
-		return strtolower(mb_detect_encoding($str, 'ascii,utf-8,euc-jp,sjis,jis'));
+		return strtolower(mb_detect_encoding($str, self::DETECT_ORDER));
 	}
 
 	/**
@@ -137,13 +138,9 @@ class BSString {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::truncate($item, $length, $suffix);
 			}
-		} else {
+		} else if ($length < self::getWidth($value)) {
 			$value = self::convertEncoding($value, 'eucjp-win', self::SCRIPT_ENCODING);
-			mb_internal_encoding('eucjp-win');
-			if ($length < mb_strlen($value)) {
-				$value = mb_substr($value, 0, $length) . $suffix;
-			}
-			mb_internal_encoding(self::SCRIPT_ENCODING);
+			$value = mb_strcut($value, 0, $length, 'eucjp-win') . $suffix;
 			$value = self::convertEncoding($value, self::SCRIPT_ENCODING, 'eucjp-win');
 		}
 		return $value;
@@ -244,6 +241,33 @@ class BSString {
 	}
 
 	/**
+	 * セパレータで分割した配列を返す
+	 *
+	 * @access public
+	 * @param string $separator セパレータ
+	 * @param string $str 対象文字列
+	 * @return BSArray 結果配列
+	 * @static
+	 */
+	public static function explode ($separator, $str) {
+		return new BSArray(explode($separator, $str));
+	}
+
+	/**
+	 * 半角単位での文字列の幅を返す
+	 *
+	 * @access public
+	 * @param string $str 対象文字列
+	 * @return integer 半角単位での幅
+	 * @static
+	 */
+	public static function getWidth ($str) {
+		return strlen(
+			self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING)
+		);
+	}
+
+	/**
 	 * 指定幅で折り畳む
 	 *
 	 * @access public
@@ -277,7 +301,7 @@ class BSString {
 	 * @static
 	 */
 	public static function cite ($str, $width = 74, $prefix = '> ') {
-		$str = self::split($str, $width - strlen($prefix));
+		$str = self::split($str, $width - self::getWidth($prefix));
 		$lines = explode("\n", $str);
 		foreach ($lines as &$line) {
 			$line = $prefix . $line;

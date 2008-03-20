@@ -197,6 +197,16 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	public function count () {
 		return count($this->getParameters());
 	}
+
+	/**
+	 * 基本情報を文字列で返す
+	 *
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return $this->join("\n");
+	}
 }
 
 /* vim:set tabstop=4 ai: */

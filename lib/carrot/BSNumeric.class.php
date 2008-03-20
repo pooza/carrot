@@ -73,11 +73,11 @@ class BSNumeric {
 	 *
 	 * @access public
 	 * @param integer $num 処理対象の数値
-	 * @return integer[] 数字の配列
+	 * @return BSArray 数字の配列
 	 * @static
 	 */
 	public static function getDigits ($num) {
-		$digits = array();
+		$digits = new BSArray;
 		for ($i = 0 ; $i <= strlen($num) - 1 ; $i ++) {
 			$digits[] = substr($num, $i, 1);
 		}

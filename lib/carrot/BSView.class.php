@@ -77,9 +77,8 @@ abstract class BSView extends View {
 			throw new BSException($message);
 		}
 
-		$types = BSTypeList::getInstance();
 		preg_match('/^([a-z0-9]+\/[^;]+).*$/i', $this->renderer->getType(), $matches);
-		if (!$matches || !in_array($matches[1], $types->getAttributes())) {
+		if (!$matches || !in_array($matches[1], BSTypeList::getInstance()->getAttributes())) {
 			throw new BSException('メディアタイプ"%s"は正しくありません。', $matches[1]);
 		}
 	}
