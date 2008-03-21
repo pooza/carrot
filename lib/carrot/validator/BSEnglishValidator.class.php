@@ -26,8 +26,7 @@ class BSEnglishValidator extends RegexValidator {
 			'match_error' => '使用出来ない文字が含まれています。',
 			'pattern' => "/^[[:print:]]*$/",
 		);
-		$parameters = $defaults + (array)$parameters;
-		return parent::initialize($context, $parameters);
+		return parent::initialize($context, array_merge($defaults, $parameters));
 	}
 }
 
