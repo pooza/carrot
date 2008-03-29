@@ -218,6 +218,26 @@ abstract class BSRecord {
 	}
 
 	/**
+	 * 更新日を返す
+	 *
+	 * @access public
+	 * @return BSDate 更新日
+	 */
+	public function getUpdateDate () {
+		return new BSDate($this->getAttribute('update_date'));
+	}
+
+	/**
+	 * 作成日を返す
+	 *
+	 * @access public
+	 * @return BSDate 作成日
+	 */
+	public function getCreateDate () {
+		return new BSDate($this->getAttribute('create_date'));
+	}
+
+	/**
 	 * ラベルを返す
 	 *
 	 * @access public
