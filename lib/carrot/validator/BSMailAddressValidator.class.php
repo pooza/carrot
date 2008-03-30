@@ -26,7 +26,7 @@ class BSMailAddressValidator extends Validator {
 			'table' => 'account',
 			'field' => 'email',
 		);
-		return parent::initialize($context, array_merge($defaults, $parameters));
+		return parent::initialize($context, array_merge($defaults, (array)$parameters));
 	}
 
 	/**

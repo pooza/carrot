@@ -538,6 +538,23 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
+	 * 更新日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 更新日付
+	 */
+	public function getUpdateDate () {
+		$date = null;
+		foreach ($this as $record) {
+			if (!$date || ($date < $record->getUpdateDate())) {
+				$date = $record->getUpdateDate();
+			}
+		}
+		return $date;
+	}
+
+
+	/**
 	 * テーブル名を返す
 	 *
 	 * @access public

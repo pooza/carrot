@@ -23,7 +23,7 @@ class BSRecordValidator extends Validator {
 	public function initialize ($context, $parameters = array()) {
 		return parent::initialize(
 			$context,
-			array_merge(array('exist' => true), $parameters)
+			array_merge(array('exist' => true), (array)$parameters)
 		);
 	}
 
