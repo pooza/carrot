@@ -12,9 +12,9 @@
  * クラス未定義時処理のオーバーロード
  *
  * @access public
- * @param string $class クラス名
+ * @param string $name クラス名
  */
-function __autoload ($class) {
+function __autoload ($name) {
 	static $classes;
 
 	if (!$classes) {
@@ -25,10 +25,23 @@ function __autoload ($class) {
 		} catch (Exception $e) {
 			trigger_error($e->getMessage(), E_USER_ERROR);
 		}
-	} else if (!isset($classes[$class])) {
-		throw new AutoloadException($class . 'は未定義なクラスです。');
+	} else if (!isset($classes[$name])) {
+		$basename = str_replace('Handler', '', $name);
+		$paths = array(
+			BS_WEBAPP_DIR . '/lib/' . $name . '.class.php',
+			BS_WEBAPP_DIR . '/lib/' . $name . '/' . $name .'.class.php',
+		);
+		if ($name != $basename) {
+			$paths[] = BS_WEBAPP_DIR . '/lib/' . $basename . '/' . $name .'.class.php';
+		}
+		foreach ($paths as $path) {
+			if (is_readable($path)) {
+				return require_once($path);
+			}
+		}
+		throw new AutoloadException($name . 'は未定義なクラスです。');
 	}
-	require_once($classes[$class]);
+	require_once($classes[$name]);
 }
 
 /**
@@ -178,7 +191,7 @@ try {
 	}
 	$message = array(
 		'只今、サーバへのアクセスが集中しています。',
-		'お手数ですが、5秒程度お待ち頂いてからブラウザの戻るボタンの押下を行って下さい。',
+		'しばらくお待ち下さい。',
 	);
 	print implode("<br/>\n", $message);
 } catch (Exception $e) {
