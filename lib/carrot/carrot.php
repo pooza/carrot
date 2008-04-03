@@ -153,16 +153,14 @@ try {
 	ConfigCache::import('config/constant/mojavi.ini');
 	ConfigCache::import('config/compile.conf');
 
-	if (BS_DEBUG) {
-		if (isset($_POST['ua']) && $_POST['ua']) {
-			$name = $_POST['ua'];
-		} else if (isset($_GET['ua']) && $_GET['ua']) {
-			$name = $_GET['ua'];
-		} else {
-			$name = $_SERVER['HTTP_USER_AGENT'];
-		}
-	} else {
+	if (BS_DEBUG && isset($_POST['ua']) && $_POST['ua']) {
+		$name = $_POST['ua'];
+	} else if (BS_DEBUG && isset($_GET['ua']) && $_GET['ua']) {
+		$name = $_GET['ua'];
+	} else if (isset($_SERVER['HTTP_USER_AGENT'])) {
 		$name = $_SERVER['HTTP_USER_AGENT'];
+	} else {
+		$name = '';
 	}
 	foreach (array('Docomo', 'Au', 'SoftBank') as $carrier) {
 		$class = sprintf('BS%sUserAgent', $carrier);
