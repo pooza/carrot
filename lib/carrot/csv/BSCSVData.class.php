@@ -99,7 +99,7 @@ class BSCSVData implements BSRenderer {
 	 * @param string $contents CSVデータの内容
 	 */
 	public function setContents ($contents) {
-		$this->contents = $contents;
+		$this->contents = BSString::convertEncoding($contents);
 		$this->records = array();
 	}
 

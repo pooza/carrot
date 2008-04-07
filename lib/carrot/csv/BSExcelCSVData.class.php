@@ -9,8 +9,9 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
+ * @link http://project-p.jp/halt/kinowiki/php/Tips/csv 参考
+ * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
  * @version $Id$
- * @todo エクスポートしか出来ない。
  */
 class BSExcelCSVData extends BSHeaderCSVData {
 	protected $fields = array();
@@ -41,18 +42,38 @@ class BSExcelCSVData extends BSHeaderCSVData {
 	}
 
 	/**
-	 * レコードを追加する
+	 * 行をセットして、レコード配列を生成する
 	 *
 	 * @access public
-	 * @param string[] $record 
+	 * @param string[] $lines 
 	 */
-	public function addRecord ($record) {
-		// 誤認識対策
-		if ($this->getFieldName() == '_ID') {
-			$id = array_shift($record);
-			$record = array('_ID' => $id) + $record;
-		}
-		parent::addRecord($record);
+	public function setLines ($lines) {
+		$this->setFieldNames(explode(self::FIELD_SEPARATOR, $lines[0]));
+		unset($lines[0]);
+
+		$record = null;
+		foreach ($lines as $line) {
+			$record .= $line;
+			preg_match_all('/"/', $record, $matched);
+			if ((count($matched[0]) % 2) != 0) {
+				continue;
+			}
+	
+			preg_match_all('/"(.*?)"/', $record, $matched); 
+			foreach ($matched[1] as $column) {
+				$record = str_replace($column, self::replaceSeparators($column), $record);
+			}   
+			$fields = explode(self::FIELD_SEPARATOR, $record);
+	
+			foreach ($fields as &$field) {
+				$field = rtrim($field);
+				$field = preg_replace('/"(.*)"/', '\\1', $field);
+				$field = str_replace('""', '"', $field);
+			}   
+	
+			$this->addRecord($fields);
+			$record = null;
+		}   
 	}
 
 	/**

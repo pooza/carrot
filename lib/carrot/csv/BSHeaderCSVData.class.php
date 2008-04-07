@@ -31,7 +31,9 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @param string[] $fields 見出し
 	 */
 	public function setFieldNames ($fields) {
-		$this->fields = $fields;
+		foreach ($fields as $field) {
+			$this->fields[] = rtrim($field);
+		}
 	}
 
 	/**
@@ -81,7 +83,7 @@ class BSHeaderCSVData extends BSCSVData {
 			return;
 		}
 
-		if (!isset($record[$this->getFieldName()])) {
+		if (!isset($record[$this->getFieldName(0)])) {
 			for ($i = 0 ; $i < count($this->getFieldNames()) ; $i ++) {
 				$record[$this->getFieldName($i)] = $record[$i];
 				unset($record[$i]);
@@ -91,7 +93,7 @@ class BSHeaderCSVData extends BSCSVData {
 			$record = array();
 			foreach ($this->getFieldNames() as $field) {
 				if (isset($recordOriginal[$field])) {
-					$record[$field] = $recordOriginal[$field];
+					$record[$field] = rtrim($recordOriginal[$field]);
 				} else {
 					$record[$field] = null;
 				}
