@@ -46,6 +46,19 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	}
 
 	/**
+	 * 要素をまとめて設定する
+	 *
+	 * setParametersのエイリアス
+	 *
+	 * @access public
+	 * @param mixed[] $attributes 要素の配列
+	 * @final
+	 */
+	public final function setAttributes ($attributes) {
+		$this->setParameters($attributes);
+	}
+
+	/**
 	 * 要素を設定する
 	 *
 	 * @access public
@@ -66,6 +79,47 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 			}
 			$this->parameters[$name] = $value;
 		}
+	}
+
+	/**
+	 * 要素を設定する
+	 *
+	 * setParameterのエイリアス
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @param mixed $value 要素
+	 * @param boolean $position 先頭ならTrue
+	 * @final
+	 */
+	public final function setAttribute ($name, $value, $position = self::POSITION_BOTTOM) {
+		$this->setParameter($name, $value, $position);
+	}
+
+	/**
+	 * 要素を削除する
+	 *
+	 * removeParameterのエイリアス
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @final
+	 */
+	public final function removeAttribute ($name) {
+		$this->removeParameter($name);
+	}
+
+	/**
+	 * 要素を含むか？
+	 *
+	 * hasParameterのエイリアス
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @final
+	 */
+	public final function hasAttribute ($name) {
+		return $this->hasParameter($name);
 	}
 
 	/**

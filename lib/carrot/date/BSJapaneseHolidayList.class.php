@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
-	const URL = 'http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics';
+	const URL = BS_HOLIDAY_URL_JA;
 
 	/**
 	 * ICSカレンダーをパースしてルール配列に格納

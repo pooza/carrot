@@ -19,9 +19,9 @@ class BSDate {
 	const FRI = 5;
 	const SAT = 6;
 	const SUN = 7;
-	private $attributes = array();
-	private $timestamp;
+	private $attributes;
 	static private $timezone;
+	static private $japaneseCalendarDates;
 
 	/**
 	 * コンストラクタ
@@ -30,6 +30,7 @@ class BSDate {
 	 * @param string $str 日付文字列
 	 */
 	public function __construct ($str = null) {
+		$this->attributes = new BSArray(array('timestamp' => null, 'has_time' => false));
 		if (!self::$timezone && defined('BS_DATE_TIMEZONE')){
 			date_default_timezone_set(BS_DATE_TIMEZONE);
 		}
@@ -87,8 +88,8 @@ class BSDate {
 	 * @return integer UNIXタイムスタンプ
 	 */
 	public function getTimestamp () {
-		if (!$this->timestamp) {
-			$this->timestamp = mktime(
+		if (!$this->attributes['timestamp']) {
+			$this->attributes['timestamp'] = mktime(
 				$this->getAttribute('hour'),
 				$this->getAttribute('minute'),
 				$this->getAttribute('second'),
@@ -97,7 +98,7 @@ class BSDate {
 				$this->getAttribute('year')
 			);
 		}
-		return $this->timestamp;
+		return $this->attributes['timestamp'];
 	}
 
 	/**
@@ -113,7 +114,7 @@ class BSDate {
 		$this->setAttribute('hour', date('H', $timestamp));
 		$this->setAttribute('minute', date('i', $timestamp));
 		$this->setAttribute('second', date('s', $timestamp));
-		$this->timestamp = $timestamp;
+		$this->attributes['timestamp'] = $timestamp;
 
 		if (!$this->validate()) {
 			throw new BSDateException('"%s"は正しくないタイムスタンプです。', $timestamp);
@@ -130,6 +131,41 @@ class BSDate {
 	}
 
 	/**
+	 * 時刻を持つか？
+	 *
+	 * @access public
+	 * @return boolean 時刻を持つならTrue
+	 */
+	public function hasTime () {
+		return $this->attribute['has_time'];
+	}
+
+	/**
+	 * 時刻を持つかどうかを設定する？
+	 *
+	 * @access public
+	 * @param boolean $mode 時刻を持つならTrue
+	 */
+	public function setHasTime ($mode) {
+		if ($this->attributes['has_time'] == $mode) {
+			return;
+		}
+
+		$this->attributes['timestamp'] = null;
+		if ($this->attributes['has_time'] = $mode) {
+			foreach (array('hour', 'minute', 'second') as $name) {
+				if (!$this->attributes->hasAttribute($name)) {
+					$this->attributes->setAttribute($name, 0);
+				}
+			}
+		} else {
+			foreach (array('hour', 'minute', 'second') as $name) {
+				$this->attributes->removeAttribute($name);
+			}
+		}
+	}
+
+	/**
 	 * 属性を返す
 	 *
 	 * @access public
@@ -137,18 +173,25 @@ class BSDate {
 	 * @param mixed 属性
 	 */
 	public function getAttribute ($name) {
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->attributes[$name];
 	}
 
 	/**
 	 * 全ての属性を返す
 	 *
 	 * @access public
-	 * @return mixed[] 全ての属性
+	 * @return BSArray 全ての属性
 	 */
 	public function getAttributes () {
+		// 各属性を再計算
+		$this->getTimestamp();
+		$this->getWeekday();
+		$this->getWeekdayName('ja');
+		$this->isHoliday();
+		$this->getHolidayName();
+		$this->getGengo();
+		$this->getJapaneseYear();
+
 		return $this->attributes;
 	}
 
@@ -161,9 +204,27 @@ class BSDate {
 	 * @return BSDate 適用後の自分自身
 	 */
 	public function setAttribute ($name, $value) {
+		$name = strtolower($name);
+		switch ($name) {
+			case 'year':
+			case 'month':
+			case 'day':
+				$this->attributes->removeAttribute('weekday');
+				$this->attributes->removeAttribute('weekday_name');
+				$this->attributes->removeAttribute('is_holiday');
+				$this->attributes->removeAttribute('holiday_name');
+				break;
+			case 'hour':
+			case 'minute':
+			case 'second':
+				$this->setHasTime(true);
+				break;
+			default:
+				throw new BSDateException('属性名"%s"は正しくありません。', $name);
+		}
+
 		if (preg_match('/^[\-+]/', $value)) {
-			$items = array('hour', 'minute', 'second', 'month', 'day', 'year');
-			foreach ($items as $item) {
+			foreach (array('hour', 'minute', 'second', 'month', 'day', 'year') as $item) {
 				$$item = $this->getAttribute($item);
 				if ($item == $name) {
 					$$item += (int)$value;
@@ -172,7 +233,7 @@ class BSDate {
 			$this->setTimestamp(mktime($hour, $minute, $second, $month, $day, $year));
 		} else {
 			$this->attributes[$name] = (int)$value;
-			$this->timestamp = null;
+			$this->attributes['timestamp'] = null;
 		}
 		return $this;
 	}
@@ -312,12 +373,17 @@ class BSDate {
 	public function getHolidayName () {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
+		} else if (!BSController::getInstance()->isResolvable()) {
+			return null;
 		}
 
-		$holidays = BSHolidayList::getInstance()->getAttributes();
-		if (isset($holidays[$this->format('Y-m-d')])) {
-			return $holidays[$this->format('Y-m-d')];
+		if (!$this->attributes->hasAttribute('holiday_name')) {
+			$holidays = BSHolidayList::getInstance()->getAttributes();
+			if (isset($holidays[$this->format('Y-m-d')])) {
+				$this->attributes['holiday_name'] = $holidays[$this->format('Y-m-d')];
+			}
 		}
+		return $this->attributes['holiday_name'];
 	}
 
 	/**
@@ -327,7 +393,16 @@ class BSDate {
 	 * @return boolean 日曜日か祭日ならTrue
 	 */
 	public function isHoliday () {
-		return ($this->getWeekday() == self::SUN) || ($this->getHolidayName() != null);
+		if (!$this->attributes->hasAttribute('is_holiday')) {
+			if ($this->getWeekday() == self::SUN) {
+				$this->attributes['is_holiday'] = true;
+			} else if ($this->getHolidayName() != null) {
+				$this->attributes['is_holiday'] = true;
+			} else {
+				$this->attributes['is_holiday'] = false;
+			}
+		}
+		return $this->attributes['is_holiday'];
 	}
 
 	/**
@@ -340,7 +415,74 @@ class BSDate {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		return date('N', $this->getTimestamp());
+		if (!$this->attributes->hasAttribute('weekday')) {
+			$this->attributes['weekday'] = (int)date('N', $this->getTimestamp());
+		}
+		return $this->attributes['weekday'];
+	}
+
+	/**
+	 * 曜日文字列を返す
+	 *
+	 * @access public
+	 * @param string $lang 言語
+	 * @return string 曜日
+	 */
+	public function getWeekdayName () {
+		if (!$this->validate()) {
+			throw new BSDateException('日付が初期化されていません。');
+		}
+		if (!$this->attributes->hasAttribute('weekday_name')) {
+			$weekdays = array(null, '月', '火', '水', '木', '金', '土', '日');
+			$this->attributes['weekday_name'] = $weekdays[$this->getWeekday()];
+		}
+		return $this->attributes['weekday_name'];
+	}
+
+	/**
+	 * 元号を返す
+	 *
+	 * @access public
+	 * @return string 元号
+	 */
+	public function getGengo () {
+		if (!$this->validate()) {
+			throw new BSDateException('日付が初期化されていません。');
+		}
+		if (!$this->attributes->hasAttribute('gengo')) {
+			require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			foreach (self::$japaneseCalendarDates as $gengo => $date) {
+				if ($date <= $this->format('Y-m-d')) {
+					$this->attributes['gengo'] = $gengo;
+					break;
+				}
+			}
+		}
+		return $this->attributes['gengo'];
+	}
+
+	/**
+	 * 和暦年を返す
+	 *
+	 * @access public
+	 * @return integer 和暦年
+	 */
+	public function getJapaneseYear () {
+		if (!$this->validate()) {
+			throw new BSDateException('日付が初期化されていません。');
+		}
+		if (!$this->attributes->hasAttribute('japanese_year')) {
+			require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			foreach (self::$japaneseCalendarDates as $gengo => $date) {
+				if ($date <= $this->format('Y-m-d')) {
+					$start = new BSDate($date);
+					$year = $this->getAttribute('year') - $start->getAttribute('year') + 1;
+					$this->attributes['japanese_year'] = $year;
+					break;
+				}
+			}
+		}
+		return $this->attributes['japanese_year'];
 	}
 
 	/**
@@ -355,10 +497,18 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-		if (preg_match('/ww/', $format)) {
-			$weekdays = array(null, '月', '火', '水', '木', '金', '土', '日');
-			$format = str_replace('ww', $weekdays[$this->getWeekday()], $format);
+		$format = str_replace('ww', $this->getWeekdayName(), $format);
+
+		if (preg_match('/JY/', $format)) {
+			$year = $this->getGengo();
+			if ($this->getJapaneseYear() == 1) {
+				$year .= '元';
+			} else {
+				$year .= $this->getJapaneseYear();
+			}
+			$format = str_replace('JY', $year, $format);
 		}
+
 		return date($format, $this->getTimestamp());
 	}
 
