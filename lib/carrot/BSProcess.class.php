@@ -28,7 +28,7 @@ class BSProcess {
 	 * @static
 	 */
 	public static function getCurrentID () {
-		return posix_getpid();
+		return getmypid();
 	}
 
 	/**
@@ -41,7 +41,7 @@ class BSProcess {
 	 * @todo あんまり外部コマンドに頼りたくないなぁ...
 	 */
 	public static function isExist ($pid) {
-		foreach (explode("\n", shell_exec('ps -ax')) as $process) {
+		foreach (explode("\n", shell_exec('ps ax')) as $process) {
 			$fields = preg_split('/ +/', trim($process));
 			if ($fields[0] == $pid) {
 				return true;

@@ -78,7 +78,7 @@ class BSNumeric {
 	 */
 	public static function getDigits ($num) {
 		$digits = new BSArray;
-		for ($i = 0 ; $i <= strlen($num) - 1 ; $i ++) {
+		for ($i = 0 ; $i < strlen($num) ; $i ++) {
 			$digits[] = substr($num, $i, 1);
 		}
 		return $digits;

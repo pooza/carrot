@@ -433,7 +433,7 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('weekday_name')) {
-			$weekdays = array(null, '月', '火', '水', '木', '金', '土', '日');
+			$weekdays = new BSArray(array(null, '月', '火', '水', '木', '金', '土', '日'));
 			$this->attributes['weekday_name'] = $weekdays[$this->getWeekday()];
 		}
 		return $this->attributes['weekday_name'];
@@ -450,7 +450,9 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('gengo')) {
-			require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			if (!self::$japaneseCalendarDates) {
+				require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			}
 			foreach (self::$japaneseCalendarDates as $gengo => $date) {
 				if ($date <= $this->format('Y-m-d')) {
 					$this->attributes['gengo'] = $gengo;
@@ -472,7 +474,9 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('japanese_year')) {
-			require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			if (!self::$japaneseCalendarDates) {
+				require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+			}
 			foreach (self::$japaneseCalendarDates as $gengo => $date) {
 				if ($date <= $this->format('Y-m-d')) {
 					$start = new BSDate($date);
