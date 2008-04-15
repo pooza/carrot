@@ -302,9 +302,7 @@ abstract class BSDatabase extends PDO {
 			if (preg_match('/^BS([A-Za-z]+)$/', get_class($this), $matches)) {
 				$this->dbms = $matches[1];
 			} else {
-				throw new BSDatabaseException(
-					get_class($this) . 'のDBMS名が正しくありません。'
-				);
+				throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
 			}
 		}
 		return $this->dbms;

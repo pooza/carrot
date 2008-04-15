@@ -282,6 +282,20 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
+	 * レコード追加
+	 *
+	 * createRecordのエイリアス
+	 *
+	 * @access public
+	 * @param mixed[] $values 値
+	 * @return string レコードの主キー
+	 * @final
+	 */
+	public final function insertRecord ($values) {
+		return $this->createRecord($values);
+	}
+
+	/**
 	 * 最終レコードを返す
 	 *
 	 * @access public
