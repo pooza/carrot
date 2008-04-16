@@ -40,6 +40,15 @@ class BSDate {
 	}
 
 	/**
+	 * クローン
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		$this->attributes = clone $this->attributes;
+	}
+
+	/**
 	 * 日付を設定する
 	 *
 	 * @access public
