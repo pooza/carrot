@@ -121,10 +121,10 @@ table tr.hide td {
 
 #Menu {
 	font-family: sans-serif;
-	background-color: gray;
+	background-color: #BFFFBF;
 	width: 140px;
 	padding: 4px;
-	border: 1px solid black;
+	border: 1px solid gray;
 }
 
 #Menu ul {
@@ -139,13 +139,16 @@ table tr.hide td {
 }
 
 #Menu a {
-	background-color: gray;
+	background-color: green;
+	display: block;
+	margin: 2px;
+	width: 128px;
 	color: white;
-	text-decoration: underline;
+	border: 1px solid #003300;
+	border-left: 8px solid #003300;
 }
 
 #Menu a:hover {
-	text-decoration: none;
 	background-color: white;
 	color: gray;
 }
@@ -153,21 +156,23 @@ table tr.hide td {
 #BreadCrumbs {
 	font-family: sans-serif;
 	font-weight: bold;
-	background-color: gray;
+	background-color: #BFFFBF;
 	color: white;
-	padding: 2px;
+	padding: 1px;
 	margin-bottom: 6px;
-	border: 1px solid black;
+	border: 1px solid gray;
 }
 
 #BreadCrumbs a {
-	background-color: gray;
+	background-color: green;
+	display: inline-block;
+	margin: 1px;
 	color: white;
-	text-decoration: underline;
+	border: 1px solid #003300;
+	border-left: 4px solid #003300;
 }
 
 #BreadCrumbs a:hover {
-	text-decoration: none;
 	background-color: white;
 	color: gray;
 }

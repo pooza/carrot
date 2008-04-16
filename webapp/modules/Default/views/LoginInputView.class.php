@@ -10,6 +10,7 @@
 class LoginInputView extends BSSmartyView {
 	public function execute () {
 		$this->setAttribute('styleset', 'carrot.LoginForm');
+		$this->setAttribute('body', array('id' => 'LoginFormContainer'));
 	}
 }
 

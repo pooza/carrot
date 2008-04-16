@@ -6,6 +6,10 @@
  * @version $Id$
  */
 
+#LoginFormContainer #Contents {
+	margin-left: 0;
+}
+
 #LoginForm {
 	text-align: center;
 	margin: auto;

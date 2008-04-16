@@ -16,18 +16,18 @@
 <script type="text/javascript" src="/js/elevator.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
 </head>
-<body>
+<body {if $body.id}id="{$body.id}"{/if}>
 
 {if $menu}
 <div id="Menu">
 	<ul>
 {foreach from=$menu item=item}
 	{if $item.href}
-		<li>[<a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a>]</li>
+		<li><a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a></li>
 	{elseif !$item.action}
-		<li>[<a href="/{$item.module}/">{$item.title}</a>]</li>
+		<li><a href="/{$item.module}/">{$item.title}</a></li>
 	{else}
-		<li>[<a href="/{$item.module}/{$item.action}">{$item.title}</a>]</li>
+		<li><a href="/{$item.module}/{$item.action}">{$item.title}</a></li>
 	{/if}
 {/foreach}
 	</ul>
