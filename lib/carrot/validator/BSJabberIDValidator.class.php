@@ -21,12 +21,10 @@ class BSJabberIDValidator extends RegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		$defaults = array(
-			'match' => 'Yes',
-			'match_error' => '正しいJabberIDではありません。',
-			'pattern' => BSJabberID::PATTERN,
-		);
-		return parent::initialize($context, array_merge($defaults, (array)$parameters));
+		$this->setParameter('match', true);
+		$this->setParameter('match_error', '正しいJabberIDではありません。');
+		$this->setParameter('pattern', BSJabberID::PATTERN);
+		return parent::initialize($context, $parameters);
 	}
 }
 

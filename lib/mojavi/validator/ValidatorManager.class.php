@@ -301,7 +301,7 @@ class ValidatorManager extends MojaviObject
             {
 
                 // file
-                $value =& $this->request->getFile($name);
+                $value = $this->request->getFile($name);
 
             } else
             {
@@ -321,7 +321,7 @@ class ValidatorManager extends MojaviObject
             {
 
                 // file
-                $parent =& $this->request->getFile($parent);
+                $parent = $this->request->getFile($parent);
 
             } else
             {
@@ -342,8 +342,18 @@ class ValidatorManager extends MojaviObject
 
         // now for the dirty work
         //if ($value == null || strlen($value) == 0)
-        // 空欄と判断する条件を変更 2008.1.18 tkoishi@b-shock.co.jp
-        if (!$value)
+        // 空欄と判断する条件を変更 2008.4.18 tkoishi@b-shock.co.jp
+        if (is_array($value) || ($value instanceof BSArray)) {
+            if ($data['is_file']) {
+                $empty = ($value['tmp_name'] == null);
+            } else {
+                $empty = (count($value) == 0);
+            }
+        } else {
+            $empty = ($value == '');
+        }
+
+        if ($empty)
         //
         {
 

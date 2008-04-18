@@ -21,12 +21,10 @@ class BSURLValidator extends RegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		$defaults = array(
-			'match' => 'Yes',
-			'match_error' => '正しいURLではありません。',
-			'pattern' => BSURL::PATTERN,
-		);
-		return parent::initialize($context, array_merge($defaults, (array)$parameters));
+		$this->setParameter('match', true);
+		$this->setParameter('match_error', '正しいURLではありません。');
+		$this->setParameter('pattern', BSURL::PATTERN);
+		return parent::initialize($context, $parameters);
 	}
 }
 

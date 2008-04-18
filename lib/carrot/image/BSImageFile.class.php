@@ -134,6 +134,8 @@ class BSImageFile extends BSFile {
 	/**
 	 * 登録可能なファイルか
 	 *
+	 * 非推奨、BSFileValidator,BSImageValidatorを使用すること。
+	 *
 	 * @access public
 	 * @return boolean 登録可能ならTrue
 	 */

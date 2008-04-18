@@ -21,12 +21,10 @@ class BSMailAddressValidator extends Validator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		$defaults = array(
-			'unique' => false,
-			'table' => 'account',
-			'field' => 'email',
-		);
-		return parent::initialize($context, array_merge($defaults, (array)$parameters));
+		$this->setParameter('unique', false);
+		$this->setParameter('table', 'account');
+		$this->setParameter('field', 'email');
+		return parent::initialize($context, $parameters);
 	}
 
 	/**

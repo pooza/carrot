@@ -5,13 +5,13 @@
  */
 
 /**
- * レコードバリデータ
+ * ファイルバリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSRecordValidator extends Validator {
+class BSFileValidator extends Validator {
 
 	/**
 	 * 初期化
@@ -21,8 +21,7 @@ class BSRecordValidator extends Validator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		$this->setParameter('table', null);
-		$this->setParameter('exist', true);
+		$this->setParameter('size', 2);
 		return parent::initialize($context, $parameters);
 	}
 
@@ -32,24 +31,26 @@ class BSRecordValidator extends Validator {
 	 * @access public
 	 * @param string $value バリデーション対象
 	 * @param string $error エラーメッセージ代入先
-	 * @return boolean そのIDを持ったレコードが存在すればTrue
+	 * @return boolean 結果
 	 */
 	public function execute (&$value, &$error) {
-		try {
-			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
-			$table = new $class;
-			$isExist = ($table->getRecord($value) != null);
-		} catch (Exception $e) {
-			$isExist = false;
+		if (!$value || !is_array($value) || !$value['size']) {
+			$error = '正しいファイルではありません。';
+			return false;
 		}
 
-		if ($this->getParameter('exist') && !$isExist) {
-			$error = "存在しません。";
-			return false;
-		} else if (!$this->getParameter('exist') && $isExist) {
-			$error = "重複します。";
+		$file = new BSFile($value['tmp_name']);
+		if (!$file->isExists() || !$file->isUploaded()) {
+			$error = '正しいファイルではありません。';
 			return false;
 		}
+
+		$max = $this->getParameter('size') * 1024 * 1024;
+		if ($max < $file->getSize()) {
+			$error = 'ファイルが大きすぎます。';
+			return false;
+		}
+
 		return true;
 	}
 }
