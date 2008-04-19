@@ -15,6 +15,18 @@ class BSKanaValidator extends Validator {
 	const PATTERN = '^[ぁ-んァ-ンヴー0-9]*$';
 
 	/**
+	 * 初期化
+	 *
+	 * @access public
+	 * @param Context $context mojaviコンテキスト
+	 * @param string[] $parameters パラメータ配列
+	 */
+	public function initialize ($context, $parameters = array()) {
+		$this->setParameter('invalid_error', 'フリガナとして使用出来ない文字が含まれています。');
+		return parent::initialize($context, $parameters);
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public
@@ -24,7 +36,7 @@ class BSKanaValidator extends Validator {
 	 */
 	public function execute (&$value, &$error) {
 		if (!mb_ereg(self::PATTERN, $value)) {
-			$error = 'フリガナとして使用出来ない文字が含まれています。';
+			$error = $this->getParameter('invalid_error');
 			return false;
 		}
 		return true;

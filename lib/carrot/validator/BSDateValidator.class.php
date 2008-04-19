@@ -14,6 +14,18 @@
 class BSDateValidator extends Validator {
 
 	/**
+	 * 初期化
+	 *
+	 * @access public
+	 * @param Context $context mojaviコンテキスト
+	 * @param string[] $parameters パラメータ配列
+	 */
+	public function initialize ($context, $parameters = array()) {
+		$this->setParameter('invalid_error', '日付が正しくありません。');
+		return parent::initialize($context, $parameters);
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public
@@ -25,7 +37,7 @@ class BSDateValidator extends Validator {
 		try {
 			$date = new BSDate($value);
 		} catch (BSDateException $e) {
-			$error = '日付が正しくありません。';
+			$error = $this->getParameter('invalid_error');
 			return false;
 		}
 		return true;

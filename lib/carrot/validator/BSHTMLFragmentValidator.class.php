@@ -15,6 +15,20 @@ class BSHTMLFragmentValidator extends Validator {
 	private $allowedTags = array();
 
 	/**
+	 * 初期化
+	 *
+	 * @access public
+	 * @param Context $context mojaviコンテキスト
+	 * @param string[] $parameters パラメータ配列
+	 */
+	public function initialize ($context, $parameters = array()) {
+		$this->setParameter('element_error', '許可されていない要素又は属性が含まれています。');
+		$this->setParameter('allowed_tags', 'a,br,div,li,ol,p,span,ul');
+		$this->setParameter('javascript_allowed', false);
+		return parent::initialize($context, $parameters);
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public
@@ -29,7 +43,7 @@ class BSHTMLFragmentValidator extends Validator {
 			$element = new BSXMLElement();
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
-				throw new BSXMLException('許可されていない要素又は属性が含まれています。');
+				throw new BSXMLException($this->getParameter('element_error'));
 			}
 		} catch (BSXMLException $e) {
 			$error = $e->getMessage();

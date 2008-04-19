@@ -21,18 +21,15 @@ class BSPasswordValidator extends RegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($context, $parameters = array()) {
-		if (isset($parameters['digits'])) {
-			$digits = $parameters['digits'];
-		} else {
-			$digits = 6;
+		if (!isset($parameters['digits'])) {
+			$parameters['digits'] = 6;
 		}
+		$parameters['match'] = 'Yes';
+		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
+		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
 
-		$this->setParameter('match', true);
-		$this->setParameter('match_error', $digits' . '桁以上の英数字を入力して下さい。');
-		$this->setParameter('pattern', '/[[:print:]]{' . $digits . ',}/');
 		return parent::initialize($context, $parameters);
 	}
 }
-
 /* vim:set tabstop=4 ai: */
 ?>

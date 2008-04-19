@@ -43,6 +43,15 @@ class BSImageValidator extends Validator {
 	 */
 	public function initialize ($context, $parameters = array()) {
 		$this->setParameter('types', 'jpeg,gif,png');
+		$this->setParameter('types_error', '画像形式が正しくありません。');
+		$this->setParameter('min_height', null);
+		$this->setParameter('min_height_error', '画像の高さが低過ぎます。');
+		$this->setParameter('max_height', null);
+		$this->setParameter('max_height_error', '画像の高さが高過ぎます。');
+		$this->setParameter('min_width', null);
+		$this->setParameter('min_width_error', '画像の幅が狭過ぎます。');
+		$this->setParameter('max_width', null);
+		$this->setParameter('max_width_error', '画像の幅が広過ぎます。');
 		return parent::initialize($context, $parameters);
 	}
 
@@ -57,27 +66,23 @@ class BSImageValidator extends Validator {
 	public function execute (&$value, &$error) {
 		try {
 			$file = new BSImageFile($value['tmp_name']);
-			if (!$file->isExists()) {
-				$error = 'アップロードされていません。';
-				return false;
-			}
 			$image = $file->getEngine();
 		} catch (BSException $e) {
-			$error = '画像フォーマットが正しくありません。';
+			$error = $this->getParameter('types_error');
 			return false;
 		}
 
 		$params = new BSArray($this->getParameters());
 		if (!$this->getAllowedTypes()->isIncluded($image->getType())) {
-			$error = '画像フォーマットが正しくありません。';
+			$error = $this->getParameter('types_error');
 		} else if ($params['min_width'] && ($image->getWidth() < $params['min_width'])) {
-			$error = '画像の幅が狭過ぎます。';
+			$error = $this->getParameter('min_width_error');
 		} else if ($params['min_height'] && ($image->getHeight() < $params['min_height'])) {
-			$error = '画像の高さが低過ぎます。';
+			$error = $this->getParameter('min_height_error');
 		} else if ($params['max_width'] && ($params['max_width'] < $image->getWidth())) {
-			$error = '画像の幅が広過ぎます。';
+			$error = $this->getParameter('max_width_error');
 		} else if ($params['max_height'] && ($params['max_height'] < $image->getHeight())) {
-			$error = '画像の高さが高過ぎます。';
+			$error = $this->getParameter('max_height_error');
 		}
 		return ($error == null);
 	}

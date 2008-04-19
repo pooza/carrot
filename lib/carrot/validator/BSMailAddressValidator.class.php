@@ -22,8 +22,10 @@ class BSMailAddressValidator extends Validator {
 	 */
 	public function initialize ($context, $parameters = array()) {
 		$this->setParameter('unique', false);
+		$this->setParameter('unique_error', '重複します。');
 		$this->setParameter('table', 'account');
 		$this->setParameter('field', 'email');
+		$this->setParameter('invalid_error', '正しいメールアドレスではありません。');
 		return parent::initialize($context, $parameters);
 	}
 
@@ -39,7 +41,7 @@ class BSMailAddressValidator extends Validator {
 		try {
 			$email = new BSMailAddress($value);
 		} catch (BSMailException $e) {
-			$error = '正しいメールアドレスではありません。';
+			$error = $this->getParameter('invalid_error');
 			return false;
 		}
 
@@ -52,11 +54,11 @@ class BSMailAddressValidator extends Validator {
 				$action = $controller->getActionStack()->getLastEntry()->getActionInstance();
 				if ($id = $action->getRecordID()) {
 					if ($id != $record->getID()) {
-						$error = '重複します。';
+						$error = $this->getParameter('unique_error');
 						return false;
 					}
 				} else {
-					$error = '重複します。';
+					$error = $this->getParameter('unique_error');
 					return false;
 				}
 			}

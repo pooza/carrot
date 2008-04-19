@@ -23,6 +23,8 @@ class BSRecordValidator extends Validator {
 	public function initialize ($context, $parameters = array()) {
 		$this->setParameter('table', null);
 		$this->setParameter('exist', true);
+		$this->setParameter('exist_error', '存在しません。');
+		$this->setParameter('duplicate_error', '重複します。');
 		return parent::initialize($context, $parameters);
 	}
 
@@ -44,10 +46,10 @@ class BSRecordValidator extends Validator {
 		}
 
 		if ($this->getParameter('exist') && !$isExist) {
-			$error = "存在しません。";
+			$error = $this->getParameter('exist_error');
 			return false;
 		} else if (!$this->getParameter('exist') && $isExist) {
-			$error = "重複します。";
+			$error = $this->getParameter('duplicate_error');
 			return false;
 		}
 		return true;
