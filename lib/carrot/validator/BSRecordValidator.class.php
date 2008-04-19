@@ -22,6 +22,7 @@ class BSRecordValidator extends Validator {
 	 */
 	public function initialize ($context, $parameters = array()) {
 		$this->setParameter('table', null);
+		$this->setParameter('field', 'id');
 		$this->setParameter('exist', true);
 		$this->setParameter('exist_error', '存在しません。');
 		$this->setParameter('duplicate_error', '重複します。');
@@ -40,7 +41,8 @@ class BSRecordValidator extends Validator {
 		try {
 			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
 			$table = new $class;
-			$isExist = ($table->getRecord($value) != null);
+			$values = array($this->getParameter('field') => $value);
+			$isExist = ($table->getRecord($values) != null);
 		} catch (Exception $e) {
 			$isExist = false;
 		}

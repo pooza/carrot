@@ -342,10 +342,10 @@ class ValidatorManager extends MojaviObject
 
         // now for the dirty work
         //if ($value == null || strlen($value) == 0)
-        // 空欄と判断する条件を変更 2008.4.18 tkoishi@b-shock.co.jp
+        // 空欄と判断する条件を変更 2008.4.19 tkoishi@b-shock.co.jp
         if (is_array($value) || ($value instanceof BSArray)) {
             if ($data['is_file']) {
-                $empty = ($value['tmp_name'] == null);
+                $empty = ($value['name'] == null);
             } else {
                 $empty = (count($value) == 0);
             }

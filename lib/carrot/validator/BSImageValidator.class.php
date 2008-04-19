@@ -65,7 +65,10 @@ class BSImageValidator extends Validator {
 	 */
 	public function execute (&$value, &$error) {
 		try {
-			$file = new BSImageFile($value['tmp_name']);
+			if (!$name = $value['tmp_name']) {
+				throw new BSImageException('ファイルが存在しない、又は正しくありません。');
+			}
+			$file = new BSImageFile($name);
 			$image = $file->getEngine();
 		} catch (BSException $e) {
 			$error = $this->getParameter('types_error');

@@ -39,8 +39,11 @@ class BSFileValidator extends Validator {
 		if (!$value || !is_array($value)) {
 			$error = $this->getParameter('invalid_error');
 			return false;
-		} else if ($name = $value['tmp_name']) {
+		} else if ($value['name']) {
 			if (($this->getParameter('size') * 1024 * 1024) < $value['size']) {
+				$error = $this->getParameter('size_error');
+				return false;
+			} else if ($value['error'] == 2) {
 				$error = $this->getParameter('size_error');
 				return false;
 			} else if ($value['error']) {
@@ -48,7 +51,7 @@ class BSFileValidator extends Validator {
 				return false;
 			}
 
-			$file = new BSFile($name);
+			$file = new BSFile($value['tmp_name']);
 			if (!$file->isExists() || !$file->isUploaded()) {
 				$error = $this->getParameter('invalid_error');
 				return false;
