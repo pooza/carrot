@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSConsoleRequest.class.php 232 2008-04-22 08:08:16Z pooza $
+ * @version $Id$
  */
 class BSConsoleRequest extends BSRequest {
 

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSURL.class.php 133 2008-02-13 09:33:37Z pooza $
+ * @version $Id$
  */
 class BSURL {
 	private $url;

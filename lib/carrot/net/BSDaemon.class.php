@@ -12,7 +12,7 @@ BSController::includeLegacy('/nanoserv/handlers/NS_Line_Input_Connection_Handler
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDaemon.class.php 5 2007-07-25 08:04:01Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSDaemon extends NS_Line_Input_Connection_Handler {

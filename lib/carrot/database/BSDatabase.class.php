@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDatabase.class.php 193 2008-04-15 15:15:37Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSDatabase extends PDO {

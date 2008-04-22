@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSGoogleSearch.class.php 84 2007-11-04 03:51:29Z pooza $
+ * @version $Id$
  */
 class BSGoogleSearch {
 	private $engine;

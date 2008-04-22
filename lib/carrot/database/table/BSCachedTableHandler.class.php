@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCachedTableHandler.class.php 231 2008-04-22 04:37:26Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSCachedTableHandler extends BSTableHandler {

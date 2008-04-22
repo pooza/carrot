@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSPostgreSQL.class.php 230 2008-04-22 04:31:27Z pooza $
+ * @version $Id$
  */
 class BSPostgreSQL extends BSDatabase {
 	private static $instance;

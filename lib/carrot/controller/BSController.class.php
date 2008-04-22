@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSController.class.php 149 2008-02-27 22:36:42Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSController extends Controller {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSEnglishValidator.class.php 196 2008-04-18 12:14:20Z pooza $
+ * @version $Id$
  */
 class BSEnglishValidator extends RegexValidator {
 

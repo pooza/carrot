@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCoordinate.class.php 115 2008-01-01 10:21:39Z pooza $
+ * @version $Id$
  */
 class BSCoordinate {
 	private $image;

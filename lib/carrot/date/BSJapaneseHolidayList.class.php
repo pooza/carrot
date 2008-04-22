@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSJapaneseHolidayList.class.php 189 2008-04-12 10:25:31Z pooza $
+ * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
 	const URL = BS_HOLIDAY_URL_JA;

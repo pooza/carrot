@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @link http://project-p.jp/halt/kinowiki/php/Tips/csv 参考
  * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
- * @version $Id: BSExcelCSVData.class.php 188 2008-04-07 08:49:43Z pooza $
+ * @version $Id$
  */
 class BSExcelCSVData extends BSHeaderCSVData {
 	protected $fields = array();

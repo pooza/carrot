@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSAdministrator.class.php 212 2008-04-20 03:02:06Z pooza $
+ * @version $Id$
  */
 class BSAdministrator implements BSRole {
 	private static $networks = array();

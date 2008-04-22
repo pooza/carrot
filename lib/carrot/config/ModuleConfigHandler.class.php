@@ -19,9 +19,9 @@
  * @author     Sean Kerr (skerr@mojavi.org)
  * @copyright  (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since      3.0.0
- * @version    $Id: ModuleConfigHandler.class.php 226 2008-04-22 01:36:41Z pooza $
+ * @version    $Id$
  *
- * $Id: ModuleConfigHandler.class.php 226 2008-04-22 01:36:41Z pooza $
+ * $Id$
  */
 class ModuleConfigHandler extends BSConfigHandler
 {

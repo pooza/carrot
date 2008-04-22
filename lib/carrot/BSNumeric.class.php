@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSNumeric.class.php 191 2008-04-14 13:30:35Z pooza $
+ * @version $Id$
  */
 class BSNumeric {
 

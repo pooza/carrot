@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: modifier.emoji_number.php 178 2008-03-19 01:28:43Z pooza $
+ * @version $Id$
  */
 function smarty_modifier_emoji_number ($value) {
 	if (is_array($value)) {

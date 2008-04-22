@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSQRCode.class.php 101 2007-11-24 09:37:40Z pooza $
+ * @version $Id$
  */
 class BSQRCode implements BSImageRenderer {
 	private $image;

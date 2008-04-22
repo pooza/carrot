@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDefineConfigHandler.class.php 205 2008-04-19 11:50:49Z pooza $
+ * @version $Id$
  */
 class BSDefineConfigHandler extends BSConfigHandler {
 	public function execute ($path) {

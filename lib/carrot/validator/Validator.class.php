@@ -18,7 +18,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: Validator.class.php 569 2004-12-05 06:25:47Z seank $
+ * @version   $Id$
  */
 abstract class Validator extends ParameterHolder
 {

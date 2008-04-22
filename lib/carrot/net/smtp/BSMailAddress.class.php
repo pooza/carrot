@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSMailAddress.class.php 121 2008-01-10 10:11:01Z pooza $
+ * @version $Id$
  */
 class BSMailAddress {
 	private $contents;

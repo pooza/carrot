@@ -11,7 +11,7 @@ BSController::includeLegacy('/Smarty/Smarty.class.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSmarty.class.php 210 2008-04-20 02:55:17Z pooza $
+ * @version $Id$
  */
 class BSSmarty extends Smarty implements BSRenderer {
 	private $encoding;

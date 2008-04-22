@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSessionStorage.class.php 222 2008-04-21 15:34:12Z pooza $
+ * @version $Id$
  */
 class BSSessionStorage extends Storage {
 	const TABLE_NAME = 'stored_session';

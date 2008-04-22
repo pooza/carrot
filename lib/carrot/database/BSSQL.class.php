@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSQL.class.php 34 2007-08-01 04:36:13Z pooza $
+ * @version $Id$
  */
 class BSSQL {
 

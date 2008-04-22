@@ -32,7 +32,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: RegexValidator.class.php 664 2004-12-15 04:27:49Z seank $
+ * @version   $Id$
  */
 class RegexValidator extends Validator
 {

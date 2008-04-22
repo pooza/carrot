@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSmartySender.class.php 86 2007-11-04 15:46:47Z pooza $
+ * @version $Id$
  */
 class BSSmartySender extends BSSMTP {
 	private $renderer;

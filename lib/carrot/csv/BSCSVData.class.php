@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCSVData.class.php 188 2008-04-07 08:49:43Z pooza $
+ * @version $Id$
  */
 class BSCSVData implements BSRenderer {
 	protected $contents;

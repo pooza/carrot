@@ -11,7 +11,7 @@ BSController::includeLegacy('/phplot/phplot.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSGraph.class.php 140 2008-02-14 16:33:41Z pooza $
+ * @version $Id$
  */
 class BSGraph extends PHPlot implements BSImageRenderer {
 	private $width;

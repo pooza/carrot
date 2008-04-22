@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCalendar.class.php 152 2008-02-29 02:56:11Z pooza $
+ * @version $Id$
  */
 class BSCalendar {
 	private $weeks = array();

@@ -20,7 +20,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: Action.class.php 232 2008-04-22 08:08:16Z pooza $
+ * @version   $Id$
  */
 abstract class Action
 {

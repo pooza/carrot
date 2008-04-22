@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDictionaryFile.class.php 55 2007-09-22 18:10:06Z pooza $
+ * @version $Id$
  */
 class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	private $contents = array();

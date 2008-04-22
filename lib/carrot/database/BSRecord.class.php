@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSRecord.class.php 184 2008-03-29 16:24:03Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSRecord {

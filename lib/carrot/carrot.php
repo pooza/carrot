@@ -5,7 +5,7 @@
  * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: carrot.php 228 2008-04-22 04:18:53Z pooza $
+ * @version $Id$
  */
 
 /**

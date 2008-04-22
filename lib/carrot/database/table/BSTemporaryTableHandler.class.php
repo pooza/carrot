@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTemporaryTableHandler.class.php 231 2008-04-22 04:37:26Z pooza $
+ * @version $Id$
  */
 class BSTemporaryTableHandler extends BSTableHandler {
 	private $name;

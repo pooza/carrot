@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSerializeHandler.class.php 82 2007-11-03 17:51:31Z pooza $
+ * @version $Id$
  */
 class BSSerializeHandler extends BSList {
 	private static $instance;

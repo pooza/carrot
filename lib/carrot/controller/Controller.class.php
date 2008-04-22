@@ -18,7 +18,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: Controller.class.php 233 2008-04-22 08:38:49Z pooza $
+ * @version   $Id$
  */
 abstract class Controller
 {

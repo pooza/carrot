@@ -11,7 +11,7 @@ BSController::includeLegacy('/spyc/spyc.php5');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSYAML.class.php 192 2008-04-15 14:37:03Z pooza $
+ * @version $Id$
  */
 class BSYAML extends Spyc implements BSRenderer {
 	private $contents;

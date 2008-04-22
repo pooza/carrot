@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSFeedDocument.interface.php 97 2007-11-17 12:24:53Z pooza $
+ * @version $Id$
  */
 interface BSFeedDocument {
 

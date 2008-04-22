@@ -11,7 +11,7 @@ BSController::includeLegacy('/pear/Crypt/Blowfish.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSBlowfishCryptEngine.class.php 99 2007-11-17 12:56:50Z pooza $
+ * @version $Id$
  */
 class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	private $salt;

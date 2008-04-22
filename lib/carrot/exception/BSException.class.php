@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSException.class.php 217 2008-04-20 14:54:26Z pooza $
+ * @version $Id$
  */
 class BSException extends Exception {
 

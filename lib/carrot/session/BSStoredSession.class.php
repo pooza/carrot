@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSStoredSession.class.php 80 2007-11-01 06:37:11Z pooza $
+ * @version $Id$
  */
 class BSStoredSession extends BSRecord {
 	private $dateUpdate;

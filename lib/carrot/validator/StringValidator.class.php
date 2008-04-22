@@ -39,7 +39,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: StringValidator.class.php 492 2004-11-26 03:56:47Z seank $
+ * @version   $Id$
  */
 class StringValidator extends Validator
 {

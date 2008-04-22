@@ -17,7 +17,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     3.0.0
- * @version   $Id: Storage.class.php 227 2008-04-22 03:31:04Z pooza $
+ * @version   $Id$
  */
 abstract class Storage extends ParameterHolder
 {

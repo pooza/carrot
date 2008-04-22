@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSImageContainer.interface.php 141 2008-02-16 10:38:42Z pooza $
+ * @version $Id$
  */
 interface BSImageContainer {
 

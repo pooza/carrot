@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSRequest.class.php 233 2008-04-22 08:38:49Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSRequest extends ParameterHolder {

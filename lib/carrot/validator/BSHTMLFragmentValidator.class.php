@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSHTMLFragmentValidator.class.php 199 2008-04-19 04:12:14Z pooza $
+ * @version $Id$
  */
 class BSHTMLFragmentValidator extends Validator {
 	private $allowedTags = array();

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSConsoleUserAgent.class.php 9 2007-07-25 09:36:28Z pooza $
+ * @version $Id$
  */
 class BSConsoleUserAgent extends BSUserAgent {
 

@@ -11,7 +11,7 @@ BSController::includeLegacy('/pear/Crypt/Rc4.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSRc4CryptEngine.class.php 99 2007-11-17 12:56:50Z pooza $
+ * @version $Id$
  */
 class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 

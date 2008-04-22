@@ -11,7 +11,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCookieHandler.class.php 123 2008-01-17 15:43:53Z pooza $
+ * @version $Id$
  */
 class BSCookieHandler extends BSList {
 	private static $instance;

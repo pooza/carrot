@@ -19,7 +19,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: ExecutionFilter.class.php 224 2008-04-22 00:24:33Z pooza $
+ * @version   $Id$
  */
 class ExecutionFilter extends BSFilter
 {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDate.class.php 195 2008-04-16 12:17:35Z pooza $
+ * @version $Id$
  */
 class BSDate {
 	const MON = 1;

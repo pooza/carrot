@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSDirectoryFinder.class.php 210 2008-04-20 02:55:17Z pooza $
+ * @version $Id$
  */
 class BSDirectoryFinder {
 	private static $instance;

@@ -11,7 +11,7 @@ BSController::includeLegacy('/pear/Net/IPv4.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSHost.class.php 104 2007-12-11 14:20:31Z pooza $
+ * @version $Id$
  */
 class BSHost {
 	protected $address;

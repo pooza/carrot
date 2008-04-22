@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSModuleProfile.class.php 96 2007-11-17 11:49:30Z pooza $
+ * @version $Id$
  */
 class BSModuleProfile {
 	private $name;

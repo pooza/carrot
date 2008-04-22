@@ -8,7 +8,7 @@
  * 詳細画面用 アクションひな形
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id: BSRecordAction.class.php 172 2008-03-16 09:49:32Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSRecordAction extends BSAction {

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSecurityUser.class.php 221 2008-04-21 01:07:43Z pooza $
+ * @version $Id$
  */
 class BSSecurityUser extends User {
 	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/user/BSSecurityUser/credentials';

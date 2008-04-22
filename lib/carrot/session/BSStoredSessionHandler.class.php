@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSStoredSessionHandler.class.php 223 2008-04-21 16:30:02Z pooza $
+ * @version $Id$
  */
 class BSStoredSessionHandler extends BSTableHandler {
 

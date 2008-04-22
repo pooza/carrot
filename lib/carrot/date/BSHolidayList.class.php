@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSHolidayList.class.php 108 2007-12-14 02:49:32Z pooza $
+ * @version $Id$
  * @abstract
  */
 abstract class BSHolidayList extends BSList {

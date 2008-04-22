@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSSocket.class.php 79 2007-11-01 03:14:27Z pooza $
+ * @version $Id$
  */
 class BSSocket {
 	private $handle;

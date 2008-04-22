@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSConfigHandler.class.php 226 2008-04-22 01:36:41Z pooza $
+ * @version $Id$
  */
 abstract class BSConfigHandler extends ParameterHolder {
 	private $body = array();

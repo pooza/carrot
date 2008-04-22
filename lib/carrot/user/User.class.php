@@ -21,7 +21,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: User.class.php 761 2005-01-29 06:20:01Z seank $
+ * @version   $Id$
  */
 class User extends ParameterHolder
 {

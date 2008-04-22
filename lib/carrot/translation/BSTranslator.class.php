@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSTranslator.class.php 167 2008-03-06 12:44:43Z pooza $
+ * @version $Id$
  */
 class BSTranslator {
 	private $language = 'ja';

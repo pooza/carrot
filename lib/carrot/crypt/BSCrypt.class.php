@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSCrypt.class.php 154 2008-03-03 04:15:29Z pooza $
+ * @version $Id$
  */
 class BSCrypt {
 	private $engine;

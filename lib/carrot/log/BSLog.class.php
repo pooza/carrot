@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSLog.class.php 207 2008-04-19 12:24:57Z pooza $
+ * @version $Id$
  */
 class BSLog {
 

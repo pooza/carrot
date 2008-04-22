@@ -11,7 +11,7 @@ BSController::includeLegacy('/pear/HTML/CSS.php');
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSStyleSet.class.php 210 2008-04-20 02:55:17Z pooza $
+ * @version $Id$
  */
 class BSStyleSet extends HTML_CSS implements BSRenderer {
 	private $name;

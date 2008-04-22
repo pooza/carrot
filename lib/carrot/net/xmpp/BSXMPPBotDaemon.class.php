@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSXMPPBotDaemon.class.php 5 2007-07-25 08:04:01Z pooza $
+ * @version $Id$
  */
 class BSXMPPBotDaemon extends BSDaemon {
 	private static $xmpp;

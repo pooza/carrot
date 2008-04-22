@@ -33,7 +33,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     1.0.0
- * @version   $Id: NumberValidator.class.php 513 2004-12-01 14:41:30Z seank $
+ * @version   $Id$
  */
 class NumberValidator extends Validator
 {

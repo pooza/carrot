@@ -18,7 +18,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     3.0.0
- * @version   $Id: ParameterHolder.class.php 762 2005-01-29 06:30:25Z seank $
+ * @version   $Id$
  */
 abstract class ParameterHolder
 {

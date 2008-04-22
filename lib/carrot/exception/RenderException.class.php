@@ -18,7 +18,7 @@
  * @author    Sean Kerr (skerr@mojavi.org)
  * @copyright (c) Sean Kerr, {@link http://www.mojavi.org}
  * @since     3.0.0
- * @version   $Id: RenderException.class.php 224 2008-04-22 00:24:33Z pooza $
+ * @version   $Id$
  */
 class RenderException extends BSException
 {

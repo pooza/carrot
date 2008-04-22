@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
- * @version $Id: BSHostSecurityFilter.class.php 220 2008-04-20 15:41:52Z pooza $
+ * @version $Id$
  */
 class BSHostSecurityFilter extends BSFilter {
 	public function execute (FilterChain $filters) {
