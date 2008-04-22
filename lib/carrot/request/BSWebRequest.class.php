@@ -36,7 +36,7 @@ class BSWebRequest extends BSRequest {
 	}
 
 	public function getFile ($name) {
-		if (isset($_FILES[$name])) {
+		if (isset($_FILES[$name]['name'])) {
 			return $_FILES[$name];
 		}
 	}
@@ -46,7 +46,7 @@ class BSWebRequest extends BSRequest {
 	}
 
 	public function hasFile ($name) {
-		return isset($_FILES[$name]);
+		return isset($_FILES[$name]['name']);
 	}
 }
 

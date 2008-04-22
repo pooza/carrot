@@ -24,7 +24,7 @@ class BSJabberIDValidator extends RegexValidator {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '正しいJabberIDではありません。');
 		$this->setParameter('pattern', BSJabberID::PATTERN);
-		return parent::initialize($context, $parameters);
+		return Validator::initialize($context, $parameters);
 	}
 }
 

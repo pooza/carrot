@@ -22,9 +22,9 @@ class BSURLValidator extends RegexValidator {
 	 */
 	public function initialize ($context, $parameters = array()) {
 		$this->setParameter('match', true);
-		$this->setParameter('match_error', '正しいURLではありません。');
+		$this->setParameter('match_error', '正しくありません。');
 		$this->setParameter('pattern', BSURL::PATTERN);
-		return parent::initialize($context, $parameters);
+		return Validator::initialize($context, $parameters);
 	}
 }
 

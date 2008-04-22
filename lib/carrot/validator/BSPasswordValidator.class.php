@@ -28,7 +28,7 @@ class BSPasswordValidator extends RegexValidator {
 		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
 		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
 
-		return parent::initialize($context, $parameters);
+		return Validator::initialize($context, $parameters);
 	}
 }
 /* vim:set tabstop=4 ai: */
