@@ -17,7 +17,7 @@ LogFormat=1
 LogSeparator=" "
 DNSLookup=1
 DirCgi="/awstats"
-DirIcons="/images/awstats"
+DirIcons="/carrotlib/images/awstats"
 AllowToUpdateStatsFromBrowser=0
 AllowFullYearView=2
 
@@ -59,7 +59,7 @@ DebugMessages=0
 NbOfLinesForCorruptedLog=50
 WrapperScript=""
 DecodeUA=0
-MiscTrackerUrl="/js/awstats_misc_tracker.js"
+MiscTrackerUrl="/carrotlib/js/awstats_misc_tracker.js"
 
 LevelForBrowsersDetection=2
 LevelForOSDetection=2

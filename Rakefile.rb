@@ -64,13 +64,13 @@ file 'lib/AWStats/awstats.conf' do
 end
 
 desc 'ajaxzip2を有効に'
-task :ajaxzip2 => ['www/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
+task :ajaxzip2 => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
   system 'svn pset svn:executable ON lib/ajaxzip2/csv2jsonzip.pl'
   sh 'cd lib/ajaxzip2; rake all'
 end
 
-file 'www/js/ajaxzip2/data' do
-  sh 'ln -s ../../../var/zipcode www/js/ajaxzip2/data'
+file 'www/carrotlib/js/ajaxzip2/data' do
+  sh 'ln -s ../../../../var/zipcode www/carrotlib/js/ajaxzip2/data'
 end
 
 file 'lib/ajaxzip2/data' do
