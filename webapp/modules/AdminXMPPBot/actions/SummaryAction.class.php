@@ -20,11 +20,11 @@ class SummaryAction extends BSAction {
 		$this->request->setAttribute('from', BSAuthor::getJabberID()->getContents());
 		$this->request->setAttribute('to', BSAdministrator::getJabberID()->getContents());
 
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

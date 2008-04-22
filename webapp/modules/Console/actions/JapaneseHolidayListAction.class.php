@@ -14,7 +14,7 @@ class JapaneseHolidayListAction extends BSAction {
 		BSJapaneseHolidayList::getInstance();
 
 		BSLog::put(get_class($this) . 'を実行しました。');
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

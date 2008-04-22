@@ -12,11 +12,11 @@ class LogAction extends BSAction {
 		$dir = $this->controller->getDirectory('log');
 		$this->request->setAttribute('logs', $dir->getLatestEntry()->getContents());
 
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

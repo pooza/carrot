@@ -9,15 +9,15 @@
  */
 class NotFoundAction extends BSAction {
 	public function execute () {
-		return View::ERROR;
+		return BSView::ERROR;
 	}
 
 	public function getDefaultView () {
-		return View::ERROR;
+		return BSView::ERROR;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

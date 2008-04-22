@@ -30,7 +30,7 @@ class DetailAction extends BSAction {
 		$this->request->setAttribute('attributes', $this->getTableProfile()->getAttributes());
 		$this->request->setAttribute('fields', $this->getTableProfile()->getFields());
 		$this->request->setAttribute('keys', $this->getTableProfile()->getKeys());
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function validate () {
@@ -38,7 +38,7 @@ class DetailAction extends BSAction {
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

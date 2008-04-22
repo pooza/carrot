@@ -26,7 +26,7 @@ class LoginAction extends BSAction {
 		$this->user->clearAttributes();
 		$this->user->clearCredentials();
 		$this->controller->setCookie(BSCookieHandler::getTestCookieName(), true);
-		return View::INPUT;
+		return BSView::INPUT;
 	}
 
 	public function handleError () {
@@ -50,7 +50,7 @@ class LoginAction extends BSAction {
 	}
 
 	public function getRequestMethods () {
-		return Request::POST;
+		return BSRequest::POST;
 	}
 }
 

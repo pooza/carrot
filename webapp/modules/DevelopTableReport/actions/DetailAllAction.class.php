@@ -21,11 +21,11 @@ class DetailAllAction extends BSAction {
 		}
 		$this->request->setAttribute('profiles', $profiles);
 
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

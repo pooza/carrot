@@ -1,0 +1,44 @@
+<?php
+/**
+ * @package jp.co.b-shock.carrot
+ * @subpackage filter
+ */
+
+/**
+ * クレデンシャル認証
+ *
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @copyright (c)b-shock. co., ltd.
+ * @version $Id: BSCredentialSecurityFilter.class.php 220 2008-04-20 15:41:52Z pooza $
+ */
+class BSCredentialSecurityFilter extends BSFilter {
+	public function execute (FilterChain $filters) {
+		$action = $this->controller->getActionStack()->getLastEntry()->getActionInstance();
+		if ($action->getCredential() !== null) {
+			$credential = $action->getCredential();
+		} else {
+			$credential = $this->getParameter('credential');
+		}
+
+		if ($credential && !$this->user->hasCredential($credential)) {
+			if (defined('APP_SECURE_MODULE')) {
+				$module = APP_SECURE_MODULE;
+			} else {
+				$module = MO_SECURE_MODULE;
+			}
+
+			if (defined('APP_SECURE_ACTION')) {
+				$action = APP_SECURE_ACTION;
+			} else {
+				$action = MO_SECURE_ACTION;
+			}
+
+			return $this->controller->forward($module, $action);
+		}
+
+		$filters->execute();
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>

@@ -23,11 +23,11 @@ class BrowseAction extends BSAction {
 			$this->request->setAttribute('logs', $entry->getContents());
 		}
 
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET;
+		return BSRequest::GET;
 	}
 }
 

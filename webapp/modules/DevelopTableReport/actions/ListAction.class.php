@@ -14,11 +14,11 @@ class ListAction extends BSAction {
 		} catch (BSDatabaseException $e) {
 			$this->request->setError('tables', $e->getMessage());
 		}
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function getRequestMethods () {
-		return Request::GET | Request::POST;
+		return BSRequest::GET | BSRequest::POST;
 	}
 }
 

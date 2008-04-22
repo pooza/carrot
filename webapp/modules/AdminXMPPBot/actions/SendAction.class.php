@@ -18,7 +18,7 @@ class SendAction extends BSAction {
 	}
 
 	public function getRequestMethods () {
-		return Request::POST;
+		return BSRequest::POST;
 	}
 }
 

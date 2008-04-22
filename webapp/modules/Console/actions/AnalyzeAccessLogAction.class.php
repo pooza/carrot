@@ -120,7 +120,7 @@ class AnalyzeAccessLogAction extends BSAction {
 		$this->analyze();
 
 		BSLog::put(get_class($this) . 'を実行しました。');
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

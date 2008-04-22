@@ -11,9 +11,9 @@ class PingAction extends BSAction {
 	public function execute () {
 		try {
 			$db = $this->database;
-			return View::SUCCESS;
+			return BSView::SUCCESS;
 		} catch (Exception $e) {
-			return VIEW::ERROR;
+			return BSView::ERROR;
 		}
 	}
 }

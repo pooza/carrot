@@ -10,7 +10,7 @@
 class CreateDatabaseSchemaAction extends BSAction {
 	public function execute () {
 		BSDatabase::getInstance()->createSchemaFile();
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

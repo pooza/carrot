@@ -10,7 +10,7 @@
 class CreateDatabaseDumpAction extends BSAction {
 	public function execute () {
 		BSDatabase::getInstance()->createDumpFile();
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

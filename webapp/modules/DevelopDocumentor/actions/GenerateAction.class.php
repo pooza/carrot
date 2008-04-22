@@ -28,11 +28,11 @@ class GenerateAction extends BSAction {
 			);
 			$this->request->setParameter('directories', $directories);
 		}
-		return View::INPUT;
+		return BSView::INPUT;
 	}
 
 	public function handleError () {
-		return View::INPUT;
+		return BSView::INPUT;
 	}
 
 	public function validate () {
@@ -43,7 +43,7 @@ class GenerateAction extends BSAction {
 	}
 
 	public function getRequestMethods () {
-		return Request::POST;
+		return BSRequest::POST;
 	}
 }
 

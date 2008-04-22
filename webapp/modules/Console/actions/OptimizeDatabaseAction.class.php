@@ -10,7 +10,7 @@
 class OptimizeDatabaseAction extends BSAction {
 	public function execute () {
 		BSDatabase::getInstance()->optimize();
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

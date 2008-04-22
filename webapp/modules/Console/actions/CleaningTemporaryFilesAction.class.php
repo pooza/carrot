@@ -24,7 +24,7 @@ class CleaningTemporaryFilesAction extends BSAction {
 		}
 
 		BSLog::put(get_class($this) . 'を実行しました。');
-		return View::NONE;
+		return BSView::NONE;
 	}
 }
 

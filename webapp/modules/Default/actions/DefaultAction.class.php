@@ -9,7 +9,7 @@
  */
 class DefaultAction extends BSAction {
 	public function execute () {
-		return View::SUCCESS;
+		return BSView::SUCCESS;
 	}
 
 	public function handleError () {
