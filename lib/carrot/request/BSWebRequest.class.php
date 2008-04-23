@@ -16,7 +16,7 @@ class BSWebRequest extends BSRequest {
 	/**
 	 * 初期化
 	 *
-	 * @access protected
+	 * @access public
 	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 */

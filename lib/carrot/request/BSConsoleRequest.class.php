@@ -16,20 +16,18 @@ class BSConsoleRequest extends BSRequest {
 	/**
 	 * 初期化
 	 *
-	 * @access protected
+	 * @access public
 	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 */
-	public function initialize ($context, $parameters = null) {
-		$this->setMethod(self::NONE);
-
+	public function initialize (Context $context, $parameters = null) {
 		$options = array(
 			BSController::MODULE_ACCESSOR,
 			BSController::ACTION_ACCESSOR,
 			null,
 		);
 		$options = implode(':', $options);
-		$this->request->setParameters(getopt($options));
+		$this->setParameters(getopt($options));
 	}
 }
 

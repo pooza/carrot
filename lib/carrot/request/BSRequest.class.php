@@ -23,12 +23,12 @@ abstract class BSRequest extends ParameterHolder {
 	/**
 	 * 初期化
 	 *
-	 * @access protected
+	 * @access public
 	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 * @abstract
 	 */
-	abstract function initialize (Context $context, $parameters = null);
+	abstract public function initialize (Context $context, $parameters = null);
 
 	public function clearAttributes () {
 		$this->attributes = array();
