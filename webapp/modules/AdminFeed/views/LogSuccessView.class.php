@@ -7,7 +7,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class LogSuccessView extends BSXMLView {
+class LogSuccessView extends BSView {
 	const FEED_CLASS = BS_FEED_CLASS;
 
 	public function initialize () {
