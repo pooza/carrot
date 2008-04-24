@@ -429,7 +429,7 @@ abstract class Controller
     {
 
         $this->actionStack = new ActionStack();
-        $this->storage = new BSSessionStorage();
+        $this->storage = BSSessionStorage::getInstance();
         $this->user = new BSSecurityUser();
         $this->context = new Context($this, $this->request, $this->user, $this->storage);
         $this->storage->initialize($this->context, null);

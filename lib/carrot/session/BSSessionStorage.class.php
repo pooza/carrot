@@ -15,6 +15,39 @@ class BSSessionStorage extends ParameterHolder {
 	const SESSION_NAME = 'Carrot';
 	const TABLE_NAME = 'stored_session';
 	private $table;
+	private static $instance;
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		// インスタンス化禁止
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSSessionStorage インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSSessionStorage();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
 
 	/**
 	 * 初期化
