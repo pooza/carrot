@@ -31,10 +31,8 @@ abstract class Controller
         $actionStack     = null,
         $maxForwards     = 20,
         $renderMode      = BSView::RENDER_CLIENT,
-        $request         = null,
         $securityFilter  = null,
-        $storage         = null,
-        $user            = null;
+        $storage         = null;
 
     private static
         $instance = null;
@@ -42,6 +40,15 @@ abstract class Controller
     // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
     // +-----------------------------------------------------------------------+
+
+	public function __get ($name) {
+		switch ($name) {
+			case 'request':
+				return BSRequest::getInstance();
+			case 'user':
+				return BSUser::getInstance();
+		}
+	}
 
     /**
      * Indicates whether or not a module has a specific action.
@@ -412,8 +419,6 @@ abstract class Controller
 
         $this->actionStack = new ActionStack();
         $this->storage = BSSessionStorage::getInstance();
-		$this->request = BSRequest::getInstance();
-        $this->user = BSUser::getInstance();
         $this->storage->initialize();
         $this->request->initialize();
         $this->user->initialize();

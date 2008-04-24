@@ -46,22 +46,13 @@ class ExecutionFilter extends BSFilter
     public function execute (FilterChain $filterChain)
     {
 
-        static
-            $controller,
-            $validatorManager;
-
-        $controller = BSController::getInstance();
-
-        $validatorManager = new ValidatorManager();
-        $validatorManager->initialize();
-
         // get the current action instance
-        $actionEntry    = $controller->getActionStack()->getLastEntry();
+        $actionEntry    = BSController::getInstance()->getActionStack()->getLastEntry();
         $actionInstance = $actionEntry->getActionInstance();
 
         // get the current action information
-        $moduleName = $controller->getModuleName();
-        $actionName = $controller->getActionName();
+        $moduleName = BSController::getInstance()->getModuleName();
+        $actionName = BSController::getInstance()->getActionName();
 
         // get the request method
         $method = BSRequest::getInstance()->getMethod();
@@ -96,10 +87,10 @@ class ExecutionFilter extends BSFilter
             }
 
             // manually load validators
-            $actionInstance->registerValidators($validatorManager);
+            $actionInstance->registerValidators(ValidatorManager::getInstance());
 
             // process validators
-            $validated = $validatorManager->execute();
+            $validated = ValidatorManager::getInstance()->execute();
 
             // process manual validation
             if ($validated && $actionInstance->validate())
@@ -137,7 +128,7 @@ class ExecutionFilter extends BSFilter
             }
 
             // display this view
-            if (!$controller->viewExists($moduleName, $viewName))
+            if (!BSController::getInstance()->viewExists($moduleName, $viewName))
             {
 
                 // the requested view doesn't exist
@@ -154,7 +145,7 @@ class ExecutionFilter extends BSFilter
             }
 
             // get the view instance
-            $viewInstance = $controller->getView($moduleName, $viewName);
+            $viewInstance = BSController::getInstance()->getView($moduleName, $viewName);
 
             // initialize the view
             if ($viewInstance->initialize())
@@ -167,7 +158,7 @@ class ExecutionFilter extends BSFilter
                 // action entry which was retrieved from the execution chain
                 $viewData = $viewInstance->render();
 
-                if ($controller->getRenderMode() == BSView::RENDER_VAR)
+                if (BSController::getInstance()->getRenderMode() == BSView::RENDER_VAR)
                 {
 
                     $actionEntry->setPresentation($viewData);

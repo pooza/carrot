@@ -20,9 +20,8 @@ class BSBasicAuthFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function isAuthenticated () {
-		$controller = BSController::getInstance();
-		$userid = $controller->getEnvironment('PHP_AUTH_USER');
-		$password = BSCrypt::getMD5($controller->getEnvironment('PHP_AUTH_PW'));
+		$userid = $this->controller->getEnvironment('PHP_AUTH_USER');
+		$password = BSCrypt::getMD5($this->controller->getEnvironment('PHP_AUTH_PW'));
 
 		// パスフレーズのチェックは必須
 		if ($password != $this->getParameter('password')) {

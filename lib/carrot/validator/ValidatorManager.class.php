@@ -30,12 +30,45 @@ class ValidatorManager
 
     private
         $groups  = array(),
-        $names   = array(),
-        $request = null;
+        $names   = array();
+
+	private static $instance;
 
     // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
     // +-----------------------------------------------------------------------+
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		// コンストラクタからのインスタンス生成を禁止
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return ValidatorManager インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new ValidatorManager();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
 
     /**
      * Clear this validator manager so it can be reused.
@@ -136,23 +169,6 @@ class ValidatorManager
         }
 
         return $retval;
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Initialize this validator manager.
-     *
-     * @return void
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function initialize ()
-    {
-
-        $this->request = BSRequest::getInstance();
 
     }
 
@@ -299,13 +315,13 @@ class ValidatorManager
             {
 
                 // file
-                $value = $this->request->getFile($name);
+                $value = BSRequest::getInstance()->getFile($name);
 
             } else
             {
 
                 // parameter
-                $value =& $this->request->getParameter($name);
+                $value =& BSRequest::getInstance()->getParameter($name);
 
             }
 
@@ -319,13 +335,13 @@ class ValidatorManager
             {
 
                 // file
-                $parent = $this->request->getFile($parent);
+                $parent = BSRequest::getInstance()->getFile($parent);
 
             } else
             {
 
                 // parameter
-                $parent =& $this->request->getParameter($parent);
+                $parent =& BSRequest::getInstance()->getParameter($parent);
 
             }
 
@@ -411,7 +427,7 @@ class ValidatorManager
             $data['validation_status'] = false;
 
             // set the request error
-            $this->request->setError($errorName, $error);
+            BSRequest::getInstance()->setError($errorName, $error);
 
         }
 
