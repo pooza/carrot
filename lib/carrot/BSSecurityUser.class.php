@@ -1,7 +1,6 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage user
  */
 
 /**
@@ -12,8 +11,8 @@
  * @version $Id$
  */
 class BSSecurityUser extends ParameterHolder {
-	const ATTRIBUTE_NAMESPACE = 'jp/co/b-shock/user/BSSecurityUser/attributes';
-	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/user/BSSecurityUser/credentials';
+	const ATTRIBUTE_NAMESPACE = 'jp/co/b-shock/carrot/BSSecurityUser/attributes';
+	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/carrot/BSSecurityUser/credentials';
 	private $attributes = array();
 	private $credentials = array();
 
