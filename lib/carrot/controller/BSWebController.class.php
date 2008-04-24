@@ -34,9 +34,7 @@ class BSWebController extends BSController {
 	 * @access protected
 	 */
 	protected function initialize () {
-		$this->request = new BSWebRequest();
 		parent::initialize();
-
 		if ($this->getUserAgent()->isMobile()) {
 			ini_set('session.use_only_cookies', 0);
 		}

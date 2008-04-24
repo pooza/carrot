@@ -12,6 +12,21 @@
  * @version $Id$
  */
 class BSConsoleRequest extends BSRequest {
+	private static $instance;
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSConsoleRequest インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSConsoleRequest();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * 初期化

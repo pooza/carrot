@@ -12,6 +12,21 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
+	private static $instance;
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSWebRequest インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSWebRequest();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * 初期化

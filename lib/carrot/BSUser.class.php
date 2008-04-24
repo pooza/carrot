@@ -15,6 +15,39 @@ class BSUser extends ParameterHolder {
 	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/credentials';
 	private $attributes = array();
 	private $credentials = array();
+	private static $instance;
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		// インスタンス化禁止
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSUser インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSUser();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
 
 	/**
 	 * 初期化

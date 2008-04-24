@@ -34,9 +34,7 @@ class BSConsoleController extends BSController {
 	 * @access protected
 	 */
 	protected function initialize () {
-		$this->request = new BSConsoleRequest();
 		parent::initialize();
-
 		if (!$this->request->getParameter(self::MODULE_ACCESSOR)) {
 			$this->request->setParameter(self::MODULE_ACCESSOR, 'Console');
 		}

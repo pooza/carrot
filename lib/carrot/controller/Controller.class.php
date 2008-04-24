@@ -430,7 +430,8 @@ abstract class Controller
 
         $this->actionStack = new ActionStack();
         $this->storage = BSSessionStorage::getInstance();
-        $this->user = new BSUser();
+		$this->request = BSRequest::getInstance();
+        $this->user = BSUser::getInstance();
         $this->context = new Context($this, $this->request, $this->user, $this->storage);
         $this->storage->initialize($this->context, null);
         $this->request->initialize($this->context, null);

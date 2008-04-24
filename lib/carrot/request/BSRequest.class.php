@@ -21,6 +21,30 @@ abstract class BSRequest extends ParameterHolder {
 	private $method;
 
 	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSRequest インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (php_sapi_name() == 'cli') {
+			return BSConsoleRequest::getInstance();
+		} else {
+			return BSWebRequest::getInstance();
+		}
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
+
+	/**
 	 * 初期化
 	 *
 	 * @access public
