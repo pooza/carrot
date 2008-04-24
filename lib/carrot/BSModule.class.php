@@ -15,19 +15,37 @@ class BSModule {
 	private $directory;
 	private $config = array();
 	private $prefix;
+	private static $instances = array();
 	private static $prefixes = array();
 
 	/**
 	 * コンストラクタ
 	 *
-	 * @access public
+	 * @access private
 	 * @param string $name モジュール名
 	 */
-	public function __construct ($name) {
+	private function __construct ($name) {
 		$this->name = $name;
 		if (!$this->getDirectory()) {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
+	}
+
+	/**
+	 * フライウェイトインスタンスを返す
+	 *
+	 * @access public
+	 * @param string $name モジュール名
+	 * @static
+	 */
+	public static function getInstance ($name) {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+		}
+		if (!self::$instances[$name]) {
+			self::$instances[$name] = new BSModule($name);
+		}
+		return self::$instances[$name];
 	}
 
 	/**
@@ -82,6 +100,23 @@ class BSModule {
 		}
 		if (isset($this->config[$file][$section][$name])) {
 			return $this->config[$file][$section][$name];
+		}
+	}
+
+	/**
+	 * アクションを返す
+	 *
+	 * @access public
+	 * @param string $name アクション名
+	 * @return BSAction アクション
+	 */
+	public function getAction ($name) {
+		if ($dir = $this->getDirectory()->getEntry('actions')) {
+			$class = $name . 'Action';
+			if ($file = $dir->getEntry($class . '.class.php')) {
+				require_once($file->getPath());
+				return new $class;
+			}
 		}
 	}
 

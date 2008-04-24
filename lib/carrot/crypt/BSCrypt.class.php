@@ -28,7 +28,7 @@ class BSCrypt {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSTranslator インスタンス
+	 * @return BSCrypt インスタンス
 	 * @static
 	 */
 	public static function getInstance () {

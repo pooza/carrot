@@ -204,9 +204,9 @@ abstract class BSController extends Controller {
 	 */
 	public function getModule ($name = null) {
 		if (!$name) {
-			$name = $this->actionStack->getLastEntry()->getModuleName();
+			$name = ActionStack::getInstance()->getLastEntry()->getModuleName();
 		}
-		return new BSModule($name);
+		return BSModule::getInstance($name);
 	}
 
 	/**

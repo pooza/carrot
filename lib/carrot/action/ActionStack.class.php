@@ -30,10 +30,43 @@ class ActionStack
 
     private
         $stack = array();
+	private static $instance;
 
     // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
     // +-----------------------------------------------------------------------+
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		// インスタンス化は禁止
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return ActionStack インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new ActionStack();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
 
     /**
      * Add an entry.

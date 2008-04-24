@@ -28,7 +28,6 @@ abstract class Controller
     // +-----------------------------------------------------------------------+
 
     protected
-        $actionStack     = null,
         $maxForwards     = 20,
         $securityFilter  = null,
         $storage         = null;
@@ -100,7 +99,7 @@ abstract class Controller
         $moduleName = preg_replace('/[^a-z0-9\-_]+/i', '', $moduleName);
         $actionName = preg_replace('/[^a-z0-9\-_\/]+/i', '', $actionName);
 
-        if ($this->actionStack->getSize() >= $this->maxForwards)
+        if (ActionStack::getInstance()->getSize() >= $this->maxForwards)
         {
 
             // let's kill this party before it turns into cpu cycle hell
@@ -162,10 +161,10 @@ abstract class Controller
         }
 
         // create an instance of the action
-        $actionInstance = $this->getAction($moduleName, $actionName);
+        $actionInstance = BSModule::getInstance($moduleName)->getAction($actionName);
 
         // add a new action stack entry
-        $this->actionStack->addEntry($moduleName, $actionName,
+        ActionStack::getInstance()->addEntry($moduleName, $actionName,
                                      $actionInstance);
 
         // include the module configuration
@@ -277,70 +276,19 @@ abstract class Controller
     /**
      * Retrieve an Action implementation instance.
      *
-     * @param string A module name.
-     * @param string An action name.
-     *
      * @return Action An Action implementation instance, if the action exists,
      *                otherwise null.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function getAction ($moduleName = null, $actionName = null)
+    public function getAction ()
     {
-        if (!$moduleName) {
-            $moduleName = $this->getModule()->getName();
+        $moduleName = ActionStack::getInstance()->getLastEntry()->getModuleName();
+        $actionName = ActionStack::getInstance()->getLastEntry()->getActionName();
+        if ($module = BSModule::getInstance($moduleName)) {
+            return $module->getAction($actionName);
         }
-        if (!$actionName) {
-            $actionName = $this->actionStack->getLastEntry()->getActionName();
-        }
-
-        $file = MO_MODULE_DIR . '/' . $moduleName . '/actions/' . $actionName .
-                'Action.class.php';
-
-        require_once($file);
-
-        $position = strrpos($actionName, '/');
-
-        if ($position > -1)
-        {
-
-            $actionName = substr($actionName, $position + 1);
-
-        }
-
-        $class = $actionName . 'Action';
-
-        // fix for same name classes
-        $moduleClass = $moduleName . '_' . $class;
-
-        if (class_exists($moduleClass, false))
-        {
-
-            $class = $moduleClass;
-
-        }
-
-        return new $class();
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieve the action stack.
-     *
-     * @return ActionStack An ActionStack instance, if the action stack is
-     *                     enabled, otherwise null.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getActionStack ()
-    {
-
-        return $this->actionStack;
-
     }
 
     // -------------------------------------------------------------------------
@@ -403,7 +351,6 @@ abstract class Controller
     protected function initialize ()
     {
 
-        $this->actionStack = new ActionStack();
         $this->storage = BSSessionStorage::getInstance();
         $this->storage->initialize();
         $this->request->initialize();
@@ -472,7 +419,7 @@ abstract class Controller
         static $list = array();
 
         // get the module name
-        $moduleName = $this->actionStack->getLastEntry()->getModuleName();
+        $moduleName = ActionStack::getInstance()->getLastEntry()->getModuleName();
 
         if (!isset($list[$moduleName]))
         {
