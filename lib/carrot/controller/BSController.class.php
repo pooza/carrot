@@ -189,7 +189,7 @@ abstract class BSController extends Controller {
 				$name = $this->getEnvironment('HTTP_USER_AGENT');
 			}
 			if (!$this->useragent = BSUserAgent::createInstance($name)) {
-				throw new BSException('サポートされていないUserAgentです。');
+				throw new BSUserAgentException('サポートされていないUserAgentです。');
 			}
 		}
 		return $this->useragent;

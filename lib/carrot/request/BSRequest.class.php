@@ -137,4 +137,5 @@ abstract class BSRequest extends ParameterHolder {
 	}
 }
 
+/* vim:set tabstop=4 ai: */
 ?>

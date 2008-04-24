@@ -5,7 +5,7 @@
  */
 
 /**
- * Webコントローラー - FrontWebControllerの拡張
+ * Webコントローラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -52,10 +52,6 @@ class BSWebController extends BSController {
 		} else {
 			$url = new BSURL();
 			$url->setAttribute('path', $target);
-		}
-
-		if ($this->isDebugMode()) {
-			BSLog::put($url->getContents(), 'Redirect');
 		}
 		$this->shutdown();
 		$this->sendHeader('Location: ' . $url->getContents());
