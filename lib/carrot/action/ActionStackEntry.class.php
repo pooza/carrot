@@ -32,8 +32,7 @@ class ActionStackEntry
         $actionInstance = null,
         $actionName     = null,
         $microtime      = null,
-        $moduleName     = null,
-        $presentation   = null;
+        $moduleName     = null;
     
     // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
@@ -120,41 +119,6 @@ class ActionStackEntry
         
         return $this->moduleName;
     
-    }
-    
-    /**
-     * Retrieve this entry's rendered view presentation.
-     *
-     * This will only exist if the view has processed and the render mode
-     * is set to View::RENDER_VAR.
-     *
-     * @return string An action name.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function & getPresentation ()
-    {
-        
-        return $this->presentation;
-    
-    }
-    
-    /**
-     * Set the rendered presentation for this action.
-     *
-     * @param string A rendered presentation.
-     *
-     * @return void
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function setPresentation (&$presentation)
-    {
-        
-        $this->presentation =& $presentation;
-        
     }
 
 }
