@@ -14,12 +14,11 @@
  */
 abstract class BSAction {
 	private $name;
+	private $module;
 	protected $recordClassName;
 
-	abstract public function execute ();
-
-	public function initialize () {
-		return true;
+	public function __construct (BSModule $module) {
+		$this->module = $module;
 	}
 
 	public function __get ($name) {
@@ -33,6 +32,12 @@ abstract class BSAction {
 			case 'database':
 				return BSDatabase::getInstance();
 		}
+	}
+
+	abstract public function execute ();
+
+	public function initialize () {
+		return true;
 	}
 
 	public function getDefaultView () {
@@ -83,6 +88,16 @@ abstract class BSAction {
 			}
 		}
 		return $this->recordClassName;
+	}
+
+	/**
+	 * モジュールを返す
+	 *
+	 * @access public
+	 * @return BSModule モジュール
+	 */
+	public function getModule () {
+		return $this->module;
 	}
 
 	public function getCredential () {

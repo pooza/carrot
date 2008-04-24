@@ -13,8 +13,9 @@
  */
 class BSSecurityFilter extends BSFilter {
 	public function execute (FilterChain $filters) {
-		if ($this->controller->getAction()->getCredential() !== null) {
-			$credential = $this->controller->getAction()->getCredential();
+		$action = ActionStack::getInstance()->getLastEntry();
+		if ($action->getCredential() !== null) {
+			$credential = $action->getCredential();
 		} else {
 			$credential = $this->getParameter('credential');
 		}

@@ -115,7 +115,7 @@ class BSModule {
 			$class = $name . 'Action';
 			if ($file = $dir->getEntry($class . '.class.php')) {
 				require_once($file->getPath());
-				return new $class;
+				return new $class($this);
 			}
 		}
 	}

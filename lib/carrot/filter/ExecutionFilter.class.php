@@ -47,22 +47,21 @@ class ExecutionFilter extends BSFilter
     {
 
         // get the current action instance
-        $actionEntry    = ActionStack::getInstance()->getLastEntry();
-        $actionInstance = $actionEntry->getActionInstance();
+        $action = ActionStack::getInstance()->getLastEntry();
 
         // get the current action information
         $moduleName = BSController::getInstance()->getModule()->getName();
-        $actionName = BSController::getInstance()->getAction()->getName();
+        $actionName = ActionStack::getInstance()->getLastEntry()->getName();
 
         // get the request method
         $method = BSRequest::getInstance()->getMethod();
 
-        if (($actionInstance->getRequestMethods() & $method) != $method)
+        if (($action->getRequestMethods() & $method) != $method)
         {
 
             // this action will skip validation/execution for this method
             // get the default view
-            $viewName = $actionInstance->getDefaultView();
+            $viewName = $action->getDefaultView();
 
         } else
         {
@@ -87,23 +86,23 @@ class ExecutionFilter extends BSFilter
             }
 
             // manually load validators
-            $actionInstance->registerValidators(ValidatorManager::getInstance());
+            $action->registerValidators(ValidatorManager::getInstance());
 
             // process validators
             $validated = ValidatorManager::getInstance()->execute();
 
             // process manual validation
-            if ($validated && $actionInstance->validate())
+            if ($validated && $action->validate())
             {
 
                 // execute the action
-                $viewName = $actionInstance->execute();
+                $viewName = $action->execute();
 
             } else
             {
 
                 // validation failed
-                $viewName = $actionInstance->handleError();
+                $viewName = $action->handleError();
 
             }
 

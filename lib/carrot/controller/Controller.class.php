@@ -160,11 +160,10 @@ abstract class Controller
         }
 
         // create an instance of the action
-        $actionInstance = BSModule::getInstance($moduleName)->getAction($actionName);
+        $action = BSModule::getInstance($moduleName)->getAction($actionName);
 
         // add a new action stack entry
-        ActionStack::getInstance()->addEntry($moduleName, $actionName,
-                                     $actionInstance);
+        ActionStack::getInstance()->addEntry($action);
 
         // include the module configuration
         ConfigCache::import('modules/' . $moduleName . '/config/module.ini');
@@ -185,7 +184,7 @@ abstract class Controller
             }
 
             // initialize the action
-            if ($actionInstance->initialize())
+            if ($action->initialize())
             {
 
                 // create a new filter chain
@@ -198,7 +197,7 @@ abstract class Controller
                     // global and module filters, otherwise skip them
 
                     // does this action require security?
-                    if ($actionInstance->isSecure())
+                    if ($action->isSecure())
                     {
 
                         // register security filter
@@ -268,26 +267,6 @@ abstract class Controller
 
         }
 
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieve an Action implementation instance.
-     *
-     * @return Action An Action implementation instance, if the action exists,
-     *                otherwise null.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getAction ()
-    {
-        $moduleName = ActionStack::getInstance()->getLastEntry()->getModuleName();
-        $actionName = ActionStack::getInstance()->getLastEntry()->getActionName();
-        if ($module = BSModule::getInstance($moduleName)) {
-            return $module->getAction($actionName);
-        }
     }
 
     // -------------------------------------------------------------------------
@@ -416,7 +395,7 @@ abstract class Controller
         static $list = array();
 
         // get the module name
-        $moduleName = ActionStack::getInstance()->getLastEntry()->getModuleName();
+        $moduleName = ActionStack::getInstance()->getLastEntry()->getModule()->getName();
 
         if (!isset($list[$moduleName]))
         {

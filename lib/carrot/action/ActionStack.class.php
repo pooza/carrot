@@ -71,23 +71,17 @@ class ActionStack
     /**
      * Add an entry.
      *
-     * @param string A module name.
-     * @param string An action name.
-     * @param Action An action implementation instance.
+     * @param BSAction An action implementation instance.
      *
      * @return void
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function addEntry ($moduleName, $actionName, $actionInstance)
+    public function addEntry (BSAction $action)
     {
 
-        // create our action stack entry and add it to our stack
-        $actionEntry = new ActionStackEntry($moduleName, $actionName,
-                                            $actionInstance);
-
-        $this->stack[] = $actionEntry;
+        $this->stack[] = $action;
 
     }
 
@@ -98,7 +92,7 @@ class ActionStack
      *
      * @param int An entry index.
      *
-     * @return ActionStackEntry An action stack entry implementation.
+     * @return BSAction An action stack entry implementation.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
@@ -124,7 +118,7 @@ class ActionStack
     /**
      * Retrieve the first entry.
      *
-     * @return ActionStackEntry An action stack entry implementation.
+     * @return BSAction An action stack entry implementation.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
@@ -151,7 +145,7 @@ class ActionStack
     /**
      * Retrieve the last entry.
      *
-     * @return ActionStackEntry An action stack entry implementation.
+     * @return BSAction An action stack entry implementation.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
