@@ -430,12 +430,12 @@ abstract class Controller
 
         $this->actionStack = new ActionStack();
         $this->storage = BSSessionStorage::getInstance();
-        $this->user = new BSSecurityUser();
+        $this->user = new BSUser();
         $this->context = new Context($this, $this->request, $this->user, $this->storage);
         $this->storage->initialize($this->context, null);
         $this->request->initialize($this->context, null);
         $this->user->initialize($this->context, null);
-        $this->securityFilter = new BSCredentialSecurityFilter();
+        $this->securityFilter = new BSSecurityFilter();
         $this->securityFilter->initialize($this->context, null);
 
         register_shutdown_function(array($this, 'shutdown'));

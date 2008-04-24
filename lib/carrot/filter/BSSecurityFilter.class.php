@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCredentialSecurityFilter extends BSFilter {
+class BSSecurityFilter extends BSFilter {
 	public function execute (FilterChain $filters) {
 		$action = $this->controller->getActionStack()->getLastEntry()->getActionInstance();
 		if ($action->getCredential() !== null) {

@@ -92,7 +92,7 @@ class BSModuleProfile {
 	 * @return string クレデンシャル
 	 */
 	public function getCredential () {
-		return $this->getConfig('param.credential', 'BSCredentialSecurityFilter', 'filters');
+		return $this->getConfig('param.credential', 'BSSecurityFilter', 'filters');
 	}
 
 	/**
