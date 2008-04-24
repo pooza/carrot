@@ -31,11 +31,9 @@ abstract class BSController extends Controller {
 	public function __get ($name) {
 		switch ($name) {
 			case 'request':
-				return $this->getContext()->getRequest();
+				return BSRequest::getInstance();
 			case 'user':
-				return $this->getContext()->getUser();
-			case 'context':
-				return $this->getContext();
+				return BSUser::getInstance();
 		}
 	}
 
@@ -206,7 +204,7 @@ abstract class BSController extends Controller {
 	 */
 	public function getModuleProfile ($name = null) {
 		if (!$name) {
-			$name = $this->getContext()->getModuleName();
+			$name = $this->getModuleName();
 		}
 		return new BSModuleProfile($name);
 	}

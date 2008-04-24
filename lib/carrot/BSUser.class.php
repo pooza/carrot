@@ -53,10 +53,9 @@ class BSUser extends ParameterHolder {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 */
-	public function initialize (Context $context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		if ($parameters) {
 			$this->setParameters($parameters);
 		}

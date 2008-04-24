@@ -18,12 +18,11 @@ class BSKanaValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('invalid_error', 'フリガナとして使用出来ない文字が含まれています。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

@@ -116,7 +116,6 @@ class StringValidator extends Validator
     /**
      * Initialize this validator.
      *
-     * @param Context The current application context.
      * @param array   An associative array of initialization parameters.
      *
      * @return bool true, if initialization completes successfully, otherwise
@@ -125,7 +124,7 @@ class StringValidator extends Validator
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function initialize ($context, $parameters = null)
+    public function initialize ($parameters = null)
     {
 
         // set defaults
@@ -138,7 +137,7 @@ class StringValidator extends Validator
         $this->setParameter('values_error', 'Invalid selection');
 
         // initialize parent
-        parent::initialize($context, $parameters);
+        parent::initialize($parameters);
 
         return true;
 

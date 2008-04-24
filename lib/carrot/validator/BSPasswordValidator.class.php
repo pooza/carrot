@@ -17,10 +17,9 @@ class BSPasswordValidator extends RegexValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		if (!isset($parameters['digits'])) {
 			$parameters['digits'] = 6;
 		}
@@ -28,7 +27,7 @@ class BSPasswordValidator extends RegexValidator {
 		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
 		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
 
-		return Validator::initialize($context, $parameters);
+		return Validator::initialize($parameters);
 	}
 }
 /* vim:set tabstop=4 ai: */

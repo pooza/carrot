@@ -32,10 +32,9 @@ class BSConsoleRequest extends BSRequest {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 */
-	public function initialize (Context $context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		$options = array(
 			BSController::MODULE_ACCESSOR,
 			BSController::ACTION_ACCESSOR,

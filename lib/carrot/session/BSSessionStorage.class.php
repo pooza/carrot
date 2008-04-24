@@ -53,10 +53,9 @@ class BSSessionStorage extends ParameterHolder {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param string[] $parameters パラメータ
 	 */
-	public function initialize (Context $context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		if (!$this->getParameter('session_name')) {
 			$this->setParameter('session_name', self::SESSION_NAME);
 		}

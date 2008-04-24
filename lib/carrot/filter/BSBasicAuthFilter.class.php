@@ -36,7 +36,7 @@ class BSBasicAuthFilter extends BSFilter {
 		return true;
 	}
 
-	public function initialize ($context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		if (!is_array($parameters)) {
 			$parameters = array();
 		}
@@ -47,7 +47,7 @@ class BSBasicAuthFilter extends BSFilter {
 		);
 		$parameters = array_merge($default, $parameters);
 
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	public function execute (FilterChain $filters) {

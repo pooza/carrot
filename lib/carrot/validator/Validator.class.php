@@ -24,13 +24,6 @@ abstract class Validator extends ParameterHolder
 {
 
     // +-----------------------------------------------------------------------+
-    // | PRIVATE VARIABLES                                                     |
-    // +-----------------------------------------------------------------------+
-
-    private
-        $context = null;
-
-    // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
     // +-----------------------------------------------------------------------+
 
@@ -51,26 +44,8 @@ abstract class Validator extends ParameterHolder
     // -------------------------------------------------------------------------
 
     /**
-     * Retrieve the current application context.
-     *
-     * @return Context The current Context instance.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public final function getContext ()
-    {
-
-        return $this->context;
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
      * Initialize this validator.
      *
-     * @param Context The current application context.
      * @param array   An associative array of initialization parameters.
      *
      * @return bool true, if initialization completes successfully, otherwise
@@ -79,10 +54,8 @@ abstract class Validator extends ParameterHolder
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function initialize ($context, $parameters = null)
+    public function initialize ($parameters = null)
     {
-
-        $this->context = $context;
 
         if ($parameters != null)
         {

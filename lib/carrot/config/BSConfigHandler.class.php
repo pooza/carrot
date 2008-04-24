@@ -36,11 +36,9 @@ abstract class BSConfigHandler extends ParameterHolder {
 			case 'controller':
 				return BSController::getInstance();
 			case 'request':
-				return $this->getContext()->getRequest();
+				return BSRequest::getInstance();
 			case 'user':
-				return $this->getContext()->getUser();
-			case 'context':
-				return $this->controller->getContext();
+				return BSUser::getInstance();
 		}
 	}
 

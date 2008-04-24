@@ -29,7 +29,6 @@ abstract class Controller
 
     protected
         $actionStack     = null,
-        $context         = null,
         $maxForwards     = 20,
         $renderMode      = BSView::RENDER_CLIENT,
         $request         = null,
@@ -182,7 +181,7 @@ abstract class Controller
             }
 
             // initialize the action
-            if ($actionInstance->initialize($this->context))
+            if ($actionInstance->initialize())
             {
 
                 // create a new filter chain
@@ -212,7 +211,7 @@ abstract class Controller
                 // register the execution filter
                 $execFilter = new ExecutionFilter();
 
-                $execFilter->initialize($this->context);
+                $execFilter->initialize();
                 $filterChain->register($execFilter);
 
                 if ($moduleName == MO_ERROR_404_MODULE &&
@@ -335,23 +334,6 @@ abstract class Controller
     // -------------------------------------------------------------------------
 
     /**
-     * Retrieve the current application context.
-     *
-     * @return Context A Context instance.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getContext ()
-    {
-
-        return $this->context;
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
      * Retrieve the presentation rendering mode.
      *
      * @return int One of the following:
@@ -432,12 +414,11 @@ abstract class Controller
         $this->storage = BSSessionStorage::getInstance();
 		$this->request = BSRequest::getInstance();
         $this->user = BSUser::getInstance();
-        $this->context = new Context($this, $this->request, $this->user, $this->storage);
-        $this->storage->initialize($this->context, null);
-        $this->request->initialize($this->context, null);
-        $this->user->initialize($this->context, null);
+        $this->storage->initialize();
+        $this->request->initialize();
+        $this->user->initialize();
         $this->securityFilter = new BSSecurityFilter();
-        $this->securityFilter->initialize($this->context, null);
+        $this->securityFilter->initialize();
 
         register_shutdown_function(array($this, 'shutdown'));
     }
@@ -500,7 +481,7 @@ abstract class Controller
         static $list = array();
 
         // get the module name
-        $moduleName = $this->context->getModuleName();
+        $moduleName = $this->getModuleName();
 
         if (!isset($list[$moduleName]))
         {
@@ -635,6 +616,45 @@ abstract class Controller
 
     }
 
+    /**
+     * Retrieve the action name for this context.
+     *
+     * @return string The currently executing action name, if one is set,
+     *                otherwise null.
+     *
+     * @author Sean Kerr (skerr@mojavi.org)
+     * @since  3.0.0
+     */
+    public function getActionName ()
+    {
+
+        // get the last action stack entry
+        $actionEntry = $this->actionStack->getLastEntry();
+
+        return $actionEntry->getActionName();
+
+    }
+
+    // -------------------------------------------------------------------------
+
+    /**
+     * Retrieve the module name for this context.
+     *
+     * @return string The currently executing module name, if one is set,
+     *                otherwise null.
+     *
+     * @author Sean Kerr (skerr@mojavi.org)
+     * @since  3.0.0
+     */
+    public function getModuleName ()
+    {
+
+        // get the last action stack entry
+        $actionEntry = $this->actionStack->getLastEntry();
+
+        return $actionEntry->getModuleName();
+
+    }
 }
 
 ?>

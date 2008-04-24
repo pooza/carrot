@@ -17,16 +17,15 @@ class BSMailAddressValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('unique', false);
 		$this->setParameter('unique_error', '重複します。');
 		$this->setParameter('table', 'account');
 		$this->setParameter('field', 'email');
 		$this->setParameter('invalid_error', '正しいメールアドレスではありません。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

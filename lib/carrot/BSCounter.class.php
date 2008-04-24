@@ -55,10 +55,10 @@ class BSCounter {
 	 * Mojaviユーザーを返す
 	 *
 	 * @access private
-	 * @return User Mojaviユーザー
+	 * @return BSUser Mojaviユーザー
 	 */
 	private function getUser () {
-		return BSController::getInstance()->getContext()->getUser();
+		return BSUser::getInstance();
 	}
 
 	/**

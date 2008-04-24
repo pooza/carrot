@@ -22,10 +22,9 @@ abstract class BSTableAction extends BSAction {
 	 * アクションを初期化する
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 */
-	public function initialize ($context) {
-		parent::initialize($context);
+	public function initialize () {
+		parent::initialize();
 		$this->clearRecordID();
 		$this->cacheCriteria();
 		return true;
@@ -87,7 +86,7 @@ abstract class BSTableAction extends BSAction {
 		unset($params[BSController::ACTION_ACCESSOR]);
 		unset($params['page']);
 		unset($params['order']);
-		$name = $this->context->getModuleName() . 'Criteria';
+		$name = $this->controller->getModuleName() . 'Criteria';
 		if (!$criteria = $this->user->getAttribute($name)) {
 			$criteria = $this->getDefaultCriteria();
 		}

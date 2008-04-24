@@ -36,7 +36,7 @@ class BSMenuFilter extends BSFilter {
 			foreach ($menu as $menuitem) {
 				if (isset($menuitem['module'])) {
 					$module = $this->controller->getModuleProfile($menuitem['module']);
-					if ($this->context->getModuleName() == $module->getName()) {
+					if ($this->controller->getModuleName() == $module->getName()) {
 						$menuitem['on'] = true;
 					}
 

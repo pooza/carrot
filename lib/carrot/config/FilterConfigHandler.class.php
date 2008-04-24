@@ -101,7 +101,7 @@ class FilterConfigHandler extends BSConfigHandler
 
             // append new data
             $tmp = "\$filter = new %s();\n" .
-                   "\$filter->initialize(\$this->context, %s);\n" .
+                   "\$filter->initialize(%s);\n" .
                    "\$filters[] = \$filter;";
 
             $data[] = sprintf($tmp, $class, $parameters);

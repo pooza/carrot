@@ -19,11 +19,10 @@ abstract class BSSmartyView extends BSView {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param boolean 初期化が成功すればTrue
 	 */
-	public function initialize (Context $context) {
-		parent::initialize($context);
+	public function initialize () {
+		parent::initialize();
 
 		$module = $this->controller->getModuleProfile();
 		$this->setEngine(new BSSmarty());
@@ -43,13 +42,13 @@ abstract class BSSmartyView extends BSView {
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
 
-		$action = $this->context->getActionName();
+		$action = $this->controller->getActionName();
 		if ($this->getEngine()->getTemplatesDirectory()->getEntry($action)) {
 			$this->setTemplate($action);
 		}
 
-		$this->setAttribute('module', $this->context->getModuleName());
-		$this->setAttribute('action', $this->context->getActionName());
+		$this->setAttribute('module', $this->controller->getModuleName());
+		$this->setAttribute('action', $this->controller->getActionName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());

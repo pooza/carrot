@@ -32,10 +32,9 @@ class BSWebRequest extends BSRequest {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 */
-	public function initialize (Context $context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		$this->setParameters($_GET);
 		switch ($method = $_SERVER['REQUEST_METHOD']) {
 			case 'POST':

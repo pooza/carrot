@@ -38,10 +38,9 @@ class BSImageValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('types', 'jpeg,gif,png');
 		$this->setParameter('types_error', '画像形式が正しくありません。');
 		$this->setParameter('min_height', null);
@@ -52,7 +51,7 @@ class BSImageValidator extends Validator {
 		$this->setParameter('min_width_error', '画像の幅が狭過ぎます。');
 		$this->setParameter('max_width', null);
 		$this->setParameter('max_width_error', '画像の幅が広過ぎます。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

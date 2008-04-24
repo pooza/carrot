@@ -17,14 +17,13 @@ class BSEnglishValidator extends RegexValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '使用出来ない文字が含まれています。');
 		$this->setParameter('pattern', "/^[[:print:]]*$/");
-		return Validator::initialize($context, $parameters);
+		return Validator::initialize($parameters);
 	}
 }
 

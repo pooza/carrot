@@ -194,9 +194,9 @@ class ValidatorConfigHandler extends BSConfigHandler
                     $validator =& $validators[$valName];
 
                     $tmp     = "\t\$validators['%s'] = new %s();\n";
-                    $tmp    .= "\t\$validators['%s']->initialize(%s, %s);";
+                    $tmp    .= "\t\$validators['%s']->initialize(%s);";
                     $data[]  = sprintf($tmp, $valName, $validator['class'],
-                                       $valName, '$context',
+                                       $valName,
                                        $validator['parameters']);
 
                     // mark this validator as created for this request method

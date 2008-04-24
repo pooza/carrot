@@ -120,7 +120,6 @@ class NumberValidator extends Validator
     /**
      * Initialize this validator.
      *
-     * @param Context The current application context.
      * @param array   An associative array of initialization parameters.
      *
      * @return bool true, if initialization completes successfully, otherwise
@@ -129,7 +128,7 @@ class NumberValidator extends Validator
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function initialize ($context, $parameters = null)
+    public function initialize ($parameters = null)
     {
 
         // set defaults
@@ -142,7 +141,7 @@ class NumberValidator extends Validator
         $this->setParameter('type_error', 'Input is not a number');
 
         // initialize parent
-        parent::initialize($context, $parameters);
+        parent::initialize($parameters);
 
         // check user-specified parameters
         $type = strtolower($this->getParameter('type'));

@@ -12,7 +12,6 @@
  * @abstract
  */
 abstract class BSView {
-	private $context;
 	private $renderer;
 	private $headers = array();
 	private $filename;
@@ -37,15 +36,13 @@ abstract class BSView {
 	public function __get ($name) {
 		switch ($name) {
 			case 'controller':
-				return $this->getContext()->getController();
+				return BSController::getInstance();
 			case 'request':
-				return $this->getContext()->getRequest();
+				return BSRequest::getInstance();
 			case 'user':
-				return $this->getContext()->getUser();
-			case 'context':
-				return $this->getContext();
+				return BSUser::getInstance();
 			case 'useragent':
-				return $this->getContext()->getController()->getUserAgent();
+				return BSController::getInstance()->getUserAgent();
 			case 'renderer':
 				return $this->getRenderer();
 		}
@@ -75,23 +72,10 @@ abstract class BSView {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @return boolean 初期化が成功すればTrue
 	 */
-	public function initialize (Context $context) {
-		$this->context = $context;
+	public function initialize () {
 		return true;
-	}
-
-	/**
-	 * Contextを返す
-	 *
-	 * @access public
-	 * @return Context Mojaviコンテキスト
-	 * @final
-	 */
-	public final function getContext () {
-		return $this->context;
 	}
 
 	/**

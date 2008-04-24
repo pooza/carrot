@@ -18,10 +18,9 @@ abstract class BSPDFView extends BSView {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 */
-	public function initialize ($context) {
-		parent::initialize($context);
+	public function initialize () {
+		parent::initialize();
 		$this->setEngine(new BSFPDF());
 		$this->getEngine()->addPage();
 		$this->getEngine()->setFont(BSFPDF::MINCHO_FONT);

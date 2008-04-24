@@ -17,16 +17,15 @@ class BSRecordValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('table', null);
 		$this->setParameter('field', 'id');
 		$this->setParameter('exist', true);
 		$this->setParameter('exist_error', '存在しません。');
 		$this->setParameter('duplicate_error', '重複します。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

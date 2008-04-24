@@ -26,13 +26,6 @@ abstract class Action
 {
 
     // +-----------------------------------------------------------------------+
-    // | PRIVATE VARIABLES                                                     |
-    // +-----------------------------------------------------------------------+
-    
-    private
-        $context = null;
-
-    // +-----------------------------------------------------------------------+
     // | METHODS                                                               |
     // +-----------------------------------------------------------------------+
 
@@ -59,23 +52,6 @@ abstract class Action
      * @since  1.0.0
      */
     abstract function execute ();
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieve the current application context.
-     *
-     * @return Context The current Context instance.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public final function getContext ()
-    {
-
-        return $this->context;
-
-    }
 
     // -------------------------------------------------------------------------
 
@@ -169,18 +145,14 @@ abstract class Action
     /**
      * Initialize this action.
      *
-     * @param Context The current application context.
-     *
      * @return bool true, if initialization completes successfully, otherwise
      *              false.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  2.0.0
      */
-    public function initialize ($context)
+    public function initialize ()
     {
-
-        $this->context = $context;
 
         return true;
 

@@ -24,7 +24,7 @@ abstract class BSAction extends Action {
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
 			$prefixes = BSModuleProfile::getPrefixes();
-			$module = $this->context->getModuleName();
+			$module = $this->controller->getModuleName();
 			$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
 			if (preg_match($pattern, $module, $matches)) {
 				$this->recordClassName = $matches[2];
@@ -36,13 +36,11 @@ abstract class BSAction extends Action {
 	public function __get ($name) {
 		switch ($name) {
 			case 'controller':
-				return $this->getContext()->getController();
+				return BSController::getInstance();
 			case 'request':
-				return $this->getContext()->getRequest();
+				return BSRequest::getInstance();
 			case 'user':
-				return $this->getContext()->getUser();
-			case 'context':
-				return $this->getContext();
+				return BSUser::getInstance();
 			case 'database':
 				return BSDatabase::getInstance();
 		}

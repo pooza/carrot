@@ -10,8 +10,8 @@
 class LogSuccessView extends BSXMLView {
 	const FEED_CLASS = BS_FEED_CLASS;
 
-	public function initialize ($context) {
-		parent::initialize($context);
+	public function initialize () {
+		parent::initialize();
 		$class = self::FEED_CLASS;
 		$this->setEngine(new $class);
 		return true;

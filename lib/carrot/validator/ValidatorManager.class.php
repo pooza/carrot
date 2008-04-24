@@ -144,17 +144,15 @@ class ValidatorManager
     /**
      * Initialize this validator manager.
      *
-     * @param Context A context instance.
-     *
      * @return void
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function initialize ($context)
+    public function initialize ()
     {
 
-        $this->request = $context->getRequest();
+        $this->request = BSRequest::getInstance();
 
     }
 

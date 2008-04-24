@@ -17,13 +17,12 @@ class BSPairValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		$this->setParameter('field', '');
 		$this->setParameter('match_error', '一致しません。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**
@@ -39,9 +38,7 @@ class BSPairValidator extends Validator {
 			return true;
 		}
 
-		$field = $this->getContext()->getRequest()->getParameter($name);
-
-		if ($value != $field) {
+		if ($value != BSRequest::getInstance()->getParameter($name)) {
 			$error = $this->getParameter('match_error');
 			return false;
 		}

@@ -17,13 +17,12 @@ class BSChoiceValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = null) {
+	public function initialize ($parameters = null) {
 		$this->setParameter('choices', null);
 		$this->setParameter('choices_error', '正しくありません。');
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

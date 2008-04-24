@@ -47,39 +47,24 @@ class ExecutionFilter extends BSFilter
     {
 
         static
-            $context,
             $controller,
             $validatorManager;
 
-        if (!isset($context))
-        {
+        $controller = BSController::getInstance();
 
-            // get the context and controller
-            $context    = $this->getContext();
-            $controller = $context->getController();
-
-            // create validator manager
-            $validatorManager = new ValidatorManager();
-            $validatorManager->initialize($context);
-
-        } else
-        {
-
-            // clear the validator manager for reuse
-            $validatorManager->clear();
-
-        }
+        $validatorManager = new ValidatorManager();
+        $validatorManager->initialize();
 
         // get the current action instance
         $actionEntry    = $controller->getActionStack()->getLastEntry();
         $actionInstance = $actionEntry->getActionInstance();
 
         // get the current action information
-        $moduleName = $context->getModuleName();
-        $actionName = $context->getActionName();
+        $moduleName = $controller->getModuleName();
+        $actionName = $controller->getActionName();
 
         // get the request method
-        $method = $context->getRequest()->getMethod();
+        $method = BSRequest::getInstance()->getMethod();
 
         if (($actionInstance->getRequestMethods() & $method) != $method)
         {
@@ -172,7 +157,7 @@ class ExecutionFilter extends BSFilter
             $viewInstance = $controller->getView($moduleName, $viewName);
 
             // initialize the view
-            if ($viewInstance->initialize($context))
+            if ($viewInstance->initialize())
             {
 
                 // view initialization completed successfully

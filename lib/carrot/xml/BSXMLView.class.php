@@ -18,11 +18,10 @@ abstract class BSXMLView extends BSView {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 */
-	public function initialize ($context) {
+	public function initialize () {
 		$this->setEngine(new BSXMLDocument('root'));
-		return parent::initialize($context);
+		return parent::initialize();
 	}
 }
 

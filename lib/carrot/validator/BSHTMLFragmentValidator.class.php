@@ -18,14 +18,13 @@ class BSHTMLFragmentValidator extends Validator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context mojaviコンテキスト
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($context, $parameters = array()) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('element_error', '許可されていない要素又は属性が含まれています。');
 		$this->setParameter('allowed_tags', 'a,br,div,li,ol,p,span,ul');
 		$this->setParameter('javascript_allowed', false);
-		return parent::initialize($context, $parameters);
+		return parent::initialize($parameters);
 	}
 
 	/**

@@ -13,7 +13,6 @@
  * @abstract
  */
 abstract class BSFilter extends ParameterHolder {
-	private $context;
 
 	/**
 	 * プロパティ取得のオーバライド
@@ -25,13 +24,11 @@ abstract class BSFilter extends ParameterHolder {
 	public function __get ($name) {
 		switch ($name) {
 			case 'controller':
-				return $this->getContext()->getController();
+				return BSController::getInstance();
 			case 'request':
-				return $this->getContext()->getRequest();
+				return BSRequest::getInstance();
 			case 'user':
-				return $this->getContext()->getUser();
-			case 'context':
-				return $this->getContext();
+				return BSUser::getInstance();
 		}
 	}
 
@@ -39,14 +36,12 @@ abstract class BSFilter extends ParameterHolder {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 * @return boolean 初期化が成功すればTrue
 	 */
-	public function initialize (Context $context, $parameters = null) {
-		$this->context = $context;
+	public function initialize ($parameters = null) {
 		if ($parameters) {
-			$this->parameters = array_merge($this->parameters, $parameters);
+			$this->parameters += $parameters;
 		}
 		return true;
 	}
@@ -58,17 +53,6 @@ abstract class BSFilter extends ParameterHolder {
 	 * @param FilterChain $filters フィルタチェーン
 	 */
 	abstract public function execute (FilterChain $filters);
-
-	/**
-	 * Contextを返す
-	 *
-	 * @access public
-	 * @return Context Mojaviコンテキスト
-	 * @final
-	 */
-	public final function getContext () {
-		return $this->context;
-	}
 }
 
 /* vim:set tabstop=4 ai: */

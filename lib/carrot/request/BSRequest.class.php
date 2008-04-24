@@ -48,11 +48,10 @@ abstract class BSRequest extends ParameterHolder {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param Context $context Mojaviコンテキスト
 	 * @param mixed[] $parameters パラメータ
 	 * @abstract
 	 */
-	abstract public function initialize (Context $context, $parameters = null);
+	abstract public function initialize ($parameters = null);
 
 	public function clearAttributes () {
 		$this->attributes = array();
@@ -99,13 +98,13 @@ abstract class BSRequest extends ParameterHolder {
 	}
 
 	public function removeAttribute ($name) {
-		if (isset($this->attributes[$name])) {
+		if ($this->hasAttribute($name)) {
 			unset($this->attributes[$name]);
 		}
 	}
 
 	public function removeError ($name) {
-		if (isset($this->errors[$name])) {
+		if ($this->hasError($name)) {
 			unset($this->errors[$name]);
 		}
 	}
@@ -115,7 +114,7 @@ abstract class BSRequest extends ParameterHolder {
 	}
 
 	public function setAttributes ($attributes) {
-		$this->attributes = array_merge($this->attributes, $attributes);
+		$this->attributes += $attributes;
 	}
 
 	public function setError ($name, $message) {
@@ -123,7 +122,7 @@ abstract class BSRequest extends ParameterHolder {
 	}
 
 	public function setErrors ($errors) {
-		$this->errors = array_merge($this->errors, $errors);
+		$this->errors += $errors;
 	}
 
 	public function setMethod ($method) {

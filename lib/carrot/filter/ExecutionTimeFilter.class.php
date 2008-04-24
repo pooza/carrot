@@ -167,7 +167,6 @@ class ExecutionTimeFilter extends BSFilter
     /**
      * Initialize this filter.
      *
-     * @param Context The current application context.
      * @param array   An associative array of initialization parameters.
      *
      * @return bool true, if initialization completes successfully, otherwise
@@ -178,7 +177,7 @@ class ExecutionTimeFilter extends BSFilter
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function initialize ($context, $parameters = null)
+    public function initialize ($parameters = null)
     {
 
         // set defaults
@@ -186,7 +185,7 @@ class ExecutionTimeFilter extends BSFilter
         $this->setParameter('replace', null);
 
         // initialize parent
-        parent::initialize($context, $parameters);
+        parent::initialize($parameters);
 
         return true;
 
