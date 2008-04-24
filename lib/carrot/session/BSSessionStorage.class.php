@@ -5,13 +5,14 @@
  */
 
 /**
- * SessionStorageのラッパー
+ * セッションストレージ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSessionStorage extends Storage {
+class BSSessionStorage extends ParameterHolder {
+	const SESSION_NAME = 'Carrot';
 	const TABLE_NAME = 'stored_session';
 	private $table;
 
@@ -22,9 +23,9 @@ class BSSessionStorage extends Storage {
 	 * @param Context $context Mojaviコンテキスト
 	 * @param string[] $parameters パラメータ
 	 */
-	public function initialize ($context, $parameters = null) {
+	public function initialize (Context $context, $parameters = null) {
 		if (!$this->getParameter('session_name')) {
-			$this->setParameter('session_name', 'Carrot');
+			$this->setParameter('session_name', self::SESSION_NAME);
 		}
 
 		switch ($this->getStorageType()) {
