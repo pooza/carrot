@@ -30,7 +30,6 @@ abstract class Controller
     protected
         $actionStack     = null,
         $maxForwards     = 20,
-        $renderMode      = BSView::RENDER_CLIENT,
         $securityFilter  = null,
         $storage         = null;
 
@@ -341,25 +340,6 @@ abstract class Controller
     // -------------------------------------------------------------------------
 
     /**
-     * Retrieve the presentation rendering mode.
-     *
-     * @return int One of the following:
-     *             - BSView::RENDER_CLIENT
-     *             - BSView::RENDER_VAR
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
-     */
-    public function getRenderMode ()
-    {
-
-        return $this->renderMode;
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
      * Retrieve a BSView implementation instance.
      *
      * @param string A module name.
@@ -538,41 +518,6 @@ abstract class Controller
         $file = MO_MODULE_DIR . '/' . $moduleName . '/config/module.ini';
 
         return is_readable($file);
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Set the presentation rendering mode.
-     *
-     * @param int A rendering mode.
-     *
-     * @return void
-     *
-     * @throws <b>RenderException</b> - If an invalid render mode has been set.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  2.0.0
-     */
-    public function setRenderMode ($mode)
-    {
-
-        if ($mode == BSView::RENDER_CLIENT || $mode == BSView::RENDER_VAR ||
-            $mode == BSView::RENDER_NONE)
-        {
-
-            $this->renderMode = $mode;
-
-            return;
-
-        }
-
-        // invalid rendering mode type
-        $error = 'Invalid rendering mode: %s';
-        $error = sprintf($error, $mode);
-
-        throw new RenderException($error);
 
     }
 

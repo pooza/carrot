@@ -158,13 +158,6 @@ class ExecutionFilter extends BSFilter
                 // action entry which was retrieved from the execution chain
                 $viewData = $viewInstance->render();
 
-                if (BSController::getInstance()->getRenderMode() == BSView::RENDER_VAR)
-                {
-
-                    $actionEntry->setPresentation($viewData);
-
-                }
-
             } else
             {
 
