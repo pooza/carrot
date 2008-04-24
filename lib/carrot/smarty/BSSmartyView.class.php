@@ -24,7 +24,7 @@ abstract class BSSmartyView extends BSView {
 	public function initialize () {
 		parent::initialize();
 
-		$module = $this->controller->getModuleProfile();
+		$module = $this->controller->getModule();
 		$this->setEngine(new BSSmarty());
 		$this->getEngine()->setTemplatesDirectory($module->getDirectory()->getEntry('templates'));
 		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
@@ -42,13 +42,13 @@ abstract class BSSmartyView extends BSView {
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
 
-		$action = $this->controller->getActionName();
-		if ($this->getEngine()->getTemplatesDirectory()->getEntry($action)) {
-			$this->setTemplate($action);
+		$name = $this->controller->getAction()->getName();
+		if ($this->getEngine()->getTemplatesDirectory()->getEntry($name)) {
+			$this->setTemplate($name);
 		}
 
-		$this->setAttribute('module', $this->controller->getModuleName());
-		$this->setAttribute('action', $this->controller->getActionName());
+		$this->setAttribute('module', $this->controller->getModule()->getName());
+		$this->setAttribute('action', $this->controller->getAction()->getName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());

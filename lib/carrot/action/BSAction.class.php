@@ -13,6 +13,7 @@
  * @abstract
  */
 abstract class BSAction {
+	private $name;
 	protected $recordClassName;
 
 	abstract public function execute ();
@@ -54,6 +55,20 @@ abstract class BSAction {
 	}
 
 	/**
+	 * アクション名を返す
+	 *
+	 * @access public
+	 * @return string アクション名
+	 */
+	public function getName () {
+		if (!$this->name) {
+			preg_match('/^(.+)Action$/', get_class($this), $matches);
+			$this->name = $matches[1];
+		}
+		return $this->name;
+	}
+
+	/**
 	 * レコードクラス名を返す
 	 *
 	 * @access protected
@@ -61,10 +76,9 @@ abstract class BSAction {
 	 */
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
-			$prefixes = BSModuleProfile::getPrefixes();
-			$module = $this->controller->getModuleName();
+			$prefixes = BSModule::getPrefixes();
 			$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
-			if (preg_match($pattern, $module, $matches)) {
+			if (preg_match($pattern, $this->controller->getModule()->getName(), $matches)) {
 				$this->recordClassName = $matches[2];
 			}
 		}

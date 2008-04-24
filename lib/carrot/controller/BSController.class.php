@@ -200,13 +200,13 @@ abstract class BSController extends Controller {
 	 *
 	 * @access public
 	 * @param string $name モジュール名
-	 * @return BSModuleProfile モジュール情報
+	 * @return BSModule モジュール情報
 	 */
-	public function getModuleProfile ($name = null) {
+	public function getModule ($name = null) {
 		if (!$name) {
-			$name = $this->getModuleName();
+			$name = $this->actionStack->getLastEntry()->getModuleName();
 		}
-		return new BSModuleProfile($name);
+		return new BSModule($name);
 	}
 
 	/**

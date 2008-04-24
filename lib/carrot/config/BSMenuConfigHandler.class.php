@@ -19,7 +19,7 @@ class BSMenuConfigHandler extends BSConfigHandler {
 					$values['MODULE'] = $module;
 				}
 				if (!isset($values['TITLE'])) {
-					$profile = $this->controller->getModuleProfile($module);
+					$profile = $this->controller->getModule($module);
 					$values['TITLE'] = $profile->getConfig('TITLE');
 				}
 			}

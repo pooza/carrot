@@ -15,7 +15,7 @@ class BSMenuFilter extends BSFilter {
 	private $menu = array();
 
 	public function execute (FilterChain $filters) {
-		$module = $this->controller->getModuleProfile();
+		$module = $this->controller->getModule();
 		$this->request->setAttribute('title', $module->getConfig('DESCRIPTION'));
 		$this->request->setAttribute('menu', $this->getMenu());
 		$filters->execute();
@@ -35,12 +35,13 @@ class BSMenuFilter extends BSFilter {
 
 			foreach ($menu as $menuitem) {
 				if (isset($menuitem['module'])) {
-					$module = $this->controller->getModuleProfile($menuitem['module']);
-					if ($this->controller->getModuleName() == $module->getName()) {
+					$moduleMenu = $this->controller->getModule($menuitem['module']);
+					$moduleCurrent = $this->controller->getModule();
+					if ($moduleCurrent->getName() == $moduleMenu->getName()) {
 						$menuitem['on'] = true;
 					}
 
-					$credential = $module->getCredential();
+					$credential = $moduleMenu->getCredential();
 					if (!$credential || $this->user->hasCredential($credential)) {
 						$this->menu[] = $menuitem;
 					}

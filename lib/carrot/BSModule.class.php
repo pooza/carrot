@@ -4,13 +4,13 @@
  */
 
 /**
- * モジュール情報
+ * モジュール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSModuleProfile {
+class BSModule {
 	private $name;
 	private $directory;
 	private $config = array();

@@ -286,8 +286,14 @@ abstract class Controller
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    public function getAction ($moduleName, $actionName)
+    public function getAction ($moduleName = null, $actionName = null)
     {
+        if (!$moduleName) {
+            $moduleName = $this->getModule()->getName();
+        }
+        if (!$actionName) {
+            $actionName = $this->actionStack->getLastEntry()->getActionName();
+        }
 
         $file = MO_MODULE_DIR . '/' . $moduleName . '/actions/' . $actionName .
                 'Action.class.php';
@@ -466,7 +472,7 @@ abstract class Controller
         static $list = array();
 
         // get the module name
-        $moduleName = $this->getModuleName();
+        $moduleName = $this->actionStack->getLastEntry()->getModuleName();
 
         if (!isset($list[$moduleName]))
         {
@@ -566,45 +572,6 @@ abstract class Controller
 
     }
 
-    /**
-     * Retrieve the action name for this context.
-     *
-     * @return string The currently executing action name, if one is set,
-     *                otherwise null.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getActionName ()
-    {
-
-        // get the last action stack entry
-        $actionEntry = $this->actionStack->getLastEntry();
-
-        return $actionEntry->getActionName();
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieve the module name for this context.
-     *
-     * @return string The currently executing module name, if one is set,
-     *                otherwise null.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getModuleName ()
-    {
-
-        // get the last action stack entry
-        $actionEntry = $this->actionStack->getLastEntry();
-
-        return $actionEntry->getModuleName();
-
-    }
 }
 
 ?>
