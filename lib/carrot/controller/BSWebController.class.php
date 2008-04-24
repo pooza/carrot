@@ -53,7 +53,6 @@ class BSWebController extends BSController {
 			$url = new BSURL();
 			$url->setAttribute('path', $target);
 		}
-		$this->shutdown();
 		$this->sendHeader('Location: ' . $url->getContents());
 		exit;
 	}

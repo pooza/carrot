@@ -132,9 +132,6 @@ abstract class BSRequest extends ParameterHolder {
 		}
 		throw new BSException('Invalid request method: %s', $method);
 	}
-
-	public function shutdown () {
-	}
 }
 
 /* vim:set tabstop=4 ai: */

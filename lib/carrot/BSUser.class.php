@@ -27,6 +27,16 @@ class BSUser extends ParameterHolder {
 	}
 
 	/**
+	 * デストラクタ
+	 *
+	 * @access public
+	 */
+	public function __destruct () {
+		$this->getStorage()->write(self::ATTRIBUTE_NAMESPACE, $this->attributes);
+		$this->getStorage()->write(self::CREDENTIAL_NAMESPACE, $this->credentials);
+	}
+
+	/**
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
@@ -151,16 +161,6 @@ class BSUser extends ParameterHolder {
 	 */
 	public function getAttributeNames () {
 		return array_keys($this->attributes);
-	}
-
-	/**
-	 * シャットダウン
-	 *
-	 * @access public
-	 */
-	public function shutdown () {
-		$this->getStorage()->write(self::ATTRIBUTE_NAMESPACE, $this->attributes);
-		$this->getStorage()->write(self::CREDENTIAL_NAMESPACE, $this->credentials);
 	}
 
 	/**

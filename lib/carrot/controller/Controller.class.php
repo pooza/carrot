@@ -29,8 +29,7 @@ abstract class Controller
 
     protected
         $maxForwards     = 20,
-        $securityFilter  = null,
-        $storage         = null;
+        $securityFilter  = null;
 
     private static
         $instance = null;
@@ -351,14 +350,12 @@ abstract class Controller
     protected function initialize ()
     {
 
-        $this->storage = BSSessionStorage::getInstance();
-        $this->storage->initialize();
+        BSSessionStorage::getInstance()->initialize();
         $this->request->initialize();
         $this->user->initialize();
         $this->securityFilter = new BSSecurityFilter();
         $this->securityFilter->initialize();
 
-        register_shutdown_function(array($this, 'shutdown'));
     }
 
     // -------------------------------------------------------------------------
@@ -471,28 +468,6 @@ abstract class Controller
         $file = MO_MODULE_DIR . '/' . $moduleName . '/config/module.ini';
 
         return is_readable($file);
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Execute the shutdown procedure.
-     *
-     * @return void
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function shutdown ()
-    {
-
-        $this->user->shutdown();
-
-        session_write_close();
-
-        $this->storage->shutdown();
-        $this->request->shutdown();
 
     }
 

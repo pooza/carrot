@@ -154,15 +154,5 @@ class BSSessionStorage extends ParameterHolder {
 			unset($_SESSION[$key]);
 		}
 	}
-
-	/**
-	 * シャットダウン
-	 *
-	 * 実際には何もしない
-	 *
-	 * @access public
-	 */
-	public function shutdown () {
-	}
 }
 ?>
