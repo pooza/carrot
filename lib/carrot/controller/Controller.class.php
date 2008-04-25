@@ -47,27 +47,6 @@ abstract class Controller
 		}
 	}
 
-    /**
-     * Indicates whether or not a module has a specific action.
-     *
-     * @param string A module name.
-     * @param string An action name.
-     *
-     * @return bool true, if the action exists, otherwise false.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
-     */
-    public function actionExists ($moduleName, $actionName)
-    {
-
-        $file = MO_MODULE_DIR . '/' . $moduleName . '/actions/' . $actionName .
-                'Action.class.php';
-
-        return is_readable($file);
-
-    }
-
     // -------------------------------------------------------------------------
 
     /**
@@ -91,9 +70,6 @@ abstract class Controller
     public function forward ($moduleName, $actionName)
     {
 
-        // replace periods with slashes for action sub-directories
-        $actionName = str_replace('.', '/', $actionName);
-
         // replace unwanted characters
         $moduleName = preg_replace('/[^a-z0-9\-_]+/i', '', $moduleName);
         $actionName = preg_replace('/[^a-z0-9\-_\/]+/i', '', $actionName);
@@ -115,52 +91,16 @@ abstract class Controller
             $moduleName = MO_UNAVAILABLE_MODULE;
             $actionName = MO_UNAVAILABLE_ACTION;
 
-            if (!$this->actionExists($moduleName, $actionName))
-            {
-
-                // cannot find unavailable module/action
-                $error = 'Invalid configuration settings: ' .
-                         'MO_UNAVAILABLE_MODULE "%s", ' .
-                         'MO_UNAVAILABLE_ACTION "%s"';
-
-                $error = sprintf($error, $moduleName, $actionName);
-
-                throw new ConfigurationException($error);
-
-            }
-
-        } else if (!$this->actionExists($moduleName, $actionName))
-        {
-
-            // the requested action doesn't exist
-
-            // track the requested module so we have access to the data
-            // in the error 404 page
-            $this->request->setAttribute('requested_action', $actionName);
-            $this->request->setAttribute('requested_module', $moduleName);
-
-            // switch to error 404 action
-            $moduleName = MO_ERROR_404_MODULE;
-            $actionName = MO_ERROR_404_ACTION;
-
-            if (!$this->actionExists($moduleName, $actionName))
-            {
-
-                // cannot find unavailable module/action
-                $error = 'Invalid configuration settings: ' .
-                         'MO_ERROR_404_MODULE "%s", ' .
-                         'MO_ERROR_404_ACTION "%s"';
-
-                $error = sprintf($error, $moduleName, $actionName);
-
-                throw new ConfigurationException($error);
-
-            }
-
         }
 
         // create an instance of the action
-        $action = BSModule::getInstance($moduleName)->getAction($actionName);
+        try {
+            $module = BSModule::getInstance($moduleName);
+            $action = $module->getAction($actionName);
+        } catch (BSFileException $e) {
+            $module = BSModule::getInstance(MO_ERROR_404_MODULE);
+            $action = $module->getAction(MO_ERROR_404_ACTION);
+        }
 
         // add a new action stack entry
         ActionStack::getInstance()->addEntry($action);
@@ -206,8 +146,8 @@ abstract class Controller
                     }
 
                     // load filters
-                    $this->loadGlobalFilters($filterChain);
-                    $this->loadModuleFilters($filterChain);
+                    $this->loadFilters($filterChain);
+                    $module->loadFilters($filterChain);
 
                 }
 
@@ -249,70 +189,9 @@ abstract class Controller
             $moduleName = MO_MODULE_DISABLED_MODULE;
             $actionName = MO_MODULE_DISABLED_ACTION;
 
-            if (!$this->actionExists($moduleName, $actionName))
-            {
-
-                // cannot find mod disabled module/action
-                $error = 'Invalid configuration settings: ' .
-                         'MO_MODULE_DISABLED_MODULE "%s", ' .
-                         'MO_MODULE_DISABLED_ACTION "%s"';
-
-                $error = sprintf($error, $moduleName, $actionName);
-
-                throw new ConfigurationException($error);
-
-            }
-
             $this->forward($moduleName, $actionName);
 
         }
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Retrieve a BSView implementation instance.
-     *
-     * @param string A module name.
-     * @param string A view name.
-     *
-     * @return BSView A BSView implementation instance, if the model exists,
-     *              otherwise null.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function getView ($moduleName, $viewName)
-    {
-
-        $file = MO_MODULE_DIR . '/' . $moduleName . '/views/' . $viewName .
-                'View.class.php';
-
-        require_once($file);
-
-        $position = strrpos($viewName, '/');
-
-        if ($position > -1)
-        {
-
-            $viewName = substr($viewName, $position + 1);
-
-        }
-
-        $class = $viewName . 'View';
-
-        // fix for same name classes
-        $moduleClass = $moduleName . '_' . $class;
-
-        if (class_exists($moduleClass, false))
-        {
-
-            $class = $moduleClass;
-
-        }
-
-        return new $class();
 
     }
 
@@ -349,127 +228,16 @@ abstract class Controller
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    private function loadGlobalFilters ($filterChain)
+    private function loadFilters ($filterChain)
     {
 
-        static $list = array();
-
-        // grab our global filter ini and preset the module name
-        $config     = MO_CONFIG_DIR . '/filters.ini';
-        $moduleName = 'global';
-
-        if (!isset($list[$moduleName]) && is_readable($config))
-        {
-
-            // load global filters
-            require_once(ConfigCache::checkConfig('config/filters.ini'));
-
-        }
-
-        // register filters
-        foreach ($list[$moduleName] as $filter)
-        {
-
-            $filterChain->register($filter);
-
-        }
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Load module filters.
-     *
-     * @param FilterChain A FilterChain instance.
-     *
-     * @return void
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    private function loadModuleFilters ($filterChain)
-    {
-
-        // filter list cache file
-        static $list = array();
-
-        // get the module name
-        $moduleName = ActionStack::getInstance()->getLastEntry()->getModule()->getName();
-
-        if (!isset($list[$moduleName]))
-        {
-
-            // we haven't loaded a filter list for this module yet
-            $config = MO_MODULE_DIR . '/' . $moduleName . '/config/filters.ini';
-
-            if (is_readable($config))
-            {
-
-                require_once(ConfigCache::checkConfig($config));
-
-            } else
-            {
-
-                // add an emptry array for this module since no filters
-                // exist
-                $list[$moduleName] = array();
-
-            }
-
-        }
-
-        // register filters
-        foreach ($list[$moduleName] as $filter)
-        {
-
-            $filterChain->register($filter);
-
-        }
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Indicates whether or not a module exists.
-     *
-     * @param string A module name.
-     *
-     * @return bool true, if the module exists, otherwise false.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  1.0.0
-     */
-    public function moduleExists ($moduleName)
-    {
-
-        $file = MO_MODULE_DIR . '/' . $moduleName . '/config/module.ini';
-
-        return is_readable($file);
-
-    }
-
-    // -------------------------------------------------------------------------
-
-    /**
-     * Indicates whether or not a module has a specific view.
-     *
-     * @param string A module name.
-     * @param string A view name.
-     *
-     * @return bool true, if the view exists, otherwise false.
-     *
-     * @author Sean Kerr (skerr@mojavi.org)
-     * @since  3.0.0
-     */
-    public function viewExists ($moduleName, $viewName)
-    {
-
-        $file = MO_MODULE_DIR . '/' . $moduleName . '/views/' . $viewName .
-                'View.class.php';
-
-        return is_readable($file);
+			$filters = array();
+			require_once(ConfigCache::checkConfig('config/filters.ini'));
+			if ($filters) {
+				foreach ($filters as $filter) {
+					$filterChain->register($filter);
+				}
+			}
 
     }
 

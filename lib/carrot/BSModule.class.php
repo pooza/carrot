@@ -74,6 +74,24 @@ class BSModule {
 	}
 
 	/**
+	 * モジュールフィルタをフィルタチェーンに加える
+	 *
+	 * @access private
+	 * @param FilterChain $finterChain フィルタチェーン
+	 */
+	public function loadFilters (FilterChain $filterChain) {
+		if ($file = $this->getIniFile('filters')) {
+			$filters = array();
+			require_once(ConfigCache::checkConfig($file->getPath()));
+			if ($filters) {
+				foreach ($filters as $filter) {
+					$filterChain->register($filter);
+				}
+			}
+		}
+    }
+
+	/**
 	 * 設定ファイルを返す
 	 *
 	 * @access private
