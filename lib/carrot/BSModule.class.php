@@ -43,10 +43,25 @@ class BSModule {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 		}
+
+		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
 		if (!self::$instances[$name]) {
 			self::$instances[$name] = new BSModule($name);
+			self::$instances[$name]->initialize();
 		}
 		return self::$instances[$name];
+	}
+
+	/**
+	 * 設定ファイルを読み込む
+	 *
+	 * @access private
+	 */
+	private function initialize () {
+		if (!$file = $this->getIniFile('module')) {
+			throw new BSFileException('$thisのmodule.iniが読み込めません。');
+		}
+		require_once(ConfigCache::checkConfig($file->getPath()));
 	}
 
 	/**
@@ -71,6 +86,16 @@ class BSModule {
 			$this->directory = $controller->getDirectory('modules')->getEntry($this->getName());
 		}
 		return $this->directory;
+	}
+
+	/**
+	 * 利用可能か？
+	 *
+	 * @access public
+	 * @return boolean 利用可能ならTrue
+	 */
+	public function isEnabled () {
+		return $this->getConfig('ENABLED');
 	}
 
 	/**
@@ -130,6 +155,7 @@ class BSModule {
 	 * @return BSAction アクション
 	 */
 	public function getAction ($name) {
+		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory()->getEntry('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);

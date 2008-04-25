@@ -115,7 +115,11 @@ abstract class BSView {
 			$this->setHeader('Pragma', null);
 		}
 		foreach ($this->getHeaders() as $name => $value) {
-			$this->controller->sendHeader(sprintf('%s: %s', $name, $value));
+			if ($name) {
+				$this->controller->sendHeader(sprintf('%s: %s', $name, $value));
+			} else {
+				$this->controller->sendHeader($value);
+			}
 		}
 		mb_http_output('pass');
 		print $this->renderer->getContents();

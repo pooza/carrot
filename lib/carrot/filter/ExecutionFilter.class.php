@@ -123,7 +123,7 @@ class ExecutionFilter extends BSFilter
 
                 // render the view and if data is returned, stick it in the
                 // action entry which was retrieved from the execution chain
-                $viewData = $view->render();
+                $view->render();
 
             } else
             {

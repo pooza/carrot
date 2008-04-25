@@ -12,13 +12,14 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSController extends Controller {
+abstract class BSController {
 	const MODULE_ACCESSOR = MO_MODULE_ACCESSOR;
 	const ACTION_ACCESSOR = MO_ACTION_ACCESSOR;
 	const DEFAULT_MODULE = MO_DEFAULT_MODULE;
 	const DEFAULT_ACTION = MO_DEFAULT_ACTION;
 	const NOT_FOUND_MODULE = MO_ERROR_404_MODULE;
 	const NOT_FOUND_ACTION = MO_ERROR_404_ACTION;
+	const MAX_FORWARDS = 20;
 	private $useragent;
 
 	/**
@@ -62,6 +63,20 @@ abstract class BSController extends Controller {
 	}
 
 	/**
+	 * 初期化
+	 *
+	 * @access public
+	 * @param string[] $parameters パラメータ
+	 * @return boolean 成功ならばTrue
+	 * @static
+	 */
+	protected function initialize () {
+		BSSessionStorage::getInstance()->initialize();
+		$this->request->initialize();
+		$this->user->initialize();
+	}
+
+	/**
 	 * ディスパッチ
 	 *
 	 * @access public
@@ -75,6 +90,76 @@ abstract class BSController extends Controller {
 			$action = self::DEFAULT_ACTION;
 		}
 		$this->forward($module, $action);
+	}
+
+	/**
+	 * フォワード
+	 *
+	 * @access public
+	 * @param string $module モジュール名
+	 * @param string $action アクション名
+	 */
+	public function forward ($module, $action) {
+		if (self::MAX_FORWARDS < ActionStack::getInstance()->getSize()) {
+			throw new ForwardException('フォワードが多すぎます。');
+		}
+
+		if (!MO_AVAILABLE) {
+			$module = MO_UNAVAILABLE_MODULE;
+			$action = MO_UNAVAILABLE_ACTION;
+		}
+
+		try {
+			$module = BSModule::getInstance($module);
+			$action = $module->getAction($action);
+		} catch (BSFileException $e) {
+			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
+			$action = $module->getAction(self::NOT_FOUND_ACTION);
+		}
+		ActionStack::getInstance()->addEntry($action);
+
+		if (!$module->isEnabled()) {
+			$this->forward(MO_MODULE_DISABLED_MODULE, MO_MODULE_DISABLED_ACTION);
+			return;
+		} else if (!$action->initialize()) {
+			$message = sprintf(
+				'Action initialization failed for module "%s", action "%s"',
+				$module->getName(),
+				$action->getName()
+			);
+			throw new InitializationException($message);
+		}
+
+		$filterChain = new FilterChain();
+		if (MO_AVAILABLE) {
+			if ($action->isSecure()) {
+				$filter = new BSSecurityFilter();
+				$filter->initialize();
+				$filterChain->register($filter);
+			}
+			$this->loadFilters($filterChain);
+			$module->loadFilters($filterChain);
+		}
+		$filter = new ExecutionFilter();
+		$filter->initialize();
+		$filterChain->register($filter);
+		$filterChain->execute();
+	}
+
+	/**
+	 * グローバルフィルタをフィルタチェーンに加える
+	 *
+	 * @access private
+	 * @param FilterChain $finterChain フィルタチェーン
+	 */
+	private function loadFilters (FilterChain $filterChain) {
+		$filters = array();
+		require_once(ConfigCache::checkConfig('config/filters.ini'));
+		if ($filters) {
+			foreach ($filters as $filter) {
+				$filterChain->register($filter);
+			}
+		}
 	}
 
 	/**
