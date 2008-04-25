@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage controller
+ * @subpackage serialize
  */
 
 /**
@@ -12,6 +12,7 @@
  * @version $Id$
  */
 class BSSerializeHandler extends BSList {
+	private $engine;
 	private static $instance;
 
 	/**
@@ -20,7 +21,12 @@ class BSSerializeHandler extends BSList {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化禁止
+		if (extension_loaded('json')) {
+			$this->engine = new BSJSONSerializer;
+		} else {
+			$this->engine = new BSPHPSerializer;
+		}
+		$this->getDirectory()->setDefaultSuffix($this->engine->getSuffix());
 	}
 
 	/**
@@ -47,6 +53,16 @@ class BSSerializeHandler extends BSList {
 	}
 
 	/**
+	 * シリアライザーを返す
+	 *
+	 * @access private
+	 * @param BSSerializer シリアライザー
+	 */
+	private function getEngine () {
+		return $this->engine;
+	}
+
+	/**
 	 * ディレクトリを返す
 	 *
 	 * @access private
@@ -64,7 +80,8 @@ class BSSerializeHandler extends BSList {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		$file = $this->getDirectory()->createEntry($name)->setContents(serialize($value));
+		$file = $this->getDirectory()->createEntry($name);
+		$file->setContents($this->getEngine()->encode($value));
 		$this->attributes[$name] = $value;
 		BSLog::put($name . 'をシリアライズしました。');
 	}
@@ -102,7 +119,7 @@ class BSSerializeHandler extends BSList {
 			} else if ($date && $file->getUpdateDate()->isAgo($date)) {
 				return null;
 			}
-			$this->attributes[$name] = unserialize($file->getContents());
+			$this->attributes[$name] = $this->getEngine()->decode($file->getContents());
 		}
 		return $this->attributes[$name];
 	}
