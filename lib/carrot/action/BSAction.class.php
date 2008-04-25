@@ -15,6 +15,7 @@
 abstract class BSAction {
 	private $name;
 	private $module;
+	private $views;
 	protected $recordClassName;
 
 	public function __construct (BSModule $module) {
@@ -74,6 +75,46 @@ abstract class BSAction {
 	}
 
 	/**
+	 * モジュールを返す
+	 *
+	 * @access public
+	 * @return BSModule モジュール
+	 */
+	public function getModule () {
+		return $this->module;
+	}
+
+	/**
+	 * ビューを返す
+	 *
+	 * @access public
+	 * @param string $name ビュー名
+	 * @return BSView ビュー
+	 */
+	public function getView ($name) {
+		$class = $this->getName() . $name . 'View';
+		if (!$dir = $this->getModule()->getDirectory()->getEntry('views')) {
+			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
+		} else if (!$file = $dir->getEntry($class . '.class.php')) {
+			throw new BSFileException(
+				'%sに、ビュー "%s" がありません。',
+				$this->getModule(),
+				$class
+			);
+		}
+
+		if (!$this->views) {
+			$this->views = new BSArray;
+		}
+		if (!$this->views[$name]) {
+			require_once($file->getPath());
+			$this->views[$name] = new $class($this);
+		}
+
+		return $this->views[$name];
+	}
+
+	/**
 	 * レコードクラス名を返す
 	 *
 	 * @access protected
@@ -88,16 +129,6 @@ abstract class BSAction {
 			}
 		}
 		return $this->recordClassName;
-	}
-
-	/**
-	 * モジュールを返す
-	 *
-	 * @access public
-	 * @return BSModule モジュール
-	 */
-	public function getModule () {
-		return $this->module;
 	}
 
 	public function getCredential () {

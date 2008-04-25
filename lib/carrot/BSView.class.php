@@ -14,6 +14,7 @@
 abstract class BSView {
 	private $renderer;
 	private $headers = array();
+	private $action;
 	private $filename;
 	const ATTACHMENT = 'attachment';
 	const INLINE = 'inline';
@@ -22,6 +23,10 @@ abstract class BSView {
 	const INPUT = 'Input';
 	const NONE = null;
 	const SUCCESS = 'Success';
+
+	public function __construct (BSAction $action) {
+		$this->action = $action;
+	}
 
 	/**
 	 * プロパティ取得のオーバライド
@@ -114,6 +119,16 @@ abstract class BSView {
 		}
 		mb_http_output('pass');
 		print $this->renderer->getContents();
+	}
+
+	/**
+	 * アクションを返す
+	 *
+	 * @access public
+	 * @return BSAction アクション
+	 */
+	public function getAction () {
+		return $this->action;
 	}
 
 	/**

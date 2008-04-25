@@ -111,51 +111,19 @@ class ExecutionFilter extends BSFilter
         if ($viewName != BSView::NONE)
         {
 
-            if (is_array($viewName))
-            {
-
-                // we're going to use an entirely different action for this view
-                $moduleName = $viewName[0];
-                $viewName   = $viewName[1];
-
-            } else
-            {
-
-                // use a view related to this action
-                $viewName = $actionName . $viewName;
-
-            }
-
-            // display this view
-            if (!BSController::getInstance()->viewExists($moduleName, $viewName))
-            {
-
-                // the requested view doesn't exist
-                $file = MO_MODULE_DIR . '/' . $moduleName . '/views/' .
-                        $viewName . 'View.class.php';
-
-                $error = 'Module "%s" does not contain the view "%sView" or ' .
-                         'the file "%s" is unreadable';
-
-                $error = sprintf($error, $moduleName, $viewName, $file);
-
-                throw new ViewException($error);
-
-            }
-
             // get the view instance
-            $viewInstance = BSController::getInstance()->getView($moduleName, $viewName);
+            $view = $action->getView($viewName);
 
             // initialize the view
-            if ($viewInstance->initialize())
+            if ($view->initialize())
             {
 
                 // view initialization completed successfully
-                $viewInstance->execute();
+                $view->execute();
 
                 // render the view and if data is returned, stick it in the
                 // action entry which was retrieved from the execution chain
-                $viewData = $viewInstance->render();
+                $viewData = $view->render();
 
             } else
             {

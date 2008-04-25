@@ -28,8 +28,7 @@ class ActionStack
     // | PRIVATE VARIABLES                                                     |
     // +-----------------------------------------------------------------------+
 
-    private
-        $stack = array();
+    private $stack;
 	private static $instance;
 
     // +-----------------------------------------------------------------------+
@@ -42,7 +41,7 @@ class ActionStack
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化は禁止
+		$this->stack = new BSArray;
 	}
 
 	/**
@@ -100,16 +99,7 @@ class ActionStack
     public function getEntry ($index)
     {
 
-        $retval = null;
-
-        if ($index > -1 && $index < count($this->stack))
-        {
-
-            $retval = $this->stack[$index];
-
-        }
-
-        return $retval;
+        return $this->stack[$index];
 
     }
 
@@ -126,17 +116,7 @@ class ActionStack
     public function getFirstEntry ()
     {
 
-        $count  = count($this->stack);
-        $retval = null;
-
-        if ($count > 0)
-        {
-
-            $retval = $this->stack[0];
-
-        }
-
-        return $retval;
+        return $this->stack[0];
 
     }
 
@@ -153,17 +133,7 @@ class ActionStack
     public function getLastEntry ()
     {
 
-        $count  = count($this->stack);
-        $retval = null;
-
-        if ($count > 0)
-        {
-
-            $retval = $this->stack[$count - 1];
-
-        }
-
-        return $retval;
+        return $this->stack[count($this->stack) - 1];
 
     }
 

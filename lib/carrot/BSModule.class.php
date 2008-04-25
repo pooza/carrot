@@ -13,6 +13,7 @@
 class BSModule {
 	private $name;
 	private $directory;
+	private $actions;
 	private $config = array();
 	private $prefix;
 	private static $instances = array();
@@ -111,13 +112,22 @@ class BSModule {
 	 * @return BSAction アクション
 	 */
 	public function getAction ($name) {
-		if ($dir = $this->getDirectory()->getEntry('actions')) {
-			$class = $name . 'Action';
-			if ($file = $dir->getEntry($class . '.class.php')) {
-				require_once($file->getPath());
-				return new $class($this);
-			}
+		$class = $name . 'Action';
+		if (!$dir = $this->getDirectory()->getEntry('actions')) {
+			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
+		} else if (!$file = $dir->getEntry($class . '.class.php')) {
+			throw new BSFileException('%sに、アクション "%s" がありません。', $this, $name);
 		}
+
+		if (!$this->actions) {
+			$this->actions = new BSArray;
+		}
+		if (!$this->actions[$name]) {
+			require_once($file->getPath());
+			$this->actions[$name] = new $class($this);
+		}
+
+		return $this->actions[$name];
 	}
 
 	/**
