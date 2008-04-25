@@ -42,13 +42,13 @@ abstract class BSSmartyView extends BSView {
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
 
-		$name = ActionStack::getInstance()->getLastEntry()->getName();
+		$name = BSActionStack::getInstance()->getLastEntry()->getName();
 		if ($this->getEngine()->getTemplatesDirectory()->getEntry($name)) {
 			$this->setTemplate($name);
 		}
 
 		$this->setAttribute('module', $this->controller->getModule()->getName());
-		$this->setAttribute('action', ActionStack::getInstance()->getLastEntry()->getName());
+		$this->setAttribute('action', BSActionStack::getInstance()->getLastEntry()->getName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());

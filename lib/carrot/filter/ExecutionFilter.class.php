@@ -47,11 +47,11 @@ class ExecutionFilter extends BSFilter
     {
 
         // get the current action instance
-        $action = ActionStack::getInstance()->getLastEntry();
+        $action = BSActionStack::getInstance()->getLastEntry();
 
         // get the current action information
         $moduleName = BSController::getInstance()->getModule()->getName();
-        $actionName = ActionStack::getInstance()->getLastEntry()->getName();
+        $actionName = BSActionStack::getInstance()->getLastEntry()->getName();
 
         // get the request method
         $method = BSRequest::getInstance()->getMethod();

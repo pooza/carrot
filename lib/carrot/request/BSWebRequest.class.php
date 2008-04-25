@@ -15,26 +15,11 @@ class BSWebRequest extends BSRequest {
 	private static $instance;
 
 	/**
-	 * シングルトンインスタンスを返す
+	 * コンストラクタ
 	 *
-	 * @access public
-	 * @return BSWebRequest インスタンス
-	 * @static
+	 * @access private
 	 */
-	public static function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new BSWebRequest();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param mixed[] $parameters パラメータ
-	 */
-	public function initialize ($parameters = null) {
+	private function __construct () {
 		$this->setParameters($_GET);
 		switch ($method = $_SERVER['REQUEST_METHOD']) {
 			case 'POST':
@@ -47,6 +32,20 @@ class BSWebRequest extends BSRequest {
 			default:
 				throw new BSException('メソッド "%s" はサポートされていません。', $method);
 		}
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSWebRequest インスタンス
+	 * @static
+	 */
+	public static function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSWebRequest();
+		}
+		return self::$instance;
 	}
 
 	public function getFile ($name) {

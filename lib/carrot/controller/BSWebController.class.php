@@ -29,18 +29,6 @@ class BSWebController extends BSController {
 	}
 
 	/**
-	 * 初期化
-	 *
-	 * @access protected
-	 */
-	protected function initialize () {
-		parent::initialize();
-		if ($this->getUserAgent()->isMobile()) {
-			ini_set('session.use_only_cookies', 0);
-		}
-	}
-
-	/**
 	 * リダイレクト
 	 *
 	 * @access public
@@ -53,6 +41,7 @@ class BSWebController extends BSController {
 			$url = new BSURL();
 			$url->setAttribute('path', $target);
 		}
+		$url->addSessionID();
 		$this->sendHeader('Location: ' . $url->getContents());
 		exit;
 	}

@@ -15,6 +15,21 @@ class BSConsoleRequest extends BSRequest {
 	private static $instance;
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		$options = array(
+			BSController::MODULE_ACCESSOR,
+			BSController::ACTION_ACCESSOR,
+			null,
+		);
+		$options = implode(':', $options);
+		$this->setParameters(getopt($options));
+	}
+
+	/**
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
@@ -26,22 +41,6 @@ class BSConsoleRequest extends BSRequest {
 			self::$instance = new BSConsoleRequest();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param mixed[] $parameters パラメータ
-	 */
-	public function initialize ($parameters = null) {
-		$options = array(
-			BSController::MODULE_ACCESSOR,
-			BSController::ACTION_ACCESSOR,
-			null,
-		);
-		$options = implode(':', $options);
-		$this->setParameters(getopt($options));
 	}
 }
 

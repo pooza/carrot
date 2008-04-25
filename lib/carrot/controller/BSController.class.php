@@ -63,26 +63,11 @@ abstract class BSController {
 	}
 
 	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param string[] $parameters パラメータ
-	 * @return boolean 成功ならばTrue
-	 * @static
-	 */
-	protected function initialize () {
-		BSSessionStorage::getInstance()->initialize();
-		$this->request->initialize();
-		$this->user->initialize();
-	}
-
-	/**
 	 * ディスパッチ
 	 *
 	 * @access public
 	 */
 	public function dispatch () {
-		$this->initialize();
 		if (!$module = $this->request->getParameter(self::MODULE_ACCESSOR)) {
 			$module = self::DEFAULT_MODULE;
 		}
@@ -100,7 +85,7 @@ abstract class BSController {
 	 * @param string $action アクション名
 	 */
 	public function forward ($module, $action) {
-		if (self::MAX_FORWARDS < ActionStack::getInstance()->getSize()) {
+		if (self::MAX_FORWARDS < BSActionStack::getInstance()->getSize()) {
 			throw new ForwardException('フォワードが多すぎます。');
 		}
 
@@ -116,7 +101,7 @@ abstract class BSController {
 			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
 			$action = $module->getAction(self::NOT_FOUND_ACTION);
 		}
-		ActionStack::getInstance()->addEntry($action);
+		BSActionStack::getInstance()->addEntry($action);
 
 		if (!$module->isEnabled()) {
 			$this->forward(MO_MODULE_DISABLED_MODULE, MO_MODULE_DISABLED_ACTION);
@@ -281,17 +266,17 @@ abstract class BSController {
 	}
 
 	/**
-	 * モジュール情報を返す
+	 * モジュールを返す
 	 *
 	 * @access public
 	 * @param string $name モジュール名
-	 * @return BSModule モジュール情報
+	 * @return BSModule モジュール
 	 */
 	public function getModule ($name = null) {
 		if ($name) {
 			return BSModule::getInstance($name);
 		} else {
-			return ActionStack::getInstance()->getLastEntry()->getModule();
+			return BSActionStack::getInstance()->getLastEntry()->getModule();
 		}
 	}
 

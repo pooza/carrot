@@ -23,7 +23,12 @@ class BSUser extends ParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化禁止
+		if ($attributes = $this->getStorage()->read(self::ATTRIBUTE_NAMESPACE)) {
+			$this->attributes = $attributes;
+		}
+		if ($credentials = $this->getStorage()->read(self::CREDENTIAL_NAMESPACE)) {
+			$this->credentials = $credentials;
+		}
 	}
 
 	/**
@@ -57,24 +62,6 @@ class BSUser extends ParameterHolder {
 	 */
 	public function __clone () {
 		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
-	}
-
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param mixed[] $parameters パラメータ
-	 */
-	public function initialize ($parameters = null) {
-		if ($parameters) {
-			$this->setParameters($parameters);
-		}
-		if ($attributes = $this->getStorage()->read(self::ATTRIBUTE_NAMESPACE)) {
-			$this->attributes = $attributes;
-		}
-		if ($credentials = $this->getStorage()->read(self::CREDENTIAL_NAMESPACE)) {
-			$this->credentials = $credentials;
-		}
 	}
 
 	/**

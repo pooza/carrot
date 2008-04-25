@@ -49,7 +49,7 @@ class BSMailAddressValidator extends Validator {
 			$table = new $class;
 			$values = array($this->getParameter('field') => $value);
 			if ($record = $table->getRecord($values)) {
-				if ($id = ActionStack::getInstance()->getLastEntry()->getRecordID()) {
+				if ($id = BSActionStack::getInstance()->getLastEntry()->getRecordID()) {
 					if ($id != $record->getID()) {
 						$error = $this->getParameter('unique_error');
 						return false;

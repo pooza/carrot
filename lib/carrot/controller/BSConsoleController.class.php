@@ -15,6 +15,17 @@ class BSConsoleController extends BSController {
 	private static $instance;
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+		if (!$this->request->getParameter(self::MODULE_ACCESSOR)) {
+			$this->request->setParameter(self::MODULE_ACCESSOR, 'Console');
+		}
+	}
+
+	/**
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
@@ -26,18 +37,6 @@ class BSConsoleController extends BSController {
 			self::$instance = new BSConsoleController();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * 初期化
-	 *
-	 * @access protected
-	 */
-	protected function initialize () {
-		parent::initialize();
-		if (!$this->request->getParameter(self::MODULE_ACCESSOR)) {
-			$this->request->setParameter(self::MODULE_ACCESSOR, 'Console');
-		}
 	}
 
 	/**

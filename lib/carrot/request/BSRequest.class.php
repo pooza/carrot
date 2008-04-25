@@ -44,15 +44,6 @@ abstract class BSRequest extends ParameterHolder {
 		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param mixed[] $parameters パラメータ
-	 * @abstract
-	 */
-	abstract public function initialize ($parameters = null);
-
 	public function clearAttributes () {
 		$this->attributes = array();
 	}

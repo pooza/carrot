@@ -23,7 +23,33 @@ class BSSessionStorage extends ParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化禁止
+		if (!$this->getParameter('session_name')) {
+			$this->setParameter('session_name', self::SESSION_NAME);
+		}
+
+		switch ($this->getStorageType()) {
+			case 'database':
+				if (!BSController::getInstance()->isCLI()) {
+					session_set_save_handler(
+						array($this->getTable(), 'open'),
+						array($this->getTable(), 'close'),
+						array($this->getTable(), 'getAttribute'),
+						array($this->getTable(), 'setAttribute'),
+						array($this->getTable(), 'removeAttribute'),
+						array($this->getTable(), 'clean')
+					);
+				}
+				break;
+		}
+
+		if (BSController::getInstance()->getUserAgent()->isMobile()) {
+			ini_set('session.use_only_cookies', 0);
+		}
+
+		if (headers_sent()) {
+			throw new BSHTTPException('セッションの開始に失敗しました。');
+		}
+		session_start();
 	}
 
 	/**
@@ -47,38 +73,6 @@ class BSSessionStorage extends ParameterHolder {
 	 */
 	public function __clone () {
 		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
-	}
-
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param string[] $parameters パラメータ
-	 */
-	public function initialize ($parameters = null) {
-		if (!$this->getParameter('session_name')) {
-			$this->setParameter('session_name', self::SESSION_NAME);
-		}
-
-		switch ($this->getStorageType()) {
-			case 'database':
-				if (!BSController::getInstance()->isCLI()) {
-					session_set_save_handler(
-						array($this->getTable(), 'open'),
-						array($this->getTable(), 'close'),
-						array($this->getTable(), 'getAttribute'),
-						array($this->getTable(), 'setAttribute'),
-						array($this->getTable(), 'removeAttribute'),
-						array($this->getTable(), 'clean')
-					);
-				}
-				break;
-		}
-
-		if (headers_sent()) {
-			throw new BSHTTPException('セッションの開始に失敗しました。');
-		}
-		session_start();
 	}
 
 	/**
