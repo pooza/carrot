@@ -27,9 +27,15 @@ class BSModule {
 	 */
 	private function __construct ($name) {
 		$this->name = $name;
+
 		if (!$this->getDirectory()) {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
+
+		if (!$file = $this->getIniFile('module')) {
+			throw new BSFileException('$thisのmodule.iniが読み込めません。');
+		}
+		require_once(ConfigCache::checkConfig($file->getPath()));
 	}
 
 	/**
@@ -50,18 +56,6 @@ class BSModule {
 			self::$instances[$name]->initialize();
 		}
 		return self::$instances[$name];
-	}
-
-	/**
-	 * 設定ファイルを読み込む
-	 *
-	 * @access private
-	 */
-	private function initialize () {
-		if (!$file = $this->getIniFile('module')) {
-			throw new BSFileException('$thisのmodule.iniが読み込めません。');
-		}
-		require_once(ConfigCache::checkConfig($file->getPath()));
 	}
 
 	/**

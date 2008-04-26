@@ -81,6 +81,7 @@ class BSSerializeHandler extends BSList {
 	 */
 	public function setAttribute ($name, $value) {
 		$file = $this->getDirectory()->createEntry($name);
+		$file->setMode(0666);
 		$file->setContents($this->getEngine()->encode($value));
 		$this->attributes[$name] = $value;
 		BSLog::put($name . 'をシリアライズしました。');
