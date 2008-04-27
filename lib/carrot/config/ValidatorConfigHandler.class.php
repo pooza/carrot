@@ -150,6 +150,8 @@ class ValidatorConfigHandler extends BSConfigHandler
                                            &$validators)
     {
 
+		$data[] = "\t\$validatorManager = ValidatorManager::getInstance();";
+
         // setup validator array
         $data[] = "\t\$validators = array();";
 

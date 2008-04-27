@@ -187,7 +187,7 @@ class ValidatorManager
      * @since  3.0.0
      */
     public function registerName ($name, $required = true,
-                                  $message = 'Required', $parent = null,
+                                  $message = '空欄です。', $parent = null,
                                   $group = null, $isFile = false)
     {
 

@@ -49,7 +49,7 @@ abstract class BSAction {
 		return BSView::ERROR;
 	}
 
-	public function registerValidators ($validators) {
+	public function registerValidators ($validatorManager) {
 	}
 
 	public function validate () {
