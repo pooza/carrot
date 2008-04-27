@@ -15,6 +15,7 @@ class BSModule {
 	private $directory;
 	private $actions;
 	private $config = array();
+	private $configFiles;
 	private $prefix;
 	private static $instances = array();
 	private static $prefixes = array();
@@ -32,8 +33,8 @@ class BSModule {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
 
-		if (!$file = $this->getIniFile('module')) {
-			throw new BSFileException('$thisのmodule.iniが読み込めません。');
+		if (!$file = $this->getConfigFile('module')) {
+			throw new BSFileException('%sのmodule.iniが読み込めません。', $this);
 		}
 		require_once(ConfigCache::checkConfig($file->getPath()));
 	}
@@ -53,7 +54,6 @@ class BSModule {
 		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
 		if (!self::$instances[$name]) {
 			self::$instances[$name] = new BSModule($name);
-			self::$instances[$name]->initialize();
 		}
 		return self::$instances[$name];
 	}
@@ -99,7 +99,7 @@ class BSModule {
 	 * @param FilterChain $finterChain フィルタチェーン
 	 */
 	public function loadFilters (FilterChain $filterChain) {
-		if ($file = $this->getIniFile('filters')) {
+		if ($file = $this->getConfigFile('filters')) {
 			$filters = array();
 			require_once(ConfigCache::checkConfig($file->getPath()));
 			if ($filters) {
@@ -117,10 +117,38 @@ class BSModule {
 	 * @param string $name ファイル名
 	 * @return BSIniFile 設定ファイル
 	 */
-	private function getIniFile ($name = 'module') {
-		$dir = $this->getDirectory()->getEntry('config');
-		$dir->setDefaultSuffix('.ini');
-		return $dir->getEntry($name, 'BSIniFile');
+	private function getConfigFile ($name = 'module') {
+		if (!$this->configFiles) {
+			$this->configFiles = new BSArray;
+		}
+		if (!$this->configFiles[$name]) {
+			$dir = $this->getDirectory()->getEntry('config');
+			$classes = array(
+				'.yaml' => 'BSYAMLFile',
+				'.ini' => 'BSIniFile',
+			);
+			foreach ($classes as $suffix => $class) {
+				if ($file = $dir->getEntry($name . $suffix, $class)) {
+					$this->configFiles[$name] = $file;
+					break;
+				}
+			}
+		}
+		return $this->configFiles[$name];
+	}
+
+	/**
+	 * 設定ファイルを返す
+	 *
+	 * getConfigFileのエイリアス
+	 *
+	 * @access private
+	 * @param string $name ファイル名
+	 * @return BSIniFile 設定ファイル
+	 * @final
+	 */
+	private final function getIniFile ($name = 'module') {
+		return $this->getConfigFile($name);
 	}
 
 	/**
@@ -133,8 +161,8 @@ class BSModule {
 	 * @return string 設定値
 	 */
 	public function getConfig ($name, $section = 'module', $file = 'module') {
-		if (!isset($this->config[$file]) && ($ini = $this->getIniFile($file))) {
-			$this->config[$file] = $ini->getContents();
+		if (!isset($this->config[$file]) && $this->getConfigFile($file)) {
+			$this->config[$file] = $this->getConfigFile($file)->getContents();
 		}
 		if (isset($this->config[$file][$section][$name])) {
 			return $this->config[$file][$section][$name];

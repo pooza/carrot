@@ -9,9 +9,6 @@
  */
 class BrowseSuccessView extends BSSmartyView {
 	public function execute () {
-		$this->setAttribute('logfiles', $this->request->getAttribute('logfiles'));
-		$this->setAttribute('logfile', $this->request->getAttribute('logfile'));
-		$this->setAttribute('logs', $this->request->getAttribute('logs'));
 	}
 }
 

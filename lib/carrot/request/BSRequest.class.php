@@ -54,6 +54,17 @@ abstract class BSRequest extends ParameterHolder {
 		}
 	}
 
+
+	/**
+	 * 属性値を全て返す
+	 *
+	 * @access public
+	 * @return mixed[] 属性値
+	 */
+	public function getAttributes () {
+		return $this->attributes;
+	}
+
 	public function getAttributeNames () {
 		return array_keys($this->attributes);
 	}

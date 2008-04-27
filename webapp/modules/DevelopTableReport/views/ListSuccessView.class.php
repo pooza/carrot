@@ -9,7 +9,6 @@
  */
 class ListSuccessView extends BSSmartyView {
 	public function execute () {
-		$this->setAttribute('tables', $this->request->getAttribute('tables'));
 	}
 }
 

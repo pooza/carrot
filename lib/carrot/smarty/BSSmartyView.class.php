@@ -47,14 +47,13 @@ abstract class BSSmartyView extends BSView {
 			$this->setTemplate($name);
 		}
 
+		$this->setAttributes($this->request->getAttributes());
 		$this->setAttribute('module', $this->controller->getModule()->getName());
 		$this->setAttribute('action', BSActionStack::getInstance()->getLastEntry()->getName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());
 		$this->setAttribute('useragent', $this->useragent->getAttributes());
-		$this->setAttribute('menu', $this->request->getAttribute('menu'));
-		$this->setAttribute('title', $this->request->getAttribute('title'));
 		$this->setAttribute('is_debug', $this->controller->isDebugMode());
 		$this->setAttribute('is_ssl', $this->controller->isSSL());
 
@@ -80,6 +79,18 @@ abstract class BSSmartyView extends BSView {
 	 */
 	public function getAttributes () {
 		return $this->getEngine()->getAttributes();
+	}
+
+	/**
+	 * 属性をまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] $attribures 属性値
+	 */
+	public function setAttributes ($attributes) {
+		foreach ($attributes as $key => $value) {
+			$this->getEngine()->setAttribute($key, $value);
+		}
 	}
 
 	/**
