@@ -33,7 +33,7 @@ class BSFilterConfigHandler extends BSConfigHandler {
 			$line = sprintf(
 				'$filters[%s]->initialize(%s);',
 				parent::literalize($category),
-				BSConfigHandler::parseParameters($values)
+				parent::parseParameters($values)
 			);
 			$this->putLine($line);
 		}

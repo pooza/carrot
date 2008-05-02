@@ -95,7 +95,7 @@ class RootConfigHandler extends BSConfigHandler
             $class = $keys['class'];
 
             // parse parameters
-            $parameters = BSConfigHandler::parseParameters($keys);
+            $parameters = parent::parseParameters($keys);
 
             // append new data
             $tmp    = "self::\$handlers['%s'] = new %s();";
