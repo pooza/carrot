@@ -97,7 +97,7 @@ class FilterConfigHandler extends BSConfigHandler
             }
 
             // parse parameters
-            $parameters =& ParameterParser::parse($keys);
+            $parameters = BSConfigHandler::parseParameters($keys);
 
             // append new data
             $tmp = "\$filter = new %s();\n" .

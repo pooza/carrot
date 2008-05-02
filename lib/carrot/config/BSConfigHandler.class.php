@@ -193,6 +193,45 @@ abstract class BSConfigHandler extends ParameterHolder {
 		}
 		return $path;
 	}
+
+	/**
+	 * パラメータ配列をPHPスクリプトにパースする
+	 *
+	 * @access public
+	 * @param string $values パラメータ配列
+	 * @param string $prefix パラメータ名プリフィックス
+	 * @return string PHPスクリプト
+	 * @static
+	 */
+	public static function parseParameters ($values, $prefix = 'param') {
+		$body = new BSArray;
+		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z]+)/i';
+
+		foreach ($values as $key => $value) {
+			if (!preg_match($pattern, $key, $matches)) {
+				continue;
+			}
+			if (is_array($value)) {
+				$body[] = sprintf(
+					'%s => array(%s)',
+					self::literalize($matches[1]),
+					implode(', ', $value)
+				);
+			} else {
+				$body[] = sprintf(
+					'%s => %s',
+					self::literalize($matches[1]),
+					self::literalize($value)
+				);
+			}
+		}
+
+		if (count($body) == 0) {
+			return 'null';
+		} else {
+			return sprintf('array(%s)', $body->join(', '));
+		}
+	}
 }
 
 ?>

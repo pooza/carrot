@@ -618,7 +618,7 @@ class ValidatorConfigHandler extends BSConfigHandler
             }
 
             // parse parameters
-            $parameters = ParameterParser::parse($ini[$validator]);
+            $parameters = BSConfigHandler::parseParameters($ini[$validator]);
 
             $validators[$validator]['parameters'] = $parameters;
 
