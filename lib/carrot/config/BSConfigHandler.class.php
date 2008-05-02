@@ -105,31 +105,6 @@ abstract class BSConfigHandler extends ParameterHolder {
 	}
 
 	/**
-	 * 設定ファイルをパース
-	 *
-	 * MojaviオリジナルのConfigHandlerとの互換性の為。
-	 *
-	 * @access public
-	 * @param string $path 設定ファイルのパス
-	 * @return string[][] 設定値
-	 */
-	protected function parseIni ($config) {
-		$ini = $this->getConfig($config);
-
-		if ($this->hasParameter('required_categories')){
-			foreach ($this->getParameter('required_categories') as $category) {
-				if (!isset($ini[$category])) {
-					$error = 'Configuration file "%s" is missing "%s" category';
-					$error = sprintf($error, $config, $category);
-					throw new ParseException($error);
-				}
-			}
-		}
-
-		return $ini;
-	}
-
-	/**
 	 * 文字列のリテラル化
 	 *
 	 * @access public
@@ -177,21 +152,6 @@ abstract class BSConfigHandler extends ParameterHolder {
 		}
 		$value = str_replace('##PERCENT##', '%', $value);
 		return $value;
-	}
-
-	/**
-	 * フルパスにする
-	 *
-	 * @access public
-	 * @param string $path 置換対象
-	 * @return string 置換結果
-	 * @static
-	 */
-	public static function replacePath ($path) {
-		if (!Toolkit::isPathAbsolute($path)) {
-			$path = BS_WEBAPP_DIR . '/' . $path;
-		}
-		return $path;
 	}
 
 	/**

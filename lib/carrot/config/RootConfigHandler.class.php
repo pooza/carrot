@@ -47,7 +47,7 @@ class RootConfigHandler extends BSConfigHandler
     {
 
         // parse the ini
-        $ini = $this->parseIni($config);
+        $ini = $this->getConfig($config);
 
         // determine if we're loading the system config_handlers.ini or a module
         // config_handlers.ini
@@ -92,33 +92,7 @@ class RootConfigHandler extends BSConfigHandler
 
             }
 
-            $class =& $keys['class'];
-
-            if (isset($keys['file']))
-            {
-
-                // we have a file to include
-                $file =& $keys['file'];
-                $file =  parent::replaceConstants($file);
-                $file =  parent::replacePath($file);
-
-                if (!is_readable($file))
-                {
-
-                    // handler file doesn't exist
-                    $error = 'Configuration file "%s" specifies class "%s" ' .
-                             'with nonexistent or unreadable file "%s"';
-                    $error = sprintf($error, $config, $class, $file);
-
-                    throw new ParseException($error);
-
-                }
-
-                // append our data
-                $tmp        = "require_once('%s');";
-                $includes[] = sprintf($tmp, $file);
-
-            }
+            $class = $keys['class'];
 
             // parse parameters
             $parameters = BSConfigHandler::parseParameters($keys);

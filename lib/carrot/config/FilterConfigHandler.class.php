@@ -46,7 +46,7 @@ class FilterConfigHandler extends BSConfigHandler
     {
 
         // parse the ini
-        $ini = $this->parseIni($config);
+        $ini = $this->getConfig($config);
 
         // init our data and includes arrays
         $data     = array();
@@ -68,33 +68,7 @@ class FilterConfigHandler extends BSConfigHandler
 
             }
 
-            $class =& $keys['class'];
-
-            if (isset($keys['file']))
-            {
-
-                // we have a file to include
-                $file =& $keys['file'];
-                $file =  parent::replaceConstants($file);
-                $file =  parent::replacePath($file);
-
-                if (!is_readable($file))
-                {
-
-                    // filter file doesn't exist
-                    $error = 'Configuration file "%s" specifies class "%s" ' .
-                             'with nonexistent or unreadable file "%s"';
-                    $error = sprintf($error, $config, $class, $file);
-
-                    throw new ParseException($error);
-
-                }
-
-                // append our data
-                $tmp        = "require_once('%s');";
-                $includes[] = sprintf($tmp, $file);
-
-            }
+            $class = $keys['class'];
 
             // parse parameters
             $parameters = BSConfigHandler::parseParameters($keys);

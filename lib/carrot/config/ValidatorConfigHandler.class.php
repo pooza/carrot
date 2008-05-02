@@ -45,13 +45,10 @@ class ValidatorConfigHandler extends BSConfigHandler
     public function execute ($config)
     {
 
-        // set our required categories list and initialize our handler
-        $categories = array('required_categories' => array('methods', 'names'));
-
-        $this->initialize($categories);
+        $this->initialize();
 
         // parse the ini
-        $ini = $this->parseIni($config);
+        $ini = $this->getConfig($config);
 
         // init our data, includes, methods, names and validators arrays
         $data       = array();
@@ -455,7 +452,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                     $entry['group']        = 'null';
                     $entry['parent']       = "'$parent'";
                     $entry['required']     = 'true';
-                    $entry['required_msg'] = "'Required'";
+                    $entry['required_msg'] = "'空欄です。'";
                     $entry['validators']   = array();
 
                     // add our name entry
@@ -490,7 +487,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                     $entry['group']        = 'null';
                     $entry['parent']       = 'null';
                     $entry['required']     = 'true';
-                    $entry['required_msg'] = "'Required'";
+                    $entry['required_msg'] = "'空欄です。'";
                     $entry['type']         = 'parameter';
                     $entry['validators']   = array();
 
@@ -589,33 +586,6 @@ class ValidatorConfigHandler extends BSConfigHandler
             $validators[$validator]['class']      = $ini[$validator]['class'];
             $validators[$validator]['file']       = null;
             $validators[$validator]['parameters'] = null;
-
-            if (isset($ini[$validator]['file']))
-            {
-
-                // we have a file for this validator
-                $file = $ini[$validator]['file'];
-
-                // keyword replacement
-                $file = parent::replaceConstants($file);
-                $file = parent::replacePath($file);
-
-                if (!is_readable($file))
-                {
-
-                    // file doesn't exist
-                    $error = 'Configuration file "%s" specifies ' .
-                             'category "%s" with nonexistent or unreadable ' .
-                             'file "%s"';
-                    $error = sprintf($error, $config, $validator, $file);
-
-                    throw new ParseException($error);
-
-                }
-
-                $validators[$validator]['file'] = $file;
-
-            }
 
             // parse parameters
             $parameters = BSConfigHandler::parseParameters($ini[$validator]);
