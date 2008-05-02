@@ -87,13 +87,13 @@ abstract class BSConfigHandler extends ParameterHolder {
 	}
 
 	/**
-	 * 設定ファイルの設定内容を配列で返す
+	 * 設定ファイルを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $path 設定ファイルのパス
 	 * @return string[][] 設定値
 	 */
-	protected function getConfig ($path) {
+	protected function getConfigFile ($path) {
 		$file = new BSIniFile($path);
 
 		if (!$file->isReadable()) {
@@ -101,7 +101,18 @@ abstract class BSConfigHandler extends ParameterHolder {
 			throw new ConfigurationException($error);
 		}
 
-		return $file->getContents();
+		return $file;
+	}
+
+	/**
+	 * 設定ファイルの設定内容を配列で返す
+	 *
+	 * @access protected
+	 * @param string $path 設定ファイルのパス
+	 * @return string[][] 設定値
+	 */
+	protected function getConfig ($path) {
+		return $this->getConfigFile($path)->getContents();
 	}
 
 	/**
