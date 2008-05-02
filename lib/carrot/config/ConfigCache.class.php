@@ -353,7 +353,7 @@ class ConfigCache
     {
 
         // manually create our config_handlers.ini handler
-        self::$handlers['config_handlers.ini'] = new RootConfigHandler();
+        self::$handlers['config_handlers.ini'] = new BSRootConfigHandler();
         self::$handlers['config_handlers.ini']->initialize();
 
         // application configuration handlers

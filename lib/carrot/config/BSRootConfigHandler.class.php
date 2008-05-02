@@ -5,13 +5,13 @@
  */
 
 /**
- * フィルタ定義
+ * 定義ファイル定義
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSFilterConfigHandler extends BSConfigHandler {
+class BSRootConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
 		foreach ($this->getConfig($path) as $category => $values) {
 			if (!isset($values['class'])) {
@@ -24,18 +24,21 @@ class BSFilterConfigHandler extends BSConfigHandler {
 			}
 
 			$line = sprintf(
-				'$filters[%s] = new %s;',
+				'self::$handlers[%s] = new %s;',
 				parent::literalize($category),
 				$values['class']
 			);
 			$this->putLine($line);
 
-			$line = sprintf(
-				'$filters[%s]->initialize(%s);',
-				parent::literalize($category),
-				parent::parseParameters($values)
-			);
-			$this->putLine($line);
+			$parameters = parent::parseParameters($values);
+			if ($parameters != 'null') {
+				$line = sprintf(
+					'self::$handlers[%s]->initialize(%s);',
+					parent::literalize($category),
+					$parameters
+				);
+				$this->putLine($line);
+			}
 		}
 		return $this->getBody();
 	}
