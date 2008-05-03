@@ -12,11 +12,11 @@
  * @version $Id$
  */
 class BSDefineConfigHandler extends BSConfigHandler {
-	public function execute ($path) {
+	public function execute (BSIniFile $file) {
 		$this->clearBody();
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
 		$this->putLine('$constants = array(');
-		foreach ($this->getConfig($path) as $category => $values) {
+		foreach ($file->getContents() as $category => $values) {
 			foreach ($values as $key => $value) {
 				if (preg_match('/^\\./', $category)) {
 					$key = array($prefix, $key);

@@ -12,9 +12,9 @@
  * @version $Id$
  */
 class BSModuleConfigHandler extends BSConfigHandler {
-	public function execute ($path) {
+	public function execute (BSIniFile $file) {
 		$this->clearBody();
-		$ini = $this->getConfig($path);
+		$ini = $file->getContents();
 
 		foreach ($ini['module'] as $key => $value) {
 			$line = sprintf(

@@ -50,10 +50,10 @@ abstract class BSConfigHandler extends ParameterHolder {
 	 * 実行
 	 *
 	 * @access public
-	 * @param string[] $path 設定ファイルのパス
+	 * @param BSIniFile $file 設定ファイル
 	 * @abstract
 	 */
-	abstract public function execute ($path);
+	abstract public function execute (BSIniFile $file);
 
 	/**
 	 * コンパイル後のphpステートメントを返す
@@ -85,35 +85,6 @@ abstract class BSConfigHandler extends ParameterHolder {
 	 */
 	protected function putLine ($line) {
 		$this->body[] = $line;
-	}
-
-	/**
-	 * 設定ファイルを返す
-	 *
-	 * @access protected
-	 * @param string $path 設定ファイルのパス
-	 * @return string[][] 設定値
-	 */
-	protected function getConfigFile ($path) {
-		$file = new BSIniFile($path);
-
-		if (!$file->isReadable()) {
-			$error = sprintf('%s が読めません。',$file);
-			throw new ConfigurationException($error);
-		}
-
-		return $file;
-	}
-
-	/**
-	 * 設定ファイルの設定内容を配列で返す
-	 *
-	 * @access protected
-	 * @param string $path 設定ファイルのパス
-	 * @return string[][] 設定値
-	 */
-	protected function getConfig ($path) {
-		return $this->getConfigFile($path)->getContents();
 	}
 
 	/**

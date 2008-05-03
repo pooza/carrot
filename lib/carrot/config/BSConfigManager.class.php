@@ -53,6 +53,13 @@ class BSConfigManager {
 		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
+	/**
+	 * 設定ファイルをコンパイル
+	 *
+	 * @access public
+	 * @param mixed $file BSFile又はファイル名
+	 * @return string コンパイル済みキャッシュファイルのフルパス
+	 */
 	public function compile ($file) {
 		if (!($file instanceof BSFile)) {
 			if (!Toolkit::isPathAbsolute($file)) {
@@ -72,7 +79,7 @@ class BSConfigManager {
 				$pattern = str_replace('#WILDCARD#', '.*', $pattern);
 				$pattern = '/' . $pattern . '/';
 				if (preg_match($pattern, $file->getPath())) {
-					$result = $handler->execute($file->getPath());
+					$result = $handler->execute($file);
 					$cache->setContents($result);
 				}
 			}
@@ -80,7 +87,14 @@ class BSConfigManager {
 		return $cache->getPath();
 	}
 
-	private static function getCacheFile (BSFile $file) {
+	/**
+	 * キャッシュファイルを返す
+	 *
+	 * @access public
+	 * @param BSIniFile $file コンパイル対象設定ファイル
+	 * @return BSFile キャッシュファイル
+	 */
+	private static function getCacheFile (BSIniFile $file) {
 		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
 		$name = str_replace(BS_WEBAPP_DIR, '', $name);
 		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);

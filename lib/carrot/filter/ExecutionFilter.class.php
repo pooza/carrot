@@ -37,8 +37,6 @@ class ExecutionFilter extends BSFilter
      *
      * @throws <b>InitializeException</b> If an error occurs during view
      *                                    initialization.
-     * @throws <b>ViewException</b>       If an error occurs while executing
-     *                                    the view.
      *
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  1.0.0

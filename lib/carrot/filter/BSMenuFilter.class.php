@@ -58,7 +58,7 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenuFile () {
 		$name = $this->getParameter('name');
-		if (!$file = $this->controller->getDirectory('menu')->getEntry($name)) {
+		if (!$file = $this->controller->getDirectory('menu')->getEntry($name, 'BSIniFile')) {
 			throw new BSFileException('メニューファイル"%s"が見つかりません。', $name);
 		}
 		return $file;

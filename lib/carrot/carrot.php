@@ -114,21 +114,20 @@ try {
 	$names[] = 'localhost';
 
 	$initialized = false;
-	foreach ($names as $name) {
-		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $name);
+	foreach ($names as $servername) {
+		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $servername);
 		if (is_readable($path)) {
 			require_once(BSConfigManager::getInstance()->compile($path));
-			$_SERVER['SERVER_NAME'] = $name;
+			$_SERVER['SERVER_NAME'] = $servername;
 			$initialized = true;
 			break;
 		}
 	}
 	if (!$initialized) {
-		$message = sprintf(
+		throw new BSFileException(
 			'サーバ定義ファイル (%s).ini が見つかりません。',
 			implode('|', $names)
 		);
-		trigger_error($message, E_USER_ERROR);
 	}
 
 	if (BS_DEBUG) {

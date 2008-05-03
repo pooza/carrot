@@ -12,9 +12,9 @@
  * @version $Id$
  */
 class BSUnsupportTerminalsConfigHandler extends BSConfigHandler {
-	public function execute ($path) {
+	public function execute (BSIniFile $file) {
 		$this->clearBody();
-		foreach ($this->getConfig($path) as $carrier => $params) {
+		foreach ($file->getContents() as $carrier => $params) {
 			foreach ($params['terminals'] as $terminal) {
 				$line = sprintf(
 					'$terminals[%s][] = %s;',

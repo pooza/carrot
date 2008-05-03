@@ -12,10 +12,10 @@
  * @version $Id$
  */
 class BSGengoConfigHandler extends BSConfigHandler {
-	public function execute ($path) {
+	public function execute (BSIniFile $file) {
 		$this->clearBody();
 		$dates = new BSArray;
-		foreach ($this->getConfig($path) as $gengo => $params) {
+		foreach ($file->getContents() as $gengo => $params) {
 			$line = sprintf(
 				'self::$japaneseCalendarDates[%s] = %s;',
 				parent::literalize($gengo),
