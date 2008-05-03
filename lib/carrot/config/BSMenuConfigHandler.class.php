@@ -28,8 +28,7 @@ class BSMenuConfigHandler extends BSSerializeConfigHandler {
 					$values['MODULE'] = $module;
 				}
 				if (!isset($values['TITLE'])) {
-					$profile = $this->controller->getModule($module);
-					$values['TITLE'] = $profile->getConfig('TITLE');
+					$values['TITLE'] = $this->controller->getModule($module)->getConfig('title');
 				}
 			}
 			foreach ($values as $key => $value) {

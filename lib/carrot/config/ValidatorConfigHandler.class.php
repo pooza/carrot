@@ -98,23 +98,18 @@ class ValidatorConfigHandler extends BSConfigHandler
         }
 
         // load attribute list
-        $this->loadAttributes($config, $methods, $names, $validators, $ini,
-                              $list);
+        $this->loadAttributes($config, $methods, $names, $validators, $ini, $list);
 
         // generate GET file/parameter data
-        $data[] = "if (\$_SERVER['REQUEST_METHOD'] == 'GET')";
-        $data[] = "{";
+        $data[] = "if (\$_SERVER['REQUEST_METHOD'] == 'GET') {";
 
-        $this->generateRegistration('GET', $data, $methods, $names,
-                                    $validators);
+        $this->generateRegistration('GET', $data, $methods, $names, $validators);
 
         // generate POST file/parameter data
 
-        $data[] = "} else if (\$_SERVER['REQUEST_METHOD'] == 'POST')";
-        $data[] = "{";
+        $data[] = "} else if (\$_SERVER['REQUEST_METHOD'] == 'POST') {";
 
-        $this->generateRegistration('POST', $data, $methods, $names,
-                                    $validators);
+        $this->generateRegistration('POST', $data, $methods, $names, $validators);
 
         $data[] = "}";
 

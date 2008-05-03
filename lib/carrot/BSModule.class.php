@@ -33,7 +33,16 @@ class BSModule {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
 
-		require_once(BSConfigManager::getInstance()->compile($this->getConfigFile('module')));
+		if ($file = $this->getConfigFile('module')) {
+			require_once(BSConfigManager::getInstance()->compile($file));
+			$this->config += $config;
+		} else {
+			throw new BSFileException('%sの設定ファイルが見つかりません。', $this);
+		}
+
+		if ($file = $this->getConfigFile('filters')) {
+			$this->config += $file->getContents();
+		}
 	}
 
 	/**
@@ -77,16 +86,6 @@ class BSModule {
 			$this->directory = $controller->getDirectory('modules')->getEntry($this->getName());
 		}
 		return $this->directory;
-	}
-
-	/**
-	 * 利用可能か？
-	 *
-	 * @access public
-	 * @return boolean 利用可能ならTrue
-	 */
-	public function isEnabled () {
-		return $this->getConfig('ENABLED');
 	}
 
 	/**
@@ -152,17 +151,13 @@ class BSModule {
 	 * 設定値を返す
 	 *
 	 * @access public
-	 * @param string $name キー名
+	 * @param string $key キー名
 	 * @param string $section セクション名
-	 * @param string $file ファイル名
 	 * @return string 設定値
 	 */
-	public function getConfig ($name, $section = 'module', $file = 'module') {
-		if (!isset($this->config[$file]) && $this->getConfigFile($file)) {
-			$this->config[$file] = $this->getConfigFile($file)->getContents();
-		}
-		if (isset($this->config[$file][$section][$name])) {
-			return $this->config[$file][$section][$name];
+	public function getConfig ($key, $section = 'module') {
+		if (isset($this->config[$section][$key])) {
+			return $this->config[$section][$key];
 		}
 	}
 
@@ -200,7 +195,7 @@ class BSModule {
 	 * @return string クレデンシャル
 	 */
 	public function getCredential () {
-		return $this->getConfig('param.credential', 'BSSecurityFilter', 'filters');
+		return $this->getConfig('param.credential', 'BSSecurityFilter');
 	}
 
 	/**

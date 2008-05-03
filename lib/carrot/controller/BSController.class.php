@@ -103,10 +103,7 @@ abstract class BSController {
 		}
 		BSActionStack::getInstance()->addEntry($action);
 
-		if (!$module->isEnabled()) {
-			$this->forward(MO_MODULE_DISABLED_MODULE, MO_MODULE_DISABLED_ACTION);
-			return;
-		} else if (!$action->initialize()) {
+		if (!$action->initialize()) {
 			$message = sprintf(
 				'Action initialization failed for module "%s", action "%s"',
 				$module->getName(),
