@@ -74,7 +74,7 @@ class ExecutionFilter extends BSFilter
             if (is_readable($validationConfig))
             {
 
-                require_once(BSConfigManager::getInstance()->compile($validationConfig));
+                require(BSConfigManager::getInstance()->compile($validationConfig));
 
             }
 

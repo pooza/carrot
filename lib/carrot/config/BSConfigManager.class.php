@@ -80,6 +80,7 @@ class BSConfigManager {
 				if (preg_match($pattern, $file->getPath())) {
 					$result = $handler->execute($file);
 					$cache->setContents($result);
+					break;
 				}
 			}
 		}

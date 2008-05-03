@@ -21,7 +21,6 @@ class BSDate {
 	const SUN = 7;
 	private $attributes;
 	static private $timezone;
-	static private $japaneseCalendarDates;
 
 	/**
 	 * コンストラクタ
@@ -459,11 +458,10 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('gengo')) {
-			if (!self::$japaneseCalendarDates) {
-				require_once(BSConfigManager::getInstance()->compile('date/gengo.ini'));
-			}
-			foreach (self::$japaneseCalendarDates as $gengo => $date) {
-				if ($date <= $this->format('Y-m-d')) {
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('date/gengo.ini'));
+			foreach ($config as $gengo => $values) {
+				if ($values['start_date'] <= $this->format('Y-m-d')) {
 					$this->attributes['gengo'] = $gengo;
 					break;
 				}
@@ -483,12 +481,11 @@ class BSDate {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('japanese_year')) {
-			if (!self::$japaneseCalendarDates) {
-				require_once(BSConfigManager::getInstance()->compile('date/gengo.ini'));
-			}
-			foreach (self::$japaneseCalendarDates as $gengo => $date) {
-				if ($date <= $this->format('Y-m-d')) {
-					$start = new BSDate($date);
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('date/gengo.ini'));
+			foreach ($config as $gengo => $values) {
+				if ($values['start_date'] <= $this->format('Y-m-d')) {
+					$start = new BSDate($values['start_date']);
 					$year = $this->getAttribute('year') - $start->getAttribute('year') + 1;
 					$this->attributes['japanese_year'] = $year;
 					break;
