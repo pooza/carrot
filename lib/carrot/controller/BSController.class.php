@@ -138,10 +138,10 @@ abstract class BSController {
 	 * @param FilterChain $finterChain フィルタチェーン
 	 */
 	private function loadFilters (FilterChain $filterChain) {
-		$filters = array();
+		$objects = array();
 		require_once(ConfigCache::checkConfig('config/filters.ini'));
-		if ($filters) {
-			foreach ($filters as $filter) {
+		if ($objects) {
+			foreach ($objects as $filter) {
 				$filterChain->register($filter);
 			}
 		}

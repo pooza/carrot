@@ -100,10 +100,10 @@ class BSModule {
 	 */
 	public function loadFilters (FilterChain $filterChain) {
 		if ($file = $this->getConfigFile('filters')) {
-			$filters = array();
+			$objects = array();
 			require_once(ConfigCache::checkConfig($file->getPath()));
-			if ($filters) {
-				foreach ($filters as $filter) {
+			if ($objects) {
+				foreach ($objects as $filter) {
 					$filterChain->register($filter);
 				}
 			}

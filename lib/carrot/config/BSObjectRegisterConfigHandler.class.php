@@ -5,13 +5,13 @@
  */
 
 /**
- * 定義ファイル定義
+ * オブジェクト登録定義
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSRootConfigHandler extends BSConfigHandler {
+class BSObjectRegisterConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
 		foreach ($this->getConfig($path) as $category => $values) {
 			if (!isset($values['class'])) {
@@ -24,7 +24,7 @@ class BSRootConfigHandler extends BSConfigHandler {
 			}
 
 			$line = sprintf(
-				'self::$handlers[%s] = new %s;',
+				'$objects[%s] = new %s;',
 				parent::literalize($category),
 				$values['class']
 			);
@@ -33,7 +33,7 @@ class BSRootConfigHandler extends BSConfigHandler {
 			$parameters = parent::parseParameters($values);
 			if ($parameters != 'null') {
 				$line = sprintf(
-					'self::$handlers[%s]->initialize(%s);',
+					'$objects[%s]->initialize(%s);',
 					parent::literalize($category),
 					$parameters
 				);

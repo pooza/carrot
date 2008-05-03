@@ -353,12 +353,13 @@ class ConfigCache
     {
 
         // manually create our config_handlers.ini handler
-        self::$handlers['config_handlers.ini'] = new BSRootConfigHandler();
+        self::$handlers['config_handlers.ini'] = new BSObjectRegisterConfigHandler;
         self::$handlers['config_handlers.ini']->initialize();
 
         // application configuration handlers
-
+        $objects = array();
         require_once(ConfigCache::checkConfig('config/config_handlers.ini'));
+        self::$handlers += $objects;
 
         // module level configuration handlers
 
