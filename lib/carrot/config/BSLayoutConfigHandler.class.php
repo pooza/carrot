@@ -13,6 +13,7 @@
  */
 class BSLayoutConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		foreach ($this->getConfig($path) as $name => $params) {
 			foreach ($params as $key => $value) {
 				$line = sprintf(

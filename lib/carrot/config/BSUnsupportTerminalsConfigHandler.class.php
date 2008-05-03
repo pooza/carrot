@@ -13,6 +13,7 @@
  */
 class BSUnsupportTerminalsConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		foreach ($this->getConfig($path) as $carrier => $params) {
 			foreach ($params['terminals'] as $terminal) {
 				$line = sprintf(

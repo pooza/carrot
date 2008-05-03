@@ -33,7 +33,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	public function getContents () {
 		if (!$this->contents) {
 			$controller = BSController::getInstance();
-			$name = get_class($this) . '.' . $this->getName();
+			$name = get_class($this) . '.' . $this->getBaseName();
 			$expire = $this->getUpdateDate();
 
 			$this->contents = $controller->getAttribute($name, $expire);

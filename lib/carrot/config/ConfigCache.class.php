@@ -361,65 +361,6 @@ class ConfigCache
         require_once(ConfigCache::checkConfig('config/config_handlers.ini'));
         self::$handlers += $objects;
 
-        // module level configuration handlers
-
-        // make sure our modules directory exists
-        if (is_readable(MO_MODULE_DIR))
-        {
-
-            // ignore names
-            $ignore = array('.', '..', 'CVS', '.svn');
-
-            // create a file pointer to the module dir
-            $fp = opendir(MO_MODULE_DIR);
-
-            // loop through the directory and grab the modules
-            while (($directory = readdir($fp)) !== false)
-            {
-
-                if (!in_array($directory, $ignore))
-                {
-
-                    $config = MO_MODULE_DIR . '/' . $directory .
-                              '/config/config_handlers.ini';
-
-                    if (is_readable($config))
-                    {
-
-                        // initialize the root configuration handler with this
-                        // module name
-                        $params = array('module_level' => true,
-                                        'module_name'  => $directory);
-
-                        self::$handlers['config_handlers.ini']->initialize($params);
-
-                        // replace module dir path with a special keyword that
-                        // checkConfig knows how to use
-                        $config = 'modules/' . $directory .
-                                  '/config/config_handlers.ini';
-
-                        require_once(ConfigCache::checkConfig($config));
-
-                    }
-
-                }
-
-            }
-
-            // close file pointer
-            fclose($fp);
-
-        } else
-        {
-
-            // module directory doesn't exist or isn't readable
-            $error = 'Module directory "%s" does not exist or is not readable';
-            $error = sprintf($error, MO_MODULE_DIR);
-
-            throw new ConfigurationException($error);
-
-        }
-
     }
 
     // -------------------------------------------------------------------------
@@ -438,7 +379,7 @@ class ConfigCache
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  3.0.0
      */
-    private static function writeCacheFile ($config, $cache, &$data, $append)
+    private static function writeCacheFile ($config, $cache, $data, $append)
     {
 
         $flags = ($append) ? FILE_APPEND : 0;

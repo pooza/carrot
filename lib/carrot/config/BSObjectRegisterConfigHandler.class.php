@@ -13,6 +13,7 @@
  */
 class BSObjectRegisterConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		foreach ($this->getConfig($path) as $category => $values) {
 			if (!isset($values['class'])) {
 				$error = sprintf(
@@ -30,8 +31,7 @@ class BSObjectRegisterConfigHandler extends BSConfigHandler {
 			);
 			$this->putLine($line);
 
-			$parameters = parent::parseParameters($values);
-			if ($parameters != 'null') {
+			if ($parameters = parent::parseParameters($values)) {
 				$line = sprintf(
 					'$objects[%s]->initialize(%s);',
 					parent::literalize($category),

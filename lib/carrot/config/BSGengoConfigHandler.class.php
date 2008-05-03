@@ -13,6 +13,7 @@
  */
 class BSGengoConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		$dates = new BSArray;
 		foreach ($this->getConfig($path) as $gengo => $params) {
 			$line = sprintf(

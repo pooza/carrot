@@ -13,6 +13,7 @@
  */
 class BSModuleConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		$ini = $this->getConfig($path);
 
 		foreach ($ini['module'] as $key => $value) {

@@ -254,10 +254,10 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	 */
 	private static function getStyleSets () {
 		if (!self::$stylesets) {
-			$stylesets = array();
 			require_once(ConfigCache::checkConfig('config/styleset/application.ini'));
+			self::$stylesets += $config;
 			require_once(ConfigCache::checkConfig('config/styleset/carrot.ini'));
-			self::$stylesets = $stylesets;
+			self::$stylesets += $config;
 		}
 		return self::$stylesets;
 	}

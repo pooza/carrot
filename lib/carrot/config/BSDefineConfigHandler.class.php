@@ -13,6 +13,7 @@
  */
 class BSDefineConfigHandler extends BSConfigHandler {
 	public function execute ($path) {
+		$this->clearBody();
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
 		$this->putLine('$constants = array(');
 		foreach ($this->getConfig($path) as $category => $values) {

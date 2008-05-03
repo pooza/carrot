@@ -11,9 +11,18 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMenuConfigHandler extends BSConfigHandler {
-	public function execute ($path) {
-		foreach ($this->getConfig($path) as $module => $values) {
+class BSMenuConfigHandler extends BSSerializeConfigHandler {
+
+	/**
+	 * 設定配列をシリアライズできる内容に修正
+	 *
+	 * @access protected
+	 * @param mixed[] $config 対象
+	 * @return mixed[] 変換後
+	 */
+	protected function getContents ($config) {
+		$contents = array();
+		foreach ($config as $module => $values) {
 			if (!isset($values['HREF'])) {
 				if (!isset($values['MODULE'])) {
 					$values['MODULE'] = $module;
@@ -24,17 +33,11 @@ class BSMenuConfigHandler extends BSConfigHandler {
 				}
 			}
 			foreach ($values as $key => $value) {
-				$line = sprintf(
-					'$menu[%s][%s]=%s;',
-					parent::literalize($module),
-					parent::literalize(strtolower($key)),
-					parent::literalize($value)
-				);
-				$line = parent::replaceConstants($line);
-				$this->putLine($line);
+				$value = parent::replaceConstants($value);
+				$contents[$module][strtolower($key)] = $value;
 			}
 		}
-		return $this->getBody();
+		return $contents;
 	}
 }
 
