@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------------+
 
 /**
- * CacheException is thrown when ConfigCache fails to execute properly.
+ * CacheException is thrown when BSConfigManager fails to execute properly.
  *
  * @package jp.co.b-shock.carrot
  * @subpackage exception

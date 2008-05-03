@@ -76,12 +76,7 @@ class ExecutionFilter extends BSFilter
             if (is_readable($validationConfig))
             {
 
-                // load validation configuration
-                // do NOT use require_once
-                $validationConfig = 'modules/' . $moduleName .
-                                    '/validate/' . $actionName . '.ini';
-
-                require(ConfigCache::checkConfig($validationConfig));
+                require_once(BSConfigManager::getInstance()->compile($validationConfig));
 
             }
 

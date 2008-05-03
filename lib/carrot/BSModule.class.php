@@ -33,10 +33,7 @@ class BSModule {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
 
-		if (!$file = $this->getConfigFile('module')) {
-			throw new BSFileException('%sのmodule.iniが読み込めません。', $this);
-		}
-		require_once(ConfigCache::checkConfig($file->getPath()));
+		require_once(BSConfigManager::getInstance()->compile($this->getConfigFile('module')));
 	}
 
 	/**
@@ -101,7 +98,7 @@ class BSModule {
 	public function loadFilters (FilterChain $filterChain) {
 		if ($file = $this->getConfigFile('filters')) {
 			$objects = array();
-			require_once(ConfigCache::checkConfig($file->getPath()));
+			require_once(BSConfigManager::getInstance()->compile($file));
 			if ($objects) {
 				foreach ($objects as $filter) {
 					$filterChain->register($filter);

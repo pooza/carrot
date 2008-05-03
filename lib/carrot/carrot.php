@@ -117,7 +117,7 @@ try {
 	foreach ($names as $name) {
 		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $name);
 		if (is_readable($path)) {
-			ConfigCache::import($path);
+			require_once(BSConfigManager::getInstance()->compile($path));
 			$_SERVER['SERVER_NAME'] = $name;
 			$initialized = true;
 			break;
@@ -132,7 +132,6 @@ try {
 	}
 
 	if (BS_DEBUG) {
-		ConfigCache::clear();
 		ini_set('display_errors', 1);
 		error_reporting(E_ALL | E_STRICT);
 	} else {
@@ -141,9 +140,9 @@ try {
 		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
 	}
 
-	ConfigCache::import('config/constant/application.ini');
-	ConfigCache::import('config/constant/carrot.ini');
-	ConfigCache::import('config/constant/mojavi.ini');
+	require_once(BSConfigManager::getInstance()->compile('constant/application.ini'));
+	require_once(BSConfigManager::getInstance()->compile('constant/carrot.ini'));
+	require_once(BSConfigManager::getInstance()->compile('constant/mojavi.ini'));
 
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {

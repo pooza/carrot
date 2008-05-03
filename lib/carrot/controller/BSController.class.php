@@ -139,7 +139,7 @@ abstract class BSController {
 	 */
 	private function loadFilters (FilterChain $filterChain) {
 		$objects = array();
-		require_once(ConfigCache::checkConfig('config/filters.ini'));
+		require_once(BSConfigManager::getInstance()->compile('filters.ini'));
 		if ($objects) {
 			foreach ($objects as $filter) {
 				$filterChain->register($filter);

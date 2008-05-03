@@ -460,7 +460,7 @@ class BSDate {
 		}
 		if (!$this->attributes->hasAttribute('gengo')) {
 			if (!self::$japaneseCalendarDates) {
-				require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+				require_once(BSConfigManager::getInstance()->compile('date/gengo.ini'));
 			}
 			foreach (self::$japaneseCalendarDates as $gengo => $date) {
 				if ($date <= $this->format('Y-m-d')) {
@@ -484,7 +484,7 @@ class BSDate {
 		}
 		if (!$this->attributes->hasAttribute('japanese_year')) {
 			if (!self::$japaneseCalendarDates) {
-				require_once(ConfigCache::checkConfig('config/date/gengo.ini'));
+				require_once(BSConfigManager::getInstance()->compile('date/gengo.ini'));
 			}
 			foreach (self::$japaneseCalendarDates as $gengo => $date) {
 				if ($date <= $this->format('Y-m-d')) {

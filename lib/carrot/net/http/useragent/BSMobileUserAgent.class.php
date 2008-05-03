@@ -61,7 +61,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return boolean 非対応端末ならTrue
 	 */
 	public function isUnsupported () {
-		require_once(ConfigCache::checkConfig('config/mobile/unsupport_terminals.ini'));
+		require_once(BSConfigManager::getInstance()->compile('mobile/unsupport_terminals.ini'));
 		if (!isset($terminals[$this->getTypeName()])) {
 			return false;
 		}

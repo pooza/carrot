@@ -29,7 +29,7 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenu () {
 		if (!$this->menu) {
-			require_once(ConfigCache::checkConfig($this->getMenuFile()->getPath()));
+			require_once(BSConfigManager::getInstance()->compile($this->getMenuFile()));
 			foreach ($config as $menuitem) {
 				if (isset($menuitem['module'])) {
 					$moduleMenu = $this->controller->getModule($menuitem['module']);
