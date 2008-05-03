@@ -16,7 +16,7 @@ class BSObjectRegisterConfigHandler extends BSConfigHandler {
 		$this->clearBody();
 		foreach ($file->getContents() as $category => $values) {
 			if (!isset($values['class'])) {
-				throw new BSParseException(
+				throw new BSConfigException(
 					'%s のカテゴリー "%s" で、クラス名が指定されていません。',
 					$this->getConfigFile(),
 					$category

@@ -36,7 +36,7 @@ class ValidatorConfigHandler extends BSConfigHandler
      *
      * @throws <b>BSConfigurationException</b> If a requested configuration file
      *                                       does not exist or is not readable.
-     * @throws <b>BSParseException</b> If a requested configuration file is
+     * @throws <b>BSConfigException</b> If a requested configuration file is
      *                               improperly formatted.
      *
      * @author Sean Kerr (skerr@mojavi.org)
@@ -75,7 +75,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                              'request method "%s"';
                     $error = sprintf($error, $config, $method);
 
-                    throw new BSParseException($method);
+                    throw new BSConfigException($method);
 
                 }
 
@@ -284,7 +284,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                 $error = 'Configuration file "%s" specifies invalid key "%s"';
                 $error = sprintf($error, $config, $key);
 
-                throw new BSParseException($error);
+                throw new BSConfigException($error);
 
             }
 
@@ -310,7 +310,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                              'parent "%s" or subname "%s"';
                     $error = sprintf($error, $config, $parent, $subname);
 
-                    throw new BSParseException($error);
+                    throw new BSConfigException($error);
 
                 }
 
@@ -328,7 +328,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                              'name "%s"';
                     $error = sprintf($error, $config, $name);
 
-                    throw new BSParseException($error);
+                    throw new BSConfigException($error);
 
                 }
 
@@ -416,7 +416,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                          'attribute';
                 $error = sprintf($error, $config, $name);
 
-                throw new BSParseException($error);
+                throw new BSConfigException($error);
 
             }
 
@@ -466,7 +466,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                          'with invalid file/parameter name "%s"';
                 $error = sprintf($error, $config, $method, $name);
 
-                throw new BSParseException($error);
+                throw new BSConfigException($error);
 
             } else
             {
@@ -552,7 +552,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                          'validator "%s"';
                 $error = sprintf($error, $config, $validator);
 
-                throw new BSParseException($error);
+                throw new BSConfigException($error);
 
             }
 
@@ -572,7 +572,7 @@ class ValidatorConfigHandler extends BSConfigHandler
                          '"%s" with missing class key';
                 $error = sprintf($error, $config, $validator);
 
-                throw new BSParseException($error);
+                throw new BSConfigException($error);
 
             }
 

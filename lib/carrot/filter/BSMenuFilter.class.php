@@ -16,7 +16,7 @@ class BSMenuFilter extends BSFilter {
 
 	public function execute (FilterChain $filters) {
 		$module = $this->controller->getModule();
-		$this->request->setAttribute('title', $module->getConfig('DESCRIPTION'));
+		$this->request->setAttribute('title', $module->getConfig('description'));
 		$this->request->setAttribute('menu', $this->getMenu());
 		$filters->execute();
 	}
@@ -54,14 +54,13 @@ class BSMenuFilter extends BSFilter {
 	 * メニューファイルを取得
 	 *
 	 * @access private
-	 * @return BSFile メニューファイル
+	 * @return BSIniFile メニューファイル
 	 */
 	private function getMenuFile () {
-		$name = $this->getParameter('name');
-		if (!$file = $this->controller->getDirectory('menu')->getEntry($name, 'BSIniFile')) {
-			throw new BSFileException('メニューファイル"%s"が見つかりません。', $name);
-		}
-		return $file;
+		return $this->controller->getDirectory('menu')->getEntry(
+			$this->getParameter('name'),
+			'BSIniFile'
+		);
 	}
 }
 

@@ -156,6 +156,7 @@ class BSModule {
 	 * @return string 設定値
 	 */
 	public function getConfig ($key, $section = 'module') {
+		$key = strtoupper($key);
 		if (isset($this->config[$section][$key])) {
 			return $this->config[$section][$key];
 		}

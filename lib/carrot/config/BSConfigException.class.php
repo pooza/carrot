@@ -5,13 +5,13 @@
  */
 
 /**
- * 設定パース例外
+ * 設定例外
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSParseException extends BSException {
+class BSConfigException extends BSException {
 }
 
 /* vim:set tabstop=4 ai: */
