@@ -99,12 +99,7 @@ abstract class BSController {
 		BSActionStack::getInstance()->register($action);
 
 		if (!$action->initialize()) {
-			$message = sprintf(
-				'Action initialization failed for module "%s", action "%s"',
-				$module->getName(),
-				$action->getName()
-			);
-			throw new InitializationException($message);
+			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
 		}
 
 		$filterChain = new BSFilterChain();

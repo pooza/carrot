@@ -48,4 +48,5 @@ class BSFilterChain {
 	}
 }
 
+/* vim:set tabstop=4 ai: */
 ?>

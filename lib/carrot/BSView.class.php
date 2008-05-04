@@ -12,6 +12,7 @@
  * @abstract
  */
 abstract class BSView {
+	private $name;
 	private $renderer;
 	private $headers = array();
 	private $action;
@@ -78,6 +79,20 @@ abstract class BSView {
 	 */
 	public function initialize () {
 		return true;
+	}
+
+	/**
+	 * ビュー名を返す
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function getName () {
+		if (!$this->name) {
+			preg_match('/^(.+)View$/', get_class($this), $matches);
+			$this->name = $matches[1];
+		}
+		return $this->name;
 	}
 
 	/**
@@ -225,6 +240,16 @@ abstract class BSView {
 		$this->filename = $name;
 		$name = $this->useragent->getEncodedFileName($name);
 		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
+	}
+
+	/**
+	 * 基本情報を文字列で返す
+	 *
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('ビュー "%s"', $this->getName());
 	}
 }
 

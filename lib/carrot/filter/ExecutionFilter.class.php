@@ -121,12 +121,7 @@ class ExecutionFilter extends BSFilter
             } else
             {
 
-                // view failed to initialize
-                $error = 'View initialization failed for module "%s", ' .
-                         'view "%sView"';
-                $error = sprintf($error, $moduleName, $viewName);
-
-                throw new InitializationException($error);
+                throw new BSInitializationException('%sの%sが初期化できません。', $module, $view);
 
             }
 

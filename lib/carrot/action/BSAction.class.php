@@ -138,6 +138,16 @@ abstract class BSAction {
 	public function getRequestMethods () {
 		return BSRequest::GET | BSRequest::POST;
 	}
+
+	/**
+	 * 基本情報を文字列で返す
+	 *
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('アクション "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4 ai: */
