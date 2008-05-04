@@ -106,7 +106,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @param string $str エラーメッセージ
 	 */
 	public function error ($str) {
-		throw new BSException($str);
+		throw new BSPDFException($str);
 	}
 
 	/**

@@ -73,7 +73,7 @@ class BSImageFile extends BSFile {
 	 * @access public
 	 * @return BSImageRenderer レンダラー
 	 */
-	public function & getRenderer () {
+	public function getRenderer () {
 		if (!$this->renderer) {
 			throw new BSRenderException('レンダラーが未設定です。');
 		}
@@ -89,7 +89,7 @@ class BSImageFile extends BSFile {
 	 * @return BSImageRenderer レンダラー
 	 * @final
 	 */
-	final public function & getEngine () {
+	final public function getEngine () {
 		return $this->getRenderer();
 	}
 

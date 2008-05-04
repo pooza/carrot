@@ -59,7 +59,7 @@ class BSCSVFile extends BSFile {
 	 * @access public
 	 * @return BSCSVData CSVエンジン
 	 */
-	public function & getEngine () {
+	public function getEngine () {
 		if (!$this->engine) {
 			throw new BSFileException('CSVエンジンが未設定です。');
 		}
