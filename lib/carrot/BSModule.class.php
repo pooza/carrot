@@ -37,7 +37,7 @@ class BSModule {
 			require_once(BSConfigManager::getInstance()->compile($file));
 			$this->config += $config;
 		} else {
-			throw new BSFileException('%sの設定ファイルが見つかりません。', $this);
+			throw new BSConfigException('%sの設定ファイルが見つかりません。', $this);
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
@@ -175,7 +175,7 @@ class BSModule {
 		if (!$dir = $this->getDirectory()->getEntry('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
-			throw new BSFileException('%sに、アクション "%s" がありません。', $this, $name);
+			throw new BSFileException('%sにアクション "%s" がありません。', $this, $name);
 		}
 
 		if (!$this->actions) {

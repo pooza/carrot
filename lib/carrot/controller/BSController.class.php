@@ -434,7 +434,7 @@ abstract class BSController {
 	public static function includeLegacy ($file) {
 		$file = new BSFile(self::getInstance()->getPath('lib') . $file);
 		if (!$file->isReadable()) {
-			throw new BSException('"%s"はインクルード出来ません。', $file);
+			throw new BSFileException('"%s"はインクルード出来ません。', $file);
 		}
 		@require_once($file->getPath());
 	}

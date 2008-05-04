@@ -124,7 +124,7 @@ try {
 		}
 	}
 	if (!$initialized) {
-		throw new BSFileException(
+		throw new BSConfigException(
 			'サーバ定義ファイル (%s).ini が見つかりません。',
 			implode('|', $names)
 		);
