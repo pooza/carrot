@@ -1,6 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
+ * @subpackage view
  */
 
 /**
@@ -102,17 +103,17 @@ abstract class BSView {
 	 */
 	protected function preRenderCheck () {
 		if (!$this->renderer) {
-			throw new RenderException('レンダラーが指定されていません。');
+			throw new BSRenderException('レンダラーが指定されていません。');
 		} else if (!$this->renderer->validate()) {
 			if (!$message = $this->renderer->getError()) {
 				$message = 'レンダラーに登録された情報が正しくありません。';
 			}
-			throw new RenderException($message);
+			throw new BSRenderException($message);
 		}
 
 		preg_match('/^([a-z0-9]+\/[^;]+).*$/i', $this->renderer->getType(), $matches);
 		if (!$matches || !in_array($matches[1], BSTypeList::getInstance()->getAttributes())) {
-			throw new BSException('メディアタイプ"%s"は正しくありません。', $matches[1]);
+			throw new BSRenderException('メディアタイプ"%s"は正しくありません。', $matches[1]);
 		}
 	}
 
@@ -158,7 +159,7 @@ abstract class BSView {
 	 */
 	public function getRenderer () {
 		if (!$this->renderer) {
-			throw new BSException('レンダラーが未設定です。');
+			throw new BSRenderException('レンダラーが未設定です。');
 		}
 		return $this->renderer;
 	}

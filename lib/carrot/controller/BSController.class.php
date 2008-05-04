@@ -86,7 +86,7 @@ abstract class BSController {
 	 */
 	public function forward ($module, $action) {
 		if (self::MAX_FORWARDS < BSActionStack::getInstance()->getSize()) {
-			throw new ForwardException('フォワードが多すぎます。');
+			throw new BSForwardException('フォワードが多すぎます。');
 		}
 
 		try {
