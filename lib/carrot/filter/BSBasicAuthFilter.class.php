@@ -49,7 +49,7 @@ class BSBasicAuthFilter extends BSFilter {
 		return parent::initialize($parameters);
 	}
 
-	public function execute (FilterChain $filters) {
+	public function execute (BSFilterChain $filters) {
 		if (!$this->isAuthenticated()) {
 			$realm = $this->getParameter('realm');
 			$this->controller->sendHeader('WWW-Authenticate: Basic realm=\'' . $realm . '\'');

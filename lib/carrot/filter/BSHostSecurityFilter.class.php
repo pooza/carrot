@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSHostSecurityFilter extends BSFilter {
-	public function execute (FilterChain $filters) {
+	public function execute (BSFilterChain $filters) {
 		if (!$this->isAuthenticated()) {
 			$e = new BSNetException('リモートアクセス禁止のホストです。');
 			$e->sendAlert();

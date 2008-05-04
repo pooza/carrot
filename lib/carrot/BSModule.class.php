@@ -92,9 +92,9 @@ class BSModule {
 	 * モジュールフィルタをフィルタチェーンに加える
 	 *
 	 * @access private
-	 * @param FilterChain $finterChain フィルタチェーン
+	 * @param BSFilterChain $finterChain フィルタチェーン
 	 */
-	public function loadFilters (FilterChain $filterChain) {
+	public function loadFilters (BSFilterChain $filterChain) {
 		if ($file = $this->getConfigFile('filters')) {
 			$objects = array();
 			require(BSConfigManager::getInstance()->compile($file));

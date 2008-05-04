@@ -89,11 +89,6 @@ abstract class BSController {
 			throw new ForwardException('フォワードが多すぎます。');
 		}
 
-		if (!MO_AVAILABLE) {
-			$module = MO_UNAVAILABLE_MODULE;
-			$action = MO_UNAVAILABLE_ACTION;
-		}
-
 		try {
 			$module = BSModule::getInstance($module);
 			$action = $module->getAction($action);
@@ -101,7 +96,7 @@ abstract class BSController {
 			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
 			$action = $module->getAction(self::NOT_FOUND_ACTION);
 		}
-		BSActionStack::getInstance()->addEntry($action);
+		BSActionStack::getInstance()->register($action);
 
 		if (!$action->initialize()) {
 			$message = sprintf(
@@ -112,16 +107,15 @@ abstract class BSController {
 			throw new InitializationException($message);
 		}
 
-		$filterChain = new FilterChain();
-		if (MO_AVAILABLE) {
-			if ($action->isSecure()) {
-				$filter = new BSSecurityFilter();
-				$filter->initialize();
-				$filterChain->register($filter);
-			}
-			$this->loadFilters($filterChain);
-			$module->loadFilters($filterChain);
+		$filterChain = new BSFilterChain();
+		if ($action->isSecure()) {
+			$filter = new BSSecurityFilter();
+			$filter->initialize();
+			$filterChain->register($filter);
 		}
+		$this->loadFilters($filterChain);
+		$module->loadFilters($filterChain);
+
 		$filter = new ExecutionFilter();
 		$filter->initialize();
 		$filterChain->register($filter);
@@ -132,9 +126,9 @@ abstract class BSController {
 	 * グローバルフィルタをフィルタチェーンに加える
 	 *
 	 * @access private
-	 * @param FilterChain $finterChain フィルタチェーン
+	 * @param BSFilterChain $finterChain フィルタチェーン
 	 */
-	private function loadFilters (FilterChain $filterChain) {
+	private function loadFilters (BSFilterChain $filterChain) {
 		$objects = array();
 		require_once(BSConfigManager::getInstance()->compile('filters.ini'));
 		if ($objects) {

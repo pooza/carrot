@@ -5,7 +5,7 @@
  */
 
 /**
- * Filterのひな形
+ * 抽象フィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -50,9 +50,9 @@ abstract class BSFilter extends ParameterHolder {
 	 * 実行
 	 *
 	 * @access public
-	 * @param FilterChain $filters フィルタチェーン
+	 * @param BSFilterChain $filters フィルタチェーン
 	 */
-	abstract public function execute (FilterChain $filters);
+	abstract public function execute (BSFilterChain $filters);
 }
 
 /* vim:set tabstop=4 ai: */

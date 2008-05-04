@@ -54,7 +54,7 @@ class BSActionStack {
 	 * @access public
 	 * @param BSAction $action アクション
 	 */
-	public function addEntry (BSAction $action) {
+	public function register (BSAction $action) {
 		$this->stack[] = $action;
 	}
 

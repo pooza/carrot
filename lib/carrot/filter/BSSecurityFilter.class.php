@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSSecurityFilter extends BSFilter {
-	public function execute (FilterChain $filters) {
+	public function execute (BSFilterChain $filters) {
 		$action = BSActionStack::getInstance()->getLastEntry();
 		if ($action->getCredential() !== null) {
 			$credential = $action->getCredential();

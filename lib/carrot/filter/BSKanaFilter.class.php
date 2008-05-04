@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSKanaFilter extends BSFilter {
-	public function execute (FilterChain $filters) {
+	public function execute (BSFilterChain $filters) {
 		foreach ($this->request->getParameters() as $key => $value) {
 			if (preg_match('/_read$/', $key)) {
 				$value = str_replace(' ', '', $value);

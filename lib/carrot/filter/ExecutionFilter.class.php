@@ -31,7 +31,7 @@ class ExecutionFilter extends BSFilter
     /**
      * Execute this filter.
      *
-     * @param FilterChain The filter chain.
+     * @param BSFilterChain The filter chain.
      *
      * @return void
      *
@@ -41,7 +41,7 @@ class ExecutionFilter extends BSFilter
      * @author Sean Kerr (skerr@mojavi.org)
      * @since  1.0.0
      */
-    public function execute (FilterChain $filterChain)
+    public function execute (BSFilterChain $filterChain)
     {
 
         // get the current action instance
