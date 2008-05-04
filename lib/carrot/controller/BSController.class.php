@@ -102,33 +102,33 @@ abstract class BSController {
 			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
 		}
 
-		$filterChain = new BSFilterChain();
+		$filters = new BSFilterChain();
 		if ($action->isSecure()) {
 			$filter = new BSSecurityFilter();
 			$filter->initialize();
-			$filterChain->register($filter);
+			$filters->register($filter);
 		}
-		$this->loadFilters($filterChain);
-		$module->loadFilters($filterChain);
+		$this->loadFilters($filters);
+		$module->loadFilters($filters);
 
-		$filter = new ExecutionFilter();
+		$filter = new BSExecutionFilter();
 		$filter->initialize();
-		$filterChain->register($filter);
-		$filterChain->execute();
+		$filters->register($filter);
+		$filters->execute();
 	}
 
 	/**
 	 * グローバルフィルタをフィルタチェーンに加える
 	 *
 	 * @access private
-	 * @param BSFilterChain $finterChain フィルタチェーン
+	 * @param BSFilterChain $filters フィルタチェーン
 	 */
-	private function loadFilters (BSFilterChain $filterChain) {
+	private function loadFilters (BSFilterChain $filters) {
 		$objects = array();
 		require_once(BSConfigManager::getInstance()->compile('filters.ini'));
 		if ($objects) {
 			foreach ($objects as $filter) {
-				$filterChain->register($filter);
+				$filters->register($filter);
 			}
 		}
 	}

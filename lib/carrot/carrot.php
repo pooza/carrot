@@ -124,13 +124,11 @@ try {
 		}
 	}
 	if (!$initialized) {
-		throw new BSConfigException(
-			'サーバ定義ファイル (%s).ini が見つかりません。',
-			implode('|', $names)
-		);
+		$message = sprintf('サーバ定義 (%s).ini が見つかりません。', implode('|', $names));
+		trigger_error($message, E_USER_ERROR);
 	}
 
-	if (BS_DEBUG) {
+	if (defined('BS_DEBUG') && BS_DEBUG) {
 		ini_set('display_errors', 1);
 		error_reporting(E_ALL | E_STRICT);
 	} else {
