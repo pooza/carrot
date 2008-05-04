@@ -78,26 +78,17 @@ abstract class BSController {
 	}
 
 	/**
-	 * フォワード
+	 * 転送
 	 *
 	 * @access public
-	 * @param string $module モジュール名
-	 * @param string $action アクション名
+	 * @param BSAction $action アクション
 	 */
-	public function forward ($module, $action) {
+	public function forwardTo (BSAction $action) {
 		if (self::MAX_FORWARDS < BSActionStack::getInstance()->getSize()) {
 			throw new BSForwardException('フォワードが多すぎます。');
 		}
 
-		try {
-			$module = BSModule::getInstance($module);
-			$action = $module->getAction($action);
-		} catch (BSFileException $e) {
-			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
-			$action = $module->getAction(self::NOT_FOUND_ACTION);
-		}
 		BSActionStack::getInstance()->register($action);
-
 		if (!$action->initialize()) {
 			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
 		}
@@ -108,13 +99,34 @@ abstract class BSController {
 			$filter->initialize();
 			$filters->register($filter);
 		}
+
 		$this->loadFilters($filters);
-		$module->loadFilters($filters);
+		$action->getModule()->loadFilters($filters);
 
 		$filter = new BSExecutionFilter();
 		$filter->initialize();
 		$filters->register($filter);
 		$filters->execute();
+	}
+
+	/**
+	 * 転送
+	 *
+	 * Mojaviとの互換性の為のメソッド。
+	 *
+	 * @access public
+	 * @param string $module モジュール名
+	 * @param string $action アクション名
+	 */
+	public function forward ($module, $action) {
+		try {
+			$module = BSModule::getInstance($module);
+			$action = $module->getAction($action);
+		} catch (BSFileException $e) {
+			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
+			$action = $module->getAction(self::NOT_FOUND_ACTION);
+		}
+		$this->forwardTo($action);
 	}
 
 	/**
@@ -131,16 +143,6 @@ abstract class BSController {
 				$filters->register($filter);
 			}
 		}
-	}
-
-	/**
-	 * PHPセッションIDを返す
-	 *
-	 * @access public
-	 * @return string セッションID
-	 */
-	public function getSessionID () {
-		return session_id();
 	}
 
 	/**

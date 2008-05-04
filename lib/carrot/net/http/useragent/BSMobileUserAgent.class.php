@@ -47,7 +47,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @access private
 	 * @return string セッションID
 	 */
-	public function getSessionID () {
+	private function getSessionID () {
 		if ($id = BSRequest::getInstance()->getParameter(session_name())) {
 			session_id($id);
 		}
