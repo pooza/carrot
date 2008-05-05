@@ -108,11 +108,11 @@ class BSSMTP extends BSSocket {
 					'"%s"宛のメール"%s"を送信しました。(%s)',
 					$this->to->format(BSMailAddress::NO_ENCODE),
 					$this->getMessageID(),
-					$this->getPrevLine();
+					$this->getPrevLine()
 				);
 				BSLog::put($message, 'Mail');
 				$this->clearBoundary();
-				return;
+				return $this->getPrevLine();
 			} catch (BSMailException $e) {
 				sleep(1);
 			}

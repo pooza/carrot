@@ -81,13 +81,14 @@ class BSSmartySender extends BSSMTP {
 	 * 送信
 	 *
 	 * @access public
-	 * @param boolean $testmode テストモード
+	 * @param boolean $mode テストモード
+	 * @return string 送信完了時は最終のレスポンス
 	 */
-	public function send ($testmode = false) {
+	public function send ($mode = false) {
 		if (!$this->getBody()) {
 			$this->render();
 		}
-		parent::send($testmode);
+		return parent::send($testmode);
 	}
 }
 
