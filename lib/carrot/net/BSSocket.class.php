@@ -15,6 +15,7 @@ class BSSocket {
 	private $handle;
 	private $host;
 	private $port;
+	private $line;
 	const RETRY_LIMIT = 5;
 	const LINE_SEPARATOR = "\r\n";
 
@@ -102,7 +103,18 @@ class BSSocket {
 		} else if ($this->isEof()) {
 			return '';
 		}
-		return rtrim(fgets($this->handle, $length));
+		$this->line = rtrim(fgets($this->handle, $length));
+		return $this->line;
+	}
+
+	/**
+	 * 直前のレスポンスを返す
+	 *
+	 * @access public
+	 * @return string 直前のレスポンス
+	 */
+	public function getPrevLine () {
+		return $this->line;
 	}
 
 	/**

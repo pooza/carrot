@@ -91,7 +91,7 @@ class RegexValidator extends Validator
 
         // set defaults
         $this->setParameter('match',       true);
-        $this->setParameter('match_error', 'Invalid input');
+        $this->setParameter('match_error', '正しくありません。');
         $this->setParameter('pattern',     null);
 
         // initialize parent

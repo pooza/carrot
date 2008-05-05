@@ -88,6 +88,7 @@ class BSSMTP extends BSSocket {
 	 *
 	 * @access public
 	 * @param boolean $mode テストモード
+	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($mode = false) {
 		if (!BSController::getInstance()->isResolvable()) {
@@ -104,9 +105,10 @@ class BSSMTP extends BSSocket {
 				$this->putDataRequest();
 
 				$message = sprintf(
-					'"%s"宛のメール"%s"を送信しました。',
+					'"%s"宛のメール"%s"を送信しました。(%s)',
 					$this->to->format(BSMailAddress::NO_ENCODE),
-					$this->getMessageID()
+					$this->getMessageID(),
+					$this->getPrevLine();
 				);
 				BSLog::put($message, 'Mail');
 				$this->clearBoundary();
@@ -185,7 +187,7 @@ class BSSMTP extends BSSocket {
 		$this->putLine('.');
 		$code = $this->getResultCode();
 		if ($code != 250) {
-			throw new BSMailException('本文が拒否されました。(%d)', $code);
+			throw new BSMailException('本文が拒否されました。(%d)', $this->getPrevLine());
 		}
 	}
 

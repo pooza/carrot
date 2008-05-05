@@ -23,7 +23,7 @@ class BSRecordValidator extends Validator {
 		$this->setParameter('table', null);
 		$this->setParameter('field', 'id');
 		$this->setParameter('exist', true);
-		$this->setParameter('exist_error', '存在しません。');
+		$this->setParameter('exist_error', '登録されていません。');
 		$this->setParameter('duplicate_error', '重複します。');
 		return parent::initialize($parameters);
 	}
