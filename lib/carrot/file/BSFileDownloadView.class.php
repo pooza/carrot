@@ -15,18 +15,6 @@
 abstract class BSFileDownloadView extends BSView {
 
 	/**
-	 * レンダリング前のチェック
-	 *
-	 * @access protected
-	 */
-	protected function preRenderCheck () {
-		parent::preRenderCheck();
-		if (!$name = $this->getFileName()) {
-			throw new BSFileException('ファイル名が指定されていません。');
-		}
-	}
-
-	/**
 	 * ファイルを設定
 	 *
 	 * setRendererのエイリアス

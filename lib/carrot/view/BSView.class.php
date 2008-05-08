@@ -97,11 +97,11 @@ abstract class BSView {
 	}
 
 	/**
-	 * レンダリング前のチェック
+	 * レンダリング
 	 *
-	 * @access protected
+	 * @access public
 	 */
-	protected function preRenderCheck () {
+	public function render () {
 		if (!$this->renderer) {
 			throw new BSRenderException('レンダラーが指定されていません。');
 		} else if (!$this->renderer->validate()) {
@@ -111,19 +111,6 @@ abstract class BSView {
 			throw new BSRenderException($message);
 		}
 
-		preg_match('/^([a-z0-9]+\/[^;]+).*$/i', $this->renderer->getType(), $matches);
-		if (!$matches || !in_array($matches[1], BSTypeList::getInstance()->getAttributes())) {
-			throw new BSRenderException('メディアタイプ"%s"は正しくありません。', $matches[1]);
-		}
-	}
-
-	/**
-	 * レンダリング
-	 *
-	 * @access public
-	 */
-	public function render () {
-		$this->preRenderCheck();
 		$this->setHeader('Content-Type', $this->renderer->getType());
 		$this->setHeader('Content-Length', $this->renderer->getSize());
 		if ($this->useragent->hasCachingBug()) {

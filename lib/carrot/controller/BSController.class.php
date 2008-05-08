@@ -269,6 +269,16 @@ abstract class BSController {
 	}
 
 	/**
+	 * 呼ばれたアクションを返す
+	 *
+	 * @access public
+	 * @return BSAction アクション
+	 */
+	public function getAction () {
+		return BSActionStack::getInstance()->getLastEntry();
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public

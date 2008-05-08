@@ -13,7 +13,7 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
-		$action = BSActionStack::getInstance()->getLastEntry();
+		$action = $this->controller->getAction();
 		$method = BSRequest::getInstance()->getMethod();
 
 		if (($action->getRequestMethods() & $method) != $method) {
