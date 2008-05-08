@@ -21,6 +21,7 @@ class BSSMTP extends BSSocket {
 	private $messageID;
 	private $boundary;
 	private $keywords = array();
+	private $addresses;
 	const HOST = BS_SMTP_HOST;
 	const TEST_MODE = true;
 
@@ -144,17 +145,18 @@ class BSSMTP extends BSSocket {
 	 * @param boolean $mode テストモードならTrue
 	 */
 	protected function putRcptToRequest ($mode = false) {
-		$addresses = array();
+		$this->addresses = array();
 		if (BSController::getInstance()->isDebugMode() || $mode) {
-			$addresses[] = BSAdministrator::EMAIL;
+			$this->addresses[] = BSAdministrator::EMAIL;
 		} else {
-			$addresses[] = $this->to->getAddress();
+			$this->addresses[] = $this->to->getAddress();
 			foreach ($this->bcc as $address) {
-				$addresses[] = $address->getAddress(); 
+				$this->addresses[] = $address->getAddress(); 
 			}
 		}
+		$this->checkAddresses();
 
-		foreach ($addresses as $address) {
+		foreach ($this->addresses as $address) {
 			$this->putLine('RCPT TO:' . $address);
 			$code = $this->getResultCode();
 			if (!in_array($code, array(250, 251))) {
@@ -189,6 +191,34 @@ class BSSMTP extends BSSocket {
 		if ($code != 250) {
 			throw new BSMailException('本文が拒否されました。(%d)', $this->getPrevLine());
 		}
+	}
+
+	/**
+	 * 送信前チェック
+	 *
+	 * @access private
+	 * @return boolean 
+	 */
+	private function checkAddresses () {
+		if (defined('BS_SMTP_CHECK_ADDRESSES') && BS_SMTP_CHECK_ADDRESSES) {
+			if (!is_array($this->addresses) || !$this->addresses) {
+				throw new BSMailException('宛先アドレスが指定されていません。');
+				return false;
+			}
+			foreach ($this->addresses as $address) {
+				try {
+					$address = new BSMailAddress($address);
+				} catch (BSMailException $e) {
+					throw new BSMailException('%sが正しくありません。', $address);
+					return false;
+				}
+				if (!$address->isValidDomain()) {
+					throw new BSMailException('%sが正しくありません。', $address);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**

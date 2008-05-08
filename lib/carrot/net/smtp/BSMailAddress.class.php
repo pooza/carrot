@@ -96,6 +96,30 @@ class BSMailAddress {
 	}
 
 	/**
+	 * 正しいドメインか？
+	 *
+	 * @access public
+	 * @return boolean 正しいドメインならTrue
+	 */
+	public function isValidDomain () {
+		if (!$domains = $this->getMXRecords()) {
+			$domains = array($this->getDomainName());
+		}
+		foreach ($domains as $domain) {
+			try {
+				$host = new BSHost($domain);
+				if (!$host->getName()) {
+					return false;
+				}
+			} catch (BSNetException $e) {
+				// 例外が発生するのは、名前解決の失敗。
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * 最優先のメールサーバを返す
 	 *
 	 * @access public

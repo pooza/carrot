@@ -22,6 +22,8 @@ class BSMailAddressValidator extends Validator {
 	public function initialize ($parameters = array()) {
 		$this->setParameter('unique', false);
 		$this->setParameter('unique_error', '重複します。');
+		$this->setParameter('domain', false);
+		$this->setParameter('domain_error', '正しいドメインではない様です。');
 		$this->setParameter('table', 'account');
 		$this->setParameter('field', 'email');
 		$this->setParameter('invalid_error', '正しいメールアドレスではありません。');
@@ -41,6 +43,11 @@ class BSMailAddressValidator extends Validator {
 			$email = new BSMailAddress($value);
 		} catch (BSMailException $e) {
 			$error = $this->getParameter('invalid_error');
+			return false;
+		}
+
+		if (!$email->isValidDomain()) {
+			$error = $this->getParameter('domain_error');
 			return false;
 		}
 

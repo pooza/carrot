@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess, Countable {
-	private $keys;
 	const POSITION_TOP = true;
 	const POSITION_BOTTOM = false;
 	const SORT_KEY_ASC = 'KEY_ASC';
@@ -183,10 +182,7 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	 * @return BSArray 添字の配列
 	 */
 	public final function getKeys () {
-		if (!$this->keys) {
-			$this->keys = new BSArray(array_keys($this->getParameters()));
-		}
-		return $this->keys;
+		return new BSArray(array_keys($this->getParameters()));
 	}
 
 	/**
