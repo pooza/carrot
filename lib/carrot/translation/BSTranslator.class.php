@@ -96,7 +96,11 @@ class BSTranslator {
 				return $answer;
 			}
 		}
-		throw new BSTranslationException('"%s"の訳語が見つかりません。', $string);
+		if (BSController::getInstance()->isDebugMode()) {
+			throw new BSTranslationException('"%s"の訳語が見つかりません。', $string);
+		} else {
+			return $string;
+		}
 	}
 
 	/**

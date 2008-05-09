@@ -148,7 +148,7 @@ abstract class BSConfigHandler extends ParameterHolder {
 	 */
 	public static function parseParameters ($values, $prefix = 'param') {
 		$body = new BSArray;
-		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z]+)/i';
+		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z_]+)/i';
 
 		foreach ($values as $key => $value) {
 			if (!preg_match($pattern, $key, $matches)) {

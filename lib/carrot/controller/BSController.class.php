@@ -264,7 +264,7 @@ abstract class BSController {
 		if ($name) {
 			return BSModule::getInstance($name);
 		} else {
-			return BSActionStack::getInstance()->getLastEntry()->getModule();
+			return $this->getAction()->getModule();
 		}
 	}
 
