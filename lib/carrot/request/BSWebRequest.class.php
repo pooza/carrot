@@ -59,7 +59,7 @@ class BSWebRequest extends BSRequest {
 	}
 
 	public function hasFile ($name) {
-		return ($_FILES[$name]['name'] != '');
+		return (isset($_FILES[$name]) && ($_FILES[$name]['name'] != ''));
 	}
 }
 
