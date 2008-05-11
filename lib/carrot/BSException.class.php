@@ -18,9 +18,11 @@ class BSException extends Exception {
 	 * @access public
 	 */
 	public function __construct () {
+		$this->setName(get_class($this));
+
 		switch (count($args = func_get_args())) {
 			case 0:
-				$message = '例外が発生しました。';
+				$message = $this->getName() . 'が発生しました。';
 				break;
 			case 1:
 				$message = $args[0];
@@ -33,8 +35,7 @@ class BSException extends Exception {
 		}
 
 		parent::__construct($message);
-		$this->setName(get_class($this));
-		BSLog::put($this->message, get_class($this));
+		BSLog::put($this->message, $this->getName());
 	}
 
 	/**
@@ -66,9 +67,7 @@ class BSException extends Exception {
 		try {
 			$controller = BSController::getInstance();
 			$smtp = new BSSmartySender();
-			$smtp->setSubject(
-				sprintf('[%s] %s', BSController::getName(), get_class($this))
-			);
+			$smtp->setSubject(sprintf('[%s] %s', BSController::getName(), $this->getName()));
 			$smtp->setTemplate('BSException.mail');
 			$smtp->setAttribute('clienthost', $controller->getClientHost()->getName());
 			$smtp->setAttribute('useragent', $controller->getEnvironment('HTTP_USER_AGENT'));
@@ -90,7 +89,7 @@ class BSException extends Exception {
 		try {
 			$controller = BSController::getInstance();
 			$xmpp = new BSXMPPBotClient($controller->getServerHost());
-			$xmpp->putLine(BSLog::getMessage($this->getMessage(), get_class($this)));
+			$xmpp->putLine(BSLog::getMessage($this->getMessage(), $this->getName()));
 		} catch (Exception $e) {
 			$this->sendMail();
 		}
