@@ -42,7 +42,7 @@ abstract class BSConfigHandler extends ParameterHolder {
 	 */
 	public function initialize ($parameters = null) {
 		if ($parameters) {
-			$this->parameters += $parameters;
+			$this->parameters = array_merge($this->parameters, $parameters);
 		}
 	}
 
