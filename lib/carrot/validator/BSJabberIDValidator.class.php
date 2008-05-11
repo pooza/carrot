@@ -23,7 +23,7 @@ class BSJabberIDValidator extends RegexValidator {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '正しいJabberIDではありません。');
 		$this->setParameter('pattern', BSJabberID::PATTERN);
-		return Validator::initialize($parameters);
+		return BSValidator::initialize($parameters);
 	}
 }
 

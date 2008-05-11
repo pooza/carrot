@@ -41,7 +41,7 @@
  * @since     1.0.0
  * @version   $Id$
  */
-class StringValidator extends Validator
+class StringValidator extends BSValidator
 {
 
     // +-----------------------------------------------------------------------+

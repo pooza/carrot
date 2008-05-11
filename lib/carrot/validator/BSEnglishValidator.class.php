@@ -23,7 +23,7 @@ class BSEnglishValidator extends RegexValidator {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '使用出来ない文字が含まれています。');
 		$this->setParameter('pattern', "/^[[:print:]]*$/");
-		return Validator::initialize($parameters);
+		return BSValidator::initialize($parameters);
 	}
 }
 

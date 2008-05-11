@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMailAddressValidator extends Validator {
+class BSMailAddressValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -34,9 +34,9 @@ class BSMailAddressValidator extends Validator {
 	 * 実行
 	 *
 	 * @access public
-	 * @param string $value バリデーション対象
+	 * @param mixed $value バリデート対象
 	 * @param string $error エラーメッセージ代入先
-	 * @return boolean 正しいメールアドレスならばTrue
+	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute (&$value, &$error) {
 		try {

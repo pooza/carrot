@@ -34,7 +34,7 @@
  * @since     1.0.0
  * @version   $Id$
  */
-class RegexValidator extends Validator
+class RegexValidator extends BSValidator
 {
 
     // +-----------------------------------------------------------------------+
@@ -105,7 +105,7 @@ class RegexValidator extends Validator
             $error = 'Please specify a PCRE regular expression pattern for ' .
                      'your registered RegexValidator';
 
-            throw new ValidatorException($error);
+            throw new BSValidatorException($error);
 
         }
 

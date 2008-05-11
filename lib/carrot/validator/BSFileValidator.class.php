@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSFileValidator extends Validator {
+class BSFileValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -30,9 +30,9 @@ class BSFileValidator extends Validator {
 	 * 実行
 	 *
 	 * @access public
-	 * @param string $value バリデーション対象
+	 * @param mixed $value バリデート対象
 	 * @param string $error エラーメッセージ代入先
-	 * @return boolean 結果
+	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute (&$value, &$error) {
 		if (!$value || !is_array($value)) {

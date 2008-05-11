@@ -189,16 +189,10 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @param string $encoding エンコーディング
 	 */
 	public function setEncoding ($encoding) {
-		$this->encoding = $encoding;
-		$charsets = array(
-			'euc-jp' => 'euc-jp',
-			'sjis' => 'shift_jis',
-			'jis' => 'iso-2022-jp',
-			'utf-8' => 'utf-8',
-		);
-		if (!$charset = $charsets[$this->encoding]) {
+		if (!$charset = mb_preferred_mime_name($encoding)) {
 			throw new BSSmartyException('エンコード"%s"は適切ではありません。', $encoding);
 		}
+		$this->encoding = $encoding;
 		$this->setType('text/html; charset=' . $charset);
 	}
 
@@ -278,7 +272,7 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @param mixed $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
-		if ($value) {
+		if ($value != '') {
 			$this->assign($name, $value);
 		}
 	}

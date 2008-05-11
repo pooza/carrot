@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSKanaValidator extends Validator {
+class BSKanaValidator extends BSValidator {
 	const PATTERN = '^[ぁ-んァ-ンヴー0-9]*$';
 
 	/**
@@ -29,9 +29,9 @@ class BSKanaValidator extends Validator {
 	 * 実行
 	 *
 	 * @access public
-	 * @param string $value 検査対象
-	 * @param string $error エラーメッセージ
-	 * @return boolean 結果
+	 * @param mixed $value バリデート対象
+	 * @param string $error エラーメッセージ代入先
+	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute (&$value, &$error) {
 		if (!mb_ereg(self::PATTERN, $value)) {

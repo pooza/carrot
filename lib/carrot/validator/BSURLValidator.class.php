@@ -23,7 +23,7 @@ class BSURLValidator extends RegexValidator {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '正しくありません。');
 		$this->setParameter('pattern', BSURL::PATTERN);
-		return Validator::initialize($parameters);
+		return BSValidator::initialize($parameters);
 	}
 }
 

@@ -35,7 +35,7 @@
  * @since     1.0.0
  * @version   $Id$
  */
-class NumberValidator extends Validator
+class NumberValidator extends BSValidator
 {
 
     // +-----------------------------------------------------------------------+
@@ -153,7 +153,7 @@ class NumberValidator extends Validator
             $error = 'Unknown number type "%s" in NumberValidator';
             $error = sprintf($error, $this->getParameter('type'));
 
-            throw new ValidatorException($error);
+            throw new BSValidatorException($error);
 
         }
 
