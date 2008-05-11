@@ -88,7 +88,7 @@ class BSSmartySender extends BSSMTP {
 		if (!$this->getBody()) {
 			$this->render();
 		}
-		return parent::send($testmode);
+		return parent::send($mode);
 	}
 }
 
