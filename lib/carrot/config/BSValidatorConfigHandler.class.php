@@ -95,7 +95,7 @@ class BSValidatorConfigHandler extends BSConfigHandler {
 			self::quote($name),
 			self::quote($field['required']),
 			self::quote($field['required_msg']),
-			self::quote($field['is_file'])
+			self::quote($field['file'])
 		);
 		$this->putLine($line);
 

@@ -32,21 +32,30 @@ class BSEmptyValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
-			if (isset($value['is_file']) && $value['is_file']) {
-				$isEmpty = ($this->request->getFile($name)->getParameter('name') == null);
-			} else {
-				$isEmpty = (count($value) == 0);
-			}
-		} else {
-			$isEmpty = ($value == '');
-		}
-
-		if ($isEmpty) {
+		if (self::isEmpty($value)) {
 			$this->error = $this->getParameter('required_msg');
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * フィールド値は空欄か？
+	 *
+	 * @access public
+	 * @return boolean フィールド値が空欄ならばTrue
+	 * @static
+	 */
+	public static function isEmpty ($value) {
+		if (is_array($value) || ($value instanceof BSArray)) {
+			if (isset($value['is_file']) && $value['is_file']) {
+				return (!isset($value['name']) || !$value['name']);
+			} else {
+				return (count($value) == 0);
+			}
+		} else {
+			return ($value == '');
+		}
 	}
 }
 ?>
