@@ -59,10 +59,9 @@ class BSImageValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		try {
 			if (!$name = $value['tmp_name']) {
 				throw new BSImageException('ファイルが存在しない、又は正しくありません。');
@@ -70,23 +69,23 @@ class BSImageValidator extends BSValidator {
 			$file = new BSImageFile($name);
 			$image = $file->getEngine();
 		} catch (BSException $e) {
-			$error = $this->getParameter('types_error');
+			$this->error = $this->getParameter('types_error');
 			return false;
 		}
 
 		$params = new BSArray($this->getParameters());
 		if (!$this->getAllowedTypes()->isIncluded($image->getType())) {
-			$error = $this->getParameter('types_error');
+			$this->error = $this->getParameter('types_error');
 		} else if ($params['min_width'] && ($image->getWidth() < $params['min_width'])) {
-			$error = $this->getParameter('min_width_error');
+			$this->error = $this->getParameter('min_width_error');
 		} else if ($params['min_height'] && ($image->getHeight() < $params['min_height'])) {
-			$error = $this->getParameter('min_height_error');
+			$this->error = $this->getParameter('min_height_error');
 		} else if ($params['max_width'] && ($params['max_width'] < $image->getWidth())) {
-			$error = $this->getParameter('max_width_error');
+			$this->error = $this->getParameter('max_width_error');
 		} else if ($params['max_height'] && ($params['max_height'] < $image->getHeight())) {
-			$error = $this->getParameter('max_height_error');
+			$this->error = $this->getParameter('max_height_error');
 		}
-		return ($error == null);
+		return ($this->error == null);
 	}
 }
 

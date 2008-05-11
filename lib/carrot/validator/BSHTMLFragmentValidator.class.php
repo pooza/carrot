@@ -32,10 +32,9 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		try {
 			$body = preg_replace('/&(#[0-9]+|[a-z]+);/i', '', $value); //実体参照を無視
 			$body = '<div>' . $body . '</div>';
@@ -45,7 +44,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 				throw new BSXMLException($this->getParameter('element_error'));
 			}
 		} catch (BSXMLException $e) {
-			$error = $e->getMessage();
+			$this->error = $e->getMessage();
 			return false;
 		}
 		return true;

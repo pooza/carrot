@@ -33,10 +33,9 @@ class BSRecordValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		try {
 			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
 			$table = new $class;
@@ -47,10 +46,10 @@ class BSRecordValidator extends BSValidator {
 		}
 
 		if ($this->getParameter('exist') && !$isExist) {
-			$error = $this->getParameter('exist_error');
+			$this->error = $this->getParameter('exist_error');
 			return false;
 		} else if (!$this->getParameter('exist') && $isExist) {
-			$error = $this->getParameter('duplicate_error');
+			$this->error = $this->getParameter('duplicate_error');
 			return false;
 		}
 		return true;

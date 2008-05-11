@@ -31,28 +31,27 @@ class BSFileValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		if (!is_array($value) && !($value instanceof BSArray)) {
-			$error = $this->getParameter('invalid_error');
+			$this->error = $this->getParameter('invalid_error');
 			return false;
 		} else if ($value['name']) {
 			if (($this->getParameter('size') * 1024 * 1024) < $value['size']) {
-				$error = $this->getParameter('size_error');
+				$this->error = $this->getParameter('size_error');
 				return false;
 			} else if ($value['error'] == 2) {
-				$error = $this->getParameter('size_error');
+				$this->error = $this->getParameter('size_error');
 				return false;
 			} else if ($value['error']) {
-				$error = $this->getParameter('invalid_error');
+				$this->error = $this->getParameter('invalid_error');
 				return false;
 			}
 
 			$file = new BSFile($value['tmp_name']);
 			if (!$file->isExists() || !$file->isUploaded()) {
-				$error = $this->getParameter('invalid_error');
+				$this->error = $this->getParameter('invalid_error');
 				return false;
 			}
 		}

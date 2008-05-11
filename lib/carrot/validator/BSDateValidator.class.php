@@ -29,14 +29,13 @@ class BSDateValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		try {
 			$date = new BSDate($value);
 		} catch (BSDateException $e) {
-			$error = $this->getParameter('invalid_error');
+			$this->error = $this->getParameter('invalid_error');
 			return false;
 		}
 		return true;

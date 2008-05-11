@@ -23,7 +23,7 @@ class BSSerializeConfigHandler extends BSConfigHandler {
 
 		$line = sprintf(
 			'$config = BSController::getInstance()->getAttribute(%s);',
-			self::literalize($name)
+			self::quote($name)
 		);
 		$this->putLine($line);
 

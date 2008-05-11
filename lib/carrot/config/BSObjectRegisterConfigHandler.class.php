@@ -25,7 +25,7 @@ class BSObjectRegisterConfigHandler extends BSConfigHandler {
 
 			$line = sprintf(
 				'$objects[%s] = new %s;',
-				parent::literalize($category),
+				self::quote($category),
 				$values['class']
 			);
 			$this->putLine($line);
@@ -33,7 +33,7 @@ class BSObjectRegisterConfigHandler extends BSConfigHandler {
 			if ($parameters = parent::parseParameters($values)) {
 				$line = sprintf(
 					'$objects[%s]->initialize(%s);',
-					parent::literalize($category),
+					self::quote($category),
 					$parameters
 				);
 				$this->putLine($line);

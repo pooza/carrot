@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSPasswordValidator extends RegexValidator {
+class BSPasswordValidator extends BSRegexValidator {
 
 	/**
 	 * 初期化
@@ -30,5 +30,6 @@ class BSPasswordValidator extends RegexValidator {
 		return BSValidator::initialize($parameters);
 	}
 }
+
 /* vim:set tabstop=4 ai: */
 ?>

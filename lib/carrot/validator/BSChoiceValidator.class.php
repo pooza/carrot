@@ -30,16 +30,17 @@ class BSChoiceValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		$choices = BSString::explode(',', $this->getParameter('choices'));
 		if (!$choices->isIncluded($value)) {
-			$error = $this->getParameter('choices_error');
+			$this->error = $this->getParameter('choices_error');
 			return false;
 		}
 		return true;
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

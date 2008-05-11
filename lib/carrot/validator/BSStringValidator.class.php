@@ -5,13 +5,13 @@
  */
 
 /**
- * 一致バリデータ
+ * 文字列バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSPairValidator extends BSValidator {
+class BSStringValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -20,8 +20,10 @@ class BSPairValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = null) {
-		$this->setParameter('field', '');
-		$this->setParameter('match_error', '一致しません。');
+		$this->setParameter('max', 1024);
+		$this->setParameter('max_error', '長すぎます。');
+		$this->setParameter('min', null);
+		$this->setParameter('min_error', '短すぎます。');
 		return parent::initialize($parameters);
 	}
 
@@ -33,16 +35,21 @@ class BSPairValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!$name = $this->getParameter('field')) {
-			return true;
+		$min = $this->getParameter('min');
+		if (($min != null) && (strlen($value) < $min)) {
+			$this->error = $this->getParameter('min_error');
+			return false;
 		}
 
-		if ($value != BSRequest::getInstance()->getParameter($name)) {
-			$this->error = $this->getParameter('match_error');
+		$max = $this->getParameter('max');
+		if (($max != null) && ($max < strlen($value))) {
+			$this->error = $this->getParameter('max_error');
 			return false;
 		}
 
 		return true;
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

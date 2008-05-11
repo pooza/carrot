@@ -13,6 +13,7 @@
  * @abstract
  */
 abstract class BSValidator extends ParameterHolder {
+	protected $error;
 
 	/**
 	 * プロパティ取得のオーバライド
@@ -51,11 +52,20 @@ abstract class BSValidator extends ParameterHolder {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 * @abstract
 	 */
-	abstract function execute (&$value, &$error);
+	abstract public function execute ($value);
+
+	/**
+	 * エラーメッセージを返す
+	 *
+	 * @access public
+	 * @return string エラーメッセージ
+	 */
+	public function getError () {
+		return $this->error;
+	}
 }
 
 /* vim:set tabstop=4 ai: */

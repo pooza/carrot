@@ -18,9 +18,9 @@ class BSLayoutConfigHandler extends BSConfigHandler {
 			foreach ($params as $key => $value) {
 				$line = sprintf(
 					'$this->directories[%s][%s] = %s;',
-					parent::literalize($name),
-					parent::literalize($key),
-					parent::literalize($value)
+					self::quote($name),
+					self::quote($key),
+					self::quote($value)
 				);
 				$line = parent::replaceConstants($line);
 				$this->putLine($line);

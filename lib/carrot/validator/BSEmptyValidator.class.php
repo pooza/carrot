@@ -5,14 +5,13 @@
  */
 
 /**
- * フリガナ項目バリデータ
+ * 必須バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSKanaValidator extends BSValidator {
-	const PATTERN = '^[ぁ-んァ-ンヴー0-9]*$';
+class BSEmptyValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -20,8 +19,8 @@ class BSKanaValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
-		$this->setParameter('invalid_error', 'フリガナとして使用出来ない文字が含まれています。');
+	public function initialize ($parameters = null) {
+		$this->setParameter('required_msg', '空欄です。');
 		return parent::initialize($parameters);
 	}
 
@@ -33,13 +32,21 @@ class BSKanaValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!mb_ereg(self::PATTERN, $value)) {
-			$this->error = $this->getParameter('invalid_error');
+		if (is_array($value) || ($value instanceof BSArray)) {
+			if (isset($value['is_file']) && $value['is_file']) {
+				$isEmpty = ($this->request->getFile($name)->getParameter('name') == null);
+			} else {
+				$isEmpty = (count($value) == 0);
+			}
+		} else {
+			$isEmpty = ($value == '');
+		}
+
+		if ($isEmpty) {
+			$this->error = $this->getParameter('required_msg');
 			return false;
 		}
 		return true;
 	}
 }
-
-/* vim:set tabstop=4 ai: */
 ?>

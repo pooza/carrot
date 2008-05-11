@@ -25,8 +25,8 @@ class BSDefineConfigHandler extends BSConfigHandler {
 				}
 				$line = sprintf(
 					'  %s => %s,',
-					parent::literalize(strtoupper(implode('_', $key))),
-					parent::literalize($value)
+					self::quote(strtoupper(implode('_', $key))),
+					self::quote($value)
 				);
 				$line = parent::replaceConstants($line);
 				$this->putLine($line);

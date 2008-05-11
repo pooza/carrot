@@ -88,14 +88,14 @@ abstract class BSConfigHandler extends ParameterHolder {
 	}
 
 	/**
-	 * 文字列のリテラル化
+	 * 文字列のクォート
 	 *
 	 * @access public
 	 * @param string $value 置換対象
 	 * @return string 置換結果
 	 * @static
 	 */
-	public static function literalize ($value) {
+	public static function quote ($value) {
 		$value = trim($value);
 		switch (strtolower($value)) {
 			case null:
@@ -155,16 +155,15 @@ abstract class BSConfigHandler extends ParameterHolder {
 				continue;
 			}
 			if (is_array($value)) {
-				$body[] = sprintf(
-					'%s => array(%s)',
-					self::literalize($matches[1]),
+				$body[] = sprintf('%s => array(%s)',
+					self::quote($matches[1]),
 					implode(', ', $value)
 				);
 			} else {
 				$body[] = sprintf(
 					'%s => %s',
-					self::literalize($matches[1]),
-					self::literalize($value)
+					self::quote($matches[1]),
+					self::quote($value)
 				);
 			}
 		}

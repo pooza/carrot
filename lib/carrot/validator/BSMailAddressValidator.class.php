@@ -35,19 +35,18 @@ class BSMailAddressValidator extends BSValidator {
 	 *
 	 * @access public
 	 * @param mixed $value バリデート対象
-	 * @param string $error エラーメッセージ代入先
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute (&$value, &$error) {
+	public function execute ($value) {
 		try {
 			$email = new BSMailAddress($value);
 		} catch (BSMailException $e) {
-			$error = $this->getParameter('invalid_error');
+			$this->error = $this->getParameter('invalid_error');
 			return false;
 		}
 
 		if (!$email->isValidDomain()) {
-			$error = $this->getParameter('domain_error');
+			$this->error = $this->getParameter('domain_error');
 			return false;
 		}
 
@@ -58,11 +57,11 @@ class BSMailAddressValidator extends BSValidator {
 			if ($record = $table->getRecord($values)) {
 				if ($id = $this->controller->getAction()->getRecordID()) {
 					if ($id != $record->getID()) {
-						$error = $this->getParameter('unique_error');
+						$this->error = $this->getParameter('unique_error');
 						return false;
 					}
 				} else {
-					$error = $this->getParameter('unique_error');
+					$this->error = $this->getParameter('unique_error');
 					return false;
 				}
 			}

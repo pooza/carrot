@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSEnglishValidator extends RegexValidator {
+class BSEnglishValidator extends BSRegexValidator {
 
 	/**
 	 * 初期化

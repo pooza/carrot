@@ -41,7 +41,9 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	 * @param mixed[] $params 要素の配列
 	 */
 	public function setParameters ($params) {
-		$this->parameters += $params;
+		foreach ($params as $name => $value) {
+			$this->setParameter($name, $value);
+		}
 	}
 
 	/**
