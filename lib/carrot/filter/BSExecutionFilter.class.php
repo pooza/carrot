@@ -14,7 +14,7 @@
 class BSExecutionFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
 		$action = $this->controller->getAction();
-		$method = BSRequest::getInstance()->getMethod();
+		$method = $this->request->getMethod();
 
 		if (($action->getRequestMethods() & $method) != $method) {
 			$view = $action->getDefaultView();

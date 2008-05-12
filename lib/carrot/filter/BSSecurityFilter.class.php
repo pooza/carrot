@@ -21,21 +21,8 @@ class BSSecurityFilter extends BSFilter {
 		}
 
 		if ($credential && !$this->user->hasCredential($credential)) {
-			if (defined('APP_SECURE_MODULE')) {
-				$module = APP_SECURE_MODULE;
-			} else {
-				$module = MO_SECURE_MODULE;
-			}
-
-			if (defined('APP_SECURE_ACTION')) {
-				$action = APP_SECURE_ACTION;
-			} else {
-				$action = MO_SECURE_ACTION;
-			}
-
-			return $this->controller->forward($module, $action);
+			return $this->controller->forwardTo($this->controller->getSecureAction());
 		}
-
 		$filters->execute();
 	}
 }

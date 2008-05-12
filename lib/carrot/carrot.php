@@ -16,12 +16,12 @@
  */
 function __autoload ($name) {
 	static $classes = array();
-
 	if (!$classes) {
 		foreach (array(BS_LIB_DIR . '/carrot', BS_WEBAPP_DIR . '/lib') as $path) {
 			$classes += getClasses($path);
 		}
-	} if (!isset($classes[$name])) {
+	}
+	if (!isset($classes[$name])) {
 		trigger_error('"' . $name . '"がロードできません。', E_USER_ERROR);
 	}
 	require_once($classes[$name]);
@@ -66,23 +66,15 @@ function p ($var) {
  * ここから処理開始
  */
 
-define('MO_APP_DIR', BS_ROOT_DIR . '/lib/carrot');
-define('MO_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
-define('MO_CACHE_DIR', BS_ROOT_DIR . '/var/cache');
-define('MO_CONFIG_DIR', MO_WEBAPP_DIR . '/config');
-define('MO_LIB_DIR', MO_WEBAPP_DIR . '/lib');
-define('MO_MODULE_DIR', MO_WEBAPP_DIR . '/modules');
-define('MO_TEMPLATE_DIR', MO_WEBAPP_DIR . '/templates');
+require_once(BS_ROOT_DIR . '/lib/protector.php');
+
 define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
 define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
 define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
 define('BS_WWW_DIR', BS_ROOT_DIR . '/www');
 define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
-define('BS_WEBAPP_DIR', MO_WEBAPP_DIR);
+define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
 define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
-
-// 先頭プロテクタ @ http://www.peak.ne.jp/support/phpcyber/
-require_once(BS_LIB_DIR . '/protector.php');
 
 // php.iniの上書き - ここに書いても無意味なものも含まれてますが。
 ini_set('arg_separator.output', '&amp;');
@@ -139,7 +131,6 @@ try {
 
 	require_once(BSConfigManager::getInstance()->compile('constant/application.ini'));
 	require_once(BSConfigManager::getInstance()->compile('constant/carrot.ini'));
-	require_once(BSConfigManager::getInstance()->compile('constant/mojavi.ini'));
 
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {

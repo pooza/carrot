@@ -13,12 +13,10 @@
  * @abstract
  */
 abstract class BSController {
-	const MODULE_ACCESSOR = MO_MODULE_ACCESSOR;
-	const ACTION_ACCESSOR = MO_ACTION_ACCESSOR;
-	const DEFAULT_MODULE = MO_DEFAULT_MODULE;
-	const DEFAULT_ACTION = MO_DEFAULT_ACTION;
-	const NOT_FOUND_MODULE = MO_ERROR_404_MODULE;
-	const NOT_FOUND_ACTION = MO_ERROR_404_ACTION;
+	const MODULE_ACCESSOR = BS_MODULE_ACCESSOR;
+	const ACTION_ACCESSOR = BS_ACTION_ACCESSOR;
+	const DEFAULT_MODULE = BS_DEFAULT_MODULE;
+	const DEFAULT_ACTION = BS_DEFAULT_ACTION;
 	const MAX_FORWARDS = 20;
 	private $useragent;
 
@@ -123,8 +121,7 @@ abstract class BSController {
 			$module = BSModule::getInstance($module);
 			$action = $module->getAction($action);
 		} catch (BSFileException $e) {
-			$module = BSModule::getInstance(self::NOT_FOUND_MODULE);
-			$action = $module->getAction(self::NOT_FOUND_ACTION);
+			$action = $this->getNotFoundAction();
 		}
 		$this->forwardTo($action);
 	}
@@ -166,7 +163,6 @@ abstract class BSController {
 	public function getDirectory ($name) {
 		return BSDirectoryFinder::getInstance()->getDirectory($name);
 	}
-
 
 	/**
 	 * 特別なディレクトリのパスを返す
@@ -276,6 +272,33 @@ abstract class BSController {
 	 */
 	public function getAction () {
 		return BSActionStack::getInstance()->getLastEntry();
+	}
+
+	/**
+	 * セキュアアクションを返す
+	 *
+	 * @access public
+	 * @return BSAction アクション
+	 */
+	public function getSecureAction () {
+		if (defined('APP_SECURE_MODULE') && defined('APP_SECURE_ACTION')) {
+			$module = APP_SECURE_MODULE;
+			$action = APP_SECURE_ACTION;
+		} else {
+			$module = BS_SECURE_MODULE;
+			$action = BS_SECURE_ACTION;
+		}
+		return BSModule::getInstance(BS_SECURE_MODULE)->getAction(BS_SECURE_ACTION);
+	}
+
+	/**
+	 * NotFoundアクションを返す
+	 *
+	 * @access public
+	 * @return BSAction アクション
+	 */
+	public function getNotFoundAction () {
+		return BSModule::getInstance(BS_NOT_FOUND_MODULE)->getAction(BS_NOT_FOUND_ACTION);
 	}
 
 	/**

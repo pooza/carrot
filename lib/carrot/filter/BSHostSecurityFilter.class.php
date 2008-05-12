@@ -16,10 +16,9 @@ class BSHostSecurityFilter extends BSFilter {
 		if (!$this->isAuthenticated()) {
 			$e = new BSNetException('リモートアクセス禁止のホストです。');
 			$e->sendAlert();
-			$this->controller->forward(MO_SECURE_MODULE, MO_SECURE_ACTION);
+			$this->controller->forwardTo($this->controller->getSecureAction());
 			exit;
 		}
-
 		$filters->execute();
 	}
 
@@ -35,7 +34,7 @@ class BSHostSecurityFilter extends BSFilter {
 		}
 
 		foreach ($networks as $network) {
-			if (BSController::getInstance()->getClientHost()->isInNetwork($network)) {
+			if ($this->controller->getClientHost()->isInNetwork($network)) {
 				return true;
 			}
 		}
