@@ -12,12 +12,6 @@ constant/carrot:
   class: BSDefineConfigCompiler
   param.prefix: BS
 
-filters:
-  class: BSObjectRegisterConfigCompiler
-
-module:
-  class: BSSerializeConfigCompiler
-
 validate/:
   class: BSValidatorConfigCompiler
 
@@ -38,4 +32,10 @@ mobile/:
   class: BSSerializeConfigCompiler
 
 date/:
+  class: BSSerializeConfigCompiler
+
+filters:
+  class: BSObjectRegisterConfigCompiler
+
+module:
   class: BSSerializeConfigCompiler
