@@ -15,9 +15,9 @@ class BSValidatorConfigHandler extends BSConfigHandler {
 	private $fields;
 	private $validators;
 
-	public function execute (BSIniFile $file) {
+	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$config = $file->getContents();
+		$config = $file->getResult();
 
 		$this->setMethods($config['methods']);
 		$this->setNames($config['names']);

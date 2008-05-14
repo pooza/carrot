@@ -99,12 +99,12 @@ class BSBrowscap extends BSList {
 	 * browscap.iniファイルを返す
 	 *
 	 * @access private
-	 * @return BSIniFile browscap.iniファイル
+	 * @return BSConfigFile browscap.iniファイル
 	 */
 	private function getFile () {
 		if (!$this->file) {
 			$dir = BSController::getInstance()->getDirectory('tmp');
-			$this->file = $dir->createEntry('browscap.ini', 'BSIniFile');
+			$this->file = $dir->createEntry('browscap.ini', 'BSConfigFile');
 			$this->file->setContents($this->getURL()->fetch());
 		}
 		return $this->file;

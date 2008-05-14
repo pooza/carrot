@@ -41,7 +41,7 @@ class BSModule {
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
-			$this->config += $file->getContents();
+			$this->config += $file->getResult();
 		}
 	}
 
@@ -111,24 +111,16 @@ class BSModule {
 	 *
 	 * @access private
 	 * @param string $name ファイル名
-	 * @return BSIniFile 設定ファイル
+	 * @return BSConfigFile 設定ファイル
 	 */
 	private function getConfigFile ($name = 'module') {
 		if (!$this->configFiles) {
 			$this->configFiles = new BSArray;
 		}
 		if (!$this->configFiles[$name]) {
-			$dir = $this->getDirectory()->getEntry('config');
-			$classes = array(
-				'.yaml' => 'BSYAMLFile',
-				'.ini' => 'BSIniFile',
+			$this->configFiles[$name] = BSConfigManager::getConfigFile(
+				$this->getDirectory()->getEntry('config')->getPath() . '/' . $name
 			);
-			foreach ($classes as $suffix => $class) {
-				if ($file = $dir->getEntry($name . $suffix, $class)) {
-					$this->configFiles[$name] = $file;
-					break;
-				}
-			}
 		}
 		return $this->configFiles[$name];
 	}
@@ -140,7 +132,7 @@ class BSModule {
 	 *
 	 * @access private
 	 * @param string $name ファイル名
-	 * @return BSIniFile 設定ファイル
+	 * @return BSConfigFile 設定ファイル
 	 * @final
 	 */
 	private final function getIniFile ($name = 'module') {

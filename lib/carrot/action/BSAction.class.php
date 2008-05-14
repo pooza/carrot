@@ -143,14 +143,13 @@ abstract class BSAction {
 	 * バリデーション設定ファイルを返す
 	 *
 	 * @access public
-	 * @return BSIniFile バリデーション設定ファイル
+	 * @return BSConfigFile バリデーション設定ファイル
 	 */
 	public function getValidationFile () {
 		if (!$dir = $this->getModule()->getDirectory()->getEntry('validate')) {
 			return null;
 		}
-		$dir->setDefaultSuffix('.ini');
-		return $dir->getEntry($this->getName(), 'BSIniFile');
+		return BSConfigManager::getConfigFile($dir->getPath() . '/' . $this->getName());
 	}
 
 	/**

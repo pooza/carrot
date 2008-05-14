@@ -1,0 +1,17 @@
+# 元号設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+平成:
+  start_date: 1989-01-08
+
+昭和:
+  start_date: 1926-12-25
+
+大正:
+  start_date: 1912-07-30
+
+明治:
+  start_date: 1868-09-08

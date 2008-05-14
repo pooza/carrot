@@ -1,0 +1,21 @@
+# アプリケーション定数設定ファイル
+#
+# @package __PACKAGE__
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+.global:
+  languages: ja
+  name_ja: __NAME_JA__
+  name_en: __NAME_EN__
+  ver: 1.0.0-dev
+
+home:
+  #href: /index.html
+
+module:
+  #prefixes: Admin,User
+
+secure:
+  #module: Default
+  #action: Login

@@ -459,7 +459,7 @@ class BSDate {
 		}
 		if (!$this->attributes->hasAttribute('gengo')) {
 			$config = array();
-			require(BSConfigManager::getInstance()->compile('date/gengo.ini'));
+			require(BSConfigManager::getInstance()->compile('date/gengo'));
 			foreach ($config as $gengo => $values) {
 				if ($values['start_date'] <= $this->format('Y-m-d')) {
 					$this->attributes['gengo'] = $gengo;
@@ -482,7 +482,7 @@ class BSDate {
 		}
 		if (!$this->attributes->hasAttribute('japanese_year')) {
 			$config = array();
-			require(BSConfigManager::getInstance()->compile('date/gengo.ini'));
+			require(BSConfigManager::getInstance()->compile('date/gengo'));
 			foreach ($config as $gengo => $values) {
 				if ($values['start_date'] <= $this->format('Y-m-d')) {
 					$start = new BSDate($values['start_date']);

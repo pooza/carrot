@@ -21,7 +21,7 @@ class BSJSONSerializer implements BSSerializer {
 	 * @return string シリアライズされた文字列
 	 */
 	public function encode ($value) {
-		$value = BSString::convertEncoding($value);
+		$value = BSString::convertEncoding($value, 'utf-8');
 		return json_encode($value);
 	}
 

@@ -12,13 +12,17 @@
  * @version $Id$
  */
 class BSDefineConfigHandler extends BSConfigHandler {
-	public function execute (BSIniFile $file) {
+	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
 		$this->putLine('$constants = array(');
-		foreach ($file->getContents() as $category => $values) {
+
+		foreach ($file->getResult() as $category => $values) {
+			if (!is_array($values) && !($values instanceof BSArray)) {
+				continue;
+			}
 			foreach ($values as $key => $value) {
-				if (preg_match('/^\\./', $category)) {
+				if (preg_match('/^\\./', $category)) { // .iniフォーマットとの互換性
 					$key = array($prefix, $key);
 				} else {
 					$key = array($prefix, $category, $key);

@@ -12,13 +12,13 @@
  * @version $Id$
  */
 class BSObjectRegisterConfigHandler extends BSConfigHandler {
-	public function execute (BSIniFile $file) {
+	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		foreach ($file->getContents() as $category => $values) {
+		foreach ($file->getResult() as $category => $values) {
 			if (!isset($values['class'])) {
 				throw new BSConfigException(
 					'%s のカテゴリー "%s" で、クラス名が指定されていません。',
-					$this->getConfigFile(),
+					$file,
 					$category
 				);
 			}

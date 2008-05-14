@@ -22,7 +22,7 @@ function __autoload ($name) {
 		}
 	}
 	if (!isset($classes[$name])) {
-		trigger_error('"' . $name . '"がロードできません。', E_USER_ERROR);
+		trigger_error($name . 'がロードできません。', E_USER_ERROR);
 	}
 	require_once($classes[$name]);
 }
@@ -107,16 +107,15 @@ try {
 
 	$initialized = false;
 	foreach ($names as $servername) {
-		$path = sprintf('%s/config/server/%s.ini', BS_WEBAPP_DIR, $servername);
-		if (is_readable($path)) {
-			require_once(BSConfigManager::getInstance()->compile($path));
+		if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
+			require_once(BSConfigManager::getInstance()->compile($file));
 			$_SERVER['SERVER_NAME'] = $servername;
 			$initialized = true;
 			break;
 		}
 	}
 	if (!$initialized) {
-		$message = sprintf('サーバ定義 (%s).ini が見つかりません。', implode('|', $names));
+		$message = sprintf('サーバ定義 (%s) が見つかりません。', implode('|', $names));
 		trigger_error($message, E_USER_ERROR);
 	}
 
@@ -129,8 +128,8 @@ try {
 		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
 	}
 
-	require_once(BSConfigManager::getInstance()->compile('constant/application.ini'));
-	require_once(BSConfigManager::getInstance()->compile('constant/carrot.ini'));
+	require_once(BSConfigManager::getInstance()->compile('constant/application'));
+	require_once(BSConfigManager::getInstance()->compile('constant/carrot'));
 
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {

@@ -21,8 +21,8 @@ class BSDirectoryFinder {
 	 * @access private
 	 */
 	private function __construct () {
-		require_once(BSConfigManager::getInstance()->compile('layout/carrot.ini'));
-		require_once(BSConfigManager::getInstance()->compile('layout/application.ini'));
+		require_once(BSConfigManager::getInstance()->compile('layout/carrot'));
+		require_once(BSConfigManager::getInstance()->compile('layout/application'));
 	}
 
 	/**

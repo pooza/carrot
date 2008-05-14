@@ -12,9 +12,9 @@
  * @version $Id$
  */
 class BSLayoutConfigHandler extends BSConfigHandler {
-	public function execute (BSIniFile $file) {
+	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		foreach ($file->getContents() as $name => $params) {
+		foreach ($file->getResult() as $name => $params) {
 			foreach ($params as $key => $value) {
 				$line = sprintf(
 					'$this->directories[%s][%s] = %s;',

@@ -22,10 +22,10 @@ class BSConfigManager {
 	 */
 	private function __construct () {
 		$this->handlers = new BSArray;
-		$this->handlers['config_handlers.ini'] = new BSObjectRegisterConfigHandler;
+		$this->handlers['config_handlers'] = new BSObjectRegisterConfigHandler;
 
 		$objects = array();
-		require_once($this->compile('config_handlers.ini'));
+		require_once($this->compile('config_handlers'));
 		$this->handlers->setParameters($objects);
 	}
 
@@ -61,13 +61,10 @@ class BSConfigManager {
 	 */
 	public function compile ($file) {
 		if (!($file instanceof BSFile)) {
-			if (!Toolkit::isPathAbsolute($file)) {
-				$file = BS_WEBAPP_DIR . '/config/' . $file; //BSDirectoryFinderは使わない。
-			}
-			$file = new BSIniFile($file);
+			$file = self::getConfigFile($file);
 		}
 		if (!$file->isReadable()) {
-			throw new BSConfigException('%s が読めません。', $file);
+			throw new BSConfigException('%sが読めません。', $file);
 		}
 
 		$cache = self::getCacheFile($file);
@@ -90,11 +87,11 @@ class BSConfigManager {
 	/**
 	 * キャッシュファイルを返す
 	 *
-	 * @access public
-	 * @param BSIniFile $file コンパイル対象設定ファイル
+	 * @access private
+	 * @param BSConfigFile $file コンパイル対象設定ファイル
 	 * @return BSFile キャッシュファイル
 	 */
-	private static function getCacheFile (BSIniFile $file) {
+	private static function getCacheFile (BSConfigFile $file) {
 		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
 		$name = str_replace(BS_WEBAPP_DIR, '', $name);
 		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
@@ -102,6 +99,28 @@ class BSConfigManager {
 
 		//BSDirectoryFinderは使わない。
 		return new BSFile(sprintf('%s/cache/%s.cache.php', BS_VAR_DIR, $name));
+	}
+
+	/**
+	 * 設定ファイルを返す
+	 *
+	 * @access public
+	 * @param string $name 設定ファイル名、但し拡張子は含まない
+	 * @return BSConfigFile 設定ファイル
+	 */
+	public static function getConfigFile ($name) {
+		if (!Toolkit::isPathAbsolute($name)) {
+			$name = BS_WEBAPP_DIR . '/config/' . $name;
+		}
+		foreach (BSConfigFile::getSuffixes() as $suffix) {
+			$file = new BSConfigFile($name . $suffix);
+			if ($file->isExists()) {
+				if (!$file->isReadable()) {
+					throw new BSFileException('%sが読めません。', $file);
+				}
+				return $file;
+			}
+		}
 	}
 }
 

@@ -50,10 +50,10 @@ abstract class BSConfigHandler extends ParameterHolder {
 	 * 実行
 	 *
 	 * @access public
-	 * @param BSIniFile $file 設定ファイル
+	 * @param BSConfigFile $file 設定ファイル
 	 * @abstract
 	 */
-	abstract public function execute (BSIniFile $file);
+	abstract public function execute (BSConfigFile $file);
 
 	/**
 	 * コンパイル後のphpステートメントを返す

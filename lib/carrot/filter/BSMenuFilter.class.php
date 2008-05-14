@@ -55,12 +55,12 @@ class BSMenuFilter extends BSFilter {
 	 * メニューファイルを取得
 	 *
 	 * @access private
-	 * @return BSIniFile メニューファイル
+	 * @return BSConfigFile メニューファイル
 	 */
 	private function getMenuFile () {
 		return $this->controller->getDirectory('menu')->getEntry(
 			$this->getParameter('name'),
-			'BSIniFile'
+			'BSConfigFile'
 		);
 	}
 }

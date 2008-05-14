@@ -12,12 +12,12 @@
  * @version $Id$
  */
 class BSSerializeConfigHandler extends BSConfigHandler {
-	public function execute (BSIniFile $file) {
+	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$expire = $file->getUpdateDate();
 		$name = self::getAttributeName($file);
 		if ($this->controller->getAttribute($name, $expire) === null) {
-			$contents = $this->getContents($file->getContents());
+			$contents = $this->getContents($file->getResult());
 			$this->controller->setAttribute($name, $contents);
 		}
 

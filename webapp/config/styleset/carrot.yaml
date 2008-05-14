@@ -1,0 +1,15 @@
+# スタイルセット設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+carrot.Detail:
+  files:
+    - carrot
+    - carrot.Detail
+
+carrot.LoginForm:
+  files:
+    - carrot
+    - carrot.LoginForm

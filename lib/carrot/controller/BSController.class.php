@@ -13,10 +13,8 @@
  * @abstract
  */
 abstract class BSController {
-	const MODULE_ACCESSOR = BS_MODULE_ACCESSOR;
-	const ACTION_ACCESSOR = BS_ACTION_ACCESSOR;
-	const DEFAULT_MODULE = BS_DEFAULT_MODULE;
-	const DEFAULT_ACTION = BS_DEFAULT_ACTION;
+	const MODULE_ACCESSOR = 'm';
+	const ACTION_ACCESSOR = 'a';
 	const MAX_FORWARDS = 20;
 	private $useragent;
 
@@ -67,10 +65,10 @@ abstract class BSController {
 	 */
 	public function dispatch () {
 		if (!$module = $this->request->getParameter(self::MODULE_ACCESSOR)) {
-			$module = self::DEFAULT_MODULE;
+			$module = BS_DEFAULT_MODULE;
 		}
 		if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
-			$action = self::DEFAULT_ACTION;
+			$action = BS_DEFAULT_ACTION;
 		}
 		$this->forward($module, $action);
 	}
@@ -134,7 +132,7 @@ abstract class BSController {
 	 */
 	private function loadFilters (BSFilterChain $filters) {
 		$objects = array();
-		require_once(BSConfigManager::getInstance()->compile('filters.ini'));
+		require_once(BSConfigManager::getInstance()->compile('filters'));
 		if ($objects) {
 			foreach ($objects as $filter) {
 				$filters->register($filter);
