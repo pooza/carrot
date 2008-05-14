@@ -19,16 +19,16 @@ class BSConfigFile extends BSFile {
 	 * 設定フォーマットを返す
 	 *
 	 * @access public
-	 * @return BSConfigFormat 設定フォーマット
+	 * @return BSConfigParser 設定フォーマット
 	 */
 	public function getEngine () {
 		if (!$this->engine) {
 			switch ($this->getSuffix()) {
 				case '.ini':
-					$this->engine = new BSIniConfigFormat;
+					$this->engine = new BSIniConfigParser;
 					break;
 				case '.yaml':
-					$this->engine = new BSYAMLConfigFormat;
+					$this->engine = new BSYAMLConfigParser;
 					break;
 				default:
 					throw new BSConfigException(

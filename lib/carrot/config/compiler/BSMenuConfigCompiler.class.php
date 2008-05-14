@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMenuConfigHandler extends BSSerializeConfigHandler {
+class BSMenuConfigCompiler extends BSSerializeConfigCompiler {
 
 	/**
 	 * 設定配列をシリアライズできる内容に修正

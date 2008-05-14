@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSDefineConfigHandler extends BSConfigHandler {
+class BSDefineConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));

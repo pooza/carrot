@@ -14,7 +14,7 @@ require_once(BS_LIB_DIR . '/spyc/spyc.php5');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSYAMLConfigFormat extends Spyc implements BSConfigFormat {
+class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	private $contents;
 	private $result;
 

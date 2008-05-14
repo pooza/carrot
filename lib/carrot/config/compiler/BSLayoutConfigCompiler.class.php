@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSLayoutConfigHandler extends BSConfigHandler {
+class BSLayoutConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		foreach ($file->getResult() as $name => $params) {

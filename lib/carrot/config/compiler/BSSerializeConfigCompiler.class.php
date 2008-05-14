@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSerializeConfigHandler extends BSConfigHandler {
+class BSSerializeConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$expire = $file->getUpdateDate();

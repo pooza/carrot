@@ -1,0 +1,41 @@
+# ConfigCompiler設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+constant/application:
+  class: BSDefineConfigCompiler
+  param.prefix: APP
+
+constant/carrot:
+  class: BSDefineConfigCompiler
+  param.prefix: BS
+
+filters:
+  class: BSObjectRegisterConfigCompiler
+
+module:
+  class: BSSerializeConfigCompiler
+
+validate/:
+  class: BSValidatorConfigCompiler
+
+menu/:
+  class: BSMenuConfigCompiler
+
+server/:
+  class: BSDefineConfigCompiler
+  param.prefix: BS
+
+layout/:
+  class: BSLayoutConfigCompiler
+
+styleset/:
+  class: BSSerializeConfigCompiler
+
+mobile/:
+  class: BSSerializeConfigCompiler
+
+date/:
+  class: BSSerializeConfigCompiler

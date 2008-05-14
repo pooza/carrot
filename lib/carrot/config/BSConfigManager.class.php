@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSConfigManager {
-	private $handlers;
+	private $compilers;
 	private static $instance;
 
 	/**
@@ -21,12 +21,12 @@ class BSConfigManager {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->handlers = new BSArray;
-		$this->handlers['config_handlers'] = new BSObjectRegisterConfigHandler;
+		$this->compilers = new BSArray;
+		$this->compilers['config_compilers'] = new BSObjectRegisterConfigCompiler;
 
 		$objects = array();
-		require_once($this->compile('config_handlers'));
-		$this->handlers->setParameters($objects);
+		require_once($this->compile('config_compilers'));
+		$this->compilers->setParameters($objects);
 	}
 
 	/**
@@ -69,13 +69,10 @@ class BSConfigManager {
 
 		$cache = self::getCacheFile($file);
 		if (!$cache->isExists() || $cache->getUpdateDate()->isAgo($file->getUpdateDate())) {
-			foreach ($this->handlers as $pattern => $handler){
-				$pattern = str_replace('*', '#WILDCARD#', $pattern);
-				$pattern = preg_quote($pattern, '/');
-				$pattern = str_replace('#WILDCARD#', '.*', $pattern);
-				$pattern = '/' . $pattern . '/';
+			foreach ($this->compilers as $pattern => $compiler){
+				$pattern = '/' . preg_quote($pattern, '/') . '/';
 				if (preg_match($pattern, $file->getPath())) {
-					$result = $handler->execute($file);
+					$result = $compiler->execute($file);
 					$cache->setContents($result);
 					break;
 				}

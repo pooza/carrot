@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSValidatorConfigHandler extends BSConfigHandler {
+class BSValidatorConfigCompiler extends BSConfigCompiler {
 	private $fields;
 	private $validators;
 

@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSObjectRegisterConfigHandler extends BSConfigHandler {
+class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		foreach ($file->getResult() as $category => $values) {

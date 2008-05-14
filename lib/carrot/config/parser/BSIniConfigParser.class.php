@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSIniConfigFormat implements BSConfigFormat {
+class BSIniConfigParser implements BSConfigParser {
 	private $contents;
 	private $result;
 
