@@ -23,19 +23,10 @@ class BSConfigFile extends BSFile {
 	 */
 	public function getParser () {
 		if (!$this->parser) {
-			switch ($this->getSuffix()) {
-				case '.ini':
-					$this->parser = new BSIniConfigParser;
-					break;
-				case '.yaml':
-					$this->parser = new BSYAMLConfigParser;
-					break;
-				default:
-					throw new BSConfigException(
-						'%sはサポートされていないフォーマットです。',
-						$this
-					);
+			if (!$name = self::getParserNames()->getParameter($this->getSuffix())) {
+				throw new BSConfigException('%sはサポートされていないフォーマットです。', $this);
 			}
+			$this->parser = new $name;
 			$this->parser->setContents($this->getContents());
 		}
 		return $this->parser;
@@ -80,13 +71,26 @@ class BSConfigFile extends BSFile {
 	}
 
 	/**
+	 * 利用可能な設定パーサーの名前を返す
+	 *
+	 * @access public
+	 * @return BSArray 設定パーサーの名前
+	 */
+	public static function getParserNames () {
+		$names = new BSArray();
+		$names['.ini'] = 'BSIniConfigParser';
+		$names['.yaml'] = 'BSYAMLConfigParser';
+		return $names;
+	}
+
+	/**
 	 * 利用可能な拡張子を返す
 	 *
 	 * @access public
 	 * @return BSArray 拡張子
 	 */
 	public static function getSuffixes () {
-		return new BSArray(array('.yaml', '.ini'));
+		return self::getParserNames()->getKeys();
 	}
 }
 
