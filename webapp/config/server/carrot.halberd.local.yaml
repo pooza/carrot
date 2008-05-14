@@ -1,0 +1,67 @@
+# ホスト別設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+.global:
+  root_url: http://carrot.halberd.local/
+  root_url_https: http://carrot.halberd.local/
+  debug: true
+  #resolvable: true
+
+admin:
+  email: admin@b-shock.co.jp
+  jid: pooza@jabber.b-shock.co.jp/carrot
+  password: 47bce5c74f589f4867dbd57e9ca9f808
+  networks: 192.168.100.0/24
+
+author:
+  name: 有限会社 ビーショック
+  email: info@b-shock.co.jp
+  jid: carrot.halberd@jabber.b-shock.co.jp/carrot
+  password: aaa
+
+crypt:
+  engine: blowfish
+  salt: carrot
+
+types:
+  file: /etc/httpd/mime.types
+
+services:
+  file: /etc/services
+
+pdo:
+  dsn: mysql:host=127.0.0.1#dbname=carrot
+  #dsn: pgsql:host=localhost dbname=carrot user=postgres
+  #dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+  uid: root
+  password: 
+  #query_log_enable: false
+
+smtp:
+  post: localhost
+  #check_addresses: false
+
+xmpp:
+  host: jabber.b-shock.co.jp
+
+awstats:
+  log_file: /var/log/httpd/access_%%YYYY%%MM%DD.log
+  #log_dir: /var/log/httpd/www.example.com
+  #daily: false
+  server_name_aliases: 
+
+session:
+  #storage_type: database
+
+date:
+  timezone: Asia/Tokyo
+  #holidays_class: BSJapaneseHolidayList
+
+feed:
+  class: BSRSS20Document
+
+google:
+  key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I

@@ -23,18 +23,21 @@ class BSMenuConfigCompiler extends BSSerializeConfigCompiler {
 	protected function getContents ($config) {
 		$contents = array();
 		foreach ($config as $module => $values) {
-			if (!isset($values['HREF'])) {
-				if (!isset($values['MODULE'])) {
-					$values['MODULE'] = $module;
-				}
-				if (!isset($values['TITLE'])) {
-					$values['TITLE'] = $this->controller->getModule($module)->getConfig('title');
+			if (is_array($values)) {
+				foreach ($values as $key => $value) {
+					unset($values[$key]);
+					$values[strtolower($key)] = parent::replaceConstants($value);
 				}
 			}
-			foreach ($values as $key => $value) {
-				$value = parent::replaceConstants($value);
-				$contents[$module][strtolower($key)] = $value;
+			if (!isset($values['href'])) {
+				if (!isset($values['module'])) {
+					$values['module'] = $module;
+				}
+				if (!isset($values['title'])) {
+					$values['title'] = $this->controller->getModule($module)->getConfig('title');
+				}
 			}
+			$contents[] = $values;
 		}
 		return $contents;
 	}

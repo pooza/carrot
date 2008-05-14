@@ -1,0 +1,119 @@
+# ディレクトリレイアウト設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+awstats:
+  parent: lib
+  name: AWStats
+
+awstats_data:
+  parent: var
+
+awstats_log:
+  constant: true
+
+bin:
+  constant: true
+
+cache:
+  parent: var
+  suffix: .cache.php
+
+carrot:
+  parent: lib
+
+carrotlib:
+  parent: www
+
+config:
+  parent: webapp
+
+compile:
+  parent: var
+
+css:
+  parent: carrotlib
+  suffix: .css
+
+db:
+  parent: var
+  suffix: .sqlite3
+
+dictionaries:
+  parent: webapp
+  class: BSDictionaryDirectory
+
+doc:
+  parent: var
+
+dump:
+  parent: var
+  suffix: .sql
+
+font:
+  parent: share
+  suffix: .ttf
+
+googleapi:
+  parent: lib
+  suffix: .wsdl
+
+images:
+  parent: carrotlib
+
+js:
+  parent: carrotlib
+  suffix: .js
+
+lib:
+  constant: true
+
+local_lib:
+  parent: webapp
+  name: lib
+
+log:
+  parent: var
+  class: BSLogDirectory
+
+menu:
+  parent: config
+
+modules:
+  parent: webapp
+
+root:
+  constant: true
+
+serialized:
+  parent: var
+  suffix: .serialized
+
+share:
+  constant: true
+
+sql:
+  parent: share
+  suffix: .sql
+
+styleset:
+  parent: config
+
+templates:
+  parent: webapp
+  suffix: .tpl
+
+tmp:
+  parent: var
+
+var:
+  constant: true
+
+webapp:
+  constant: true
+
+www:
+  constant: true
+

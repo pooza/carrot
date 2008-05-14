@@ -1,0 +1,20 @@
+# メニュー設定ファイル - 管理メニュー
+#
+# @package __PACKAGE__
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+AdminLog:
+AdminXMPPBot:
+DevelopTableReport:
+DevelopDocumentor:
+
+AWStats:
+  title: アクセスログ解析
+  href: /awstats/awstats.pl
+  target: _blank
+
+Logout:
+  title: ログアウト
+  module: Default
+  action: Logout

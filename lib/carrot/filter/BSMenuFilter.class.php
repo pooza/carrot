@@ -58,10 +58,7 @@ class BSMenuFilter extends BSFilter {
 	 * @return BSConfigFile メニューファイル
 	 */
 	private function getMenuFile () {
-		return $this->controller->getDirectory('menu')->getEntry(
-			$this->getParameter('name'),
-			'BSConfigFile'
-		);
+		return BSConfigManager::getConfigFile('menu/' . $this->getParameter('name'));
 	}
 }
 
