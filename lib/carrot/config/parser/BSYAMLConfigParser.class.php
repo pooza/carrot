@@ -8,7 +8,7 @@
 require_once(BS_LIB_DIR . '/spyc/spyc.php5');
 
 /**
- * YAMLフォーマット
+ * YAML設定パーサー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.

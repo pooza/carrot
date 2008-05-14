@@ -13,22 +13,22 @@
  */
 class BSConfigFile extends BSFile {
 	private $config = array();
-	private $engine;
+	private $parser;
 
 	/**
-	 * 設定フォーマットを返す
+	 * 設定パーサーを返す
 	 *
 	 * @access public
-	 * @return BSConfigParser 設定フォーマット
+	 * @return BSConfigParser 設定パーサー
 	 */
-	public function getEngine () {
-		if (!$this->engine) {
+	public function getParser () {
+		if (!$this->parser) {
 			switch ($this->getSuffix()) {
 				case '.ini':
-					$this->engine = new BSIniConfigParser;
+					$this->parser = new BSIniConfigParser;
 					break;
 				case '.yaml':
-					$this->engine = new BSYAMLConfigParser;
+					$this->parser = new BSYAMLConfigParser;
 					break;
 				default:
 					throw new BSConfigException(
@@ -36,9 +36,9 @@ class BSConfigFile extends BSFile {
 						$this
 					);
 			}
-			$this->engine->setContents($this->getContents());
+			$this->parser->setContents($this->getContents());
 		}
-		return $this->engine;
+		return $this->parser;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class BSConfigFile extends BSFile {
 	 */
 	public function getResult () {
 		if (!$this->config) {
-			$this->config = $this->getEngine()->getResult();
+			$this->config = $this->getParser()->getResult();
 		}
 		return $this->config;
 	}
