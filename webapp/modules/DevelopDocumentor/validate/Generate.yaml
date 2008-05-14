@@ -1,0 +1,20 @@
+# 生成画面バリデーション設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @subpackage DevelopDocumentor
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+methods:
+  post:
+    - directories
+    - format
+  get: 
+
+names:
+  directories:
+    required: true
+    required_msg: 選ばれていません。
+  format:
+    required: true
+    required_msg: 選ばれていません。

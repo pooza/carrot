@@ -1,0 +1,12 @@
+# フィルタ設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @subpackage AdminLog
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+- class: BSSecurityFilter
+  param.credential: Admin
+- class: BSHostSecurityFilter
+- class: BSMenuFilter
+  param.name: admin

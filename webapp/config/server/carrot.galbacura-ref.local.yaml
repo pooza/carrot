@@ -33,7 +33,7 @@ services:
   file: /etc/services
 
 pdo:
-  dsn: mysql:host=127.0.0.1#dbname=carrot
+  dsn: mysql:host=127.0.0.1;dbname=carrot
   #dsn: pgsql:host=localhost dbname=carrot user=postgres
   #dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
   uid: root

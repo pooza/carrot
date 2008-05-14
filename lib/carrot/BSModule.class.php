@@ -148,9 +148,6 @@ class BSModule {
 	 * @return string 設定値
 	 */
 	public function getConfig ($key, $section = 'module') {
-		if ($section == 'module') {
-			$key = strtoupper($key);
-		}
 		if (isset($this->config[$section][$key])) {
 			return $this->config[$section][$key];
 		}
@@ -190,7 +187,13 @@ class BSModule {
 	 * @return string クレデンシャル
 	 */
 	public function getCredential () {
-		return $this->getConfig('param.credential', 'BSSecurityFilter');
+		if ($file = $this->getConfigFile('filters')) {
+			foreach ($file->getResult() as $section) {
+				if (isset($section['class']) && ($section['class'] == 'BSSecurityFilter')) {
+					return $section['param.credential'];
+				}
+			}
+		}
 	}
 
 	/**

@@ -151,21 +151,14 @@ abstract class BSConfigCompiler extends ParameterHolder {
 		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z_]+)/i';
 
 		foreach ($values as $key => $value) {
-			if (!preg_match($pattern, $key, $matches)) {
+			if (!$prefix) {
+				$name = $key;
+			} else if (preg_match($pattern, $key, $matches)) {
+				$name = $matches[1];
+			} else {
 				continue;
 			}
-			if (is_array($value)) {
-				$body[] = sprintf('%s => array(%s)',
-					self::quote($matches[1]),
-					implode(', ', $value)
-				);
-			} else {
-				$body[] = sprintf(
-					'%s => %s',
-					self::quote($matches[1]),
-					self::quote($value)
-				);
-			}
+			$body[] = sprintf('%s => %s', self::quote($name), self::quote($value));
 		}
 
 		if (0 < count($body)) {

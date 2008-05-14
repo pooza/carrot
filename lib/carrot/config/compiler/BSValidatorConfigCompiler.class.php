@@ -35,7 +35,10 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		foreach ($methods as $method => $fields) {
 			$method = strtoupper($method);
 			$this->fields[$method] = new BSArray;
-			foreach (explode(',', $fields) as $field) {
+			if (!is_array($fields) && !($fields instanceof BSArray)) {
+				$fields = BSString::explode(',', $fields);
+			}
+			foreach ($fields as $field) {
 				if ($field) {
 					$this->fields[$method][$field] = new BSArray;
 					$this->fields[$method][$field]['validators'] = new BSArray;
@@ -48,18 +51,30 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators = new BSArray;
 		foreach (array('POST', 'GET') as $method) {
 			foreach ($names as $name => $value) {
-				$name = explode('.', $name);
-				$field = $name[0];
-				$param = $name[1];
-				if ($this->fields[$method][$field]) {
-					if ($param == 'validators') {
-						foreach (explode(',', $value) as $validator) {
-							$this->fields[$method][$field]['validators'][] = $validator;
+				if (is_array($value)) {
+					if ($this->fields[$method][$name]) {
+						$this->fields[$method][$name]->setParameters($value);
+					}
+					if ($validators = $this->fields[$method][$name]['validators']) {
+						foreach ($validators as $validator) {
 							$this->validators[$validator] = new BSArray;
 							$this->validators[$validator]['params'] = new BSArray;
 						}
-					} else {
-						$this->fields[$method][$field][$param] = $value;
+					}
+				} else {
+					$name = explode('.', $name);
+					$field = $name[0];
+					$param = $name[1];
+					if ($this->fields[$method][$field]) {
+						if ($param == 'validators') {
+							foreach (explode(',', $value) as $validator) {
+								$this->fields[$method][$field]['validators'][] = $validator;
+								$this->validators[$validator] = new BSArray;
+								$this->validators[$validator]['params'] = new BSArray;
+							}
+						} else {
+							$this->fields[$method][$field][$param] = $value;
+						}
 					}
 				}
 			}
@@ -108,10 +123,12 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$line = sprintf('  $validator = new %s;', $this->validators[$validator]['class']);
 		$this->putLine($line);
 
-		$line = sprintf(
-			'  $validator->initialize(%s);',
-			self::parseParameters($this->validators[$validator])
-		);
+		if ($validator['params']) {
+			$params = self::parseParameters($this->validators[$validator]['params'], null);
+		} else {
+			$params = self::parseParameters($this->validators[$validator]);
+		}
+		$line = sprintf('  $validator->initialize(%s);', $params);
 		$this->putLine($line);
 
 		$line = sprintf('  $manager->registerValidator(%s, $validator);', self::quote($name));
