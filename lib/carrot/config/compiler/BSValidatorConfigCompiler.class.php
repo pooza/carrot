@@ -24,7 +24,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->setValidators($config);
 
 		$this->putLine('$manager = BSValidatorManager::getInstance();');
-		foreach (array('POST', 'GET') as $method) {
+		foreach (BSWebRequest::getMethodNames() as $method) {
 			$this->putMethod($method);
 		}
 		return $this->getBody();
@@ -49,7 +49,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 
 	private function setNames ($names) {
 		$this->validators = new BSArray;
-		foreach (array('POST', 'GET') as $method) {
+		foreach (BSWebRequest::getMethodNames() as $method) {
 			foreach ($names as $name => $value) {
 				if (is_array($value)) {
 					if ($this->fields[$method][$name]) {
@@ -90,11 +90,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function putMethod ($method) {
-		$line = sprintf(
-			'if ($_SERVER[%s] == %s) {',
-			self::quote('REQUEST_METHOD'),
-			self::quote($method)
-		);
+		$line = sprintf('if (BSRequest::getInstance()->getMethod() == BSRequest::%s) {', $method);
 		$this->putLine($line);
 
 		foreach ($this->fields[$method] as $name => $field) {

@@ -12,6 +12,7 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
+	private $method;
 	private static $instance;
 
 	/**
@@ -20,18 +21,7 @@ class BSWebRequest extends BSRequest {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->setParameters($_GET);
-		switch ($method = $_SERVER['REQUEST_METHOD']) {
-			case 'POST':
-				$this->setMethod(self::POST);
-				$this->setParameters($_POST);
-				break;
-			case 'GET':
-				$this->setMethod(self::GET);
-				break;
-			default:
-				throw new BSException('メソッド "%s" はサポートされていません。', $method);
-		}
+		$this->setMethod(BSController::getInstance()->getEnvironment('REQUEST_METHOD'));
 	}
 
 	/**
@@ -60,6 +50,58 @@ class BSWebRequest extends BSRequest {
 
 	public function hasFile ($name) {
 		return (isset($_FILES[$name]) && ($_FILES[$name]['name'] != ''));
+	}
+
+	/**
+	 * メソッドを返す
+	 *
+	 * @access public
+	 * @return integer メソッド
+	 */
+	public function getMethod () {
+		return $this->method;
+	}
+
+	/**
+	 * メソッドを設定する
+	 *
+	 * @access public
+	 * @param integer $method メソッド
+	 */
+	public function setMethod ($method) {
+		if (!self::getMethodNames()->isIncluded($method)) {
+			throw new BSException('"%s" はサポートされていないメソッドです。', $method);
+		}
+		$this->method = self::getMethods()->getParameter($method);
+		$this->setParameters($_GET);
+		if ($this->getMethod() == self::POST) {
+			$this->setParameters($_POST);
+		}
+	}
+
+	/**
+	 * サポートしているメソッドを返す
+	 *
+	 * @access public
+	 * @return BSArray サポートしているメソッド
+	 * @static
+	 */
+	public static function getMethods () {
+		$methods = new BSArray;
+		$methods['POST'] = self::POST;
+		$methods['GET'] = self::GET;
+		return $methods;
+	}
+
+	/**
+	 * サポートしているメソッド名を返す
+	 *
+	 * @access public
+	 * @return BSArray サポートしているメソッド名
+	 * @static
+	 */
+	public static function getMethodNames () {
+		return self::getMethods()->getKeys();
 	}
 }
 

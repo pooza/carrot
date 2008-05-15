@@ -18,7 +18,6 @@ abstract class BSRequest extends ParameterHolder {
 	const POST = 4;
 	private $attributes = array();
 	private $errors = array();
-	private $method;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -83,10 +82,6 @@ abstract class BSRequest extends ParameterHolder {
 		return $this->errors;
 	}
 
-	public function getMethod () {
-		return $this->method;
-	}
-
 	public function hasAttribute ($name) {
 		return isset($this->attributes[$name]);
 	}
@@ -116,7 +111,7 @@ abstract class BSRequest extends ParameterHolder {
 	}
 
 	public function setAttributes ($attributes) {
-		$this->attributes += $attributes;
+		$this->attributes = array_merge($this->attribures, $attributes);
 	}
 
 	public function setError ($name, $message) {
@@ -124,15 +119,7 @@ abstract class BSRequest extends ParameterHolder {
 	}
 
 	public function setErrors ($errors) {
-		$this->errors += $errors;
-	}
-
-	public function setMethod ($method) {
-		if ($method == self::GET || $method == self::POST) {
-			$this->method = $method;
-			return;
-		}
-		throw new BSException('Invalid request method: %s', $method);
+		$this->errors = array_merge($this->errors, $errors);
 	}
 }
 
