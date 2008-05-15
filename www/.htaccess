@@ -1,0 +1,33 @@
+# .htaccess
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+# mod_rewrite
+RewriteEngine on
+RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [L,QSA]
+RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [L,QSA]
+RewriteRule ^([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
+RewriteRule ^([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [L,QSA]
+
+# php5
+php_value default_charset UTF-8
+php_value mbstring.language Japanese
+php_value mbstring.http_input auto
+php_value mbstring.detect_order auto
+php_value mbstring.internal_encoding UTF-8
+php_value mbstring.script_encoding UTF-8
+php_value mbstring.http_output UTF-8
+php_value date.timezone Asia/Tokyo
+php_flag register_globals Off
+php_flag mbstring.encoding_translation On
+php_flag magic_quotes_gpc Off
+php_flag magic_quotes_sybase Off
+php_flag magic_quotes_runtime Off
+php_flag session.auto_start Off
+php_flag session.use_cookies On
+php_flag session.use_only_cookies On
+php_flag session.cookie_httponly On
+php_flag session.use_trans_sid Off
+php_flag session.hash_function On
