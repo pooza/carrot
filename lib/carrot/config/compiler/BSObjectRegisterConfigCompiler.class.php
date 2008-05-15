@@ -17,25 +17,22 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 		foreach ($file->getResult() as $category => $values) {
 			if (!isset($values['class'])) {
 				throw new BSConfigException(
-					'%s のカテゴリー "%s" で、クラス名が指定されていません。',
+					'%s の "%s" で、クラス名が指定されていません。',
 					$file,
 					$category
 				);
 			}
 
-			$line = sprintf(
-				'$objects[%s] = new %s;',
-				self::quote($category),
-				$values['class']
-			);
+			$line = sprintf('$objects[%s] = new %s;', self::quote($category), $values['class']);
 			$this->putLine($line);
 
-			if ($parameters = parent::parseParameters($values)) {
-				$line = sprintf(
-					'$objects[%s]->initialize(%s);',
-					self::quote($category),
-					$parameters
-				);
+			if (isset($values['params']) && is_array($values['params'])) {
+				$params = parent::parseParameters($values['params'], null);
+			} else {
+				$params = parent::parseParameters($values);
+			}
+			if ($params) {
+				$line = sprintf('$objects[%s]->initialize(%s);', self::quote($category), $params);
 				$this->putLine($line);
 			}
 		}
