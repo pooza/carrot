@@ -190,7 +190,11 @@ class BSModule {
 		if ($file = $this->getConfigFile('filters')) {
 			foreach ($file->getResult() as $section) {
 				if (isset($section['class']) && ($section['class'] == 'BSSecurityFilter')) {
-					return $section['param.credential'];
+					if (isset($section['params']['credential'])) {
+						return $section['params']['credential'];
+					} else if (isset($section['param.credential'])) {
+						return $section['param.credential'];
+					}
 				}
 			}
 		}

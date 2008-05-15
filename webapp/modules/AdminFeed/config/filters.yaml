@@ -6,4 +6,5 @@
 # @version $Id$
 
 - class: BSBasicAuthFilter
-  param.realm: AdminLog Realm
+  params:
+    realm: AdminLog Realm

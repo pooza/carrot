@@ -6,7 +6,11 @@
 # @version $Id$
 
 - class: BSSecurityFilter
-  param.credential: Develop
+  params:
+    credential: Develop
+
 - class: BSHostSecurityFilter
+
 - class: BSMenuFilter
-  param.name: admin
+  params:
+    name: admin
