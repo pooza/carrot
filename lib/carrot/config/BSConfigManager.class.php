@@ -70,7 +70,11 @@ class BSConfigManager {
 		$cache = self::getCacheFile($file);
 		if (!$cache->isExists() || $cache->getUpdateDate()->isAgo($file->getUpdateDate())) {
 			foreach ($this->compilers as $pattern => $compiler){
-				$pattern = '/' . preg_quote($pattern, '/') . '/';
+				if ($pattern == '.default') {
+					$pattern = '/./'; //全てにマッチ
+				} else {
+					$pattern = '/' . preg_quote($pattern, '/') . '/';
+				}
 				if (preg_match($pattern, $file->getPath())) {
 					$result = $compiler->execute($file);
 					$cache->setContents($result);

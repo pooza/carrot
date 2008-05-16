@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>JavaScript</key>
 	<dict>
+		<key>CompletionDictionary</key>
+		<dict>
+			<key>J6CompletionAutoLearn</key>
+			<true/>
+			<key>J6CompletionKeyPattern</key>
+			<string>[a-zA-Z@_#][a-zA-Z0-9@_\.]*[a-zA-Z0-9@_]</string>
+			<key>J6CompletionSetNameKey</key>
+			<string>JavaScript</string>
+			<key>J6CompletionSetWordsKey</key>
+			<array/>
+		</dict>
 		<key>ContinuosColoring</key>
 		<true/>
 		<key>ContinuousColoring</key>
@@ -32,24 +43,6 @@
 				<key>Color</key>
 				<data>
 				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz1ObpCDPiJwCIM/
-				AAAAAYY=
-				</data>
-				<key>EndString</key>
-				<string></string>
-				<key>IgnoreCase</key>
-				<false/>
-				<key>Name</key>
-				<string>document.write</string>
-				<key>StartString</key>
-				<string>document.write|document.open|document.close</string>
-				<key>Underline</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>Color</key>
-				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
 				CE5TT2JqZWN0AIWEAWMBhARmZmZmgzytbfmDPt27zoM+
 				9N6cAYY=
 				</data>
@@ -67,9 +60,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz76KqSDPvcdooM+
-				/TemAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMDhAJmZoMAAAA/AYY=
 				</data>
 				<key>EndString</key>
 				<string></string>
@@ -107,9 +99,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz9rIWSDPpZ5KIM+
-				px0PAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMBhARmZmZmAQAAAYY=
 				</data>
 				<key>EndString</key>
 				<string></string>
@@ -127,9 +118,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz9rIWSDPpZ5KIM+
-				px0PAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMBhARmZmZmAQAAAYY=
 				</data>
 				<key>EndString</key>
 				<string>\*/</string>

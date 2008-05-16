@@ -4,6 +4,8 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
+# 評価する順番に記述
+
 constant/application:
   class: BSDefineConfigCompiler
   params:
@@ -28,17 +30,8 @@ server/:
 layout/:
   class: BSLayoutConfigCompiler
 
-styleset/:
-  class: BSSerializeConfigCompiler
-
-mobile/:
-  class: BSSerializeConfigCompiler
-
-date/:
-  class: BSSerializeConfigCompiler
-
 filters:
   class: BSObjectRegisterConfigCompiler
 
-module:
+.default:
   class: BSSerializeConfigCompiler

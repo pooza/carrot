@@ -4,8 +4,40 @@
 <dict>
 	<key>php</key>
 	<dict>
+		<key>CompletionDictionary</key>
+		<dict>
+			<key>J6CompletionAutoLearn</key>
+			<true/>
+			<key>J6CompletionKeyPattern</key>
+			<string>[a-zA-Z@_#][a-zA-Z0-9@_\.]*[a-zA-Z0-9@_]</string>
+			<key>J6CompletionSetNameKey</key>
+			<string>php</string>
+			<key>J6CompletionSetWordsKey</key>
+			<array/>
+			<key>J6CompletionUseDefaultDic</key>
+			<false/>
+		</dict>
 		<key>ContinuousColoring</key>
 		<true/>
+		<key>J6AutoIndexArrayKey</key>
+		<array>
+			<dict>
+				<key>J6AutoIndexBoldKey</key>
+				<false/>
+				<key>J6AutoIndexDispNameKey</key>
+				<string>\1</string>
+				<key>J6AutoIndexSearchKey</key>
+				<string>^[ \t]*(.*function.*) {$</string>
+			</dict>
+			<dict>
+				<key>J6AutoIndexBoldKey</key>
+				<true/>
+				<key>J6AutoIndexDispNameKey</key>
+				<string>\1</string>
+				<key>J6AutoIndexSearchKey</key>
+				<string>^((abstract )?(class|interface).*) {$</string>
+			</dict>
+		</array>
 		<key>RuleArray</key>
 		<array>
 			<dict>
@@ -87,9 +119,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz7MzM2DPszMzYM+
-				zMzNAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMDhAJmZoMAAAA/AYY=
 				</data>
 				<key>EndString</key>
 				<string></string>
@@ -107,9 +138,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz7MzM2DPszMzYM+
-				zMzNAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMDhAJmZoMAAAA/AYY=
 				</data>
 				<key>EndString</key>
 				<string></string>
@@ -127,9 +157,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz7MzM2DPszMzYM+
-				zMzNAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMDhAJmZoMAAAA/AYY=
 				</data>
 				<key>EndString</key>
 				<string>^(\2;)$</string>
@@ -147,9 +176,8 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
-				CE5TT2JqZWN0AIWEAWMBhARmZmZmgz7MzM2DPszMzYM+
-				zMzNAYY=
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
+				CE5TT2JqZWN0AIWEAWMDhAJmZoMAAAA/AYY=
 				</data>
 				<key>EndString</key>
 				<string></string>
@@ -227,7 +255,7 @@
 			<dict>
 				<key>Color</key>
 				<data>
-				BAt0eXBlZHN0cmVhbYED6IQBQISEhAdOU0NvbG9yAISE
+				BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISE
 				CE5TT2JqZWN0AIWEAWMBhARmZmZmAQAAAYY=
 				</data>
 				<key>EndString</key>
