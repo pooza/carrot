@@ -35,6 +35,17 @@ class BSSQLite extends BSDatabase {
 	}
 
 	/**
+	 * DSNをパースしてプロパティに格納する
+	 *
+	 * @access protected
+	 */
+	protected function parseDSN () {
+		parent::parseDSN();
+		preg_match('/^sqlite:(.+)$/', $this->getDSN(), $matches);
+		$this->attributes['file'] = new BSFile($matches[1]);
+	}
+
+	/**
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
@@ -71,6 +82,52 @@ class BSSQLite extends BSDatabase {
 		);
 		$this->exec($query);
 		return $table;
+	}
+
+	/**
+	 * ダンプファイルを生成する
+	 *
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile ダンプファイル
+	 */
+	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
+		$command = array();
+		$command[] = '/usr/bin/env sqlite3';
+		$command[] = $this->getAttribute('file')->getPath();
+		$command[] = '.dump';
+		$contents = shell_exec(implode(' ', $command));
+
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
+	}
+
+	/**
+	 * スキーマファイルを生成する
+	 *
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param BSDirectory $dir 出力先ディレクトリ
+	 * @return BSFile スキーマファイル
+	 */
+	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
+		$command = array();
+		$command[] = '/usr/bin/env sqlite3';
+		$command[] = $this->getAttribute('file')->getPath();
+		$command[] = '.schema';
+		$contents = shell_exec(implode(' ', $command));
+
+		if (!$dir) {
+			$dir = BSController::getInstance()->getDirectory('sql');
+		}
+		$file = $dir->createEntry($filename);
+		$file->setContents($contents);
+		return $file;
 	}
 
 	/**

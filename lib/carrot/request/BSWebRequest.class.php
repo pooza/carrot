@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
-	private $method;
 	private static $instance;
 
 	/**
@@ -50,16 +49,6 @@ class BSWebRequest extends BSRequest {
 
 	public function hasFile ($name) {
 		return (isset($_FILES[$name]) && ($_FILES[$name]['name'] != ''));
-	}
-
-	/**
-	 * メソッドを返す
-	 *
-	 * @access public
-	 * @return integer メソッド
-	 */
-	public function getMethod () {
-		return $this->method;
 	}
 
 	/**

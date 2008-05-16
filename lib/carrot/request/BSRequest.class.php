@@ -16,6 +16,7 @@ abstract class BSRequest extends ParameterHolder {
 	const NONE = 1;
 	const GET = 2;
 	const POST = 4;
+	protected $method;
 	private $attributes = array();
 	private $errors = array();
 
@@ -120,6 +121,16 @@ abstract class BSRequest extends ParameterHolder {
 
 	public function setErrors ($errors) {
 		$this->errors = array_merge($this->errors, $errors);
+	}
+
+	/**
+	 * メソッドを返す
+	 *
+	 * @access public
+	 * @return integer メソッド
+	 */
+	public function getMethod () {
+		return $this->method;
 	}
 }
 
