@@ -115,6 +115,16 @@ abstract class BSAction {
 	}
 
 	/**
+	 * 編集中レコードを返す
+	 *
+	 * @access public
+	 * @return BSRecord 編集中レコード
+	 */
+	public function getRecord () {
+		return null;
+	}
+
+	/**
 	 * レコードクラス名を返す
 	 *
 	 * @access protected

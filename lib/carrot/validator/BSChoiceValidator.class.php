@@ -33,12 +33,21 @@ class BSChoiceValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$choices = BSString::explode(',', $this->getParameter('choices'));
-		if (!$choices->isIncluded($value)) {
+		if (!$this->getChoices()->isIncluded($value)) {
 			$this->error = $this->getParameter('choices_error');
 			return false;
 		}
 		return true;
+	}
+
+	private function getChoices () {
+		$choices = $this->getParameter('choices');
+		if (is_array($choices)) {
+			$choices = new BSArray($choices);
+		} else {
+			$choices = BSString::explode(',', $choices);
+		}
+		return $choices;
 	}
 }
 

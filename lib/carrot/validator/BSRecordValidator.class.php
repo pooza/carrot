@@ -36,23 +36,35 @@ class BSRecordValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		try {
-			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
-			$table = new $class;
-			$values = array($this->getParameter('field') => $value);
-			$isExist = ($table->getRecord($values) != null);
-		} catch (Exception $e) {
-			$isExist = false;
-		}
-
-		if ($this->getParameter('exist') && !$isExist) {
+		$flag = $this->isExist($value);
+		if ($this->getParameter('exist') && !$flag) {
 			$this->error = $this->getParameter('exist_error');
 			return false;
-		} else if (!$this->getParameter('exist') && $isExist) {
+		} else if (!$this->getParameter('exist') && $flag) {
 			$this->error = $this->getParameter('duplicate_error');
 			return false;
 		}
 		return true;
+	}
+
+	private function isExist ($value) {
+		try {
+			$values = array($this->getParameter('field') => $value);
+			if ($recordFound = $this->getTable()->getRecord($values)) {
+				if ($record = $this->controller->getAction()->getRecord()) {
+					return ($record->getID() != $recordFound->getID());
+				} else {
+					return true;
+				}
+			}
+		} catch (Exception $e) {
+		}
+		return false;
+	}
+
+	private function getTable () {
+		$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
+		return new $class;
 	}
 }
 

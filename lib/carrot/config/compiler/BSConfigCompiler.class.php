@@ -96,27 +96,35 @@ abstract class BSConfigCompiler extends ParameterHolder {
 	 * @static
 	 */
 	public static function quote ($value) {
-		$value = trim($value);
-		switch (strtolower($value)) {
-			case null:
-				return 'null';
-			case 'on':
-			case 'yes':
-			case 'true':
-				return 'true';
-			case 'off':
-			case 'no':
-			case 'false':
-				return 'false';
-			default:
-				if (is_numeric($value)) {
-					return $value;
-				} else {
-					$value = str_replace("\\", "\\\\", $value);
-					$value = str_replace("%'", "\"", $value);
-					$value = str_replace("'", "\\'", $value);
-					return "'" . $value . "'";
-				}
+		if (is_array($value) || ($value instanceof BSArray)) {
+			$body =  new BSArray;
+			foreach ($value as $key => $item) {
+				$body[] = sprintf('%s => %s', self::quote($key), self::quote($item));
+			}
+			return sprintf('array(%s)', $body->join(', '));
+		} else {
+			$value = trim($value);
+			switch (strtolower($value)) {
+				case null:
+					return 'null';
+				case 'on':
+				case 'yes':
+				case 'true':
+					return 'true';
+				case 'off':
+				case 'no':
+				case 'false':
+					return 'false';
+				default:
+					if (is_numeric($value)) {
+						return $value;
+					} else {
+						$value = str_replace("\\", "\\\\", $value);
+						$value = str_replace("%'", "\"", $value);
+						$value = str_replace("'", "\\'", $value);
+						return "'" . $value . "'";
+					}
+			}
 		}
 	}
 
