@@ -181,18 +181,10 @@ abstract class BSDatabase extends PDO {
 	 *
 	 * @access public
 	 * @param string $str クォートの対象
-	 * @param boolean $convert 半角/全角標準化を行うか
 	 * @return string クォートされた文字列
 	 */
 	public function quote ($str, $convert = true) {
 		if ($str != '') {
-			$str = BSString::convertEncoding($str);
-			if ($convert) {
-				$str = BSString::convertKana($str);
-			}
-			$str = str_replace("\r\n", "\n", $str);
-			$str = str_replace("\r", "\n", $str);
-
 			return parent::quote($str);
 		} else {
 			return 'NULL';

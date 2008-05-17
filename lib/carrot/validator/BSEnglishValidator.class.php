@@ -22,7 +22,7 @@ class BSEnglishValidator extends BSRegexValidator {
 	public function initialize ($parameters = array()) {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '使用出来ない文字が含まれています。');
-		$this->setParameter('pattern', "/^[[:print:]]*$/");
+		$this->setParameter('pattern', "/^[[:print:]\n]*$/");
 		return BSValidator::initialize($parameters);
 	}
 }

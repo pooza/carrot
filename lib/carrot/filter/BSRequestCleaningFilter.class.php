@@ -1,0 +1,48 @@
+<?php
+/**
+ * @package jp.co.b-shock.carrot
+ * @subpackage filter
+ */
+
+/**
+ * リクエストクリーニングフィルタ
+ *
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @copyright (c)b-shock. co., ltd.
+ * @version $Id$
+ */
+class BSRequestCleaningFilter extends BSFilter {
+	public function initialize ($parameters = null) {
+		$this->setParameter('convert_kana', 'KV');
+		$this->setParameter('new_line', false);
+		$this->setParameter('reading', false);
+		return parent::initialize($parameters);
+	}
+
+	public function execute (BSFilterChain $filters) {
+		foreach ($this->request->getParameters() as $key => $value) {
+			$value = BSString::convertEncoding($value);
+			$value = str_replace("\0", '', $value);
+
+			if ($this->getParameter('new_line')) {
+				$value = str_replace("\r\n", "\n", $value);
+				$value = str_replace("\r", "\n", $value);
+			}
+
+			if ($pattern = $this->getParameter('convert_kana')) {
+				$value = BSString::convertKana($value, $pattern);
+			}
+
+			if ($this->getParameter('reading') && preg_match('/_read$/', $key)) {
+				$value = str_replace(' ', '', $value);
+				$value = BSString::convertKana($value, 'KVC');
+			}
+
+			$this->request->setParameter($key, $value);
+		}
+		$filters->execute();
+	}
+}
+
+/* vim:set tabstop=4 ai: */
+?>
