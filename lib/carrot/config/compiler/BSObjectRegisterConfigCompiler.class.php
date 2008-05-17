@@ -26,7 +26,7 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 			$line = sprintf('$objects[%s] = new %s;', self::quote($category), $values['class']);
 			$this->putLine($line);
 
-			if (isset($values['params']) && is_array($values['params'])) {
+			if (isset($values['params']) && BSArray::isArray($values['params'])) {
 				$params = parent::parseParameters($values['params'], null);
 			} else {
 				$params = parent::parseParameters($values);

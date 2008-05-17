@@ -76,7 +76,7 @@ abstract class BSRecordAction extends BSAction {
 	 * @param integer $id カレントレコードID
 	 */
 	protected function setRecordID ($id) {
-		if (is_array($id)) {
+		if (BSArray::isArray($id)) {
 			if (isset($id['id'])) {
 				$id = $id['id'];
 			} else {

@@ -18,7 +18,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 		$this->putLine('$constants = array(');
 
 		foreach ($file->getResult() as $category => $values) {
-			if (!is_array($values) && !($values instanceof BSArray)) {
+			if (!BSArray::isArray($values)) {
 				continue;
 			}
 			foreach ($values as $key => $value) {

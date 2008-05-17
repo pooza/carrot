@@ -37,7 +37,7 @@ class BSCSVData implements BSRenderer {
 	 * @param string[] $lines 
 	 */
 	public function setLines ($lines) {
-		if (!is_array($lines)) {
+		if (!BSArray::isArray($lines)) {
 			$lines = array($lines);
 		}
 		$this->records = array();
@@ -53,7 +53,7 @@ class BSCSVData implements BSRenderer {
 	 * @param string[] $record 
 	 */
 	public function addRecord ($record) {
-		if (!is_array($record)) {
+		if (!BSArray::isArray($record)) {
 			$record = array($record);
 		} else if (!isset($record[0]) || ($record[0] == '')) {
 			return;
@@ -122,7 +122,7 @@ class BSCSVData implements BSRenderer {
 	 * @static
 	 */
 	public static function replaceTags ($value) {
-		if (is_array($value)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as &$item) {
 				$item = self::replaceTags($item);
 			}
@@ -146,7 +146,7 @@ class BSCSVData implements BSRenderer {
 	 * @static
 	 */
 	public static function replaceSeparators ($value) {
-		if (is_array($value)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as &$item) {
 				$item = self::replaceSeparators($item);
 			}
@@ -174,7 +174,7 @@ class BSCSVData implements BSRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		if (!is_array($this->getRecords())) {
+		if (!BSArray::isArray($this->getRecords())) {
 			$this->error = 'データ配列が正しくありません。';
 			return false;
 		}

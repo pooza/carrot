@@ -117,7 +117,7 @@ class BSHTTP extends BSSocket {
 	 * @param mixed $headers ヘッダを含んだ文字列、又は配列
 	 */
 	protected function setHeaders ($headers) {
-		if (!is_array($headers)) {
+		if (!BSArray::isArray($headers)) {
 			$headers = explode("\n", $headers); 
 		}
 

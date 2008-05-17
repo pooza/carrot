@@ -259,6 +259,18 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	public function __toString () {
 		return $this->join("\n");
 	}
+
+	/**
+	 * 配列か？
+	 *
+	 * @access public
+	 * @param mixed $value 対象
+	 * @return boolean 配列ならTrue
+	 * @static
+	 */
+	public static function isArray ($value) {
+		return is_array($value) || ($value instanceof BSArray);
+	}
 }
 
 /* vim:set tabstop=4 ai: */

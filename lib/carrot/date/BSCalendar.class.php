@@ -130,7 +130,7 @@ class BSCalendar {
 	 * @param integer[] $weekdays 曜日
 	 */
 	public function setRegularHolidays ($weekdays) {
-		if (!is_array($weekdays)) {
+		if (!BSArray::isArray($weekdays)) {
 			$weekdays = array($weekdays);
 		}
 

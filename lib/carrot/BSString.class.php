@@ -35,7 +35,7 @@ class BSString {
 	 * @static
 	 */
 	public static function convertEncoding ($value, $encodingTo = null, $encodingFrom = null) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertEncoding($item, $encodingTo, $encodingFrom);
 			}
@@ -74,7 +74,7 @@ class BSString {
 	 * @static
 	 */
 	public static function sanitize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::sanitize($item);
 			}
@@ -93,7 +93,7 @@ class BSString {
 	 * @static
 	 */
 	public static function unsanitize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::unsanitize($item);
 			}
@@ -113,7 +113,7 @@ class BSString {
 	 * @static
 	 */
 	public static function convertKana ($value, $format = 'KVa') {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertKana($item, $format);
 			}
@@ -134,7 +134,7 @@ class BSString {
 	 * @static
 	 */
 	public static function truncate ($value, $length, $suffix = '...') {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::truncate($item, $length, $suffix);
 			}
@@ -155,7 +155,7 @@ class BSString {
 	 * @static
 	 */
 	public static function capitalize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::capitalize($item);
 			}
@@ -174,7 +174,7 @@ class BSString {
 	 * @static
 	 */
 	public static function camelize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::camelize($item);
 			}
@@ -199,7 +199,7 @@ class BSString {
 	 * @static
 	 */
 	public static function pascalize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::pascalize($item);
 			}
@@ -222,7 +222,7 @@ class BSString {
 	 * @static
 	 */
 	public static function underscorize ($value) {
-		if (is_array($value) || ($value instanceof BSArray)) {
+		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::underscorize($item);
 			}
@@ -320,20 +320,15 @@ class BSString {
 	 * @static
 	 */
 	public static function toString ($value, $fieldGlue = '', $elementGlue = ',') {
-		if (is_object($value)) {
-			if ($value = $value->__toString()) {
-				return $value;
-			}
-			$value = get_object_vars($value);
-		} else if (!is_array($value)) {
+		if (!BSArray::isArray($value)) {
 			return $value;
 		}
 
-		$elements = array();
+		$elements = new BSArray;
 		foreach ($value as $key => $element) {
 			$elements[] = $key . $fieldGlue . $element;
 		}
-		return implode($elementGlue, $elements);
+		return $elements->join($elementGlue);
 	}
 }
 

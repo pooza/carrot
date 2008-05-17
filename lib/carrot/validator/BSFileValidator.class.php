@@ -34,7 +34,7 @@ class BSFileValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!is_array($value) && !($value instanceof BSArray)) {
+		if (!BSArray::isArray($value)) {
 			$this->error = $this->getParameter('invalid_error');
 			return false;
 		} else if ($value['name']) {

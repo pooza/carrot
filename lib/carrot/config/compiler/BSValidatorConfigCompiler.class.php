@@ -35,7 +35,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		foreach ($methods as $method => $fields) {
 			$method = strtoupper($method);
 			$this->fields[$method] = new BSArray;
-			if (!is_array($fields) && !($fields instanceof BSArray)) {
+			if (!BSArray::isArray($fields)) {
 				$fields = BSString::explode(',', $fields);
 			}
 			foreach ($fields as $field) {
@@ -51,7 +51,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators = new BSArray;
 		foreach (BSWebRequest::getMethodNames() as $method) {
 			foreach ($names as $name => $value) {
-				if (is_array($value)) {
+				if (BSArray::isArray($value)) {
 					if ($this->fields[$method][$name]) {
 						$this->fields[$method][$name]->setParameters($value);
 					}

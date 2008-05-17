@@ -170,7 +170,7 @@ class BSSQL {
 	public static function getFieldsString ($fields = null) {
 		if (!$fields) {
 			return '*';
-		} if (!is_array($fields)) {
+		} if (!BSArray::isArray($fields)) {
 			return $fields;
 		}
 
@@ -186,7 +186,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getFromString ($tables) {
-		if (!is_array($tables)) {
+		if (!BSArray::isArray($tables)) {
 			return $tables;
 		}
 
@@ -218,7 +218,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getCriteriaString ($criteria, $glue = ' AND ') {
-		if (!is_array($criteria)) {
+		if (!BSArray::isArray($criteria)) {
 			return $criteria;
 		}
 		$criteriaFormed = array();
@@ -237,7 +237,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getOrderString ($order) {
-		if (!is_array($order)) {
+		if (!BSArray::isArray($order)) {
 			return $order;
 		}
 		return implode(', ', $order);
@@ -252,7 +252,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getGroupString ($group) {
-		if (!is_array($group)) {
+		if (!BSArray::isArray($group)) {
 			return $group;
 		}
 		return implode(', ', $group);

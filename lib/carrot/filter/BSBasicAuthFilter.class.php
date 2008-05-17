@@ -36,7 +36,7 @@ class BSBasicAuthFilter extends BSFilter {
 	}
 
 	public function initialize ($parameters = null) {
-		if (!is_array($parameters)) {
+		if (!BSArray::isArray($parameters)) {
 			$parameters = array();
 		}
 		$default = array(

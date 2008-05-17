@@ -224,7 +224,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return BSRecord レコード
 	 */
 	public function getRecord ($primaryKey) {
-		if (!is_array($primaryKey)) {
+		if (!BSArray::isArray($primaryKey)) {
 			$primaryKey = array($this->getKeyField() => $primaryKey);
 		}
 

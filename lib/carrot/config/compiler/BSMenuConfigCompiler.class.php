@@ -23,7 +23,7 @@ class BSMenuConfigCompiler extends BSSerializeConfigCompiler {
 	protected function getContents ($config) {
 		$contents = array();
 		foreach ($config as $module => $values) {
-			if (is_array($values)) {
+			if (BSArray::isArray($values)) {
 				foreach ($values as $key => $value) {
 					unset($values[$key]);
 					$values[strtolower($key)] = parent::replaceConstants($value);
