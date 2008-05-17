@@ -168,13 +168,14 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getFieldsString ($fields = null) {
-		if (!$fields) {
+		if ($fields == '') {
 			return '*';
-		} if (!BSArray::isArray($fields)) {
-			return $fields;
+		} if (is_array($fields)) {
+			return implode(', ', $fields);
+		} if (BSArray::isArray($fields)) {
+			return $fields->join(', ');
 		}
-
-		return implode(', ', $fields);
+		throw new BSDatabaseException('フィールドリスト "%s" が正しくありません。', $fields);
 	}
 
 	/**
