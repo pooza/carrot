@@ -20,15 +20,13 @@ class BSBasicAuthFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function isAuthenticated () {
-		$userid = $this->controller->getEnvironment('PHP_AUTH_USER');
+		$id = $this->controller->getEnvironment('PHP_AUTH_USER');
 		$password = BSCrypt::getMD5($this->controller->getEnvironment('PHP_AUTH_PW'));
 
-		// パスフレーズのチェックは必須
 		if ($password != $this->getParameter('password')) {
 			return false;
 		}
-		// ユーザーIDは、指定されている場合のみチェックする
-		if ($this->getParameter('userid') && ($userid != $this->getParameter('userid'))) {
+		if ($this->getParameter('user_id') && ($id != $this->getParameter('user_id'))) {
 			return false;
 		}
 
@@ -36,16 +34,9 @@ class BSBasicAuthFilter extends BSFilter {
 	}
 
 	public function initialize ($parameters = null) {
-		if (!BSArray::isArray($parameters)) {
-			$parameters = array();
-		}
-		$default = array(
-			'userid' => BSAdministrator::EMAIL,
-			'password' => BSAdministrator::PASSWORD,
-			'realm' => 'Please enter "User ID" and "Password".',
-		);
-		$parameters = array_merge($default, $parameters);
-
+		$this->setParameter('user_id', BSAdministrator::EMAIL);
+		$this->setParameter('password', BSAdministrator::PASSWORD);
+		$this->setParameter('realm', 'Please enter "User ID" and "Password".');
 		return parent::initialize($parameters);
 	}
 
