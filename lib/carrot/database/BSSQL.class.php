@@ -168,14 +168,13 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getFieldsString ($fields = null) {
-		if ($fields == '') {
+		if (!$fields) {
 			return '*';
-		} if (is_array($fields)) {
-			return implode(', ', $fields);
-		} if (BSArray::isArray($fields)) {
-			return $fields->join(', ');
+		} if (!is_array($fields)) {
+			return $fields;
 		}
-		throw new BSDatabaseException('フィールドリスト "%s" が正しくありません。', $fields);
+
+		return implode(', ', $fields);
 	}
 
 	/**
@@ -187,7 +186,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getFromString ($tables) {
-		if (!BSArray::isArray($tables)) {
+		if (!is_array($tables)) {
 			return $tables;
 		}
 
@@ -219,7 +218,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getCriteriaString ($criteria, $glue = ' AND ') {
-		if (!BSArray::isArray($criteria)) {
+		if (!is_array($criteria)) {
 			return $criteria;
 		}
 		$criteriaFormed = array();
@@ -238,7 +237,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getOrderString ($order) {
-		if (!BSArray::isArray($order)) {
+		if (!is_array($order)) {
 			return $order;
 		}
 		return implode(', ', $order);
@@ -253,7 +252,7 @@ class BSSQL {
 	 * @static
 	 */
 	public static function getGroupString ($group) {
-		if (!BSArray::isArray($group)) {
+		if (!is_array($group)) {
 			return $group;
 		}
 		return implode(', ', $group);
