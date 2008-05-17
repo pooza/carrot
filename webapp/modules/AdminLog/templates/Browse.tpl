@@ -25,11 +25,11 @@
 	</tr>
 
 {foreach from=$logs item=log}
-	<tr>
-		<td width="120" {if $log.exception}class="alert"{/if}>{$log.date}</td>
-		<td width="150" {if $log.exception}class="alert"{/if}>{$log.host}</td>
-		<td width="120" {if $log.exception}class="alert"{/if}>{$log.type}</td>
-		<td width="360" {if $log.exception}class="alert"{/if}>{$log.description}</td>
+	<tr {if $log.exception}class="alert"{/if}>
+		<td width="120">{$log.date}</td>
+		<td width="150">{$log.host}</td>
+		<td width="120">{$log.type}</td>
+		<td width="360">{$log.description}</td>
 	</tr>
 {foreachelse}
 	<tr>

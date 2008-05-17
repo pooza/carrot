@@ -5,7 +5,7 @@
 # @version $Id$
 
 .global:
-  carrot_ver: 2.0.10
+  carrot_ver: 2.0.11
   script_encoding: utf-8
 
 default:

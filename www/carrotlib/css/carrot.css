@@ -20,9 +20,10 @@ pre,textarea,code,tt {
 	font-family: monospace;
 }
 
-form,ol,ul {
+ol,ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
+	margin-left: -20px;
 }
 
 h1,h2,h3,h4,h5,h6,h7 {
@@ -109,6 +110,10 @@ input.english,textarea.english {
 
 table tr.hide td {
 	background-color: gray;
+}
+
+table tr.alert td {
+	background-color: #FF6633;
 }
 
 .alert {
