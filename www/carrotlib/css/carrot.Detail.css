@@ -14,3 +14,7 @@ table.Detail th {
 table.Detail td {
 	width: 480px;
 }
+
+table.Detail td label {
+	display: block;
+}

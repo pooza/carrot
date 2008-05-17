@@ -154,6 +154,20 @@ class BSModule {
 	}
 
 	/**
+	 * バリデーション設定ファイルを返す
+	 *
+	 * @access public
+	 * @param string $name 設定ファイルの名前
+	 * @return BSConfigFile バリデーション設定ファイル
+	 */
+	public function getValidationFile ($name) {
+		if (!$dir = $this->getDirectory()->getEntry('validate')) {
+			return null;
+		}
+		return BSConfigManager::getConfigFile($dir->getPath() . '/' . $name);
+	}
+
+	/**
 	 * アクションを返す
 	 *
 	 * @access public

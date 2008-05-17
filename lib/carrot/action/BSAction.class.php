@@ -156,10 +156,7 @@ abstract class BSAction {
 	 * @return BSConfigFile バリデーション設定ファイル
 	 */
 	public function getValidationFile () {
-		if (!$dir = $this->getModule()->getDirectory()->getEntry('validate')) {
-			return null;
-		}
-		return BSConfigManager::getConfigFile($dir->getPath() . '/' . $this->getName());
+		return $this->getModule()->getValidationFile($this->getName());
 	}
 
 	/**
