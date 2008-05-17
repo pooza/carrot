@@ -10,6 +10,10 @@
 {include file='AdminHeader'}
 {include file='ErrorMessages' hide_error_code=true}
 
+<div id="BreadCrumbs">
+	<a href="#">TableReport</a>
+</div>
+
 <h1>テーブル一覧</h1>
 
 <ul>

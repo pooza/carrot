@@ -9,6 +9,11 @@
 
 {include file='AdminHeader'}
 
+<div id="BreadCrumbs">
+	<a href="/{$module}/">TableReport</a>
+	<a href="#">テーブル &quot;{$tablename}&quot;</a>
+</div>
+
 <h1>テーブル &quot;{$tablename}&quot;</h1>
 
 <h2>基本情報</h2>
@@ -91,8 +96,6 @@
 {/foreach}
 
 </table>
-
-<p><a href="/{$module}/">テーブル一覧に戻る</a></p>
 
 {include file='AdminFooter'}
 
