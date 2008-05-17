@@ -23,6 +23,7 @@ class BSRecordValidator extends BSValidator {
 		$this->setParameter('table', null);
 		$this->setParameter('field', 'id');
 		$this->setParameter('exist', true);
+		$this->setParameter('update', false);
 		$this->setParameter('exist_error', '登録されていません。');
 		$this->setParameter('duplicate_error', '重複します。');
 		return parent::initialize($parameters);
@@ -51,8 +52,12 @@ class BSRecordValidator extends BSValidator {
 		try {
 			$values = array($this->getParameter('field') => $value);
 			if ($recordFound = $this->getTable()->getRecord($values)) {
-				if ($record = $this->controller->getAction()->getRecord()) {
-					return ($record->getID() != $recordFound->getID());
+				if ($this->getParameter('update')) {
+					if ($record = $this->controller->getAction()->getRecord()) {
+						return ($record->getID() != $recordFound->getID());
+					} else {
+						throw new BSValidatorException('レコードが見つかりません。');
+					}
 				} else {
 					return true;
 				}
@@ -63,7 +68,10 @@ class BSRecordValidator extends BSValidator {
 	}
 
 	private function getTable () {
-		$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
+		if (!$table = $this->getParameter('table')) {
+			throw new BSValidatorException('テーブル名が定義されていません。');
+		}
+		$class = BSString::pascalize($table) . 'Handler';
 		return new $class;
 	}
 }
