@@ -88,7 +88,11 @@ class BSHTMLFragmentValidator extends BSValidator {
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
 			$this->allowedTags[] = 'div';
-			foreach (explode(',', $this->getParameter('allowed_tags')) as $tag) {
+			$tags = $this->getParameter('allowed_tags');
+			if (!is_array($tags)) {
+				$tags = explode(',', $tags);
+			}
+			foreach ($tags as $tag) {
 				if ($tag) {
 					$this->allowedTags[] = strtolower($tag);
 				}

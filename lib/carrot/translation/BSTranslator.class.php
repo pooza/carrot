@@ -23,7 +23,14 @@ class BSTranslator {
 	 * @access private
 	 */
 	private function __construct () {
-		// コンストラクタからのインスタンス生成を禁止
+		foreach ($this->getDirectory() as $dictionary) {
+			if ($dictionary->getName() == 'carrot') {
+				continue;
+			}
+			$this->register($dictionary);
+		}
+		$this->register($this->getDirectory()->getEntry('carrot'));
+		$this->register(new BSConstantsDictionary());
 	}
 
 	/**
@@ -60,22 +67,22 @@ class BSTranslator {
 	}
 
 	/**
+	 * 辞書を登録する
+	 *
+	 * @access public
+	 * @param BSDictionary 辞書
+	 */
+	public function register (BSDictionary $dictionary) {
+		$this->dictionaries[] = $dictionary;
+	}
+
+	/**
 	 * 辞書配列を返す
 	 *
 	 * @access private
 	 * @retnrn BSDictionary[] 辞書配列
 	 */
 	private function getDictionaries () {
-		if (!$this->dictionaries) {
-			foreach ($this->getDirectory() as $dictionary) {
-				if ($dictionary->getName() == 'carrot') {
-					continue;
-				}
-				$this->dictionaries[] = $dictionary;
-			}
-			$this->dictionaries[] = $this->getDirectory()->getEntry('carrot');
-			$this->dictionaries[] = new BSConstantsDictionary();
-		}
 		return $this->dictionaries;
 	}
 

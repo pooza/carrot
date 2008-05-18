@@ -33,9 +33,14 @@ class BSChoiceValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!$this->getChoices()->isIncluded($value)) {
-			$this->error = $this->getParameter('choices_error');
-			return false;
+		if (!BSArray::isArray($value)) {
+			$value = array($value);
+		}
+		foreach ($value as $item) {
+			if (!$this->getChoices()->isIncluded($item)) {
+				$this->error = $this->getParameter('choices_error');
+				return false;
+			}
 		}
 		return true;
 	}
