@@ -5,7 +5,7 @@
  */
 
 /**
- * PDOのPostgreSQL用ラッパー
+ * PostgreSQL接続
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -24,7 +24,7 @@ class BSPostgreSQL extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				self::$instance = new BSPostgreSQL(self::DSN);
+				self::$instance = new BSPostgreSQL(BS_PDO_DSN);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();

@@ -5,7 +5,7 @@
  */
 
 /**
- * PDOのDOBCデータベース用ラッパー
+ * DOBCデータベース接続
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -24,12 +24,12 @@ class BSODBCDatabase extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				self::$instance = new BSODBCDatabase(self::DSN, self::UID, self::PASSWORD);
+				self::$instance = new BSODBCDatabase(BS_PDO_DSN, BS_PDO_UID, BS_PDO_PASSWORD);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException(
 					'DB接続エラーです。DSN:[%s] (%s)',
 					BSString::convertEncoding($e->getMessage()),
-					self::DSN
+					BS_PDO_DSN
 				);
 				throw $e;
 			}

@@ -5,7 +5,7 @@
  */
 
 /**
- * PDOのSQLite用ラッパー
+ * SQLite接続
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -24,7 +24,7 @@ class BSSQLite extends BSDatabase {
 	public static function getInstance () {
 		if (!self::$instance) {
 			try {
-				self::$instance = new BSSQLite(self::DSN);
+				self::$instance = new BSSQLite(BS_PDO_DSN);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();

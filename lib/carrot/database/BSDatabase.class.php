@@ -5,7 +5,7 @@
  */
 
 /**
- * PDOのラッパー
+ * データベース接続
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -16,9 +16,6 @@ abstract class BSDatabase extends PDO {
 	protected $attributes;
 	protected $tables = array();
 	private $dbms;
-	const DSN = BS_PDO_DSN;
-	const UID = BS_PDO_UID;
-	const PASSWORD = BS_PDO_PASSWORD;
 	const LOG_TYPE = 'Query';
 
 	/**
@@ -29,7 +26,7 @@ abstract class BSDatabase extends PDO {
 	 * @static
 	 */
 	public static function getInstance () {
-		preg_match('/^([a-z0-9]+):/', self::DSN, $matches);
+		preg_match('/^([a-z0-9]+):/', BS_PDO_DSN, $matches);
 		switch ($dbms = $matches[1]) {
 			case 'mysql':
 				return BSMySQL::getInstance();
@@ -95,9 +92,9 @@ abstract class BSDatabase extends PDO {
 	 * @access protected
 	 */
 	protected function parseDSN () {
-		$this->attributes['dsn'] = self::DSN;
-		$this->attributes['user'] = self::UID;
-		$this->attributes['password'] = self::PASSWORD;
+		$this->attributes['dsn'] = BS_PDO_DSN;
+		$this->attributes['user'] = BS_PDO_UID;
+		$this->attributes['password'] = BS_PDO_PASSWORD;
 	}
 
 	/**
