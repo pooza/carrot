@@ -9,4 +9,5 @@
       convert_kana: KVa
       new_line: yes
       reading: yes
+      date: yes
 
