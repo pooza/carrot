@@ -177,15 +177,16 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 文字列をクォート
+	 * 文字列をクォートする
 	 *
 	 * @access public
-	 * @param string $str クォートの対象
-	 * @return string クォートされた文字列
+	 * @param string $string 対象文字列
+	 * @param string $type クォートのタイプ
+	 * @return string クォート後の文字列
 	 */
-	public function quote ($str, $convert = true) {
+	public function quote ($string, $type = PDO::PARAM_STR) {
 		if ($str != '') {
-			return parent::quote($str);
+			return parent::quote($str, $type);
 		} else {
 			return 'NULL';
 		}

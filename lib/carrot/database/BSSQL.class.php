@@ -27,12 +27,11 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $str クォートの対象
-	 * @param boolean $convert 半角/全角標準化を行うか
 	 * @return string クォートされた文字列
 	 * @static
 	 */
-	public static function quote ($str, $convert = true) {
-		return BSDatabase::getInstance()->quote($str, $convert);
+	public static function quote ($str) {
+		return BSDatabase::getInstance()->quote($str);
 	}
 
 	/**
