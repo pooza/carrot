@@ -16,7 +16,6 @@ class BSXMPP extends BSSocket {
 	private $authID;
 	private $status;
 	private $jid;
-	const HOST = BS_XMPP_HOST;
 
 	/**
 	 * コンストラクタ
@@ -27,7 +26,7 @@ class BSXMPP extends BSSocket {
 	 */
 	function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
-			$host = new BSHost(self::HOST);
+			$host = new BSHost(BS_XMPP_HOST);
 		}
 		parent::__construct($host, $port);
 	}

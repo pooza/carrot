@@ -22,7 +22,6 @@ class BSSMTP extends BSSocket {
 	private $boundary;
 	private $keywords = array();
 	private $addresses;
-	const HOST = BS_SMTP_HOST;
 	const TEST_MODE = true;
 
 	/**
@@ -34,7 +33,7 @@ class BSSMTP extends BSSocket {
 	 */
 	function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
-			$host = new BSHost(self::HOST);
+			$host = new BSHost(BS_SMTP_HOST);
 		}
 
 		parent::__construct($host, $port);
@@ -145,24 +144,24 @@ class BSSMTP extends BSSocket {
 	 * @param boolean $mode テストモードならTrue
 	 */
 	protected function putRcptToRequest ($mode = false) {
-		$this->addresses = array();
+		$this->addresses = new BSArray;
 		if (BSController::getInstance()->isDebugMode() || $mode) {
-			$this->addresses[] = BSAdministrator::EMAIL;
+			$this->addresses[] = BSAdministrator::getMailAddress();
 		} else {
-			$this->addresses[] = $this->to->getAddress();
+			$this->addresses[] = $this->to;
 			foreach ($this->bcc as $address) {
-				$this->addresses[] = $address->getAddress(); 
+				$this->addresses[] = $address; 
 			}
 		}
 		$this->checkAddresses();
 
 		foreach ($this->addresses as $address) {
-			$this->putLine('RCPT TO:' . $address);
+			$this->putLine('RCPT TO:' . $address->getContents());
 			$code = $this->getResultCode();
 			if (!in_array($code, array(250, 251))) {
 				throw new BSMailException(
 					'受信アドレス"%s"が拒否されました。(%d)',
-					$address,
+					$address->getContents(),
 					$code
 				);
 			}
@@ -201,17 +200,11 @@ class BSSMTP extends BSSocket {
 	 */
 	private function checkAddresses () {
 		if (defined('BS_SMTP_CHECK_ADDRESSES') && BS_SMTP_CHECK_ADDRESSES) {
-			if (!BSArray::isArray($this->addresses) || !$this->addresses) {
+			if (!BSArray::isArray($this->addresses) || !$this->addresses->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 				return false;
 			}
 			foreach ($this->addresses as $address) {
-				try {
-					$address = new BSMailAddress($address);
-				} catch (BSMailException $e) {
-					throw new BSMailException('%sが正しくありません。', $address);
-					return false;
-				}
 				if (!$address->isValidDomain()) {
 					throw new BSMailException('%sが正しくありません。', $address);
 					return false;

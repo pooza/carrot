@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSJapaneseHolidayList extends BSHolidayList {
-	const URL = BS_HOLIDAY_URL_JA;
 
 	/**
 	 * ICSカレンダーをパースしてルール配列に格納
@@ -128,7 +127,7 @@ class BSJapaneseHolidayList extends BSHolidayList {
 	 */
 	protected function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL(self::URL);
+			$this->url = new BSURL(BS_HOLIDAY_URL_JA);
 		}
 		return $this->url;
 	}

@@ -31,10 +31,8 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 			} else {
 				$params = parent::parseParameters($values);
 			}
-			if ($params) {
-				$line = sprintf('$objects[%s]->initialize(%s);', self::quote($category), $params);
-				$this->putLine($line);
-			}
+			$line = sprintf('$objects[%s]->initialize(%s);', self::quote($category), $params);
+			$this->putLine($line);
 		}
 		return $this->getBody();
 	}

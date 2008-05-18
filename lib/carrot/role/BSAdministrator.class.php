@@ -13,9 +13,6 @@
  */
 class BSAdministrator implements BSRole {
 	private static $networks = array();
-	const EMAIL = BS_ADMIN_EMAIL;
-	const PASSWORD = BS_ADMIN_PASSWORD;
-	const JID = BS_ADMIN_JID;
 
 	/**
 	 * メールアドレスを取得
@@ -26,7 +23,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	public static function getMailAddress ($language = 'ja') {
-		return new BSMailAddress(self::EMAIL, self::getName($language));
+		return new BSMailAddress(BS_ADMIN_EMAIL, self::getName($language));
 	}
 
 	/**
@@ -49,7 +46,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	public static function getJabberID () {
-		return new BSJabberID(self::JID);
+		return new BSJabberID(BS_ADMIN_JID);
 	}
 
 	/**
@@ -84,7 +81,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	public static function auth ($email, $password) {
-		return ($email == self::EMAIL) && (BSCrypt::getMD5($password) == self::PASSWORD);
+		return ($email == BS_ADMIN_EMAIL) && (BSCrypt::getMD5($password) == BS_ADMIN_PASSWORD);
 	}
 }
 

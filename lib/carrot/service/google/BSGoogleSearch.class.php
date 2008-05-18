@@ -16,7 +16,6 @@ class BSGoogleSearch {
 	private $query;
 	private $result = array();
 	private static $instance;
-	const KEY = BS_GOOGLE_KEY;
 
 	/**
 	 * コンストラクタ
@@ -80,7 +79,7 @@ class BSGoogleSearch {
 		$this->query = $query;
 
 		$result = $this->getEngine()->doGoogleSearch(
-			self::KEY,
+			BS_GOOGLE_KEY,
 			BSString::convertEncoding($this->query, 'UTF-8'),
 			0, $limit, false, 'countryJP', false, 'lang_ja',
 			'UTF-8', BSString::SCRIPT_ENCODING

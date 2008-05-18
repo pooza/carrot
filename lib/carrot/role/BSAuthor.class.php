@@ -13,9 +13,6 @@
  * @abstract
  */
 class BSAuthor implements BSRole {
-	const EMAIL = BS_AUTHOR_EMAIL;
-	const PASSWORD = BS_AUTHOR_PASSWORD;
-	const JID = BS_AUTHOR_JID;
 
 	/**
 	 * メールアドレスを取得
@@ -26,7 +23,7 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	public static function getMailAddress ($language = 'ja') {
-		return new BSMailAddress(self::EMAIL, self::getName($language));
+		return new BSMailAddress(BS_AUTHOR_EMAIL, self::getName($language));
 	}
 
 	/**
@@ -52,7 +49,7 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	public static function getJabberID () {
-		return new BSJabberID(self::JID);
+		return new BSJabberID(BS_AUTHOR_JID);
 	}
 
 	/**
@@ -65,7 +62,7 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	public static function auth ($email, $password) {
-		return ($email == self::EMAIL) && ($password == self::PASSWORD);
+		return ($email == BS_AUTHOR_EMAIL) && ($password == BS_AUTHOR_PASSWORD);
 	}
 }
 
