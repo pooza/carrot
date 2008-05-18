@@ -24,7 +24,7 @@ smarty:
   template_encoding: utf-8
 
 holiday:
-  url_ja: http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics#
+  url_ja: http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics
 
 browscap:
   url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
