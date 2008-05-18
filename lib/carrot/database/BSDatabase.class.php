@@ -182,8 +182,8 @@ abstract class BSDatabase extends PDO {
 	 * @return string クォート後の文字列
 	 */
 	public function quote ($string, $type = PDO::PARAM_STR) {
-		if ($str != '') {
-			return parent::quote($str, $type);
+		if ($string != '') {
+			return parent::quote($string, $type);
 		} else {
 			return 'NULL';
 		}
