@@ -119,7 +119,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$line = sprintf('  $validator = new %s;', $this->validators[$validator]['class']);
 		$this->putLine($line);
 
-		if ($validator['params']) {
+		if (count($this->validators[$validator]['params'])) {
 			$params = self::parseParameters($this->validators[$validator]['params'], null);
 		} else {
 			$params = self::parseParameters($this->validators[$validator]);
