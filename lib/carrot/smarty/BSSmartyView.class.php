@@ -24,9 +24,10 @@ abstract class BSSmartyView extends BSView {
 	public function initialize () {
 		parent::initialize();
 
-		$module = $this->controller->getModule();
 		$this->setEngine(new BSSmarty());
-		$this->getEngine()->setTemplatesDirectory($module->getDirectory()->getEntry('templates'));
+		if ($dir = $this->controller->getModule()->getDirectory()->getEntry('templates')) {
+			$this->getEngine()->setTemplatesDirectory($dir);
+		}
 		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
 		$this->getEngine()->addModifier('sanitize');
 
