@@ -34,16 +34,20 @@ class BSRequestCleaningFilter extends BSFilter {
 				$value = BSString::convertKana($value, $pattern);
 			}
 
-			if ($this->getParameter('reading') && preg_match('/_read$/', $key)) {
-				$value = str_replace(' ', '', $value);
-				$value = BSString::convertKana($value, 'KVC');
+			if ($this->getParameter('reading')) {
+				if (preg_match('/_read$/', $key)) {
+					$value = str_replace(' ', '', $value);
+					$value = BSString::convertKana($value, 'KVC');
+				}
 			}
 
-			if ($this->getParameter('date') && preg_match('/(day|date)$/', $key)) {
-				try {
-					$date = new BSDate($value);
-					$value = $date->format('Y-m-d');
-				} catch (BSDateException $e) {
+			if ($this->getParameter('date')) {
+				if (!BSArray::isArray($value) && preg_match('/(day|date)$/', $key)) {
+					try {
+						$date = new BSDate($value);
+						$value = $date->format('Y-m-d');
+					} catch (BSDateException $e) {
+					}
 				}
 			}
 

@@ -68,6 +68,19 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
+	 * リネーム
+	 *
+	 * @access public
+	 * @param string $name 新しい名前
+	 */
+	public function rename ($name) {
+		if (!$this->getSuffix()) {
+			$name .= BSImage::getSuffixes()->getParameter($this->getEngine()->getType());
+		}
+		parent::rename($name);
+	}
+
+	/**
 	 * レンダラーを返す
 	 *
 	 * @access public
