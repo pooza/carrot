@@ -115,6 +115,16 @@ abstract class BSAction {
 	}
 
 	/**
+	 * カレントレコードIDを返す
+	 *
+	 * @access public
+	 * @return integer カレントレコードID
+	 */
+	public function getRecordID () {
+		return null;
+	}
+
+	/**
 	 * 編集中レコードを返す
 	 *
 	 * @access public
