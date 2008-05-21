@@ -14,7 +14,7 @@
  */
 class BSActionStack {
 	private $stack;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -32,7 +32,7 @@ class BSActionStack {
 	 * @return BSActionStack インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSActionStack();
 		}

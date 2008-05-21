@@ -30,7 +30,7 @@ class BSSQL {
 	 * @return string クォートされた文字列
 	 * @static
 	 */
-	public static function quote ($str) {
+	static public function quote ($str) {
 		return BSDatabase::getInstance()->quote($str);
 	}
 
@@ -48,7 +48,7 @@ class BSSQL {
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	public static function getSelectQueryString ($fields, $tables,
+	static public function getSelectQueryString ($fields, $tables,
 		$criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
 
 		$query = array(
@@ -82,7 +82,7 @@ class BSSQL {
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	public static function getInsertQueryString ($table, $values) {
+	static public function getInsertQueryString ($table, $values) {
 		$fields = array();
 		$valuesQuoted = array();
 		foreach ($values as $key => $value) {
@@ -108,7 +108,7 @@ class BSSQL {
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	public static function getUpdateQueryString ($table, $values, $criteria) {
+	static public function getUpdateQueryString ($table, $values, $criteria) {
 		$fields = array();
 		foreach ($values as $key => $value) {
 			$fields[] = sprintf('%s=%s', $key, self::quote($value));
@@ -131,7 +131,7 @@ class BSSQL {
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	public static function getDeleteQueryString ($table, $criteria) {
+	static public function getDeleteQueryString ($table, $criteria) {
 		return sprintf('DELETE FROM %s WHERE %s', $table, self::getCriteriaString($criteria));
 	}
 
@@ -143,7 +143,7 @@ class BSSQL {
 	 * @param string[] $details フィールド定義等
 	 * @static
 	 */
-	public static function getCreateTableQueryString ($table, $details) {
+	static public function getCreateTableQueryString ($table, $details) {
 		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $details));
 	}
 
@@ -154,7 +154,7 @@ class BSSQL {
 	 * @param string $table テーブル名
 	 * @static
 	 */
-	public static function getDropTableQueryString ($table) {
+	static public function getDropTableQueryString ($table) {
 		return sprintf('DROP TABLE %s', $table);
 	}
 
@@ -166,7 +166,7 @@ class BSSQL {
 	 * @return string フィールドリスト文字列
 	 * @static
 	 */
-	public static function getFieldsString ($fields = null) {
+	static public function getFieldsString ($fields = null) {
 		if (!$fields) {
 			return '*';
 		} if (!is_array($fields)) {
@@ -184,7 +184,7 @@ class BSSQL {
 	 * @return string テーブル文字列
 	 * @static
 	 */
-	public static function getFromString ($tables) {
+	static public function getFromString ($tables) {
 		if (!is_array($tables)) {
 			return $tables;
 		}
@@ -216,7 +216,7 @@ class BSSQL {
 	 * @return string 抽出条件文字列
 	 * @static
 	 */
-	public static function getCriteriaString ($criteria, $glue = ' AND ') {
+	static public function getCriteriaString ($criteria, $glue = ' AND ') {
 		if (!is_array($criteria)) {
 			return $criteria;
 		}
@@ -235,7 +235,7 @@ class BSSQL {
 	 * @return string ソート順文字列
 	 * @static
 	 */
-	public static function getOrderString ($order) {
+	static public function getOrderString ($order) {
 		if (!is_array($order)) {
 			return $order;
 		}
@@ -250,7 +250,7 @@ class BSSQL {
 	 * @return string グループ化文字列
 	 * @static
 	 */
-	public static function getGroupString ($group) {
+	static public function getGroupString ($group) {
 		if (!is_array($group)) {
 			return $group;
 		}
@@ -266,7 +266,7 @@ class BSSQL {
 	 * @return string オフセット文字列
 	 * @static
 	 */
-	public static function getOffsetString ($page, $pagesize) {
+	static public function getOffsetString ($page, $pagesize) {
 		return sprintf(
 			'LIMIT %d OFFSET %d',
 			$pagesize,

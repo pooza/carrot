@@ -34,7 +34,7 @@ class BSUserAgent {
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	public static function createInstance ($name) {
+	static public function createInstance ($name) {
 		foreach (self::getTypes() as $type) {
 			$type = 'BS' . $type . 'UserAgent';
 			$useragent = new $type;
@@ -161,7 +161,7 @@ class BSUserAgent {
 	 * @return string[] タイプリスト
 	 * @static
 	 */
-	public static function getTypes () {
+	static public function getTypes () {
 		// 評価を行う順に記述すること
 		return array(
 			'Opera',

@@ -30,7 +30,7 @@ class BSSerializeConfigCompiler extends BSConfigCompiler {
 		return $this->getBody();
 	}
 
-	private static function getAttributeName (BSFile $file) {
+	static private function getAttributeName (BSFile $file) {
 		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
 		$name = str_replace(BSController::getInstance()->getPath('webapp'), '', $name);
 		$name = implode('.', explode('/', $name));

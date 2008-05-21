@@ -13,7 +13,7 @@
  */
 class BSConfigManager {
 	private $compilers;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -36,7 +36,7 @@ class BSConfigManager {
 	 * @return BSSerializeHandler インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSConfigManager();
 		}
@@ -92,7 +92,7 @@ class BSConfigManager {
 	 * @param BSConfigFile $file コンパイル対象設定ファイル
 	 * @return BSFile キャッシュファイル
 	 */
-	private static function getCacheFile (BSConfigFile $file) {
+	static private function getCacheFile (BSConfigFile $file) {
 		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
 		$name = str_replace(BS_WEBAPP_DIR, '', $name);
 		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
@@ -109,7 +109,7 @@ class BSConfigManager {
 	 * @param string $name 設定ファイル名、但し拡張子は含まない
 	 * @return BSConfigFile 設定ファイル
 	 */
-	public static function getConfigFile ($name) {
+	static public function getConfigFile ($name) {
 		if (!BSUtility::isPathAbsolute($name)) {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}

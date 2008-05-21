@@ -53,7 +53,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param mixed[] $attributes 要素の配列
 	 * @final
 	 */
-	public final function setAttributes ($attributes) {
+	final public function setAttributes ($attributes) {
 		$this->setParameters($attributes);
 	}
 
@@ -91,7 +91,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param boolean $position 先頭ならTrue
 	 * @final
 	 */
-	public final function setAttribute ($name, $value, $position = self::POSITION_BOTTOM) {
+	final public function setAttribute ($name, $value, $position = self::POSITION_BOTTOM) {
 		$this->setParameter($name, $value, $position);
 	}
 
@@ -104,7 +104,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param string $name 名前
 	 * @final
 	 */
-	public final function removeAttribute ($name) {
+	final public function removeAttribute ($name) {
 		$this->removeParameter($name);
 	}
 
@@ -117,7 +117,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param string $name 名前
 	 * @final
 	 */
-	public final function hasAttribute ($name) {
+	final public function hasAttribute ($name) {
 		return $this->hasParameter($name);
 	}
 
@@ -171,7 +171,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @return string 結果文字列
 	 * @final
 	 */
-	public final function join ($separator = null) {
+	final public function join ($separator = null) {
 		return $this->implode($separator);
 	}
 
@@ -180,8 +180,9 @@ class BSArray extends BSParameterHolder implements Countable {
 	 *
 	 * @access public
 	 * @return BSArray 添字の配列
+	 * @final
 	 */
-	public final function getKeys () {
+	final public function getKeys () {
 		return new BSArray(array_keys($this->getParameters()));
 	}
 
@@ -213,7 +214,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @return boolean 配列ならTrue
 	 * @static
 	 */
-	public static function isArray ($value) {
+	static public function isArray ($value) {
 		return is_array($value) || ($value instanceof BSArray);
 	}
 }

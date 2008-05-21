@@ -60,7 +60,7 @@ class BSSmartySender extends BSSMTP {
 	 * @return BSSmarty レンダラー
 	 * @final
 	 */
-	public final function getEngine () {
+	final public function getEngine () {
 		return $this->getRenderer();
 	}
 

@@ -209,7 +209,7 @@ class BSSocket {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		return null;
 	}
 
@@ -234,7 +234,7 @@ class BSSocket {
 	 * @return boolean デバッグモードならTrue
 	 * @static
 	 */
-	public static function isResolvable () {
+	static public function isResolvable () {
 		if (defined('BS_RESOLVABLE') && !BS_RESOLVABLE) {
 			return false;
 		} else {

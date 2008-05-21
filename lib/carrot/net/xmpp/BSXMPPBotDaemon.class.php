@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSXMPPBotDaemon extends BSDaemon {
-	private static $xmpp;
+	static private $xmpp;
 
 	/**
 	 * デーモン開始
@@ -19,7 +19,7 @@ class BSXMPPBotDaemon extends BSDaemon {
 	 * @access public
 	 * @static
 	 */
-	public static function start () {
+	static public function start () {
 		do {
 			$status = self::initialize(__CLASS__);
 			$listener = Nanoserv::New_Listener(
@@ -83,7 +83,7 @@ class BSXMPPBotDaemon extends BSDaemon {
 	 * @return BSXMPP XMPPサーバ
 	 * @static
 	 */
-	private static function getXMPP () {
+	static private function getXMPP () {
 		if (!self::$xmpp) {
 			self::$xmpp = new BSXMPP();
 			self::$xmpp->auth(BSAuthor::getJabberID(), BS_AUTHOR_PASSWORD);

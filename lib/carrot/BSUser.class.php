@@ -15,7 +15,7 @@ class BSUser extends BSParameterHolder {
 	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/credentials';
 	private $attributes = array();
 	private $credentials = array();
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -48,7 +48,7 @@ class BSUser extends BSParameterHolder {
 	 * @return BSUser インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSUser();
 		}

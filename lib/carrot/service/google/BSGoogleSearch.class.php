@@ -15,7 +15,7 @@ class BSGoogleSearch {
 	private $engine;
 	private $query;
 	private $result = array();
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -35,7 +35,7 @@ class BSGoogleSearch {
 	 * @return BSGoogle インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSGoogleSearch();
 		}

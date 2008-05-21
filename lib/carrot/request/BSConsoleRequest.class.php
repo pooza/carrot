@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSConsoleRequest extends BSRequest {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -36,7 +36,7 @@ class BSConsoleRequest extends BSRequest {
 	 * @return BSConsoleRequest インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSConsoleRequest();
 		}

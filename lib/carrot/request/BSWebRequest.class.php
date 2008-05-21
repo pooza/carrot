@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -30,7 +30,7 @@ class BSWebRequest extends BSRequest {
 	 * @return BSWebRequest インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSWebRequest();
 		}
@@ -75,7 +75,7 @@ class BSWebRequest extends BSRequest {
 	 * @return BSArray サポートしているメソッド
 	 * @static
 	 */
-	public static function getMethods () {
+	static public function getMethods () {
 		$methods = new BSArray;
 		$methods['POST'] = self::POST;
 		$methods['GET'] = self::GET;
@@ -89,7 +89,7 @@ class BSWebRequest extends BSRequest {
 	 * @return BSArray サポートしているメソッド名
 	 * @static
 	 */
-	public static function getMethodNames () {
+	static public function getMethodNames () {
 		return self::getMethods()->getKeys();
 	}
 }

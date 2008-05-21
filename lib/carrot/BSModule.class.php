@@ -17,8 +17,8 @@ class BSModule {
 	private $config = array();
 	private $configFiles;
 	private $prefix;
-	private static $instances = array();
-	private static $prefixes = array();
+	static private $instances = array();
+	static private $prefixes = array();
 
 	/**
 	 * コンストラクタ
@@ -52,7 +52,7 @@ class BSModule {
 	 * @param string $name モジュール名
 	 * @static
 	 */
-	public static function getInstance ($name) {
+	static public function getInstance ($name) {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 		}
@@ -135,7 +135,7 @@ class BSModule {
 	 * @return BSConfigFile 設定ファイル
 	 * @final
 	 */
-	private final function getIniFile ($name = 'module') {
+	final private function getIniFile ($name = 'module') {
 		return $this->getConfigFile($name);
 	}
 
@@ -237,7 +237,7 @@ class BSModule {
 	 * @return string[] モジュール名プレフィックス
 	 * @static
 	 */
-	public static function getPrefixes () {
+	static public function getPrefixes () {
 		if (!self::$prefixes) {
 			if (defined('APP_MODULE_PREFIXES') && APP_MODULE_PREFIXES) {
 				self::$prefixes = BSString::capitalize(explode(',', APP_MODULE_PREFIXES));

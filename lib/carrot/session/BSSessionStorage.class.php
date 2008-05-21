@@ -15,7 +15,7 @@ class BSSessionStorage extends BSParameterHolder {
 	const SESSION_NAME = 'Carrot';
 	const TABLE_NAME = 'stored_session';
 	private $table;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -59,7 +59,7 @@ class BSSessionStorage extends BSParameterHolder {
 	 * @return BSSessionStorage インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSSessionStorage();
 		}

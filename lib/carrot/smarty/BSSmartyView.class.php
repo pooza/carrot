@@ -124,7 +124,7 @@ abstract class BSSmartyView extends BSView {
 	 * @return mixed[] 分割後の配列
 	 * @static
 	 */
-	public static function columnize ($array, $columns = 3) {
+	static public function columnize ($array, $columns = 3) {
 		$array = array_chunk($array, $columns);
 		$last = array_pop($array);
 

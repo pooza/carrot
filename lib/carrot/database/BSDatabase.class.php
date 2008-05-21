@@ -25,7 +25,7 @@ abstract class BSDatabase extends PDO {
 	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		preg_match('/^([a-z0-9]+):/', BS_PDO_DSN, $matches);
 		switch ($dbms = $matches[1]) {
 			case 'mysql':
@@ -93,8 +93,12 @@ abstract class BSDatabase extends PDO {
 	 */
 	protected function parseDSN () {
 		$this->attributes['dsn'] = BS_PDO_DSN;
-		$this->attributes['user'] = BS_PDO_UID;
-		$this->attributes['password'] = BS_PDO_PASSWORD;
+		if (defined('BS_PDO_UID')) {
+			$this->attributes['user'] = BS_PDO_UID;
+		}
+		if (defined('BS_PDO_PASSWORD')) {
+			$this->attributes['password'] = BS_PDO_PASSWORD;
+		}
 	}
 
 	/**

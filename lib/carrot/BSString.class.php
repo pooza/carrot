@@ -34,7 +34,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function convertEncoding ($value, $encodingTo = null, $encodingFrom = null) {
+	static public function convertEncoding ($value, $encodingTo = null, $encodingFrom = null) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertEncoding($item, $encodingTo, $encodingFrom);
@@ -61,7 +61,7 @@ class BSString {
 	 * @return string 文字セット
 	 * @static
 	 */
-	public static function getEncoding ($str) {
+	static public function getEncoding ($str) {
 		return strtolower(mb_detect_encoding($str, self::DETECT_ORDER));
 	}
 
@@ -73,7 +73,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function sanitize ($value) {
+	static public function sanitize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::sanitize($item);
@@ -92,7 +92,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function unsanitize ($value) {
+	static public function unsanitize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::unsanitize($item);
@@ -112,7 +112,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function convertKana ($value, $format = 'KVa') {
+	static public function convertKana ($value, $format = 'KVa') {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertKana($item, $format);
@@ -133,7 +133,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function truncate ($value, $length, $suffix = '...') {
+	static public function truncate ($value, $length, $suffix = '...') {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::truncate($item, $length, $suffix);
@@ -154,7 +154,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function capitalize ($value) {
+	static public function capitalize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::capitalize($item);
@@ -173,7 +173,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function camelize ($value) {
+	static public function camelize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::camelize($item);
@@ -198,7 +198,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function pascalize ($value) {
+	static public function pascalize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::pascalize($item);
@@ -221,7 +221,7 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	public static function underscorize ($value) {
+	static public function underscorize ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::underscorize($item);
@@ -249,7 +249,7 @@ class BSString {
 	 * @return BSArray 結果配列
 	 * @static
 	 */
-	public static function explode ($separator, $str) {
+	static public function explode ($separator, $str) {
 		return new BSArray(explode($separator, $str));
 	}
 
@@ -261,7 +261,7 @@ class BSString {
 	 * @return integer 半角単位での幅
 	 * @static
 	 */
-	public static function getWidth ($str) {
+	static public function getWidth ($str) {
 		return strlen(
 			self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING)
 		);
@@ -276,7 +276,7 @@ class BSString {
 	 * @return string 変換後の文字列
 	 * @static
 	 */
-	public static function split ($str, $width = 74) {
+	static public function split ($str, $width = 74) {
 		$str = self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING);
 
 		BSController::includeLegacy('/OME/OME.php');
@@ -300,7 +300,7 @@ class BSString {
 	 * @return string 変換後の文字列
 	 * @static
 	 */
-	public static function cite ($str, $width = 74, $prefix = '> ') {
+	static public function cite ($str, $width = 74, $prefix = '> ') {
 		$str = self::split($str, $width - self::getWidth($prefix));
 		$lines = explode("\n", $str);
 		foreach ($lines as &$line) {
@@ -319,7 +319,7 @@ class BSString {
 	 * @return string 変換後の文字列
 	 * @static
 	 */
-	public static function toString ($value, $fieldGlue = '', $elementGlue = ',') {
+	static public function toString ($value, $fieldGlue = '', $elementGlue = ',') {
 		if (!BSArray::isArray($value)) {
 			return $value;
 		}

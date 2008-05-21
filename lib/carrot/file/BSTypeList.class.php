@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSTypeList extends BSList {
-	private static $instance;
+	static private $instance;
 	private $file;
 
 	/**
@@ -31,7 +31,7 @@ class BSTypeList extends BSList {
 	 * @return BSTypeList インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSTypeList();
 		}
@@ -122,7 +122,7 @@ class BSTypeList extends BSList {
 	 * @return string メディアタイプ
 	 * @static
 	 */
-	public static function getType ($suffix) {
+	static public function getType ($suffix) {
 		if (!$type = self::getInstance()->getAttribute($suffix)) {
 			$type = 'application/octet-stream';
 		}

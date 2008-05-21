@@ -41,7 +41,7 @@ abstract class BSController {
 	 * @return BSController インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (php_sapi_name() == 'cli') {
 			return BSConsoleController::getInstance();
 		} else {
@@ -342,7 +342,7 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 * @static
 	 */
-	public static function getApplicationName ($lang = 'ja') {
+	static public function getApplicationName ($lang = 'ja') {
 		return BSTranslator::getInstance()->translate('app_name', $lang);
 	}
 
@@ -356,7 +356,7 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 * @final
 	 */
-	final public static function getName ($lang = 'ja') {
+	final static public function getName ($lang = 'ja') {
 		return self::getApplicationName($lang);
 	}
 
@@ -368,7 +368,7 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 * @static
 	 */
-	public static function getFullApplicationName ($lang = 'ja') {
+	static public function getFullApplicationName ($lang = 'ja') {
 		return sprintf(
 			'%s %s',
 			self::getApplicationName($lang),
@@ -387,7 +387,7 @@ abstract class BSController {
 	 * @static
 	 * @final
 	 */
-	final public static function getFullName ($lang = 'ja') {
+	final static public function getFullName ($lang = 'ja') {
 		return self::getFullApplicationName($lang);
 	}
 
@@ -466,7 +466,7 @@ abstract class BSController {
 	 * @param string $file インクルードするファイル
 	 * @static
 	 */
-	public static function includeLegacy ($file) {
+	static public function includeLegacy ($file) {
 		$file = new BSFile(self::getInstance()->getPath('lib') . $file);
 		if (!$file->isReadable()) {
 			throw new BSFileException('"%s"はインクルード出来ません。', $file);

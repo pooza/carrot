@@ -46,7 +46,7 @@ class BSEmptyValidator extends BSValidator {
 	 * @return boolean フィールド値が空欄ならばTrue
 	 * @static
 	 */
-	public static function isEmpty ($value) {
+	static public function isEmpty ($value) {
 		if (BSArray::isArray($value)) {
 			if (isset($value['is_file']) && $value['is_file']) {
 				return (!isset($value['name']) || !$value['name']);

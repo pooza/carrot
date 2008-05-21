@@ -121,7 +121,7 @@ class BSCSVData implements BSRenderer {
 	 * @return mixed 結果
 	 * @static
 	 */
-	public static function replaceTags ($value) {
+	static public function replaceTags ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as &$item) {
 				$item = self::replaceTags($item);
@@ -145,7 +145,7 @@ class BSCSVData implements BSRenderer {
 	 * @return mixed 結果
 	 * @static
 	 */
-	public static function replaceSeparators ($value) {
+	static public function replaceSeparators ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as &$item) {
 				$item = self::replaceSeparators($item);

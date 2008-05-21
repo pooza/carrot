@@ -36,7 +36,7 @@ class BSXMPPBotClient extends BSSocket {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		if ($info = BSController::getInstance()->getAttribute('BSXMPPBotDaemon')) {
 			return $info['port'];
 		}

@@ -530,7 +530,7 @@ class BSDate {
 	 * @return mixed 書式化された現在日付文字列、書式未指定の場合はBSDateオブジェクト
 	 * @static
 	 */
-	public static function getNow ($format = null) {
+	static public function getNow ($format = null) {
 		$date = new BSDate();
 		$date->setNow();
 
@@ -548,7 +548,7 @@ class BSDate {
 	 * @return integer[] 月の配列
 	 * @static
 	 */
-	public static function getMonths () {
+	static public function getMonths () {
 		$months = array();
 		foreach (range(1, 12) as $month) {
 			$months[$month] = $month;
@@ -563,7 +563,7 @@ class BSDate {
 	 * @return integer[] 日の配列
 	 * @static
 	 */
-	public static function getDays () {
+	static public function getDays () {
 		$days = array();
 		foreach (range(1, 31) as $day) {
 			$days[$day] = $day;
@@ -578,7 +578,7 @@ class BSDate {
 	 * @return integer[] 年の配列
 	 * @static
 	 */
-	public static function getYears () {
+	static public function getYears () {
 		$years = array();
 		foreach (range(BSDate::getNow('Y'), 1900) as $year) {
 			$years[$year] = $year;

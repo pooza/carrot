@@ -291,7 +291,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return string レコードの主キー
 	 * @final
 	 */
-	public final function insertRecord ($values) {
+	final public function insertRecord ($values) {
 		return $this->createRecord($values);
 	}
 
@@ -475,7 +475,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @param string[] $criteria 検索条件
 	 * @final
 	 */
-	public final function isExist ($criteria) {
+	final public function isExist ($criteria) {
 		return self::isExists($criteria);
 	}
 

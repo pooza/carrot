@@ -15,7 +15,7 @@
 abstract class BSHolidayList extends BSList {
 	protected $url;
 	protected $rules = array();
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -24,7 +24,7 @@ abstract class BSHolidayList extends BSList {
 	 * @return BSJapaneseHolidayList インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			if (defined('BS_DATE_APP_HOLIDAYS_CLASS')) {
 				$class = BS_DATE_APP_HOLIDAYS_CLASS;

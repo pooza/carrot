@@ -33,7 +33,7 @@ abstract class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @param string サービス名
 	 * @return integer[] ポートとPIDを含んだ配列
 	 */
-	protected static function initialize ($name) {
+	static protected function initialize ($name) {
 		BSController::getInstance()->removeAttribute($name);
 		$status = array(
 			'port' => BSNumeric::getRandom(48557, 49150),

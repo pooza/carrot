@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSSQLite extends BSDatabase {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -21,7 +21,7 @@ class BSSQLite extends BSDatabase {
 	 * @return BSSQLite インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			try {
 				self::$instance = new BSSQLite(BS_PDO_DSN);

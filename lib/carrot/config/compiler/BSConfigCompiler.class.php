@@ -95,7 +95,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @return string 置換結果
 	 * @static
 	 */
-	public static function quote ($value) {
+	static public function quote ($value) {
 		if (BSArray::isArray($value)) {
 			$body =  new BSArray;
 			foreach ($value as $key => $item) {
@@ -136,7 +136,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @return string 置換結果
 	 * @static
 	 */
-	public static function replaceConstants ($value) {
+	static public function replaceConstants ($value) {
 		$value = str_replace('%%', '##PERCENT##', $value);
 		while (preg_match('/%([A-Z0-9_]+)%/', $value, $matches)) {
 			$value = str_replace($matches[0], constant($matches[1]), $value);
@@ -154,7 +154,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @return string PHPスクリプト
 	 * @static
 	 */
-	public static function parseParameters ($values, $prefix = 'param') {
+	static public function parseParameters ($values, $prefix = 'param') {
 		$body = new BSArray;
 		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z_]+)/i';
 

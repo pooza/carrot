@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSConsoleController extends BSController {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -32,7 +32,7 @@ class BSConsoleController extends BSController {
 	 * @return BSConsoleController インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSConsoleController();
 		}

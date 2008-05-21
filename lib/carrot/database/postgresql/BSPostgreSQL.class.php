@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSPostgreSQL extends BSDatabase {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -21,7 +21,7 @@ class BSPostgreSQL extends BSDatabase {
 	 * @return BSMySQL インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			try {
 				self::$instance = new BSPostgreSQL(BS_PDO_DSN);
@@ -158,7 +158,7 @@ class BSPostgreSQL extends BSDatabase {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		foreach (array('postgresql', 'postgres', 'pgsql') as $service) {
 			if ($port = BSServiceList::getPort($service)) {
 				return $port;

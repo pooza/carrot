@@ -18,7 +18,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	private $files = array();
 	private $rules = array();
 	private $contents;
-	private static $stylesets = array();
+	static private $stylesets = array();
 
 	/**
 	 * コンストラクタ
@@ -252,7 +252,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	 * @return string[][] スタイルセットを配列で返す
 	 * @static
 	 */
-	private static function getStyleSets () {
+	static private function getStyleSets () {
 		if (!self::$stylesets) {
 			require_once(BSConfigManager::getInstance()->compile('styleset/application'));
 			self::$stylesets += $config;
@@ -269,7 +269,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	 * @return string[] スタイルセットの名前を配列で返す
 	 * @static
 	 */
-	public static function getStyleSetNames () {
+	static public function getStyleSetNames () {
 		$names = array_keys(self::getStyleSets());
 		$names[] = 'carrot';
 		sort($names);

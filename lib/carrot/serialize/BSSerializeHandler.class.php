@@ -13,7 +13,7 @@
  */
 class BSSerializeHandler extends BSList {
 	private $engine;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -36,7 +36,7 @@ class BSSerializeHandler extends BSList {
 	 * @return BSSerializeHandler インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSSerializeHandler();
 		}

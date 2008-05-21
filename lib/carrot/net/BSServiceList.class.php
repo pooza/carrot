@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSServiceList extends BSList {
-	private static $instance;
+	static private $instance;
 	private $file;
 
 	/**
@@ -31,7 +31,7 @@ class BSServiceList extends BSList {
 	 * @return BSServiceList インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSServiceList();
 		}
@@ -108,7 +108,7 @@ class BSServiceList extends BSList {
 	 * @return integer ポート番号
 	 * @static
 	 */
-	public static function getPort ($service) {
+	static public function getPort ($service) {
 		return self::getInstance()->getAttribute($service);
 	}
 }

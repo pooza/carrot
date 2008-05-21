@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSODBCDatabase extends BSDatabase {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -21,7 +21,7 @@ class BSODBCDatabase extends BSDatabase {
 	 * @return BSODBCDatabase インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			try {
 				self::$instance = new BSODBCDatabase(BS_PDO_DSN, BS_PDO_UID, BS_PDO_PASSWORD);

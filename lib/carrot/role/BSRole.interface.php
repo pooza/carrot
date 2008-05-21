@@ -22,7 +22,7 @@ interface BSRole {
 	 * @return BSMailAddress メールアドレス
 	 * @static
 	 */
-	public static function getMailAddress ($language = 'ja');
+	static public function getMailAddress ($language = 'ja');
 
 	/**
 	 * 名前を取得
@@ -32,7 +32,7 @@ interface BSRole {
 	 * @return string 名前
 	 * @static
 	 */
-	public static function getName ($language = 'ja');
+	static public function getName ($language = 'ja');
 
 	/**
 	 * JabberIDを取得
@@ -41,7 +41,7 @@ interface BSRole {
 	 * @return BSJabberID JabberID
 	 * @static
 	 */
-	public static function getJabberID ();
+	static public function getJabberID ();
 }
 
 /* vim:set tabstop=4 ai: */

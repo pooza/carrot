@@ -14,7 +14,7 @@
  * @version $Id$
  */
 class BSCookieHandler extends BSList {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -32,7 +32,7 @@ class BSCookieHandler extends BSList {
 	 * @return BSCookieHandler インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSCookieHandler();
 		}
@@ -99,7 +99,7 @@ class BSCookieHandler extends BSList {
 	 * @return string テスト用Cookieの名前
 	 * @static
 	 */
-	public static function getTestCookieName () {
+	static public function getTestCookieName () {
 		$name = BSController::getInstance()->getName('en');
 		$name = strtoupper($name);
 		$name = preg_replace('/[^A-Z0-9]/', '', $name);

@@ -485,7 +485,7 @@ class BSSMTP extends BSSocket {
 	 * @return string MIME'B'エンコードされた文字列
 	 * @static
 	 */
-	public static function base64Encode ($str) {
+	static public function base64Encode ($str) {
 		if (BSString::getEncoding($str) == 'ascii') {
 			return $str;
 		}
@@ -517,7 +517,7 @@ class BSSMTP extends BSSocket {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		return BSServiceList::getPort('smtp');
 	}
 }

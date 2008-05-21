@@ -27,7 +27,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @return BSRequest インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (php_sapi_name() == 'cli') {
 			return BSConsoleRequest::getInstance();
 		} else {

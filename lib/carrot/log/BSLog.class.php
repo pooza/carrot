@@ -28,7 +28,7 @@ class BSLog {
 	 * @access public
 	 * @static
 	 */
-	public static function put ($message, $priority = 'Info') {
+	static public function put ($message, $priority = 'Info') {
 		$name = BSDate::getNow('Y-m-d');
 		if (!$log = self::getDirectory()->getEntry($name)) {
 			$log = self::getDirectory()->createEntry($name);
@@ -54,7 +54,7 @@ class BSLog {
 	 * @return BSLogDirectory ログファイルのディレクトリ
 	 * @static
 	 */
-	private static function getDirectory () {
+	static private function getDirectory () {
 		return BSController::getInstance()->getDirectory('log');
 	}
 
@@ -64,7 +64,7 @@ class BSLog {
 	 * @access public
 	 * @static
 	 */
-	public static function getMessage ($message, $priority) {
+	static public function getMessage ($message, $priority) {
 		$message = array(
 			'[' . BSDate::getNow('Y-m-d H:i:s') . ']',
 			'[' . BSController::getInstance()->getClientHost()->getName() . ']',

@@ -22,7 +22,7 @@ class BSAuthor implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 * @static
 	 */
-	public static function getMailAddress ($language = 'ja') {
+	static public function getMailAddress ($language = 'ja') {
 		return new BSMailAddress(BS_AUTHOR_EMAIL, self::getName($language));
 	}
 
@@ -34,7 +34,7 @@ class BSAuthor implements BSRole {
 	 * @return string 名前
 	 * @static
 	 */
-	public static function getName ($language = 'ja') {
+	static public function getName ($language = 'ja') {
 		if (defined('BS_AUTHOR_NAME')) {
 			return BS_AUTHOR_NAME;
 		}
@@ -48,7 +48,7 @@ class BSAuthor implements BSRole {
 	 * @return BSJabberID JabberID
 	 * @static
 	 */
-	public static function getJabberID () {
+	static public function getJabberID () {
 		return new BSJabberID(BS_AUTHOR_JID);
 	}
 
@@ -61,7 +61,7 @@ class BSAuthor implements BSRole {
 	 * @return boolean 認証OKならTrue
 	 * @static
 	 */
-	public static function auth ($email, $password) {
+	static public function auth ($email, $password) {
 		return ($email == BS_AUTHOR_EMAIL) && ($password == BS_AUTHOR_PASSWORD);
 	}
 }

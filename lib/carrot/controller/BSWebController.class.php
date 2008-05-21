@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSWebController extends BSController {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -21,7 +21,7 @@ class BSWebController extends BSController {
 	 * @return BSWebController インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSWebController();
 		}

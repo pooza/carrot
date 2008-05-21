@@ -89,7 +89,7 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	 * @return string ID
 	 * @link http://diveintomark.org/archives/2004/05/28/howto-atom-id 参考
 	 */
-	public static function getID (BSURL $url) {
+	static public function getID (BSURL $url) {
 		$id = $url->getContents();
 
 		$scheme = $url->getAttribute('scheme') . '://';

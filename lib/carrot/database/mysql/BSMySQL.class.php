@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSMySQL extends BSDatabase {
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -21,7 +21,7 @@ class BSMySQL extends BSDatabase {
 	 * @return BSMySQL インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			try {
 				self::$instance = new BSMySQL(BS_PDO_DSN, BS_PDO_UID, BS_PDO_PASSWORD);
@@ -156,7 +156,7 @@ class BSMySQL extends BSDatabase {
 	 * @return string キャラクターセット
 	 * @static
 	 */
-	public static function getEncoding () {
+	static public function getEncoding () {
 		$charsets = array(
 			'sjis' => 'sjis',
 			'euc-jp' => 'ujis',
@@ -172,7 +172,7 @@ class BSMySQL extends BSDatabase {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		return BSServiceList::getPort('mysql');
 	}
 }

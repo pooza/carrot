@@ -29,7 +29,7 @@ class BSNumeric {
 	 * @return integer 四捨五入された数値
 	 * @static
 	 */
-	public static function round ($num) {
+	static public function round ($num) {
 		return floor($num + 0.5);
 	}
 
@@ -42,7 +42,7 @@ class BSNumeric {
 	 * @return string カンマ区切りされた数値
 	 * @static
 	 */
-	public static function getString ($num, $digits = 2) {
+	static public function getString ($num, $digits = 2) {
 		if (!$num) {
 			return '';
 		} else if ($num != floor($num)) {
@@ -60,7 +60,7 @@ class BSNumeric {
 	 * @return string 符号
 	 * @static
 	 */
-	public static function getSign ($num) {
+	static public function getSign ($num) {
 		if (0 < $num) {
 			return '+';
 		} else if ($num < 0) {
@@ -76,7 +76,7 @@ class BSNumeric {
 	 * @return BSArray 数字の配列
 	 * @static
 	 */
-	public static function getDigits ($num) {
+	static public function getDigits ($num) {
 		$digits = new BSArray;
 		for ($i = 0 ; $i < strlen($num) ; $i ++) {
 			$digits[] = substr($num, $i, 1);
@@ -93,7 +93,7 @@ class BSNumeric {
 	 * @return integer 乱数
 	 * @static
 	 */
-	public static function getRandom ($from = 1000000, $to = 9999999) {
+	static public function getRandom ($from = 1000000, $to = 9999999) {
 		return mt_rand($from, $to);
 	}
 }

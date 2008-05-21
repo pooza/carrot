@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSDirectoryFinder {
-	private static $instance;
+	static private $instance;
 	private $directories = array();
 
 	/**
@@ -32,7 +32,7 @@ class BSDirectoryFinder {
 	 * @return BSConsoleController インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSDirectoryFinder();
 		}

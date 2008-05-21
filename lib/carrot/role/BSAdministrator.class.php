@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSAdministrator implements BSRole {
-	private static $networks = array();
+	static private $networks = array();
 
 	/**
 	 * メールアドレスを取得
@@ -22,7 +22,7 @@ class BSAdministrator implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 * @static
 	 */
-	public static function getMailAddress ($language = 'ja') {
+	static public function getMailAddress ($language = 'ja') {
 		return new BSMailAddress(BS_ADMIN_EMAIL, self::getName($language));
 	}
 
@@ -34,7 +34,7 @@ class BSAdministrator implements BSRole {
 	 * @return string 名前
 	 * @static
 	 */
-	public static function getName ($language = 'ja') {
+	static public function getName ($language = 'ja') {
 		return BSTranslator::getInstance()->translate('app_name', $language) . ' 管理者';
 	}
 
@@ -45,7 +45,7 @@ class BSAdministrator implements BSRole {
 	 * @return BSJabberID JabberID
 	 * @static
 	 */
-	public static function getJabberID () {
+	static public function getJabberID () {
 		return new BSJabberID(BS_ADMIN_JID);
 	}
 
@@ -56,7 +56,7 @@ class BSAdministrator implements BSRole {
 	 * @return BSNetwork[] 許可されたネットワークの配列、全て許可なら空配列
 	 * @static
 	 */
-	public static function getAllowedNetworks () {
+	static public function getAllowedNetworks () {
 		if (!defined('BS_ADMIN_NETWORKS')) {
 			return array();
 		}
@@ -80,7 +80,7 @@ class BSAdministrator implements BSRole {
 	 * @return boolean 認証OKならTrue
 	 * @static
 	 */
-	public static function auth ($email, $password) {
+	static public function auth ($email, $password) {
 		return ($email == BS_ADMIN_EMAIL) && (BSCrypt::getMD5($password) == BS_ADMIN_PASSWORD);
 	}
 }

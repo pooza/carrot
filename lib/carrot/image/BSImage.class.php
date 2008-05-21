@@ -398,7 +398,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @return BSArray メディアタイプ
 	 */
-	public static function getTypes () {
+	static public function getTypes () {
 		$types = new BSArray;
 		foreach (array('.gif', '.jpg', '.png') as $suffix) {
 			$types[$suffix] = BSTypeList::getType($suffix);
@@ -412,7 +412,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @return BSArray 拡張子
 	 */
-	public static function getSuffixes () {
+	static public function getSuffixes () {
 		$suffixes = new BSArray;
 		foreach (self::getTypes() as $suffix => $type) {
 			$suffixes[$type] = $suffix;

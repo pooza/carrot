@@ -255,7 +255,7 @@ class BSXMPP extends BSSocket {
 	 * @return integer port
 	 * @static
 	 */
-	public static function getDefaultPort () {
+	static public function getDefaultPort () {
 		foreach (array('xmpp-client', 'jabber-client') as $service) {
 			if ($port = BSServiceList::getPort($service)) {
 				return $port;

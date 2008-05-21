@@ -91,7 +91,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return string[] ドメインサフィックスの配列
 	 * @static
 	 */
-	public static function getDomainSuffixes () {
+	static public function getDomainSuffixes () {
 		$patterns = array();
 		foreach (array('Docomo', 'Au', 'SoftBank') as $carrier) {
 			$name = sprintf('BS%sUserAgent', $carrier);

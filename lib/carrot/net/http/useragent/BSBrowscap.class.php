@@ -14,7 +14,7 @@
 class BSBrowscap extends BSList {
 	private $url;
 	private $file;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -32,7 +32,7 @@ class BSBrowscap extends BSList {
 	 * @return BSBrowscap インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSBrowscap();
 		}

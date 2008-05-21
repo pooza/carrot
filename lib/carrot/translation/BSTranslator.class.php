@@ -14,8 +14,8 @@
 class BSTranslator {
 	private $language = 'ja';
 	private $dictionaries = array();
-	private static $instance;
-	private static $languages;
+	static private $instance;
+	static private $languages;
 
 	/**
 	 * コンストラクタ
@@ -40,7 +40,7 @@ class BSTranslator {
 	 * @return BSTranslator インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSTranslator();
 		}
@@ -157,7 +157,7 @@ class BSTranslator {
 	 * @return BSArray 言語キー配列
 	 * @static
 	 */
-	public static function getLanguageNames () {
+	static public function getLanguageNames () {
 		return self::getLanguages()->getKeys();
 	}
 
@@ -168,7 +168,7 @@ class BSTranslator {
 	 * @return BSArray 言語配列
 	 * @static
 	 */
-	public static function getLanguages () {
+	static public function getLanguages () {
 		if (!self::$languages) {
 			$translator = self::getInstance();
 			self::$languages = $translator->getHash(explode(',', APP_LANGUAGES), 'en');

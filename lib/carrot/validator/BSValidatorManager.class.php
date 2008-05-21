@@ -13,7 +13,7 @@
  */
 class BSValidatorManager implements IteratorAggregate {
 	private $fields;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -31,7 +31,7 @@ class BSValidatorManager implements IteratorAggregate {
 	 * @return BSValidatorManager インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSValidatorManager();
 		}

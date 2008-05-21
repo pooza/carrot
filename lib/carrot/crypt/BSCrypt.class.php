@@ -13,7 +13,7 @@
  */
 class BSCrypt {
 	private $engine;
-	private static $instance;
+	static private $instance;
 
 	/**
 	 * コンストラクタ
@@ -31,7 +31,7 @@ class BSCrypt {
 	 * @return BSCrypt インスタンス
 	 * @static
 	 */
-	public static function getInstance () {
+	static public function getInstance () {
 		if (!self::$instance) {
 			self::$instance = new BSCrypt();
 		}
@@ -141,7 +141,7 @@ class BSCrypt {
 	 * @return string ソルト
 	 * @static
 	 */
-	public static function getDefaultSalt () {
+	static public function getDefaultSalt () {
 		if (!defined('BS_CRYPT_SALT')) {
 			throw new BSCryptException('BS_CRYPT_SALTが未定義です。');
 		}
@@ -156,7 +156,7 @@ class BSCrypt {
 	 * @return string ダイジェスト文字列
 	 * @static
 	 */
-	public static function getMD5 ($value) {
+	static public function getMD5 ($value) {
 		if (extension_loaded('hash')) {
 			return hash('md5', $value);
 		} else {
@@ -172,7 +172,7 @@ class BSCrypt {
 	 * @return string ダイジェスト文字列
 	 * @static
 	 */
-	public static function getSHA1 ($value) {
+	static public function getSHA1 ($value) {
 		if (extension_loaded('hash')) {
 			return hash('sha1', $value);
 		} else {

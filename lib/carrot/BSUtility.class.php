@@ -20,7 +20,7 @@ class BSUtility {
 	 * @return string クラス名
 	 * @static
 	 */
-	public static function extractClassName ($filename) {
+	static public function extractClassName ($filename) {
 		if (self::isPathAbsolute($filename)) {
 			$filename = basename($filename);
 		}
@@ -37,7 +37,7 @@ class BSUtility {
 	 * @return boolean 絶対パスならTrue
 	 * @static
 	 */
-	public static function isPathAbsolute ($path) {
+	static public function isPathAbsolute ($path) {
 		if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
 		}
