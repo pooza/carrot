@@ -206,7 +206,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	public function parseFile ($file, $duplicates = false) {
 		if ($file instanceof BSFile) {
 			// 素通り
-		} else if (Toolkit::isPathAbsolute($file)) {
+		} else if (BSUtility::isPathAbsolute($file)) {
 			$file = new BSFile($file);
 		} else if ($entry = BSController::getInstance()->getDirectory('css')->getEntry($file)) {
 			$file = $entry;

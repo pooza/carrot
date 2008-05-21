@@ -10,7 +10,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess, Countable {
+class BSArray extends BSParameterHolder implements Countable {
 	const POSITION_TOP = true;
 	const POSITION_BOTTOM = false;
 	const SORT_KEY_ASC = 'KEY_ASC';
@@ -29,8 +29,6 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 			$this->setParameters($params->getParameters());
 		} else if (is_array($params)) {
 			$this->setParameters($params);
-		} else {
-			$this->addParameter($params);
 		}
 	}
 
@@ -185,59 +183,6 @@ class BSArray extends ParameterHolder implements IteratorAggregate, ArrayAccess,
 	 */
 	public final function getKeys () {
 		return new BSArray(array_keys($this->getParameters()));
-	}
-
-	/**
-	 * イテレータを返す
-	 *
-	 * @access public
-	 * @return ArrayIterator 配列イテレータ
-	 */
-	public function getIterator () {
-		return new ArrayIterator($this->getParameters());
-	}
-
-	/**
-	 * 要素が存在するか
-	 *
-	 * @access public
-	 * @param string $key 添え字
-	 * @return boolean 要素が存在すればTrue
-	 */
-	public function offsetExists ($key) {
-		return $this->hasParameter($key);
-	}
-
-	/**
-	 * 要素を返す
-	 *
-	 * @access public
-	 * @param string $key 添え字
-	 * @return mixed 要素
-	 */
-	public function offsetGet ($key) {
-		return $this->getParameter($key);
-	}
-
-	/**
-	 * 要素を設定する
-	 *
-	 * @access public
-	 * @param string $key 添え字
-	 * @param mixed 要素
-	 */
-	public function offsetSet ($key, $value) {
-		$this->setParameter($key, $value);
-	}
-
-	/**
-	 * 要素を削除する
-	 *
-	 * @access public
-	 * @param string $key 添え字
-	 */
-	public function offsetUnset ($key) {
-		$this->removeParameter($key);
 	}
 
 	/**

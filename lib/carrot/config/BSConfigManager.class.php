@@ -110,7 +110,7 @@ class BSConfigManager {
 	 * @return BSConfigFile 設定ファイル
 	 */
 	public static function getConfigFile ($name) {
-		if (!Toolkit::isPathAbsolute($name)) {
+		if (!BSUtility::isPathAbsolute($name)) {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}
 		foreach (BSConfigFile::getSuffixes() as $suffix) {

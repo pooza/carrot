@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSessionStorage extends ParameterHolder {
+class BSSessionStorage extends BSParameterHolder {
 	const SESSION_NAME = 'Carrot';
 	const TABLE_NAME = 'stored_session';
 	private $table;

@@ -27,7 +27,7 @@ function __autoload ($name) {
 	require_once($classes[$name]);
 }
 function getClasses ($path) {
-	require_once(BS_LIB_DIR . '/carrot/Toolkit.class.php');
+	require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
 	$iterator = new RecursiveDirectoryIterator($path);
 	$entries = array();
 	foreach ($iterator as $entry) {
@@ -35,7 +35,7 @@ function getClasses ($path) {
 			continue;
 		} else if ($iterator->isDir()) {
 			$entries += getClasses($entry->getPathname());
-		} else if ($key = Toolkit::extractClassName($entry->getfilename())) {
+		} else if ($key = BSUtility::extractClassName($entry->getfilename())) {
 			$entries[$key] = $entry->getPathname();
 		}
 	}

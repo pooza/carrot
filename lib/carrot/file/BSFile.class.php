@@ -52,7 +52,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			$this->type = BSTypeList::getType($this->getSuffix());
+			$this->type = BSTypeList::getType($this->getPath());
 		}
 		return $this->type;
 	}
@@ -81,7 +81,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
 		if ($this->isUploaded()) {
-			move_uploaded_file($this->getPath(), $dir->getPath());
+			if (!move_uploaded_file($this->getPath(), $dir->getPath())) {
+				throw new BSFileException('アップロードされた%sを移動出来ません。', $this);
+			}
 		} else {
 			parent::moveTo($dir);
 		}
@@ -379,6 +381,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	public function __toString () {
 		return sprintf('ファイル "%s"', $this->getPath());
 	}
+
 }
 
 /* vim:set tabstop=4 ai: */

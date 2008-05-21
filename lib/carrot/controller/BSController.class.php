@@ -148,7 +148,9 @@ abstract class BSController {
 	 * @return mixed サーバ環境変数
 	 */
 	public function getEnvironment ($name) {
-		return BSServerEnvironment::getInstance()->getAttribute($name);
+		if (isset($_SERVER[$name])) {
+			return $_SERVER[$name];
+		}
 	}
 
 	/**

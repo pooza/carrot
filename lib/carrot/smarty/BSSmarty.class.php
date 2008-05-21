@@ -285,7 +285,7 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @return BSFile 実テンプレートファイル
 	 */
 	public function getTemplateFile ($name) {
-		if (Toolkit::isPathAbsolute($name)) {
+		if (BSUtility::isPathAbsolute($name)) {
 			$file = new BSFile($name);
 			if ($file->isReadable()) {
 				return $file;
@@ -351,7 +351,7 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 */
 	public function _get_auto_filename ($base, $source = null, $id = null) {
 		// ソーステンプレート名をフルパス表記に修正する
-		if (!Toolkit::isPathAbsolute($source)) {
+		if (!BSUtility::isPathAbsolute($source)) {
 			$source = preg_replace('/\/*$/', '/', $base) . $source;
 		}
 		return parent::_get_auto_filename($base, $source, $id);

@@ -84,7 +84,7 @@ abstract class BSDirectoryEntry {
 	 * @param string $path パス
 	 */
 	public function setPath ($path) {
-		if (!Toolkit::isPathAbsolute($path) || preg_match('/\.\./', $path)) {
+		if (!BSUtility::isPathAbsolute($path) || preg_match('/\.\./', $path)) {
 			throw new BSFileException('パス"%s"が正しくありません。', $path);
 		}
 		$this->path = $path;

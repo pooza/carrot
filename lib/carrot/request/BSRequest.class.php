@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRequest extends ParameterHolder {
+abstract class BSRequest extends BSParameterHolder {
 	const NONE = 1;
 	const GET = 2;
 	const POST = 4;

@@ -10,7 +10,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSUser extends ParameterHolder {
+class BSUser extends BSParameterHolder {
 	const ATTRIBUTE_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/attributes';
 	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/credentials';
 	private $attributes = array();

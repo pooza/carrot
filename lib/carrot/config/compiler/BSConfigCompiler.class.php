@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-abstract class BSConfigCompiler extends ParameterHolder {
+abstract class BSConfigCompiler extends BSParameterHolder {
 	private $body;
 
 	/**

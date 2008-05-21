@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSFilter extends ParameterHolder {
+abstract class BSFilter extends BSParameterHolder {
 
 	/**
 	 * プロパティ取得のオーバライド

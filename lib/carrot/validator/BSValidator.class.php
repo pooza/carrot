@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSValidator extends ParameterHolder {
+abstract class BSValidator extends BSParameterHolder {
 	protected $error;
 
 	/**
