@@ -75,7 +75,7 @@ class BSTwitterAccount {
 		if (!$this->icon && $this->getAttribute('profile_image_url')) {
 			try {
 				$url = new BSURL($this->getAttribute('profile_image_url'));
-				$this->icon = new BSImage();
+				$this->icon = new BSImage;
 				$this->icon->setImage($url->fetch());
 			} catch (BSException $e) {
 				return null;

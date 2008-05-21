@@ -66,7 +66,7 @@ class BSException extends Exception {
 	public function sendMail () {
 		try {
 			$controller = BSController::getInstance();
-			$smtp = new BSSmartySender();
+			$smtp = new BSSmartySender;
 			$smtp->setSubject(sprintf('[%s] %s', BSController::getName(), $this->getName()));
 			$smtp->setTemplate('BSException.mail');
 			$smtp->setAttribute('clienthost', $controller->getClientHost()->getName());

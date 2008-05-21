@@ -38,7 +38,7 @@ class BSSerializeHandler extends BSList {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSSerializeHandler();
+			self::$instance = new BSSerializeHandler;
 		}
 		return self::$instance;
 	}

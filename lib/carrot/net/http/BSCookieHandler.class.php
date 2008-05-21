@@ -34,7 +34,7 @@ class BSCookieHandler extends BSList {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSCookieHandler();
+			self::$instance = new BSCookieHandler;
 		}
 		return self::$instance;
 	}

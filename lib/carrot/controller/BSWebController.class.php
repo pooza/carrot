@@ -23,7 +23,7 @@ class BSWebController extends BSController {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSWebController();
+			self::$instance = new BSWebController;
 		}
 		return self::$instance;
 	}
@@ -35,10 +35,10 @@ class BSWebController extends BSController {
 	 * @param string $target リダイレクト先URL
 	 */
 	public function redirect ($target) {
-		if (is_object($target) && ($target instanceof BSURL)) {
+		if ($target instanceof BSURL) {
 			$url = $target;
 		} else {
-			$url = new BSURL();
+			$url = new BSURL;
 			$url->setAttribute('path', $target);
 		}
 		$url->addSessionID();

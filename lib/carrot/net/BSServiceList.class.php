@@ -33,7 +33,7 @@ class BSServiceList extends BSList {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSServiceList();
+			self::$instance = new BSServiceList;
 		}
 		return self::$instance;
 	}

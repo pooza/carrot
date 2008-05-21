@@ -161,7 +161,7 @@ class BSURL {
 				}
 				break;
 			case 'host':
-				if (!is_object($value)) {
+				if (!($value instanceof BSHost)) {
 					$value = new BSHost($value);
 				}
 				$this->attributes['host'] = $value;

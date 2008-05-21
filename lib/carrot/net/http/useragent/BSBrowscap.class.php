@@ -34,7 +34,7 @@ class BSBrowscap extends BSList {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSBrowscap();
+			self::$instance = new BSBrowscap;
 		}
 		return self::$instance;
 	}
@@ -79,7 +79,7 @@ class BSBrowscap extends BSList {
 				BSDate::getNow()->setAttribute('day', '-7')
 			);
 			if (!$this->attributes) {
-				foreach ($this->getFile()->getContents() as $key => $values) {
+				foreach ($this->getFile()->getResult() as $key => $values) {
 					if (!isset($values['Parent'])) {
 						$values['Parent'] = null;
 					}

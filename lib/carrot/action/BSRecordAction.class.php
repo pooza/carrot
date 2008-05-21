@@ -34,7 +34,7 @@ abstract class BSRecordAction extends BSAction {
 	public function getTable () {
 		if (!$this->table && $this->getRecordClassName()) {
 			$name = $this->getRecordClassName() . 'Handler';
-			$this->table = new $name();
+			$this->table = new $name;
 		}
 		return $this->table;
 	}

@@ -531,7 +531,7 @@ class BSDate {
 	 * @static
 	 */
 	static public function getNow ($format = null) {
-		$date = new BSDate();
+		$date = new BSDate;
 		$date->setNow();
 
 		if ($format) {

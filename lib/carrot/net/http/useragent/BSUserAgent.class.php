@@ -34,7 +34,7 @@ class BSUserAgent {
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	static public function createInstance ($name) {
+	static public function getInstance ($name) {
 		foreach (self::getTypes() as $type) {
 			$type = 'BS' . $type . 'UserAgent';
 			$useragent = new $type;

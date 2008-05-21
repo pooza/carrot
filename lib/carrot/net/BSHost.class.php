@@ -25,7 +25,7 @@ class BSHost {
 	 * @param string $address ホスト名又はIPアドレス
 	 */
 	public function __construct ($address) {
-		$this->address = new Net_IPv4();
+		$this->address = new Net_IPv4;
 
 		if (preg_match("/^[0-9\.]+$/", $address)) {
 			$this->setAddress($address);

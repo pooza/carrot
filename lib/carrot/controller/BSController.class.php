@@ -89,9 +89,9 @@ abstract class BSController {
 			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
 		}
 
-		$filters = new BSFilterChain();
+		$filters = new BSFilterChain;
 		if ($action->isSecure()) {
-			$filter = new BSSecurityFilter();
+			$filter = new BSSecurityFilter;
 			$filter->initialize();
 			$filters->register($filter);
 		}
@@ -99,7 +99,7 @@ abstract class BSController {
 		$this->loadFilters($filters);
 		$action->getModule()->loadFilters($filters);
 
-		$filter = new BSExecutionFilter();
+		$filter = new BSExecutionFilter;
 		$filter->initialize();
 		$filters->register($filter);
 		$filters->execute();
@@ -242,7 +242,7 @@ abstract class BSController {
 			} else {
 				$name = $this->getEnvironment('HTTP_USER_AGENT');
 			}
-			if (!$this->useragent = BSUserAgent::createInstance($name)) {
+			if (!$this->useragent = BSUserAgent::getInstance($name)) {
 				throw new BSUserAgentException('サポートされていないUserAgentです。');
 			}
 		}

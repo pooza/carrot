@@ -33,7 +33,7 @@ class BSTypeList extends BSList {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSTypeList();
+			self::$instance = new BSTypeList;
 		}
 		return self::$instance;
 	}

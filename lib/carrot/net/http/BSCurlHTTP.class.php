@@ -118,7 +118,7 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL();
+			$this->url = new BSURL;
 			$this->url->setAttribute('host', $this->getHost());
 			$this->url->setAttribute('port', $this->getPort());
 			if ($this->isSSL()) {

@@ -31,7 +31,7 @@ abstract class BSHolidayList extends BSList {
 			} else {
 				$class = 'BSJapaneseHolidayList';
 			}
-			self::$instance = new $class();
+			self::$instance = new $class;
 		}
 		return self::$instance;
 	}

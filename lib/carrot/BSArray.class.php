@@ -128,7 +128,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param string $order ソート順
 	 */
 	public function sort ($order = self::SORT_KEY_ASC) {
-		$funcs = new BSArray();
+		$funcs = new BSArray;
 		$funcs[self::SORT_KEY_ASC] = 'ksort';
 		$funcs[self::SORT_KEY_DESC] = 'krsort';
 		$funcs[self::SORT_VALUE_ASC] = 'asort';

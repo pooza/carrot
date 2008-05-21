@@ -312,7 +312,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @access protected
 	 */
 	protected function preCompile () {
-		$this->writer = new XMLWriter();
+		$this->writer = new XMLWriter;
 		$this->writer->openMemory(); 
 		$this->writer->setIndent(true);
 	}
@@ -381,7 +381,7 @@ class BSXMLElement implements IteratorAggregate {
 		}
 
 		$stack = array();
-		$this->reader = new XMLReader();
+		$this->reader = new XMLReader;
 		$this->reader->xml($contents);
 		while ($this->reader->read()) {
 			switch ($this->reader->nodeType) {

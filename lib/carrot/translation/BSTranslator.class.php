@@ -42,7 +42,7 @@ class BSTranslator {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSTranslator();
+			self::$instance = new BSTranslator;
 		}
 		return self::$instance;
 	}

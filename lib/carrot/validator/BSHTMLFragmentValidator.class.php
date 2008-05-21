@@ -38,7 +38,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 		try {
 			$body = preg_replace('/&(#[0-9]+|[a-z]+);/i', '', $value); //実体参照を無視
 			$body = '<div>' . $body . '</div>';
-			$element = new BSXMLElement();
+			$element = new BSXMLElement;
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
 				throw new BSXMLException($this->getParameter('element_error'));

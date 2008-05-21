@@ -69,7 +69,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	 * @return boolean 処理の成否
 	 */
 	public function clean ($lifetime) {
-		$expire = new BSDate();
+		$expire = new BSDate;
 		$expire->setTimeStamp(BSDate::getNow()->getTimeStamp() - $lifetime);
 
 		foreach ($this as $record) {

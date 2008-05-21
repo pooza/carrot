@@ -77,7 +77,7 @@ class BSConfigFile extends BSFile {
 	 * @return BSArray 設定パーサーの名前
 	 */
 	static public function getParserNames () {
-		$names = new BSArray();
+		$names = new BSArray;
 		$names['.ini'] = 'BSIniConfigParser';
 		$names['.yaml'] = 'BSYAMLConfigParser';
 		return $names;

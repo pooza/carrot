@@ -80,7 +80,7 @@ class BSTwitter extends BSCurlHTTP {
 	 */
 	public function getStatus () {
 		$contents = $this->sendGetRequest('/statuses/user_timeline.xml');
-		$xml = new BSXMLDocument();
+		$xml = new BSXMLDocument;
 		$xml->setContents($contents);
 		return new BSTwitterStatus($xml->getElement('status'));
 	}

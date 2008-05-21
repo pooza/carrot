@@ -33,7 +33,7 @@ class BSValidatorManager implements IteratorAggregate {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSValidatorManager();
+			self::$instance = new BSValidatorManager;
 		}
 		return self::$instance;
 	}
@@ -92,7 +92,7 @@ class BSValidatorManager implements IteratorAggregate {
 		$this->fields[$name] = new BSArray($values);
 
 		if ($required) {
-			$validator = new BSEmptyValidator();
+			$validator = new BSEmptyValidator;
 			$params = array();
 			if ($message) {
 				$params['required_msg'] = $message;
@@ -102,7 +102,7 @@ class BSValidatorManager implements IteratorAggregate {
 		}
 
 		if ($isFile) {
-			$validator = new BSFileValidator();
+			$validator = new BSFileValidator;
 			$validator->initialize();
 			$this->registerValidator($name, $validator);
 		}

@@ -70,7 +70,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 				throw new BSCSSException('スタイルセットを構成するファイルがありません。');
 			}
 
-			$date = new BSDate();
+			$date = new BSDate;
 			foreach ($this->files as $file) {
 				if ($date->getTimeStamp() < $file->getUpdateDate()->getTimeStamp()) {
 					$date = $file->getUpdateDate();

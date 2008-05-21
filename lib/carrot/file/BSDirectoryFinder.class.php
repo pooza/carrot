@@ -34,7 +34,7 @@ class BSDirectoryFinder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSDirectoryFinder();
+			self::$instance = new BSDirectoryFinder;
 		}
 		return self::$instance;
 	}

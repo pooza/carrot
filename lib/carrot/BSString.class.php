@@ -281,7 +281,7 @@ class BSString {
 
 		BSController::includeLegacy('/OME/OME.php');
 		mb_internal_encoding('eucjp-win');
-		$ome = new OME();
+		$ome = new OME;
 		$ome->setBodyWidth($width);
 		$str = @$ome->devideWithLimitingWidth($str);
 		mb_internal_encoding(self::SCRIPT_ENCODING);

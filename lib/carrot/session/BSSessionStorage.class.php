@@ -61,7 +61,7 @@ class BSSessionStorage extends BSParameterHolder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSSessionStorage();
+			self::$instance = new BSSessionStorage;
 		}
 		return self::$instance;
 	}

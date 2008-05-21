@@ -34,7 +34,7 @@ class BSActionStack {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSActionStack();
+			self::$instance = new BSActionStack;
 		}
 		return self::$instance;
 	}

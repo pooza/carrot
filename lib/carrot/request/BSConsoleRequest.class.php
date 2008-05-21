@@ -38,7 +38,7 @@ class BSConsoleRequest extends BSRequest {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSConsoleRequest();
+			self::$instance = new BSConsoleRequest;
 		}
 		return self::$instance;
 	}
