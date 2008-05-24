@@ -5,15 +5,15 @@
  */
 
 /**
- * 簡易翻訳機能
+ * 単語翻訳機能
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTranslator {
+class BSTranslator implements IteratorAggregate {
 	private $language = 'ja';
-	private $dictionaries = array();
+	private $dictionaries;
 	static private $instance;
 	static private $languages;
 
@@ -23,6 +23,7 @@ class BSTranslator {
 	 * @access private
 	 */
 	private function __construct () {
+		$this->dictionaries = new BSArray;
 		foreach ($this->getDirectory() as $dictionary) {
 			if ($dictionary->getName() == 'carrot') {
 				continue;
@@ -98,7 +99,7 @@ class BSTranslator {
 		if (!$language) {
 			$language = $this->getLanguage();
 		}
-		foreach ($this->getDictionaries() as $dictionary) {
+		foreach ($this as $dictionary) {
 			if ($answer = $dictionary->translate($string, $language)) {
 				return $answer;
 			}
@@ -128,7 +129,7 @@ class BSTranslator {
 	 */
 	public function setLanguage ($language) {
 		$language = strtolower($language);
-		if (!in_array($language, self::getLanguageNames())) {
+		if (!self::getLanguageNames()->isIncluded($language)) {
 			throw new BSTranslationException('言語コード"%s"が正しくありません。', $language);
 		}
 		$this->language = $language;
@@ -148,6 +149,16 @@ class BSTranslator {
 			$hash[$word] = $this->translate($word, $language);
 		}
 		return $hash;
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return ArrayIterator 配列イテレータ
+	 */
+	public function getIterator () {
+		return $this->getDictionaries()->getIterator();
 	}
 
 	/**

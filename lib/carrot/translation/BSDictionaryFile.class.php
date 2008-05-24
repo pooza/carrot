@@ -21,7 +21,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @param string $path パス
 	 */
 	public function __construct ($path) {
-		parent::__construct($path, new BSHeaderCSVData());
+		parent::__construct($path, new BSHeaderCSVData);
 	}
 
 	/**

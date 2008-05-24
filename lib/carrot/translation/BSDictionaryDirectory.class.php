@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSDictionaryDirectory extends BSDirectory {
-	const DEFAULT_ENTRY_CLASS = 'BSDictionaryFile';
 
 	/**
 	 * コンストラクタ
@@ -29,19 +28,23 @@ class BSDictionaryDirectory extends BSDirectory {
 	}
 
 	/**
-	 * エントリーを返す
+	 * サブディレクトリを持つか
 	 *
 	 * @access public
-	 * @param string $name エントリーの名前
-	 * @param string $class エントリーのクラス名
-	 * @return BSDirectoryEntry 辞書ファイル
+	 * @return boolean サブディレクトリを持つならTrue
 	 */
-	public function getEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
-		if (is_file($path = $this->getPath() . '/' . $name)) {
-			return new $class($path);
-		} else if (is_file($path .= $this->getDefaultSuffix())) {
-			return new $class($path);
-		}
+	public function hasSubDirectory () {
+		return false;
+	}
+
+	/**
+	 * エントリーのクラス名を返す
+	 *
+	 * @access public
+	 * @return string エントリーのクラス名
+	 */
+	public function getDefaultEntryClassName () {
+		return 'BSDictionaryFile';
 	}
 }
 

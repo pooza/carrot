@@ -29,22 +29,6 @@ class BSLogDirectory extends BSDirectory {
 	}
 
 	/**
-	 * エントリーを返す
-	 *
-	 * @access public
-	 * @param string $name エントリーの名前
-	 * @param string $class エントリーのクラス名
-	 * @return mixed ログファイル
-	 */
-	public function getEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
-		if (is_file($path = $this->getPath() . '/' . $name)) {
-			return new $class($path);
-		} else if (is_file($path .= $this->getDefaultSuffix())) {
-			return new $class($path);
-		}
-	}
-
-	/**
 	 * 最新のエントリーを返す
 	 *
 	 * @access public
@@ -56,7 +40,6 @@ class BSLogDirectory extends BSDirectory {
 			return $this->getEntry($entries[0], $class);
 		}
 	}
-
 
 	/**
 	 * 月毎にグループ化されたエントリー名を返す
@@ -71,6 +54,26 @@ class BSLogDirectory extends BSDirectory {
 			$names[$date->format('Y-m')][$name] = $date->format('Y-m-d (ww)');
 		}
 		return $names;
+	}
+
+	/**
+	 * サブディレクトリを持つか
+	 *
+	 * @access public
+	 * @return boolean サブディレクトリを持つならTrue
+	 */
+	public function hasSubDirectory () {
+		return false;
+	}
+
+	/**
+	 * エントリーのクラス名を返す
+	 *
+	 * @access public
+	 * @return string エントリーのクラス名
+	 */
+	public function getDefaultEntryClassName () {
+		return 'BSLogFile';
 	}
 
 	/**

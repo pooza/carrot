@@ -16,7 +16,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	private $entries = array();
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
-	const DEFAULT_ENTRY_CLASS = 'BSFile';
 
 	/**
 	 * コンストラクタ
@@ -112,8 +111,13 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @param string $class エントリーのクラス名
 	 * @return BSDirectoryEntry ディレクトリかファイル
 	 */
-	public function getEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
-		if (is_dir($path = $this->getPath() . '/' . $name)) {
+	public function getEntry ($name, $class = null) {
+		if (!$class) {
+			$class = $this->getDefaultEntryClassName();
+		}
+
+		$path = $this->getPath() . '/' . $name;
+		if ($this->hasSubDirectory() && is_dir($path)) {
 			return new BSDirectory($path);
 		} else if (is_file($path)) {
 			return new $class($path);
@@ -130,7 +134,11 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * $param string $class クラス名
 	 * @return BSFile ファイル
 	 */
-	public function createEntry ($name, $class = self::DEFAULT_ENTRY_CLASS) {
+	public function createEntry ($name, $class = null) {
+		if (!$class) {
+			$class = $this->getDefaultEntryClassName();
+		}
+
 		$name = basename($name, $this->getDefaultSuffix());
 		$path = $this->getPath() . '/' . $name . $this->getDefaultSuffix();
 		$file = new $class($path);
@@ -200,6 +208,26 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function isDirectory () {
 		return true;
+	}
+
+	/**
+	 * サブディレクトリを持つか
+	 *
+	 * @access public
+	 * @return boolean サブディレクトリを持つならTrue
+	 */
+	public function hasSubDirectory () {
+		return true;
+	}
+
+	/**
+	 * エントリーのクラス名を返す
+	 *
+	 * @access public
+	 * @return string エントリーのクラス名
+	 */
+	public function getDefaultEntryClassName () {
+		return 'BSFile';
 	}
 
 	/**
