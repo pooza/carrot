@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage xmpp
+ * @subpackage net.xmpp
  */
 
 /**
