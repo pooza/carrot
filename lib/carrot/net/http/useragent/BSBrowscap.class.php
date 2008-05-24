@@ -57,7 +57,7 @@ class BSBrowscap extends BSList {
 	 */
 	public function getInfo ($name = null) {
 		if (!$name) {
-			$name = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
+			$name = BSController::getInstance()->getUserAgent()->getName();
 		}
 		$attributes = array('Name' => $name);
 		foreach ($this->getMatchedNames($name) as $key) {
