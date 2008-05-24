@@ -160,7 +160,11 @@ class BSString {
 				$value[$key] = self::capitalize($item);
 			}
 		} else {
-			$value = ucfirst(strtolower($value));
+			$value = explode('-', $value);
+			foreach ($value as &$item) {
+				$item = ucfirst(strtolower($item));
+			}
+			$value = implode('-', $value);
 		}
 		return $value;
 	}

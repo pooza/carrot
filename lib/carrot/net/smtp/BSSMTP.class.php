@@ -58,9 +58,8 @@ class BSSMTP extends BSSocket {
 
 		parent::open();
 		$this->putLine('EHLO ' . BSController::getInstance()->getServerHost()->getName());
-		$code = $this->getResultCode();
-		if (!in_array($code, array(220, 250))) {
-			throw new BSMailException('%sに接続出来ません。 (%d)', $this, $code);
+		if (!in_array($this->getResultCode(), array(220, 250))) {
+			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
 		}
 		$this->keywords = $this->getLines();
 	}
@@ -76,9 +75,8 @@ class BSSMTP extends BSSocket {
 		}
 
 		$this->putLine('QUIT');
-		$code = $this->getResultCode();
-		if ($code != 221) {
-			throw new BSMailException('%sからの切断に失敗しました。 (%d)', $this, $code);
+		if ($this->getResultCode() != 221) {
+			throw new BSMailException('%sの切断に失敗しました。(%s)',$this, $this->getPrevLine());
 		}
 		parent::close();
 	}
@@ -106,7 +104,7 @@ class BSSMTP extends BSSocket {
 
 				$message = sprintf(
 					'"%s"宛のメール"%s"を送信しました。(%s)',
-					$this->to->format(BSMailAddress::NO_ENCODE),
+					$this->to->format(),
 					$this->getMessageID(),
 					$this->getPrevLine()
 				);
@@ -127,12 +125,11 @@ class BSSMTP extends BSSocket {
 	 */
 	protected function putMailFromRequest () {
 		$this->putLine('MAIL FROM:' . $this->from->getAddress());
-		$code = $this->getResultCode();
-		if ($code != 250) {
+		if ($this->getResultCode() != 250) {
 			throw new BSMailException(
-				'送信アドレス"%s"が拒否されました。(%d)',
+				'送信アドレス"%s"が拒否されました。(%s)',
 				$this->from->getAddress(),
-				$code
+				$this->getPrevLine()
 			);
 		}
 	}
@@ -157,12 +154,11 @@ class BSSMTP extends BSSocket {
 
 		foreach ($this->addresses as $address) {
 			$this->putLine('RCPT TO:' . $address->getContents());
-			$code = $this->getResultCode();
-			if (!in_array($code, array(250, 251))) {
+			if (!in_array($this->getResultCode(), array(250, 251))) {
 				throw new BSMailException(
-					'受信アドレス"%s"が拒否されました。(%d)',
+					'受信アドレス"%s"が拒否されました。(%s)',
 					$address->getContents(),
-					$code
+					$this->getPrevLine()
 				);
 			}
 		}
@@ -175,20 +171,48 @@ class BSSMTP extends BSSocket {
 	 */
 	protected function putDataRequest () {
 		$this->putLine('DATA');
-		$code = $this->getResultCode();
-		if ($code != 354) {
-			throw new BSMailException('DATAリクエストが拒否されました。(%d)', $code);
+		if ($this->getResultCode() != 354) {
+			throw new BSMailException('DATA要求が拒否されました。(%s)', $this->getPrevLine());
 		}
 
 		foreach ($this->getHeaders() as $key => $value) {
-			$this->putLine($key . ': ' . $value);
+			$this->putHeader($key, $value);
 		}
 		$this->putLine();
+
 		$this->putLine($this->getBody());
 		$this->putLine('.');
-		$code = $this->getResultCode();
-		if ($code != 250) {
-			throw new BSMailException('本文が拒否されました。(%d)', $this->getPrevLine());
+		if ($this->getResultCode() != 250) {
+			throw new BSMailException('本文が拒否されました。(%s)', $this->getPrevLine());
+		}
+	}
+
+	/**
+	 * エンベロープフィールドを送信
+	 *
+	 * @access private
+	 * @param string $key フィールド名
+	 * @param string $value フィールド値
+	 */
+	private function putHeader ($key, $value) {
+		$key = BSString::capitalize($key);
+		if ($key == 'Bcc') {
+			return;
+		}
+
+		$value = self::base64Encode($value);
+		$value = str_replace('=?iso-2022-jp?B?', "\n=?iso-2022-jp?B?", $value);
+		$body = BSString::split($key . ': ' . $value);
+
+		$init = true;
+		foreach (BSString::explode("\n", $body) as $line) {
+			if ($init) {
+				$init = false;
+			} else {
+				$line = "\t" . $line;
+			}
+			$line = rtrim($line);
+			$this->putLine($line);
 		}
 	}
 
@@ -268,7 +292,6 @@ class BSSMTP extends BSSocket {
 	 * @param string $subject Subject
 	 */
 	public function setSubject ($subject) {
-		$subject = self::base64Encode($subject);
 		if (BSController::getInstance()->isDebugMode()) {
 			$subject = '[TEST] ' . $subject;
 		}
@@ -491,9 +514,12 @@ class BSSMTP extends BSSocket {
 		}
 
 		$str = BSString::convertKana($str, 'KV');
-		$str = BSString::convertEncoding($str, 'iso-2022-jp');
-		$str = base64_encode($str);
-		return '=?iso-2022-jp?B?' . $str . '?=';
+		while (preg_match('/[^[:print:]]+/', $str, $matches)) {
+			$encoded = BSString::convertEncoding($matches[0], 'iso-2022-jp');
+			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded) . '?=';
+			$str = str_replace($matches[0], $encoded, $str);
+		}
+		return $str;
 	}
 
 	/**

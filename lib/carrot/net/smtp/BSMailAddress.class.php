@@ -18,7 +18,6 @@ class BSMailAddress {
 	private $domain;
 	private $mx = array();
 	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
-	const NO_ENCODE = false;
 
 	/**
 	 * コンストラクタ
@@ -28,12 +27,15 @@ class BSMailAddress {
 	 * @param string $name 名前
 	 */
 	public function __construct ($contents, $name = null) {
+		if (!$name && preg_match('/^(.+) <(.+)>$/i', $contents, $matches)) {
+			$name = $matches[1];
+			$contents = $matches[2];
+		}
 		$this->contents = $contents;
 
 		if (!preg_match(self::PATTERN, $this->contents, $matches)) {
 			throw new BSMailException('%sはパターンにマッチしません。', $this);
 		}
-
 		$this->name = $name;
 		$this->account = $matches[1];
 		$this->domain = $matches[2];
@@ -143,13 +145,9 @@ class BSMailAddress {
 	 * @access public
 	 * @return string 書式化されたメールアドレス
 	 */
-	public function format ($encodeFlag = true) {
+	public function format () {
 		if ($this->name) {
-			if ($encodeFlag) {
-				return BSSMTP::base64Encode($this->name) . ' <' . $this->contents . '>';
-			} else {
-				return $this->name . ' <' . $this->contents . '>';
-			}
+			return $this->name . ' <' . $this->contents . '>';
 		} else {
 			return $this->contents;
 		}

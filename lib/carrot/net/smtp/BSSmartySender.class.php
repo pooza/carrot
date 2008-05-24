@@ -73,29 +73,58 @@ class BSSmartySender extends BSSMTP {
 		if (!$lines = explode("\n", $this->getRenderer()->getContents())) {
 			throw new BSSmartyException('テンプレートが指定されていません。');
 		}
+
 		foreach ($lines as $line) {
 			if ($line == '') { //空行を発見したらヘッダのパースをやめる
 				array_shift($lines);
 				break;
-			} else if (preg_match('/^([a-z\-]+): (.+)$/i', $line, $matches)) {
-				$name = BSString::pascalize($matches[1]);
-				$value = self::base64Encode($matches[2]);
-				if ($name == 'Subject') {
-					$this->setSubject($value);
-				} else {
-					$this->setHeader($name, $value);
-				}
+			} else if ($this->parseHeader($line)) {
 				array_shift($lines);
 			} else {
 				break;
 			}
 		}
+
 		$body = BSString::convertEncoding(
 			implode("\n", $lines),
 			BSString::SCRIPT_ENCODING,
 			BSString::TEMPLATE_ENCODING
 		);
 		$this->setBody($body);
+	}
+
+	/**
+	 * 行をパースし、エンベロープフィールドなら適切に処理する
+	 *
+	 * @access private
+	 * @param string $line 行
+	 * @return boolean 行がヘッダならばTrue
+	 */
+	private function parseHeader ($line) {
+		if (!preg_match('/^([a-z\-]+): (.+)$/i', $line, $matches)) {
+			return false;
+		}
+
+		$value = $matches[2];
+		switch ($key = BSString::capitalize($matches[1])) {
+			case 'Subject':
+				$this->setSubject($value);
+				return true;
+			case 'From':
+				$this->setFrom(new BSMailAddress($value));
+				return true;
+			case 'To':
+				$this->setTo(new BSMailAddress($value));
+				return true;
+			case 'Bcc':
+				foreach (explode(',', $value) as $address) {
+					$this->addBCC(new BSMailAddress($address));
+				}
+				return true;
+			default:
+				$this->setHeader($key, $value);
+				return true;
+		}
 	}
 
 	/**
