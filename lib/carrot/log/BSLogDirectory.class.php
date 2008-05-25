@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSLogDirectory extends BSDirectory {
-	const DEFAULT_ENTRY_CLASS = 'BSLogFile';
 
 	/**
 	 * コンストラクタ
@@ -35,8 +34,11 @@ class BSLogDirectory extends BSDirectory {
 	 * @param string $class エントリーのクラス名
 	 * @return BSDirectoryEntry ログファイル
 	 */
-	public function getLatestEntry ($class = self::DEFAULT_ENTRY_CLASS) {
+	public function getLatestEntry ($class = null) {
 		if ($entries = $this->getEntryNames()) {
+			if (!$class) {
+				$class = $this->getDefaultEntryClassName();
+			}
 			return $this->getEntry($entries[0], $class);
 		}
 	}

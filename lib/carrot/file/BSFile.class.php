@@ -252,7 +252,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 *
 	 * @access public
 	 * @return boolean gzip圧縮されていたらTrue
-	 * @todo 拡張子で判断せずに、ファイルの内容で判断出来ればベター
 	 */
 	public function isCompressed () {
 		return ($this->getSuffix() == '.gz');

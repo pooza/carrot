@@ -38,7 +38,6 @@ class BSProcess {
 	 * @param integer プロセスID
 	 * @return boolean pidが存在するならTrue
 	 * @static
-	 * @todo あんまり外部コマンドに頼りたくないなぁ...
 	 */
 	static public function isExist ($pid) {
 		foreach (explode("\n", shell_exec('ps ax')) as $process) {

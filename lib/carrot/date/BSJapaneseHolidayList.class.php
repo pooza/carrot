@@ -17,7 +17,6 @@ class BSJapaneseHolidayList extends BSHolidayList {
 	 * ICSカレンダーをパースしてルール配列に格納
 	 *
 	 * @access protected
-	 * @todo iCalendar(RFC2445)のMUST要求
 	 */
 	protected function setRules () {
 		foreach (explode("\n", $this->getBody()) as $line) {
@@ -71,7 +70,6 @@ class BSJapaneseHolidayList extends BSHolidayList {
 	 * ルール配列を解釈して、祝日カレンダーを生成
 	 *
 	 * @access protected
-	 * @todo iCalendar(RFC2445)のMUST要求
 	 */
 	protected function setHolidays () {
 		foreach ($this->rules as $rule) {

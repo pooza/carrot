@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
- * @todo 5.0以降はインフォメーションスキーマを参照する様に
  */
 class BSMySQLTableProfile extends BSTableProfile {
 

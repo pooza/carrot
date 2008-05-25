@@ -59,7 +59,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 * 結果配列を設定する
 	 *
 	 * @access public
-	 * @param mixed $result 結果配列又はファイル
+	 * @param mixed $result 結果配列
 	 */
 	public function setResult ($result) {
 		if ($yaml instanceof BSArray) {

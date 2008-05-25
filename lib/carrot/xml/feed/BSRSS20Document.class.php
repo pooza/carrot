@@ -31,7 +31,6 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	 *
 	 * @access public
 	 * @return boolean 妥当な文書ならTrue
-	 * @todo BEBUGモード時はFeedValidatorのWebサービスを利用
 	 */
 	public function validate () {
 		return (parent::validate()

@@ -47,7 +47,6 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	 * @access public
 	 * @param string $value 対象文字列
 	 * @return string 複号化された文字列
-	 * @todo $valueを参照渡しにしないとStrict standardエラーが出るが、とりあえず放置。
 	 */
 	public function decrypt ($value) {
 		@parent::decrypt($value);

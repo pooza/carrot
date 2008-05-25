@@ -39,7 +39,6 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 * @access public
 	 * @param string $name ファイル名
 	 * @return string エンコード済みファイル名
-	 * @todo 正しいファイル名を返せる様に対応（Apple側のバグフィックス待ち）
 	 */
 	public function getEncodedFileName ($name) {
 		// 漢字を "?" に変える。そのほうが少しだけマシなので。
