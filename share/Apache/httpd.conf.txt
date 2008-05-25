@@ -4,34 +4,14 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-# 以下のモジュールが必要。
-
-LoadModule rewrite_module modules/mod_rewrite.so
-
-# アクセスログに対する設定。
-
 SetEnvIf Request_URI "^/carrotctl.php" nolog
 SetEnvIf Request_URI "^/(Admin|Develop)" nolog
 SetEnvIf Request_URI "^/StyleSheet" nolog
 SetEnvIf Request_URI "^/awstats" nolog
-
-# VirtualHostブロックは以下の様な内容で。
 
 <VirtualHost *>
   ServerName www.example.com
   ServerAlias example.com
   DocumentRoot htdocs/carrot/www
   CustomLog "| /usr/local/sbin/cronolog /var/log/httpd/www.example.com/%Y/%m/access_%Y%m%d.log" combined env=!nolog
-
-  RewriteEngine on
-  RewriteRule ^/$ /carrotctl.php [L,QSA] #この行は必要に応じてコメントアウト
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
-  RewriteRule ^/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [L,QSA]
-
-  <Location /awstats>
-    Options +ExecCGI
-    AddHandler cgi-script .pl
-  </Location>
 </VirtualHost>
