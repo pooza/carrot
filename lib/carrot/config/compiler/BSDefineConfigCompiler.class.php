@@ -27,6 +27,9 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 				} else {
 					$key = array($prefix, $category, $key);
 				}
+				if (is_array($value)) {
+					$value = implode(',', $value);
+				}
 				$line = sprintf(
 					'  %s => %s,',
 					self::quote(strtoupper(implode('_', $key))),

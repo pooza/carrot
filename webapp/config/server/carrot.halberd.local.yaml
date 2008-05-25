@@ -14,7 +14,8 @@ admin:
   email: admin@b-shock.co.jp
   jid: pooza@jabber.b-shock.co.jp/carrot
   password: 47bce5c74f589f4867dbd57e9ca9f808
-  networks: 192.168.100.0/24
+  networks:
+    - 192.168.100.0/24
 
 author:
   name: 有限会社 ビーショック

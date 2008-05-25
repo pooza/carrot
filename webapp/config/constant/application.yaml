@@ -14,7 +14,9 @@ home:
   #href: /index.html
 
 module:
-  #prefixes: Admin,User
+  prefixes:
+    - Admin
+    - User
 
 secure:
   #module: Default

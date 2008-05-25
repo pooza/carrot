@@ -71,7 +71,6 @@ require_once(BS_ROOT_DIR . '/lib/protector.php');
 define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
 define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
 define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
-define('BS_WWW_DIR', BS_ROOT_DIR . '/www');
 define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
 define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
 define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
