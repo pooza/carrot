@@ -30,9 +30,6 @@ crypt:
 types:
   file: /etc/httpd/mime.types
 
-services:
-  file: /etc/services
-
 pdo:
   dsn: mysql:host=127.0.0.1;dbname=carrot
   #dsn: pgsql:host=localhost dbname=carrot user=postgres

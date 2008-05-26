@@ -171,7 +171,7 @@ class BSHTTP extends BSSocket {
 	 * @static
 	 */
 	static public function getDefaultPort () {
-		return BSServiceList::getPort('http');
+		return BSNetworkService::getPort('http');
 	}
 }
 

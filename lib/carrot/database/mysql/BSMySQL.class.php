@@ -173,7 +173,7 @@ class BSMySQL extends BSDatabase {
 	 * @static
 	 */
 	static public function getDefaultPort () {
-		return BSServiceList::getPort('mysql');
+		return BSNetworkService::getPort('mysql');
 	}
 }
 

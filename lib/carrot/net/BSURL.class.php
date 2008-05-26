@@ -64,7 +64,7 @@ class BSURL {
 			}
 			$this->url .= $host->getName();
 
-			if ($this->getAttribute('port') != BSServiceList::getPort($scheme)) {
+			if ($this->getAttribute('port') != BSNetworkService::getPort($scheme)) {
 				$this->url .= ':' . $this->getAttribute('port');
 			}
 
@@ -157,7 +157,7 @@ class BSURL {
 			case 'scheme':
 				$this->attributes['scheme'] = $value;
 				if (!$this->getAttribute('port')) {
-					$this->setAttribute('port', BSServiceList::getPort($value));
+					$this->setAttribute('port', BSNetworkService::getPort($value));
 				}
 				break;
 			case 'host':

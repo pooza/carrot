@@ -544,7 +544,7 @@ class BSSMTP extends BSSocket {
 	 * @static
 	 */
 	static public function getDefaultPort () {
-		return BSServiceList::getPort('smtp');
+		return BSNetworkService::getPort('smtp');
 	}
 }
 

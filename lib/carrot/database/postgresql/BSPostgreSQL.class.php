@@ -160,7 +160,7 @@ class BSPostgreSQL extends BSDatabase {
 	 */
 	static public function getDefaultPort () {
 		foreach (array('postgresql', 'postgres', 'pgsql') as $service) {
-			if ($port = BSServiceList::getPort($service)) {
+			if ($port = BSNetworkService::getPort($service)) {
 				return $port;
 			}
 		}
