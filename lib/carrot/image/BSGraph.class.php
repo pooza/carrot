@@ -50,8 +50,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$this->setXLabelAngle(90);
 		$this->setXTickLabelPos('none');
 		$this->setXTickPos('none');
-		$this->setYTickIncrement(1);
-		$this->setShading(2);
+		$this->setShading(0);
 
 		$colors = array(
 			'SlateBlue', 'green', 'peru', 'salmon', 'blue',
@@ -194,18 +193,36 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 
 		if ($this->plot_type == 'pie') {
 			$this->setDataType('text-data-single');
-			$legends = array();
+
+			// 総数を得る
+			$total = 0;
 			foreach ($source as $row) {
 				$row = array_values($row);
-				$legends[] = BSString::truncate($row[0], 16);
-				$values[] = $row;
+				$total += $row[1];
+			}
+
+			// 
+			$legends = array();
+			$others = 0;
+			foreach ($source as $row) {
+				$row = array_values($row);
+				if (($total / 100 * 2) < $row[1]) {
+					$legends[] = BSString::truncate($row[0], 20);
+					$values[] = $row;
+				} else {
+					$others += $row[1];
+				}
+			}
+			if ($others) {
+				$legends[] = '上記以外の回答';
+				$values[] = array(null, $others);
 			}
 			$this->setLegend($legends);
 		} else {
 			$this->setDataType('text-data');
 			foreach ($source as $row) {
 				$row = array_values($row);
-				$row[0] = BSString::truncate($row[0], 16);
+				$row[0] = BSString::truncate($row[0], 24);
 				for ($i = 1 ; $i < count($row) ; $i ++) { //見出要素を除いてループ
 					if ($value = $row[$i]) {
 						if (!isset($max) || ($max < $value)) {
@@ -219,6 +236,14 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				$values[] = $row;
 			}
 			if ($this->plot_type != 'stackedbars') {
+				// 目盛の桁を算出
+				$tick = 1;
+				while (($tick * 10) < $max) {
+					$tick = $tick * 10;
+				}
+				$this->setYTickIncrement($tick);
+
+				// 最大値と最小値を算出
 				$max = (ceil($max / $this->y_tick_inc) + 1) * $this->y_tick_inc;
 				if (!is_null($this->min)) {
 					$min = $this->min;
@@ -262,26 +287,84 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			return true;
 		}
 		return parent::setDefaultFonts();
-    }
-
-	/**
-	 * エラーテキスト表示のオーバライド
-	 *
-	 * @access public
-	 * @param string $message エラーメッセージ
-	 */
-	public function printError ($message) {
-		throw new BSImageException($message);
 	}
 
 	/**
-	 * エラー画像表示のオーバライド
+	 * 凡例描画のオーバライド
 	 *
 	 * @access public
-	 * @param string $message エラーメッセージ
+	 * @param integer $which_x1 左上のX座標
+	 * @param integer $which_71 左上のY座標
+	 * @param string $which_boxtype 未使用の模様
 	 */
-	public function drawError ($message) {
-		throw new BSImageException($message);
+	public function drawLegend ($which_x1, $which_y1, $which_boxtype) {
+		// Find maximum legend label length
+		$max_len = 0;
+		foreach ($this->legend as $leg) {
+			$len = strlen($leg);
+			$max_len = ($len > $max_len) ? $len : $max_len;
+		}
+
+		if ($this->use_ttf) {
+			$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
+									   $this->legend_font['font'], 'J');
+			$char_w = $size[0];
+
+			$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
+									   $this->legend_font['font'], 'E');
+			$char_h = $size[1];
+		} else {
+			$char_w = $this->legend_font['width'];
+			$char_h = $this->legend_font['height'];
+		}
+
+		$v_margin = $char_h/2;						 // Between vertical borders and labels
+		$dot_height = $char_h + $this->line_spacing;   // Height of the small colored boxes
+		$width = $char_w * ($max_len + 4);
+
+		//////// Calculate box size
+		// upper Left
+		if ( (! $which_x1) || (! $which_y1) ) {
+			$box_start_x = $this->plot_area[2] - $width;
+			$box_start_y = $this->plot_area[1] + 5;
+		} else {
+			$box_start_x = $which_x1;
+			$box_start_y = $which_y1;
+		}
+
+		// Lower right corner
+		$box_end_y = $box_start_y + $dot_height*(count($this->legend)) + 2*$v_margin;
+		$box_end_x = $box_start_x + $width - 5;
+
+
+		// Draw outer box
+		ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_bg_color);
+		ImageRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
+
+		$color_index = 0;
+		$max_color_index = count($this->ndx_data_colors) - 1;
+
+		$dot_left_x = $box_end_x - $char_w * 2;
+		$dot_right_x = $box_end_x - $char_w;
+		$y_pos = $box_start_y + $v_margin;
+
+		foreach ($this->legend as $leg) {
+			// Text right aligned to the little box
+			$this->DrawText($this->legend_font, 0, $dot_left_x - $char_w, $y_pos,
+							$this->ndx_text_color, $leg, 'right');
+			// Draw a box in the data color
+			ImageFilledRectangle($this->img, $dot_left_x, $y_pos + 1, $dot_right_x,
+								 $y_pos + $dot_height-1, $this->ndx_data_colors[$color_index]);
+			// Draw a rectangle around the box
+			ImageRectangle($this->img, $dot_left_x, $y_pos + 1, $dot_right_x,
+						   $y_pos + $dot_height-1, $this->ndx_text_color);
+
+			$y_pos += $char_h + $this->line_spacing;
+
+			$color_index++;
+			if ($color_index > $max_color_index)
+				$color_index = 0;
+		}
 	}
 
 	/**
@@ -291,41 +374,37 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 */
 	public function drawPieChart() {
 		$xpos = $this->plot_area[0] + $this->plot_area_width/2;
-		if ($this->legend) {
-			$ypos = $this->plot_area[1] + count($this->legend) * $this->legend_font['size'] * 2 + 240;
-		} else {
-			$ypos = $this->plot_area[1] + $this->plot_area_height/2;
-		}
+		$ypos = $this->plot_area[1] + $this->plot_area_height/2;
 		$diameter = min($this->plot_area_width, $this->plot_area_height);
 		$radius = $diameter/2;
 
-		switch ($this->data_type) {
-			case 'text-data':
-				for ($i = 0; $i < $this->num_data_rows; $i++) {
-					for ($j = 1; $j < $this->num_recs[$i]; $j++) {
-						@ $sumarr[$j] += abs($this->data[$i][$j]);
-					}
+		if ($this->data_type === 'text-data') {
+			for ($i = 0; $i < $this->num_data_rows; $i++) {
+				for ($j = 1; $j < $this->num_recs[$i]; $j++) {      // Label ($row[0]) unused in these pie charts
+					@ $sumarr[$j] += abs($this->data[$i][$j]);      // NOTE!  sum > 0 to make pie charts
 				}
-				break;
-			case 'text-data-single':
-				for ($i = 0; $i < $this->num_data_rows; $i++) {
-					$legend[$i] = $this->data[$i][0];
-					$sumarr[$i] = $this->data[$i][1];
+			}
+		} else if ($this->data_type == 'text-data-single') {
+			for ($i = 0; $i < $this->num_data_rows; $i++) {
+				$legend[$i] = $this->data[$i][0];                   // Set the legend to column labels
+				$sumarr[$i] = $this->data[$i][1];
+			}
+		} else if ($this->data_type == 'data-data') {
+			for ($i = 0; $i < $this->num_data_rows; $i++) {
+				for ($j = 2; $j < $this->num_recs[$i]; $j++) {
+					@ $sumarr[$j] += abs($this->data[$i][$j]);
 				}
-				break;
-			case 'data-data':
-				for ($i = 0; $i < $this->num_data_rows; $i++) {
-					for ($j = 2; $j < $this->num_recs[$i]; $j++) {
-						@ $sumarr[$j] += abs($this->data[$i][$j]);
-					}
-				}
-				break;
-			default:
-				throw new BSImageException('Data type "%s" not supported.', $this->data_type);
+			}
+		} else {
+			$this->DrawError("DrawPieChart(): Data type '$this->data_type' not supported.");
+			return FALSE;
 		}
 
-		if (!$total = array_sum($sumarr)) {
-			throw new BSImageException('Empty data set');
+		$total = array_sum($sumarr);
+
+		if ($total == 0) {
+			$this->DrawError('DrawPieChart(): Empty data set');
+			return FALSE;
 		}
 
 		if ($this->shading) {
@@ -333,7 +412,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		} else {
 			$diam2 = $diameter;
 		}
-		$max_data_colors = count($this->data_colors);
+		$max_data_colors = count ($this->data_colors);
 
 		for ($h = $this->shading; $h >= 0; $h--) {
 			$color_index = 0;
@@ -346,36 +425,48 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$slicecol = $this->ndx_data_dark_colors[$color_index];
 				}
 
+				$label_percentage = $val / $total * 100;
 				$val = 360 * ($val / $total);
+
 				$start_angle = $end_angle;
 				$end_angle += $val;
 				$mid_angle = deg2rad($end_angle - ($val / 2));
 
-				ImageFilledArc(
-					$this->img, $xpos, $ypos+$h, $diameter*0.7, $diam2,
-					360-$end_angle, 360-$start_angle, $slicecol, IMG_ARC_PIE
-				);
+				// 細い円弧は描画しない
+				if (0.3 < $label_percentage) {
+					ImageFilledArc(
+						$this->img,
+						$xpos, $ypos+$h,
+						$diameter, $diam2,
+						360-$end_angle, 360-$start_angle,
+						$slicecol, IMG_ARC_PIE
+					);
+				}
 
+				// Draw the labels only once
 				if ($h == 0) {
-					if (!$this->shading) {
+					// Draw the outline
+					if (! $this->shading) {
 						ImageFilledArc(
-							$this->img, $xpos, $ypos+$h, $diameter*0.7, $diam2,
+							$this->img,
+							$xpos, $ypos+$h,
+							$diameter, $diam2,
 							360-$end_angle, 360-$start_angle,
 							$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
 						);
 					}
 
-					if (2 <= ($val / $total * 100)) {
-						$label_txt = number_format(($val / $total * 100), $this->y_precision, '.', ', ') . '%';
-						$label_x = $xpos + ($diameter * 0.8 * cos($mid_angle)) * $this->label_scale_position;
-						$label_y = $ypos+$h - ($diam2 * 1.1 * sin($mid_angle)) * $this->label_scale_position;
-
-						$this->DrawText($this->generic_font, 0, $label_x, $label_y,
-							$this->ndx_grid_color, $label_txt, 'center', 'center'
-						);
-					}
+					$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
+					$label_y = $ypos+$h - ($diam2 * 0.9 * sin($mid_angle)) * $this->label_scale_position;
+					$label_txt = number_format($label_percentage, $this->y_precision, '.', ',') . '%';
+					$this->DrawText(
+						$this->generic_font, 0,
+						$label_x, $label_y,
+						$this->ndx_grid_color,
+						$label_txt, 'center', 'center'
+					);
 				}
-				$color_index ++;
+				$color_index++;
 				$color_index = $color_index % $max_data_colors;
 			}
 		}
@@ -432,6 +523,26 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * エラーテキスト表示のオーバライド
+	 *
+	 * @access public
+	 * @param string $message エラーメッセージ
+	 */
+	public function printError ($message) {
+		throw new BSImageException($message);
+	}
+
+	/**
+	 * エラー画像表示のオーバライド
+	 *
+	 * @access public
+	 * @param string $message エラーメッセージ
+	 */
+	public function drawError ($message) {
+		throw new BSImageException($message);
 	}
 }
 
