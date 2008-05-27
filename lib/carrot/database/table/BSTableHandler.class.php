@@ -255,7 +255,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			$table = clone $this;
 			$criteria = array();
 			foreach ($primaryKey as $field => $value) {
-				$criteria[] = $field . '=' . BSSQL::quote($value, $this->getDatabase());
+				$criteria[] = $field . '=' . $this->getDatabase()->quote($value);
 			}
 			$table->setCriteria($criteria);
 			if ($table->getRecordCount() == 1) {

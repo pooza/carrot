@@ -56,7 +56,7 @@ awstats:
   server_name_aliases: 
 
 session:
-  #storage_type: database
+  storage_type: database
 
 date:
   timezone: Asia/Tokyo

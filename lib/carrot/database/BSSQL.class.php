@@ -53,7 +53,6 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getSelectQueryString ($fields, $tables, $criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
-
 		$query = array(
 			'SELECT',
 			self::getFieldsString($fields),
@@ -95,7 +94,7 @@ class BSSQL {
 		$valuesQuoted = array();
 		foreach ($values as $key => $value) {
 			$fields[] = $key;
-			$valuesQuoted[] = self::quote($value, $db);
+			$valuesQuoted[] = $db->quote($value);
 		}
 
 		return sprintf(
@@ -124,7 +123,7 @@ class BSSQL {
 
 		$fields = array();
 		foreach ($values as $key => $value) {
-			$fields[] = sprintf('%s=%s', $key, self::quote($value, $db));
+			$fields[] = sprintf('%s=%s', $key, $db->quote($value));
 		}
 
 		return sprintf(

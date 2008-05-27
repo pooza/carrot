@@ -67,7 +67,7 @@ class BSSQLite extends BSDatabase {
 			$query = BSSQL::getSelectQueryString(
 				'name',
 				'sqlite_master',
-				'name NOT LIKE ' . BSSQL::quote('sqlite_%', $this)
+				'name NOT LIKE ' . $this->quote('sqlite_%')
 			);
 			foreach ($this->query($query) as $row) {
 				$this->tables[] = $row['name'];

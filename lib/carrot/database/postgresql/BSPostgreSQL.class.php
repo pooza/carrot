@@ -95,7 +95,7 @@ class BSPostgreSQL extends BSDatabase {
 			$query = BSSQL::getSelectQueryString(
 				'tablename',
 				'pg_tables',
-				'schemaname=' . BSSQL::quote('public', $this)
+				'schemaname=' . $this->quote('public')
 			);
 			foreach ($this->query($query) as $row) {
 				$this->tables[] = $row['tablename'];

@@ -24,7 +24,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	public function getFields () {
 		if (!$this->fields) {
 			$criteria = array(
-				'attrelid=' . BSSQL::quote($this->getID(), $this->getDatabase()),
+				'attrelid=' . $this->getDatabase()->quote($this->getID()),
 				'attnum>0',
 			)
 			$query = BSSQL::getSelectQueryString(
@@ -61,7 +61,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 			$query = BSSQL::getSelectQueryString(
 				'oid',
 				'pg_class',
-				'relname=' . BSSQL::quote($this->getName(), $this->getDatabase())
+				'relname=' . $this->getDatabase()->quote($this->getName())
 			);
 			$row = $this->database->query($query)->fetch();
 			$this->id = $row['oid'];
