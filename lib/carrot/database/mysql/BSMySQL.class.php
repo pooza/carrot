@@ -12,27 +12,38 @@
  * @version $Id$
  */
 class BSMySQL extends BSDatabase {
-	static private $instance;
+	static private $instances;
 
 	/**
-	 * シングルトンインスタンスを返す
+	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSMySQL インスタンス
+	 * @name string $name データベース名
+	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance () {
-		if (!self::$instance) {
+	static public function getInstance ($name = 'default') {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+		}
+		if (!self::$instances[$name]) {
+			foreach (array('dsn', 'uid', 'password') as $key) {
+				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
+					throw new BSDatabaseException('"%s"が未定義です。', $const);
+				}
+				$$key = constant($const);
+			}
 			try {
-				self::$instance = new BSMySQL(BS_PDO_DSN, BS_PDO_UID, BS_PDO_PASSWORD);
-				self::$instance->exec('SET NAMES ' . self::getEncoding());
+				self::$instances[$name] = new BSMySQL($dsn, $uid, $password);
+				self::$instances[$name]->setName($name);
+				self::$instances[$name]->exec('SET NAMES ' . self::getEncoding());
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();
 				throw $e;
 			}
 		}
-		return self::$instance;
+		return self::$instances[$name];
 	}
 
 	/**
@@ -56,7 +67,7 @@ class BSMySQL extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$nameColumn = 'Tables_in_' . $this->getName();
+			$nameColumn = 'Tables_in_' . $this->getAttribute('name');
 			foreach ($this->query('SHOW TABLES') as $row) {
 				$this->tables[] = $row[$nameColumn];
 			}

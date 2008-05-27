@@ -31,7 +31,11 @@ abstract class BSAction {
 			case 'user':
 				return BSUser::getInstance();
 			case 'database':
-				return BSDatabase::getInstance();
+				if ($table = $this->getTable()) {
+					return $table->getDatabase();
+				} else {
+					return BSDatabase::getInstance();
+				}
 		}
 	}
 
@@ -131,6 +135,16 @@ abstract class BSAction {
 	 * @return BSRecord 編集中レコード
 	 */
 	public function getRecord () {
+		return null;
+	}
+
+	/**
+	 * テーブルを返す
+	 *
+	 * @access public
+	 * @return BSTableHandler テーブル
+	 */
+	public function getTable () {
 		return null;
 	}
 

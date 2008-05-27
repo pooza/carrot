@@ -120,7 +120,7 @@ abstract class BSRecord {
 			$this->criteria = sprintf(
 				'%s=%s',
 				$this->getTable()->getKeyField(),
-				BSSQL::quote($this->getID())
+				$this->getTable()->getDatabase()->quote($this->getID())
 			);
 		}
 		return $this->criteria;
@@ -140,9 +140,10 @@ abstract class BSRecord {
 		$query = BSSQL::getUpdateQueryString(
 			$this->getTable()->getName(),
 			$values,
-			$this->getCriteria()
+			$this->getCriteria(),
+			$this->getTable()->getDatabase()
 		);
-		BSDatabase::getInstance()->exec($query);
+		$this->getTable()->getDatabase()->exec($query);
 		BSLog::put($this . 'を更新しました。');
 
 		$this->setAttributes($values);
@@ -183,7 +184,7 @@ abstract class BSRecord {
 			$this->getTable()->getName(),
 			$this->getCriteria()
 		);
-		BSDatabase::getInstance()->exec($query);
+		$this->getTable()->getDatabase()->exec($query);
 		BSLog::put($this . 'を削除しました。');
 	}
 

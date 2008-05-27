@@ -16,27 +16,32 @@ abstract class BSDatabase extends PDO {
 	protected $attributes;
 	protected $tables = array();
 	private $dbms;
+	private $name;
 	const LOG_TYPE = 'Query';
 
 	/**
-	 * シングルトンインスタンスを返す
+	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
+	 * @name string $name データベース名
 	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance () {
-		preg_match('/^([a-z0-9]+):/', BS_PDO_DSN, $matches);
+	static public function getInstance ($name = 'default') {
+		if (!defined($dsn = strtoupper('bs_pdo_' . $name . '_dsn'))) {
+			return null;
+		}
+		preg_match('/^([a-z0-9]+):/', constant($dsn), $matches);
 		switch ($dbms = $matches[1]) {
 			case 'mysql':
-				return BSMySQL::getInstance();
+				return BSMySQL::getInstance($name);
 			case 'pgsql':
-				return BSPostgreSQL::getInstance();
+				return BSPostgreSQL::getInstance($name);
 			case 'sqlite':
 			case 'sqlite2':
-				return BSSQLite::getInstance();
+				return BSSQLite::getInstance($name);
 			case 'odbc':
-				return BSODBCDatabase::getInstance();
+				return BSODBCDatabase::getInstance($name);
 			default:
 				throw new BSDatabaseException('DBMS"%s"が適切ではありません。', $dbms);
 		}
@@ -92,12 +97,11 @@ abstract class BSDatabase extends PDO {
 	 * @access protected
 	 */
 	protected function parseDSN () {
-		$this->attributes['dsn'] = BS_PDO_DSN;
-		if (defined('BS_PDO_UID')) {
-			$this->attributes['user'] = BS_PDO_UID;
-		}
-		if (defined('BS_PDO_PASSWORD')) {
-			$this->attributes['password'] = BS_PDO_PASSWORD;
+		foreach (array('dsn', 'uid', 'password') as $key) {
+			$const = strtoupper('bs_pdo_' . $this->getName() . '_' . $key);
+			if (defined($const)) {
+				$this->attributes[$key] = constant($const);
+			}
 		}
 	}
 
@@ -164,17 +168,30 @@ abstract class BSDatabase extends PDO {
 	 */
 	public function getTableProfile ($table) {
 		$class = 'BS' . $this->getDBMS() . 'TableProfile';
-		return new $class($table);
+		return new $class($table, $this);
 	}
 
 	/**
-	 * データベース名を返す
+	 * データベースのインスタンス名を返す
+	 *
+	 * DSNにおける「データベース名」のことではなく、
+	 * BSDatabaseクラスのフライウェイトインスタンスとしての名前のこと。
 	 *
 	 * @access public
-	 * @return string データベース名
+	 * @return string インスタンス名
 	 */
 	public function getName () {
-		return $this->getAttribute('name');
+		return $this->name;
+	}
+
+	/**
+	 * データベースのインスタンス名を設定する
+	 *
+	 * @access public
+	 * @return string インスタンス名
+	 */
+	public function setName ($name) {
+		$this->name = $name;
 	}
 
 	/**

@@ -31,12 +31,15 @@ types:
   file: /etc/httpd/mime.types
 
 pdo:
-  dsn: mysql:host=127.0.0.1;dbname=carrot
-  #dsn: pgsql:host=localhost dbname=carrot user=postgres
-  #dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
-  uid: root
-  password: 
   #query_log_enable: false
+  default:
+    dsn: mysql:host=127.0.0.1;dbname=carrot
+    #dsn: pgsql:host=localhost dbname=carrot user=postgres
+    #dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+    uid: root
+    password:
+  session:
+    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
 
 smtp:
   post: localhost
@@ -52,7 +55,7 @@ awstats:
   server_name_aliases: 
 
 session:
-  #storage_type: database
+  storage_type: database
 
 date:
   timezone: Asia/Tokyo

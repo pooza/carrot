@@ -12,29 +12,39 @@
  * @version $Id$
  */
 class BSODBCDatabase extends BSDatabase {
-	static private $instance;
+	static private $instances;
 
 	/**
-	 * シングルトンインスタンスを返す
+	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSODBCDatabase インスタンス
+	 * @name string $name データベース名
+	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance () {
-		if (!self::$instance) {
+	static public function getInstance ($name = 'default') {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+		}
+		if (!self::$instances[$name]) {
+			foreach (array('dsn', 'uid', 'password') as $key) {
+				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
+					throw new BSDatabaseException('"%s"が未定義です。', $const);
+				}
+				$$key = constant($const);
+			}
 			try {
-				self::$instance = new BSODBCDatabase(BS_PDO_DSN, BS_PDO_UID, BS_PDO_PASSWORD);
+				self::$instances[$name] = new BSODBCDatabase($dsn, $uid, $password);
+				self::$instances[$name]->setName($name);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException(
-					'DB接続エラーです。DSN:[%s] (%s)',
-					BSString::convertEncoding($e->getMessage()),
-					BS_PDO_DSN
+					'DB接続エラーです。 (%s)',
+					BSString::convertEncoding($e->getMessage())
 				);
 				throw $e;
 			}
 		}
-		return self::$instance;
+		return self::$instances[$name];
 	}
 
 	/**

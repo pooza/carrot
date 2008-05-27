@@ -139,5 +139,19 @@ class BSStoredSessionHandler extends BSTableHandler {
 		}
 		return true;
 	}
+
+	/**
+	 * データベースを返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		foreach (array('session', 'default') as $db) {
+			if ($db = BSDatabase::getInstance($db)) {
+				return $db;
+			}
+		}
+	}
 }
 ?>

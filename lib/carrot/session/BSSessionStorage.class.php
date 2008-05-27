@@ -97,18 +97,22 @@ class BSSessionStorage extends BSParameterHolder {
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			$db = BSDatabase::getInstance();
-			if (!in_array(self::TABLE_NAME, $db->getTableNames())) {
-				$fields = array(
-					'id varchar(128) NOT NULL PRIMARY KEY',
-					'update_date timestamp NOT NULL',
-					'data TEXT',
-				);
-				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
-				$db->exec($query);
+			foreach (array('session', 'default') as $db) {
+				if ($db = BSDatabase::getInstance($db)) {
+					if (!in_array(self::TABLE_NAME, $db->getTableNames())) {
+						$fields = array(
+							'id varchar(128) NOT NULL PRIMARY KEY',
+							'update_date timestamp NOT NULL',
+							'data TEXT',
+						);
+						$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
+						$db->exec($query);
+					}
+					$class = 'BS' . BSString::pascalize(self::TABLE_NAME) . 'Handler';
+					$this->table = new $class;
+					break;
+				}
 			}
-			$class = 'BS' . BSString::pascalize(self::TABLE_NAME) . 'Handler';
-			$this->table = new $class;
 		}
 		return $this->table;
 	}

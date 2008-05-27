@@ -12,26 +12,37 @@
  * @version $Id$
  */
 class BSSQLite extends BSDatabase {
-	static private $instance;
+	static private $instances;
 
 	/**
-	 * シングルトンインスタンスを返す
+	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSSQLite インスタンス
+	 * @name string $name データベース名
+	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance () {
-		if (!self::$instance) {
+	static public function getInstance ($name = 'default') {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+		}
+		if (!self::$instances[$name]) {
+			foreach (array('dsn') as $key) {
+				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
+					throw new BSDatabaseException('"%s"が未定義です。', $const);
+				}
+				$$key = constant($const);
+			}
 			try {
-				self::$instance = new BSSQLite(BS_PDO_DSN);
+				self::$instances[$name] = new BSSQLite($dsn);
+				self::$instances[$name]->setName($name);
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();
 				throw $e;
 			}
 		}
-		return self::$instance;
+		return self::$instances[$name];
 	}
 
 	/**
@@ -56,7 +67,7 @@ class BSSQLite extends BSDatabase {
 			$query = BSSQL::getSelectQueryString(
 				'name',
 				'sqlite_master',
-				'name NOT LIKE ' . BSSQL::quote('sqlite_%')
+				'name NOT LIKE ' . BSSQL::quote('sqlite_%', $this)
 			);
 			foreach ($this->query($query) as $row) {
 				$this->tables[] = $row['name'];

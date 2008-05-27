@@ -17,33 +17,37 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
 		$this->putLine('$constants = array(');
 
-		foreach ($file->getResult() as $category => $values) {
-			if (!BSArray::isArray($values)) {
-				continue;
-			}
-			foreach ($values as $key => $value) {
-				if (preg_match('/^\\./', $category)) { // .iniフォーマットとの互換性
-					$key = array($prefix, $key);
-				} else {
-					$key = array($prefix, $category, $key);
-				}
-				if (is_array($value)) {
-					$value = implode(',', $value);
-				}
-				$line = sprintf(
-					'  %s => %s,',
-					self::quote(strtoupper(implode('_', $key))),
-					self::quote($value)
-				);
-				$line = parent::replaceConstants($line);
-				$this->putLine($line);
-			}
+		foreach ($this->getConstants($file->getResult(), $prefix) as $key => $value) {
+			$line = sprintf('  %s => %s,', self::quote($key), self::quote($value));
+			$line = parent::replaceConstants($line);
+			$this->putLine($line);
 		}
+
 		$this->putLine(');');
 		$this->putLine('foreach ($constants as $name => $value) {');
 		$this->putLine('  if (!defined($name)) {define($name, $value);}');
 		$this->putLine('}');
 		return $this->getBody();
+	}
+
+	private function getConstants ($arg, $prefix) {
+		if (BSArray::isArray($arg)) {
+			if (isset($arg[0])) { //配列であっても、連想配列でなければノードと見なす
+				return array(strtoupper($prefix) => implode(',', $arg));
+			} else { //連想配列だけがブランチを持つ
+				$constants = array();
+				foreach ($arg as $key => $value) {
+					if (preg_match('/^\./', $key)) { //"."で始まるキーはプリフィックスに含まない
+						$constants += $this->getConstants($value, $prefix);
+					} else {
+						$constants += $this->getConstants($value, $prefix . '_' . $key);
+					}
+				}
+				return $constants;
+			}
+		} else { //$argが配列でない場合は、無条件にノードと見なす
+			return array(strtoupper($prefix) => $arg);
+		}
 	}
 }
 

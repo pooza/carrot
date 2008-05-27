@@ -43,7 +43,6 @@ class BSWebController extends BSController {
 		}
 		$url->addSessionID();
 		$this->sendHeader('Location: ' . $url->getContents());
-		exit;
 	}
 
 	/**

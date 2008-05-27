@@ -27,11 +27,15 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $str クォートの対象
+	 * @param BSDatabase $db データベース
 	 * @return string クォートされた文字列
 	 * @static
 	 */
-	static public function quote ($str) {
-		return BSDatabase::getInstance()->quote($str);
+	static public function quote ($str, BSDatabase $db = null) {
+		if (!$db) {
+			$db = BSDatabase::getInstance();
+		}
+		return $db->quote($str);
 	}
 
 	/**
@@ -48,8 +52,7 @@ class BSSQL {
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	static public function getSelectQueryString ($fields, $tables,
-		$criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
+	static public function getSelectQueryString ($fields, $tables, $criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
 
 		$query = array(
 			'SELECT',
@@ -79,15 +82,20 @@ class BSSQL {
 	 * @access public
 	 * @param string $table テーブル名
 	 * @param mixed[] $values フィールドの値
+	 * @param BSDatabase $db 対象データベース
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	static public function getInsertQueryString ($table, $values) {
+	static public function getInsertQueryString ($table, $values, BSDatabase $db = null) {
+		if (!$db) {
+			$db = BSDatabase::getInstance();
+		}
+
 		$fields = array();
 		$valuesQuoted = array();
 		foreach ($values as $key => $value) {
 			$fields[] = $key;
-			$valuesQuoted[] = self::quote($value);
+			$valuesQuoted[] = self::quote($value, $db);
 		}
 
 		return sprintf(
@@ -105,13 +113,18 @@ class BSSQL {
 	 * @param string $table テーブル名
 	 * @param mixed[] $values フィールドの値
 	 * @param mixed $criteria 抽出条件
+	 * @param BSDatabase $db 対象データベース
 	 * @return string クエリー文字列
 	 * @static
 	 */
-	static public function getUpdateQueryString ($table, $values, $criteria) {
+	static public function getUpdateQueryString ($table, $values, $criteria, BSDatabase $db = null) {
+		if (!$db) {
+			$db = BSDatabase::getInstance();
+		}
+
 		$fields = array();
 		foreach ($values as $key => $value) {
-			$fields[] = sprintf('%s=%s', $key, self::quote($value));
+			$fields[] = sprintf('%s=%s', $key, self::quote($value, $db));
 		}
 
 		return sprintf(

@@ -14,6 +14,7 @@
  */
 abstract class BSTableProfile {
 	protected $attributes = array();
+	protected $database;
 	protected $fields = array();
 	protected $keys = array();
 	private $name;
@@ -24,25 +25,16 @@ abstract class BSTableProfile {
 	 * @access public
 	 * @param string $table テーブル名
 	 */
-	public function __construct ($table) {
+	public function __construct ($table, BSDatabase $database = null) {
 		$this->name = $table;
 
-		if (!in_array($this->getName(), $this->database->getTableNames())) {
-			throw new BSDatabaseException('%sが取得出来ません。', $this);
+		if (!$database) {
+			$database = BSDatabase::getInstance();
 		}
-	}
+		$this->database = $database;
 
-	/**
-	 * プロパティ取得のオーバライド
-	 *
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'database':
-				return BSDatabase::getInstance();
+		if (!in_array($this->getName(), $this->getDatabase()->getTableNames())) {
+			throw new BSDatabaseException('%sが取得出来ません。', $this);
 		}
 	}
 
@@ -65,11 +57,21 @@ abstract class BSTableProfile {
 	public function getAttributes () {
 		if (!$this->attributes) {
 			$this->attributes = array(
-				'dsn' => $this->database->getDSN(),
+				'dsn' => $this->getDatabase()->getDSN(),
 				'name' => $this->getName(),
 			);
 		}
 		return $this->attributes;
+	}
+
+	/**
+	 * データベースを返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		return $this->database;
 	}
 
 	/**

@@ -51,7 +51,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	public function __get ($name) {
 		switch ($name) {
 			case 'database':
-				return BSDatabase::getInstance();
+				return $this->getDatabase();
 		}
 	}
 
@@ -171,7 +171,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @access public
 	 * @return integer ページ番号
 	 */
-	function getPage () {
+	public function getPage () {
 		return $this->page;
 	}
 
@@ -181,7 +181,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @access public
 	 * @param integer $page ページ番号
 	 */
-	function setPage ($page = null) {
+	public function setPage ($page = null) {
 		if (!$page) {
 			//何もしない
 		} else if ($this->getLastPage() < $page) {
@@ -199,7 +199,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @access public
 	 * @return integer ページサイズ
 	 */
-	function getPageSize () {
+	public function getPageSize () {
 		return $this->pagesize;
 	}
 
@@ -209,11 +209,21 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @access public
 	 * @param integer $pagesize ページサイズ
 	 */
-	function setPageSize ($pagesize) {
+	public function setPageSize ($pagesize) {
 		if (1 < $pagesize) {
 			$this->pagesize = $pagesize;
 			$this->setExecuted(false);
 		}
+	}
+
+	/**
+	 * データベースを返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		return BSDatabase::getInstance();
 	}
 
 	/**
@@ -245,7 +255,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			$table = clone $this;
 			$criteria = array();
 			foreach ($primaryKey as $field => $value) {
-				$criteria[] = $field . '=' . BSSQL::quote($value);
+				$criteria[] = $field . '=' . BSSQL::quote($value, $this->getDatabase());
 			}
 			$table->setCriteria($criteria);
 			if ($table->getRecordCount() == 1) {
@@ -267,7 +277,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			throw new BSDatabaseException('%sへのレコード挿入は許可されていません。', $this);
 		}
 
-		$query = BSSQL::getInsertQueryString($this->getName(), $values);
+		$query = BSSQL::getInsertQueryString($this->getName(), $values, $this->getDatabase());
 		$this->database->exec($query);
 		if ($this->isAutoIncrement()) {
 			$sequence = $this->database->getSequenceName($this->getName(), $this->getKeyField());
