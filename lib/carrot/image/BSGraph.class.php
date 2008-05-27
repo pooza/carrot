@@ -183,7 +183,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * グラフデータ設定のオーバライド
+	 * グラフデータ設定
 	 *
 	 * @access public
 	 * @param integer[] $source グラフのデータ
@@ -206,15 +206,15 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$others = 0;
 			foreach ($source as $row) {
 				$row = array_values($row);
-				if (($total / 100 * 2) < $row[1]) {
-					$legends[] = BSString::truncate($row[0], 20);
+				if (($total / 100) < $row[1]) {
+					$legends[] = BSString::truncate($row[0], 32);
 					$values[] = $row;
 				} else {
 					$others += $row[1];
 				}
 			}
 			if ($others) {
-				$legends[] = '上記以外の回答';
+				$legends[] = '上記以外の項目';
 				$values[] = array(null, $others);
 			}
 			$this->setLegend($legends);
@@ -222,7 +222,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$this->setDataType('text-data');
 			foreach ($source as $row) {
 				$row = array_values($row);
-				$row[0] = BSString::truncate($row[0], 24);
+				$row[0] = BSString::split($row[0], 16);
 				for ($i = 1 ; $i < count($row) ; $i ++) { //見出要素を除いてループ
 					if ($value = $row[$i]) {
 						if (!isset($max) || ($max < $value)) {
@@ -257,7 +257,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * デフォルトフォント設定のオーバライド
+	 * デフォルトフォント設定
 	 *
 	 * @access public
 	 * @param string $font フォント名
@@ -271,31 +271,28 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * デフォルトフォント設定のオーバライド
+	 * デフォルトフォント設定
 	 *
 	 * @access public
 	 */
 	public function setDefaultFonts () {
-		if ($this->use_ttf) {
-			$this->setFont('generic', $this->default_ttfont, 9);
-			$this->setFont('title', $this->default_ttfont, 12);
-			$this->setFont('legend', $this->default_ttfont, 9);
-			$this->setFont('x_label', $this->default_ttfont, 9);
-			$this->setFont('y_label', $this->default_ttfont, 9);
-			$this->setFont('x_title', $this->default_ttfont, 9);
-			$this->setFont('y_title', $this->default_ttfont, 9);
-			return true;
-		}
-		return parent::setDefaultFonts();
+		$this->setFont('generic', $this->default_ttfont, 9);
+		$this->setFont('title', $this->default_ttfont, 12);
+		$this->setFont('legend', $this->default_ttfont, 9);
+		$this->setFont('x_label', $this->default_ttfont, 9);
+		$this->setFont('y_label', $this->default_ttfont, 9);
+		$this->setFont('x_title', $this->default_ttfont, 9);
+		$this->setFont('y_title', $this->default_ttfont, 9);
+		return true;
 	}
 
 	/**
-	 * 凡例描画のオーバライド
+	 * 凡例描画
 	 *
 	 * @access public
 	 * @param integer $which_x1 左上のX座標
 	 * @param integer $which_71 左上のY座標
-	 * @param string $which_boxtype 未使用の模様
+	 * @param string $which_boxtype 未使用
 	 */
 	public function drawLegend ($which_x1, $which_y1, $which_boxtype) {
 		// Find maximum legend label length
@@ -305,18 +302,13 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$max_len = ($len > $max_len) ? $len : $max_len;
 		}
 
-		if ($this->use_ttf) {
-			$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
-									   $this->legend_font['font'], 'J');
-			$char_w = $size[0];
+		$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
+								   $this->legend_font['font'], 'I');
+		$char_w = $size[0];
 
-			$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
-									   $this->legend_font['font'], 'E');
-			$char_h = $size[1];
-		} else {
-			$char_w = $this->legend_font['width'];
-			$char_h = $this->legend_font['height'];
-		}
+		$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
+								   $this->legend_font['font'], 'I');
+		$char_h = $size[1];
 
 		$v_margin = $char_h/2;						 // Between vertical borders and labels
 		$dot_height = $char_h + $this->line_spacing;   // Height of the small colored boxes
@@ -336,10 +328,11 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$box_end_y = $box_start_y + $dot_height*(count($this->legend)) + 2*$v_margin;
 		$box_end_x = $box_start_x + $width - 5;
 
-
 		// Draw outer box
-		ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_bg_color);
-		ImageRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
+		$alpha_white = imagecolorallocatealpha($this->img, 255, 255, 255, 127);
+		ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $alpha_white);
+
+		//ImageRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
 
 		$color_index = 0;
 		$max_color_index = count($this->ndx_data_colors) - 1;
@@ -355,9 +348,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			// Draw a box in the data color
 			ImageFilledRectangle($this->img, $dot_left_x, $y_pos + 1, $dot_right_x,
 								 $y_pos + $dot_height-1, $this->ndx_data_colors[$color_index]);
-			// Draw a rectangle around the box
-			ImageRectangle($this->img, $dot_left_x, $y_pos + 1, $dot_right_x,
-						   $y_pos + $dot_height-1, $this->ndx_text_color);
 
 			$y_pos += $char_h + $this->line_spacing;
 
@@ -368,116 +358,88 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * 円グラフ描画のオーバライド
+	 * 円グラフ描画
 	 *
 	 * @access public
 	 */
-	public function drawPieChart() {
-		$xpos = $this->plot_area[0] + $this->plot_area_width/2;
+	public function drawPieChart () {
+		if ($this->data_type != 'text-data-single') {
+			throw new BSImageException('Pie plots must be "text-data-single"');
+		}
+
+		$xpos = $this->plot_area[0] + $this->plot_area_height/2;
 		$ypos = $this->plot_area[1] + $this->plot_area_height/2;
 		$diameter = min($this->plot_area_width, $this->plot_area_height);
 		$radius = $diameter/2;
 
-		if ($this->data_type === 'text-data') {
-			for ($i = 0; $i < $this->num_data_rows; $i++) {
-				for ($j = 1; $j < $this->num_recs[$i]; $j++) {      // Label ($row[0]) unused in these pie charts
-					@ $sumarr[$j] += abs($this->data[$i][$j]);      // NOTE!  sum > 0 to make pie charts
-				}
-			}
-		} else if ($this->data_type == 'text-data-single') {
-			for ($i = 0; $i < $this->num_data_rows; $i++) {
-				$legend[$i] = $this->data[$i][0];                   // Set the legend to column labels
-				$sumarr[$i] = $this->data[$i][1];
-			}
-		} else if ($this->data_type == 'data-data') {
-			for ($i = 0; $i < $this->num_data_rows; $i++) {
-				for ($j = 2; $j < $this->num_recs[$i]; $j++) {
-					@ $sumarr[$j] += abs($this->data[$i][$j]);
-				}
-			}
-		} else {
-			$this->DrawError("DrawPieChart(): Data type '$this->data_type' not supported.");
-			return FALSE;
+		for ($i = 0; $i < $this->num_data_rows; $i++) {
+			$legend[$i] = $this->data[$i][0];
+			$sumarr[$i] = $this->data[$i][1];
 		}
 
-		$total = array_sum($sumarr);
-
-		if ($total == 0) {
+		if (!$total = array_sum($sumarr)) {
 			$this->DrawError('DrawPieChart(): Empty data set');
 			return FALSE;
 		}
 
-		if ($this->shading) {
-			$diam2 = $diameter / 2;
-		} else {
-			$diam2 = $diameter;
-		}
+		$diam2 = $diameter;
 		$max_data_colors = count ($this->data_colors);
 
-		for ($h = $this->shading; $h >= 0; $h--) {
-			$color_index = 0;
-			$start_angle = 0;
-			$end_angle = 0;
-			foreach ($sumarr as $val) {
-				if ($h == 0) {
-					$slicecol = $this->ndx_data_colors[$color_index];
-				} else {
-					$slicecol = $this->ndx_data_dark_colors[$color_index];
-				}
+		$color_index = 0;
+		$start_angle = 0;
+		$end_angle = 0;
+		foreach ($sumarr as $val) {
+			$slicecol = $this->ndx_data_colors[$color_index];
+			$label_percentage = $val / $total * 100;
+			$val = 360 * ($val / $total);
 
-				$label_percentage = $val / $total * 100;
-				$val = 360 * ($val / $total);
+			$start_angle = $end_angle;
+			$end_angle += $val;
+			$mid_angle = deg2rad($end_angle - ($val / 2));
 
-				$start_angle = $end_angle;
-				$end_angle += $val;
-				$mid_angle = deg2rad($end_angle - ($val / 2));
-
-				// 細い円弧は描画しない
-				if (0.3 < $label_percentage) {
-					ImageFilledArc(
-						$this->img,
-						$xpos, $ypos+$h,
-						$diameter, $diam2,
-						360-$end_angle, 360-$start_angle,
-						$slicecol, IMG_ARC_PIE
-					);
-				}
-
-				// Draw the labels only once
-				if ($h == 0) {
-					// Draw the outline
-					if (! $this->shading) {
-						ImageFilledArc(
-							$this->img,
-							$xpos, $ypos+$h,
-							$diameter, $diam2,
-							360-$end_angle, 360-$start_angle,
-							$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
-						);
-					}
-
-					$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
-					$label_y = $ypos+$h - ($diam2 * 0.9 * sin($mid_angle)) * $this->label_scale_position;
-					$label_txt = number_format($label_percentage, $this->y_precision, '.', ',') . '%';
-					$this->DrawText(
-						$this->generic_font, 0,
-						$label_x, $label_y,
-						$this->ndx_grid_color,
-						$label_txt, 'center', 'center'
-					);
-				}
-				$color_index++;
-				$color_index = $color_index % $max_data_colors;
+			// 細い円弧は描画しない
+			if (0.3 < $label_percentage) {
+				ImageFilledArc(
+					$this->img,
+					$xpos, $ypos,
+					$diameter, $diam2,
+					360-$end_angle, 360-$start_angle,
+					$slicecol, IMG_ARC_PIE
+				);
 			}
+
+			// Draw the outline
+			ImageFilledArc(
+				$this->img,
+				$xpos, $ypos,
+				$diameter, $diam2,
+				360-$end_angle, 360-$start_angle,
+				$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
+			);
+
+			$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
+			$label_y = $ypos - ($diam2 * 0.9 * sin($mid_angle)) * $this->label_scale_position;
+
+			if (2 < $label_percentage) {
+				$label_txt = number_format($label_percentage, $this->y_precision, '.', ',') . '%';
+				$this->DrawText(
+					$this->generic_font, 0,
+					$label_x, $label_y,
+					$this->ndx_grid_color,
+					$label_txt, 'center', 'center'
+				);
+			}
+			$color_index++;
+			$color_index = $color_index % $max_data_colors;
 		}
 	}
 
 	/**
-	 * 積み上げ棒グラフ描画のオーバライド
+	 * 積み上げ棒グラフ描画
 	 *
 	 * @access public
 	 */
-	public function drawStackedBars() {
+	public function drawStackedBars () {
 		if ($this->data_type != 'text-data') {
 			throw new BSImageException('Bar plots must be "text-data"');
 		}
@@ -501,32 +463,132 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					ImageFilledRectangle(
 						$this->img, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]
 					);
-					if ($this->shading) {
-						ImageFilledPolygon(
-							$this->img,
-							array(
-								$x1, $y1,
-								$x1 + $this->shading, $y1 - $this->shading,
-								$x2 + $this->shading, $y1 - $this->shading,
-								$x2 + $this->shading, $y2 - $this->shading,
-								$x2, $y2,
-								$x2, $y1
-							),
-							6, $this->ndx_data_dark_colors[$record - 1]
-						);
-					} else {
-						ImageRectangle(
-							$this->img, $x1, $y1, $x2,$y2,
-							$this->ndx_data_border_colors[$record - 1]
-						);
-					}
+					ImageRectangle(
+						$this->img, $x1, $y1, $x2,$y2,
+						$this->ndx_data_border_colors[$record - 1]
+					);
 				}
 			}
 		}
 	}
 
+	public function findDataLimits () {
+		// Set some default min and max values before running through the data
+		switch ($this->data_type) {
+		case 'text-data':
+		case 'text-data-single':
+			$minx = 0;
+			$maxx = $this->num_data_rows - 1 ;
+			$miny = $this->data[0][1];
+			$maxy = $miny;
+			break;
+		default:  //Everything else: data-data, etc, take first value
+			$minx = $this->data[0][1];
+			$maxx = $minx;
+			$miny = $this->data[0][2];
+			$maxy = $miny;
+			break;
+		}
+
+		$mine = 0;  // Maximum value for the -error bar (assume error bars always > 0)
+		$maxe = 0;  // Maximum value for the +error bar (assume error bars always > 0)
+		$maxt = 0;  // Maximum number of characters in text labels
+
+		if ($this->plot_type == 'stackedbars') {
+			$maxmaxy = $minminy = 0;
+		} else {
+			$minminy = $miny;
+			$maxmaxy = $maxy;
+		}
+
+		// Process each row of data
+		for ($i=0; $i < $this->num_data_rows; $i++) {
+			$j=0;
+			// Extract maximum text label length
+			$val = @ strlen($this->data[$i][$j++]);
+			$maxt = ($val > $maxt) ? $val : $maxt;
+
+			switch ($this->data_type) {
+			case 'text-data':		   // Data is passed in as (title, y1, y2, y3, ...)
+			case 'text-data-single':	// This one is for some pie charts
+				// $numrecs = @ count($this->data[$i]);
+				$maxy = (double)$this->data[$i][$j++];
+				if ($this->plot_type == 'stackedbars') {
+					$miny = 0;
+				} else {
+					$miny = $maxy;
+				}
+				for (; $j < $this->num_recs[$i]; $j++) {
+					$val = (double)$this->data[$i][$j];
+					if ($this->plot_type == 'stackedbars') {
+						$maxy += abs($val);	  // only positive values for the moment
+					} else {
+						$maxy = ($val > $maxy) ? $val : $maxy;
+						$miny = ($val < $miny) ? $val : $miny;
+					}
+				}
+				break;
+			case 'data-data':		   // Data is passed in as (title, x, y, y2, y3, ...)
+				// X value:
+				$val = (double)$this->data[$i][$j++];
+				$maxx = ($val > $maxx) ? $val : $maxx;
+				$minx = ($val < $minx) ? $val : $minx;
+
+				$miny = $maxy = (double)$this->data[$i][$j++];
+				// $numrecs = @ count($this->data[$i]);
+				for (; $j < $this->num_recs[$i]; $j++) {
+					$val = (double)$this->data[$i][$j];
+					$maxy = ($val > $maxy) ? $val : $maxy;
+					$miny = ($val < $miny) ? $val : $miny;
+				}
+				break;
+			case 'data-data-error':	 // Data is passed in as (title, x, y, err+, err-, y2, err2+, err2-,...)
+				// X value:
+				$val = (double)$this->data[$i][$j++];
+				$maxx = ($val > $maxx) ? $val : $maxx;
+				$minx = ($val < $minx) ? $val : $minx;
+
+				$miny = $maxy = (double)$this->data[$i][$j];
+				// $numrecs = @ count($this->data[$i]);
+				for (; $j < $this->num_recs[$i];) {
+					// Y value:
+					$val = (double)$this->data[$i][$j++];
+					$maxy = ($val > $maxy) ? $val : $maxy;
+					$miny = ($val < $miny) ? $val : $miny;
+					// Error +:
+					$val = (double)$this->data[$i][$j++];
+					$maxe = ($val > $maxe) ? $val : $maxe;
+					// Error -:
+					$val = (double)$this->data[$i][$j++];
+					$mine = ($val > $mine) ? $val : $mine;
+				}
+				$maxy = $maxy + $maxe;
+				$miny = $miny - $mine;	  // assume error bars are always > 0
+				break;
+			default:
+				$this->PrintError("FindDataLimits(): Unknown data type '$data_type'.");
+			break;
+			}
+			$this->data[$i][MINY] = $miny;	  // This row's min Y, for DrawXDataLine()
+			$this->data[$i][MAXY] = $maxy;	  // This row's max Y, for DrawXDataLine()
+
+			$minminy = ($miny < $minminy) ? $miny : $minminy;   // global min
+			$maxmaxy = ($maxy > $maxmaxy) ? $maxy : $maxmaxy;   // global max
+		}
+
+		$this->min_x = $minx;
+		$this->max_x = $maxx;
+		$this->min_y = $minminy;
+		$this->max_y = $maxmaxy;
+		$this->max_t = min(32, $maxt + 4); //ラベル文字列の折り返しに対応
+
+		$this->data_limits_done = TRUE;
+
+		return TRUE;
+	}
+
 	/**
-	 * エラーテキスト表示のオーバライド
+	 * エラーテキスト表示
 	 *
 	 * @access public
 	 * @param string $message エラーメッセージ
@@ -536,7 +598,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * エラー画像表示のオーバライド
+	 * エラー画像表示
 	 *
 	 * @access public
 	 * @param string $message エラーメッセージ
