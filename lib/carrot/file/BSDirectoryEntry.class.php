@@ -56,7 +56,7 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException('%sが存在しません。', $this);
 		} else if (!$this->isWritable($this->getPath())) {
 			throw new BSFileException('%sをリネーム出来ません。', $this);
-		} else if (preg_match('/\//', $name)) {
+		} else if (strpos($name, DIRECTORY_SEPARATOR) !== false) {
 			throw new BSFileException('%sをリネーム出来ません。', $this);
 		}
 
@@ -84,7 +84,7 @@ abstract class BSDirectoryEntry {
 	 * @param string $path パス
 	 */
 	public function setPath ($path) {
-		if (!BSUtility::isPathAbsolute($path) || preg_match('/\.\./', $path)) {
+		if (!BSUtility::isPathAbsolute($path)) {
 			throw new BSFileException('パス"%s"が正しくありません。', $path);
 		}
 		$this->path = $path;

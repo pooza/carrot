@@ -38,11 +38,13 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		if ($path[0] == DIRECTORY_SEPARATOR) {
+		if (strpos($path, '..') !== false) {
+			return false;
+		} else if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
 		}
 
-		$pattern = '/^[a-zA-Z]:' . preg_quote(DIRECTORY_SEPARATOR, '/') . '.+/';
+		$pattern = '/^[a-z]:' . preg_quote(DIRECTORY_SEPARATOR, '/') . '.+/i';
 		if (preg_match($pattern, $path)) {
 			return true;
 		}
