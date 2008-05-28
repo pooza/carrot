@@ -329,9 +329,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$box_end_x = $box_start_x + $width - 5;
 
 		// Draw outer box
-		$alpha_white = imagecolorallocatealpha($this->img, 255, 255, 255, 127);
-		ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $alpha_white);
-
+		//ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_bg_color);
 		//ImageRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
 
 		$color_index = 0;
