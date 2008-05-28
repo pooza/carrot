@@ -384,16 +384,16 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$max_data_colors = count ($this->data_colors);
 
 		$color_index = 0;
-		$start_angle = 0;
-		$end_angle = 0;
+		$start_angle = 90;
+		$end_angle = 90;
 		foreach ($sumarr as $val) {
 			$slicecol = $this->ndx_data_colors[$color_index];
 			$label_percentage = $val / $total * 100;
 			$val = 360 * ($val / $total);
 
 			$start_angle = $end_angle;
-			$end_angle += $val;
-			$mid_angle = deg2rad($end_angle - ($val / 2));
+			$end_angle -= $val;
+			$mid_angle = deg2rad($start_angle - ($val / 2));
 
 			// 細い円弧は描画しない
 			if (0.3 < $label_percentage) {
@@ -401,7 +401,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$this->img,
 					$xpos, $ypos,
 					$diameter, $diam2,
-					360-$end_angle, 360-$start_angle,
+					360-$start_angle, 360-$end_angle,
 					$slicecol, IMG_ARC_PIE
 				);
 			}
@@ -411,7 +411,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				$this->img,
 				$xpos, $ypos,
 				$diameter, $diam2,
-				360-$end_angle, 360-$start_angle,
+				360-$start_angle, 360-$end_angle,
 				$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
 			);
 
