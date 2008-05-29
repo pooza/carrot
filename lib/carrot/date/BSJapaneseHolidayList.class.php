@@ -56,7 +56,7 @@ class BSJapaneseHolidayList extends BSHolidayList {
 				case 'END':
 					if (isset($rule['rule'])) {
 						$this->rules[] = $rule;
-					} else {
+					} else if ($rule) {
 						// ルールが設定されていない場合は、「毎年日付が変わる祝日」
 						$rule['rule'] = 3;
 						$this->rules[] = $rule;

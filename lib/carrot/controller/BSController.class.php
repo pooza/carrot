@@ -288,7 +288,7 @@ abstract class BSController {
 			$module = BS_SECURE_MODULE;
 			$action = BS_SECURE_ACTION;
 		}
-		return BSModule::getInstance(BS_SECURE_MODULE)->getAction(BS_SECURE_ACTION);
+		return BSModule::getInstance($module)->getAction($action);
 	}
 
 	/**
