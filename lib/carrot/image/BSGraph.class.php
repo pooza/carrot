@@ -368,7 +368,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$xpos = $this->plot_area[0] + $this->plot_area_height/2;
 		$ypos = $this->plot_area[1] + $this->plot_area_height/2;
 		$diameter = min($this->plot_area_width, $this->plot_area_height);
-		$radius = $diameter/2;
 
 		for ($i = 0; $i < $this->num_data_rows; $i++) {
 			$legend[$i] = $this->data[$i][0];
@@ -380,9 +379,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			return FALSE;
 		}
 
-		$diam2 = $diameter;
-		$max_data_colors = count ($this->data_colors);
-
 		$color_index = 0;
 		$start_angle = 90;
 		$end_angle = 90;
@@ -390,7 +386,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$slicecol = $this->ndx_data_colors[$color_index];
 			$label_percentage = $val / $total * 100;
 			$val = 360 * ($val / $total);
-
 			$start_angle = $end_angle;
 			$end_angle -= $val;
 			$mid_angle = deg2rad($start_angle - ($val / 2));
@@ -400,7 +395,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				ImageFilledArc(
 					$this->img,
 					$xpos, $ypos,
-					$diameter, $diam2,
+					$diameter, $diameter,
 					360-$start_angle, 360-$end_angle,
 					$slicecol, IMG_ARC_PIE
 				);
@@ -410,15 +405,14 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			ImageFilledArc(
 				$this->img,
 				$xpos, $ypos,
-				$diameter, $diam2,
+				$diameter, $diameter,
 				360-$start_angle, 360-$end_angle,
 				$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
 			);
 
-			$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
-			$label_y = $ypos - ($diam2 * 0.9 * sin($mid_angle)) * $this->label_scale_position;
-
 			if (2 < $label_percentage) {
+				$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
+				$label_y = $ypos - ($diameter * 0.9 * sin($mid_angle)) * $this->label_scale_position;
 				$label_txt = number_format($label_percentage, $this->y_precision, '.', ',') . '%';
 				$this->DrawText(
 					$this->generic_font, 0,
@@ -427,8 +421,8 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$label_txt, 'center', 'center'
 				);
 			}
-			$color_index++;
-			$color_index = $color_index % $max_data_colors;
+			$color_index ++;
+			$color_index = $color_index % count($this->data_colors);
 		}
 	}
 
