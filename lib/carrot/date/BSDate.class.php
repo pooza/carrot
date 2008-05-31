@@ -392,7 +392,10 @@ class BSDate {
 				$class = 'BSJapaneseHolidayList';
 			}
 			$holidays = new $class($this);
-			return $holidays->getHolidays()->getParameter($this->getAttribute('day'));
+			$this->attributes->setAttribute(
+				'holiday_name',
+				$holidays->getHolidays()->getParameter($this->getAttribute('day'))
+			);
 		}
 		return $this->attributes['holiday_name'];
 	}
