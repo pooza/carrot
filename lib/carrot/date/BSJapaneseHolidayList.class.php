@@ -47,7 +47,8 @@ class BSJapaneseHolidayList implements BSHolidayList {
 		if (!$this->holidays) {
 			$name = get_class($this) . '.' . $this->getDate()->format('Y-m');
 			$expire = BSDate::getNow()->setAttribute('month', '-1');
-			if ($holidays = BSController::getInstance()->getAttribute($name, $expire)) {
+			$holidays = BSController::getInstance()->getAttribute($name, $expire);
+			if ($holidays !== null) {
 				$holidays = new BSArray($holidays);
 			} else {
 				try {

@@ -4,11 +4,14 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-.global:
-  languages: ja
-  name_ja: __NAME_JA__
-  name_en: __NAME_EN__
-  ver: 1.0.0-dev
+name:
+  ja: __NAME_JA__
+  en: __NAME_EN__
+
+ver: 1.0.0-dev
+
+languages:
+  - ja
 
 home:
   #href: /index.html
