@@ -303,11 +303,11 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		}
 
 		$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
-								   $this->legend_font['font'], 'I');
+								   $this->legend_font['font'], 'H');
 		$char_w = $size[0];
 
 		$size = $this->TTFBBoxSize($this->legend_font['size'], 0,
-								   $this->legend_font['font'], 'I');
+								   $this->legend_font['font'], 'H');
 		$char_h = $size[1];
 
 		$v_margin = $char_h/2;						 // Between vertical borders and labels
@@ -344,10 +344,16 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$this->DrawText($this->legend_font, 0, $dot_left_x - $char_w, $y_pos,
 							$this->ndx_text_color, $leg, 'right');
 			// Draw a box in the data color
-			ImageFilledRectangle($this->img, $dot_left_x, $y_pos + 1, $dot_right_x,
-								 $y_pos + $dot_height-1, $this->ndx_data_colors[$color_index]);
+			ImageFilledRectangle(
+				$this->img, $dot_left_x, $y_pos + 1, $dot_right_x, $y_pos + $dot_height-1,
+				$this->ndx_data_colors[$color_index]
+			);
+			ImageRectangle(
+				$this->img, $dot_left_x, $y_pos, $dot_right_x, $y_pos + $dot_height,
+				$this->ndx_text_color
+			);
 
-			$y_pos += $char_h + $this->line_spacing;
+			$y_pos += $char_h + 8;
 
 			$color_index++;
 			if ($color_index > $max_color_index)
@@ -368,6 +374,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$xpos = $this->plot_area[0] + $this->plot_area_height/2;
 		$ypos = $this->plot_area[1] + $this->plot_area_height/2;
 		$diameter = min($this->plot_area_width, $this->plot_area_height);
+		$radius = $diameter/2;
 
 		for ($i = 0; $i < $this->num_data_rows; $i++) {
 			$legend[$i] = $this->data[$i][0];
@@ -379,6 +386,9 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			return FALSE;
 		}
 
+		$diam2 = $diameter;
+		$max_data_colors = count ($this->data_colors);
+
 		$color_index = 0;
 		$start_angle = 90;
 		$end_angle = 90;
@@ -386,6 +396,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$slicecol = $this->ndx_data_colors[$color_index];
 			$label_percentage = $val / $total * 100;
 			$val = 360 * ($val / $total);
+
 			$start_angle = $end_angle;
 			$end_angle -= $val;
 			$mid_angle = deg2rad($start_angle - ($val / 2));
@@ -395,7 +406,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 				ImageFilledArc(
 					$this->img,
 					$xpos, $ypos,
-					$diameter, $diameter,
+					$diameter, $diam2,
 					360-$start_angle, 360-$end_angle,
 					$slicecol, IMG_ARC_PIE
 				);
@@ -405,14 +416,15 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			ImageFilledArc(
 				$this->img,
 				$xpos, $ypos,
-				$diameter, $diameter,
+				$diameter, $diam2,
 				360-$start_angle, 360-$end_angle,
 				$this->ndx_grid_color, IMG_ARC_PIE | IMG_ARC_EDGED |IMG_ARC_NOFILL
 			);
 
+			$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
+			$label_y = $ypos - ($diam2 * 0.9 * sin($mid_angle)) * $this->label_scale_position;
+
 			if (2 < $label_percentage) {
-				$label_x = $xpos + ($diameter * 0.9 * cos($mid_angle)) * $this->label_scale_position;
-				$label_y = $ypos - ($diameter * 0.9 * sin($mid_angle)) * $this->label_scale_position;
 				$label_txt = number_format($label_percentage, $this->y_precision, '.', ',') . '%';
 				$this->DrawText(
 					$this->generic_font, 0,
@@ -421,8 +433,8 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$label_txt, 'center', 'center'
 				);
 			}
-			$color_index ++;
-			$color_index = $color_index % count($this->data_colors);
+			$color_index++;
+			$color_index = $color_index % $max_data_colors;
 		}
 	}
 
