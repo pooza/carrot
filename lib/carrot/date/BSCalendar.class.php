@@ -46,7 +46,7 @@ class BSCalendar {
 		$date->setAttribute('day', '-' . ($date->format('N') - 1));
 		$end = clone $this->end;
 		$end->setAttribute('day', '+' . (7 - $end->format('N')));
-		while ($date <= $end) {
+		while ($date->getTimeStamp() <= $end->getTimeStamp()) {
 			$values = array(
 				'day' => $date->getAttribute('day'),
 				'weekday' => $date->format('ww'),
