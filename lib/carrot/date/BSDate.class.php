@@ -386,10 +386,13 @@ class BSDate {
 		}
 
 		if (!$this->attributes->hasAttribute('holiday_name')) {
-			$holidays = BSHolidayList::getInstance()->getAttributes();
-			if (isset($holidays[$this->format('Y-m-d')])) {
-				$this->attributes['holiday_name'] = $holidays[$this->format('Y-m-d')];
+			if (defined('BS_HOLIDAY_JA_CLASS')) {
+				$class = BS_HOLIDAY_JA_CLASS;
+			} else {
+				$class = 'BSJapaneseHolidayList';
 			}
+			$holidays = new $class($this);
+			return $holidays->getHolidays()->getParameter($this->getAttribute('day'));
 		}
 		return $this->attributes['holiday_name'];
 	}

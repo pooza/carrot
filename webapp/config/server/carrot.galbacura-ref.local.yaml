@@ -60,7 +60,6 @@ session:
 
 date:
   timezone: Asia/Tokyo
-  #holidays_class: BSJapaneseHolidayList
 
 feed:
   class: BSRSS20Document

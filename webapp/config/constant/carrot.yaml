@@ -24,7 +24,9 @@ smarty:
   template_encoding: utf-8
 
 holiday:
-  url_ja: http://homepage.mac.com/ical/.calendars/Japanese32Holidays.ics
+  ja:
+    class: BSJapaneseHolidayList
+    url: http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.php
 
 browscap:
   url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
