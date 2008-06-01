@@ -32,7 +32,7 @@
 		<th width="150">論理テーブル名</th>
 	</tr>
 
-{foreach from=$tables item='table'}
+{foreach from=$database.tables item='table'}
 	<tr>
 		<td width="150">
 			<a href="/{$module}/Table?database={$database.name}&table={$table}">{$table}</a>
