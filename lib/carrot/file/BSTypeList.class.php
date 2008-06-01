@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTypeList extends BSList {
+class BSTypeList extends BSParameterHolder {
 	static private $instance;
 	private $file;
 
@@ -21,7 +21,19 @@ class BSTypeList extends BSList {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化禁止
+		$expire = $this->getFile()->getUpdateDate();
+		if ($params = BSController::getInstance()->getAttribute(get_class($this), $expire)) {
+			$this->setParameters($params);
+		} else {
+			foreach ($this->getFile()->getLines() as $line) {
+				$line = preg_replace('/#.*$/', '', $line);
+				$line = preg_split('/[ \t]+/', $line);
+				for ($i = 1 ; $i < count($line) ; $i ++) {
+					$this->setParameter($line[$i], $line[0]);
+				}
+			}
+			BSController::getInstance()->setAttribute(get_class($this), $this->getParameters());
+		}
 	}
 
 	/**
@@ -55,63 +67,24 @@ class BSTypeList extends BSList {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$file = new BSFile(BS_TYPES_FILE);
-			if (!$file->isReadable()) {
+			$this->file = new BSFile(BS_TYPES_FILE);
+			if (!$this->file->isReadable()) {
 				throw new BSFileException('"%s"を開くことが出来ません。', $file->getPath());
 			}
-			$this->setFile($file);
 		}
 		return $this->file;
 	}
 
 	/**
-	 * 設定ファイルを設定する
+	 * パラメータを返す
 	 *
 	 * @access public
-	 * @param BSFile $file 設定ファイル 
+	 * @param string $name パラメータ名
+	 * @return mixed パラメータ
 	 */
-	public function setFile (BSFile $file) {
-		$this->file = $file;
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = BSController::getInstance()->getAttribute(
-				$this->getName(), $this->getFile()->getUpdateDate()
-			);
-			if (!$this->attributes) {
-				foreach ($this->getFile()->getLines() as $line) {
-					$line = preg_replace('/#.*$/', '', $line);
-					$line = preg_split('/[ \t]+/', $line);
-					for ($i = 1 ; $i < count($line) ; $i ++) {
-						$this->attributes[$line[$i]] = $line[0];
-					}
-				}
-				ksort($this->attributes);
-				BSController::getInstance()->setAttribute(
-					$this->getName(), $this->attributes
-				);
-			}
-		}
-		return $this->attributes;
-	}
-
-	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param mixed 属性
-	 */
-	public function getAttribute ($name) {
+	public function getParameter ($name) {
 		$name = preg_replace('/^\./', '', $name);
-		return parent::getAttribute($name);
+		return parent::getParameter($name);
 	}
 
 	/**
@@ -123,7 +96,7 @@ class BSTypeList extends BSList {
 	 * @static
 	 */
 	static public function getType ($suffix) {
-		if (!$type = self::getInstance()->getAttribute($suffix)) {
+		if (!$type = self::getInstance()->getParameter($suffix)) {
 			$type = 'application/octet-stream';
 		}
 		return $type;

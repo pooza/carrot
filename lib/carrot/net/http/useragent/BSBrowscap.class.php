@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSBrowscap extends BSList {
+class BSBrowscap extends BSParameterHolder {
 	private $url;
 	private $file;
 	static private $instance;
@@ -22,7 +22,23 @@ class BSBrowscap extends BSList {
 	 * @access private
 	 */
 	private function __construct () {
-		// コンストラクタからのインスタンス生成を禁止
+		$expire = BSDate::getNow()->setAttribute('day', '-7');
+		if ($params = BSController::getInstance()->getAttribute(get_class($this), $expire)) {
+			$this->setParameters($params);
+		}
+		if (!$this->getParameters()) {
+			foreach ($this->getFile()->getResult() as $key => $values) {
+				if (!isset($values['Parent'])) {
+					$values['Parent'] = null;
+				}
+				$pattern = preg_quote(strtolower($key), '/');
+				$pattern = str_replace(array('\*', '\?'), array('.*', '.'), $pattern);
+				$pattern = '/^' . $pattern . '/i';
+				$values['Pattern'] = $pattern;
+				$this->setParameter($key, $values);
+			}
+			BSController::getInstance()->setAttribute(get_class($this), $this->getParameters());
+		}
 	}
 
 	/**
@@ -59,40 +75,11 @@ class BSBrowscap extends BSList {
 		if (!$name) {
 			$name = BSController::getInstance()->getUserAgent()->getName();
 		}
-		$attributes = array('Name' => $name);
+		$info = array('Name' => $name);
 		foreach ($this->getMatchedNames($name) as $key) {
-			$attributes = array_merge($attributes, $this->getAttribute($key));
+			$info = array_merge($info, $this->getParameter($key));
 		}
-		return $attributes;
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = BSController::getInstance()->getAttribute(
-				get_class($this),
-				BSDate::getNow()->setAttribute('day', '-7')
-			);
-			if (!$this->attributes) {
-				foreach ($this->getFile()->getResult() as $key => $values) {
-					if (!isset($values['Parent'])) {
-						$values['Parent'] = null;
-					}
-					$pattern = preg_quote(strtolower($key), '/');
-					$pattern = str_replace(array('\*', '\?'), array('.*', '.'), $pattern);
-					$pattern = '/^' . $pattern . '/i';
-					$values['Pattern'] = $pattern;
-					$this->attributes[$key] = $values;
-				}
-				BSController::getInstance()->setAttribute(get_class($this), $this->attributes);
-			}
-		}
-		return $this->attributes;
+		return $info;
 	}
 
 	/**
@@ -132,7 +119,7 @@ class BSBrowscap extends BSList {
 	 */
 	private function getMatchedNames ($useragent) {
 		$key = null;
-		foreach ($this->getAttributes() as $current => $values) {
+		foreach ($this as $current => $values) {
 			if (preg_match($values['Pattern'], $useragent)) {
 				if (strlen($key) < strlen($current)) {
 					$key = $current;
@@ -143,7 +130,7 @@ class BSBrowscap extends BSList {
 		$keys = array();
 		do {
 			$keys[] = $key;
-			$values = $this->getAttribute($key);
+			$values = $this->getParameter($key);
 		} while ($key = $values['Parent']);
 		krsort($keys);
 		return $keys;

@@ -7,7 +7,7 @@
 script_encoding: utf-8
 
 carrot:
-  ver: 2.0.15
+  ver: 2.0.16
 
 default:
   module: Default

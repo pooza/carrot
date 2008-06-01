@@ -28,7 +28,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	}
 
 	/**
-	 * パラメータを返す
+	 * パラメータを設定する
 	 *
 	 * @access public
 	 * @param string $name パラメータ名
@@ -111,7 +111,9 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	 * @access public
 	 */
 	public function clearParameters () {
-		$this->parameters = array();
+		foreach ($this as $name => $value) {
+			$this->removeParameter($name);
+		}
 	}
 
 	/**

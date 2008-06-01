@@ -11,8 +11,9 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSerializeHandler extends BSList {
+class BSSerializeHandler {
 	private $engine;
+	private $attributes;
 	static private $instance;
 
 	/**
@@ -123,19 +124,6 @@ class BSSerializeHandler extends BSList {
 			$this->attributes[$name] = $this->getEngine()->decode($file->getContents());
 		}
 		return $this->attributes[$name];
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		foreach ($this->getDirectory() as $file) {
-			$this->getAttribute($file->getBaseName());
-		}
-		return $this->attributes;
 	}
 
 	/**

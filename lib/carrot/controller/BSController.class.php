@@ -176,38 +176,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * Cookieを返す
-	 *
-	 * @access public
-	 * @param string $name Cookieの名前
-	 * @return string Cookieの値
-	 */
-	public function getCookie ($name) {
-		return BSCookieHandler::getInstance()->getAttribute($name);
-	}
-
-	/**
-	 * Cookieを設定する
-	 *
-	 * @access public
-	 * @param string $name Cookieの名前
-	 * @param string $value Cookieの値
-	 */
-	public function setCookie ($name, $value) {
-		BSCookieHandler::getInstance()->setAttribute($name, $value);
-	}
-
-	/**
-	 * Cookieを削除する
-	 *
-	 * @access public
-	 * @param string $name Cookieの名前
-	 */
-	public function removeCookie ($name) {
-		BSCookieHandler::getInstance()->removeAttribute($name);
-	}
-
-	/**
 	 * クライアントホストを返す
 	 *
 	 * @access public

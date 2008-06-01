@@ -13,7 +13,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCookieHandler extends BSList {
+class BSCookieHandler extends BSParameterHolder {
 	static private $instance;
 
 	/**
@@ -22,7 +22,7 @@ class BSCookieHandler extends BSList {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化禁止
+		$this->parameters =& $_COOKIE;
 	}
 
 	/**
@@ -49,47 +49,34 @@ class BSCookieHandler extends BSList {
 	}
 
 	/**
-	 * 全ての属性を返す
+	 * パラメータを設定する
 	 *
 	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes =& $_COOKIE;
-		}
-		return $this->attributes;
-	}
-
-	/**
-	 * 属性を設定
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
+	 * @param string $name パラメータ名
 	 * @param mixed $value 値
 	 */
-	public function setAttribute ($name, $value) {
+	public function setParameter ($name, $value) {
 		if (headers_sent()) {
 			throw new BSHTTPException('Cookieの送信に失敗しました。');
 		}
 		$expire = BSDate::getNow()->setAttribute('month', '+1')->getTimestamp();
 		setcookie($name, $value, $expire, '/');
-		$this->attributes[$name] = $value;
+		parent::setParameter($name, $value);
 	}
 
 	/**
-	 * 属性を削除
+	 * パラメータを削除する
 	 *
 	 * @access public
-	 * @param string $name 属性の名前
+	 * @param string $name パラメータ名
 	 */
-	public function removeAttribute ($name) {
+	public function removeParameter ($name) {
 		if (headers_sent()) {
 			throw new BSHTTPException('Cookieの送信に失敗しました。');
 		}
 		$expire = BSDate::getNow()->setAttribute('hour', '-1')->getTimestamp();
 		setcookie($name, null, $expire, '/');
-		unset($this->attributes[$name]);
+		parent::removeParameter($name);
 	}
 
 	/**
