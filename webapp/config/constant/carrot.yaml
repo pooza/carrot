@@ -4,9 +4,10 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-.global:
-  carrot_ver: 2.0.15
-  script_encoding: utf-8
+script_encoding: utf-8
+
+carrot:
+  ver: 2.0.15
 
 default:
   module: Default

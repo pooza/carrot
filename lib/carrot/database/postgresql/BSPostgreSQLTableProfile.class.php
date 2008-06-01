@@ -32,7 +32,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 				'pg_attribute',
 				$criteria
 			);
-			foreach ($this->database->query($query) as $row) {
+			foreach ($this->getDatabase()->query($query) as $row) {
 				$this->fields[] = array(
 					'name' => $row['attname'],
 					'type' => $this->getType($row['atttypid'], $row['atttypmod']),
@@ -63,7 +63,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 				'pg_class',
 				'relname=' . $this->getDatabase()->quote($this->getName())
 			);
-			$row = $this->database->query($query)->fetch();
+			$row = $this->getDatabase()->query($query)->fetch();
 			$this->id = $row['oid'];
 		}
 		return $this->id;
@@ -83,7 +83,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	private function getTypes () {
 		if (!$this->types) {
 			$query = BSSQL::getSelectQueryString(array('oid', 'typname'), 'pg_type');
-			foreach ($this->database->query($query) as $row) {
+			foreach ($this->getDatabase()->query($query) as $row) {
 				$this->types[$row['oid']] = $row['typname'];
 			}
 		}

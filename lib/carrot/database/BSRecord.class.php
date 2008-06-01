@@ -144,7 +144,7 @@ abstract class BSRecord {
 			$this->getTable()->getDatabase()
 		);
 		$this->getTable()->getDatabase()->exec($query);
-		BSLog::put($this . 'を更新しました。');
+		$this->getTable()->getDatabase()->putLog($this . 'を更新しました。');
 
 		$this->setAttributes($values);
 	}
@@ -185,7 +185,7 @@ abstract class BSRecord {
 			$this->getCriteria()
 		);
 		$this->getTable()->getDatabase()->exec($query);
-		BSLog::put($this . 'を削除しました。');
+		$this->getTable()->getDatabase()->putLog($this . 'を削除しました。');
 	}
 
 	/**
@@ -280,7 +280,11 @@ abstract class BSRecord {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('%s(%s)', $this->getRecordClassName(), $this->getID());
+		return sprintf(
+			'%s(%s)',
+			BSTranslator::getInstance()->translate($this->getTable()->getName()),
+			$this->getID()
+		);
 	}
 }
 

@@ -42,20 +42,6 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'database':
-				return $this->getDatabase();
-		}
-	}
-
-	/**
 	 * 未定義メソッドの呼び出し
 	 *
 	 * @access public
@@ -278,16 +264,24 @@ abstract class BSTableHandler implements IteratorAggregate {
 		}
 
 		$query = BSSQL::getInsertQueryString($this->getName(), $values, $this->getDatabase());
-		$this->database->exec($query);
+		$this->getDatabase()->exec($query);
 		if ($this->isAutoIncrement()) {
-			$sequence = $this->database->getSequenceName($this->getName(), $this->getKeyField());
-			$id = $this->database->lastInsertId($sequence);
+			$sequence = $this->getDatabase()->getSequenceName(
+				$this->getName(),
+				$this->getKeyField()
+			);
+			$id = $this->getDatabase()->lastInsertId($sequence);
 		} else {
 			$id = $values[$this->getKeyField()];
 		}
 
 		$this->setExecuted(false);
-		BSLog::put(sprintf('%s(%s)を作成しました。', $this->getRecordClassName(), $id));
+		$message = sprintf(
+			'%s(%s)を作成しました。',
+			BSTranslator::getInstance()->translate($this->getName()),
+			$id
+		);
+		$this->getDatabase()->putLog($message);
 		return $id;
 	}
 
@@ -407,7 +401,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return string[] 結果の配列
 	 */
 	public function query () {
-		$this->result = $this->database->query($this->getQueryString())->fetchAll();
+		$this->result = $this->getDatabase()->query($this->getQueryString())->fetchAll();
 		$this->setExecuted(true);
 		return $this->result;
 	}
@@ -426,7 +420,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 				$this->getName(),
 				$this->getCriteria()
 			);
-			$row = $this->database->query($sql)->fetch();
+			$row = $this->getDatabase()->query($sql)->fetch();
 			return $row['cnt'];
 		} else {
 			return count($this->getResult());

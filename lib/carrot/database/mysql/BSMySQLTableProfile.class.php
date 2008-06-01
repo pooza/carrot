@@ -22,7 +22,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	public function getAttributes () {
 		if (!$this->attributes) {
 			$this->attributes = array(
-				'dsn' => $this->database->getDSN(),
+				'dsn' => $this->getDatabase()->getDSN(),
 				'name' => $this->getName(),
 			);
 
@@ -31,7 +31,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 				'SHOW TABLE STATUS LIKE %s',
 				$this->getDatabase()->quote($this->getName())
 			);
-			foreach ($this->database->query($query)->fetch() as $key => $value) {
+			foreach ($this->getDatabase()->query($query)->fetch() as $key => $value) {
 				if (in_array($key, $fields)) {
 					$this->attributes[strtolower($key)] = $value;
 				}
@@ -49,7 +49,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	public function getFields () {
 		if (!$this->fields) {
 			$query = 'DESC ' . $this->getName();
-			foreach ($this->database->query($query) as $row) {
+			foreach ($this->getDatabase()->query($query) as $row) {
 				$fields[] = array(
 					'name' => $row['Field'],
 					'type' => $row['Type'],
@@ -73,7 +73,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	public function getKeys () {
 		if (!$this->keys) {
 			$query = 'SHOW KEYS FROM ' . $this->getName();
-			foreach ($this->database->query($query) as $row) {
+			foreach ($this->getDatabase()->query($query) as $row) {
 				$this->keys[$row['Key_name']]['name'] = $row['Key_name'];
 				$this->keys[$row['Key_name']]['fields'][] = $row['Column_name'];
 				$this->keys[$row['Key_name']]['unique'] = ($row['Non_unique'] == 0);

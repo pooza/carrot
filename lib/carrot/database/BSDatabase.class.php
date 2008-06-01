@@ -17,7 +17,7 @@ abstract class BSDatabase extends PDO {
 	protected $tables = array();
 	private $dbms;
 	private $name;
-	const LOG_TYPE = 'Query';
+	const LOG_TYPE = 'Database';
 
 	/**
 	 * フライウェイトインスタンスを返す
@@ -143,7 +143,9 @@ abstract class BSDatabase extends PDO {
 			);
 		}
 		if (BSController::getInstance()->isDebugMode()) {
-			$this->putQueryLog($query);
+			if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
+				$this->putLog($query);
+			}
 		}
 		return $r;
 	}
@@ -214,11 +216,12 @@ abstract class BSDatabase extends PDO {
 	 * クエリーログを書き込む
 	 *
 	 * @access protected
-	 * @param string $query クエリーログ
+	 * @param string $log ログ
 	 */
-	protected function putQueryLog ($query) {
-		if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
-			BSLog::put($query, self::LOG_TYPE);
+	protected function putLog ($log) {
+		$name = strtoupper(sprintf('bs_pdo_%s_loggable', $this->getName()));
+		if (!defined($name) || constant($name)) {
+			BSLog::put($log, self::LOG_TYPE);
 		}
 	}
 

@@ -20,7 +20,7 @@ class BSTemporaryTableHandler extends BSTableHandler {
 	 * @access public
 	 */
 	public function __destruct () {
-		$this->database->deleteTable($this->getName());
+		$this->getDatabase()->deleteTable($this->getName());
 	}
 
 	/**

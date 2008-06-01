@@ -118,9 +118,10 @@ try {
 		trigger_error($message, E_USER_ERROR);
 	}
 
+	error_reporting(E_ALL | E_STRICT);
 	if (defined('BS_DEBUG') && BS_DEBUG) {
 		ini_set('display_errors', 1);
-		error_reporting(E_ALL | E_STRICT);
+		ini_set('log_errors', 0);
 	} else {
 		ini_set('display_errors', 0);
 		ini_set('log_errors', 1);

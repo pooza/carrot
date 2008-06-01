@@ -23,7 +23,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 		if (!$this->fields) {
 			$fields = array();
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
-			foreach ($this->database->query($query) as $row) {
+			foreach ($this->getDatabase()->query($query) as $row) {
 				$fields[] = array(
 					'name' => $row['name'],
 					'type' => strtolower($row['type']),
@@ -47,14 +47,14 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	public function getKeys () {
 		if (!$this->keys) {
 			$query = 'PRAGMA index_list(' . $this->getName() . ')';
-			foreach ($this->database->query($query) as $rowKey) {
+			foreach ($this->getDatabase()->query($query) as $rowKey) {
 				$key = array(
 					'name' => $rowKey['name'],
 					'fields' => array(),
 					'unique' => $rowKey['unique'],
 				);
 				$query = 'PRAGMA index_info(' . $rowKey['name'] . ')';
-				foreach ($this->database->query($query) as $rowField) {
+				foreach ($this->getDatabase()->query($query) as $rowField) {
 					$key['fields'][] = $rowField['name'];
 				}
 				$this->keys[] = $key;
