@@ -82,6 +82,20 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * 各種情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 各種情報
+	 */
+	public function getInfo () {
+		$info = new BSArray;
+		$info['name'] = $this->getName();
+		$info['dsn'] = $this->getDSN();
+		$info['dbms'] = $this->getDBMS();
+		return $info;
+	}
+
+	/**
 	 * DSNを返す
 	 *
 	 * @access public
@@ -330,6 +344,29 @@ abstract class BSDatabase extends PDO {
 	 */
 	public function __toString () {
 		return sprintf('データベース "%s"', $this->getDSN());
+	}
+
+	/**
+	 * データベース情報のリストを返す
+	 *
+	 * @access public
+	 * @return BSArray データベース情報
+	 * @static
+	 */
+	static public function getDatabases () {
+		$databases = new BSArray;
+		$constants = get_defined_constants(true);
+		$constants = $constants['user'];
+		foreach ($constants as $key => $value) {
+			if (preg_match('/_PDO_([A-Z]+)_DSN$/', $key, $matches)) {
+				$name = strtolower($matches[1]);
+				try {
+					$databases[$name] = self::getInstance($name)->getInfo();
+				} catch (BSDatabaseException $e) {
+				}
+			}
+		}
+		return $databases;
 	}
 }
 

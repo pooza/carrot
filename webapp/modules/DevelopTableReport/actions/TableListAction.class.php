@@ -1,13 +1,13 @@
 <?php
 /**
- * DetailAllアクション
+ * TableListアクション
  *
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopTableReport
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DetailAllAction extends BSAction {
+class TableListAction extends BSAction {
 	private $database;
 
 	private function getDatabase () {
@@ -18,18 +18,8 @@ class DetailAllAction extends BSAction {
 	}
 
 	public function execute () {
-		$profiles = new BSArray;
-		foreach ($this->getDatabase()->getTableNames() as $table) {
-			$profile = $this->getDatabase()->getTableProfile($table);
-			$profiles[] = array(
-				'tablename' => $profile->getName(),
-				'attributes' => $profile->getAttributes(),
-				'fields' => $profile->getFields(),
-				'keys' => $profile->getKeys(),
-			);
-		}
-		$this->request->setAttribute('profiles', $profiles);
-
+		$this->request->setAttribute('database', $this->getDatabase()->getInfo());
+		$this->request->setAttribute('tables', $this->getDatabase()->getTableNames());
 		return BSView::SUCCESS;
 	}
 

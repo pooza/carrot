@@ -8,17 +8,19 @@
  * @version $Id$
  */
 class DetailAction extends BSAction {
+	private $database;
 	private $tableProfile;
 
-	/**
-	 * テーブルプロフィールを返す
-	 *
-	 * @access public
-	 * @return BSTableProfile テーブルプロフィール
-	 */
+	private function getDatabase () {
+		if (!$this->database) {
+			$this->database = BSDatabase::getInstance($this->request->getParameter('database'));
+		}
+		return $this->database;
+	}
+
 	private function getTableProfile () {
 		if (!$this->tableProfile) {
-			$this->tableProfile = $this->database->getTableProfile(
+			$this->tableProfile = $this->getDatabase()->getTableProfile(
 				$this->request->getParameter('table')
 			);
 		}
@@ -26,6 +28,7 @@ class DetailAction extends BSAction {
 	}
 
 	public function execute () {
+		$this->request->setAttribute('database', $this->getDatabase()->getInfo());
 		$this->request->setAttribute('tablename', $this->getTableProfile()->getName());
 		$this->request->setAttribute('attributes', $this->getTableProfile()->getAttributes());
 		$this->request->setAttribute('fields', $this->getTableProfile()->getFields());
@@ -33,12 +36,12 @@ class DetailAction extends BSAction {
 		return BSView::SUCCESS;
 	}
 
-	public function validate () {
-		return ($this->getTableProfile() != null);
+	public function handleError () {
+		return $this->controller->forwardTo($this->controller->getNotFoundAction());
 	}
 
-	public function getRequestMethods () {
-		return BSRequest::GET;
+	public function validate () {
+		return ($this->getTableProfile() != null);
 	}
 }
 

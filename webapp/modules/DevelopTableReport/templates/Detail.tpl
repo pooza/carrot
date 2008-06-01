@@ -10,11 +10,13 @@
 {include file='AdminHeader'}
 
 <div id="BreadCrumbs">
-	<a href="/{$module}/">TableReport</a>
-	<a href="#">テーブル &quot;{$tablename}&quot;</a>
+	<a href="/{$module}/">データベース一覧</a>
+	<a href="/{$module}/TableList?database={$database.name}">データベース:{$database.name}</a>
+	<a href="#">テーブル:{$tablename}</a>
 </div>
 
-<h1>テーブル &quot;{$tablename}&quot;</h1>
+
+<h1>テーブル:{$tablename}</h1>
 
 <h2>基本情報</h2>
 <table>
