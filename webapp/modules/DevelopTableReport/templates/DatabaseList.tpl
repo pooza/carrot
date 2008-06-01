@@ -25,7 +25,7 @@
 {foreach from=$databases item='database'}
 	<tr>
 		<td width="90">
-			<a href="/{$module}/TableList?database={$database.name}">{$database.name}</a>
+			<a href="/{$module}/Database?database={$database.name}">{$database.name}</a>
 		</td>
 		<td width="60">{$database.dbms}</td>
 		<td width="300">{$database.dsn}</td>

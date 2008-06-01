@@ -19,9 +19,9 @@
 {if !$errors}
 <div>
 	{if $useragent.is_msie}
-	[<a href="/{$module}/DetailAll?database={$database.name}">PDFをダウンロードする</a>]
+	[<a href="/{$module}/TableAll?database={$database.name}">PDFをダウンロードする</a>]
 	{else}
-	[<a href="/{$module}/DetailAll?database={$database.name}" target="_blank">PDFに出力する</a>]
+	[<a href="/{$module}/TableAll?database={$database.name}" target="_blank">PDFに出力する</a>]
 	{/if}
 </div>
 {/if}
@@ -35,7 +35,7 @@
 {foreach from=$tables item='table'}
 	<tr>
 		<td width="150">
-			<a href="/{$module}/Detail?database={$database.name}&table={$table}">{$table}</a>
+			<a href="/{$module}/Table?database={$database.name}&table={$table}">{$table}</a>
 		</td>
 		<td width="150">{$table|translate}</td>
 	</tr>

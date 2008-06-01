@@ -11,12 +11,12 @@
 
 <div id="BreadCrumbs">
 	<a href="/{$module}/">データベース一覧</a>
-	<a href="/{$module}/TableList?database={$database.name}">データベース:{$database.name}</a>
-	<a href="#">テーブル:{$tablename}</a>
+	<a href="/{$module}/Database?database={$database.name}">データベース:{$database.name}</a>
+	<a href="#">テーブル:{$table.name}</a>
 </div>
 
 
-<h1>テーブル:{$tablename}</h1>
+<h1>テーブル:{$table.name}</h1>
 
 <h2>基本情報</h2>
 <table>
@@ -25,7 +25,7 @@
 		<th width="330">値</th>
 	</tr>
 
-{foreach from=$attributes key=key item=value}
+{foreach from=$table.attributes key=key item=value}
 	<tr>
 		<td width="120">{$key}</td>
 		<td width="330">{$value}</td>
@@ -48,7 +48,7 @@
 		<th width="120">その他制約</th>
 	</tr>
 
-{foreach from=$fields item=field}
+{foreach from=$table.fields item=field}
 	<tr>
 		<td width="120">
 	{if $field.primarykey}
@@ -79,7 +79,7 @@
 		<th width="30">一意</th>
 	</tr>
 
-{foreach from=$keys item=key}
+{foreach from=$table.keys item=key}
 	<tr>
 		<td width="120">{$key.name}</td>
 		<td width="180">

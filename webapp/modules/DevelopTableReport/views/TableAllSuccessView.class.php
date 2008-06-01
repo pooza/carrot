@@ -1,13 +1,13 @@
 <?php
 /**
- * DetailAllSuccessビュー
+ * TableAllSuccessビュー
  *
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopTableReport
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DetailAllSuccessView extends BSPDFView {
+class TableAllSuccessView extends BSPDFView {
 	public function execute () {
 		$this->setEngine(new BSTableReportPDF());
 		foreach ($this->request->getAttribute('profiles') as $profile) {

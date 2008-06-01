@@ -1,13 +1,13 @@
 <?php
 /**
- * Detailアクション
+ * Tableアクション
  *
  * @package jp.co.b-shock.carrot
  * @subpackage DevelopTableReport
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DetailAction extends BSAction {
+class TableAction extends BSAction {
 	private $database;
 	private $tableProfile;
 
@@ -29,10 +29,15 @@ class DetailAction extends BSAction {
 
 	public function execute () {
 		$this->request->setAttribute('database', $this->getDatabase()->getInfo());
-		$this->request->setAttribute('tablename', $this->getTableProfile()->getName());
-		$this->request->setAttribute('attributes', $this->getTableProfile()->getAttributes());
-		$this->request->setAttribute('fields', $this->getTableProfile()->getFields());
-		$this->request->setAttribute('keys', $this->getTableProfile()->getKeys());
+
+		$values = array(
+			'name' => $this->getTableProfile()->getName(),
+			'attributes' => $this->getTableProfile()->getAttributes(),
+			'fields' => $this->getTableProfile()->getFields(),
+			'keys' => $this->getTableProfile()->getKeys(),
+		);
+		$this->request->setAttribute('table', $values);
+
 		return BSView::SUCCESS;
 	}
 
