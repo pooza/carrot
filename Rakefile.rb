@@ -27,7 +27,7 @@ desc '全ファイルのsvn属性を設定'
 task :pset do
   system 'svn pset svn:ignore \'*\' var/*'
   media_types.each do |extension, type|
-    if type != ''
+    if type != nil
       system 'svn pset svn:mime-type ' + type + ' `find . -name \'*.' + extension + '\'`'
     else
       system 'svn pdel svn:mime-type `find . -name \'*.' + extension + '\'`'
@@ -78,30 +78,6 @@ file 'lib/ajaxzip2/data' do
 end
 
 def media_types
-  return {
-    'conf' => '',
-    'css' => 'text/css',
-    'csv' => 'text/plain',
-    'dat' => 'application/octet-stream',
-    'gif' => 'image/gif',
-    'htm' => 'text/html',
-    'html' => 'text/html',
-    'ini' => '',
-    'jpg' => 'image/jpeg',
-    'jpeg' => 'image/jpeg',
-    'js' => 'text/javascript',
-    'json' => 'application/json',
-    'pdf' => 'application/pdf',
-    'php' => '',
-    'pl' => '',
-    'pm' => '',
-    'png' => 'image/png',
-    'rb' => '',
-    'sql' => '',
-    'swf' => 'application/x-shockwave-flash',
-    'tpl' => '',
-    'ttf' => 'application/x-truetype-font',
-    'txt' => 'text/plain',
-    'xml' => 'application/xml',
-  }
+  require 'yaml'
+  return YAML.load_file('webapp/config/mime/types.yaml')['types']
 end
