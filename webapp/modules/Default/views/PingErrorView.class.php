@@ -10,7 +10,7 @@
 class PingErrorView extends BSSmartyView {
 	public function execute () {
 		$this->setTemplate('DefaultMessage.Console');
-		$this->getEngine()->setType(BSTypeList::getType('.txt'));
+		$this->getEngine()->setType(BSMediaType::getType('txt'));
 		$this->setAttribute('message', 'NG');
 	}
 }
