@@ -164,7 +164,7 @@ class BSCSVData implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSTypeList::getType('csv');
+		return BSMediaType::getType('csv');
 	}
 
 	/**

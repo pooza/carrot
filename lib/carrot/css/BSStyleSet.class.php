@@ -106,7 +106,7 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSTypeList::getType('css') . '; charset=' . $this->getRule('charset');
+		return BSMediaType::getType('css') . '; charset=' . $this->getRule('charset');
 	}
 
 	/**

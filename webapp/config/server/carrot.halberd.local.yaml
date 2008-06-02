@@ -4,11 +4,10 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-.global:
-  root_url: http://carrot.halberd.local/
-  root_url_https: http://carrot.halberd.local/
-  debug: true
-  #resolvable: true
+root_url: http://carrot.halberd.local/
+root_url_https: http://carrot.halberd.local/
+debug: yes
+#resolvable: yes
 
 admin:
   email: admin@b-shock.co.jp
@@ -28,10 +27,11 @@ crypt:
   salt: carrot
 
 types:
-  file: /etc/httpd/mime.types
+  #file: /etc/httpd/mime.types
+  #file: %BS_WEBAPP_DIR%/config/mime/mime.types
 
 pdo:
-  #query_log_enable: false
+  #query_log_enable: no
   default:
     dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
@@ -40,11 +40,11 @@ pdo:
     password:
   session:
     dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
-    loggable: false
+    loggable: no
 
 smtp:
   post: localhost
-  #check_addresses: false
+  #check_addresses: no
 
 xmpp:
   host: jabber.b-shock.co.jp
@@ -52,7 +52,7 @@ xmpp:
 awstats:
   log_file: /var/log/httpd/access_%%YYYY%%MM%DD.log
   #log_dir: /var/log/httpd/www.example.com
-  #daily: false
+  #daily: no
   server_name_aliases: 
 
 session:

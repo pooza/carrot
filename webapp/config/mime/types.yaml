@@ -1,0 +1,33 @@
+# メディアタイプ設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+file: /etc/httpd/mime.types
+
+types:
+  css: text/css
+  csv: text/plain
+  dat: application/octet-stream
+  gif: image/gif
+  htm: text/html
+  html: text/html
+  ini: application/x-ini-file
+  jpg: image/jpeg
+  jpeg: image/jpeg
+  js: text/javascript
+  json: application/json
+  pdf: application/pdf
+  php:
+  pl:
+  pm:
+  png: image/png
+  rb:
+  sql:
+  swf: application/x-shockwave-flash
+  tpl:
+  ttf: application/x-truetype-font
+  txt: text/plain
+  yaml: application/yaml
+  xml: application/xml

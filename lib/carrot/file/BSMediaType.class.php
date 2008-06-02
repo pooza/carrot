@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTypeList extends BSParameterHolder {
+class BSMediaType extends BSParameterHolder {
 	static private $instance;
 	private $file;
 
@@ -21,17 +21,15 @@ class BSTypeList extends BSParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		$expire = $this->getFile()->getUpdateDate();
+		$expire = $this->getTypesFile()->getUpdateDate();
+		if (!$this->getConfigFile()->getUpdateDate()->isAgo($expire)) {
+			$expire = $this->getConfigFile()->getUpdateDate();
+		}
+
 		if ($params = BSController::getInstance()->getAttribute(get_class($this), $expire)) {
 			$this->setParameters($params);
 		} else {
-			foreach ($this->getFile()->getLines() as $line) {
-				$line = preg_replace('/#.*$/', '', $line);
-				$line = preg_split('/[ \t]+/', $line);
-				for ($i = 1 ; $i < count($line) ; $i ++) {
-					$this->setParameter($line[$i], $line[0]);
-				}
-			}
+			$this->parse();
 			BSController::getInstance()->setAttribute(get_class($this), $this->getParameters());
 		}
 	}
@@ -40,12 +38,12 @@ class BSTypeList extends BSParameterHolder {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSTypeList インスタンス
+	 * @return BSMediaType インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSTypeList;
+			self::$instance = new BSMediaType;
 		}
 		return self::$instance;
 	}
@@ -60,19 +58,61 @@ class BSTypeList extends BSParameterHolder {
 	}
 
 	/**
-	 * 設定ファイルを返す
+	 * mime.typesファイルを返す
 	 *
-	 * @access public
-	 * @return BSFile 設定ファイル
+	 * @access private
+	 * @return BSFile mime.typesファイル
 	 */
-	public function getFile () {
+	private function getTypesFile () {
 		if (!$this->file) {
-			$this->file = new BSFile(BS_TYPES_FILE);
+			if (defined('BS_TYPES_FILE') && BS_TYPES_FILE) {
+				$path = BS_TYPES_FILE;
+			} else {
+				require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
+				$path = $config['file'];
+			}
+
+			$this->file = new BSFile($path);
 			if (!$this->file->isReadable()) {
 				throw new BSFileException('"%s"を開くことが出来ません。', $file->getPath());
 			}
 		}
 		return $this->file;
+	}
+
+	/**
+	 * 設定ファイルを返す
+	 *
+	 * @access private
+	 * @return BSConfigFile 設定ファイル
+	 */
+	private function getConfigFile () {
+		return BSConfigManager::getInstance()->getConfigFile('mime/types');
+	}
+
+	/**
+	 * 設定ファイルとmime.typesをパース
+	 *
+	 * @access private
+	 */
+	private function parse () {
+		foreach ($this->getTypesFile()->getLines() as $line) {
+			$line = rtrim($line);
+			$line = preg_replace('/#.*$/', '', $line);
+			$line = preg_split('/[ \t]+/', $line);
+			for ($i = 1 ; $i < count($line) ; $i ++) {
+				$this->setParameter(strtolower($line[$i]), $line[0]);
+			}
+		}
+
+		require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
+		foreach ($config['types'] as $key => $value) {
+			if ($value) {
+				$this->setParameter(strtolower($key), $value);
+			} else {
+				$this->removeParameter($key);
+			}
+		}
 	}
 
 	/**

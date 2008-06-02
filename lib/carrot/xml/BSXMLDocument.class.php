@@ -31,7 +31,7 @@ class BSXMLDocument extends BSXMLElement implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSTypeList::getType('xml');
+		return BSMediaType::getType('xml');
 	}
 
 	/**

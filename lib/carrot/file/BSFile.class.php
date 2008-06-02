@@ -52,7 +52,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			$this->type = BSTypeList::getType($this->getPath());
+			$this->type = BSMediaType::getType($this->getPath());
 		}
 		return $this->type;
 	}
