@@ -119,11 +119,12 @@ class BSJapaneseHolidayList implements BSHolidayList {
 	 * @return BSURL カレンダーのURL
 	 */
 	public function getURL () {
-		if (!defined('BS_HOLIDAY_JA_URL')) {
+		require(BSConfigManager::getInstance()->compile('date/holiday'));
+		if (isset($config['ja']['params'])) {
+			$params = $config['ja']['params'];
+			$this->url = new BSURL($params['url']);
+		} else {
 			throw new BSDateException('定数 "BS_HOLIDAY_JA_URL" が未定義です。');
-		}
-		if (!$this->url) {
-			$this->url = new BSURL(BS_HOLIDAY_JA_URL);
 		}
 
 		$params = array(

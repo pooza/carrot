@@ -7,7 +7,7 @@
 script_encoding: utf-8
 
 carrot:
-  ver: 2.0.16
+  ver: 2.0.17
 
 default:
   module: Default
@@ -24,10 +24,6 @@ secure:
 smarty:
   template_encoding: utf-8
 
-holiday:
-  ja:
-    class: BSJapaneseHolidayList
-    url: http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.php
-
 browscap:
   url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
+

@@ -12,10 +12,10 @@ awstats_data:
   parent: var
 
 awstats_log:
-  constant: true
+  constant: yes
 
 bin:
-  constant: true
+  constant: yes
 
 cache:
   parent: var
@@ -68,7 +68,7 @@ js:
   suffix: .js
 
 lib:
-  constant: true
+  constant: yes
 
 local_lib:
   parent: webapp
@@ -85,14 +85,14 @@ modules:
   parent: webapp
 
 root:
-  constant: true
+  constant: yes
 
 serialized:
   parent: var
   suffix: .serialized
 
 share:
-  constant: true
+  constant: yes
 
 sql:
   parent: share
@@ -109,11 +109,11 @@ tmp:
   parent: var
 
 var:
-  constant: true
+  constant: yes
 
 webapp:
-  constant: true
+  constant: yes
 
 www:
-  constant: true
+  constant: yes
 

@@ -1,0 +1,10 @@
+# 祝日設定ファイル
+#
+# @package jp.co.b-shock.carrot
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+ja:
+  class: BSJapaneseHolidayList
+  params:
+    url: http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.php
