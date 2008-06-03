@@ -43,7 +43,7 @@ pdo:
     loggable: no
 
 smtp:
-  post: localhost
+  host: localhost
   #check_addresses: no
 
 xmpp:
