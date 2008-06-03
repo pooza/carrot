@@ -209,10 +209,15 @@ class BSMySQL extends BSDatabase {
 	 */
 	public function getEncoding () {
 		if (!isset($this->attributes['encoding'])) {
-			$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
+			if ($this->isLegacy()) {
+				$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
+			} else {
+				$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set_database');
+			}
 			$result = PDO::query($query)->fetch();
+
 			if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
-				throw new BSDatabaseException('"%s" が正しくありません。', $charset);
+				throw new BSDatabaseException('"%s" が正しくありません。', $encoding);
 			}
 			$this->attributes['encoding'] = $encoding;
 		}
