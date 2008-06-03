@@ -37,7 +37,9 @@ class BSMySQL extends BSDatabase {
 				self::$instances[$name] = new BSMySQL($dsn, $uid, $password);
 				self::$instances[$name]->setName($name);
 				if (!self::$instances[$name]->isLegacy()) {
-					self::$instances[$name]->exec('SET NAMES utf8');
+					$charsets = self::getEncodings()->getKeys();
+					$charset = $charsets[BSString::SCRIPT_ENCODING];
+					self::$instances[$name]->exec('SET NAMES ' . $charset);
 				}
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
