@@ -183,7 +183,11 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @final
 	 */
 	final public function getKeys () {
-		return new BSArray(array_keys($this->getParameters()));
+		$keys = new BSArray;
+		foreach ($this as $key => $value) {
+			$keys[$value] = $key;
+		}
+		return $keys;
 	}
 
 	/**

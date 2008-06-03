@@ -127,8 +127,7 @@ abstract class BSDatabase extends PDO {
 	 * @param string $query クエリー文字列
 	 */
 	public function query ($query) {
-		$query = BSString::convertEncoding($query);
-		if (!$rs = parent::query($query)) {
+		if (!$rs = parent::query($this->encodeQuery($query))) {
 			throw new BSDatabaseException(
 				'実行不能なクエリーです。(%s) [%s]',
 				$this->getError(),
@@ -147,8 +146,7 @@ abstract class BSDatabase extends PDO {
 	 * @param string $query クエリー文字列
 	 */
 	public function exec ($query) {
-		$query = BSString::convertEncoding($query);
-		$r = parent::exec($query);
+		$r = parent::exec($this->encodeQuery($query));
 		if ($r === false) {
 			throw new BSDatabaseException(
 				'実行不能なクエリーです。(%s) [%s]',
@@ -156,12 +154,25 @@ abstract class BSDatabase extends PDO {
 				$query
 			);
 		}
-		if (BSController::getInstance()->isDebugMode()) {
-			if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
-				$this->putLog($query);
-			}
+		if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
+			$this->putLog($query);
 		}
 		return $r;
+	}
+
+	/**
+	 * クエリーをエンコードする
+	 *
+	 * @access protected
+	 * @param string $query クエリー文字列
+	 * @return string エンコードされたクエリー
+	 */
+	protected function encodeQuery ($query) {
+		return BSString::convertEncoding(
+			$query,
+			$this->getEncoding(),
+			BSString::SCRIPT_ENCODING
+		);
 	}
 
 	/**
@@ -334,6 +345,16 @@ abstract class BSDatabase extends PDO {
 			}
 		}
 		return $this->dbms;
+	}
+
+	/**
+	 * データベースの文字セットを返す
+	 *
+	 * @access public
+	 * @return string 文字セット
+	 */
+	public function getEncoding () {
+		return BSString::SCRIPT_ENCODING;
 	}
 
 	/**

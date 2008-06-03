@@ -36,7 +36,9 @@ class BSMySQL extends BSDatabase {
 			try {
 				self::$instances[$name] = new BSMySQL($dsn, $uid, $password);
 				self::$instances[$name]->setName($name);
-				self::$instances[$name]->exec('SET NAMES ' . self::getEncoding());
+				if (!self::$instances[$name]->isLegacy()) {
+					self::$instances[$name]->exec('SET NAMES utf8');
+				}
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();
@@ -67,12 +69,27 @@ class BSMySQL extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$nameColumn = 'Tables_in_' . $this->getAttribute('name');
+			$column = 'Tables_in_' . $this->getAttribute('name');
 			foreach ($this->query('SHOW TABLES') as $row) {
-				$this->tables[] = $row[$nameColumn];
+				$this->tables[] = $row[$column];
 			}
 		}
 		return $this->tables;
+	}
+
+	/**
+	 * クエリーをエンコードする
+	 *
+	 * @access protected
+	 * @param string $query クエリー文字列
+	 * @return string エンコードされたクエリー
+	 */
+	protected function encodeQuery ($query) {
+		if ($this->isLegacy()) {
+			return parent::encodeQuery($query);
+		} else {
+			return $query;
+		}
 	}
 
 	/**
@@ -161,19 +178,60 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * キャラクターセットを返す
+	 * バージョンを返す
 	 *
 	 * @access public
-	 * @return string キャラクターセット
+	 * @return float バージョン
+	 */
+	public function getVersion () {
+		if (!isset($this->attributes['version'])) {
+			$result = PDO::query('SELECT version() AS ver')->fetch();
+			$this->attributes['version'] = $result['ver'];
+		}
+		return $this->attributes['version'];
+	}
+
+	/**
+	 * バージョンは4.0以前か？
+	 *
+	 * @access public
+	 * @return boolean 4.0以前ならTrue
+	 */
+	public function isLegacy () {
+		return ($this->getVersion() < 4.1);
+	}
+
+	/**
+	 * データベースの文字セットを返す
+	 *
+	 * @access public
+	 * @return string 文字セット
+	 */
+	public function getEncoding () {
+		if (!isset($this->attributes['encoding'])) {
+			$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
+			$result = PDO::query($query)->fetch();
+			if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
+				throw new BSDatabaseException('"%s" が正しくありません。', $charset);
+			}
+			$this->attributes['encoding'] = $encoding;
+		}
+		return $this->attributes['encoding'];
+	}
+
+	/**
+	 * サポートしているエンコードを返す
+	 *
+	 * @access public
+	 * @return BSArray エンコードの配列
 	 * @static
 	 */
-	static public function getEncoding () {
-		$charsets = array(
-			'sjis' => 'sjis',
-			'euc-jp' => 'ujis',
-			'utf-8' => 'utf8',
-		);
-		return $charsets[BSString::SCRIPT_ENCODING];
+	static public function getEncodings () {
+		$encodings = new BSArray;
+		$encodings['sjis'] = 'sjis';
+		$encodings['ujis'] = 'euc-jp';
+		$encodings['utf8'] = 'utf-8';
+		return $encodings;
 	}
 
 	/**

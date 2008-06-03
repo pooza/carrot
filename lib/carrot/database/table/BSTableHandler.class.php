@@ -395,13 +395,17 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * クエリーを送信し直して結果を返す
+	 * クエリーを送信して結果を返す
 	 *
 	 * @access public
 	 * @return string[] 結果の配列
 	 */
 	public function query () {
-		$this->result = $this->getDatabase()->query($this->getQueryString())->fetchAll();
+		$this->result = BSString::convertEncoding(
+			$this->getDatabase()->query($this->getQueryString())->fetchAll(),
+			BSString::SCRIPT_ENCODING,
+			$this->getDatabase()->getEncoding()
+		);
 		$this->setExecuted(true);
 		return $this->result;
 	}
