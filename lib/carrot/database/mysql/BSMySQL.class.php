@@ -34,13 +34,12 @@ class BSMySQL extends BSDatabase {
 				$$key = constant($const);
 			}
 			try {
-				self::$instances[$name] = new BSMySQL($dsn, $uid, $password);
-				self::$instances[$name]->setName($name);
-				if (!self::$instances[$name]->isLegacy()) {
-					$charsets = self::getEncodings()->getKeys();
-					$charset = $charsets[BSString::SCRIPT_ENCODING];
-					self::$instances[$name]->exec('SET NAMES ' . $charset);
+				$db = new BSMySQL($dsn, $uid, $password);
+				$db->setName($name);
+				if (!$db->isLegacy()) {
+					$db->exec('SET NAMES ' . $db->getEncodingName());
 				}
+				self::$instances[$name] = $db;
 			} catch (Exception $e) {
 				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 				$e->sendAlert();
@@ -213,17 +212,27 @@ class BSMySQL extends BSDatabase {
 		if (!isset($this->attributes['encoding'])) {
 			if ($this->isLegacy()) {
 				$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
+				$result = PDO::query($query)->fetch();
+				if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
+					throw new BSDatabaseException('"%s" が正しくありません。', $encoding);
+				}
+				$this->attributes['encoding'] = $encoding;
 			} else {
-				$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set_database');
+				// 4.1以降のMySQLでは、接続時にSET NAMESクエリーを送信済み
+				$this->attributes['encoding'] = BSString::SCRIPT_ENCODING;
 			}
-			$result = PDO::query($query)->fetch();
-
-			if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
-				throw new BSDatabaseException('"%s" が正しくありません。', $encoding);
-			}
-			$this->attributes['encoding'] = $encoding;
 		}
 		return $this->attributes['encoding'];
+	}
+
+	/**
+	 * データベースの文字セットにおける、MySQLでの呼称を返す
+	 *
+	 * @access private
+	 * @return string 文字セット
+	 */
+	private function getEncodingName () {
+		return self::getEncodings()->getKeys()->getParameter($this->getEncoding());
 	}
 
 	/**
