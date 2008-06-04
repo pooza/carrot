@@ -8,12 +8,12 @@ file: /etc/httpd/mime.types
 
 types:
   css: text/css
-  csv: text/plain
+  csv: text/csv
   dat: application/octet-stream
   gif: image/gif
   htm: text/html
   html: text/html
-  ini: application/x-ini-file
+  ini: text/x-ini-file
   jpg: image/jpeg
   jpeg: image/jpeg
   js: text/javascript
@@ -29,5 +29,5 @@ types:
   tpl:
   ttf: application/x-truetype-font
   txt: text/plain
-  yaml: application/yaml
+  yaml: text/yaml
   xml: application/xml
