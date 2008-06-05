@@ -272,7 +272,9 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @param mixed $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
-		if ($value != '') {
+		if ($value instanceof BSArray) {
+			$this->assign($name, $value->getParameters());
+		} else if ($value != '') {
 			$this->assign($name, $value);
 		}
 	}
