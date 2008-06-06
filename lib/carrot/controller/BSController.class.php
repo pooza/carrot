@@ -431,11 +431,17 @@ abstract class BSController {
 	 * エラーチェックなしでインクルード
 	 *
 	 * @access public
-	 * @param string $file インクルードするファイル
+	 * @param string $path インクルードするファイルのパス、又はBSFileオブジェクト
 	 * @static
 	 */
-	static public function includeLegacy ($file) {
-		$file = new BSFile(self::getInstance()->getPath('lib') . $file);
+	static public function includeFile ($file) {
+		if (!($file instanceof BSFile)) {
+			if (!BSUtility::isPathAbsolute($file)) {
+				$file = self::getInstance()->getPath('lib') . '/' . $file;
+			}
+			$file = new BSFile($file);
+		}
+
 		if (!$file->isReadable()) {
 			throw new BSFileException('"%s"はインクルード出来ません。', $file);
 		}

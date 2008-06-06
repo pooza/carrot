@@ -4,7 +4,7 @@
  * @subpackage smarty
  */
 
-BSController::includeLegacy('/Smarty/Smarty.class.php');
+BSController::includeFile('Smarty/Smarty.class.php');
 
 /**
  * Smartyのラッパー

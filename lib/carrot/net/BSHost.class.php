@@ -4,7 +4,7 @@
  * @subpackage net
  */
 
-BSController::includeLegacy('/pear/Net/IPv4.php');
+BSController::includeFile('pear/Net/IPv4.php');
 
 /**
  * ホスト

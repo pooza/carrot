@@ -4,9 +4,9 @@
  * @subpackage pdf
  */
 
-BSController::includeLegacy('/fpdf/fpdf.php');
-BSController::includeLegacy('/fpdf/font/mbttfdef.php');
-BSController::includeLegacy('/fpdf/mbfpdf.php');
+BSController::includeFile('fpdf/fpdf.php');
+BSController::includeFile('fpdf/font/mbttfdef.php');
+BSController::includeFile('fpdf/mbfpdf.php');
 
 /**
  * MBFPDFのラッパー

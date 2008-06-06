@@ -4,7 +4,7 @@
  * @subpackage crypt
  */
 
-BSController::includeLegacy('/pear/Crypt/Blowfish.php');
+BSController::includeFile('pear/Crypt/Blowfish.php');
 
 /**
  * Blowfish暗号

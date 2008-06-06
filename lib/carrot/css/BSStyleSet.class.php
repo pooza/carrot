@@ -4,7 +4,7 @@
  * @subpackage css
  */
 
-BSController::includeLegacy('/pear/HTML/CSS.php');
+BSController::includeFile('pear/HTML/CSS.php');
 
 /**
  * CSS

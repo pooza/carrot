@@ -283,7 +283,7 @@ class BSString {
 	static public function split ($str, $width = 74) {
 		$str = self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING);
 
-		BSController::includeLegacy('/OME/OME.php');
+		BSController::includeFile('OME/OME.php');
 		mb_internal_encoding('eucjp-win');
 		$ome = new OME;
 		$ome->setBodyWidth($width);

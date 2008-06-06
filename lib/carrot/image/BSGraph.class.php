@@ -4,7 +4,7 @@
  * @subpackage image
  */
 
-BSController::includeLegacy('/phplot/phplot.php');
+BSController::includeFile('phplot/phplot.php');
 
 /**
  * グラフレンダラー
