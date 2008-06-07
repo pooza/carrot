@@ -12,10 +12,9 @@
  * @version $Id$
  */
 class BSSQLite extends BSDatabase {
-	static private $instances;
 
 	/**
-	 * フライウェイトインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @name string $name データベース名
@@ -23,26 +22,18 @@ class BSSQLite extends BSDatabase {
 	 * @static
 	 */
 	static public function getInstance ($name = 'default') {
-		if (!self::$instances) {
-			self::$instances = new BSArray;
+		try {
+			$constants = BSConstantHandler::getInstance();
+			$db = new BSSQLite(
+				$constants['PDO_' . $name . '_DSN']
+			);
+			$db->setName($name);
+		} catch (Exception $e) {
+			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
+			$e->sendAlert();
+			throw $e;
 		}
-		if (!self::$instances[$name]) {
-			foreach (array('dsn') as $key) {
-				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
-					throw new BSDatabaseException('"%s"が未定義です。', $const);
-				}
-				$$key = constant($const);
-			}
-			try {
-				self::$instances[$name] = new BSSQLite($dsn);
-				self::$instances[$name]->setName($name);
-			} catch (Exception $e) {
-				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-				$e->sendAlert();
-				throw $e;
-			}
-		}
-		return self::$instances[$name];
+		return $db;
 	}
 
 	/**

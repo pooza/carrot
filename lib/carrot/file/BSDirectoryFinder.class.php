@@ -74,8 +74,7 @@ class BSDirectoryFinder {
 	private function getDirectoryInstance ($name) {
 		$params = $this->directories[$name];
 		if (isset($params['constant'])) {
-			$path = constant('BS_' . strtoupper($name) . '_DIR');
-			$dir = new BSDirectory($path);
+			$dir = new BSDirectory(BSController::getInstance()->getConstant($name . '_DIR'));
 		} else if (isset($params['name'])) {
 			$dir = $this->getDirectory($params['parent'])->getEntry($params['name']);
 		} else {

@@ -12,10 +12,9 @@
  * @version $Id$
  */
 class BSODBCDatabase extends BSDatabase {
-	static private $instances;
 
 	/**
-	 * フライウェイトインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @name string $name データベース名
@@ -23,28 +22,20 @@ class BSODBCDatabase extends BSDatabase {
 	 * @static
 	 */
 	static public function getInstance ($name = 'default') {
-		if (!self::$instances) {
-			self::$instances = new BSArray;
+		try {
+			$constants = BSConstantHandler::getInstance();
+			$db = new BSODBCDatabase(
+				$constants['PDO_' . $name . '_DSN'],
+				$constants['PDO_' . $name . '_UID'],
+				$constants['PDO_' . $name . '_PASSWORD']
+			);
+			$db->setName($name);
+		} catch (Exception $e) {
+			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
+			$e->sendAlert();
+			throw $e;
 		}
-		if (!self::$instances[$name]) {
-			foreach (array('dsn', 'uid', 'password') as $key) {
-				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
-					throw new BSDatabaseException('"%s"が未定義です。', $const);
-				}
-				$$key = constant($const);
-			}
-			try {
-				self::$instances[$name] = new BSODBCDatabase($dsn, $uid, $password);
-				self::$instances[$name]->setName($name);
-			} catch (Exception $e) {
-				$e = new BSDatabaseException(
-					'DB接続エラーです。 (%s)',
-					BSString::convertEncoding($e->getMessage())
-				);
-				throw $e;
-			}
-		}
-		return self::$instances[$name];
+		return $db;
 	}
 
 	/**

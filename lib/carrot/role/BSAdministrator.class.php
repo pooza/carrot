@@ -57,12 +57,13 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function getAllowedNetworks () {
-		if (!defined('BS_ADMIN_NETWORKS')) {
+		$constants = BSConstantHandler::getInstance();
+		if (!$constants->hasParameter('ADMIN_NETWORKS')) {
 			return array();
 		}
 
 		if (!self::$networks) {
-			$networks = explode(',', BS_ADMIN_NETWORKS);
+			$networks = explode(',', $constants['ADMIN_NETWORKS']);
 			$networks[] = '127.0.0.1/32';
 			foreach ($networks as $net) {
 				self::$networks[$net] = new BSNetwork($net);

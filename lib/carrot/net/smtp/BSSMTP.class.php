@@ -223,7 +223,7 @@ class BSSMTP extends BSSocket {
 	 * @return boolean 
 	 */
 	private function checkAddresses () {
-		if (defined('BS_SMTP_CHECK_ADDRESSES') && BS_SMTP_CHECK_ADDRESSES) {
+		if (BSController::getInstance()->getConstant('SMTP_CHECK_ADDRESSES')) {
 			if (!BSArray::isArray($this->addresses) || !$this->addresses->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 				return false;

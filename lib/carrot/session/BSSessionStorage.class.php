@@ -82,9 +82,7 @@ class BSSessionStorage extends BSParameterHolder {
 	 * @return string ストレージの種類
 	 */
 	private function getStorageType () {
-		if (defined('BS_SESSION_STORAGE_TYPE')) {
-			return BS_SESSION_STORAGE_TYPE;
-		}
+		return BSController::getInstance()->getConstant('SESSION_STORAGE_TYPE');
 	}
 
 	/**

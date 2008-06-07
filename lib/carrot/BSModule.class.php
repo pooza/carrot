@@ -239,8 +239,8 @@ class BSModule {
 	 */
 	static public function getPrefixes () {
 		if (!self::$prefixes) {
-			if (defined('APP_MODULE_PREFIXES') && APP_MODULE_PREFIXES) {
-				self::$prefixes = BSString::capitalize(explode(',', APP_MODULE_PREFIXES));
+			if ($prefixes = BSController::getInstance()->getConstant('MODULE_PREFIXES')) {
+				self::$prefixes = BSString::capitalize(explode(',', $prefixes));
 			} else {
 				self::$prefixes = array('Admin', 'User');
 			}

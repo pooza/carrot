@@ -52,14 +52,10 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		$names = new BSArray;
-		$names[] = strtoupper($name);
-		foreach (self::getPrefixes() as $prefix) {
-			$names[] = strtoupper($prefix . '_' . $name);
-		}
-		foreach ($names as $name) {
-			if ($this->hasParameter($name)) {
-				return constant($name);
+		foreach (array('', 'APP_', 'BS_') as $prefix) {
+			$fullname = strtoupper(BSString::underscorize($prefix . $name));
+			if (defined($fullname)) {
+				return constant($fullname);
 			}
 		}
 	}
@@ -73,7 +69,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function setParameter ($name, $value) {
 		$name = strtoupper($name);
-		if ($this->hasParameter($name)) {
+		if (defined($name)) {
 			throw new BSException('定数 "%s" は定義済みです。', $name);
 		} else {
 			define($name, $value);
@@ -99,8 +95,13 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasParameter ($name) {
-		$name = strtoupper($name);
-		return defined($name);
+		foreach (array('', 'APP_', 'BS_') as $prefix) {
+			$fullname = strtoupper(BSString::underscorize($prefix . $name));
+			if (defined($fullname)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -138,17 +139,6 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 				return $value;
 			}
 		}
-	}
-
-	/**
-	 * 定数名の前置詞を返す
-	 *
-	 * @access public
-	 * @return BSArray 前置詞の配列
-	 * @static
-	 */
-	static public function getPrefixes () {
-		return new BSArray(array('APP', 'BS'));
 	}
 }
 

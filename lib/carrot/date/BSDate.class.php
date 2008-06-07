@@ -29,10 +29,13 @@ class BSDate {
 	 * @param string $str 日付文字列
 	 */
 	public function __construct ($str = null) {
-		$this->attributes = new BSArray(array('timestamp' => null, 'has_time' => false));
-		if (!self::$timezone && defined('BS_DATE_TIMEZONE')){
-			date_default_timezone_set(BS_DATE_TIMEZONE);
+		if (!self::$timezone) {
+			if ($timezone = BSController::getInstance()->getConstant('DATE_TIMEZONE')) {
+				date_default_timezone_set($timezone);
+			}
 		}
+
+		$this->attributes = new BSArray(array('timestamp' => null, 'has_time' => false));
 		if ($str) {
 			$this->setDate($str);
 		}
@@ -386,9 +389,7 @@ class BSDate {
 		}
 
 		if (!$this->attributes->hasAttribute('holiday_name')) {
-			if (defined('BS_HOLIDAY_JA_CLASS')) {
-				$class = BS_HOLIDAY_JA_CLASS;
-			} else {
+			if (!$class = BSController::getInstance()->getConstant('HOLIDAY_JA_CLASS')) {
 				$class = 'BSJapaneseHolidayList';
 			}
 			$holidays = new $class($this);

@@ -52,7 +52,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @return boolean 日次モードならTrue
 	 */
 	private function isDaily () {
-		return defined('BS_AWSTATS_DAILY') && BS_AWSTATS_DAILY;
+		return $this->controller->getConstant('AWSTATS_DAILY');
 	}
 
 	/**

@@ -74,8 +74,8 @@ class BSCrypt {
 	 * @return string 暗号化の方法
 	 */
 	public function getMethod () {
-		if (defined('BS_CRYPT_ENGINE')) {
-			return BS_CRYPT_ENGINE;
+		if ($method = BSController::getInstance()->getConstant('CRYPT_ENGINE')) {
+			return $method;
 		} else {
 			return 'blowfish';
 		}
@@ -142,10 +142,10 @@ class BSCrypt {
 	 * @static
 	 */
 	static public function getDefaultSalt () {
-		if (!defined('BS_CRYPT_SALT')) {
-			throw new BSCryptException('BS_CRYPT_SALTが未定義です。');
+		if (!$salt = BSController::getInstance()->getConstant('CRYPT_SALT')) {
+			throw new BSCryptException('ソルトが未定義です。');
 		}
-		return BS_CRYPT_SALT;
+		return $salt;
 	}
 
 	/**

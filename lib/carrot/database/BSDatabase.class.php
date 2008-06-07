@@ -17,6 +17,7 @@ abstract class BSDatabase extends PDO {
 	protected $tables = array();
 	private $dbms;
 	private $name;
+	static private $instances;
 	const LOG_TYPE = 'Database';
 
 	/**
@@ -28,23 +29,29 @@ abstract class BSDatabase extends PDO {
 	 * @static
 	 */
 	static public function getInstance ($name = 'default') {
-		if (!defined($dsn = strtoupper('bs_pdo_' . $name . '_dsn'))) {
-			return null;
+		if (!self::$instances) {
+			self::$instances = new BSArray;
 		}
-		preg_match('/^([a-z0-9]+):/', constant($dsn), $matches);
-		switch ($dbms = $matches[1]) {
-			case 'mysql':
-				return BSMySQL::getInstance($name);
-			case 'pgsql':
-				return BSPostgreSQL::getInstance($name);
-			case 'sqlite':
-			case 'sqlite2':
-				return BSSQLite::getInstance($name);
-			case 'odbc':
-				return BSODBCDatabase::getInstance($name);
-			default:
-				throw new BSDatabaseException('DBMS"%s"が適切ではありません。', $dbms);
+		if (!self::$instances[$name]) {
+			$constants = BSConstantHandler::getInstance();
+			if (!preg_match('/^([a-z0-9]+):/', $constants['PDO_' . $name . '_DSN'], $matches)) {
+				throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
+			}
+			switch ($dbms = $matches[1]) {
+				case 'mysql':
+					return self::$instances[$name] = BSMySQL::getInstance($name);
+				case 'pgsql':
+					return self::$instances[$name] = BSPostgreSQL::getInstance($name);
+				case 'sqlite':
+				case 'sqlite2':
+					return self::$instances[$name] = BSSQLite::getInstance($name);
+				case 'odbc':
+					return self::$instances[$name] = BSODBCDatabase::getInstance($name);
+				default:
+					throw new BSDatabaseException('"%s" のDBMSが適切ではありません。', $name);
+			}
 		}
+		return self::$instances[$name];
 	}
 
 	/**
@@ -112,10 +119,9 @@ abstract class BSDatabase extends PDO {
 	 */
 	protected function parseDSN () {
 		foreach (array('dsn', 'uid', 'password') as $key) {
-			$const = strtoupper('bs_pdo_' . $this->getName() . '_' . $key);
-			if (defined($const)) {
-				$this->attributes[$key] = constant($const);
-			}
+			$this->attributes[$key] = BSController::getInstance()->getConstant(
+				'PDO_' . $this->getName() . '_' . $key
+			);
 		}
 	}
 
@@ -154,7 +160,7 @@ abstract class BSDatabase extends PDO {
 				$query
 			);
 		}
-		if (defined('BS_PDO_QUERY_LOG_ENABLE') && BS_PDO_QUERY_LOG_ENABLE) {
+		if (BSController::getInstance()->getConstant('PDO_QUERY_LOG_ENABLE')) {
 			$this->putLog($query);
 		}
 		return $r;
@@ -244,8 +250,8 @@ abstract class BSDatabase extends PDO {
 	 * @param string $log ログ
 	 */
 	protected function putLog ($log) {
-		$name = strtoupper(sprintf('bs_pdo_%s_loggable', $this->getName()));
-		if (!defined($name) || constant($name)) {
+		$name = sprintf('pdo_%s_loggable', $this->getName());
+		if (BSController::getInstance()->getConstant($name)) {
 			BSLog::put($log, self::LOG_TYPE);
 		}
 	}
@@ -376,9 +382,7 @@ abstract class BSDatabase extends PDO {
 	 */
 	static public function getDatabases () {
 		$databases = new BSArray;
-		$constants = get_defined_constants(true);
-		$constants = $constants['user'];
-		foreach ($constants as $key => $value) {
+		foreach (BSConstantHandler::getInstance()->getParameters() as $key => $value) {
 			if (preg_match('/_PDO_([A-Z]+)_DSN$/', $key, $matches)) {
 				$name = strtolower($matches[1]);
 				try {

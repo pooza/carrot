@@ -35,8 +35,8 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	static public function getName ($language = 'ja') {
-		if (defined('BS_AUTHOR_NAME')) {
-			return BS_AUTHOR_NAME;
+		if ($name = BSController::getInstance()->getConstant('AUTHOR_NAME')) {
+			return $name;
 		}
 		return BSTranslator::getInstance()->translate('app_name', $language);
 	}

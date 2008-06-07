@@ -235,7 +235,8 @@ class BSSocket {
 	 * @static
 	 */
 	static public function isResolvable () {
-		if (defined('BS_RESOLVABLE') && !BS_RESOLVABLE) {
+		$constants = BSConstantHandler::getInstance();
+		if ($constants->hasParameter('RESOLVABLE') && !$constants['RESOLVABLE']) {
 			return false;
 		} else {
 			return true;

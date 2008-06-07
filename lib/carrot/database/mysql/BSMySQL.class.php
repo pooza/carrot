@@ -12,10 +12,9 @@
  * @version $Id$
  */
 class BSMySQL extends BSDatabase {
-	static private $instances;
 
 	/**
-	 * フライウェイトインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @name string $name データベース名
@@ -23,30 +22,23 @@ class BSMySQL extends BSDatabase {
 	 * @static
 	 */
 	static public function getInstance ($name = 'default') {
-		if (!self::$instances) {
-			self::$instances = new BSArray;
-		}
-		if (!self::$instances[$name]) {
-			foreach (array('dsn', 'uid', 'password') as $key) {
-				if (!defined($const = strtoupper('bs_pdo_' . $name . '_' . $key))) {
-					throw new BSDatabaseException('"%s"が未定義です。', $const);
-				}
-				$$key = constant($const);
+		try {
+			$constants = BSConstantHandler::getInstance();
+			$db = new BSMySQL(
+				$constants['PDO_' . $name . '_DSN'],
+				$constants['PDO_' . $name . '_UID'],
+				$constants['PDO_' . $name . '_PASSWORD']
+			);
+			$db->setName($name);
+			if (!$db->isLegacy()) {
+				$db->exec('SET NAMES ' . $db->getEncodingName());
 			}
-			try {
-				$db = new BSMySQL($dsn, $uid, $password);
-				$db->setName($name);
-				if (!$db->isLegacy()) {
-					$db->exec('SET NAMES ' . $db->getEncodingName());
-				}
-				self::$instances[$name] = $db;
-			} catch (Exception $e) {
-				$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-				$e->sendAlert();
-				throw $e;
-			}
+		} catch (Exception $e) {
+			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
+			$e->sendAlert();
+			throw $e;
 		}
-		return self::$instances[$name];
+		return $db;
 	}
 
 	/**

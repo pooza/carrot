@@ -65,9 +65,7 @@ class BSMediaType extends BSParameterHolder {
 	 */
 	private function getTypesFile () {
 		if (!$this->file) {
-			if (defined('BS_TYPES_FILE') && BS_TYPES_FILE) {
-				$path = BS_TYPES_FILE;
-			} else {
+			if (!$path = BSController::getInstance()->getConstant('TYPES_FILE')) {
 				require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
 				$path = $config['file'];
 			}

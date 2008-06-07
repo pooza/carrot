@@ -154,6 +154,17 @@ abstract class BSController {
 	}
 
 	/**
+	 * 定数を返す
+	 *
+	 * @access public
+	 * @param string $name 定数の名前
+	 * @return string 定数の値
+	 */
+	public function getConstant ($name) {
+		return BSConstantHandler::getInstance()->getParameter($name);
+	}
+
+	/**
 	 * 特別なディレクトリを返す
 	 *
 	 * @access public
@@ -249,13 +260,8 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getSecureAction () {
-		if (defined('APP_SECURE_MODULE') && defined('APP_SECURE_ACTION')) {
-			$module = APP_SECURE_MODULE;
-			$action = APP_SECURE_ACTION;
-		} else {
-			$module = BS_SECURE_MODULE;
-			$action = BS_SECURE_ACTION;
-		}
+		$module = $this->getConstant('SECURE_MODULE');
+		$action = $this->getConstant('SECURE_ACTION');
 		return BSModule::getInstance($module)->getAction($action);
 	}
 
@@ -266,7 +272,9 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getNotFoundAction () {
-		return BSModule::getInstance(BS_NOT_FOUND_MODULE)->getAction(BS_NOT_FOUND_ACTION);
+		$module = $this->getConstant('NOT_FOUND_MODULE');
+		$action = $this->getConstant('NOT_FOUND_ACTION');
+		return BSModule::getInstance($module)->getAction($action);
 	}
 
 	/**
@@ -394,7 +402,7 @@ abstract class BSController {
 	 * @return boolean デバッグモードならTrue
 	 */
 	public function isDebugMode () {
-		return defined('BS_DEBUG') && BS_DEBUG;
+		return $this->getConstant('DEBUG');
 	}
 
 	/**

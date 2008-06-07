@@ -157,10 +157,11 @@ class BSCurlHTTP extends BSHTTP {
 			'curl_' . $name,
 			$name,
 		);
+		$constants = BSConstantHandler::getInstance();
 		foreach ($names as $name) {
-			if (defined($name = strtoupper($name))) {
+			if ($constants->hasParameter($name)) {
 				$this->attributes[$name] = $value;
-				curl_setopt($this->getEngine(), constant($name), $value);
+				curl_setopt($this->getEngine(), $constants[$name], $value);
 				return;
 			}
 		}
