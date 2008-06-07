@@ -11,6 +11,38 @@
  * @version $Id$
  */
 class BSConstantHandler extends BSParameterHolder implements BSDictionary {
+	static private $instance;
+
+	/**
+	 * コンストラクタ
+	 *
+	 * @access private
+	 */
+	private function __construct () {
+	}
+
+	/**
+	 * シングルトンインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSConstantHandler インスタンス
+	 * @static
+	 */
+	static public function getInstance () {
+		if (!self::$instance) {
+			self::$instance = new BSConstantHandler;
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * ディープコピーを行う
+	 *
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+	}
 
 	/**
 	 * パラメータを返す
@@ -20,9 +52,15 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		$name = strtoupper($name);
-		if ($this->hasParameter($name)) {
-			return constant($name);
+		$names = new BSArray;
+		$names[] = strtoupper($name);
+		foreach (self::getPrefixes() as $prefix) {
+			$names[] = strtoupper($prefix . '_' . $name);
+		}
+		foreach ($names as $name) {
+			if ($this->hasParameter($name)) {
+				return constant($name);
+			}
 		}
 	}
 
@@ -100,6 +138,17 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 				return $value;
 			}
 		}
+	}
+
+	/**
+	 * 定数名の前置詞を返す
+	 *
+	 * @access public
+	 * @return BSArray 前置詞の配列
+	 * @static
+	 */
+	static public function getPrefixes () {
+		return new BSArray(array('APP', 'BS'));
 	}
 }
 
