@@ -101,16 +101,6 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 			}
 		}
 	}
-
-	/**
-	 * 基本情報を文字列で返す
-	 *
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return '定数辞書';
-	}
 }
 
 /* vim:set tabstop=4 ai: */

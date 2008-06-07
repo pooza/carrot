@@ -14,14 +14,6 @@
 interface BSDictionary {
 
 	/**
-	 * 名前を返す
-	 *
-	 * @access public
-	 * @return string 名前
-	 */
-	public function getName ();
-
-	/**
 	 * 翻訳して返す
 	 *
 	 * @access public
