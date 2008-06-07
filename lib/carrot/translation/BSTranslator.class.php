@@ -181,8 +181,9 @@ class BSTranslator implements IteratorAggregate {
 	 */
 	static public function getLanguages () {
 		if (!self::$languages) {
+			$languages = BSController::getInstance()->getConstant('LANGUAGES');
 			self::$languages = self::getInstance()->getHash(
-				BSArray::explode(',', APP_LANGUAGES), 'en'
+				BSArray::explode(',', $languages), 'en'
 			);
 		}
 		return self::$languages;
