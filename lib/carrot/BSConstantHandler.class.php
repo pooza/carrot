@@ -1,17 +1,16 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage translation
  */
 
 /**
- * 定数辞書
+ * 定数ハンドラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSConstantsDictionary implements BSDictionary {
+class BSConstantHandler implements BSDictionary {
 
 	/**
 	 * 名前を返す

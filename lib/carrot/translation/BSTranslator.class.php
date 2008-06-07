@@ -31,7 +31,7 @@ class BSTranslator implements IteratorAggregate {
 			$this->register($dictionary);
 		}
 		$this->register($this->getDirectory()->getEntry('carrot'));
-		$this->register(new BSConstantsDictionary());
+		$this->register(new BSConstantHandler);
 	}
 
 	/**
