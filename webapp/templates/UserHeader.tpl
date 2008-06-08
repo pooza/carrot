@@ -11,8 +11,10 @@
 <head>
 <title>{'app_name'|translate} {$title}</title>
 <script type="text/javascript" src="/carrotlib/js/carrot.js" charset="utf-8"></script>
-<script type="text/javascript" src="/carrotlib/js/prototype.js" charset="utf-8"></script>
 <script type="text/javascript" src="/carrotlib/js/elevator.js" charset="utf-8"></script>
+<script type="text/javascript" src="/carrotlib/js/prototype.js" charset="utf-8"></script>
+<script type="text/javascript" src="/carrotlib/js/scriptaculous/scriptaculous.js" charset="utf-8"></script>
+<script type="text/javascript" src="/carrotlib/js/datepicker.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
 </head>
 <body {if $body.id}id="{$body.id}"{/if}>
