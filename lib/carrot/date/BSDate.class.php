@@ -31,6 +31,7 @@ class BSDate {
 	public function __construct ($str = null) {
 		if (!self::$timezone) {
 			if ($timezone = BSController::getInstance()->getConstant('DATE_TIMEZONE')) {
+				self::$timezone = $timezone;
 				date_default_timezone_set($timezone);
 			}
 		}
