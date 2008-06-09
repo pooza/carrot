@@ -100,6 +100,17 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
+	 * 検索条件のキャッシュをクリア
+	 *
+	 * @access protected
+	 */
+	protected function clearCriteria () {
+		$this->user->removeAttribute(
+			$this->controller->getModule()->getName() . 'Criteria'
+		);
+	}
+
+	/**
 	 * デフォルトの検索条件を返す
 	 *
 	 * @access protected
