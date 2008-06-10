@@ -107,7 +107,7 @@ class AnalyzeAccessLogAction extends BSAction {
 		$smarty = new BSSmarty();
 		$smarty->setTemplate('awstats.conf');
 		$smarty->setAttribute('config', $this->getConfig());
-		$file = $this->controller->getDirectory('cache')->createEntry('awstats.conf');
+		$file = $this->controller->getDirectory('tmp')->createEntry('awstats.conf');
 		$file->setContents($smarty->getContents());
 	}
 

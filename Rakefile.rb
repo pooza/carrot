@@ -60,7 +60,7 @@ file 'www/awstats' do
 end
 
 file 'lib/AWStats/awstats.conf' do
-  sh 'ln -s ../../var/cache/awstats.conf lib/AWStats/awstats.conf'
+  sh 'ln -s ../../var/tmp/awstats.conf lib/AWStats/awstats.conf'
 end
 
 desc 'ajaxzip2を有効に'
