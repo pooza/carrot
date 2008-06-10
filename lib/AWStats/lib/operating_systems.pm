@@ -3,14 +3,13 @@
 # If you want to add an OS to extend AWStats database detection capabilities,
 # you must add an entry in OSSearchIDOrder, in OSHashID and in OSHashLib.
 #-------------------------------------------------------
-# $Revision: 1.20 $ - $Author: eldy $ - $Date: 2006/06/05 07:06:35 $
-
+# $Revision: 1.21 $ - $Author: eldy $ - $Date: 2007/04/02 18:30:53 $
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
-#              - added specific Linux distributions in addition to 
-#              the generic Linux.  
+#              - added specific Linux distributions in addition to
+#              the generic Linux.
 #              Included documentation link to Distribution home pages.
 #              - added links for each operating systems.
-
+# Modified by makoto_hobbit 2007/9/27
 #package AWSOS;
 
 
@@ -79,7 +78,13 @@
 'symbian',
 'webtv',
 'playstation[_+ ]portable',
-'xbox'
+'xbox',
+'vienna',
+'newsfire',
+'applesyndication',
+'akregator',
+'plagger',
+'syndirella'
 );
 
 
@@ -91,7 +96,7 @@
 # Windows OS family
 'windows[_+ ]?2005','winlong','windows[_+ ]nt[_+ ]6\.0','winlong',
 'windows[_+ ]?2003','win2003','windows[_+ ]nt[_+ ]5\.2','win2003',
-'windows[_+ ]xp','winxp','windows[_+ ]nt[_+ ]5\.1','winxp',
+'windows[_+ ]xp','winxp','windows[_+ ]nt[_+ ]5\.1','winxp', 'syndirella', 'winxp',
 'windows[_+ ]me','winme','win[_+ ]9x','winme',
 'windows[_+ ]?2000','win2000','windows[_+ ]nt[_+ ]5','win2000',
 'winnt','winnt','windows[_+ \-]?nt','winnt','win32','winnt',
@@ -100,7 +105,7 @@
 'win(.*)16','win16','windows[_+ ]3','win16',
 'win(.*)ce','wince',
 # Macintosh OS family
-'mac[_+ ]os[_+ ]x','macosx',
+'mac[_+ ]os[_+ ]x','macosx', 'vienna', 'macosx', 'newsfire', 'macosx', 'applesyndication', 'macosx',
 'mac[_+ ]?p','macintosh','mac[_+ ]68','macintosh','macweb','macintosh','macintosh','macintosh',
 # Linux family (linuxyyy)
 'linux(.*)centos','linuxcentos',
@@ -110,7 +115,7 @@
 'linux(.*)red[_+ ]hat','linuxredhat',
 'linux(.*)suse','linuxsuse',
 'linux(.*)ubuntu','linuxubuntu',
-'linux','linux',
+'linux','linux', 'akregator', 'linux',
 # Hurd family
 'gnu.hurd','gnu',
 # BSDs family (bsdyyy)
@@ -128,6 +133,7 @@
 'unix','unix',
 'x11','unix',
 'gnome\-vfs','unix',
+'plagger', 'unix',
 # Other famous OS
 'beos','beos',
 'os/2','os/2',
@@ -151,63 +157,63 @@
 #-----------------------------------------------------------
 %OSHashLib      = (
 # Windows family OS
-'winlong','<a href="http://www.microsoft.com/windows/" title="Windows Vista home page [new window]" target="_blank">Windows Vista (Longhorn)</a>',
-'win2003','<a href="http://www.microsoft.com/windowsserver2003/" title="Windows 2003 home page [new window]" target="_blank">Windows 2003</a>',
-'winxp','<a href="http://www.microsoft.com/windowsxp/" title="Windows XP home page [new window]" target="_blank">Windows XP</a>',
-'winme','<a href="http://www.microsoft.com/windowsme/" title="Windows Me home page [new window]" target="_blank">Windows Me</a>',
-'win2000','<a href="http://www.microsoft.com/windows2000/" title="Windows 2000 home page [new window]" target="_blank">Windows 2000</a>',
-'winnt','<a href="http://www.microsoft.com/ntworkstation/" title="Windows NT home page [new window]" target="_blank">Windows NT</a>',
-'win98','<a href="http://www.microsoft.com/windows98/" title="Windows 98 home page [new window]" target="_blank">Windows 98</a>',
-'win95','<a href="http://www.microsoft.com/windows95/" title="Windows 95 home page [new window]" target="_blank">Windows 95</a>',
-'win16','<a href="http://www.microsoft.com/" title="Windows 3.xx home page [new window]" target="_blank">Windows 3.xx</a>',
-'wince','<a href="http://www.microsoft.com/windowsmobile/" title="Windows CE home page [new window]" target="_blank">Windows CE</a>',
-'winxbox','<a href="http://www.xbox.com/en-US/hardware/xbox/" title="Microsoft XBOX home page [new window]" target="_blank">Microsoft XBOX</a>',
+'winlong','<a href="http://www.microsoft.com/windows/" title="Windows Vista home page">Windows Vista</a>',
+'win2003','<a href="http://www.microsoft.com/windowsserver2003/" title="Windows 2003 home page">Windows 2003</a>',
+'winxp','<a href="http://www.microsoft.com/windowsxp/" title="Windows XP home page">Windows XP</a>',
+'winme','<a href="http://www.microsoft.com/windowsme/" title="Windows Me home page">Windows Me</a>',
+'win2000','<a href="http://www.microsoft.com/windows2000/" title="Windows 2000 home page">Windows 2000</a>',
+'winnt','<a href="http://www.microsoft.com/ntworkstation/" title="Windows NT home page">Windows NT</a>',
+'win98','<a href="http://www.microsoft.com/windows98/" title="Windows 98 home page">Windows 98</a>',
+'win95','<a href="http://www.microsoft.com/windows95/" title="Windows 95 home page">Windows 95</a>',
+'win16','<a href="http://www.microsoft.com" title="Windows 3.xx home page">Windows 3.xx</a>',
+'wince','<a href="http://www.microsoft.com/windowsmobile/" title="Windows CE home page">Windows CE</a>',
+'winxbox','<a href="http://www.xbox.com/en-US/hardware/xbox/" title="Microsoft XBOX home page">Microsoft XBOX</a>',
  # Macintosh OS
-'macosx','<a href="http://www.apple.com/macosx/" title="Mac OS X home page [new window]" target="_blank">Mac OS X</a>',
-'macintosh','<a href="http://www.apple.com/" title="Mac OS home page [new window]" target="_blank">Mac OS</a>',
+'macosx','<a href="http://www.apple.com/macosx/" title="Mac OS X home page">Mac OS X</a>',
+'macintosh','<a href="http://www.apple.com" title="Mac OS home page">Mac OS</a>',
 # Linux
-'linuxcentos','<a href="http://www.centos.org/" title="Centos home page [new window]" target="_blank">Centos</a>',
-'linuxdebian','<a href="http://www.debian.org/" title="Debian home page [new window]" target="_blank">Debian</a>',
-'linuxfedora','<a href="http://fedora.redhat.com/" title="Fedora home page [new window]" target="_blank">Fedora</a>',
-'linuxmandr','<a href="http://www.mandriva.com/" title="Mandriva (former Mandrake) home page [new window]" target="_blank">Mandriva (or Mandrake)</a>',
-'linuxredhat','<a href="http://www.redhat.com/" title="Red Hat home page [new window]" target="_blank">Red Hat</a>',
-'linuxsuse','<a href="http://www.novell.com/linux/suse/" title="Suse home page [new window]" target="_blank">Suse</a>',
-'linuxubuntu','<a href="http://www.ubuntulinux.org/" title="Ubuntu home page [new window]" target="_blank">Ubuntu</a>',
-'linux','<a href="http://www.distrowatch.com/" title="Linux DistroWatch home page. Useful if you find the associated user agent string in your logs. [new window]" target="_blank">Linux (Unknown/unspecified)</a>',
+'linuxcentos','<a href="http://www.centos.org" title="Centos home page">Centos</a>',
+'linuxdebian','<a href="http://www.debian.org" title="Debian home page">Debian</a>',
+'linuxfedora','<a href="http://fedora.redhat.com" title="Fedora home page">Fedora</a>',
+'linuxmandr','<a href="http://www.mandriva.com" title="Mandriva (former Mandrake) home page">Mandriva (or Mandrake)</a>',
+'linuxredhat','<a href="http://www.redhat.com" title="Red Hat home page">Red Hat</a>',
+'linuxsuse','<a href="http://www.novell.com/linux/suse/" title="Suse home page">Suse</a>',
+'linuxubuntu','<a href="http://www.ubuntulinux.org" title="Ubuntu home page">Ubuntu</a>',
+'linux','<a href="http://www.distrowatch.com" title="Linux DistroWatch home page. Useful if you find the associated user agent string in your logs.">Linux (Unknown/unspecified)</a>',
 'linux','GNU Linux (Unknown or unspecified distribution)',
 # Hurd
-'gnu','<a href="www.gnu.org/software/hurd/hurd.html" title="GNU Hurd home page [new window]" target="_blank">GNU Hurd</a>',
+'gnu','<a href="www.gnu.org/software/hurd/hurd.html" title="GNU Hurd home page">GNU Hurd</a>',
 # BSDs
-'bsdi','<a href="http://en.wikipedia.org/wiki/BSDi" title="BSDi home page [new window]" target="_blank">BSDi</a>',
+'bsdi','<a href="http://en.wikipedia.org/wiki/BSDi" title="BSDi home page">BSDi</a>',
 'bsdkfreebsd','GNU/kFreeBSD',
-'freebsd','<a href="http://www.freebsd.org/" title="FreeBSD home page [new window]" target="_blank">FreeBSD</a>',    # For backard compatibility
-'bsdfreebsd','<a href="http://www.freebsd.org/" title="FreeBSD home page [new window]" target="_blank">FreeBSD</a>',
-'openbsd','<a href="http://www.openbsd.org/" title="OpenBSD home page [new window]" target="_blank">OpenBSD</a>',    # For backard compatibility
-'bsdopenbsd','<a href="http://www.openbsd.org/" title="OpenBSD home page [new window]" target="_blank">OpenBSD</a>',
-'netbsd','<a href="http://www.netbsd.org/" title="NetBSD home page [new window]" target="_blank">NetBSD</a>', # For backard compatibility
-'bsdnetbsd','<a href="http://www.netbsd.org/" title="NetBSD home page [new window]" target="_blank">NetBSD</a>',
+'freebsd','<a href="http://www.freebsd.org" title="FreeBSD home page">FreeBSD</a>',    # For backard compatibility
+'bsdfreebsd','<a href="http://www.freebsd.org" title="FreeBSD home page">FreeBSD</a>',
+'openbsd','<a href="http://www.openbsd.org" title="OpenBSD home page">OpenBSD</a>',    # For backard compatibility
+'bsdopenbsd','<a href="http://www.openbsd.org" title="OpenBSD home page">OpenBSD</a>',
+'netbsd','<a href="http://www.netbsd.org" title="NetBSD home page">NetBSD</a>', # For backard compatibility
+'bsdnetbsd','<a href="http://www.netbsd.org" title="NetBSD home page">NetBSD</a>',
 # Other Unix, Unix-like
-'aix','<a href="http://www-1.ibm.com/servers/aix/" title="Aix home page [new window]" target="_blank">Aix</a>',
-'sunos','<a href="http://www.sun.com/software/solaris/" title="Sun Solaris home page [new window]" target="_blank">Sun Solaris</a>',
-'irix','<a href="http://www.sgi.com/products/software/irix/" title="Irix home page [new window]" target="_blank">Irix</a>',
-'osf','<a href="http://www.tru64.org/" title="OSF Unix home page [new window]" target="_blank">OSF Unix</a>',
-'hp\-ux','<a href="http://www.hp.com/products1/unix/operating/" title="HP UX home page [new window]" target="_blank">HP UX</a>',
+'aix','<a href="http://www-1.ibm.com/servers/aix/" title="Aix home page">Aix</a>',
+'sunos','<a href="http://www.sun.com/software/solaris/" title="Sun Solaris home page">Sun Solaris</a>',
+'irix','<a href="http://www.sgi.com/products/software/irix/" title="Irix home page">Irix</a>',
+'osf','<a href="http://www.tru64.org" title="OSF Unix home page">OSF Unix</a>',
+'hp\-ux','<a href="http://www.hp.com/products1/unix/operating/" title="HP UX home page">HP UX</a>',
 'unix','Unknown Unix system',
 # Other famous OS
-'beos','<a href="http://www.beincorporated.com/" title="BeOS home page [new window]" target="_blank">BeOS</a>',
-'os/2','<a href="http://www.ibm.com/software/os/warp/" title="OS/2 home page [new window]" target="_blank">OS/2</a>',
-'amigaos','<a href="http://www.amiga.com/amigaos/" title="AmigaOS home page [new window]" target="_blank">AmigaOS</a>',
-'atari','<a href="http://www.atarimuseum.com/computers/computers.html" title="Atari home page [new window]" target="_blank">Atari</a>',
-'vms','<a href="http://h71000.www7.hp.com/" title="VMS home page [new window]" target="_blank">VMS</a>',
-'commodore','<a href="http://en.wikipedia.org/wiki/Commodore_64" title="Commodore 64 wikipedia page [new window]" target="_blank">Commodore 64</a>',
+'beos','<a href="http://www.beincorporated.com" title="BeOS home page">BeOS</a>',
+'os/2','<a href="http://www.ibm.com/software/os/warp/" title="OS/2 home page">OS/2</a>',
+'amigaos','<a href="http://www.amiga.com/amigaos/" title="AmigaOS home page">AmigaOS</a>',
+'atari','<a href="http://www.atarimuseum.com/computers/computers.html" title="Atari home page">Atari</a>',
+'vms','<a href="http://h71000.www7.hp.com" title="VMS home page">VMS</a>',
+'commodore','<a href="http://en.wikipedia.org/wiki/Commodore_64" title="Commodore 64 wikipedia page">Commodore 64</a>',
 # Miscellanous OS
-'cp/m','<a href="http://www.digitalresearch.biz/CPM.HTM" title="CPM home page [new window]" target="_blank">CPM</a>',
-'crayos','<a href="http://www.cray.com/" title="CrayOS home page [new window]" target="_blank">CrayOS</a>',
-'dreamcast','<a href="http://www.sega.com/" title="Dreamcast home page [new window]" target="_blank">Dreamcast</a>',
-'riscos','<a href="http://www.riscos.com/" title="RISC OS home page [new window]" target="_blank">RISC OS</a>',
-'symbian','<a href="http://www.symbian.com/" title="Symbian OS home page [new window]" target="_blank">Symbian OS</a>',
-'webtv','<a href="http://www.webtv.com/" title="WebTV home page [new window]" target="_blank">WebTV</a>',
-'psp', '<a href="http://www.playstation.jp/psp/" title="Sony PlayStation Portable home page [new window]" target="_blank">Sony PlayStation Portable</a>',
+'cp/m','<a href="http://www.digitalresearch.biz/CPM.HTM" title="CPM home page">CPM</a>',
+'crayos','<a href="http://www.cray.com" title="CrayOS home page">CrayOS</a>',
+'dreamcast','<a href="http://www.sega.com" title="Dreamcast home page">Dreamcast</a>',
+'riscos','<a href="http://www.riscos.com" title="RISC OS home page">RISC OS</a>',
+'symbian','<a href="http://www.symbian.com" title="Symbian OS home page">Symbian OS</a>',
+'webtv','<a href="http://www.webtv.com" title="WebTV home page">WebTV</a>',
+'psp', '<a href="http://www.playstation.jp/psp/" title="Sony PlayStation Portable home page">Sony PlayStation Portable</a>',
 );
 
 
@@ -218,8 +224,8 @@
 #  Windows 95 retail, OEM     4.00.950                     7/11/95
 #  Windows 95 retail SP1      4.00.950A                    7/11/95-12/31/95
 #  OEM Service Release 2      4.00.1111* (4.00.950B)       8/24/96
-#  OEM Service Release 2.1    4.03.1212-1214* (4.00.950B)  8/24/96-8/27/97  
+#  OEM Service Release 2.1    4.03.1212-1214* (4.00.950B)  8/24/96-8/27/97
 #  OEM Service Release 2.5    4.03.1214* (4.00.950C)       8/24/96-11/18/97
 #  Windows 98 retail, OEM     4.10.1998                    5/11/98
 #  Windows 98 Second Edition  4.10.2222A                   4/23/99
-#  Windows Me                 4.90.3000 
+#  Windows Me                 4.90.3000

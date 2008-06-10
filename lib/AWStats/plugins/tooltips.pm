@@ -103,50 +103,17 @@ sub AddHTMLBodyHeader_tooltips {
 			$doctop="document.documentElement.scrollTop";
 		}
 
-		print <<EOF;
-
-<script language="javascript" type="text/javascript">
-function ShowTip(fArg)
-{
-	var tooltipOBJ = (document.getElementById) ? document.getElementById('tt' + fArg) : eval("document.all['tt" + fArg + "']");
-	if (tooltipOBJ != null) {
-		var tooltipLft = ($docwidth?$docwidth:document.body.style.pixelWidth) - (tooltipOBJ.offsetWidth?tooltipOBJ.offsetWidth:(tooltipOBJ.style.pixelWidth?tooltipOBJ.style.pixelWidth:$TOOLTIPWIDTH)) - 30;
-		var tooltipTop = 10;
-		if (navigator.appName == 'Netscape') {
-			tooltipTop = ($doctop>=0?$doctop+10:event.clientY+10);
- 			tooltipOBJ.style.top = tooltipTop+"px";
-			tooltipOBJ.style.left = tooltipLft+"px";
-		}
-		else {
-			tooltipTop = ($doctop>=0?$doctop+10:event.clientY+10);
-			tooltipTop = (document.body.scrollTop>=0?document.body.scrollTop+10:event.clientY+10);
-EOF
-		# Seul IE en HTML a besoin de code supplémentaire. IE en xhtml est OK
+		# Seul IE en HTML a besoin de code supplÃ©mentaire. IE en xhtml est OK
 		if ($BuildReportFormat ne 'xhtml' && $BuildReportFormat ne 'xml') {
 print <<EOF;
-			if ((event.clientX > tooltipLft) && (event.clientY < (tooltipOBJ.scrollHeight?tooltipOBJ.scrollHeight:tooltipOBJ.style.pixelHeight) + 10)) {
-				tooltipTop = ($doctop?$doctop:document.body.offsetTop) + event.clientY + 20;
-			}
+<script language="javascript" type="text/javascript" src="$DirJs/tooltiph.js"></script>
 EOF
-		}
+		} else {
 print <<EOF;
-			tooltipOBJ.style.left = tooltipLft;
-			tooltipOBJ.style.top = tooltipTop;
-		}
-		tooltipOBJ.style.visibility = "visible";
-	}
-}
-function HideTip(fArg)
-{
-	var tooltipOBJ = (document.getElementById) ? document.getElementById('tt' + fArg) : eval("document.all['tt" + fArg + "']");
-	if (tooltipOBJ != null) {
-		tooltipOBJ.style.visibility = "hidden";
-	}
-}
-</script>
+<script language="javascript" type="text/javascript" src="$DirJs/tooltipx.js"></script>
 
 EOF
-
+		}
 	}
 	return 1;
 	# ----->
@@ -198,6 +165,7 @@ sub _ReadAndOutputTooltipFile {
 			s/#RobotArray#/$aws_NbOfRobots/;
 			s/#WormsArray#/$aws_NbOfWorms/;
 			s/#SearchEnginesArray#/$aws_NbOfSearchEngines/;
+			s/#br#/<br$endtag/;
 			print "$_";
 		}
 	}

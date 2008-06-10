@@ -9,6 +9,7 @@
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
 # $Revision: 1.24 $ - $Author: eldy $ - $Date: 2006/05/06 02:51:34 $
+# Modified by makoto_hobbit 2007.1.41
 
 
 # <-----
@@ -135,14 +136,16 @@ sub GetCountryCodeByName_geoip {
 sub ShowInfoHost_geoip {
     my $param="$_[0]";
 	# <-----
-	if ($param eq '__title__') {
+	if ($param eq '__col__') {
+	        print "<col width=\"80\"$endtag";
+	} elsif ($param eq '__title__') {
     	my $NewLinkParams=${QueryString};
     	$NewLinkParams =~ s/(^|&)update(=\w*|$)//i;
     	$NewLinkParams =~ s/(^|&)output(=\w*|$)//i;
     	$NewLinkParams =~ s/(^|&)staticlinks(=\w*|$)//i;
     	$NewLinkParams =~ s/(^|&)framename=[^&]*//i;
     	my $NewLinkTarget='';
-    	if ($DetailedReportsOnNewWindows) { $NewLinkTarget=" target=\"awstatsbis\""; }
+    	if ($DetailedReportsOnNewWindows) { $NewLinkTarget=""; }
     	if (($FrameName eq 'mainleft' || $FrameName eq 'mainright') && $DetailedReportsOnNewWindows < 2) {
     		$NewLinkParams.="&framename=mainright";
     		$NewLinkTarget=" target=\"mainright\"";
@@ -150,8 +153,8 @@ sub ShowInfoHost_geoip {
     	$NewLinkParams =~ tr/&/&/s; $NewLinkParams =~ s/^&//; $NewLinkParams =~ s/&$//;
     	if ($NewLinkParams) { $NewLinkParams="${NewLinkParams}&"; }
 
-		print "<th width=\"80\">";
-        print "<a href=\"#countries\">GeoIP<br />Country</a>";
+		print "<th abbr=\"$Message[148]\">";
+        print "$Message[148]";
         print "</th>";
 	}
 	elsif ($param) {
@@ -184,7 +187,7 @@ sub ShowInfoHost_geoip {
 		print "</td>";
 	}
 	else {
-		print "<td>&nbsp;</td>";
+		print "<td></td>";
 	}
 	return 1;
 	# ----->

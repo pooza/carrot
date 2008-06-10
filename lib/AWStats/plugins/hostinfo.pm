@@ -6,6 +6,7 @@
 # Perl Required Modules: XWhois
 #-----------------------------------------------------------------------------
 # $Revision: 1.17 $ - $Author: eldy $ - $Date: 2005/02/19 13:50:06 $
+# Modified by makoto_hobbit 2005.10.11
 
 
 # <-----
@@ -66,7 +67,7 @@ sub AddHTMLBodyHeader_hostinfo {
 
 	my $urlparam="pluginmode=hostinfo&config=$SiteConfig";
 	$urlparam.=($DirConfig?"&configdir=$DirConfig":"");
-	
+
 	print <<EOF;
 
 <script language="javascript" type="text/javascript">
@@ -97,8 +98,10 @@ EOF
 sub ShowInfoHost_hostinfo {
     my $param="$_[0]";
 	# <-----
-	if ($param eq '__title__') {
-		print "<th width=\"40\">$Message[114]</th>";	
+	if ($param eq '__col__') {
+	        print "<col width=\"40\"$endtag";
+	} elsif ($param eq '__title__') {
+		print "<th abbr=\"$Message[114]\">$Message[114]</th>";
 	}
 	elsif ($param) {
 		my $keyforwhois;
@@ -161,7 +164,7 @@ sub BuildFullHTMLOutput_hostinfo {
 	my $w = new Net::XWhois Verbose=>$Debug, Cache=>$DirData, NoCache=>0, Timeout=>10, Domain=>$HostResolved;
 
 	print "<br />\n";
-	
+
 	if ($w && $w->response()) {
 		&tab_head("Common Whois Fields",0,0,'whois');
 		print "<tr bgcolor=\"#$color_TableBGRowTitle\"><th>Common field info</th><th>Value</th></tr>\n";
