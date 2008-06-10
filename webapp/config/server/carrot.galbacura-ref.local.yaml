@@ -57,13 +57,13 @@ awstats:
   server_name_aliases: 
 
 session:
-  storage_type: database
+  #storage_type: database
 
 date:
   timezone: Asia/Tokyo
 
 feed:
-  class: BSRSS20Document
+  class: BSAtom10Document
 
 google:
   key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I
