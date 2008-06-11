@@ -13,6 +13,7 @@
  */
 class BSHTMLFragmentValidator extends BSValidator {
 	private $allowedTags = array();
+	private $invalidNode;
 
 	/**
 	 * 初期化
@@ -41,7 +42,11 @@ class BSHTMLFragmentValidator extends BSValidator {
 			$element = new BSXMLElement;
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
-				throw new BSXMLException($this->getParameter('element_error'));
+				throw new BSXMLException(
+					'%s(%s)',
+					$this->getParameter('element_error'),
+					$this->invalidNode
+				);
 			}
 		} catch (BSXMLException $e) {
 			$this->error = $e->getMessage();
@@ -66,11 +71,13 @@ class BSHTMLFragmentValidator extends BSValidator {
 			}
 		} else {
 			if (!in_array($element->getName(), $this->getAllowedTags())) {
+				$this->invalidNode = $element->getName() . '要素';
 				return false;
 			}
 			if (!$this->isJavaScriptAllowed()) {
 				foreach ($element->getAttributes() as $name => $value) {
 					if (preg_match('/^on/i', $name) || preg_match('/javascript:/i', $value)) {
+						$this->invalidNode = sprintf('%s要素/%s属性', $element->getName(), $name);
 						return false;
 					}
 				}
