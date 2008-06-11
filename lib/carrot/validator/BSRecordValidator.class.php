@@ -26,6 +26,7 @@ class BSRecordValidator extends BSValidator {
 		$this->setParameter('update', false);
 		$this->setParameter('exist_error', '登録されていません。');
 		$this->setParameter('duplicate_error', '重複します。');
+		$this->setParameter('valid_values', array());
 		return parent::initialize($parameters);
 	}
 
@@ -33,38 +34,71 @@ class BSRecordValidator extends BSValidator {
 	 * 実行
 	 *
 	 * @access public
-	 * @param mixed $value バリデート対象
+	 * @param mixed $id バリデート対象（レコードのID）
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute ($value) {
-		$flag = $this->isExist($value);
-		if ($this->getParameter('exist') && !$flag) {
-			$this->error = $this->getParameter('exist_error');
-			return false;
-		} else if (!$this->getParameter('exist') && $flag) {
-			$this->error = $this->getParameter('duplicate_error');
-			return false;
+	public function execute ($id) {
+		if ($this->isExist($id)) {
+			if (!$this->getParameter('exist')) {
+				$this->error = $this->getParameter('duplicate_error');
+				return false;
+			} else if ($this->getParameter('valid_values') && !$this->validateValues($id)) {
+				return false;
+			}
+		} else {
+			if ($this->getParameter('exist')) {
+				$this->error = $this->getParameter('exist_error');
+				return false;
+			}
 		}
 		return true;
 	}
 
-	private function isExist ($value) {
-		try {
-			$values = array($this->getParameter('field') => $value);
-			if ($recordFound = $this->getTable()->getRecord($values)) {
-				if ($this->getParameter('update')) {
-					if ($record = $this->controller->getAction()->getRecord()) {
-						return ($record->getID() != $recordFound->getID());
-					} else {
-						throw new BSValidatorException('レコードが見つかりません。');
-					}
+	private function isExist ($id) {
+		if ($recordFound = $this->getRecord($id)) {
+			if ($this->getParameter('update')) {
+				$action = $this->controller->getAction();
+				if ($record = $action->getRecord()) {
+					return ($record->getID() != $recordFound->getID());
 				} else {
-					return true;
+					throw new BSValidatorException('%sにレコードが見つかりません。', $action);
 				}
+			} else {
+				return true;
 			}
-		} catch (Exception $e) {
 		}
 		return false;
+	}
+
+	private function validateValues ($id) {
+		$record = $this->getRecord($id);
+		foreach ($this->getParameter('valid_values') as $fieldName => $validValue) {
+			$fieldValue = $record->getAttribute($fieldName);
+			$message = sprintf(
+				'%sが正しくありません。',
+				BSTranslator::getInstance()->translate($fieldName)
+			);
+			if (is_array($validValue)) {
+				if (!in_array($fieldValue, $validValue)) {
+					$this->error = $message;
+					return false;
+				}
+			} else {
+				if ($fieldValue != $validValue) {
+					$this->error = $message;
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private function getRecord ($id) {
+		try {
+			$values = array($this->getParameter('field') => $id);
+			return $this->getTable()->getRecord($values);
+		} catch (Exception $e) {
+		}
 	}
 
 	private function getTable () {
