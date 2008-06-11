@@ -159,10 +159,12 @@ abstract class BSAction {
 	 */
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
-			$prefixes = BSModule::getPrefixes();
-			$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
-			if (preg_match($pattern, $this->controller->getModule()->getName(), $matches)) {
-				$this->recordClassName = $matches[2];
+			if (!$this->recordClassName = $this->getModule()->getConfig('record_class')) {
+				$prefixes = BSModule::getPrefixes();
+				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
+				if (preg_match($pattern, $this->controller->getModule()->getName(), $matches)) {
+					$this->recordClassName = $matches[2];
+				}
 			}
 		}
 		return $this->recordClassName;
