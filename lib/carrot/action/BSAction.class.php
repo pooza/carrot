@@ -31,11 +31,14 @@ abstract class BSAction {
 			case 'user':
 				return BSUser::getInstance();
 			case 'database':
-				if ($table = $this->getTable()) {
-					return $table->getDatabase();
-				} else {
-					return BSDatabase::getInstance();
+				// $this->getTable()は使わない。
+				if ($class = $this->getRecordClassName()) {
+					$class .= 'Handler';
+					if ($table = new $class) {
+						return $table->getDatabase();
+					}
 				}
+				return BSDatabase::getInstance();
 		}
 	}
 
