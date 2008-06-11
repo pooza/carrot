@@ -202,3 +202,9 @@ table tr.alert td {
 	margin-top: 12px;
 	clear: both;
 }
+
+#Footer a {
+	color: gray;
+	font-size: 10px;
+	text-decoration: underline;
+}
