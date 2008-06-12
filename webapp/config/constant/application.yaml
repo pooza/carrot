@@ -24,3 +24,7 @@ module:
 secure:
   #module: Default
   #action: Login
+
+feed:
+  class: BSAtom10Document
+

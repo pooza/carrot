@@ -61,8 +61,5 @@ session:
 date:
   timezone: Asia/Tokyo
 
-feed:
-  class: BSAtom10Document
-
 google:
   key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I

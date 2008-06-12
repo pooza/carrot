@@ -8,11 +8,11 @@
  * @version $Id$
  */
 class LogSuccessView extends BSView {
-	const FEED_CLASS = BS_FEED_CLASS;
-
 	public function initialize () {
 		parent::initialize();
-		$class = self::FEED_CLASS;
+		if (!$class = BSConstantHandler::getInstance()->getParameter('FEED_CLASS')) {
+			$class = 'BSAtom10Document';
+		}
 		$this->setEngine(new $class);
 		return true;
 	}
