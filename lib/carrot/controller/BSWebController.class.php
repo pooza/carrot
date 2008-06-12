@@ -64,14 +64,17 @@ class BSWebController extends BSController {
 	 * リダイレクト
 	 *
 	 * @access public
-	 * @param string $target リダイレクト先URL
+	 * @param string $arg リダイレクト先
 	 */
-	public function redirect ($target) {
-		if ($target instanceof BSURL) {
-			$url = $target;
+	public function redirect ($arg) {
+		if ($arg instanceof BSURL) {
+			$url = $arg;
+		} else if ($arg instanceof BSModule) {
+			$url = new BSURL;
+			$url->setAttribute('path', '/' . $arg->getName() . '/');
 		} else {
 			$url = new BSURL;
-			$url->setAttribute('path', $target);
+			$url->setAttribute('path', $arg);
 		}
 		$url->addSessionID();
 		$this->sendHeader('Location: ' . $url->getContents());
