@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage net.url
+ * @subpackage net
  */
 
 /**
@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSURL implements BSRedirector {
+class BSURL implements BSHTTPRedirector {
 	private $url;
 	private $fullpath;
 	private $attributes = array('path' => '/');

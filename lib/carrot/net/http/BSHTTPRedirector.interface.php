@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage net.url
+ * @subpackage net.http
  */
 
 /**
@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSRedirector {
+interface BSHTTPRedirector {
 
 	/**
 	 * リダイレクト対象

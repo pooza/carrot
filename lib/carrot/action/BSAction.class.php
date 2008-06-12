@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSAction implements BSRedirector {
+abstract class BSAction implements BSHTTPRedirector {
 	private $name;
 	private $module;
 	private $views;

@@ -10,7 +10,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSModule implements BSRedirector {
+class BSModule implements BSHTTPRedirector {
 	private $name;
 	private $directory;
 	private $actions;
