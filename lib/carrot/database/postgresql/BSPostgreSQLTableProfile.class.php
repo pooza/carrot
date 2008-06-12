@@ -33,7 +33,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 				$criteria
 			);
 			foreach ($this->getDatabase()->query($query) as $row) {
-				$this->fields[] = array(
+				$this->fields[$row['attname']] = array(
 					'name' => $row['attname'],
 					'type' => $this->getType($row['atttypid'], $row['atttypmod']),
 					'notnull' => $row['attnotnull'],

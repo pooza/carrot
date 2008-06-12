@@ -50,7 +50,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 		if (!$this->fields) {
 			$query = 'DESC ' . $this->getName();
 			foreach ($this->getDatabase()->query($query) as $row) {
-				$fields[] = array(
+				$fields[$row['Field']] = array(
 					'name' => $row['Field'],
 					'type' => $row['Type'],
 					'notnull' => ($row['Null'] == 'NO'),

@@ -24,7 +24,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 			$fields = array();
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $row) {
-				$fields[] = array(
+				$fields[$row['name']] = array(
 					'name' => $row['name'],
 					'type' => strtolower($row['type']),
 					'notnull' => $row['notnull'],

@@ -4,9 +4,11 @@ create_date,作成日
 data,データ
 directories,ディレクトリ
 format,形式
+hide,非表示
 id,ID
 name,名前
 remote_host,リモートホスト
+show,表示
 status,状態
 stored_session,ストアードセッション
 time,タイムスタンプ
