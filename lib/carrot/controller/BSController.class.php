@@ -70,7 +70,13 @@ abstract class BSController {
 		if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
 			$action = BS_DEFAULT_ACTION;
 		}
-		$this->forwardTo(BSModule::getInstance($module)->getAction($action));
+
+		try {
+			$action = BSModule::getInstance($module)->getAction($action);
+		} catch (Exception $e) {
+			$action = $this->getNotFoundAction();
+		}
+		$this->forwardTo($action);
 	}
 
 	/**
