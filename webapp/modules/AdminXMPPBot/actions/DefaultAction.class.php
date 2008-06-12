@@ -9,7 +9,7 @@
  */
 class DefaultAction extends BSAction {
 	public function execute () {
-		return $this->controller->forward('AdminXMPPBot', 'Summary');
+		return $this->controller->forwardTo($this->getModule()->getAction('Summary'));
 	}
 }
 

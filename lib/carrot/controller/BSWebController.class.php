@@ -67,11 +67,8 @@ class BSWebController extends BSController {
 	 * @param string $arg リダイレクト先
 	 */
 	public function redirect ($arg) {
-		if ($arg instanceof BSURL) {
-			$url = $arg;
-		} else if ($arg instanceof BSModule) {
-			$url = new BSURL;
-			$url->setAttribute('path', '/' . $arg->getName() . '/');
+		if ($arg instanceof BSRedirector) {
+			$url = $arg->getURL();
 		} else {
 			$url = new BSURL;
 			$url->setAttribute('path', $arg);

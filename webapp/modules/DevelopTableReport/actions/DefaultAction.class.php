@@ -9,7 +9,7 @@
  */
 class DefaultAction extends BSAction {
 	public function execute () {
-		return $this->controller->forward('DevelopTableReport', 'DatabaseList');
+		return $this->controller->forwardTo($this->getModule()->getAction('DatabaseList'));
 	}
 }
 

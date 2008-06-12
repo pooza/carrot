@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage net
+ * @subpackage net.url
  */
 
 /**
@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSURL {
+class BSURL implements BSRedirector {
 	private $url;
 	private $fullpath;
 	private $attributes = array('path' => '/');
@@ -297,6 +297,16 @@ class BSURL {
 	 */
 	public function validate () {
 		return ($this->getContents() != null);
+	}
+
+	/**
+	 * リダイレクト対象
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		return $this;
 	}
 
 	/**

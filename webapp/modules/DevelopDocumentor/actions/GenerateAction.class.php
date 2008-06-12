@@ -17,7 +17,7 @@ class GenerateAction extends BSAction {
 		);
 		shell_exec($command);
 		sleep(2);
-		return $this->controller->redirect('/DevelopDocumentor/');
+		return $this->controller->redirect($this->getModule());
 	}
 
 	public function getDefaultView () {

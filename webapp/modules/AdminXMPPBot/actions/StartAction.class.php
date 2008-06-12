@@ -17,7 +17,7 @@ class StartAction extends BSAction {
 		);
 		shell_exec($command);
 		sleep(5);
-		return $this->controller->redirect('/AdminXMPPBot/');
+		return $this->controller->redirect($this->getModule());
 	}
 }
 

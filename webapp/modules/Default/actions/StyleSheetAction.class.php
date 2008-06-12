@@ -36,10 +36,7 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function handleError () {
-		return $this->controller->forward(
-			BSController::NOT_FOUND_MODULE,
-			BSController::NOT_FOUND_ACTION
-		);
+		return $this->controller->forwardTo($this->controller->getNotFoundAction());
 	}
 }
 

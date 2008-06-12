@@ -70,7 +70,7 @@ abstract class BSController {
 		if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
 			$action = BS_DEFAULT_ACTION;
 		}
-		$this->forward($module, $action);
+		$this->forwardTo(BSModule::getInstance($module)->getAction($action));
 	}
 
 	/**
@@ -116,8 +116,7 @@ abstract class BSController {
 	 */
 	public function forward ($module, $action) {
 		try {
-			$module = BSModule::getInstance($module);
-			$action = $module->getAction($action);
+			$action = BSModule::getInstance($module)->getAction($action);
 		} catch (BSFileException $e) {
 			$action = $this->getNotFoundAction();
 		}

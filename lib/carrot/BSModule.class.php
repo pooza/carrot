@@ -10,7 +10,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSModule {
+class BSModule implements BSRedirector {
 	private $name;
 	private $directory;
 	private $actions;
@@ -228,6 +228,18 @@ class BSModule {
 			}
 		}
 		return $this->prefix;
+	}
+
+	/**
+	 * リダイレクト対象
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		$url = new BSURL;
+		$url->setAttribute('path', sprintf('/%s/', $this->getName()));
+		return $url;
 	}
 
 	/**

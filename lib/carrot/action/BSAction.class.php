@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSAction {
+abstract class BSAction implements BSRedirector {
 	private $name;
 	private $module;
 	private $views;
@@ -186,6 +186,19 @@ abstract class BSAction {
 	 */
 	public function getValidationFile () {
 		return $this->getModule()->getValidationFile($this->getName());
+	}
+
+	/**
+	 * リダイレクト対象
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		$url = new BSURL;
+		$path = sprintf('/%s/%s', $this->getModule()->getName(), $this->getName());
+		$url->setAttribute('path', $path);
+		return $url;
 	}
 
 	/**

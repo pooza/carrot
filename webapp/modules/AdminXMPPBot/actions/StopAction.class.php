@@ -12,7 +12,7 @@ class StopAction extends BSAction {
 		$xmpp = new BSXMPPBotClient($this->controller->getServerHost());
 		$xmpp->putLine('/QUIT');
 		sleep(1);
-		return $this->controller->redirect('/AdminXMPPBot/');
+		return $this->controller->redirect($this->getModule());
 	}
 }
 
