@@ -9,7 +9,7 @@
  */
 class DefaultSuccessView extends BSSmartyView {
 	public function execute () {
-		$this->setTemplate($this->request->getParameter('document'));
+		$this->setTemplate($this->request['document']);
 	}
 }
 

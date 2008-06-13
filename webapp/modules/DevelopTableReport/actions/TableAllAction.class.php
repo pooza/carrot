@@ -12,7 +12,7 @@ class TableAllAction extends BSAction {
 
 	private function getDatabase () {
 		if (!$this->database) {
-			$this->database = BSDatabase::getInstance($this->request->getParameter('database'));
+			$this->database = BSDatabase::getInstance($this->request['database']);
 		}
 		return $this->database;
 	}

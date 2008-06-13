@@ -12,7 +12,7 @@ class BrowseAction extends BSAction {
 		$dir = $this->controller->getDirectory('log');
 		$this->request->setAttribute('logfiles', $dir->getDevidedEntryNames());
 
-		if ($logfile = $this->request->getParameter('logfile')) {
+		if ($logfile = $this->request['logfile']) {
 			$entry = $dir->getEntry($logfile);
 		} else {
 			$entry = $dir->getLatestEntry();

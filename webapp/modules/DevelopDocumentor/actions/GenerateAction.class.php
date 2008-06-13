@@ -11,9 +11,9 @@ class GenerateAction extends BSAction {
 	public function execute () {
 		$command = sprintf(
 			'/usr/bin/env phpdoc -d %s -t %s -o %s > /dev/null &',
-			implode(',', $this->request->getParameter('directories')),
+			implode(',', $this->request['directories']),
 			$this->controller->getPath('doc'),
-			$this->request->getParameter('format')
+			$this->request['format']
 		);
 		shell_exec($command);
 		sleep(2);
@@ -36,7 +36,7 @@ class GenerateAction extends BSAction {
 	}
 
 	public function validate () {
-		if (!$this->request->getParameter('directories')) {
+		if (!$this->request['directories']) {
 			$this->request->setError('directories', 'ディレクトリが選ばれていません。');
 		}
 		return (count($this->request->getErrors()) == 0);

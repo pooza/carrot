@@ -38,15 +38,9 @@ class LoginAction extends BSAction {
 		if (!$this->controller->getCookie(BSCookieHandler::getTestCookieName())) {
 			$this->request->setError('cookie', 'Cookieを受け入れる設定にして下さい。');
 		}
-
-		$result = BSAdministrator::auth(
-			$this->request->getParameter('email'),
-			$this->request->getParameter('password')
-		);
-		if (!$result) {
+		if (!BSAdministrator::auth($this->request['email'], $this->request['password'])) {
 			$this->request->setError('password', 'ユーザー又はパスワードが違います。');
 		}
-
 		return (count($this->request->getErrors()) == 0);
 	}
 

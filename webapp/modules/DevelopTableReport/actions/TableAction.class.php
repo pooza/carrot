@@ -13,16 +13,14 @@ class TableAction extends BSAction {
 
 	private function getDatabase () {
 		if (!$this->database) {
-			$this->database = BSDatabase::getInstance($this->request->getParameter('database'));
+			$this->database = BSDatabase::getInstance($this->request['database']);
 		}
 		return $this->database;
 	}
 
 	private function getTableProfile () {
 		if (!$this->tableProfile) {
-			$this->tableProfile = $this->getDatabase()->getTableProfile(
-				$this->request->getParameter('table')
-			);
+			$this->tableProfile = $this->getDatabase()->getTableProfile($this->request['table']);
 		}
 		return $this->tableProfile;
 	}

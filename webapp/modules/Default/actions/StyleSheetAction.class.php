@@ -18,7 +18,7 @@ class StyleSheetAction extends BSAction {
 	 */
 	private function getStyleSet () {
 		if (!$this->styleset) {
-			$this->styleset = new BSStyleSet($this->request->getParameter('styleset'));
+			$this->styleset = new BSStyleSet($this->request['styleset']);
 		}
 		return $this->styleset;
 	}

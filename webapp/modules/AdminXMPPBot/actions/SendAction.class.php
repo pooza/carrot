@@ -9,7 +9,7 @@
  */
 class SendAction extends BSAction {
 	public function execute () {
-		if ($command = $this->request->getParameter('command')) {
+		if ($command = $this->request['command']) {
 			$xmpp = new BSXMPPBotClient($this->controller->getServerHost());
 			$xmpp->putLine($command);
 			sleep(1);
