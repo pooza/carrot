@@ -84,6 +84,7 @@ abstract class BSController {
 	 *
 	 * @access public
 	 * @param BSAction $action アクション
+	 * @return string ビュー名
 	 */
 	public function forwardTo (BSAction $action) {
 		if (self::MAX_FORWARDS < BSActionStack::getInstance()->getSize()) {
@@ -109,6 +110,7 @@ abstract class BSController {
 		$filter->initialize();
 		$filters->register($filter);
 		$filters->execute();
+		return BSView::NONE;
 	}
 
 	/**
@@ -119,6 +121,7 @@ abstract class BSController {
 	 * @access public
 	 * @param string $module モジュール名
 	 * @param string $action アクション名
+	 * @return string ビュー名
 	 */
 	public function forward ($module, $action) {
 		try {
@@ -126,7 +129,7 @@ abstract class BSController {
 		} catch (BSFileException $e) {
 			$action = $this->getNotFoundAction();
 		}
-		$this->forwardTo($action);
+		return $this->forwardTo($action);
 	}
 
 	/**

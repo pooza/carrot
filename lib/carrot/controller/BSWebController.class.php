@@ -65,6 +65,7 @@ class BSWebController extends BSController {
 	 *
 	 * @access public
 	 * @param string $arg リダイレクト先
+	 * @return string ビュー名
 	 */
 	public function redirect ($arg) {
 		if ($arg instanceof BSHTTPRedirector) {
@@ -75,6 +76,7 @@ class BSWebController extends BSController {
 		}
 		$url->addSessionID();
 		$this->sendHeader('Location: ' . $url->getContents());
+		return BSView::NONE;
 	}
 
 	/**
