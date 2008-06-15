@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSConfigParser extends BSRenderer {
+interface BSConfigParser extends BSTextRenderer {
 
 	/**
 	 * 変換前の設定内容を設定する

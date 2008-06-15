@@ -79,7 +79,17 @@ class BSIniConfigParser implements BSConfigParser {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return 'text/plain; charset=utf-8'; // とりあえず無難な型を返しておく
+		return BSMediaType::getType('ini');
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return BSString::SCRIPT_ENCODING;
 	}
 
 	/**

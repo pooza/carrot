@@ -354,10 +354,10 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * データベースの文字セットを返す
+	 * エンコードを返す
 	 *
 	 * @access public
-	 * @return string 文字セット
+	 * @return string PHPのエンコード
 	 */
 	public function getEncoding () {
 		return BSString::SCRIPT_ENCODING;

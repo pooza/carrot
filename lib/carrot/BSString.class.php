@@ -25,12 +25,12 @@ class BSString {
 	}
 
 	/**
-	 * 文字セット変換
+	 * エンコード変換
 	 *
 	 * @access public
 	 * @param mixed $value 変換対象の文字列又は配列
-	 * @param string $encodingTo 変換後文字セット名
-	 * @param string $encodingFrom 変換前文字セット名
+	 * @param string $encodingTo 変換後エンコード
+	 * @param string $encodingFrom 変換前エンコード
 	 * @return mixed 変換後
 	 * @static
 	 */
@@ -54,11 +54,11 @@ class BSString {
 	}
 
 	/**
-	 * 文字セットを返す
+	 * エンコードを返す
 	 *
 	 * @access public
 	 * @param string $str 評価対象の文字列
-	 * @return string 文字セット
+	 * @return string PHPのエンコード名
 	 * @static
 	 */
 	static public function getEncoding ($str) {

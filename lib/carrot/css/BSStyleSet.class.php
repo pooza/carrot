@@ -13,7 +13,7 @@ BSController::includeFile('pear/HTML/CSS.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSStyleSet extends HTML_CSS implements BSRenderer {
+class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	private $name;
 	private $files = array();
 	private $rules = array();
@@ -106,7 +106,17 @@ class BSStyleSet extends HTML_CSS implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('css') . '; charset=' . $this->getRule('charset');
+		return BSMediaType::getType('css');
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return $this->getRule('charset');
 	}
 
 	/**

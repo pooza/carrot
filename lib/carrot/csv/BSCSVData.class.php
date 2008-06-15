@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCSVData implements BSRenderer {
+class BSCSVData implements BSTextRenderer {
 	protected $contents;
 	protected $records = array();
 	protected $error;
@@ -165,6 +165,16 @@ class BSCSVData implements BSRenderer {
 	 */
 	public function getType () {
 		return BSMediaType::getType('csv');
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return BSString::SCRIPT_ENCODING;
 	}
 
 	/**

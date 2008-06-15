@@ -94,11 +94,18 @@ class BSMySQL extends BSDatabase {
 	 * @return BSTemporaryTableHandler 一時テーブル
 	 */
 	public function getTemporaryTable ($details, $class = 'BSTemporaryTableHandler') {
+		if ($this->isLegacy()) {
+			$engine = 'HEAP';
+		} else {
+			$engine = 'MEMORY';
+		}
+
 		$table = new $class;
 		$query = sprintf(
-			'CREATE TEMPORARY TABLE %s (%s) Engine=MEMORY',
+			'CREATE TEMPORARY TABLE %s (%s) Engine=%s',
 			$table->getName(),
-			implode(',', $details)
+			implode(',', $details),
+			$engine
 		);
 		$this->exec($query);
 		return $table;
@@ -195,10 +202,10 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * データベースの文字セットを返す
+	 * データベースのエンコードを返す
 	 *
 	 * @access public
-	 * @return string 文字セット
+	 * @return string PHPのエンコード名
 	 */
 	public function getEncoding () {
 		if (!isset($this->attributes['encoding'])) {
@@ -221,10 +228,10 @@ class BSMySQL extends BSDatabase {
 	}
 
 	/**
-	 * データベースの文字セットにおける、MySQLでの呼称を返す
+	 * MySQLのエンコード名を返す
 	 *
 	 * @access private
-	 * @return string 文字セット
+	 * @return string MySQLのエンコード名
 	 */
 	private function getEncodingName () {
 		return self::getEncodings()->getKeys()->getParameter($this->getEncoding());
@@ -234,7 +241,7 @@ class BSMySQL extends BSDatabase {
 	 * サポートしているエンコードを返す
 	 *
 	 * @access public
-	 * @return BSArray エンコードの配列
+	 * @return BSArray PHPのエンコードの配列
 	 * @static
 	 */
 	static public function getEncodings () {

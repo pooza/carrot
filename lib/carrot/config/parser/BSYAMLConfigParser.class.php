@@ -88,7 +88,17 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return 'text/plain; charset=utf-8'; // とりあえず無難な型を返しておく
+		return BSMediaType::getType('yaml');
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return 'utf-8';
 	}
 
 	/**

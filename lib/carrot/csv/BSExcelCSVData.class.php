@@ -93,7 +93,20 @@ class BSExcelCSVData extends BSHeaderCSVData {
 				$this->contents .= self::LINE_SEPARATOR;
 			}
 		}
-		return BSString::convertEncoding($this->getHeader() . $this->contents, 'sjis-win');
+		return BSString::convertEncoding(
+			$this->getHeader() . $this->contents,
+			$this->getEncoding()
+		);
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return 'sjis-win';
 	}
 }
 

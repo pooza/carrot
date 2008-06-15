@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSXMLDocument extends BSXMLElement implements BSRenderer {
+class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	private $error;
 
 	/**
@@ -32,6 +32,16 @@ class BSXMLDocument extends BSXMLElement implements BSRenderer {
 	 */
 	public function getType () {
 		return BSMediaType::getType('xml');
+	}
+
+	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return 'utf-8';
 	}
 
 	/**

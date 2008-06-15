@@ -13,7 +13,8 @@ BSController::includeFile('Smarty/Smarty.class.php');
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSmarty extends Smarty implements BSRenderer {
+class BSSmarty extends Smarty implements BSTextRenderer {
+	private $type;
 	private $encoding;
 	private $template;
 	private $templatesDirectory;
@@ -159,6 +160,9 @@ class BSSmarty extends Smarty implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
+		if (!$this->type) {
+			$this->type = BSMediaType::getType('html');
+		}
 		return $this->type;
 	}
 
@@ -173,27 +177,23 @@ class BSSmarty extends Smarty implements BSRenderer {
 	}
 
 	/**
-	 * エンコーディングを返す
+	 * エンコードを返す
 	 *
 	 * @access public
-	 * @return string エンコーディング
+	 * @return string PHPのエンコード名
 	 */
 	public function getEncoding () {
 		return $this->encoding;
 	}
 
 	/**
-	 * エンコーディングを設定する
+	 * エンコードを設定する
 	 *
 	 * @access public
-	 * @param string $encoding エンコーディング
+	 * @param string $encoding エンコード
 	 */
 	public function setEncoding ($encoding) {
-		if (!$charset = mb_preferred_mime_name($encoding)) {
-			throw new BSSmartyException('エンコード"%s"は適切ではありません。', $encoding);
-		}
 		$this->encoding = $encoding;
-		$this->setType('text/html; charset=' . $charset);
 	}
 
 	/**
