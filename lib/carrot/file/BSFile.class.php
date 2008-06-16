@@ -81,9 +81,11 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
 		if ($this->isUploaded()) {
-			if (!move_uploaded_file($this->getPath(), $dir->getPath())) {
+			$path = $dir->getPath() . '/' . $this->getName();
+			if (!move_uploaded_file($this->getPath(), $path)) {
 				throw new BSFileException('アップロードされた%sを移動出来ません。', $this);
 			}
+			$this->setPath($path);
 		} else {
 			parent::moveTo($dir);
 		}
