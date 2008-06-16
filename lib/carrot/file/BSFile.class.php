@@ -305,7 +305,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @param string $suffix サフィックス、デフォルトはバイトの略で"B"
 	 * @return string 書式化されたファイルサイズ
 	 */
-	function getFormattedSize ($suffix = 'B') {
+	public function getFormattedSize ($suffix = 'B') {
 		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E') as $number => $unit) {
 			$unitsize = pow(1024, $number);
 			if ($this->getSize() < ($unitsize * 1024 * 2)) {
