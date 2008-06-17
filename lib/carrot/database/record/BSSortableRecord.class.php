@@ -94,12 +94,16 @@ abstract class BSSortableRecord extends BSRecord {
 
 		switch (strtolower($option)) {
 			case 'up':
-				$ids[$rank] = $ids[$rank - 1];
-				$ids[$rank - 1] = $this->getID();
+				if (isset($ids[$rank - 1])) {
+					$ids[$rank] = $ids[$rank - 1];
+					$ids[$rank - 1] = $this->getID();
+				}
 				break;
 			case 'down':
-				$ids[$rank] = $ids[$rank + 1];
-				$ids[$rank + 1] = $this->getID();
+				if (isset($ids[$rank + 1])) {
+					$ids[$rank] = $ids[$rank + 1];
+					$ids[$rank + 1] = $this->getID();
+				}
 				break;
 		}
 
