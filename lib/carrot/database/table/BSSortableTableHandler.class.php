@@ -25,7 +25,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 
 		if (BSController::getInstance()->isDebugMode()) {
 			$fields = $this->getDatabase()->getTableProfile($this->getName())->getFields();
-			foreach (array('status', 'rank') as $name) {
+			foreach (array($this->getStatusField(), $this->getRankField()) as $name) {
 				if (!isset($fields[$name])) {
 					throw new BSDatabaseException(
 						'%sテーブルには%sフィールドが必要です。',
@@ -70,13 +70,38 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	}
 
 	/**
+	 * 順位フィールド名
+	 *
+	 * @access public
+	 * @return string 順位フィールド名
+	 */
+	public function getRankField () {
+		return 'rank';
+	}
+
+	/**
+	 * 状態フィールド名
+	 *
+	 * @access public
+	 * @return string 状態フィールド名
+	 */
+	public function getStatusField () {
+		return 'status';
+	}
+
+	/**
 	 * ソート順文字列を返す
 	 *
 	 * @access public
 	 * @return string ソート順文字列
 	 */
 	public function getOrder () {
-		return 'status, rank, id';
+		$order = array(
+			//$this->getStatusField(),
+			$this->getRankField(),
+			$this->getKeyField(),
+		);
+		return implode(',', $order);
 	}
 
 	/**
@@ -91,7 +116,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 
 		$sql = BSSQL::getUpdateQueryString(
 			$this->getName(),
-			array('rank' => 0),
+			array($this->getRankField() => 0),
 			$criteria
 		);
 		BSDatabase::getInstance()->exec($sql);

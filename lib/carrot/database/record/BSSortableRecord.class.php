@@ -118,7 +118,9 @@ abstract class BSSortableRecord extends BSRecord {
 	 * @param integer $rank 順位
 	 */
 	public function setRank ($rank) {
-		$this->update(array('rank' => $rank));
+		$this->update(
+			array($this->getTable()->getRankField() => $rank)
+		);
 	}
 }
 
