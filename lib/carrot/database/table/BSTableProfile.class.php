@@ -26,7 +26,11 @@ abstract class BSTableProfile {
 	 * @param string $table テーブル名
 	 */
 	public function __construct ($table, BSDatabase $database = null) {
-		$this->name = $table;
+		if (preg_match('/^`([a-z0-9_]+)`$/i', $table, $matches)) {
+			$this->name = $matches[1];
+		} else {
+			$this->name = $table;
+		}
 
 		if (!$database) {
 			$database = BSDatabase::getInstance();

@@ -28,7 +28,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 
 			$fields = array('Engine', 'Row_format', 'Collation');
 			$query = sprintf(
-				'SHOW TABLE STATUS LIKE %s',
+				'SHOW TABLE STATUS LIKE `%s`',
 				$this->getDatabase()->quote($this->getName())
 			);
 			foreach ($this->getDatabase()->query($query)->fetch() as $key => $value) {
@@ -48,7 +48,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	 */
 	public function getFields () {
 		if (!$this->fields) {
-			$query = 'DESC ' . $this->getName();
+			$query = 'DESC `' . $this->getName() . '`';
 			foreach ($this->getDatabase()->query($query) as $row) {
 				$fields[$row['Field']] = array(
 					'name' => $row['Field'],
@@ -72,7 +72,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	 */
 	public function getKeys () {
 		if (!$this->keys) {
-			$query = 'SHOW KEYS FROM ' . $this->getName();
+			$query = 'SHOW KEYS FROM `' . $this->getName() . '`';
 			foreach ($this->getDatabase()->query($query) as $row) {
 				$this->keys[$row['Key_name']]['name'] = $row['Key_name'];
 				$this->keys[$row['Key_name']]['fields'][] = $row['Column_name'];
