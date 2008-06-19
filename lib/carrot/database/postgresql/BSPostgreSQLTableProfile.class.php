@@ -26,7 +26,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 			$criteria = array(
 				'attrelid=' . $this->getDatabase()->quote($this->getID()),
 				'attnum>0',
-			)
+			);
 			$query = BSSQL::getSelectQueryString(
 				array('attname', 'atttypid', 'attnotnull', 'atttypmod'),
 				'pg_attribute',
