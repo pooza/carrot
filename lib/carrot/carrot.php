@@ -119,10 +119,10 @@ try {
 	}
 
 	if (defined('BS_DEBUG') && BS_DEBUG) {
+		error_reporting(E_ALL | E_STRICT);
 		ini_set('display_errors', 1);
 		ini_set('log_errors', 0);
 	} else {
-		error_reporting(E_ALL | E_STRICT);
 		ini_set('display_errors', 0);
 		ini_set('log_errors', 1);
 		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
