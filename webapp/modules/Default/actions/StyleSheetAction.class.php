@@ -18,6 +18,9 @@ class StyleSheetAction extends BSAction {
 	 */
 	private function getStyleSet () {
 		if (!$this->styleset) {
+			if (!$this->request->hasParameter('styleset')) {
+				$this->request->setParameter('styleset', 'carrot');
+			}
 			$this->styleset = new BSStyleSet($this->request['styleset']);
 		}
 		return $this->styleset;
@@ -29,9 +32,6 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function validate () {
-		if (!$this->request->hasParameter('styleset')) {
-			$this->request->setParameter('styleset', 'carrot');
-		}
 		return ($this->getStyleSet() != null);
 	}
 

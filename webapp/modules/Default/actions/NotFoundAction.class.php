@@ -11,14 +11,6 @@ class NotFoundAction extends BSAction {
 	public function execute () {
 		return BSView::ERROR;
 	}
-
-	public function getDefaultView () {
-		return BSView::ERROR;
-	}
-
-	public function getRequestMethods () {
-		return BSRequest::GET;
-	}
 }
 
 /* vim:set tabstop=4 ai: */
