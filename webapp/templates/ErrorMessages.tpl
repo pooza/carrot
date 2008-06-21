@@ -8,7 +8,7 @@
 {if $errors}
 <p class="alert">
 	{foreach from=$errors key=code item=message}
-		{if !$hide_error_code}{$code|translate}:{/if}
+		{if !$hide_error_code}{$code|translate:$error_code_dictionary}:{/if}
 		{$message|url2link|nl2br}<br />
 	{/foreach}
 </p>

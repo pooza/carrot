@@ -327,7 +327,7 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getApplicationName ($lang = 'ja') {
-		return BSTranslator::getInstance()->translate('app_name', $lang);
+		return BSTranslator::getInstance()->translate('APP_NAME', 'BSConstantHandler', $lang);
 	}
 
 	/**
@@ -345,6 +345,16 @@ abstract class BSController {
 	}
 
 	/**
+	 * アプリケーションのバージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	static public function getVersion () {
+		return BSTranslator::getInstance()->translate('APP_VER', 'BSConstantHandler');
+	}
+
+	/**
 	 * バージョン番号込みのアプリケーション名を返す
 	 *
 	 * @access public
@@ -353,11 +363,7 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getFullApplicationName ($lang = 'ja') {
-		return sprintf(
-			'%s %s',
-			self::getApplicationName($lang),
-			BSTranslator::getInstance()->translate('app_ver', $lang)
-		);
+		return sprintf('%s %s', self::getName($lang), self::getVersion());
 	}
 
 	/**

@@ -61,6 +61,16 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	}
 
 	/**
+	 * 辞書の名前を返す
+	 *
+	 * @access public
+	 * @return string 辞書の名前
+	 */
+	public function getDictionaryName () {
+		return sprintf('%s.%s', get_class($this), $this->getBaseName());
+	}
+
+	/**
 	 * 基本情報を文字列で返す
 	 *
 	 * @access public

@@ -25,12 +25,9 @@ class BSTranslator implements IteratorAggregate {
 	private function __construct () {
 		$this->dictionaries = new BSArray;
 		foreach ($this->getDirectory() as $dictionary) {
-			if ($dictionary->getName() == 'carrot') {
-				continue;
-			}
 			$this->register($dictionary);
 		}
-		$this->register($this->getDirectory()->getEntry('carrot'));
+		$this->setDictionaryPriority('BSDictionaryFile.carrot', BSArray::POSITION_BOTTOM);
 		$this->register(BSConstantHandler::getInstance());
 	}
 
@@ -72,9 +69,29 @@ class BSTranslator implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param BSDictionary 辞書
+	 * @param boolean $priority 優先順位 (BSArray::POSITION_TOP|BSArray::POSITION_BOTTOM)
 	 */
-	public function register (BSDictionary $dictionary) {
-		$this->dictionaries[] = $dictionary;
+	public function register (BSDictionary $dictionary, $priority = BSArray::POSITION_BOTTOM) {
+		$this->dictionaries->setParameter(
+			$dictionary->getDictionaryName(),
+			$dictionary,
+			$priority
+		);
+	}
+
+	/**
+	 * 辞書の優先順位を設定する
+	 *
+	 * @access public
+	 * @param string $name 辞書の名前
+	 * @param boolean $priority 優先順位 (BSArray::POSITION_TOP|BSArray::POSITION_BOTTOM)
+	 */
+	public function setDictionaryPriority ($name, $priority) {
+		if (!$dictionary = $this->dictionaries[$name]) {
+			throw new BSTranslationException('辞書 "%s" は登録されていません。', $name);
+		}
+		$this->dictionaries->removeParameter($name);
+		$this->dictionaries->setParameter($name, $dictionary, $priority);
 	}
 
 	/**
@@ -92,18 +109,27 @@ class BSTranslator implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $string 単語
+	 * @param string $name 辞書の名前
 	 * @param string $language 言語
 	 * @return string 訳語
 	 */
-	public function translate ($string, $language = null) {
+	public function translate ($string, $name = null, $language = null) {
 		if (!$language) {
 			$language = $this->getLanguage();
 		}
+
+		if ($dictionary = $this->dictionaries[$name]) {
+			if ($answer = $dictionary->translate($string, $language)) {
+				return $answer;
+			}
+		}
+
 		foreach ($this as $dictionary) {
 			if ($answer = $dictionary->translate($string, $language)) {
 				return $answer;
 			}
 		}
+
 		if (BSController::getInstance()->isDebugMode()) {
 			throw new BSTranslationException('"%s"の訳語が見つかりません。', $string);
 		} else {

@@ -35,7 +35,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function getName ($language = 'ja') {
-		return BSTranslator::getInstance()->translate('app_name', $language) . ' 管理者';
+		return BSController::getInstance()->getName($language) . ' 管理者';
 	}
 
 	/**
