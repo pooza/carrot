@@ -14,30 +14,16 @@
 class BSMySQLTableProfile extends BSTableProfile {
 
 	/**
-	 * 全ての属性を返す
+	 * コンストラクタ
 	 *
 	 * @access public
-	 * @return string[][] 全ての属性
+	 * @param string $table テーブル名
 	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = array(
-				'dsn' => $this->getDatabase()->getDSN(),
-				'name' => $this->getName(),
-			);
-
-			$fields = array('Engine', 'Row_format', 'Collation');
-			$query = sprintf(
-				'SHOW TABLE STATUS LIKE `%s`',
-				$this->getDatabase()->quote($this->getName())
-			);
-			foreach ($this->getDatabase()->query($query)->fetch() as $key => $value) {
-				if (in_array($key, $fields)) {
-					$this->attributes[strtolower($key)] = $value;
-				}
-			}
+	public function __construct ($table, BSDatabase $database = null) {
+		if (preg_match('/^`([a-z0-9_]+)`$/i', $table, $matches)) {
+			$table = $matches[1];
 		}
-		return $this->attributes;
+		parent::__construct($table, $database);
 	}
 
 	/**
@@ -48,38 +34,58 @@ class BSMySQLTableProfile extends BSTableProfile {
 	 */
 	public function getFields () {
 		if (!$this->fields) {
-			$query = 'DESC `' . $this->getName() . '`';
-			foreach ($this->getDatabase()->query($query) as $row) {
-				$fields[$row['Field']] = array(
-					'name' => $row['Field'],
-					'type' => $row['Type'],
-					'notnull' => ($row['Null'] == 'NO'),
-					'default' => $row['Default'],
-					'primarykey' => ($row['Key'] == 'PRI'),
-					'extra' => $row['Extra'],
-				);
-			}
-			$this->fields = $fields;
+			$query = BSSQL::getSelectQueryString(
+				'column_name,data_type,character_maximum_length,is_nullable,column_default,extra',
+				'information_schema.columns',
+				$this->getCriteria(),
+				'ordinal_position'
+			);
+			$this->fields = $this->database->query($query)->fetchAll();
 		}
 		return $this->fields;
 	}
 
 	/**
-	 * テーブルのキーリストを配列で返す
+	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] キーのリスト
+	 * @return string[][] 制約のリスト
 	 */
-	public function getKeys () {
-		if (!$this->keys) {
-			$query = 'SHOW KEYS FROM `' . $this->getName() . '`';
-			foreach ($this->getDatabase()->query($query) as $row) {
-				$this->keys[$row['Key_name']]['name'] = $row['Key_name'];
-				$this->keys[$row['Key_name']]['fields'][] = $row['Column_name'];
-				$this->keys[$row['Key_name']]['unique'] = ($row['Non_unique'] == 0);
+	public function getConstraints () {
+		if (!$this->constraints) {
+			$query = BSSQL::getSelectQueryString(
+				'constraint_name AS name,constraint_type AS type',
+				'information_schema.table_constraints',
+				$this->getCriteria(),
+				'constraint_type=' . $this->database->quote('PRIMARY KEY') . ',name'
+			);
+			foreach ($this->database->query($query)->fetchAll() as $row) {
+				$criteria = $this->getCriteria();
+				$criteria[] = 'constraint_name=' . $this->database->quote($row['name']);
+				$query = BSSQL::getSelectQueryString(
+					'column_name,referenced_table_name,referenced_column_name',
+					'information_schema.key_column_usage',
+					$criteria,
+					'ordinal_position'
+				);
+				$row['fields'] = $this->database->query($query)->fetchAll();
+				$this->constraints[$row['name']] = $row;
 			}
 		}
-		return $this->keys;
+		return $this->constraints;
+	}
+
+	/**
+	 * 抽出条件を返す
+	 *
+	 * @access protected
+	 * @return string[] 抽出条件
+	 */
+	protected function getCriteria () {
+		return array(
+			'table_schema=' . $this->database->quote($this->database->getAttribute('name')),
+			'table_name=' . $this->database->quote($this->getName()),
+		);
 	}
 }
 

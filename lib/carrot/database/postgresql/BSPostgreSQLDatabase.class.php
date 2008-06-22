@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSPostgreSQL extends BSDatabase {
+class BSPostgreSQLDatabase extends BSDatabase {
 
 	/**
 	 * インスタンスを生成して返す
@@ -24,7 +24,7 @@ class BSPostgreSQL extends BSDatabase {
 	static public function getInstance ($name = 'default') {
 		try {
 			$constants = BSConstantHandler::getInstance();
-			$db = new BSPostgreSQL(
+			$db = new BSPostgreSQLDatabase(
 				$constants['PDO_' . $name . '_DSN']
 			);
 			$db->setName($name);
@@ -151,6 +151,20 @@ class BSPostgreSQL extends BSDatabase {
 	 */
 	public function optimize () {
 		$this->exec('VACUUM');
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return float バージョン
+	 */
+	public function getVersion () {
+		if (!isset($this->attributes['version'])) {
+			$result = PDO::query('SELECT version() AS ver')->fetch();
+			$this->attributes['version'] = $result['ver'];
+		}
+		return $this->attributes['version'];
 	}
 
 	/**

@@ -13,10 +13,9 @@
  * @abstract
  */
 abstract class BSTableProfile {
-	protected $attributes = array();
 	protected $database;
 	protected $fields = array();
-	protected $keys = array();
+	protected $constraints = array();
 	private $name;
 
 	/**
@@ -26,16 +25,11 @@ abstract class BSTableProfile {
 	 * @param string $table テーブル名
 	 */
 	public function __construct ($table, BSDatabase $database = null) {
-		if (preg_match('/^`([a-z0-9_]+)`$/i', $table, $matches)) {
-			$this->name = $matches[1];
-		} else {
-			$this->name = $table;
-		}
-
 		if (!$database) {
 			$database = BSDatabase::getInstance();
 		}
 		$this->database = $database;
+		$this->name = $table;
 
 		if (!in_array($this->getName(), $this->getDatabase()->getTableNames())) {
 			throw new BSDatabaseException('%sが取得出来ません。', $this);
@@ -50,22 +44,6 @@ abstract class BSTableProfile {
 	 */
 	public function getName () {
 		return $this->name;
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return string[][] 全ての属性
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = array(
-				'dsn' => $this->getDatabase()->getDSN(),
-				'name' => $this->getName(),
-			);
-		}
-		return $this->attributes;
 	}
 
 	/**
@@ -88,13 +66,13 @@ abstract class BSTableProfile {
 	abstract public function getFields ();
 
 	/**
-	 * テーブルのキーリストを配列で返す
+	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] キーのリスト
+	 * @return string[][] 制約のリスト
 	 * @abstract
 	 */
-	abstract public function getKeys ();
+	abstract public function getConstraints ();
 
 	/**
 	 * 基本情報を文字列で返す

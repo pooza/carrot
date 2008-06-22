@@ -30,9 +30,8 @@ class TableAction extends BSAction {
 
 		$values = array(
 			'name' => $this->getTableProfile()->getName(),
-			'attributes' => $this->getTableProfile()->getAttributes(),
 			'fields' => $this->getTableProfile()->getFields(),
-			'keys' => $this->getTableProfile()->getKeys(),
+			'constraints' => $this->getTableProfile()->getConstraints(),
 		);
 		$this->request->setAttribute('table', $values);
 

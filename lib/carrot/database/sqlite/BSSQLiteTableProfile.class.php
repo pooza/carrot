@@ -25,12 +25,10 @@ class BSSQLiteTableProfile extends BSTableProfile {
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $row) {
 				$fields[$row['name']] = array(
-					'name' => $row['name'],
-					'type' => strtolower($row['type']),
-					'notnull' => $row['notnull'],
-					'default' => $row['dflt_value'],
-					'primarykey' => $row['pk'],
-					'extra' => null,
+					'column_name' => $row['name'],
+					'data_type' => strtolower($row['type']),
+					'is_nullable' => $row['notnull'],
+					'column_default' => $row['dflt_value'],
 				);
 			}
 			$this->fields = $fields;
@@ -44,23 +42,22 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	 * @access public
 	 * @return string[][] キーのリスト
 	 */
-	public function getKeys () {
-		if (!$this->keys) {
+	public function getConstraints () {
+		if (!$this->constraints) {
 			$query = 'PRAGMA index_list(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $rowKey) {
 				$key = array(
 					'name' => $rowKey['name'],
 					'fields' => array(),
-					'unique' => $rowKey['unique'],
 				);
 				$query = 'PRAGMA index_info(' . $rowKey['name'] . ')';
 				foreach ($this->getDatabase()->query($query) as $rowField) {
-					$key['fields'][] = $rowField['name'];
+					$key['fields'][] = array('column_name' => $rowField['name']);
 				}
-				$this->keys[] = $key;
+				$this->constraints[] = $key;
 			}
 		}
-		return $this->keys;
+		return $this->constraints;
 	}
 }
 

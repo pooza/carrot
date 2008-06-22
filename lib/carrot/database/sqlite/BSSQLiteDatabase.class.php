@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSSQLite extends BSDatabase {
+class BSSQLiteDatabase extends BSDatabase {
 
 	/**
 	 * インスタンスを生成して返す
@@ -24,7 +24,7 @@ class BSSQLite extends BSDatabase {
 	static public function getInstance ($name = 'default') {
 		try {
 			$constants = BSConstantHandler::getInstance();
-			$db = new BSSQLite(
+			$db = new BSSQLiteDatabase(
 				$constants['PDO_' . $name . '_DSN']
 			);
 			$db->setName($name);
@@ -139,6 +139,16 @@ class BSSQLite extends BSDatabase {
 	 */
 	public function optimize () {
 		$this->exec('VACUUM');
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return float バージョン
+	 */
+	public function getVersion () {
+		return '3.x'; //取得方法不明
 	}
 }
 

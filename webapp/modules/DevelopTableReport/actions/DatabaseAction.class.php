@@ -18,8 +18,11 @@ class DatabaseAction extends BSAction {
 	}
 
 	public function execute () {
-		$values = $this->getDatabase()->getInfo()->getParameters();
-		$values['tables'] = $this->getDatabase()->getTableNames();
+		$values = array(
+			'name' => $this->getDatabase()->getName(),
+			'info' => $this->getDatabase()->getInfo()->getParameters(),
+			'tables' => $this->getDatabase()->getTableNames(),
+		);
 		$this->request->setAttribute('database', $values);
 		return BSView::SUCCESS;
 	}

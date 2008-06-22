@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMySQL extends BSDatabase {
+class BSMySQLDatabase extends BSDatabase {
 
 	/**
 	 * インスタンスを生成して返す
@@ -24,7 +24,7 @@ class BSMySQL extends BSDatabase {
 	static public function getInstance ($name = 'default') {
 		try {
 			$constants = BSConstantHandler::getInstance();
-			$db = new BSMySQL(
+			$db = new BSMySQLDatabase(
 				$constants['PDO_' . $name . '_DSN'],
 				$constants['PDO_' . $name . '_UID'],
 				$constants['PDO_' . $name . '_PASSWORD']

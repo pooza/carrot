@@ -39,12 +39,11 @@ abstract class BSDatabase extends PDO {
 			}
 			switch ($dbms = $matches[1]) {
 				case 'mysql':
-					return self::$instances[$name] = BSMySQL::getInstance($name);
+					return self::$instances[$name] = BSMySQLDatabase::getInstance($name);
 				case 'pgsql':
-					return self::$instances[$name] = BSPostgreSQL::getInstance($name);
+					return self::$instances[$name] = BSPostgreSQLDatabase::getInstance($name);
 				case 'sqlite':
-				case 'sqlite2':
-					return self::$instances[$name] = BSSQLite::getInstance($name);
+					return self::$instances[$name] = BSSQLiteDatabase::getInstance($name);
 				case 'odbc':
 					return self::$instances[$name] = BSODBCDatabase::getInstance($name);
 				default:
@@ -99,6 +98,8 @@ abstract class BSDatabase extends PDO {
 		$info['name'] = $this->getName();
 		$info['dsn'] = $this->getDSN();
 		$info['dbms'] = $this->getDBMS();
+		$info['version'] = $this->getVersion();
+		$info['encoding'] = $this->getEncoding();
 		return $info;
 	}
 
@@ -123,6 +124,15 @@ abstract class BSDatabase extends PDO {
 				'PDO_' . $this->getName() . '_' . $key
 			);
 		}
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return float バージョン
+	 */
+	public function getVersion () {
 	}
 
 	/**
@@ -344,7 +354,7 @@ abstract class BSDatabase extends PDO {
 	 */
 	public function getDBMS () {
 		if (!$this->dbms) {
-			if (preg_match('/^BS([A-Za-z]+)$/', get_class($this), $matches)) {
+			if (preg_match('/^BS([A-Za-z]+)Database$/', get_class($this), $matches)) {
 				$this->dbms = $matches[1];
 			} else {
 				throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));

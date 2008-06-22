@@ -14,81 +14,62 @@
 	<a href="#">テーブル:{$table.name}</a>
 </div>
 
-
 <h1>テーブル:{$table.name}</h1>
-
-<h2>基本情報</h2>
-<table>
-	<tr>
-		<th width="120">属性名</th>
-		<th width="330">値</th>
-	</tr>
-
-{foreach from=$table.attributes key=key item=value}
-	<tr>
-		<td width="120">{$key}</td>
-		<td width="330">{$value}</td>
-	</tr>
-{foreachelse}
-	<tr>
-		<td colspan="2">属性がありません。</td>
-	</tr>
-{/foreach}
-
-</table>
 
 <h2>フィールド</h2>
 <table>
 	<tr>
 		<th width="120">フィールド名</th>
-		<th width="180">フィールド型</th>
+		<th width="90">データ型</th>
+		<th width="60">データ長</th>
 		<th width="30">NULL</th>
-		<th width="120">既定値</th>
-		<th width="120">その他制約</th>
+		<th width="180">既定値</th>
+		<th width="120">その他</th>
 	</tr>
 
 {foreach from=$table.fields item=field}
 	<tr>
 		<td width="120">
-	{if $field.primarykey}
-			<strong>{$field.name}</strong><br />
-	{else}
-			{$field.name}<br />
-	{/if}
-			<small>{$field.name|translate}</small>
+			{$field.column_name}<br />
+			<small>{$field.column_name|translate:$table.name}</small>
 		</td>
-		<td width="180">{$field.type}</td>
-		<td width="30">{if !$field.notnull}可{/if}</td>
-		<td width="120">{$field.default}</td>
+		<td width="90">{$field.data_type}</td>
+		<td width="60" align="right">{$field.character_maximum_length}</td>
+		<td width="30" align="center">{if $field.is_nullable=='YES'}可{/if}</td>
+		<td width="180">{$field.column_default}</td>
 		<td width="120">{$field.extra}</td>
 	</tr>
 {foreachelse}
 	<tr>
-		<td colspan="5">フィールド情報がありません。</td>
+		<td colspan="6">フィールド情報がありません。</td>
 	</tr>
 {/foreach}
 
 </table>
 
-<h2>キー</h2>
+<h2>制約</h2>
 <table>
 	<tr>
-		<th width="120">キー名</th>
-		<th width="180">対象フィールド名</th>
-		<th width="30">一意</th>
+		<th width="210">制約名</th>
+		<th width="120">制約種類</th>
+		<th width="270">対象フィールド（参照先）</th>
 	</tr>
 
-{foreach from=$table.keys item=key}
+{foreach from=$table.constraints item=constraint}
 	<tr>
-		<td width="120">{$key.name}</td>
-		<td width="180">
+		<td width="210">{$constraint.name}</td>
+		<td width="120">{$constraint.type|default:'(不明)'}</td>
+		<td width="270">
 
-	{foreach from=$key.fields item=field}
-		{$field}<br />
+	{foreach from=$constraint.fields item=field}
+		{$field.column_name}
+		{if $field.referenced_table_name}
+		({$field.referenced_table_name}.{$field.referenced_column_name})
+		{/if}
+		<br />
 	{/foreach}
 
 		</td>
-		<td width="30">{if $key.unique}YES{/if}</td>
 	</tr>
 {foreachelse}
 	<tr>

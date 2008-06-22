@@ -9,6 +9,7 @@
  */
 class DatabaseSuccessView extends BSSmartyView {
 	public function execute () {
+		$this->setAttribute('styleset', 'carrot.Detail');
 	}
 }
 

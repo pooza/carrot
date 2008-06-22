@@ -16,28 +16,35 @@
 
 <h1>データベース:{$database.name}</h1>
 
-{if !$errors}
-<div>
-	{if $useragent.is_msie}
-	[<a href="/{$module}/TableAll?database={$database.name}">PDFをダウンロードする</a>]
-	{else}
-	[<a href="/{$module}/TableAll?database={$database.name}" target="_blank">PDFに出力する</a>]
-	{/if}
-</div>
-{/if}
+<h2>基本情報</h2>
+<table class="Detail">
 
+{foreach from=$database.info key=key item=value}
+	<tr>
+		<th>{$key}</th>
+		<td>{$value}</td>
+	</tr>
+{foreachelse}
+	<tr>
+		<td colspan="2">基本情報がありません。</td>
+	</tr>
+{/foreach}
+
+</table>
+
+<h2>テーブル</h2>
 <table>
 	<tr>
-		<th width="150">物理テーブル名</th>
-		<th width="150">論理テーブル名</th>
+		<th width="120">物理テーブル名</th>
+		<th width="120">論理テーブル名</th>
 	</tr>
 
 {foreach from=$database.tables item='table'}
 	<tr>
-		<td width="150">
+		<td width="120">
 			<a href="/{$module}/Table?database={$database.name}&table={$table}">{$table}</a>
 		</td>
-		<td width="150">{$table|translate}</td>
+		<td width="120">{$table|translate}</td>
 	</tr>
 {foreachelse}
 	<tr>
