@@ -42,11 +42,6 @@ pdo:
   session:
     dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
     loggable: no
-  prgr:
-    dsn: mysql:host=127.0.0.1;dbname=prgr
-    uid: root
-  register:
-    dsn: pgsql:host=localhost dbname=register user=postgres
 
 smtp:
   host: localhost
