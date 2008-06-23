@@ -63,7 +63,7 @@ class BSWebRequest extends BSRequest {
 		}
 		$this->method = self::getMethods()->getParameter($method);
 		$this->setParameters($_GET);
-		if ($this->getMethod() == self::POST) {
+		if ($this->getMethod() != self::GET) {
 			$this->setParameters($_POST);
 		}
 	}
@@ -77,8 +77,10 @@ class BSWebRequest extends BSRequest {
 	 */
 	static public function getMethods () {
 		$methods = new BSArray;
-		$methods['POST'] = self::POST;
 		$methods['GET'] = self::GET;
+		$methods['POST'] = self::POST;
+		$methods['PUT'] = self::PUT;
+		$methods['DELETE'] = self::DELETE;
 		return $methods;
 	}
 

@@ -16,6 +16,8 @@ abstract class BSRequest extends BSParameterHolder {
 	const NONE = 1;
 	const GET = 2;
 	const POST = 4;
+	const PUT = 8;
+	const DELETE = 16;
 	protected $method;
 	private $attributes = array();
 	private $errors = array();

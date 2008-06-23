@@ -175,7 +175,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	public function getRequestMethods () {
-		return BSRequest::GET | BSRequest::POST;
+		return BSRequest::GET | BSRequest::POST | BSRequest::PUT | BSRequest::DELETE;
 	}
 
 	/**

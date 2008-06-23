@@ -9,7 +9,7 @@ script_encoding: utf-8
 carrot:
   name: carrot Framework
   url: http://trac.b-shock.org/project/carrot/
-  ver: 2.0.26
+  ver: 2.0.27
 
 default:
   module: Default
