@@ -260,7 +260,7 @@ abstract class BSDatabase extends PDO {
 	 * @param string $log ログ
 	 */
 	protected function putLog ($log) {
-		$constants = new BSConstantHandler;
+		$constants = BSConstantHandler::getInstance();
 		$name = sprintf('pdo_%s_loggable', $this->getName());
 		if (!$constants->hasParameter($name) || $constants[$name]) {
 			BSLog::put($log, self::LOG_TYPE);
