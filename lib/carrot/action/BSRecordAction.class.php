@@ -62,7 +62,7 @@ abstract class BSRecordAction extends BSAction {
 	 */
 	public function getRecordID () {
 		if ($id = $this->request->getParameter('id')) {
-			if (get_class($this) != 'CreateAction') {
+			if ($this->getName() != 'Create') {
 				$this->setRecordID($id);
 			}
 		}
