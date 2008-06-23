@@ -178,6 +178,21 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
+	 * テーブルのプロフィールを返す
+	 *
+	 * @access public
+	 * @param string $table テーブルの名前
+	 * @return BSTableProfile テーブルのプロフィール
+	 */
+	public function getTableProfile ($table) {
+		if ($this->getVersion() < 5.0) {
+			return new BSMySQL40TableProfile($table, $this);
+		} else {
+			return parent::getTableProfile($table);
+		}
+	}
+
+	/**
 	 * バージョンを返す
 	 *
 	 * @access public
