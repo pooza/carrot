@@ -304,6 +304,19 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
+	 * テーブルを削除する
+	 *
+	 * deleteTableのエイリアス
+	 *
+	 * @access public
+	 * @param string $table テーブル名
+	 * @final
+	 */
+	final public function dropTable ($table) {
+		$this->deleteTable($table);
+	}
+
+	/**
 	 * ダンプファイルを生成する
 	 *
 	 * @access public

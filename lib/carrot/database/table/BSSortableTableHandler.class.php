@@ -14,30 +14,6 @@
 abstract class BSSortableTableHandler extends BSTableHandler {
 
 	/**
-	 * コンストラクタ
-	 *
-	 * @access public
-	 * @param string $criteria 抽出条件
-	 * @param string $order ソート順
-	 */
-	public function __construct ($criteria = null, $order = null) {
-		parent::__construct($criteria, $order);
-
-		if (BSController::getInstance()->isDebugMode()) {
-			$fields = $this->getDatabase()->getTableProfile($this->getName())->getFields();
-			foreach (array($this->getStatusField(), $this->getRankField()) as $name) {
-				if (!isset($fields[$name])) {
-					throw new BSDatabaseException(
-						'%sテーブルには%sフィールドが必要です。',
-						$this->getName(),
-						$name
-					);
-				}
-			}
-		}
-	}
-
-	/**
 	 * レコード追加可能か？
 	 *
 	 * @access protected

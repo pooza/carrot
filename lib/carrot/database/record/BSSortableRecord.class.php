@@ -83,31 +83,22 @@ abstract class BSSortableRecord extends BSRecord {
 	 * @param string $option (up|down)
 	 */
 	public function setOrder ($option) {
-		$ids = array();
-
-		foreach ($this->getAlikeRecords() as $record) {
-			$ids[] = $record->getID();
-			if ($record->getID() == $this->getID()) {
-				$rank = count($ids) - 1;
+		$rank = 0;
+		foreach ($ids = $this->getAlikeRecords()->getIDs() as $id) {
+			if ($id == $this->getID()) {
+				break;
 			}
+			$rank ++;
 		}
 
-		switch (strtolower($option)) {
-			case 'up':
-				if (isset($ids[$rank - 1])) {
-					$ids[$rank] = $ids[$rank - 1];
-					$ids[$rank - 1] = $this->getID();
-				}
-				break;
-			case 'down':
-				if (isset($ids[$rank + 1])) {
-					$ids[$rank] = $ids[$rank + 1];
-					$ids[$rank + 1] = $this->getID();
-				}
-				break;
+		if ((strtolower($option) == 'up') && isset($ids[$rank - 1])) {
+			$ids[$rank] = $ids[$rank - 1];
+			$ids[$rank - 1] = $this->getID();
+		} else if ((strtolower($option) == 'down') && isset($ids[$rank + 1])) {
+			$ids[$rank] = $ids[$rank + 1];
+			$ids[$rank + 1] = $this->getID();
 		}
 
-		$this->getAlikeRecords()->clearRanks();
 		$rank = 0;
 		foreach ($ids as $id) {
 			$rank ++;
