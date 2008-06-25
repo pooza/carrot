@@ -42,14 +42,7 @@ class BSMSIEUserAgent extends BSUserAgent {
 	 * @return boolean バグがあるならTrue
 	 */
 	public function hasCachingBug () {
-		if (!BSController::getInstance()->isResolvable()) {
-			// browsecapが参照出来ないので、とりあえずTrueを返しとく
-			return true;
-		}
-
-		return BSController::getInstance()->isSSL()
-			&& ($this->getAttribute('Platform') == 'Win32')
-			&& ($this->getAttribute('MajorVer') < 7);
+		return BSController::getInstance()->isSSL();
 	}
 
 	/**
