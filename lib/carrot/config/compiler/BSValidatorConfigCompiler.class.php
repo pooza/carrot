@@ -93,8 +93,10 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$line = sprintf('if (BSRequest::getInstance()->getMethod() == BSRequest::%s) {', $method);
 		$this->putLine($line);
 
-		foreach ($this->fields[$method] as $name => $field) {
-			$this->putField($name, $field);
+		if (isset($this->fields[$method])) {
+			foreach ($this->fields[$method] as $name => $field) {
+				$this->putField($name, $field);
+			}
 		}
 
 		$this->putLine('}');
