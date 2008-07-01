@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSDirectoryIterator implements Iterator {
+class BSDirectoryIterator implements BSIterator {
 	private $directory;
 	private $cursor = 0;
 
@@ -74,6 +74,29 @@ class BSDirectoryIterator implements Iterator {
 	public function valid () {
 		$entries = $this->directory->getEntryNames();
 		return isset($entries[$this->cursor]);
+	}
+
+
+	/**
+	 * 最初の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最初の要素
+	 */
+	public function getFirst () {
+		$entries = $this->directory->getEntryNames();
+		return $entries[0];
+	}
+
+	/**
+	 * 最後の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最後の要素
+	 */
+	public function getLast () {
+		$entries = $this->directory->getEntryNames();
+		return $entries[count($entries) - 1];
 	}
 
 	/**

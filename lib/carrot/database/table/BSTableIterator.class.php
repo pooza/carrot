@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTableIterator implements Iterator {
+class BSTableIterator implements BSIterator {
 	private $table;
 	private $cursor = 0;
 
@@ -79,6 +79,28 @@ class BSTableIterator implements Iterator {
 	public function valid () {
 		$records = $this->table->getResult();
 		return isset($records[$this->cursor]);
+	}
+
+	/**
+	 * 最初の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最初の要素
+	 */
+	public function getFirst () {
+		$records = $this->table->getResult();
+		return $records[0];
+	}
+
+	/**
+	 * 最後の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最後の要素
+	 */
+	public function getLast () {
+		$records = $this->table->getResult();
+		return $records[count($records) - 1];
 	}
 }
 

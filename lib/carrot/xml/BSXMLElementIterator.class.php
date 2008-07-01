@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSXMLElementIterator implements Iterator {
+class BSXMLElementIterator implements BSIterator {
 	private $root;
 	private $elements = array();
 	private $cursor = 0;
@@ -77,6 +77,26 @@ class BSXMLElementIterator implements Iterator {
 	 */
 	public function valid () {
 		return isset($this->elements[$this->cursor]);
+	}
+
+	/**
+	 * 最初の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最初の要素
+	 */
+	public function getFirst () {
+		return $this->elements[0];
+	}
+
+	/**
+	 * 最後の要素を返す
+	 *
+	 * @access public
+	 * @return mixed 最後の要素
+	 */
+	public function getLast () {
+		return $this->elements[count($this->elements) - 1];
 	}
 }
 
