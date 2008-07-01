@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-class BSActionStack {
+class BSActionStack implements IteratorAggregate {
 	private $stack;
 	static private $instance;
 
@@ -65,7 +65,7 @@ class BSActionStack {
 	 * @return BSAction アクション
 	 */
 	public function getFirstEntry () {
-		return $this->stack[0];
+		return $this->getIterator()->getFirst();
 	}
 
 	/**
@@ -75,7 +75,7 @@ class BSActionStack {
 	 * @return BSAction アクション
 	 */
 	public function getLastEntry () {
-		return $this->stack[count($this->stack) - 1];
+		return $this->getIterator()->getLast();
 	}
 
 	/**
@@ -86,6 +86,16 @@ class BSActionStack {
 	 */
 	public function getSize () {
 		return count($this->stack);
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		return $this->stack->getIterator();
 	}
 }
 

@@ -306,11 +306,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return BSRecord レコード
 	 */
 	public function getLastRecord () {
-		if ($this->getRecordCount()) {
-			foreach ($this as $record) {
-			}
-			return $record;
-		}
+		return $this->getIterator()->getLast();
 	}
 
 	/**
@@ -320,9 +316,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * @return BSRecord レコード
 	 */
 	public function getFirstRecord () {
-		if ($this->getRecordCount()) {
-			return $this->getIterator()->current();
-		}
+		return $this->getIterator()->getFirst();
 	}
 
 	/**

@@ -120,10 +120,10 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	 * イテレータを返す
 	 *
 	 * @access public
-	 * @return ArrayIterator 配列イテレータ
+	 * @return BSIterator イテレータ
 	 */
 	public function getIterator () {
-		return new ArrayIterator($this->getParameters());
+		return new BSIterator($this->getParameters());
 	}
 
 	/**

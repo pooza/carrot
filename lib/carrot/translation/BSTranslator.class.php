@@ -181,7 +181,7 @@ class BSTranslator implements IteratorAggregate {
 	 * イテレータを返す
 	 *
 	 * @access public
-	 * @return ArrayIterator 配列イテレータ
+	 * @return BSIterator イテレータ
 	 */
 	public function getIterator () {
 		return $this->getDictionaries()->getIterator();

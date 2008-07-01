@@ -11,9 +11,8 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTableIterator implements BSIterator {
+class BSTableIterator extends BSIterator {
 	private $table;
-	private $cursor = 0;
 
 	/**
 	 * コンストラクタ
@@ -23,15 +22,9 @@ class BSTableIterator implements BSIterator {
 	 */
 	public function __construct (BSTableHandler $table) {
 		$this->table = $table;
-	}
-
-	/**
-	 * カーソルを巻き戻す
-	 *
-	 * @access public
-	 */
-	public function rewind () {
-		$this->cursor = 0;
+		foreach ($table->getContents() as $row) {
+			$this->keys[] = $row[$table->getKeyField()];
+		}
 	}
 
 	/**
@@ -41,66 +34,7 @@ class BSTableIterator implements BSIterator {
 	 * @return BSRecord レコード
 	 */
 	public function current () {
-		$records = $this->table->getResult();
-		$record = $records[$this->cursor];
-		$key = $record[$this->table->getKeyField()];
-		return $this->table->getRecord($key);
-	}
-
-	/**
-	 * 次のレコードを返す
-	 *
-	 * @access public
-	 * @return BSRecord レコード
-	 */
-	public function next () {
-		$records = $this->table->getResult();
-		$record = $records[$this->cursor ++];
-		$key = $record[$this->table->getKeyField()];
-		return $this->table->getRecord($key);
-	}
-
-	/**
-	 * 現在のカーソル位置を返す
-	 *
-	 * @access public
-	 * @return integer カーソル位置
-	 */
-	public function key () {
-		return $this->cursor;
-	}
-
-	/**
-	 * 現在のカーソル位置に正しいレコードが存在するか
-	 *
-	 * @access public
-	 * @return boolean 正しいレコードが存在するならTrue
-	 */
-	public function valid () {
-		$records = $this->table->getResult();
-		return isset($records[$this->cursor]);
-	}
-
-	/**
-	 * 最初の要素を返す
-	 *
-	 * @access public
-	 * @return mixed 最初の要素
-	 */
-	public function getFirst () {
-		$records = $this->table->getResult();
-		return $records[0];
-	}
-
-	/**
-	 * 最後の要素を返す
-	 *
-	 * @access public
-	 * @return mixed 最後の要素
-	 */
-	public function getLast () {
-		$records = $this->table->getResult();
-		return $records[count($records) - 1];
+		return $this->table->getRecord(parent::key());
 	}
 }
 
