@@ -4,8 +4,8 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-root_url: http://carrot.halberd.local/
-root_url_https: http://carrot.halberd.local/
+root_url: http://carrot.gisarme.local/
+root_url_https: http://carrot.gisarme.local/
 debug: yes
 #resolvable: yes
 
@@ -19,7 +19,7 @@ admin:
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
-  jid: carrot.halberd@jabber.b-shock.co.jp/carrot
+  jid: carrot.gisarme@jabber.b-shock.co.jp/carrot
   password: aaa
 
 crypt:
