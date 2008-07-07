@@ -397,7 +397,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	public function query () {
 		$this->result = BSString::convertEncoding(
 			$this->getDatabase()->query($this->getQueryString())->fetchAll(),
-			BSString::SCRIPT_ENCODING,
+			'utf-8',
 			$this->getDatabase()->getEncoding()
 		);
 		$this->setExecuted(true);

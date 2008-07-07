@@ -4,12 +4,10 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-script_encoding: utf-8
-
 carrot:
   name: carrot Framework
   url: http://trac.b-shock.org/project/carrot/
-  ver: 2.0.29
+  ver: 2.0.30
 
 default:
   module: Default
@@ -22,9 +20,6 @@ not_found:
 secure:
   module: Default
   action: NotFound
-
-smarty:
-  template_encoding: utf-8
 
 browscap:
   url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI

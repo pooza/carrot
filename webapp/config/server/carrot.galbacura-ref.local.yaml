@@ -50,6 +50,13 @@ smtp:
 xmpp:
   host: jabber.b-shock.co.jp
 
+log:
+  classes:
+    - BSFileLogger
+    - BSSystemLogger
+  syslog:
+    facility: LOG_LOCAL6
+
 awstats:
   log_file: /var/log/httpd/access_%%YYYY%%MM%DD.log
   #log_dir: /var/log/httpd/www.example.com

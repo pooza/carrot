@@ -36,7 +36,7 @@ class BSXMPPBotDaemon extends BSDaemon {
 			$status['port'],
 			$status['pid']
 		);
-		BSLog::put($message);
+		BSController::getInstance()->putLog($message, __CLASS__);
 
 		Nanoserv::Run();
 	}

@@ -53,7 +53,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function getParameter ($name) {
 		foreach (array('', 'APP_', 'BS_') as $prefix) {
-			$fullname = strtoupper(BSString::underscorize($prefix . $name));
+			$fullname = strtoupper($prefix . $name);
 			if (defined($fullname)) {
 				return constant($fullname);
 			}
@@ -68,7 +68,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
-		if (defined($name = strtoupper(BSString::underscorize($name)))) {
+		if (defined($name = strtoupper($name))) {
 			throw new BSException('定数 "%s" は定義済みです。', $name);
 		} else {
 			define($name, $value);
@@ -95,7 +95,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function hasParameter ($name) {
 		foreach (array('', 'APP_', 'BS_') as $prefix) {
-			$fullname = strtoupper(BSString::underscorize($prefix . $name));
+			$fullname = strtoupper($prefix . $name);
 			if (defined($fullname)) {
 				return true;
 			}

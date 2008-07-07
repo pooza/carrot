@@ -18,7 +18,6 @@ abstract class BSDatabase extends PDO {
 	private $dbms;
 	private $name;
 	static private $instances;
-	const LOG_TYPE = 'Database';
 
 	/**
 	 * フライウェイトインスタンスを返す
@@ -187,7 +186,7 @@ abstract class BSDatabase extends PDO {
 		return BSString::convertEncoding(
 			$query,
 			$this->getEncoding(),
-			BSString::SCRIPT_ENCODING
+			'utf-8'
 		);
 	}
 
@@ -263,7 +262,7 @@ abstract class BSDatabase extends PDO {
 		$constants = BSConstantHandler::getInstance();
 		$name = sprintf('pdo_%s_loggable', $this->getName());
 		if (!$constants->hasParameter($name) || $constants[$name]) {
-			BSLog::put($log, self::LOG_TYPE);
+			BSController::getInstance()->putLog($log, get_class($this));
 		}
 	}
 
@@ -384,7 +383,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string PHPのエンコード
 	 */
 	public function getEncoding () {
-		return BSString::SCRIPT_ENCODING;
+		return 'utf-8';
 	}
 
 	/**

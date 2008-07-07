@@ -51,8 +51,9 @@ class BSSocket {
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			if ($this->handle = fsockopen($this->getHost()->getAddress(), $this->getPort())) {
 				stream_set_timeout($this->handle, 10);
-				if (BSController::getInstance()->isDebugMode()) {
-					BSLog::put($this . 'に接続しました。');
+				$controller = BSController::getInstance();
+				if ($controller->isDebugMode()) {
+					$controller->putLog($this . 'に接続しました。', get_class($this));
 				}
 				return;
 			}
@@ -70,8 +71,9 @@ class BSSocket {
 	public function close () {
 		if ($this->isOpened()) {
 			fclose($this->handle);
-			if (BSController::getInstance()->isDebugMode()) {
-				BSLog::put($this . 'から切断しました。');
+			$controller = BSController::getInstance();
+			if ($controller->isDebugMode()) {
+				$controller->putLog($this . 'から切断しました。', get_class($this));
 			}
 		}
 		$this->handle = null;

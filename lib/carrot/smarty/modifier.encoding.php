@@ -17,7 +17,7 @@ function smarty_modifier_encoding ($value) {
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		return BSString::convertEncoding($value, BSString::TEMPLATE_ENCODING);
+		return BSString::convertEncoding($value, 'utf-8');
 	}
 }
 

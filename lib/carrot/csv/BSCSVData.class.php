@@ -174,7 +174,7 @@ class BSCSVData implements BSTextRenderer {
 	 * @return string PHPのエンコード名
 	 */
 	public function getEncoding () {
-		return BSString::SCRIPT_ENCODING;
+		return 'utf-8';
 	}
 
 	/**

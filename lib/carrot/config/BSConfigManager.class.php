@@ -76,8 +76,8 @@ class BSConfigManager {
 					$pattern = '/' . preg_quote($pattern, '/') . '/';
 				}
 				if (preg_match($pattern, $file->getPath())) {
-					$result = $compiler->execute($file);
-					$cache->setContents($result);
+					$cache->setContents($compiler->execute($file));
+					$compiler->putLog($cache->getName() . 'をコンパイルしました。');
 					break;
 				}
 			}

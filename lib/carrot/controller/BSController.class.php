@@ -173,6 +173,17 @@ abstract class BSController {
 	}
 
 	/**
+	 * ログを出力する
+	 *
+	 * @access public
+	 * @param string $message ログメッセージ
+	 * @param string $priority 優先順位
+	 */
+	public function putLog ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
+		BSLogManager::getInstance()->put($message, $priority);
+	}
+
+	/**
 	 * 特別なディレクトリを返す
 	 *
 	 * @access public

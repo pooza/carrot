@@ -108,7 +108,7 @@ class BSSMTP extends BSSocket {
 					$this->getMessageID(),
 					$this->getPrevLine()
 				);
-				BSLog::put($message, 'Mail');
+				BSController::getInstance()->putLog($message, get_class($this));
 				$this->clearBoundary();
 				return $this->getPrevLine();
 			} catch (BSMailException $e) {

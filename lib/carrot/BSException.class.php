@@ -35,7 +35,7 @@ class BSException extends Exception {
 		}
 
 		parent::__construct($message);
-		BSLog::put($this->message, $this->getName());
+		BSController::getInstance()->putLog($this->message, $this->getName());
 	}
 
 	/**

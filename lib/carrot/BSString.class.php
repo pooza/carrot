@@ -11,8 +11,6 @@
  * @version $Id$
  */
 class BSString {
-	const SCRIPT_ENCODING = BS_SCRIPT_ENCODING;
-	const TEMPLATE_ENCODING = BS_SMARTY_TEMPLATE_ENCODING;
 	const DETECT_ORDER = 'ascii,jis,utf-8,euc-jp,sjis';
 
 	/**
@@ -41,7 +39,7 @@ class BSString {
 			}
 		} else {
 			if (!$encodingTo) {
-				$encodingTo = self::SCRIPT_ENCODING;
+				$encodingTo = 'utf-8';
 			}
 			if (!$encodingFrom) {
 				$encodingFrom = self::DETECT_ORDER;
@@ -118,7 +116,7 @@ class BSString {
 				$value[$key] = self::convertKana($item, $format);
 			}
 		} else {
-			$value = mb_convert_kana($value, $format, self::SCRIPT_ENCODING);
+			$value = mb_convert_kana($value, $format, 'utf-8');
 		}
 		return $value;
 	}
@@ -139,9 +137,9 @@ class BSString {
 				$value[$key] = self::truncate($item, $length, $suffix);
 			}
 		} else if ($length < self::getWidth($value)) {
-			$value = self::convertEncoding($value, 'eucjp-win', self::SCRIPT_ENCODING);
+			$value = self::convertEncoding($value, 'eucjp-win', 'utf-8');
 			$value = mb_strcut($value, 0, $length, 'eucjp-win') . $suffix;
-			$value = self::convertEncoding($value, self::SCRIPT_ENCODING, 'eucjp-win');
+			$value = self::convertEncoding($value, 'utf-8', 'eucjp-win');
 		}
 		return $value;
 	}
@@ -267,7 +265,7 @@ class BSString {
 	 */
 	static public function getWidth ($str) {
 		return strlen(
-			self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING)
+			self::convertEncoding($str, 'eucjp-win', 'utf-8')
 		);
 	}
 
@@ -281,16 +279,16 @@ class BSString {
 	 * @static
 	 */
 	static public function split ($str, $width = 74) {
-		$str = self::convertEncoding($str, 'eucjp-win', self::SCRIPT_ENCODING);
+		$str = self::convertEncoding($str, 'eucjp-win', 'utf-8');
 
 		BSController::includeFile('OME/OME.php');
 		mb_internal_encoding('eucjp-win');
 		$ome = new OME;
 		$ome->setBodyWidth($width);
 		$str = @$ome->devideWithLimitingWidth($str);
-		mb_internal_encoding(self::SCRIPT_ENCODING);
+		mb_internal_encoding('utf-8');
 
-		$str = self::convertEncoding($str, self::SCRIPT_ENCODING, 'eucjp-win');
+		$str = self::convertEncoding($str, 'utf-8', 'eucjp-win');
 		return $str;
 	}
 

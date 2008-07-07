@@ -87,8 +87,8 @@ class BSSmartySender extends BSSMTP {
 
 		$body = BSString::convertEncoding(
 			implode("\n", $lines),
-			BSString::SCRIPT_ENCODING,
-			BSString::TEMPLATE_ENCODING
+			'utf-8',
+			'utf-8'
 		);
 		$this->setBody($body);
 	}

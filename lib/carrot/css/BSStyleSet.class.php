@@ -146,7 +146,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 * @param string $type 文字セットの種類
 	 * @return PEAR_Error エラーが発生した場合はエラーオブジェクトを返す
 	 */
-	public function setCharset ($type = BS_SCRIPT_ENCODING) {
+	public function setCharset ($type = 'utf-8') {
 		$this->setRule('charset', $type);
 		return parent::setCharset($type);
 	}

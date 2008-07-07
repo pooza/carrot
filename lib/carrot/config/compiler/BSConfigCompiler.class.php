@@ -56,9 +56,19 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	abstract public function execute (BSConfigFile $file);
 
 	/**
-	 * コンパイル後のphpステートメントを返す
+	 * ログを出力する
 	 *
 	 * @access public
+	 * @return string コンパイル結果
+	 */
+	public function putLog ($message) {
+		BSController::getInstance()->putLog($message, get_class($this));
+	}
+
+	/**
+	 * コンパイル後のphpステートメントを返す
+	 *
+	 * @access protected
 	 * @return string コンパイル結果
 	 */
 	protected function getBody () {

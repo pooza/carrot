@@ -236,7 +236,7 @@ class BSMySQLDatabase extends BSDatabase {
 				$this->attributes['encoding'] = $encoding;
 			} else {
 				// 4.1以降のMySQLでは、接続時にSET NAMESクエリーを送信済み
-				$this->attributes['encoding'] = BSString::SCRIPT_ENCODING;
+				$this->attributes['encoding'] = 'utf-8';
 			}
 		}
 		return $this->attributes['encoding'];

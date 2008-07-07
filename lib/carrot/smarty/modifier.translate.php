@@ -19,8 +19,8 @@ function smarty_modifier_translate ($value, $dictionary = null, $language = null
 	} else if ($value != '') {
 		return BSString::convertEncoding(
 			BSTranslator::getInstance()->translate($value, $dictionary, $language),
-			BSString::TEMPLATE_ENCODING,
-			BSString::SCRIPT_ENCODING
+			'utf-8',
+			'utf-8'
 		);
 	}
 }
