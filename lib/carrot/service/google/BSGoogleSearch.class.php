@@ -80,9 +80,9 @@ class BSGoogleSearch {
 
 		$result = $this->getEngine()->doGoogleSearch(
 			BS_GOOGLE_KEY,
-			BSString::convertEncoding($this->query, 'UTF-8'),
+			BSString::convertEncoding($this->query, 'utf-8'),
 			0, $limit, false, 'countryJP', false, 'lang_ja',
-			'UTF-8', 'utf-8'
+			'utf-8', 'utf-8'
 		);
 		if (!$result) {
 			throw new BSGoogleException('Google検索に失敗しました。');

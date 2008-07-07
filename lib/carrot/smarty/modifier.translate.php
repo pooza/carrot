@@ -17,11 +17,7 @@ function smarty_modifier_translate ($value, $dictionary = null, $language = null
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		return BSString::convertEncoding(
-			BSTranslator::getInstance()->translate($value, $dictionary, $language),
-			'utf-8',
-			'utf-8'
-		);
+		return BSTranslator::getInstance()->translate($value, $dictionary, $language);
 	}
 }
 
