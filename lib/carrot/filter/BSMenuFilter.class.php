@@ -32,7 +32,9 @@ class BSMenuFilter extends BSFilter {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile($this->getMenuFile()));
 			foreach ($config as $menuitem) {
-				if (isset($menuitem['module'])) {
+				if ($menuitem['title'] == '---') {
+					$this->menu[] = $menuitem;
+				} else if (isset($menuitem['module'])) {
 					$moduleMenu = $this->controller->getModule($menuitem['module']);
 					$moduleCurrent = $this->controller->getModule();
 					if ($moduleCurrent->getName() == $moduleMenu->getName()) {

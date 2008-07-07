@@ -11,6 +11,7 @@ log,ログ
 message,メッセージ
 name,名前
 priority,優先順位
+rank,順位
 remote_host,リモートホスト
 show,表示
 status,状態

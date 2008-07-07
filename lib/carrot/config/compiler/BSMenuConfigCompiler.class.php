@@ -29,7 +29,9 @@ class BSMenuConfigCompiler extends BSSerializeConfigCompiler {
 					$values[strtolower($key)] = parent::replaceConstants($value);
 				}
 			}
-			if (!isset($values['href'])) {
+			if (preg_match('/^\-/', $module)) {
+				$values['title'] = '---';
+			} else if (!isset($values['href'])) {
 				if (!isset($values['module'])) {
 					$values['module'] = $module;
 				}

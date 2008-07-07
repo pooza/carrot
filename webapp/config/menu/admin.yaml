@@ -4,6 +4,8 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
+---1:
+
 AdminLog:
 AdminXMPPBot:
 DevelopTableReport:
@@ -13,6 +15,8 @@ AWStats:
   title: アクセスログ解析
   href: /awstats/awstats.pl
   target: _blank
+
+---2:
 
 Logout:
   title: ログアウト
