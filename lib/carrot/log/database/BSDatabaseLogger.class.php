@@ -25,6 +25,16 @@ class BSDatabaseLogger extends BSLogger {
 	}
 
 	/**
+	 * テーブルを返す
+	 *
+	 * @access public
+	 * @return BSLogEntryHandler
+	 */
+	public function getTable () {
+		return $this->table;
+	}
+
+	/**
 	 * ログを出力する
 	 *
 	 * @access public
@@ -38,7 +48,7 @@ class BSDatabaseLogger extends BSLogger {
 			'priority' => $priority,
 			'message' => $message,
 		);
-		$this->table->createRecord($values);
+		$this->getTable()->createRecord($values);
 	}
 
 	/**
@@ -48,7 +58,7 @@ class BSDatabaseLogger extends BSLogger {
 	 * @return BSArray 月の配列
 	 */
 	public function getMonths () {
-		return $this->table->getMonths();
+		return $this->getTable()->getMonths();
 	}
 
 	/**
@@ -59,7 +69,7 @@ class BSDatabaseLogger extends BSLogger {
 	 * @return BSArray エントリーの配列
 	 */
 	public function getEntries ($month) {
-		return new BSArray($this->table->getEntries($month)->getContents());
+		return new BSArray($this->getTable()->getEntries($month)->getContents());
 	}
 }
 
