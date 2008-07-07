@@ -14,7 +14,7 @@
 class BSLogManager implements IteratorAggregate {
 	private $loggers;
 	static private $instance;
-	const DEFAULT_LOGGER_CLASSES = 'BSDatabaseLogger,BSSystemLogger';
+	const DEFAULT_LOGGER_CLASSES = 'BSFileLogger,BSSystemLogger';
 
 	/**
 	 * コンストラクタ

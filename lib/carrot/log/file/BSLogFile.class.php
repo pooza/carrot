@@ -33,10 +33,10 @@ class BSLogFile extends BSFile {
 				}
 				$this->logs[] = array(
 					'date' => $matches[1],
-					'host' => $matches[2],
-					'type' => $matches[3],
+					'remote_host' => $matches[2],
+					'priority' => $matches[3],
 					'exception' => preg_match('/Exception$/', $matches[3]),
-					'description' => $matches[4],
+					'message' => $matches[4],
 				);
 			}
 		}

@@ -12,5 +12,15 @@
  * @version $Id$
  */
 class BSLogEntry extends BSRecord {
+
+	/**
+	 * 例外か？
+	 *
+	 * @access public
+	 * @return boolean 例外ならTrue
+	 */
+	public function isException () {
+		return preg_match('/Exception$/', $this->getAttribute('priority'));
+	}
 }
 ?>

@@ -13,6 +13,7 @@
  */
 class BSFileLogger extends BSLogger {
 	private $file;
+	private $directory;
 
 	/**
 	 * コンストラクタ
@@ -20,11 +21,10 @@ class BSFileLogger extends BSLogger {
 	 * @access public
 	 */
 	public function __construct () {
-		$dir = new BSLogDirectory(BS_VAR_DIR . '/log'); //BSDirectoryFinderは使わない。
 
 		$name = BSDate::getNow('Y-m-d');
-		if (!$this->file = $dir->getEntry($name)) {
-			$this->file = $dir->createEntry($name);
+		if (!$this->file = $this->getDirectory()->getEntry($name)) {
+			$this->file = $this->getDirectory()->createEntry($name);
 			$this->file->setMode(0666);
 		}
 		$this->file->open('a');
@@ -37,6 +37,20 @@ class BSFileLogger extends BSLogger {
 	 */
 	public function __destruct () {
 		$this->file->close();
+	}
+
+	/**
+	 * ログディレクトリを返す
+	 *
+	 * @access public
+	 * @return BSLogDirectory ログディレクトリ
+	 */
+	public function getDirectory () {
+		if (!$this->directory) {
+			//BSDirectoryFinderは使わない。
+			$this->directory = new BSLogDirectory(BS_VAR_DIR . '/log');
+		}
+		return $this->directory;
 	}
 
 	/**
@@ -63,8 +77,16 @@ class BSFileLogger extends BSLogger {
 	 * @return BSArray 月の配列
 	 */
 	public function getMonths () {
-		$month = BSDate::getNow('Y-m');
-		return new BSArray(array($month => $month));
+		$months = new BSArray;
+		foreach ($this->getDirectory() as $file) {
+			try {
+				$date = new BSDate($file->getBaseName());
+			} catch (BSDateException $e) {
+			}
+			$months[$date->format('Y-m')] = $date->format('Y-m');
+		}
+		$months->sort(BSArray::SORT_VALUE_DESC);
+		return $months;
 	}
 
 	/**
@@ -75,6 +97,11 @@ class BSFileLogger extends BSLogger {
 	 * @return BSArray エントリーの配列
 	 */
 	public function getEntries ($month) {
+		$entries = new BSArray;
+		foreach ($this->getDirectory() as $file) {
+			$entries->setParameters($file->getContents());
+		}
+		return $entries;
 	}
 }
 

@@ -69,7 +69,13 @@ class BSDatabaseLogger extends BSLogger {
 	 * @return BSArray エントリーの配列
 	 */
 	public function getEntries ($month) {
-		return new BSArray($this->getTable()->getEntries($month)->getContents());
+		$entries = new BSArray;
+		foreach ($this->getTable()->getEntries($month) as $entry) {
+			$values = $entry->getAttributes();
+			$values['exception'] = $entry->isException();
+			$entries[] = $values;
+		}
+		return $entries;
 	}
 }
 
