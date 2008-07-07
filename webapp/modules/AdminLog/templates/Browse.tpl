@@ -10,7 +10,7 @@
 {include file='AdminHeader'}
 
 <form method="get" action="/{$module}/{$action}">
-	{html_options name='logfile' options=$logfiles selected=$logfile}
+	{html_options name='month' options=$months selected=$param.month}
 	<input type="submit" value="表示" />
 	<a href="/AdminFeed/Log"><img src="/carrotlib/images/feed.gif" width="16" height="16" alt="FEED" border="0" /></a>
 </form>
@@ -24,12 +24,12 @@
 		<th width="360">内容</th>
 	</tr>
 
-{foreach from=$logs item=log}
+{foreach from=$entries item=log}
 	<tr {if $log.exception}class="alert"{/if}>
 		<td width="120">{$log.date}</td>
-		<td width="150">{$log.host}</td>
-		<td width="180">{$log.type}</td>
-		<td width="360">{$log.description}</td>
+		<td width="150">{$log.remote_host}</td>
+		<td width="180">{$log.priority}</td>
+		<td width="360">{$log.message}</td>
 	</tr>
 {foreachelse}
 	<tr>

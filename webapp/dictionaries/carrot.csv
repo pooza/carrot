@@ -2,11 +2,15 @@ label,ja
 cookie,Cookie
 create_date,作成日
 data,データ
+date,日付
 directories,ディレクトリ
 format,形式
 hide,非表示
 id,ID
+log,ログ
+message,メッセージ
 name,名前
+priority,優先順位
 remote_host,リモートホスト
 show,表示
 status,状態

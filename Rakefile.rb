@@ -13,14 +13,23 @@ desc '運用環境の構築（productionと同じ）'
 task :install => :production
 
 desc '運用環境の構築'
-task :production => [:chmod_var, :pset, :awstats, :ajaxzip2, :production_local]
+task :production => [:chmod_var, :log, :pset, :awstats, :ajaxzip2, :production_local]
 
 desc 'テスト環境の構築'
-task :development => [:chmod_var, :pset, :phpdoc, :ajaxzip2, :development_local]
+task :development => [:chmod_var, :log, :pset, :phpdoc, :ajaxzip2, :development_local]
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do
   sh 'chmod -R 777 var/*'
+end
+
+desc 'ログデータベースを設定'
+task :log => ['var/db/log.sqlite3']
+
+file 'var/db/log.sqlite3' do
+  sh 'touch var/db/log.sqlite3'
+  sh 'chmod 666 var/db/log.sqlite3'
+  sh 'sqlite3 var/db/log.sqlite3 < share/sql/log.sql'
 end
 
 desc '全ファイルのsvn属性を設定'

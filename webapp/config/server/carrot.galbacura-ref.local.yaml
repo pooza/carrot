@@ -34,13 +34,13 @@ types:
 pdo:
   #query_log_enable: no
   default:
-    dsn: mysql:host=127.0.0.1;dbname=carrot
+    #dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
-    #dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
     uid: root
     password:
-  session:
-    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
+  log:
+    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
     loggable: no
 
 smtp:
@@ -52,7 +52,8 @@ xmpp:
 
 log:
   classes:
-    - BSFileLogger
+    - BSDatabaseLogger
+    #- BSFileLogger
     - BSSystemLogger
   syslog:
     facility: LOG_LOCAL6
@@ -64,6 +65,7 @@ awstats:
   server_name_aliases: 
 
 session:
+  #storage_type: file
   #storage_type: database
 
 date:

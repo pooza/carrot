@@ -26,6 +26,35 @@ abstract class BSLogger {
 	abstract public function put ($message, $priority = self::DEFAULT_PRIORITY);
 
 	/**
+	 * 最終月を返す
+	 *
+	 * @access public
+	 * @return string 最終月をyyyy-mm形式で
+	 */
+	public function getLastMonth () {
+		return $this->getMonths()->getIterator()->getFirst();
+	}
+
+	/**
+	 * 月の配列を返す
+	 *
+	 * @access public
+	 * @return BSArray 月の配列
+	 * @abstract
+	 */
+	abstract public function getMonths ();
+
+	/**
+	 * エントリーを抽出して返す
+	 *
+	 * @access public
+	 * @param string $month yyyy-mm形式の月
+	 * @return BSArray エントリーの配列
+	 * @abstract
+	 */
+	abstract public function getEntries ($month);
+
+	/**
 	 * 例外か？
 	 *
 	 * @access protected

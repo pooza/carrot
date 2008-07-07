@@ -9,25 +9,15 @@
  */
 class BrowseAction extends BSAction {
 	public function execute () {
-		$dir = $this->controller->getDirectory('log');
-		$this->request->setAttribute('logfiles', $dir->getDevidedEntryNames());
+		$logger = BSLogManager::getInstance()->getPrimaryLogger();
 
-		if ($logfile = $this->request['logfile']) {
-			$entry = $dir->getEntry($logfile);
-		} else {
-			$entry = $dir->getLatestEntry();
+		if (!$month = $this->request['month']) {
+			$this->request['month'] = $logger->getLastMonth();
 		}
 
-		if ($entry) {
-			$this->request->setAttribute('logfile', $entry->getBaseName());
-			$this->request->setAttribute('logs', $entry->getContents());
-		}
-
+		$this->request->setAttribute('months', $logger->getMonths());
+		$this->request->setAttribute('entries', $logger->getEntries($this->request['month']));
 		return BSView::SUCCESS;
-	}
-
-	public function getRequestMethods () {
-		return BSRequest::GET;
 	}
 }
 

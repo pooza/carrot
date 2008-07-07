@@ -1,18 +1,19 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage log.file
+ * @subpackage log.database
  */
 
 /**
- * ファイル用ロガー
+ * データベース用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSFileLogger extends BSLogger {
-	private $file;
+class BSDatabaseLogger extends BSLogger {
+	private $table;
+	const TABLE_NAME = 'log';
 
 	/**
 	 * コンストラクタ
@@ -20,23 +21,7 @@ class BSFileLogger extends BSLogger {
 	 * @access public
 	 */
 	public function __construct () {
-		$dir = new BSLogDirectory(BS_VAR_DIR . '/log'); //BSDirectoryFinderは使わない。
-
-		$name = BSDate::getNow('Y-m-d');
-		if (!$this->file = $dir->getEntry($name)) {
-			$this->file = $dir->createEntry($name);
-			$this->file->setMode(0666);
-		}
-		$this->file->open('a');
-	}
-
-	/**
-	 * デストラクタ
-	 *
-	 * @access public
-	 */
-	public function __destruct () {
-		$this->file->close();
+		$this->table = new BSLogEntryHandler;
 	}
 
 	/**
@@ -47,13 +32,13 @@ class BSFileLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		$message = array(
-			'[' . BSDate::getNow('Y-m-d H:i:s') . ']',
-			'[' . BSController::getInstance()->getClientHost()->getName() . ']',
-			'[' . $priority . ']',
-			BSString::convertEncoding($message),
+		$values = array(
+			'date' => BSDate::getNow('Y-m-d H:i:s'),
+			'remote_host' => BSController::getInstance()->getClientHost()->getName(),
+			'priority' => $priority,
+			'message' => $message,
 		);
-		$this->file->putLine(implode(' ', $message));
+		$this->table->createRecord($values);
 	}
 
 	/**
@@ -63,8 +48,7 @@ class BSFileLogger extends BSLogger {
 	 * @return BSArray 月の配列
 	 */
 	public function getMonths () {
-		$month = BSDate::getNow('Y-m');
-		return new BSArray(array($month => $month));
+		return $this->table->getMonths();
 	}
 
 	/**
@@ -75,6 +59,7 @@ class BSFileLogger extends BSLogger {
 	 * @return BSArray エントリーの配列
 	 */
 	public function getEntries ($month) {
+		return new BSArray($this->table->getEntries($month)->getContents());
 	}
 }
 
