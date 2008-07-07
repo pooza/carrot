@@ -99,7 +99,13 @@ class BSFileLogger extends BSLogger {
 	public function getEntries ($month) {
 		$entries = new BSArray;
 		foreach ($this->getDirectory() as $file) {
-			$entries->setParameters($file->getContents());
+			try {
+				$date = new BSDate($file->getBaseName());
+			} catch (BSDateException $e) {
+			}
+			if ($date->format('Y-m') == $month) {
+				$entries->setParameters($file->getContents());
+			}
 		}
 		return $entries;
 	}
