@@ -20,7 +20,7 @@
 	<tr>
 		<th width="120">日付</th>
 		<th width="150">ホスト</th>
-		<th width="120">種類</th>
+		<th width="180">種類</th>
 		<th width="360">内容</th>
 	</tr>
 
@@ -28,7 +28,7 @@
 	<tr {if $log.exception}class="alert"{/if}>
 		<td width="120">{$log.date}</td>
 		<td width="150">{$log.host}</td>
-		<td width="120">{$log.type}</td>
+		<td width="180">{$log.type}</td>
 		<td width="360">{$log.description}</td>
 	</tr>
 {foreachelse}

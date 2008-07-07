@@ -20,6 +20,7 @@ class BSNetwork extends BSHost {
 	 * @param string $address CIDR形式のIPアドレス
 	 */
 	public function __construct ($address) {
+		require_once('Net/IPv4.php');
 		$this->address = new Net_IPv4;
 		$this->setCIDR($address);
 	}

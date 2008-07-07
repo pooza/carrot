@@ -4,8 +4,6 @@
  * @subpackage net
  */
 
-BSController::includeFile('pear/Net/IPv4.php');
-
 /**
  * ホスト
  *
@@ -25,6 +23,7 @@ class BSHost {
 	 * @param string $address ホスト名又はIPアドレス
 	 */
 	public function __construct ($address) {
+		require_once('Net/IPv4.php');
 		$this->address = new Net_IPv4;
 
 		if (preg_match("/^[0-9\.]+$/", $address)) {
