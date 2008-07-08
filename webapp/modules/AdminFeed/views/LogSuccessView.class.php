@@ -18,18 +18,19 @@ class LogSuccessView extends BSView {
 	}
 
 	public function execute () {
-		$url = new BSURL();
-		$url->setAttribute('path', '/AdminLog/');
 		$this->getEngine()->setTitle($this->controller->getServerHost()->getName());
 		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログ');
-		$this->getEngine()->setLink($url);
-
-		foreach ($this->request->getAttribute('logs') as $log) {
-			unset($log['exception']);
+		$this->getEngine()->setLink(BSModule::getInstance('AdminLog')->getURL());
+		foreach ($this->request->getAttribute('entries') as $log) {
 			$entry = $this->getEngine()->createEntry();
-			$entry->setTitle($log['description']);
+			$entry->setTitle($log['message']);
 			$entry->setDate(new BSDate($log['date']));
-			$entry->setBody(implode("\n", $log));
+			$message = array(
+				'date' => $log['date'],
+				'remote_host' => $log['remote_host'],
+				'priority' => $log['priority'],
+			);
+			$entry->setBody(BSString::toString($message, ': ', "\n"));
 		}
 	}
 }

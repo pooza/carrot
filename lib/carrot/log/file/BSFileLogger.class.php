@@ -12,6 +12,8 @@
  * @version $Id$
  */
 class BSFileLogger extends BSLogger {
+	private $dates;
+	private $entries;
 	private $file;
 	private $directory;
 
@@ -21,7 +23,6 @@ class BSFileLogger extends BSLogger {
 	 * @access public
 	 */
 	public function __construct () {
-
 		$name = BSDate::getNow('Y-m-d');
 		if (!$this->file = $this->getDirectory()->getEntry($name)) {
 			$this->file = $this->getDirectory()->createEntry($name);
@@ -71,43 +72,48 @@ class BSFileLogger extends BSLogger {
 	}
 
 	/**
-	 * 月の配列を返す
+	 * 日付の配列を返す
 	 *
 	 * @access public
-	 * @return BSArray 月の配列
+	 * @return BSArray 日付の配列
 	 */
-	public function getMonths () {
-		$months = new BSArray;
-		foreach ($this->getDirectory() as $file) {
-			try {
-				$date = new BSDate($file->getBaseName());
-			} catch (BSDateException $e) {
+	public function getDates () {
+		if (!$this->dates) {
+			$this->dates = new BSArray;
+			foreach ($this->getDirectory() as $file) {
+				try {
+					$date = new BSDate($file->getBaseName());
+				} catch (BSDateException $e) {
+					continue;
+				}
+				$month = $date->format('Y-m');
+				if (!$this->dates[$month]) {
+					$this->dates[$month] = new BSArray;
+				}
+				$this->dates[$month][$date->format('Y-m-d')] = $date->format('Y-m-d(ww)');
 			}
-			$months[$date->format('Y-m')] = $date->format('Y-m');
 		}
-		$months->sort(BSArray::SORT_VALUE_DESC);
-		return $months;
+		return $this->dates;
 	}
 
 	/**
 	 * エントリーを抽出して返す
 	 *
 	 * @access public
-	 * @param string $month yyyy-mm形式の月
+	 * @param string BSDate 対象日付
 	 * @return BSArray エントリーの配列
 	 */
-	public function getEntries ($month) {
-		$entries = new BSArray;
-		foreach ($this->getDirectory() as $file) {
-			try {
-				$date = new BSDate($file->getBaseName());
-			} catch (BSDateException $e) {
-			}
-			if ($date->format('Y-m') == $month) {
-				$entries->setParameters($file->getContents());
+	public function getEntries (BSDate $date) {
+		if (!$this->entries) {
+			$this->entries = new BSArray;
+			if ($month = $this->getDates()->getParameter($date->format('Y-m'))) {
+				if ($month->hasParameter($name = $date->format('Y-m-d'))) {
+					$file = $this->getDirectory()->getEntry($name);
+					$this->entries->setParameters($file->getEntries());
+				}
 			}
 		}
-		return $entries;
+		return $this->entries;
 	}
 }
 

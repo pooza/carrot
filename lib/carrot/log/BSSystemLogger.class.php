@@ -53,28 +53,6 @@ class BSSystemLogger extends BSLogger {
 			syslog(LOG_NOTICE, $message);
 		}
 	}
-
-	/**
-	 * 月の配列を返す
-	 *
-	 * @access public
-	 * @return BSArray 月の配列
-	 */
-	public function getMonths () {
-		$month = BSDate::getNow('Y-m');
-		return new BSArray(array($month => $month));
-	}
-
-	/**
-	 * エントリーを抽出して返す
-	 *
-	 * @access public
-	 * @param string $month yyyy-mm形式の月
-	 * @return BSArray エントリーの配列
-	 */
-	public function getEntries ($month) {
-		return new BSArray;
-	}
 }
 
 /* vim:set tabstop=4 ai: */

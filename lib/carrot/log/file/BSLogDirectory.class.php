@@ -28,37 +28,6 @@ class BSLogDirectory extends BSDirectory {
 	}
 
 	/**
-	 * 最新のエントリーを返す
-	 *
-	 * @access public
-	 * @param string $class エントリーのクラス名
-	 * @return BSDirectoryEntry ログファイル
-	 */
-	public function getLatestEntry ($class = null) {
-		if ($entries = $this->getEntryNames()) {
-			if (!$class) {
-				$class = $this->getDefaultEntryClassName();
-			}
-			return $this->getEntry($entries[0], $class);
-		}
-	}
-
-	/**
-	 * 月毎にグループ化されたエントリー名を返す
-	 *
-	 * @access public
-	 * @return string[][] エントリー名
-	 */
-	public function getDevidedEntryNames () {
-		$names = array();
-		foreach ($this->getEntryNames() as $name) {
-			$date = new BSDate($name);
-			$names[$date->format('Y-m')][$name] = $date->format('Y-m-d (ww)');
-		}
-		return $names;
-	}
-
-	/**
 	 * サブディレクトリを持つか
 	 *
 	 * @access public

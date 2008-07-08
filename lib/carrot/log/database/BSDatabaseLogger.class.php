@@ -13,6 +13,8 @@
  */
 class BSDatabaseLogger extends BSLogger {
 	private $table;
+	private $dates;
+	private $entries;
 	const TABLE_NAME = 'log';
 
 	/**
@@ -52,30 +54,43 @@ class BSDatabaseLogger extends BSLogger {
 	}
 
 	/**
-	 * 月の配列を返す
+	 * 日付の配列を返す
 	 *
 	 * @access public
-	 * @return BSArray 月の配列
+	 * @return BSArray 日付の配列
 	 */
-	public function getMonths () {
-		return $this->getTable()->getMonths();
+	public function getDates () {
+		if (!$this->dates) {
+			$this->dates = new BSArray;
+			foreach ($this->getTable()->getDates() as $date) {
+				$date = new BSDate($date);
+				$month = $date->format('Y-m');
+				if (!$this->dates[$month]) {
+					$this->dates[$month] = new BSArray;
+				}
+				$this->dates[$month][$date->format('Y-m-d')] = $date->format('Y-m-d(ww)');
+			}
+		}
+		return $this->dates;
 	}
 
 	/**
 	 * エントリーを抽出して返す
 	 *
 	 * @access public
-	 * @param string $month yyyy-mm形式の月
+	 * @param string BSDate 対象日付
 	 * @return BSArray エントリーの配列
 	 */
-	public function getEntries ($month) {
-		$entries = new BSArray;
-		foreach ($this->getTable()->getEntries($month) as $entry) {
-			$values = $entry->getAttributes();
-			$values['exception'] = $entry->isException();
-			$entries[] = $values;
+	public function getEntries (BSDate $date) {
+		if (!$this->entries) {
+			$this->entries = new BSArray;
+			foreach ($this->getTable()->getEntries($date) as $entry) {
+				$values = $entry->getAttributes();
+				$values['exception'] = $entry->isException();
+				$this->entries[] = $values;
+			}
 		}
-		return $entries;
+		return $this->entries;
 	}
 }
 

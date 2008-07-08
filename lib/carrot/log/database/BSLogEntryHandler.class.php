@@ -58,43 +58,45 @@ class BSLogEntryHandler extends BSTableHandler {
 	}
 
 	/**
-	 * 月の配列を返す
+	 * 日付の配列を返す
 	 *
 	 * @access public
 	 * @return BSArray 月の降順配列
 	 */
-	public function getMonths () {
+	public function getDates () {
 		$query = BSSQL::getSelectQueryString(
-			'strftime(\'%Y-%m\',date) AS month',
+			'strftime(\'%Y-%m-%d\',date) AS date',
 			$this->getName(),
 			$this->getCriteria(),
-			'month DESC',
-			'month'
+			'date DESC',
+			'date'
 		);
 
-		$months = new BSArray;
+		$dates = new BSArray;
 		foreach ($this->getDatabase()->query($query) as $row) {
-			$months[$row['month']] = $row['month'];
+			$dates[$row['date']] = $row['date'];
 		}
-		return $months;
+		return $dates;
 	}
 
 	/**
 	 * エントリーを抽出して返す
 	 *
 	 * @access public
-	 * @param string $month yyyy-mm形式の月
+	 * @param BSDate $date 対象日付
 	 * @return BSLogEntryHandler 抽出済みテーブル
 	 */
-	public function getEntries ($month) {
+	public function getEntries (BSDate $date) {
 		$table = clone $this;
 		$criteria = sprintf(
 			'strftime(%s,date)=%s',
-			$this->getDatabase()->quote('%Y-%m'),
-			$this->getDatabase()->quote($month)
+			$this->getDatabase()->quote('%Y-%m-%d'),
+			$this->getDatabase()->quote($date->format('Y-m-d'))
 		);
 		$table->setCriteria($criteria);
 		return $table;
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

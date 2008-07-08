@@ -26,33 +26,39 @@ abstract class BSLogger {
 	abstract public function put ($message, $priority = self::DEFAULT_PRIORITY);
 
 	/**
-	 * 最終月を返す
+	 * 直近日を返す
 	 *
 	 * @access public
-	 * @return string 最終月をyyyy-mm形式で
+	 * @return BSDate 直近日
 	 */
-	public function getLastMonth () {
-		return $this->getMonths()->getIterator()->getFirst();
+	public function getLastDate () {
+		if ($month = $this->getDates()->getIterator()->getFirst()) {
+			if ($date = $month->getIterator()->getFirst()) {
+				return new BSDate($date);
+			}
+		}
 	}
 
 	/**
-	 * 月の配列を返す
+	 * 日付の配列を返す
 	 *
 	 * @access public
-	 * @return BSArray 月の配列
-	 * @abstract
+	 * @return BSArray 日付の配列
 	 */
-	abstract public function getMonths ();
+	public function getDates () {
+		throw new BSException('%sはgetDatesに対応していません。', get_class($this));
+	}
 
 	/**
 	 * エントリーを抽出して返す
 	 *
 	 * @access public
-	 * @param string $month yyyy-mm形式の月
+	 * @param string BSDate 対象日付
 	 * @return BSArray エントリーの配列
-	 * @abstract
 	 */
-	abstract public function getEntries ($month);
+	public function getEntries (BSDate $date) {
+		throw new BSException('%sはgetEntriesに対応していません。', get_class($this));
+	}
 
 	/**
 	 * 例外か？

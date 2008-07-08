@@ -85,7 +85,12 @@ class BSSerializeHandler {
 		$file->setMode(0666);
 		$file->setContents($this->getEngine()->encode($value));
 		$this->attributes[$name] = $value;
-		BSController::getInstance()->putLog($name . 'をシリアライズしました。', get_class($this));
+		$message = sprintf(
+			'%sをシリアライズしました。 (%s)',
+			$name,
+			$file->getFormattedSize('Bytes')
+		);
+		BSController::getInstance()->putLog($message, get_class($this));
 	}
 
 	/**

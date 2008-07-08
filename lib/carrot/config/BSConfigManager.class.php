@@ -77,7 +77,12 @@ class BSConfigManager {
 				}
 				if (preg_match($pattern, $file->getPath())) {
 					$cache->setContents($compiler->execute($file));
-					$compiler->putLog($cache->getName() . 'をコンパイルしました。');
+					$message = sprintf(
+						'%sをコンパイルしました。 (%s)',
+						$cache->getName(),
+						$cache->getFormattedSize('Bytes')
+					);
+					$compiler->putLog($message);
 					break;
 				}
 			}

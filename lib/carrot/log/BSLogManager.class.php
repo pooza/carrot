@@ -14,7 +14,7 @@
 class BSLogManager implements IteratorAggregate {
 	private $loggers;
 	static private $instance;
-	const DEFAULT_LOGGER_CLASSES = 'BSFileLogger,BSSystemLogger';
+	const DEFAULT_LOGGER_CLASSES = 'BSSystemLogger';
 
 	/**
 	 * コンストラクタ
@@ -23,10 +23,10 @@ class BSLogManager implements IteratorAggregate {
 	 */
 	private function __construct () {
 		$this->loggers = new BSArray;
-		if (!$classes = BSConstantHandler::getInstance()->getParameter('LOG_CLASSES')) {
+		if (!$classes = BSController::getInstance()->getConstant('LOG_CLASSES')) {
 			$classes = self::DEFAULT_LOGGER_CLASSES;
 		}
-		foreach (explode(',', $classes) as $class) {
+		foreach (BSString::explode(',', $classes) as $class) {
 			$this->register(new $class);
 		}
 	}

@@ -27,9 +27,8 @@ desc 'ログデータベースを設定'
 task :log => ['var/db/log.sqlite3']
 
 file 'var/db/log.sqlite3' do
-  sh 'touch var/db/log.sqlite3'
-  sh 'chmod 666 var/db/log.sqlite3'
   sh 'sqlite3 var/db/log.sqlite3 < share/sql/log.sql'
+  sh 'chmod 666 var/db/log.sqlite3'
 end
 
 desc '全ファイルのsvn属性を設定'
@@ -48,7 +47,9 @@ task :pset do
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
-task :clean do
+task :clean => [:clean_var, :log]
+
+task :clean_var do
   sh 'sudo rm -R var/*/*'
 end
 

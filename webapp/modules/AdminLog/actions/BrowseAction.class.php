@@ -8,16 +8,40 @@
  * @version $Id$
  */
 class BrowseAction extends BSAction {
-	public function execute () {
-		$logger = BSLogManager::getInstance()->getPrimaryLogger();
+	private $logger;
+	private $date;
 
-		if (!$month = $this->request['month']) {
-			$this->request['month'] = $logger->getLastMonth();
+	private function getLogger () {
+		if (!$this->logger) {
+			$this->logger = BSLogManager::getInstance()->getPrimaryLogger();
 		}
+		return $this->logger;
+	}
 
-		$this->request->setAttribute('months', $logger->getMonths());
-		$this->request->setAttribute('entries', $logger->getEntries($this->request['month']));
+	private function getDate () {
+		if (!$this->date) {
+			if ($this->request['date']) {
+				$this->date = new BSDate($this->request['date']);
+			} else {
+				$this->date = $this->getLogger()->getLastDate();
+				$this->request['date'] = $this->date->format('Y-m-d');
+			}
+		}
+		return $this->date;
+	}
+
+	public function execute () {
+		$this->request->setAttribute('dates', $this->getLogger()->getDates());
+		$this->request->setAttribute('entries', $this->getLogger()->getEntries($this->getDate()));
 		return BSView::SUCCESS;
+	}
+
+	public function handleError () {
+		return $this->controller->forwardTo($this->controller->getNotFoundAction());
+	}
+
+	public function validate () {
+		return ($this->getDate() && $this->getLogger());
 	}
 }
 

@@ -259,11 +259,26 @@ abstract class BSDatabase extends PDO {
 	 * @param string $log ログ
 	 */
 	protected function putLog ($log) {
-		$constants = BSConstantHandler::getInstance();
-		$name = sprintf('pdo_%s_loggable', $this->getName());
-		if (!$constants->hasParameter($name) || $constants[$name]) {
+		if ($this->isLoggable()) {
 			BSController::getInstance()->putLog($log, get_class($this));
 		}
+	}
+
+	/**
+	 * クエリーログを使用するか？
+	 *
+	 * @access private
+	 * @return boolean クエリーログを使用するならTrue
+	 */
+	private function isLoggable () {
+		$constants = BSConstantHandler::getInstance();
+		$name = sprintf('PDO_%s_LOGGABLE', $this->getName());
+		if ($constants->hasParameter($name) && !$constants[$name]) {
+			return false;
+		} else if (in_array($this->getName(), array('session', 'log'))) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

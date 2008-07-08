@@ -9,9 +9,8 @@
  */
 class LogAction extends BSAction {
 	public function execute () {
-		$dir = $this->controller->getDirectory('log');
-		$this->request->setAttribute('logs', $dir->getLatestEntry()->getContents());
-
+		$logger = BSLogManager::getInstance()->getPrimaryLogger();
+		$this->request->setAttribute('entries', $logger->getEntries($logger->getLastDate()));
 		return BSView::SUCCESS;
 	}
 

@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSLogFile extends BSFile {
-	private $logs = array();
+	private $entries = array();
 
 	/**
 	 * ログの内容を返す
@@ -20,8 +20,8 @@ class BSLogFile extends BSFile {
 	 * @access public
 	 * @return string[][] ログの内容
 	 */
-	public function getContents () {
-		if (!$this->logs) {
+	public function getEntries () {
+		if (!$this->entries) {
 			if ($this->isOpened()) {
 				throw new BSFileException('%sは既に開いています。', $this);
 			}
@@ -31,7 +31,7 @@ class BSLogFile extends BSFile {
 				if (!preg_match($pattern, $line, $matches)) {
 					continue;
 				}
-				$this->logs[] = array(
+				$this->entries[] = array(
 					'date' => $matches[1],
 					'remote_host' => $matches[2],
 					'priority' => $matches[3],
@@ -40,7 +40,7 @@ class BSLogFile extends BSFile {
 				);
 			}
 		}
-		return $this->logs;
+		return $this->entries;
 	}
 
 	/**
