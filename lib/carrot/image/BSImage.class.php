@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSImage implements BSImageRenderer {
-	private $colors = array();
 	private $type;
 	private $image;
 	private $height;
@@ -45,8 +44,7 @@ class BSImage implements BSImageRenderer {
 		if (!$color = BSController::getInstance()->getConstant('THUMBNAIL_BGCOLOR')) {
 			$color = 'white';
 		}
-		$this->setColor('background', new Color($color));
-		$this->fill($this->getCoordinate(0, 0), 'background');
+		$this->fill($this->getCoordinate(0, 0), new BSColor($color));
 	}
 
 	/**
@@ -77,7 +75,6 @@ class BSImage implements BSImageRenderer {
 		} else {
 			throw new BSImageException('GDイメージリソースが正しくありません。');
 		}
-
 		$this->width = imagesx($this->image);
 		$this->height = imagesy($this->image);
 	}
@@ -174,35 +171,20 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 色を返す
+	 * 色IDを生成して返す
 	 *
-	 * @access public
-	 * @param string $key 色の名前
-	 * @return integer 色番号
-	 */
-	public function getColor ($key) {
-		return $this->colors[$key];
-	}
-
-	/**
-	 * 色を登録する
-	 *
-	 * @access public
-	 * @param string $key 色の名前
+	 * @access private
 	 * @param BSColor $color 色
+	 * @return integer 色ID
 	 */
-	public function setColor ($key, BSColor $color) {
-		if ($color['alpha']) {
-			$this->colors[$key] = imagecolorallocatealpha(
-				$this->getImage(),
-				$color['red'], $color['green'], $color['blue'], $color['alpha']
-			);
-		} else {
-			$this->colors[$key] = imagecolorallocate(
-				$this->getImage(),
-				$color['red'], $color['green'], $color['blue']
-			);
-		}
+	private function getColorID (BSColor $color) {
+		return imagecolorallocatealpha(
+			$this->getImage(),
+			$color['red'],
+			$color['green'],
+			$color['blue'],
+			$color['alpha']
+		);
 	}
 
 	/**
@@ -256,15 +238,14 @@ class BSImage implements BSImageRenderer {
 	 *
 	 * @access public
 	 * @param BSCoordinate $coord 始点の座標
-	 * @param string $color 色の名前
+	 * @param BSColor $color 色
 	 */
-	public function fill (BSCoordinate $coord, $color) {
-
+	public function fill (BSCoordinate $coord, BSColor $color) {
 		imagefill(
 			$this->getImage(),
 			$coord->getX(),
 			$coord->getY(),
-			$color
+			$this->getColorID($color)
 		);
 	}
 
@@ -274,9 +255,9 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @param string 文字
 	 * @param BSCoordinate $coord 最初の文字の左下の座標
-	 * @param string $color 色の名前
+	 * @param BSColor $color 色
 	 */
-	public function drawText ($text, BSCoordinate $coord, $color = 'black') {
+	public function drawText ($text, BSCoordinate $coord, BSColor $color = null) {
 		$dir = BSController::getInstance()->getDirectory('font');
 		if (!$fontfile = $dir->getEntry($this->getFontName())) {
 			throw new BSImageException('フォントファイルが見つかりません。');
@@ -284,12 +265,15 @@ class BSImage implements BSImageRenderer {
 			throw new BSImageException('フォント"%s"が読めません。', $this->getFontName());
 		}
 
+		if (!$color) {
+			$color = new BSColor('black');
+		}
 		imagettftext(
 			$this->getImage(),
 			$this->getFontSize(),
 			0, //角度
 			$coord->getX(), $coord->getY(),
-			$this->getColor($color),
+			$this->getColorID($color),
 			$fontfile->getPath(),
 			$text
 		);

@@ -39,22 +39,20 @@ class BSColor extends BSParameterHolder {
 			$this['red'] = hexdec(substr($color, 0, 2));
 			$this['green'] = hexdec(substr($color, 2, 2));
 			$this['blue'] = hexdec(substr($color, 4, 2));
-			return;
 		} else if (preg_match('/^[0-9a-f]{3}$/i', $color)) {
 			$this['red'] = hexdec($color[0] . $color[0]);
 			$this['green'] = hexdec($color[1] . $color[1]);
 			$this['blue'] = hexdec($color[2] . $color[2]);
-			return;
-		}
-
-		$color = strtolower($color);
-		$config = array();
-		require(BSConfigManager::getInstance()->compile('image/color'));
-		$colors = $config;
-		if (isset($colors[$color])) {
-			$this->setColor($colors[$color]);
 		} else {
-			throw new BSImageException('色 "%s" は正しくありません。', $color);
+			$color = strtolower($color);
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('image/color'));
+			$colors = $config;
+			if (isset($colors[$color])) {
+				$this->setColor($colors[$color]);
+			} else {
+				throw new BSImageException('色 "%s" は正しくありません。', $color);
+			}
 		}
 	}
 
