@@ -2,7 +2,7 @@
 #
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
-# @version $Id: carrot.yaml 389 2008-06-04 02:54:34Z pooza $
+# @version $Id$
 
 aliceblue: 'f0f8ff'
 antiquewhite: 'faebd7'
