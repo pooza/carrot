@@ -41,9 +41,12 @@ class BSImage implements BSImageRenderer {
 		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
-		$this->setColor('black', 0, 0, 0);
-		$this->setColor('white', 255, 255, 255);
-		$this->fill($this->getCoordinate(0, 0), 'white');
+
+		if (!$color = BSController::getInstance()->getConstant('THUMBNAIL_BGCOLOR')) {
+			$color = 'white';
+		}
+		$this->setColor('background', new Color($color));
+		$this->fill($this->getCoordinate(0, 0), 'background');
 	}
 
 	/**
@@ -186,21 +189,18 @@ class BSImage implements BSImageRenderer {
 	 *
 	 * @access public
 	 * @param string $key 色の名前
-	 * @param integer $red 赤
-	 * @param integer $green 緑
-	 * @param integer $blue 青
-	 * @param integer $alpha 透明度
+	 * @param BSColor $color 色
 	 */
-	public function setColor ($key, $red, $green, $blue, $alpha = 0) {
-		if ($alpha) {
+	public function setColor ($key, BSColor $color) {
+		if ($color['alpha']) {
 			$this->colors[$key] = imagecolorallocatealpha(
 				$this->getImage(),
-				$red, $green, $blue, $alpha
+				$color['red'], $color['green'], $color['blue'], $color['alpha']
 			);
 		} else {
 			$this->colors[$key] = imagecolorallocate(
 				$this->getImage(),
-				$red, $green, $blue
+				$color['red'], $color['green'], $color['blue']
 			);
 		}
 	}
@@ -259,11 +259,12 @@ class BSImage implements BSImageRenderer {
 	 * @param string $color 色の名前
 	 */
 	public function fill (BSCoordinate $coord, $color) {
+
 		imagefill(
 			$this->getImage(),
 			$coord->getX(),
 			$coord->getY(),
-			$this->getColor($color)
+			$color
 		);
 	}
 
