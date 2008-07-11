@@ -167,6 +167,7 @@ class BSUserAgent {
 			'Opera',
 			'WebKit',
 			'Gecko',
+			'Tasman',
 			'MSIE',
 			'LegacyMozilla',
 			'Docomo',
