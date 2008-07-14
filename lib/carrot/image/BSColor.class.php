@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSColor extends BSParameterHolder {
-	const DEFAULT_COLOR = '#ffffff';
+	const DEFAULT_COLOR = 'black';
 
 	/**
 	 * コンストラクタ

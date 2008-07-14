@@ -40,11 +40,6 @@ class BSImage implements BSImageRenderer {
 		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
-
-		if (!$color = BSController::getInstance()->getConstant('THUMBNAIL_BGCOLOR')) {
-			$color = 'white';
-		}
-		$this->fill($this->getCoordinate(0, 0), new BSColor($color));
 	}
 
 	/**
@@ -285,7 +280,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @return string フォント名
 	 */
-	function getFontName () {
+	public function getFontName () {
 		return $this->fontname;
 	}
 
@@ -295,7 +290,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @param integer $fontname フォント名
 	 */
-	function setFontName ($fontname) {
+	public function setFontName ($fontname) {
 		if (!BSController::getInstance()->getDirectory('font')->getEntry($fontname)) {
 			throw new BSImageException('フォント名"%s"が正しくありません。', $fontname);
 		}
@@ -308,7 +303,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @return integer フォントサイズ
 	 */
-	function getFontSize () {
+	public function getFontSize () {
 		return $this->fontsize;
 	}
 
@@ -318,7 +313,7 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @param integer $size フォントサイズ
 	 */
-	function setFontSize ($size) {
+	public function setFontSize ($size) {
 		$this->fontsize = $size;
 	}
 
@@ -330,7 +325,9 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
+		$color = BSController::getInstance()->getConstant('THUMBNAIL_BGCOLOR');
 		$dest = new BSImage($width, $height);
+		$dest->fill($this->getCoordinate(0, 0), new BSColor($color));
 		if ($this->getAspect() < $dest->getAspect()) {
 			$width = $dest->getHeight() * $this->getAspect();
 			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);
