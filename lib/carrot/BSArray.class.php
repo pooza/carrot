@@ -58,6 +58,24 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
+	 * 別の配列をマージする
+	 *
+	 * ハッシュではない普通の配列同士は、setParametersではマージできない。
+	 *
+	 * @access public
+	 * @param mixed $parameters 配列
+	 */
+	public function merge ($parameters) {
+		if ($parameters instanceof BSParameterHolder) {
+			$this->parameters = array_merge($this->parameters, $parameters->getParameters());
+		} else if (is_array($parameters)) {
+			$this->parameters = array_merge($this->parameters, $parameters);
+		} else {
+			throw new BSException('配列でない値はマージできません。');
+		}
+	}
+
+	/**
 	 * 要素を設定する
 	 *
 	 * @access public
@@ -148,6 +166,15 @@ class BSArray extends BSParameterHolder implements Countable {
 	 */
 	public function isIncluded ($value) {
 		return in_array($value, $this->getParameters());
+	}
+
+	/**
+	 * 要素をユニーク化する
+	 *
+	 * @access public
+	 */
+	public function uniquize () {
+		$this->parameters = array_unique($this->parameters);
 	}
 
 	/**
