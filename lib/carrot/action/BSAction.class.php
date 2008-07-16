@@ -162,7 +162,7 @@ abstract class BSAction implements BSHTTPRedirector {
 			if (!$this->recordClassName = $this->getModule()->getConfig('record_class')) {
 				$prefixes = BSModule::getPrefixes();
 				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
-				if (preg_match($pattern, $this->controller->getModule()->getName(), $matches)) {
+				if (preg_match($pattern, $this->getModule()->getName(), $matches)) {
 					$this->recordClassName = $matches[2];
 				}
 			}
