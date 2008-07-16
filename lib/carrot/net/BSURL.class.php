@@ -15,7 +15,7 @@ class BSURL implements BSHTTPRedirector {
 	private $url;
 	private $fullpath;
 	private $attributes = array('path' => '/');
-	private $parameters = array();
+	private $parameters;
 	const PATTERN = '/^[a-z]+:\/\/[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
@@ -26,7 +26,7 @@ class BSURL implements BSHTTPRedirector {
 	 */
 	public function __construct ($url = null) {
 		if ($url) {
-			$this->setURL($url);
+			$this->setContents($url);
 		} else {
 			if (BSController::getInstance()->isSSL()) {
 				$this->setAttribute('scheme', 'https');
@@ -171,11 +171,11 @@ class BSURL implements BSHTTPRedirector {
 				foreach (parse_url($value) as $name => $attribute) {
 					$this->attributes[$name] = $attribute;
 				}
-				$this->parameters = array();
+				$this->parseQuery();
 				break;
 			case 'query':
 				$this->attributes[$name] = $value;
-				$this->parameters = array();
+				$this->parseQuery();
 				break;
 			case 'port':
 			case 'user':
@@ -200,6 +200,16 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
+	 * クエリーをパースする
+	 *
+	 * @access private
+	 */
+	private function parseQuery () {
+		parse_str($this->getAttribute('query'), $parameters);
+		$this->parameters = new BSArray($parameters);
+	}
+
+	/**
 	 * パラメータを返す
 	 *
 	 * @access public
@@ -207,10 +217,20 @@ class BSURL implements BSHTTPRedirector {
 	 * @return string パラメータ
 	 */
 	public function getParameter ($name) {
-		$parameters = $this->getParameters();
-		if (isset($parameters[$name])) {
-			return $parameters[$name];
-		}
+		return $this->getParameters()->getParameter($name);
+	}
+
+	/**
+	 * パラメータを設定する
+	 *
+	 * @access public
+	 * @param string $name パラメータの名前
+	 * @param string $value パラメータの値
+	 */
+	public function setParameter ($name, $value) {
+		$this->parseQuery();
+		$this->parameters[$name] = urlencode($value);
+		$this->setAttribute('query', BSString::toString($this->parameters, '=', '&'));
 	}
 
 	/**
@@ -220,18 +240,7 @@ class BSURL implements BSHTTPRedirector {
 	 * @return string[] パラメータの連想配列
 	 */
 	public function getParameters () {
-		if ($this->getAttribute('query') && !$this->parameters) {
-			foreach (explode('&', $this->getAttribute('query')) as $i) {
-				$param = explode('=', $i);
-				if ($param[1] == '') {
-					continue;
-				}
-
-				$param[1] = urldecode($param[1]);
-				$param[1] = BSString::convertEncoding($param[1]);
-				$this->parameters[$param[0]] = $param[1];
-			}
-		}
+		$this->parseQuery();
 		return $this->parameters;
 	}
 
@@ -242,13 +251,9 @@ class BSURL implements BSHTTPRedirector {
 	 * @param string[] $parameters 属性
 	 */
 	public function setParameters ($parameters) {
-		$this->getParameters();
 		foreach ($parameters as $name => $value) {
-			if ($value) {
-				$this->parameters[$name] = urlencode($value);
-			}
+			$this->setParameter($name, $value);
 		}
-		$this->setAttribute('query', BSString::toString($this->parameters, '=', '&'));
 	}
 
 	/**
