@@ -66,7 +66,7 @@ abstract class BSRecordAction extends BSAction {
 				$this->setRecordID($id);
 			}
 		}
-		return $this->user->getAttribute($this->getRecordClassName() . 'ID');
+		return $this->user->getAttribute($this->getModule()->getName() . 'ID');
 	}
 
 	/**
@@ -77,13 +77,12 @@ abstract class BSRecordAction extends BSAction {
 	 */
 	protected function setRecordID ($id) {
 		if (BSArray::isArray($id)) {
-			if (isset($id['id'])) {
-				$id = $id['id'];
-			} else {
-				$id = $id[strtolower($this->getRecordClassName()) . '.id'];
+			$key = $this->getTable()->getKeyField();
+			if (isset($id[$key])) {
+				$id = $id[$key];
 			}
 		}
-		$this->user->setAttribute($this->getRecordClassName() . 'ID', $id);
+		$this->user->setAttribute($this->getModule()->getName() . 'ID', $id);
 	}
 }
 
