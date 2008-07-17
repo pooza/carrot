@@ -96,13 +96,6 @@ abstract class BSController {
 			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
 		}
 
-		$filters = new BSFilterChain;
-		if ($action->isSecure()) {
-			$filter = new BSSecurityFilter;
-			$filter->initialize();
-			$filters->register($filter);
-		}
-
 		$this->loadFilters($filters);
 		$action->getModule()->loadFilters($filters);
 
