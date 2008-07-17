@@ -74,7 +74,14 @@ class BSWebController extends BSController {
 			$url = new BSURL;
 			$url->setAttribute('path', $arg);
 		}
-		$url->addSessionID();
+
+		if ($this->getUserAgent()->isMobile()) {
+			$url->setParameter(session_name(), session_id());
+			if ($this->isDebugMode()) {
+				$url->setParameter('ua', $this->getUserAgent()->getName());
+			}
+		}
+
 		$this->sendHeader('Location: ' . $url->getContents());
 		return BSView::NONE;
 	}

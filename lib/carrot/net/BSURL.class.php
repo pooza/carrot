@@ -257,23 +257,6 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * ケータイ環境ならば、セッションIDを付加する
-	 *
-	 * @access public
-	 */
-	public function addSessionID () {
-		$controller = BSController::getInstance();
-		if ($controller->getUserAgent()->isMobile()) {
-			$params = $this->getParameters();
-			$params[session_name()] = session_id();
-			if ($controller->isDebugMode()) {
-				$params['ua'] = $controller->getUserAgent()->getName();
-			}
-			$this->setParameters($params);
-		}
-	}
-
-	/**
 	 * Curlでフェッチして文字列で返す
 	 *
 	 * @access public
