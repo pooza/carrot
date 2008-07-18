@@ -228,6 +228,10 @@ class BSURL implements BSHTTPRedirector {
 	 * @param string $value パラメータの値
 	 */
 	public function setParameter ($name, $value) {
+		if ($value == '') {
+			return;
+		}
+
 		$this->parseQuery();
 		$this->parameters[$name] = urlencode($value);
 		$this->setAttribute('query', BSString::toString($this->parameters, '=', '&'));
@@ -251,6 +255,9 @@ class BSURL implements BSHTTPRedirector {
 	 * @param string[] $parameters 属性
 	 */
 	public function setParameters ($parameters) {
+		if (!is_array($parameters)) {
+			parse_str($parameters, $parameters);
+		}
 		foreach ($parameters as $name => $value) {
 			$this->setParameter($name, $value);
 		}
