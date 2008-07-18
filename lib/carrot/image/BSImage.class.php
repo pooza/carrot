@@ -204,7 +204,8 @@ class BSImage implements BSImageRenderer {
 		ob_start();
 		switch ($this->getType()) {
 			case 'image/jpeg':
-				imagejpeg($this->getImage());
+				imagejpeg($this->getImage(), null, 100);
+				imageinterlace($this->getImage(), 1);
 				break;
 			case 'image/gif':
 				imagegif($this->getImage());
