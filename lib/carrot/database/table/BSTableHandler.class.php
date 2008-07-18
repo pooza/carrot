@@ -25,7 +25,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	private $recordClassName;
 	private $name;
 	private $fieldNames = array();
-	private $ids = array();
+	private $ids;
 	const WITH_PAGING = true;
 	const WITHOUT_PAGING = false;
 
@@ -546,6 +546,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 */
 	public function getIDs () {
 		if (!$this->ids) {
+			$this->ids = new BSArray;
 			foreach ($this as $record) {
 				$this->ids[] = $record->getID();
 			}
