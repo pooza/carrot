@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSConsoleRequest extends BSRequest {
-	private $parser;
+	private $options;
 	static private $instance;
 
 	/**
@@ -21,8 +21,9 @@ class BSConsoleRequest extends BSRequest {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->addOption(BSController::MODULE_ACCESSOR, 'module');
-		$this->addOption(BSController::ACTION_ACCESSOR, 'action');
+		$this->options = new BSArray;
+		$this->addOption(BSController::MODULE_ACCESSOR);
+		$this->addOption(BSController::ACTION_ACCESSOR);
 		$this->parse();
 	}
 
@@ -41,32 +42,15 @@ class BSConsoleRequest extends BSRequest {
 	}
 
 	/**
-	 * コマンドラインパーサを返す
-	 *
-	 * @access private
-	 * @return Console_CommandLine コマンドラインパーサ
-	 */
-	private function getParser () {
-		if (!$this->parser) {
-			require_once 'Console/CommandLine.php';
-			$this->parser = new Console_CommandLine;
-		}
-		return $this->parser;
-	}
-
-	/**
 	 * コマンドラインパーサオプションを追加する
 	 *
 	 * @access public
 	 * @param string $name オプション名
-	 * @param string $longname 長いオプション名
 	 */
-	public function addOption ($name, $longname) {
-		$params = array(
-			'short_name' => '-' . $name,
-			'long_name' => '--' . $longname,
+	public function addOption ($name) {
+		$this->options[$name] = array(
+			'name' => $name,
 		);
-		$this->getParser()->addOption($name, $params);
 	}
 
 	/**
@@ -75,8 +59,14 @@ class BSConsoleRequest extends BSRequest {
 	 * @access public
 	 */
 	public function parse () {
+		$config = new BSArray;
+		foreach ($this->options as $option) {
+			$config[] = $option['name'] . ':';
+		}
+		$config = $config->join('');
+
 		$this->clearParameters();
-		$this->setParameters($this->getParser()->parse()->options);
+		$this->setParameters(getopt($config));
 	}
 }
 

@@ -8,8 +8,18 @@
  * @version $Id$
  */
 class CreateDatabaseSchemaAction extends BSAction {
+	public function initialize () {
+		$this->request->addOption('d');
+		$this->request->parse();
+		return true;
+	}
+
 	public function execute () {
-		BSDatabase::getInstance()->createSchemaFile();
+		if (!$database = $this->request['d']) {
+			$database = 'default';
+		}
+
+		BSDatabase::getInstance($database)->createSchemaFile();
 		return BSView::NONE;
 	}
 }
