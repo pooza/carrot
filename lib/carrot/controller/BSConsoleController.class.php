@@ -20,8 +20,8 @@ class BSConsoleController extends BSController {
 	 * @access private
 	 */
 	private function __construct () {
-		if (!$this->request->getParameter(self::MODULE_ACCESSOR)) {
-			$this->request->setParameter(self::MODULE_ACCESSOR, 'Console');
+		if (!$this->request[self::MODULE_ACCESSOR]) {
+			$this->request[self::MODULE_ACCESSOR] = 'Console';
 		}
 	}
 
