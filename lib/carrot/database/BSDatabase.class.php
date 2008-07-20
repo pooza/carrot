@@ -408,7 +408,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('データベース "%s"', $this->getDSN());
+		return sprintf('データベース "%s"', $this->getName());
 	}
 
 	/**

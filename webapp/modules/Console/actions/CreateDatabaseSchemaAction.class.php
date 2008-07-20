@@ -20,6 +20,10 @@ class CreateDatabaseSchemaAction extends BSAction {
 		}
 
 		BSDatabase::getInstance($database)->createSchemaFile();
+		$this->controller->putLog(
+			sprintf('%sのスキーマを作成しました。', $this->database),
+			get_class($this->database)
+		);
 		return BSView::NONE;
 	}
 }

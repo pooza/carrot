@@ -115,11 +115,11 @@ class BSMySQLDatabase extends BSDatabase {
 	 * ダンプファイルを生成する
 	 *
 	 * @access public
-	 * @param string $filename ファイル名
+	 * @param string $suffix ファイル名サフィックス
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile ダンプファイル
 	 */
-	public function createDumpFile ($filename = 'init', BSDirectory $dir = null) {
+	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
 		$command = array();
 		$command[] = '/usr/bin/env mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
@@ -133,7 +133,7 @@ class BSMySQLDatabase extends BSDatabase {
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($filename);
+		$file = $dir->createEntry($this->getName() . '_' . $suffix);
 		$file->setContents($contents);
 		return $file;
 	}
@@ -142,11 +142,11 @@ class BSMySQLDatabase extends BSDatabase {
 	 * スキーマファイルを生成する
 	 *
 	 * @access public
-	 * @param string $filename ファイル名
+	 * @param string $suffix ファイル名サフィックス
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile スキーマファイル
 	 */
-	public function createSchemaFile ($filename = 'schema', BSDirectory $dir = null) {
+	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
 		$command = array();
 		$command[] = '/usr/bin/env mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
@@ -161,7 +161,7 @@ class BSMySQLDatabase extends BSDatabase {
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($filename);
+		$file = $dir->createEntry($this->getName() . '_' . $suffix);
 		$file->setContents($contents);
 		return $file;
 	}

@@ -8,8 +8,20 @@
  * @version $Id$
  */
 class OptimizeDatabaseAction extends BSAction {
+	public function initialize () {
+		$this->request->addOption('d');
+		$this->request->parse();
+		return true;
+	}
+
 	public function execute () {
-		BSDatabase::getInstance()->optimize();
+		if (!$db = $this->request['d']) {
+			$db = 'default';
+		}
+		$db = BSDatabase::getInstance($db);
+
+		$db->optimize();
+		$this->controller->putLog(sprintf('%sを最適化しました。', $db), get_class($db));
 		return BSView::NONE;
 	}
 }

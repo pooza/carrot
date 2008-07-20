@@ -8,12 +8,23 @@
  * @version $Id$
  */
 class BackupDatabaseAction extends BSAction {
+	public function initialize () {
+		$this->request->addOption('d');
+		$this->request->parse();
+		return true;
+	}
+
 	public function execute () {
+		if (!$db = $this->request['d']) {
+			$db = 'default';
+		}
+		$db = BSDatabase::getInstance($db);
+
 		$dir = $this->controller->getDirectory('dump');
-		$name = $this->database->getName() . '_' . BSDate::getNow('Y-m-d');
-		if ($file = BSDatabase::getInstance()->createDumpFile($name, $dir)) {
+		if ($file = $db->createDumpFile(BSDate::getNow('Y-m-d'), $dir)) {
+			$file->setMode(0666);
 			$file->compress();
-			BSLog::put(get_class($this) . 'を実行しました。');
+			$this->controller->putLog(sprintf('%sをバックアップしました。', $db), get_class($db));
 		}
 		return BSView::NONE;
 	}

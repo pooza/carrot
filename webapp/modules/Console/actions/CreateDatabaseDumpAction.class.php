@@ -8,8 +8,20 @@
  * @version $Id$
  */
 class CreateDatabaseDumpAction extends BSAction {
+	public function initialize () {
+		$this->request->addOption('d');
+		$this->request->parse();
+		return true;
+	}
+
 	public function execute () {
-		BSDatabase::getInstance()->createDumpFile();
+		if (!$db = $this->request['d']) {
+			$db = 'default';
+		}
+		$db = BSDatabase::getInstance($db);
+
+		$db->createDumpFile();
+		$this->controller->putLog(sprintf('%sのダンプを作成しました。', $db), get_class($db));
 		return BSView::NONE;
 	}
 }
