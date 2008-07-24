@@ -14,6 +14,24 @@
 abstract class BSSortableTableHandler extends BSTableHandler {
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access public
+	 * @param string $criteria 抽出条件
+	 * @param string $order ソート順
+	 */
+	public function __construct ($criteria = null, $order = null) {
+		if (!$order) {
+			$order = array(
+				$this->getRankField(),
+				$this->getKeyField(),
+			);
+			$order = implode(',', $order);
+		}
+		parent::__construct($criteria, $order);
+	}
+
+	/**
 	 * レコード追加可能か？
 	 *
 	 * @access protected
@@ -63,21 +81,6 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 */
 	public function getStatusField () {
 		return 'status';
-	}
-
-	/**
-	 * ソート順文字列を返す
-	 *
-	 * @access public
-	 * @return string ソート順文字列
-	 */
-	public function getOrder () {
-		$order = array(
-			//$this->getStatusField(),
-			$this->getRankField(),
-			$this->getKeyField(),
-		);
-		return implode(',', $order);
 	}
 
 	/**
