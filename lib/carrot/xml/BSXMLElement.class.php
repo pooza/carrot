@@ -228,9 +228,7 @@ class BSXMLElement implements IteratorAggregate {
 	 */
 	public function createElement ($name, $body = null) {
 		$element = new BSXMLElement($name);
-		if ($body) {
-			$element->setBody($body);
-		}
+		$element->setBody($body);
 		$this->addElement($element);
 		return $element;
 	}
