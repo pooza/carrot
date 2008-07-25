@@ -58,8 +58,8 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 * @param mixed[] $values 値
 	 */
 	public function createRecord ($values) {
-		$values['create_date'] = BSDate::getNow('Y/m/d H:i:s');
-		$values['update_date'] = BSDate::getNow('Y/m/d H:i:s');
+		$values['create_date'] = BSDate::getNow('Y-m-d H:i:s');
+		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
 		return parent::createRecord($values);
 	}
 
