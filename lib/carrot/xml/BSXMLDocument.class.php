@@ -15,16 +15,6 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	private $error;
 
 	/**
-	 * コンパイル前処理
-	 *
-	 * @access protected
-	 */
-	protected function preCompile () {
-		parent::preCompile();
-		$this->writer->startDocument('1.0', 'UTF-8');
-	}
-
-	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public
@@ -52,6 +42,16 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 */
 	public function getSize () {
 		return strlen($this->getContents());
+	}
+
+	/**
+	 * 内容をXMLで返す
+	 *
+	 * @access public
+	 * @return string XML文書
+	 */
+	public function getContents () {
+		return '<?xml version="1.0"?>' . parent::getContents();
 	}
 
 	/**

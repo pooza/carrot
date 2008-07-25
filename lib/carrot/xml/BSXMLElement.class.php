@@ -12,11 +12,9 @@
  * @version $Id$
  */
 class BSXMLElement implements IteratorAggregate {
-	protected $writer;
 	protected $reader;
 	private $contents;
 	private $body;
-	private $cdata;
 	private $name;
 	private $attributes = array();
 	private $elements = array();
@@ -27,10 +25,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @access public
 	 * @param string $name 要素の名前
 	 */
-	public function __construct ($name = null) {
-		if (!$name) {
-			$name = 'unnamed';
-		}
+	public function __construct ($name) {
 		$this->setName($name);
 	}
 
@@ -137,33 +132,6 @@ class BSXMLElement implements IteratorAggregate {
 			$this->body = $body;
 		} else {
 			$this->body = null;
-		}
-		$this->contents = null;
-	}
-
-	/**
-	 * CDATAを返す
-	 *
-	 * @access public
-	 * @return string CDATA
-	 */
-	public function getCdata () {
-		return $this->cdata;
-	}
-
-	/**
-	 * CDATAを設定
-	 *
-	 * @access public
-	 * @param string $cdata CDATA
-	 */
-	public function setCdata ($cdata = null) {
-		if ($cdata) {
-			$cdata = trim($cdata);
-			$cdata = BSString::convertEncoding($cdata, 'utf-8');
-			$this->cdata = $cdata;
-		} else {
-			$this->cdata = null;
 		}
 		$this->contents = null;
 	}
@@ -293,71 +261,28 @@ class BSXMLElement implements IteratorAggregate {
 	 * 内容をXMLで返す
 	 *
 	 * @access public
-	 * @return string XML要素/文書
+	 * @return string XML要素
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			$this->preCompile();
-			$this->compile($this);
-			$this->postCompile();
+			if ($this->getAttributes()) {
+				$attributes = new BSArray;
+				foreach ($this->getAttributes() as $key => $value) {
+					$attributes[] = sprintf('%s="%s"', $key, BSString::sanitize($value));
+				}
+				$this->contents = sprintf('<%s %s>', $this->getName(), $attributes->join(' '));
+			} else {
+				$this->contents = sprintf('<%s>', $this->getName());
+			}
+
+			foreach ($this->getElements() as $element) {
+				$this->contents .= $element->getContents();
+			}
+
+			$this->contents .= BSString::sanitize($this->getBody());
+			$this->contents .= sprintf('</%s>', $this->getName());
 		}
 		return $this->contents;
-	}
-
-	/**
-	 * コンパイル前処理
-	 *
-	 * @access protected
-	 */
-	protected function preCompile () {
-		$this->writer = new XMLWriter;
-		$this->writer->openMemory(); 
-		$this->writer->setIndent(true);
-	}
-
-	/**
-	 * 要素を再帰的にコンパイル
-	 *
-	 * @access protected
-	 * @param BSXMLElement $element 対象要素
-	 */
-	protected function compile (BSXMLElement $element) {
-		$this->writer->startElement($element->getName());
-
-		foreach ($element->getAttributes() as $name => $value) {
-			$this->writer->startAttribute($name);
-			$this->writer->text($value);
-			$this->writer->endAttribute();
-		}
-
-		if ($element->getBody() === 0) {
-			$this->writer->text(0);
-		} else if ($element->getBody()) {
-			$this->writer->text($element->getBody());
-		}
-
-		if ($element->getCdata()) {
-			$this->writer->startCdata();
-			$this->writer->text($element->getCdata());
-			$this->writer->endCdata();
-		}
-
-		foreach ($element as $child) {
-			$this->compile($child);
-		}
-
-		$this->writer->endElement();
-	}
-
-	/**
-	 * コンパイル後処理
-	 *
-	 * @access protected
-	 */
-	protected function postCompile () {
-		$this->writer->endDocument();
-		$this->contents = $this->writer->outputMemory();
-		$this->writer = null;
 	}
 
 	/**
@@ -370,7 +295,6 @@ class BSXMLElement implements IteratorAggregate {
 		$this->clearAttributes();
 		$this->clearElements();
 		$this->setBody();
-		$this->setCdata();
 		$this->contents = $contents;
 
 		$xml = new DOMDocument;
@@ -403,9 +327,6 @@ class BSXMLElement implements IteratorAggregate {
 					break;
 				case XMLReader::TEXT:
 					end($stack)->setBody($this->reader->value);
-					break;
-				case XMLReader::CDATA:
-					end($stack)->setCdata($this->reader->value);
 					break;
 			}
 		}
