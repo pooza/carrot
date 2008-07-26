@@ -259,7 +259,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		if (preg_match('/[[:cntrl:]]/', $value)) {
+		if (preg_match('/[[:cntrl:]]/u', $value)) {
 			throw new BSMailException('"%s"にコントロールコードが含まれています。', $name);
 		}
 		$this->headers[$name] = $value;
@@ -514,7 +514,7 @@ class BSSMTP extends BSSocket {
 		}
 
 		$str = BSString::convertKana($str, 'KV');
-		while (preg_match('/[^[:print:]]+/', $str, $matches)) {
+		while (preg_match('/[^[:print:]]+/u', $str, $matches)) {
 			$encoded = BSString::convertEncoding($matches[0], 'iso-2022-jp');
 			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded) . '?=';
 			$str = str_replace($matches[0], $encoded, $str);

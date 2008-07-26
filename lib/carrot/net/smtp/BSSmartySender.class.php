@@ -84,7 +84,6 @@ class BSSmartySender extends BSSMTP {
 				break;
 			}
 		}
-
 		$this->setBody(implode("\n", $lines));
 	}
 
@@ -96,7 +95,7 @@ class BSSmartySender extends BSSMTP {
 	 * @return boolean 行がヘッダならばTrue
 	 */
 	private function parseHeader ($line) {
-		if (!preg_match('/^([a-z\-]+): (.+)$/i', $line, $matches)) {
+		if (!preg_match('/^([a-z\-]+): *(.+)$/i', $line, $matches)) {
 			return false;
 		}
 

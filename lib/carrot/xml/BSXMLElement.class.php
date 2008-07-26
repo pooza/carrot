@@ -337,7 +337,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * イテレータを返す
 	 *
 	 * @access public
-	 * @return BSXMLElementIterator イテレータ
+	 * @return BSIterator イテレータ
 	 */
 	public function getIterator () {
 		return new BSIterator($this->getElements());
