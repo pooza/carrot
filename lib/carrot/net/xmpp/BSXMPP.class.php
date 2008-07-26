@@ -38,7 +38,7 @@ class BSXMPP extends BSSocket {
 	 */
 	public function open () {
 		parent::open();
-		$this->putLine('<?xml version="1.0" encoding="UTF-8" ?>');
+		$this->putLine('<?xml version="1.0" encoding="utf-8" ?>');
 		$this->putLine(
 			sprintf(
 				'<stream:stream to="%s" xmlns="%s" xmlns:stream="%s">',

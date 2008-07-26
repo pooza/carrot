@@ -51,7 +51,11 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 * @return string XML文書
 	 */
 	public function getContents () {
-		return '<?xml version="1.0"?>' . parent::getContents();
+		$xml = new DOMDocument('1.0', 'utf-8');
+		$xml->loadXML('<?xml version="1.0" encoding="utf-8"?>' . parent::getContents());
+		$xml->formatOutput = true;
+		$xml->normalizeDocument();
+		return $xml->saveXML();
 	}
 
 	/**
@@ -61,7 +65,7 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 * @return boolean 妥当な要素ならTrue
 	 */
 	public function validate () {
-		if (!$this->getContents()) {
+		if (!parent::getContents()) {
 			$this->error = '妥当なXML文書ではありません。';
 			return false;
 		}

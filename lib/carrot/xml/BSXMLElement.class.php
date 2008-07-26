@@ -297,7 +297,7 @@ class BSXMLElement implements IteratorAggregate {
 		$this->setBody();
 		$this->contents = $contents;
 
-		$xml = new DOMDocument;
+		$xml = new DOMDocument('1.0', 'utf-8');
 		if (@$xml->loadXML($contents) === false) {
 			throw new BSXMLException('パースエラーです。');
 		}
