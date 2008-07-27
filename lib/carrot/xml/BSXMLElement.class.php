@@ -25,8 +25,10 @@ class BSXMLElement implements IteratorAggregate {
 	 * @access public
 	 * @param string $name 要素の名前
 	 */
-	public function __construct ($name) {
-		$this->setName($name);
+	public function __construct ($name = null) {
+		if ($name) {
+			$this->setName($name);
+		}
 	}
 
 	/**
