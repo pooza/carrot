@@ -12,16 +12,19 @@
  * @abstract
  */
 abstract class BSSortableRecord extends BSRecord {
+	const RANK_UP = 'up';
+	const RANK_DOWN = 'down';
 
 	/**
 	 * 更新
 	 *
 	 * @access public
 	 * @param string[] $values 更新する値
+	 * @param integer $flag フラグのビット列
 	 */
-	public function update ($values) {
+	public function update ($values, $flag = BSDatabase::WITH_LOGGING) {
 		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
-		parent::update($values);
+		parent::update($values, $flag);
 	}
 
 	/**
@@ -80,7 +83,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 * 順位を変更する
 	 *
 	 * @access public
-	 * @param string $option (up|down)
+	 * @param string $option (self::RANK_UP|self::RANK_DOWN)
 	 */
 	public function setOrder ($option) {
 		$rank = 0;
@@ -91,10 +94,10 @@ abstract class BSSortableRecord extends BSRecord {
 			$rank ++;
 		}
 
-		if ((strtolower($option) == 'up') && isset($ids[$rank - 1])) {
+		if (($option == self::RANK_UP) && $ids[$rank - 1]) {
 			$ids[$rank] = $ids[$rank - 1];
 			$ids[$rank - 1] = $this->getID();
-		} else if ((strtolower($option) == 'down') && isset($ids[$rank + 1])) {
+		} else if (($option == self::RANK_DOWN) && $ids[$rank + 1]) {
 			$ids[$rank] = $ids[$rank + 1];
 			$ids[$rank + 1] = $this->getID();
 		}
@@ -109,12 +112,13 @@ abstract class BSSortableRecord extends BSRecord {
 	/**
 	 * 順位を設定する
 	 *
-	 * @access public
+	 * @access protected
 	 * @param integer $rank 順位
 	 */
-	public function setRank ($rank) {
+	protected function setRank ($rank) {
 		$this->update(
-			array($this->getTable()->getRankField() => $rank)
+			array($this->getTable()->getRankField() => $rank),
+			null
 		);
 	}
 }

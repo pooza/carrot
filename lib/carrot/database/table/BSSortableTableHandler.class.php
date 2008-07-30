@@ -56,11 +56,13 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
+	 * @param integer $flag フラグのビット列
+	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values) {
+	public function createRecord ($values, $flag = BSDatabase::WITH_LOGGING) {
 		$values['create_date'] = BSDate::getNow('Y-m-d H:i:s');
 		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
-		return parent::createRecord($values);
+		return parent::createRecord($values, $flag);
 	}
 
 	/**

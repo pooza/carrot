@@ -256,9 +256,10 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
+	 * @param integer $flag フラグのビット列
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values) {
+	public function createRecord ($values, $flag = BSDatabase::WITH_LOGGING) {
 		if (!$this->isInsertable()) {
 			throw new BSDatabaseException('%sへのレコード挿入は許可されていません。', $this);
 		}
@@ -276,12 +277,11 @@ abstract class BSTableHandler implements IteratorAggregate {
 		}
 
 		$this->setExecuted(false);
-		$message = sprintf(
-			'%s(%s)を作成しました。',
-			BSTranslator::getInstance()->translate($this->getName()),
-			$id
-		);
-		$this->getDatabase()->putLog($message);
+		if ($flag & BSDatabase::WITH_LOGGING) {
+			$name = BSTranslator::getInstance()->translate($this->getName());
+			$this->getDatabase()->putLog(sprintf('%s(%s)を作成しました。', $name, $id));
+		}
+
 		return $id;
 	}
 
@@ -292,11 +292,12 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
+	 * @param integer $flag フラグのビット列
 	 * @return string レコードの主キー
 	 * @final
 	 */
-	final public function insertRecord ($values) {
-		return $this->createRecord($values);
+	final public function insertRecord ($values, $flag = BSDatabase::WITH_LOGGING) {
+		return $this->createRecord($values, $flag);
 	}
 
 	/**
@@ -542,7 +543,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 * 全ての主キーを返す
 	 *
 	 * @access public
-	 * @return integer[] 主キーの配列
+	 * @return BSArray 主キーの配列
 	 */
 	public function getIDs () {
 		if (!$this->ids) {

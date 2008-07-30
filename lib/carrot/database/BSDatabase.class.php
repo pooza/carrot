@@ -18,6 +18,7 @@ abstract class BSDatabase extends PDO {
 	private $dbms;
 	private $name;
 	static private $instances;
+	const WITH_LOGGING = 1;
 
 	/**
 	 * フライウェイトインスタンスを返す

@@ -131,8 +131,9 @@ abstract class BSRecord {
 	 *
 	 * @access public
 	 * @param string[] $values 更新する値
+	 * @param integer $flag フラグのビット列
 	 */
-	public function update ($values) {
+	public function update ($values, $flag = BSDatabase::WITH_LOGGING) {
 		if (!$this->isUpdatable()) {
 			throw new BSDatabaseException('%sを更新することは出来ません。', $this);
 		}
@@ -144,7 +145,10 @@ abstract class BSRecord {
 			$this->getTable()->getDatabase()
 		);
 		$this->getTable()->getDatabase()->exec($query);
-		$this->getTable()->getDatabase()->putLog($this . 'を更新しました。');
+
+		if ($flag & BSDatabase::WITH_LOGGING) {
+			$this->getTable()->getDatabase()->putLog($this . 'を更新しました。');
+		}
 
 		$this->setAttributes($values);
 	}
@@ -167,15 +171,16 @@ abstract class BSRecord {
 	 * @access public
 	 */
 	public function touch () {
-		$this->update(array());
+		$this->update(array(), null);
 	}
 
 	/**
 	 * 削除
 	 *
 	 * @access public
+	 * @param integer $flag フラグのビット列
 	 */
-	public function delete () {
+	public function delete ($flag = BSDatabase::WITH_LOGGING) {
 		if (!$this->isDeletable()) {
 			throw new BSDatabaseException('%sを削除することは出来ません。', $this);
 		}
@@ -185,7 +190,10 @@ abstract class BSRecord {
 			$this->getCriteria()
 		);
 		$this->getTable()->getDatabase()->exec($query);
-		$this->getTable()->getDatabase()->putLog($this . 'を削除しました。');
+
+		if ($flag & BSDatabase::WITH_LOGGING) {
+			$this->getTable()->getDatabase()->putLog($this . 'を削除しました。');
+		}
 	}
 
 	/**
