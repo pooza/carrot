@@ -45,7 +45,7 @@ class BSMailAddressValidator extends BSValidator {
 			return false;
 		}
 
-		if (!$email->isValidDomain()) {
+		if ($this->getParameter('domain') && !$email->isValidDomain()) {
 			$this->error = $this->getParameter('domain_error');
 			return false;
 		}
