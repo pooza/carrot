@@ -107,7 +107,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $dir->getPath() . '/' . $this->getName();
-		if (!rename($this->getPath(), $path)) {
+		if (!@rename($this->getPath(), $path)) {
 			throw new BSFileException('%sを移動出来ません。', $this);
 		}
 		$this->setPath($path);
