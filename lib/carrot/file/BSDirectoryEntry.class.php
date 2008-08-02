@@ -61,7 +61,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $this->getDirectory()->getPath() . '/' . basename($name);
-		if (!rename($this->getPath(), $path)) {
+		if (!@rename($this->getPath(), $path)) {
 			throw new BSFileException('%sをリネーム出来ません。', $this);
 		}
 		$this->setPath($path);
