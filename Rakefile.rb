@@ -27,7 +27,7 @@ desc 'ログデータベースを設定'
 task :log => ['var/db/log.sqlite3']
 
 file 'var/db/log.sqlite3' do
-  sh 'sqlite3 var/db/log.sqlite3 < share/sql/log.sql'
+  sh 'sqlite3 var/db/log.sqlite3 < share/sql/log_schema.sql'
   sh 'chmod 666 var/db/log.sqlite3'
 end
 
