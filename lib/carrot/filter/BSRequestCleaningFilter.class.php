@@ -12,7 +12,7 @@
  * @version $Id$
  */
 class BSRequestCleaningFilter extends BSFilter {
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('convert_kana', 'KV');
 		$this->setParameter('new_line', false);
 		$this->setParameter('reading', false);
