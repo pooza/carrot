@@ -19,7 +19,7 @@ class BSRegexValidator extends BSStringValidator {
 	 * @access public
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('match', true);
 		$this->setParameter('match_error', '正しくありません。');
 		$this->setParameter('pattern', null);

@@ -33,7 +33,7 @@ class BSBasicAuthFilter extends BSFilter {
 		return true;
 	}
 
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('user_id', BS_ADMIN_EMAIL);
 		$this->setParameter('password', BS_ADMIN_PASSWORD);
 		$this->setParameter('realm', BSController::getInstance()->getServerHost()->getName());

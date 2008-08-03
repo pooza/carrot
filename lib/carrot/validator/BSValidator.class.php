@@ -40,10 +40,8 @@ abstract class BSValidator extends BSParameterHolder {
 	 * @param mixed[] $parameters パラメータ
 	 * @return boolean 初期化が成功すればTrue
 	 */
-	public function initialize ($parameters = null) {
-		if ($parameters) {
-			$this->parameters = array_merge($this->parameters, $parameters);
-		}
+	public function initialize ($parameters = array()) {
+		$this->setParameters($parameters);
 		return true;
 	}
 

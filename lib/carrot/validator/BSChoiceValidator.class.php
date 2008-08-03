@@ -19,7 +19,7 @@ class BSChoiceValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('choices', null);
 		$this->setParameter('choices_error', '正しくありません。');
 		return parent::initialize($parameters);

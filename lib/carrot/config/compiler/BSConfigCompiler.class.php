@@ -40,10 +40,8 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @return boolean 成功ならばTrue
 	 * @static
 	 */
-	public function initialize ($parameters = null) {
-		if ($parameters) {
-			$this->parameters = array_merge($this->parameters, $parameters);
-		}
+	public function initialize ($parameters = array()) {
+		$this->setParameters($parameters);
 	}
 
 	/**

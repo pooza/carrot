@@ -19,7 +19,7 @@ class BSPairValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('field', '');
 		$this->setParameter('match_error', '一致しません。');
 		return parent::initialize($parameters);

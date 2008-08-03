@@ -19,7 +19,7 @@ class BSStringValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $parameters パラメータ配列
 	 */
-	public function initialize ($parameters = null) {
+	public function initialize ($parameters = array()) {
 		$this->setParameter('max', 1024);
 		$this->setParameter('max_error', '長すぎます。');
 		$this->setParameter('min', null);
