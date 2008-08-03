@@ -93,7 +93,7 @@ abstract class BSController {
 
 		BSActionStack::getInstance()->register($action);
 		if (!$action->initialize()) {
-			throw new BSInitializationException('%sの%sが初期化できません。', $module, $action);
+			throw new BSException('%sの%sが初期化できません。', $module, $action);
 		}
 
 		$filters = new BSFilterChain;
