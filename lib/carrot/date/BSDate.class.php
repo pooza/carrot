@@ -21,6 +21,7 @@ class BSDate {
 	const SUN = 7;
 	private $attributes;
 	static private $timezone;
+	const GMT = 'gmt';
 
 	/**
 	 * コンストラクタ
@@ -508,9 +509,10 @@ class BSDate {
 	 *
 	 * @access public
 	 * @param string $format 書式
+	 * @param integer $flag フラグのビット列
 	 * @return string 書式化された日付文字列
 	 */
-	public function format ($format = 'Y/m/d H:i:s') {
+	public function format ($format = 'Y/m/d H:i:s', $flag = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
@@ -527,7 +529,11 @@ class BSDate {
 			$format = str_replace('JY', $year, $format);
 		}
 
-		return date($format, $this->getTimestamp());
+		if ($flag & self::GMT) {
+			return gmdate($format, $this->getTimestamp());
+		} else {
+			return date($format, $this->getTimestamp());
+		}
 	}
 
 	/**
