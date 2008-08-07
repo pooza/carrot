@@ -7,7 +7,7 @@
 carrot:
   name: carrot Framework
   url: http://trac.b-shock.org/project/carrot/
-  ver: 2.0.37
+  ver: 2.0.38
 
 default:
   module: Default

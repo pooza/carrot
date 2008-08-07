@@ -22,10 +22,6 @@ class SummaryAction extends BSAction {
 
 		return BSView::SUCCESS;
 	}
-
-	public function getRequestMethods () {
-		return BSRequest::GET;
-	}
 }
 
 /* vim:set tabstop=4 ai: */

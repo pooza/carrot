@@ -21,12 +21,11 @@ class GenerateAction extends BSAction {
 	}
 
 	public function getDefaultView () {
-		if (!$this->request->hasParameter('directories')) {
-			$directories = array(
+		if (!$this->request['directories']) {
+			$this->request['directories'] = array(
 				$this->controller->getPath('carrot'),
 				$this->controller->getPath('local_lib'),
 			);
-			$this->request->setParameter('directories', $directories);
 		}
 		return BSView::INPUT;
 	}

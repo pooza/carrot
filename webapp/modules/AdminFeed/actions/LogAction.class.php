@@ -13,10 +13,6 @@ class LogAction extends BSAction {
 		$this->request->setAttribute('entries', $logger->getEntries($logger->getLastDate()));
 		return BSView::SUCCESS;
 	}
-
-	public function getRequestMethods () {
-		return BSRequest::GET;
-	}
 }
 
 /* vim:set tabstop=4 ai: */
