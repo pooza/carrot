@@ -105,7 +105,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env pg_dump';
+		$command[] = BSController::getInstance()->getConstant('pgsql_dir') . '/bin/pg_dump';
 		$command[] = '--host=' . $this->getAttribute('host')->getName();
 		$command[] = '--user=' . $this->getAttribute('user');
 		$command[] = $this->getName();
@@ -129,7 +129,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env pg_dump';
+		$command[] = BSController::getInstance()->getConstant('pgsql_dir') . '/bin/pg_dump';
 		$command[] = '--host=' . $this->getAttribute('host')->getName();
 		$command[] = '--user=' . $this->getAttribute('user');
 		$command[] = '--schema-only';

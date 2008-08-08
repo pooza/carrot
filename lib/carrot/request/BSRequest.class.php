@@ -71,6 +71,23 @@ abstract class BSRequest extends BSParameterHolder {
 		return array_keys($this->attributes);
 	}
 
+	/**
+	 * コマンドラインパーサオプションを追加する
+	 *
+	 * @access public
+	 * @param string $name オプション名
+	 */
+	public function addOption ($name) {
+	}
+
+	/**
+	 * コマンドラインをパース
+	 *
+	 * @access public
+	 */
+	public function parse () {
+	}
+
 	public function getError ($name) {
 		if (isset($this->errors[$name])) {
 			return $this->errors[$name];

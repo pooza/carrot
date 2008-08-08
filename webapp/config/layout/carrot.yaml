@@ -84,6 +84,12 @@ menu:
 modules:
   parent: webapp
 
+mysql:
+  constant: yes
+
+pgsql:
+  constant: yes
+
 root:
   constant: yes
 
@@ -97,6 +103,9 @@ share:
 sql:
   parent: share
   suffix: .sql
+
+sqlite3:
+  constant: yes
 
 styleset:
   parent: config

@@ -96,7 +96,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env sqlite3';
+		$command[] = BSController::getInstance()->getConstant('sqlite3_dir') . '/bin/sqlite3';
 		$command[] = $this->getAttribute('file')->getPath();
 		$command[] = '.dump';
 		$contents = shell_exec(implode(' ', $command));
@@ -119,7 +119,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env sqlite3';
+		$command[] = BSController::getInstance()->getConstant('sqlite3_dir') . '/bin/sqlite3';
 		$command[] = $this->getAttribute('file')->getPath();
 		$command[] = '.schema';
 		$contents = shell_exec(implode(' ', $command));

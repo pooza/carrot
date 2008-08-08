@@ -121,7 +121,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env mysqldump';
+		$command[] = BSController::getInstance()->getConstant('mysql_dir') . '/bin/mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
 		$command[] = '--user=' . $this->getAttribute('user');
 		if ($password = $this->getAttribute('password')) {
@@ -148,7 +148,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
 		$command = array();
-		$command[] = '/usr/bin/env mysqldump';
+		$command[] = BSController::getInstance()->getConstant('mysql_dir') . '/bin/mysqldump';
 		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
 		$command[] = '--user=' . $this->getAttribute('user');
 		if ($password = $this->getAttribute('password')) {
