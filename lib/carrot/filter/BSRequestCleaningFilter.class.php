@@ -25,7 +25,7 @@ class BSRequestCleaningFilter extends BSFilter {
 			$value = BSString::convertEncoding($value);
 			$value = str_replace("\0", '', $value);
 
-			if (get_magic_quotes_gpc()) {
+			if (!BSArray::isArray($value) && get_magic_quotes_gpc()) {
 				$value = stripslashes($value);
 			}
 
