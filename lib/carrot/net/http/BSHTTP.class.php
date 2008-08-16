@@ -157,7 +157,7 @@ class BSHTTP extends BSSocket {
 	 */
 	public function __toString () {
 		return sprintf(
-			'HTTP接続 "%s:%d"',
+			'HTTPサーバ "%s:%d"',
 			$this->getHost()->getName(),
 			$this->getPort()
 		);

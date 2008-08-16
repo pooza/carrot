@@ -120,21 +120,17 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('mysql_dir') . '/bin/mysqldump';
-		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
-		$command[] = '--user=' . $this->getAttribute('user');
-		if ($password = $this->getAttribute('password')) {
-			$command[] = '--password=' . $password;
+		$command = $this->getCommandLine('mysqldump');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
 		}
-		$command[] = $this->getName();
-		$contents = shell_exec(implode(' ', $command));
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
 	}
 
@@ -147,23 +143,40 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('mysql_dir') . '/bin/mysqldump';
-		$command[] = '--host=' . $this->getAttribute('host')->getAddress();
-		$command[] = '--user=' . $this->getAttribute('user');
-		if ($password = $this->getAttribute('password')) {
-			$command[] = '--password=' . $password;
+		$command = $this->getCommandLine('mysqldump');
+		$command->addValue('--no-data');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
 		}
-		$command[] = '--no-data';
-		$command[] = $this->getName();
-		$contents = shell_exec(implode(' ', $command));
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
+	}
+
+	/**
+	 * コマンドラインを返す
+	 *
+	 * @access private
+	 * @param string $command コマンド名
+	 * @return BSCommandLine コマンドライン
+	 */
+	private function getCommandLine ($command = 'mysql') {
+		$command = new BSCommandLine('bin/' . $command);
+		$command->setDirectory(BSController::getInstance()->getDirectory('mysql'));
+		$command->addValue('--host=' . $this->getAttribute('host')->getAddress(), null);
+		$command->addValue('--user=' . $this->getAttribute('user'), null);
+		$command->addValue($this->getAttribute('name'));
+
+		if ($password = $this->getAttribute('password')) {
+			$command->addValue('--password=' . $password, null);
+		}
+
+		return $command;
 	}
 
 	/**

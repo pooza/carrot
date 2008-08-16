@@ -530,7 +530,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function __toString () {
 		return sprintf(
-			'SMTP接続 "%s:%d"',
+			'SMTPサーバ "%s:%d"',
 			$this->getHost()->getName(),
 			$this->getPort()
 		);

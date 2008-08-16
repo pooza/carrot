@@ -9,14 +9,18 @@
  */
 class StartAction extends BSAction {
 	public function execute () {
-		$command = sprintf(
-			'%s/carrotctl.php -s %s -a %s > /dev/null &',
-			$this->controller->getPath('bin'),
-			$this->controller->getServerHost()->getName(),
-			'XMPPBot'
-		);
-		shell_exec($command);
-		sleep(5);
+		$command = new BSCommandLine('carrotctl.php');
+		$command->setDirectory($this->controller->getDirectory('bin'));
+		$command->addValue('-' . BSController::ACTION_ACCESSOR, null);
+		$command->addValue('XMPPBot');
+		$command->setBackground(true);
+		$command->setSleepSeconds(5);
+		$command->execute();
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
+
 		return $this->controller->redirect($this->getModule());
 	}
 }

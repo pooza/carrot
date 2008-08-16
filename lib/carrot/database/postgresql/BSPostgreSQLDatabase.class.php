@@ -104,18 +104,17 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('pgsql_dir') . '/bin/pg_dump';
-		$command[] = '--host=' . $this->getAttribute('host')->getName();
-		$command[] = '--user=' . $this->getAttribute('user');
-		$command[] = $this->getName();
-		$contents = shell_exec(implode(' ', $command));
+		$command = $this->getCommandLine('pg_dump');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
 	}
 
@@ -128,20 +127,35 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('pgsql_dir') . '/bin/pg_dump';
-		$command[] = '--host=' . $this->getAttribute('host')->getName();
-		$command[] = '--user=' . $this->getAttribute('user');
-		$command[] = '--schema-only';
-		$command[] = $this->getName();
-		$contents = shell_exec(implode(' ', $command));
+		$command = $this->getCommandLine('pg_dump');
+		$command->addValue('--schema-only');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
+	}
+
+	/**
+	 * コマンドラインを返す
+	 *
+	 * @access private
+	 * @param string $command コマンド名
+	 * @return BSCommandLine コマンドライン
+	 */
+	private function getCommandLine ($command = 'psql') {
+		$command = new BSCommandLine('bin/' . $command);
+		$command->setDirectory(BSController::getInstance()->getDirectory('pgsql'));
+		$command->addValue('--host=' . $this->getAttribute('host')->getAddress(), null);
+		$command->addValue('--user=' . $this->getAttribute('user'), null);
+		$command->addValue($this->getAttribute('name'));
+		return $command;
 	}
 
 	/**

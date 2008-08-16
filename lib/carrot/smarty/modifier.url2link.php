@@ -24,5 +24,6 @@ function smarty_modifier_url2link ($value) {
 		);
 	}
 }
+
 /* vim:set tabstop=4 ai: */
 ?>

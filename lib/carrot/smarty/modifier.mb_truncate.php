@@ -21,5 +21,6 @@ function smarty_modifier_mb_truncate ($value, $length = 80, $suffix = '...') {
 	}
 	return $value;
 }
+
 /* vim:set tabstop=4 ai: */
 ?>

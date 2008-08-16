@@ -95,17 +95,18 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * @return BSFile ダンプファイル
 	 */
 	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('sqlite3_dir') . '/bin/sqlite3';
-		$command[] = $this->getAttribute('file')->getPath();
-		$command[] = '.dump';
-		$contents = shell_exec(implode(' ', $command));
+		$command = $this->getCommandLine();
+		$command->addValue('.dump');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
 	}
 
@@ -118,18 +119,33 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * @return BSFile スキーマファイル
 	 */
 	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
-		$command = array();
-		$command[] = BSController::getInstance()->getConstant('sqlite3_dir') . '/bin/sqlite3';
-		$command[] = $this->getAttribute('file')->getPath();
-		$command[] = '.schema';
-		$contents = shell_exec(implode(' ', $command));
+		$command = $this->getCommandLine();
+		$command->addValue('.schema');
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . '_' . $suffix);
-		$file->setContents($contents);
+		$file->setContents($command->getResult());
 		return $file;
+	}
+
+	/**
+	 * コマンドラインを返す
+	 *
+	 * @access private
+	 * @param string $command コマンド名
+	 * @return BSCommandLine コマンドライン
+	 */
+	private function getCommandLine ($command = 'sqlite3') {
+		$command = new BSCommandLine('bin/' . $command);
+		$command->setDirectory(BSController::getInstance()->getDirectory('sqlite3'));
+		$command->addValue($this->getAttribute('file')->getPath());
+		return $command;
 	}
 
 	/**

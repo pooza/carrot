@@ -9,14 +9,25 @@
  */
 class GenerateAction extends BSAction {
 	public function execute () {
-		$command = sprintf(
-			'/usr/bin/env phpdoc -d %s -t %s -o %s > /dev/null &',
-			implode(',', $this->request['directories']),
-			$this->controller->getPath('doc'),
-			$this->request['format']
-		);
-		shell_exec($command);
-		sleep(2);
+		$command = new BSCommandLine('bin/phpdoc');
+		$command->setDirectory(new BSDirectory('/usr/local'));
+		$command->addValue('-d', null);
+		foreach ($this->request['directories'] as $dir) {
+			$command->addValue($dir);
+			$command->addValue(',', null);
+		}
+		$command->addValue('-t', null);
+		$command->addValue($this->controller->getPath('doc'));
+		$command->addValue('-o', null);
+		$command->addValue($this->request['format']);
+		$command->setSleepSeconds(2);
+		$command->setBackground(true);
+		$command->execute();
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
+
 		return $this->controller->redirect($this->getModule());
 	}
 

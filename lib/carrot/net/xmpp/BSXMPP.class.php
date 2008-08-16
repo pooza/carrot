@@ -242,7 +242,7 @@ class BSXMPP extends BSSocket {
 	 */
 	public function __toString () {
 		return sprintf(
-			'XMPP接続 "%s:%d"',
+			'XMPPサーバ "%s:%d"',
 			$this->getHost()->getName(),
 			$this->getPort()
 		);

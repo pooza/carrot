@@ -62,16 +62,20 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @param BSFile $file 対象ファイル
 	 */
 	private function analyze (BSFile $file = null) {
-		$command = new BSArray;
-		$command[] = $this->controller->getPath('awstats') . '/awstats.pl';
-		$command[] = '-config=awstats.conf';
+		$command = new BSCommandLine('awstats.pl');
+		$command->setDirectory($this->controller->getDirectory('awstats'));
+		$command->addValue('-config=awstats.conf', null);
 
 		if ($file) {
-			$command[] = '-logfile=' . $file->getPath();
+			$command->addValue('-logfile=' . BSCommandLine::quote($file->getPath()), null);
 		}
 
-		$command[] = '-update';
-		shell_exec($command->join(' '));
+		$command->addValue('-update', null);
+		$command->execute();
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
 	}
 
 	/**

@@ -223,7 +223,7 @@ class BSSocket {
 	 */
 	public function __toString () {
 		return sprintf(
-			'ソケット接続 "%s:%d"',
+			'TCP/IPソケット "%s:%d"',
 			$this->getHost()->getName(),
 			$this->getPort()
 		);

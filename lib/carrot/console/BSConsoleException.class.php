@@ -1,18 +1,17 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage smarty
+ * @subpackage console
  */
 
 /**
- * トリミング出力フィルタ
+ * コンソール例外
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-function smarty_outputfilter_trim ($source, &$smarty) {
-	return trim($source);
+class BSCryptException extends BSException {
 }
 
 /* vim:set tabstop=4 ai: */

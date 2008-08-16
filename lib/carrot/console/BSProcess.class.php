@@ -1,6 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
+ * @subpackage console
  */
 
 /**
@@ -40,8 +41,15 @@ class BSProcess {
 	 * @static
 	 */
 	static public function isExist ($pid) {
-		foreach (explode("\n", shell_exec('ps ax')) as $process) {
-			$fields = preg_split('/ +/', trim($process));
+		$command = new BSCommandLine('/bin/ps');
+		$command->addValue('ax', null);
+
+		if ($command->getReturnCode()) {
+			throw new BSConsoleException($command->getResult());
+		}
+
+		foreach ($command->getResult() as $line) {
+			$fields = preg_split('/ +/', $line);
 			if ($fields[0] == $pid) {
 				return true;
 			}
