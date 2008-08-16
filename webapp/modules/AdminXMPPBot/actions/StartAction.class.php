@@ -11,7 +11,7 @@ class StartAction extends BSAction {
 	public function execute () {
 		$command = new BSCommandLine('carrotctl.php');
 		$command->setDirectory($this->controller->getDirectory('bin'));
-		$command->addValue('-' . BSController::ACTION_ACCESSOR, null);
+		$command->addValue('-' . BSController::ACTION_ACCESSOR);
 		$command->addValue('XMPPBot');
 		$command->setBackground(true);
 		$command->setSleepSeconds(5);

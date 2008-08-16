@@ -166,12 +166,12 @@ class BSMySQLDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'mysql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSController::getInstance()->getDirectory('mysql'));
-		$command->addValue('--host=' . $this->getAttribute('host')->getAddress(), null);
-		$command->addValue('--user=' . $this->getAttribute('user'), null);
+		$command->addValue('--host=' . $this->getAttribute('host')->getAddress());
+		$command->addValue('--user=' . $this->getAttribute('user'));
 		$command->addValue($this->getAttribute('name'));
 
 		if ($password = $this->getAttribute('password')) {
-			$command->addValue('--password=' . $password, null);
+			$command->addValue('--password=' . $password);
 		}
 
 		return $command;

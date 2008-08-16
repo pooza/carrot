@@ -150,8 +150,8 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'psql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSController::getInstance()->getDirectory('pgsql'));
-		$command->addValue('--host=' . $this->getAttribute('host')->getAddress(), null);
-		$command->addValue('--user=' . $this->getAttribute('user'), null);
+		$command->addValue('--host=' . $this->getAttribute('host')->getAddress());
+		$command->addValue('--user=' . $this->getAttribute('user'));
 		$command->addValue($this->getAttribute('name'));
 		return $command;
 	}

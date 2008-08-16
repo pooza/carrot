@@ -64,13 +64,13 @@ class AnalyzeAccessLogAction extends BSAction {
 	private function analyze (BSFile $file = null) {
 		$command = new BSCommandLine('awstats.pl');
 		$command->setDirectory($this->controller->getDirectory('awstats'));
-		$command->addValue('-config=awstats.conf', null);
+		$command->addValue('-config=awstats.conf');
 
 		if ($file) {
-			$command->addValue('-logfile=' . BSCommandLine::quote($file->getPath()), null);
+			$command->addValue('-logfile=' . $file->getPath());
 		}
 
-		$command->addValue('-update', null);
+		$command->addValue('-update');
 		$command->execute();
 
 		if ($command->hasError()) {

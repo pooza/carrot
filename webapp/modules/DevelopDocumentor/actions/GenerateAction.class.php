@@ -11,14 +11,14 @@ class GenerateAction extends BSAction {
 	public function execute () {
 		$command = new BSCommandLine('bin/phpdoc');
 		$command->setDirectory(new BSDirectory('/usr/local'));
-		$command->addValue('-d', null);
+		$command->addValue('-d');
 		foreach ($this->request['directories'] as $dir) {
 			$command->addValue($dir);
-			$command->addValue(',', null);
+			$command->addValue(',');
 		}
-		$command->addValue('-t', null);
+		$command->addValue('-t');
 		$command->addValue($this->controller->getPath('doc'));
-		$command->addValue('-o', null);
+		$command->addValue('-o');
 		$command->addValue($this->request['format']);
 		$command->setSleepSeconds(2);
 		$command->setBackground(true);

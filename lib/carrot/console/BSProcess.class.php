@@ -42,7 +42,7 @@ class BSProcess {
 	 */
 	static public function isExist ($pid) {
 		$command = new BSCommandLine('/bin/ps');
-		$command->addValue('ax', null);
+		$command->addValue('ax');
 		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());
 		}
