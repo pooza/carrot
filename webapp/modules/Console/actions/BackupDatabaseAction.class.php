@@ -21,7 +21,7 @@ class BackupDatabaseAction extends BSAction {
 		$db = BSDatabase::getInstance($db);
 
 		$dir = $this->controller->getDirectory('dump');
-		if ($file = $db->createDumpFile(BSDate::getNow('Y-m-d'), $dir)) {
+		if ($file = $db->createDumpFile('_' . BSDate::getNow('Y-m-d'), $dir)) {
 			$file->setMode(0666);
 			$file->compress();
 			$this->controller->putLog(sprintf('%sをバックアップしました。', $db), get_class($db));

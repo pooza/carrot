@@ -169,7 +169,7 @@ class BSCommandLine extends BSParameterHolder {
 	 * @return boolean エラーを含んでいたらTrue
 	 */
 	public function hasError () {
-		return ($this->getReturnCode() == 0);
+		return ($this->getReturnCode() != 0);
 	}
 
 	/**

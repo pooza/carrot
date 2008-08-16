@@ -335,11 +335,11 @@ abstract class BSDatabase extends PDO {
 	 * ダンプファイルを生成する
 	 *
 	 * @access public
-	 * @param string $filename ファイル名
+	 * @param string $suffix ファイル名サフィックス
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile ダンプファイル
 	 */
-	public function createDumpFile ($filename = null, BSDirectory $dir = null) {
+	public function createDumpFile ($suffix = null, BSDirectory $dir = null) {
 		return null;
 	}
 
@@ -347,11 +347,11 @@ abstract class BSDatabase extends PDO {
 	 * スキーマファイルを生成する
 	 *
 	 * @access public
-	 * @param string $filename ファイル名
+	 * @param string $suffix ファイル名サフィックス
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile スキーマファイル
 	 */
-	public function createSchemaFile ($filename = null, BSDirectory $dir = null) {
+	public function createSchemaFile ($suffix = null, BSDirectory $dir = null) {
 		return null;
 	}
 

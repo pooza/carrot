@@ -94,18 +94,17 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile ダンプファイル
 	 */
-	public function createDumpFile ($suffix = 'init', BSDirectory $dir = null) {
+	public function createDumpFile ($suffix = '_init', BSDirectory $dir = null) {
 		$command = $this->getCommandLine();
 		$command->addValue('.dump');
-
-		if ($command->getReturnCode()) {
-			throw new BSConsoleException($command->getResult());
+		if ($command->hasError()) {
+			throw new BSDatabaseException($command->getResult());
 		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($this->getName() . '_' . $suffix);
+		$file = $dir->createEntry($this->getName() . $suffix);
 		$file->setContents($command->getResult());
 		return $file;
 	}
@@ -118,18 +117,17 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile スキーマファイル
 	 */
-	public function createSchemaFile ($suffix = 'schema', BSDirectory $dir = null) {
+	public function createSchemaFile ($suffix = '_schema', BSDirectory $dir = null) {
 		$command = $this->getCommandLine();
 		$command->addValue('.schema');
-
-		if ($command->getReturnCode()) {
-			throw new BSConsoleException($command->getResult());
+		if ($command->hasError()) {
+			throw new BSDatabaseException($command->getResult());
 		}
 
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($this->getName() . '_' . $suffix);
+		$file = $dir->createEntry($this->getName() . $suffix);
 		$file->setContents($command->getResult());
 		return $file;
 	}

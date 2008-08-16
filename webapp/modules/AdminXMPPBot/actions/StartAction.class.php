@@ -17,7 +17,7 @@ class StartAction extends BSAction {
 		$command->setSleepSeconds(5);
 		$command->execute();
 
-		if ($command->getReturnCode()) {
+		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());
 		}
 

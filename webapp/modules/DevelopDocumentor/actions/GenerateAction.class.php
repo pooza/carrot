@@ -24,7 +24,7 @@ class GenerateAction extends BSAction {
 		$command->setBackground(true);
 		$command->execute();
 
-		if ($command->getReturnCode()) {
+		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());
 		}
 

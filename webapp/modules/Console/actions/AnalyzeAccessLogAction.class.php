@@ -73,7 +73,7 @@ class AnalyzeAccessLogAction extends BSAction {
 		$command->addValue('-update', null);
 		$command->execute();
 
-		if ($command->getReturnCode()) {
+		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());
 		}
 	}
