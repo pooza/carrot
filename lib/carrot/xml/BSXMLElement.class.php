@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage xml
  */
 
@@ -248,7 +248,7 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
-	 * ネームスペースを設定する
+	 * ネームスペースを設定
 	 *
 	 * @access public
 	 * @param string $namespace ネームスペース

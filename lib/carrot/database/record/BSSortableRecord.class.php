@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.record
  */
 
@@ -80,7 +80,7 @@ abstract class BSSortableRecord extends BSRecord {
 	abstract public function getAlikeRecords ();
 
 	/**
-	 * 順位を変更する
+	 * 順位を変更
 	 *
 	 * @access public
 	 * @param string $option (self::RANK_UP|self::RANK_DOWN)
@@ -110,7 +110,7 @@ abstract class BSSortableRecord extends BSRecord {
 	}
 
 	/**
-	 * 順位を設定する
+	 * 順位を設定
 	 *
 	 * @access protected
 	 * @param integer $rank 順位

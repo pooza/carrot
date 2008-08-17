@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage translation
  */
 
@@ -46,7 +46,7 @@ class BSTranslator implements IteratorAggregate {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -65,7 +65,7 @@ class BSTranslator implements IteratorAggregate {
 	}
 
 	/**
-	 * 辞書を登録する
+	 * 辞書を登録
 	 *
 	 * @access public
 	 * @param BSDictionary 辞書
@@ -80,7 +80,7 @@ class BSTranslator implements IteratorAggregate {
 	}
 
 	/**
-	 * 辞書の優先順位を設定する
+	 * 辞書の優先順位を設定
 	 *
 	 * @access public
 	 * @param string $name 辞書の名前

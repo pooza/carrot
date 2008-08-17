@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.smtp
  */
 
@@ -252,7 +252,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * ヘッダを設定する
+	 * ヘッダを設定
 	 *
 	 * @access public
 	 * @param string $name 名前
@@ -286,7 +286,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * Subjectを設定する
+	 * Subjectを設定
 	 *
 	 * @access public
 	 * @param string $subject Subject
@@ -299,7 +299,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * X-Priorityヘッダを設定する
+	 * X-Priorityヘッダを設定
 	 *
 	 * @access public
 	 * @param integer $priority X-Priorityヘッダ
@@ -309,7 +309,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * 送信者を設定する
+	 * 送信者を設定
 	 *
 	 * @access public
 	 * @param BSMailAddress $email 送信者
@@ -320,7 +320,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * 宛先を設定する
+	 * 宛先を設定
 	 *
 	 * @access public
 	 * @param BSMailAddress $email 宛先
@@ -331,7 +331,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * BCCをクリアする
+	 * BCCをクリア
 	 *
 	 * @access public
 	 */
@@ -368,7 +368,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * メッセージIDを初期化する
+	 * メッセージIDを初期化
 	 *
 	 * @access private
 	 */
@@ -390,7 +390,7 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * バウンダリを初期化する
+	 * バウンダリを初期化
 	 *
 	 * @access private
 	 */
@@ -438,7 +438,7 @@ class BSSMTP extends BSSocket {
 		$body = str_replace("\n", self::LINE_SEPARATOR, $body);
 
 		if ($this->parts) {
-			// マルチパートメールの場合は、最初のパートを本文とする
+			// マルチパートメールの場合は、最初のパートを本文と
 			$this->body = null;
 			$this->parts[0] = array(
 				'headers' => array(
@@ -467,7 +467,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function addAttachment ($name, $body, $type = null) {
 		if (!$this->parts) {
-			// 初回の添付時、本文の内容を先頭パートに移動する
+			// 初回の添付時、本文の内容を先頭パートに移動
 			$this->parts[0] = array('headers' => array(), 'body' => null);
 			$this->setBody($this->body);
 		}

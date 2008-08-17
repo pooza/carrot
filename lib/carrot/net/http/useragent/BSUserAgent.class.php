@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.http.useragent
  */
 
@@ -57,7 +57,7 @@ class BSUserAgent {
 	}
 
 	/**
-	 * ユーザーエージェント名を設定する
+	 * ユーザーエージェント名を設定
 	 *
 	 * @access public
 	 * @param string $name ユーザーエージェント名
@@ -67,7 +67,7 @@ class BSUserAgent {
 	}
 
 	/**
-	 * キャッシングに関するバグがあるか
+	 * キャッシングに関するバグがあるか？
 	 *
 	 * @access public
 	 * @return boolean バグがあるならTrue

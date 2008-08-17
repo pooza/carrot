@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage pdf
  */
 
@@ -9,7 +9,7 @@ BSController::includeFile('fpdf/font/mbttfdef.php');
 BSController::includeFile('fpdf/mbfpdf.php');
 
 /**
- * MBFPDFのラッパー
+ * MBFPDFラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -135,7 +135,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @param float $height 行高（mm指定）
 	 */
 	public function putLine ($str, $height = null) {
-		// 行高の指定がない場合は、1.5行とする
+		// 行高の指定がない場合は、1.5行と
 		if (!$height) {
 			$height = $this->FontSizePt / $this->k * 1.5;
 		}

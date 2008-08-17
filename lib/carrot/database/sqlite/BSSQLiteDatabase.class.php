@@ -1,11 +1,11 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.sqlite
  */
 
 /**
- * SQLite接続
+ * SQLiteデータベース
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -37,7 +37,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
-	 * DSNをパースしてプロパティに格納する
+	 * DSNをパースしてプロパティに格納
 	 *
 	 * @access protected
 	 */
@@ -87,7 +87,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
-	 * ダンプファイルを生成する
+	 * ダンプファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -110,7 +110,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
-	 * スキーマファイルを生成する
+	 * スキーマファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -147,7 +147,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
-	 * 最適化する
+	 * 最適化
 	 *
 	 * @access public
 	 */

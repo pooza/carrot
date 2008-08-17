@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage serialize
  */
 
@@ -45,7 +45,7 @@ class BSSerializeHandler {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -112,7 +112,7 @@ class BSSerializeHandler {
 	 *
 	 * @access public
 	 * @param string $name 属性の名前
-	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄する
+	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {

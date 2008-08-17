@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -33,7 +33,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素をまとめて設定する
+	 * 要素をまとめて設定
 	 *
 	 * @access public
 	 * @param mixed[] $params 要素の配列
@@ -45,7 +45,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素をまとめて設定する
+	 * 要素をまとめて設定
 	 *
 	 * setParametersのエイリアス
 	 *
@@ -58,7 +58,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 別の配列をマージする
+	 * 別の配列をマージ
 	 *
 	 * ハッシュではない普通の配列同士は、setParametersではマージできない。
 	 *
@@ -76,7 +76,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素を設定する
+	 * 要素を設定
 	 *
 	 * @access public
 	 * @param string $name 名前
@@ -99,7 +99,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素を設定する
+	 * 要素を設定
 	 *
 	 * setParameterのエイリアス
 	 *
@@ -114,7 +114,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素を削除する
+	 * 要素を削除
 	 *
 	 * removeParameterのエイリアス
 	 *
@@ -169,7 +169,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 要素をユニーク化する
+	 * 要素をユニーク化
 	 *
 	 * @access public
 	 */

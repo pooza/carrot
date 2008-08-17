@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage request
  */
 
@@ -42,7 +42,7 @@ class BSConsoleRequest extends BSRequest {
 	}
 
 	/**
-	 * コマンドラインパーサオプションを追加する
+	 * コマンドラインパーサオプションを追加
 	 *
 	 * @access public
 	 * @param string $name オプション名

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage smarty
  */
 
@@ -116,7 +116,7 @@ abstract class BSSmartyView extends BSView {
 	}
 
 	/**
-	 * 配列をカラム数で分割する
+	 * 配列をカラム数で分割
 	 *
 	 * @access public
 	 * @param mixed[] $array 対象配列

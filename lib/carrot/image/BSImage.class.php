@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage image
  */
 
@@ -53,7 +53,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * GDイメージリソースを設定する
+	 * GDイメージリソースを設定
 	 *
 	 * @access public
 	 * @param mixed $image 画像リソース
@@ -151,7 +151,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * アンチエイリアス状態を設定する
+	 * アンチエイリアス状態を設定
 	 *
 	 * @access public
 	 * @param boolean $mode アンチエイリアスの有無
@@ -286,7 +286,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * フォント名を設定する
+	 * フォント名を設定
 	 *
 	 * @access public
 	 * @param integer $fontname フォント名
@@ -309,7 +309,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * フォントサイズを設定する
+	 * フォントサイズを設定
 	 *
 	 * @access public
 	 * @param integer $size フォントサイズ

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage role
  */
 
@@ -15,7 +15,7 @@
 class BSAuthor implements BSRole {
 
 	/**
-	 * メールアドレスを取得
+	 * メールアドレスを返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -27,7 +27,7 @@ class BSAuthor implements BSRole {
 	}
 
 	/**
-	 * 名前を取得
+	 * 名前を返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -42,7 +42,7 @@ class BSAuthor implements BSRole {
 	}
 
 	/**
-	 * JabberIDを取得
+	 * JabberIDを返す
 	 *
 	 * @access public
 	 * @return BSJabberID JabberID

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.http
  */
 
@@ -111,7 +111,7 @@ class BSHTTP extends BSSocket {
 	}
 
 	/**
-	 * ヘッダを設定する
+	 * ヘッダを設定
 	 *
 	 * @access protected
 	 * @param mixed $headers ヘッダを含んだ文字列、又は配列

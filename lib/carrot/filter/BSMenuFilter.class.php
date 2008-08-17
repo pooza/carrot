@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage filter
  */
 
@@ -22,7 +22,7 @@ class BSMenuFilter extends BSFilter {
 	}
 
 	/**
-	 * メニュー配列を取得
+	 * メニュー配列を返す
 	 *
 	 * @access private
 	 * @return string[][] メニュー配列
@@ -54,7 +54,7 @@ class BSMenuFilter extends BSFilter {
 	}
 
 	/**
-	 * メニューファイルを取得
+	 * メニューファイルを返す
 	 *
 	 * @access private
 	 * @return BSConfigFile メニューファイル

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage view
  */
 
@@ -129,7 +129,7 @@ abstract class BSView {
 	}
 
 	/**
-	 * Content-Typeを設定する
+	 * Content-Typeを設定
 	 *
 	 * @access private
 	 */

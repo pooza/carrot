@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage log.file
  */
 
@@ -55,7 +55,7 @@ class BSFileLogger extends BSLogger {
 	}
 
 	/**
-	 * ログを出力する
+	 * ログを出力
 	 *
 	 * @access public
 	 * @param string $message ログメッセージ

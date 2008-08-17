@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -19,7 +19,6 @@ class BSString {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化は禁止
 	}
 
 	/**
@@ -312,7 +311,7 @@ class BSString {
 	}
 
 	/**
-	 * 文字列に変換する
+	 * 文字列に変換
 	 *
 	 * @access public
 	 * @param $mixed[] $value 変換対象

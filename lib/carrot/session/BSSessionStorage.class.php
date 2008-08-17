@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage session
  */
 
@@ -67,7 +67,7 @@ class BSSessionStorage extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -140,7 +140,7 @@ class BSSessionStorage extends BSParameterHolder {
 	}
 
 	/**
-	 * セッション変数を削除する
+	 * セッション変数を削除
 	 *
 	 * @access public
 	 * @param string $key 変数名
@@ -151,4 +151,6 @@ class BSSessionStorage extends BSParameterHolder {
 		}
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

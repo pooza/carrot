@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage crypt
  */
 
@@ -21,7 +21,6 @@ class BSCrypt {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化は禁止
 	}
 
 	/**
@@ -39,7 +38,7 @@ class BSCrypt {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */

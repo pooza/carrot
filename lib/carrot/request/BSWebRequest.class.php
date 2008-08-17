@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage request
  */
 
@@ -52,7 +52,7 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
-	 * メソッドを設定する
+	 * メソッドを設定
 	 *
 	 * @access public
 	 * @param integer $method メソッド

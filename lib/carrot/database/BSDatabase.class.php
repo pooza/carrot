@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database
  */
 
@@ -54,7 +54,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -114,7 +114,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * DSNをパースしてプロパティに格納する
+	 * DSNをパースしてプロパティに格納
 	 *
 	 * @access protected
 	 */
@@ -177,7 +177,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * クエリーをエンコードする
+	 * クエリーをエンコード
 	 *
 	 * @access protected
 	 * @param string $query クエリー文字列
@@ -228,7 +228,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * データベースのインスタンス名を設定する
+	 * データベースのインスタンス名を設定
 	 *
 	 * @access public
 	 * @return string インスタンス名
@@ -238,7 +238,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 文字列をクォートする
+	 * 文字列をクォート
 	 *
 	 * @access public
 	 * @param string $string 対象文字列
@@ -309,7 +309,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * テーブルを削除する
+	 * テーブルを削除
 	 *
 	 * @access public
 	 * @param string $table テーブル名
@@ -319,7 +319,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * テーブルを削除する
+	 * テーブルを削除
 	 *
 	 * deleteTableのエイリアス
 	 *
@@ -332,7 +332,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * ダンプファイルを生成する
+	 * ダンプファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -344,7 +344,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * スキーマファイルを生成する
+	 * スキーマファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -356,7 +356,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 最適化する
+	 * 最適化
 	 *
 	 * @access public
 	 */
@@ -364,7 +364,7 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 最適化する
+	 * 最適化
 	 *
 	 * optimizeのエイリアス
 	 *

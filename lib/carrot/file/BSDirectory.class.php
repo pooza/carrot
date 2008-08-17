@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage file
  */
 
@@ -31,7 +31,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * パスを設定する
+	 * パスを設定
 	 *
 	 * @access public
 	 * @param string $path パス
@@ -52,7 +52,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * 規定サフィックスを設定する
+	 * 規定サフィックスを設定
 	 *
 	 * @access public
 	 * @param string $suffix 
@@ -191,7 +191,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * ファイルか
+	 * ファイルか？
 	 *
 	 * @access public
 	 * @return boolean ファイルならTrue
@@ -201,7 +201,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * ディレクトリか
+	 * ディレクトリか？
 	 *
 	 * @access public
 	 * @return boolean ディレクトリならTrue
@@ -211,7 +211,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * サブディレクトリを持つか
+	 * サブディレクトリを持つか？
 	 *
 	 * @access public
 	 * @return boolean サブディレクトリを持つならTrue

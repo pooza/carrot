@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage log
  */
 
@@ -46,7 +46,7 @@ class BSLogManager implements IteratorAggregate {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -55,7 +55,7 @@ class BSLogManager implements IteratorAggregate {
 	}
 
 	/**
-	 * ロガーを登録する
+	 * ロガーを登録
 	 *
 	 * @access public
 	 * @param BSLogger $logger ロガー
@@ -75,7 +75,7 @@ class BSLogManager implements IteratorAggregate {
 	}
 
 	/**
-	 * ログを出力する
+	 * ログを出力
 	 *
 	 * @access public
 	 * @param string $message ログメッセージ

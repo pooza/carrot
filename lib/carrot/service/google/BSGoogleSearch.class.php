@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage service.google
  */
 
@@ -43,7 +43,7 @@ class BSGoogleSearch {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -143,7 +143,7 @@ class BSGoogleSearch {
 	}
 
 	/**
-	 * 検索結果をセットする
+	 * 検索結果をセット
 	 *
 	 * @access private
 	 * @param stdClass $result GoogleSearchクライアントが返した検索結果

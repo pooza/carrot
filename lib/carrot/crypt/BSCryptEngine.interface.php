@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage crypt
  */
 
@@ -48,7 +48,7 @@ interface BSCryptEngine {
 	public function getSalt ();
 
 	/**
-	 * ソルトを設定する
+	 * ソルトを設定
 	 *
 	 * @access public
 	 * @param string $salt ソルト

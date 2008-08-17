@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -36,7 +36,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -61,7 +61,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 
 	/**
-	 * パラメータを設定する
+	 * パラメータを設定
 	 *
 	 * @access public
 	 * @param string $name パラメータ名
@@ -104,7 +104,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 
 	/**
-	 * パラメータを削除する
+	 * パラメータを削除
 	 *
 	 * @access public
 	 * @param string $name パラメータ名

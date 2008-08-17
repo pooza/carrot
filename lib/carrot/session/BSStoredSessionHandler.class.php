@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage session
  */
 
@@ -60,7 +60,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	}
 
 	/**
-	 * 古いセッションを削除する
+	 * 古いセッションを削除
 	 *
 	 * PHPから不定期（低確率）にコールバックされる
 	 *
@@ -97,7 +97,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	}
 
 	/**
-	 * セッションを設定する
+	 * セッションを設定
 	 *
 	 * $_SESSION['hoge'] = $hoge; の際にコールバックされる
 	 *
@@ -125,7 +125,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	}
 
 	/**
-	 * セッションを削除する
+	 * セッションを削除
 	 *
 	 * unset($_SESSION['hoge']); の際にコールバックされる
 	 *
@@ -154,4 +154,6 @@ class BSStoredSessionHandler extends BSTableHandler {
 		}
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

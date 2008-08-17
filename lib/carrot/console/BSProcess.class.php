@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage console
  */
 
@@ -19,7 +19,6 @@ class BSProcess {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化は禁止
 	}
 
 	/**
@@ -33,7 +32,7 @@ class BSProcess {
 	}
 
 	/**
-	 * pidは存在するか
+	 * pidは存在するか？
 	 *
 	 * @access public
 	 * @param integer プロセスID

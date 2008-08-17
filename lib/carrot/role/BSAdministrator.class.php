@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage role
  */
 
@@ -15,7 +15,7 @@ class BSAdministrator implements BSRole {
 	static private $networks = array();
 
 	/**
-	 * メールアドレスを取得
+	 * メールアドレスを返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -27,7 +27,7 @@ class BSAdministrator implements BSRole {
 	}
 
 	/**
-	 * 名前を取得
+	 * 名前を返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -39,7 +39,7 @@ class BSAdministrator implements BSRole {
 	}
 
 	/**
-	 * JabberIDを取得
+	 * JabberIDを返す
 	 *
 	 * @access public
 	 * @return BSJabberID JabberID
@@ -50,7 +50,7 @@ class BSAdministrator implements BSRole {
 	}
 
 	/**
-	 * 許可されたネットワークを取得
+	 * 許可されたネットワークを返す
 	 *
 	 * @access public
 	 * @return BSNetwork[] 許可されたネットワークの配列、全て許可なら空配列

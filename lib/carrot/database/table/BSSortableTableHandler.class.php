@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.table
  */
 
@@ -86,7 +86,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	}
 
 	/**
-	 * 順位をクリアする
+	 * 順位をクリア
 	 *
 	 * @access public
 	 */

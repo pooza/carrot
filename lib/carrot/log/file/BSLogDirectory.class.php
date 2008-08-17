@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage log.file
  */
 
@@ -28,7 +28,7 @@ class BSLogDirectory extends BSDirectory {
 	}
 
 	/**
-	 * サブディレクトリを持つか
+	 * サブディレクトリを持つか？
 	 *
 	 * @access public
 	 * @return boolean サブディレクトリを持つならTrue

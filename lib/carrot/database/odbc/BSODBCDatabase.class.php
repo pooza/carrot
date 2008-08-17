@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.odbc
  */
 
@@ -39,7 +39,7 @@ class BSODBCDatabase extends BSDatabase {
 	}
 
 	/**
-	 * 文字列をクォートする
+	 * 文字列をクォート
 	 *
 	 * @access public
 	 * @param string $string 対象文字列

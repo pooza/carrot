@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage action
  */
 
@@ -19,7 +19,7 @@ abstract class BSTableAction extends BSAction {
 	private $table;
 
 	/**
-	 * アクションを初期化する
+	 * アクションを初期化
 	 *
 	 * @access public
 	 */
@@ -67,7 +67,7 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * カレントレコードIDをクリアする
+	 * カレントレコードIDをクリア
 	 *
 	 * @access protected
 	 */
@@ -76,7 +76,7 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * 検索条件をセッションにキャッシュする
+	 * 検索条件をセッションにキャッシュ
 	 *
 	 * @access protected
 	 */
@@ -151,7 +151,7 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * リストを表示するか
+	 * リストを表示するか？
 	 *
 	 * @access protected
 	 * @return boolean 表示して良いならTrue
@@ -162,7 +162,7 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * リスト表示フラグを設定する
+	 * リスト表示フラグを設定
 	 *
 	 * @access protected
 	 * @param boolean $flag 設定値

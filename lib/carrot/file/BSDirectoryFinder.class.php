@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage file
  */
 
@@ -21,8 +21,8 @@ class BSDirectoryFinder {
 	 * @access private
 	 */
 	private function __construct () {
-		require_once(BSConfigManager::getInstance()->compile('layout/carrot'));
-		require_once(BSConfigManager::getInstance()->compile('layout/application'));
+		require(BSConfigManager::getInstance()->compile('layout/carrot'));
+		require(BSConfigManager::getInstance()->compile('layout/application'));
 	}
 
 	/**
@@ -40,7 +40,7 @@ class BSDirectoryFinder {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -66,7 +66,7 @@ class BSDirectoryFinder {
 	}
 
 	/**
-	 * 特別なディレクトリのインスタンスを生成する
+	 * 特別なディレクトリのインスタンスを生成
 	 *
 	 * @access private
 	 * @param string $name 名前

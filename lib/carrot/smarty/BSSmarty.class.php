@@ -1,13 +1,13 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage smarty
  */
 
 BSController::includeFile('Smarty/Smarty.class.php');
 
 /**
- * Smartyのラッパー
+ * Smartyラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -144,7 +144,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * 対象UserAgentを設定する
+	 * 対象UserAgentを設定
 	 *
 	 * @access public
 	 * @param BSUserAgent $useragent 対象UserAgent
@@ -167,7 +167,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * メディアタイプを設定する
+	 * メディアタイプを設定
 	 *
 	 * @access public
 	 * @param string $type メディアタイプ
@@ -187,7 +187,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * エンコードを設定する
+	 * エンコードを設定
 	 *
 	 * @access public
 	 * @param string $encoding エンコード
@@ -352,7 +352,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return string
 	 */
 	public function _get_auto_filename ($base, $source = null, $id = null) {
-		// ソーステンプレート名をフルパス表記に修正する
+		// ソーステンプレート名をフルパス表記に修正
 		if (!BSUtility::isPathAbsolute($source)) {
 			$source = preg_replace('/\/*$/', '/', $base) . $source;
 		}

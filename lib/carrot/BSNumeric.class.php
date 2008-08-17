@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -18,7 +18,6 @@ class BSNumeric {
 	 * @access private
 	 */
 	private function __construct () {
-		// インスタンス化は禁止
 	}
 
 	/**

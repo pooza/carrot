@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage file
  */
 
@@ -245,7 +245,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * gzip圧縮する
+	 * gzip圧縮
 	 *
 	 * @access public
 	 */
@@ -259,7 +259,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * gzip圧縮されているか
+	 * gzip圧縮されているか？
 	 *
 	 * @access public
 	 * @return boolean gzip圧縮されていたらTrue
@@ -269,7 +269,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * 開かれているか否か
+	 * 開かれているか？
 	 *
 	 * @access public
 	 * @return boolean 開かれていたらtrue
@@ -279,7 +279,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * ポインタがEOFに達しているか
+	 * ポインタがEOFに達しているか？
 	 *
 	 * @access public
 	 * @return boolean EOFに達していたらtrue
@@ -329,7 +329,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * アップロードされたファイルか
+	 * アップロードされたファイルか？
 	 *
 	 * @access public
 	 * @return boolean アップロードされたファイルならTrue
@@ -339,7 +339,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * ファイルか
+	 * ファイルか？
 	 *
 	 * @access public
 	 * @return boolean ファイルならTrue
@@ -349,7 +349,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * ディレクトリか
+	 * ディレクトリか？
 	 *
 	 * @access public
 	 * @return boolean ディレクトリならTrue

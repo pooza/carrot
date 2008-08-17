@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -34,7 +34,7 @@ class BSModule implements BSHTTPRedirector {
 		}
 
 		if ($file = $this->getConfigFile('module')) {
-			require_once(BSConfigManager::getInstance()->compile($file));
+			require(BSConfigManager::getInstance()->compile($file));
 			$this->config += $config;
 		} else {
 			throw new BSConfigException('%sの設定ファイルが見つかりません。', $this);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -49,7 +49,7 @@ class BSException extends Exception {
 	}
 
 	/**
-	 * 名前を設定する
+	 * 名前を設定
 	 *
 	 * @access protected
 	 * @param string $name 名前

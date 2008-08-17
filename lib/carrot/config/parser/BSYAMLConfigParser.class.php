@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage config.parser
  */
 
@@ -32,7 +32,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	}
 
 	/**
-	 * 変換前の設定内容を設定する
+	 * 変換前の設定内容を設定
 	 *
 	 * @access public
 	 * @param string $contents 設定内容
@@ -56,7 +56,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	}
 
 	/**
-	 * 結果配列を設定する
+	 * 結果配列を設定
 	 *
 	 * @access public
 	 * @param mixed $result 結果配列

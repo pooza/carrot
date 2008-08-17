@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.smtp
  */
 
@@ -88,7 +88,7 @@ class BSSmartySender extends BSSMTP {
 	}
 
 	/**
-	 * 行をパースし、エンベロープフィールドなら適切に処理する
+	 * 行をパースし、エンベロープフィールドなら適切に処理
 	 *
 	 * @access private
 	 * @param string $line 行

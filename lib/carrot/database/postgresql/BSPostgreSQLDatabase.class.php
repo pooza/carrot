@@ -1,11 +1,11 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.postgresql
  */
 
 /**
- * PostgreSQL接続
+ * PostgreSQLデータベース
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -37,7 +37,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * DSNをパースしてプロパティに格納する
+	 * DSNをパースしてプロパティに格納
 	 *
 	 * @access protected
 	 */
@@ -96,7 +96,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * ダンプファイルを生成する
+	 * ダンプファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -118,7 +118,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * スキーマファイルを生成する
+	 * スキーマファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -157,7 +157,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * 最適化する
+	 * 最適化
 	 *
 	 * @access public
 	 */

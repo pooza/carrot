@@ -1,11 +1,11 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.mysql
  */
 
 /**
- * MySQL接続
+ * MySQLデータベース
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
@@ -71,7 +71,7 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * DSNをパースしてプロパティに格納する
+	 * DSNをパースしてプロパティに格納
 	 *
 	 * @access protected
 	 */
@@ -101,7 +101,7 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * クエリーをエンコードする
+	 * クエリーをエンコード
 	 *
 	 * @access protected
 	 * @param string $query クエリー文字列
@@ -142,7 +142,7 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * ダンプファイルを生成する
+	 * ダンプファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -164,7 +164,7 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * スキーマファイルを生成する
+	 * スキーマファイルを生成
 	 *
 	 * @access public
 	 * @param string $suffix ファイル名サフィックス
@@ -208,7 +208,7 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * 最適化する
+	 * 最適化
 	 *
 	 * @access public
 	 */

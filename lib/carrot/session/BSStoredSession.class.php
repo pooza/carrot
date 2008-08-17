@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage session
  */
 
@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSStoredSession extends BSRecord {
-	private $dateUpdate;
 
 	/**
 	 * 更新可能か？
@@ -33,18 +32,7 @@ class BSStoredSession extends BSRecord {
 	protected function isDeletable () {
 		return true;
 	}
-
-	/**
-	 * 更新日付を返す
-	 *
-	 * @access protected
-	 * @return BSDate 更新日付
-	 */
-	function getUpdateDate () {
-		if (!$this->dateUpdate) {
-			$this->dataUpdate = new BSDate($this->getAttribute('update_date'));
-		}
-		return $this->dataUpdate;
-	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

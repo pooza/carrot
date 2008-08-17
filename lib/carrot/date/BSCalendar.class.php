@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage date
  */
 
@@ -124,7 +124,7 @@ class BSCalendar {
 	}
 
 	/**
-	 * 特定の曜日を定休日にする
+	 * 特定の曜日を定休日に
 	 *
 	 * @access public
 	 * @param integer[] $weekdays 曜日
@@ -146,7 +146,7 @@ class BSCalendar {
 	}
 
 	/**
-	 * 特定の曜日を定休日にする
+	 * 特定の曜日を定休日に
 	 *
 	 * setRegularHolidaysのエイリアス
 	 *

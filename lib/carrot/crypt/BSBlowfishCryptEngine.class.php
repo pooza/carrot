@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage crypt
  */
 
@@ -40,7 +40,7 @@ class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	}
 
 	/**
-	 * ソルトを設定する
+	 * ソルトを設定
 	 *
 	 * setKeyのエイリアス
 	 *
@@ -52,7 +52,7 @@ class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	}
 
 	/**
-	 * ソルトを設定する
+	 * ソルトを設定
 	 *
 	 * @access public
 	 * @param string $salt ソルト

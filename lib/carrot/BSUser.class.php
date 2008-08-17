@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -56,7 +56,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -65,7 +65,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * 全ての属性を削除する
+	 * 全ての属性を削除
 	 *
 	 * @access public
 	 */
@@ -98,7 +98,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * 属性値を設定する
+	 * 属性値を設定
 	 *
 	 * @access public
 	 * @param string $name 属性名
@@ -109,7 +109,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * 属性値を削除する
+	 * 属性値を削除
 	 *
 	 * @access public
 	 * @param string $name 属性名
@@ -131,7 +131,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * 属性値をまとめて設定する
+	 * 属性値をまとめて設定
 	 *
 	 * @access public
 	 * @param mixed[] $attributes 属性値
@@ -171,7 +171,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * クレデンシャルを追加する
+	 * クレデンシャルを追加
 	 *
 	 * @access public
 	 * @param string $credential クレデンシャル
@@ -183,7 +183,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * クレデンシャルを削除する
+	 * クレデンシャルを削除
 	 *
 	 * @access public
 	 * @param string $credential クレデンシャル
@@ -195,7 +195,7 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * 全てのクレデンシャルを削除する
+	 * 全てのクレデンシャルを削除
 	 *
 	 * @access public
 	 */

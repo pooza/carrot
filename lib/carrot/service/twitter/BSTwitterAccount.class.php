@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage service.twitter
  */
 
@@ -38,7 +38,7 @@ class BSTwitterAccount {
 	}
 
 	/**
-	 * アカウントIDを設定する
+	 * アカウントIDを設定
 	 *
 	 * @access public
 	 * @param integer $id アカウントID

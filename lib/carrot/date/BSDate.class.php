@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage date
  */
 
@@ -44,7 +44,7 @@ class BSDate {
 	}
 
 	/**
-	 * クローン
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -53,7 +53,7 @@ class BSDate {
 	}
 
 	/**
-	 * 日付を設定する
+	 * 日付を設定
 	 *
 	 * @access public
 	 * @param string $str 日付文字列
@@ -365,7 +365,7 @@ class BSDate {
 	}
 
 	/**
-	 * うるう年か否か
+	 * うるう年か？
 	 *
 	 * @access public
 	 * @return boolean うるう年ならtrue

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net
  */
 
@@ -82,7 +82,7 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * URLを設定する
+	 * URLを設定
 	 *
 	 * @access public
 	 * @param string $url URL
@@ -99,7 +99,7 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * URLを設定する
+	 * URLを設定
 	 *
 	 * setContentsのエイリアス
 	 *
@@ -200,7 +200,7 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * クエリーをパースする
+	 * クエリーをパース
 	 *
 	 * @access private
 	 */
@@ -221,7 +221,7 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * パラメータを設定する
+	 * パラメータを設定
 	 *
 	 * @access public
 	 * @param string $name パラメータの名前
@@ -249,7 +249,7 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * パラメータを設定する
+	 * パラメータを設定
 	 *
 	 * @access public
 	 * @param string[] $parameters 属性

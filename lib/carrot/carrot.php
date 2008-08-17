@@ -2,7 +2,7 @@
 /**
  * carrotブートローダー
  *
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
@@ -107,7 +107,7 @@ try {
 	$initialized = false;
 	foreach ($names as $servername) {
 		if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
-			require_once(BSConfigManager::getInstance()->compile($file));
+			require(BSConfigManager::getInstance()->compile($file));
 			$_SERVER['SERVER_NAME'] = $servername;
 			$initialized = true;
 			break;
@@ -128,8 +128,8 @@ try {
 		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
 	}
 
-	require_once(BSConfigManager::getInstance()->compile('constant/application'));
-	require_once(BSConfigManager::getInstance()->compile('constant/carrot'));
+	require(BSConfigManager::getInstance()->compile('constant/application'));
+	require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {

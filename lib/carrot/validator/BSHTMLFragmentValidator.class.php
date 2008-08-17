@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage validator
  */
 
@@ -56,7 +56,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	}
 
 	/**
-	 * 許可された要素と属性だけで構成されているか
+	 * 許可された要素と属性だけで構成されているか？
 	 *
 	 * @access private
 	 * @param BSXMLElement $element 評価対象のフラグメント

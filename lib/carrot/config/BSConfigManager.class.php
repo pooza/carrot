@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage config
  */
 
@@ -44,7 +44,7 @@ class BSConfigManager {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -69,7 +69,7 @@ class BSConfigManager {
 
 		$cache = self::getCacheFile($file);
 		if (!$cache->isExists() || $cache->getUpdateDate()->isAgo($file->getUpdateDate())) {
-			foreach ($this->compilers as $pattern => $compiler){
+			foreach ($this->compilers as $pattern => $compiler) {
 				if ($pattern == '.default') {
 					$pattern = '/./'; //全てにマッチ
 				} else {

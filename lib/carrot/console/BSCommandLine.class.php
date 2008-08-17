@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage console
  */
 
@@ -45,7 +45,7 @@ class BSCommandLine extends BSParameterHolder {
 	}
 
 	/**
-	 * ディレクトリプリフィックスを設定する
+	 * ディレクトリプリフィックスを設定
 	 *
 	 * @access public
 	 * @param BSDirectory $dir ディレクトリプリフィックス
@@ -82,7 +82,7 @@ class BSCommandLine extends BSParameterHolder {
 	}
 
 	/**
-	 * バックグラウンド実行か
+	 * バックグラウンド実行か？
 	 *
 	 * @access public
 	 * @return boolean バックグラウンド実行ならTrue
@@ -92,7 +92,7 @@ class BSCommandLine extends BSParameterHolder {
 	}
 
 	/**
-	 * バックグラウンド実行を設定する
+	 * バックグラウンド実行を設定
 	 *
 	 * @access public
 	 * @param boolean $mode バックグラウンド実行ならTrue
@@ -163,7 +163,7 @@ class BSCommandLine extends BSParameterHolder {
 	}
 
 	/**
-	 * 実行後の戻り値は、エラーを含んでいたか
+	 * 実行後の戻り値は、エラーを含んでいたか？
 	 *
 	 * @access public
 	 * @return boolean エラーを含んでいたらTrue

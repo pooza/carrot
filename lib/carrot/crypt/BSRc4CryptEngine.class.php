@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage crypt
  */
 
@@ -64,7 +64,7 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	}
 
 	/**
-	 * ソルトを設定する
+	 * ソルトを設定
 	 *
 	 * keyのエイリアス
 	 *

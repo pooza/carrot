@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage file
  */
 
@@ -33,7 +33,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * 名前を設定する
+	 * 名前を設定
 	 *
 	 * renameのエイリアス
 	 *
@@ -78,7 +78,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * パスを設定する
+	 * パスを設定
 	 *
 	 * @access public
 	 * @param string $path パス
@@ -143,7 +143,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * 名前がドットから始まるか
+	 * 名前がドットから始まるか？
 	 *
 	 * @access public
 	 * @return boolean ドットから始まるならTrue
@@ -200,7 +200,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * 存在するか
+	 * 存在するか？
 	 *
 	 * @access public
 	 * @return boolean 存在するならtrue
@@ -210,7 +210,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * 存在し、かつ読めるか
+	 * 存在し、かつ読めるか？
 	 *
 	 * @access public
 	 * @return boolean 読めればtrue
@@ -220,7 +220,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * 存在し、書き込めるか
+	 * 存在し、書き込めるか？
 	 *
 	 * @access public
 	 * @return boolean 書き込めればtrue
@@ -230,7 +230,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * ファイルモード（パーミッション）を設定する
+	 * ファイルモード（パーミッション）を設定
 	 *
 	 * @access public
 	 * @param integer $mode ファイルモード
@@ -242,7 +242,7 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
-	 * ファイルか
+	 * ファイルか？
 	 *
 	 * @access public
 	 * @return boolean ファイルならTrue
@@ -251,7 +251,7 @@ abstract class BSDirectoryEntry {
 	abstract public function isFile ();
 
 	/**
-	 * ディレクトリか
+	 * ディレクトリか？
 	 *
 	 * @access public
 	 * @return boolean ディレクトリならTrue

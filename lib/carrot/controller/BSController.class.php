@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage controller
  */
 
@@ -50,7 +50,7 @@ abstract class BSController {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -134,7 +134,7 @@ abstract class BSController {
 	 */
 	private function loadFilters (BSFilterChain $filters) {
 		$objects = array();
-		require_once(BSConfigManager::getInstance()->compile('filters'));
+		require(BSConfigManager::getInstance()->compile('filters'));
 		if ($objects) {
 			foreach ($objects as $filter) {
 				$filters->register($filter);
@@ -167,7 +167,7 @@ abstract class BSController {
 	}
 
 	/**
-	 * ログを出力する
+	 * ログを出力
 	 *
 	 * @access public
 	 * @param string $message ログメッセージ
@@ -316,7 +316,7 @@ abstract class BSController {
 	 *
 	 * @access public
 	 * @param string $name 属性の名前
-	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄する
+	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {

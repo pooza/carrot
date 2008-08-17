@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage csv
  */
 
@@ -31,7 +31,7 @@ class BSCSVData implements BSTextRenderer {
 	}
 
 	/**
-	 * 行をセットして、レコード配列を生成する
+	 * 行をセットして、レコード配列を生成
 	 *
 	 * @access public
 	 * @param string[] $lines 
@@ -47,7 +47,7 @@ class BSCSVData implements BSTextRenderer {
 	}
 
 	/**
-	 * レコードを追加する
+	 * レコードを追加
 	 *
 	 * @access public
 	 * @param string[] $record 
@@ -93,7 +93,7 @@ class BSCSVData implements BSTextRenderer {
 	}
 
 	/**
-	 * 内容を設定する
+	 * 内容を設定
 	 *
 	 * @access public
 	 * @param string $contents CSVデータの内容

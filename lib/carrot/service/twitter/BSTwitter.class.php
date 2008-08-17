@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage service.twitter
  */
 
@@ -43,7 +43,7 @@ class BSTwitter extends BSCurlHTTP {
 	}
 
 	/**
-	 * ユーザーIDを設定する
+	 * ユーザーIDを設定
 	 *
 	 * @access public
 	 * @param string $id ユーザーID又はメールアドレス
@@ -63,7 +63,7 @@ class BSTwitter extends BSCurlHTTP {
 	}
 
 	/**
-	 * パスワードを設定する
+	 * パスワードを設定
 	 *
 	 * @access public
 	 * @param string $password パスワード
@@ -86,7 +86,7 @@ class BSTwitter extends BSCurlHTTP {
 	}
 
 	/**
-	 * ステータスを設定する
+	 * ステータスを設定
 	 *
 	 * @access public
 	 * @param string $status ステータス

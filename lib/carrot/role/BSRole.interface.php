@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage role
  */
 
@@ -15,7 +15,7 @@
 interface BSRole {
 
 	/**
-	 * メールアドレスを取得
+	 * メールアドレスを返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -25,7 +25,7 @@ interface BSRole {
 	static public function getMailAddress ($language = 'ja');
 
 	/**
-	 * 名前を取得
+	 * 名前を返す
 	 *
 	 * @access public
 	 * @param string $language 言語
@@ -35,7 +35,7 @@ interface BSRole {
 	static public function getName ($language = 'ja');
 
 	/**
-	 * JabberIDを取得
+	 * JabberIDを返す
 	 *
 	 * @access public
 	 * @return BSJabberID JabberID

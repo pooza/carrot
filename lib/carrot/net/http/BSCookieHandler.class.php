@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.http
  */
 
@@ -40,7 +40,7 @@ class BSCookieHandler extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -49,7 +49,7 @@ class BSCookieHandler extends BSParameterHolder {
 	}
 
 	/**
-	 * パラメータを設定する
+	 * パラメータを設定
 	 *
 	 * @access public
 	 * @param string $name パラメータ名
@@ -65,7 +65,7 @@ class BSCookieHandler extends BSParameterHolder {
 	}
 
 	/**
-	 * パラメータを削除する
+	 * パラメータを削除
 	 *
 	 * @access public
 	 * @param string $name パラメータ名

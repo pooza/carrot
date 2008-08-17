@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage database.table
  */
 
@@ -93,7 +93,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * 主キーフィールドを設定する
+	 * 主キーフィールドを設定
 	 *
 	 * @access public
 	 * @param string $key 主キーフィールド
@@ -162,7 +162,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * ページ番号を設定する
+	 * ページ番号を設定
 	 *
 	 * @access public
 	 * @param integer $page ページ番号
@@ -172,7 +172,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 			//何もしない
 		} else if ($this->getLastPage() < $page) {
 			$page = $this->getLastPage();
-		} else if ($page < 1){
+		} else if ($page < 1) {
 			$page = 1;
 		}
 		$this->page = $page;
@@ -190,7 +190,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * ページ番号を設定する
+	 * ページ番号を設定
 	 *
 	 * @access public
 	 * @param integer $pagesize ページサイズ
@@ -341,7 +341,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * クエリー実行フラグを設定する
+	 * クエリー実行フラグを設定
 	 *
 	 * @access protected
 	 * @param boolean $executed クエリー実行フラグ
@@ -457,7 +457,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * レコードは存在するか
+	 * レコードは存在するか？
 	 *
 	 * @access public
 	 * @param string[] $criteria 検索条件
@@ -470,7 +470,7 @@ abstract class BSTableHandler implements IteratorAggregate {
 	}
 
 	/**
-	 * レコードは存在するか
+	 * レコードは存在するか？
 	 *
 	 * isExistsのエイリアス
 	 *

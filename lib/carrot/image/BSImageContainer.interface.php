@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage image
  */
 
@@ -32,7 +32,7 @@ interface BSImageContainer {
 	public function getImageFile ($size = null);
 
 	/**
-	 * 画像ファイルを設定する
+	 * 画像ファイルを設定
 	 *
 	 * @access public
 	 * @param BSImageFile $file 画像ファイル

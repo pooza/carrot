@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage image
  */
 
@@ -145,7 +145,7 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
-	 * 登録可能なファイルか
+	 * 登録可能なファイルか？
 	 *
 	 * 非推奨、BSFileValidator,BSImageValidatorを使用すること。
 	 *

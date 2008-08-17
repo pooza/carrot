@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage css
  */
 
@@ -140,7 +140,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	}
 
 	/**
-	 * 文字セットを設定する
+	 * 文字セットを設定
 	 *
 	 * @access public
 	 * @param string $type 文字セットの種類
@@ -190,14 +190,14 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	}
 
 	/**
-	 * CSS文字列をパースする
+	 * CSS文字列をパース
 	 *
 	 * @access public
 	 * @param string $str CSS文字列
-	 * @param boolean $duplicates 重複を許すか
+	 * @param boolean $duplicates 重複を許すか？
 	 */
 	function parseString ($str, $duplicates = false) {
-		// "@charset" 等を保護する
+		// "@charset" 等を保護
 		if (preg_match('/@(charset) *[\'"]?([^;\'"]+)[\'"]?;/', $str, $matches)) {
 			$this->setRule($matches[1], $matches[2]);
 			$str = str_replace($matches[0], null, $str);
@@ -207,11 +207,11 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	}
 
 	/**
-	 * CSSファイルを登録する
+	 * CSSファイルを登録
 	 *
 	 * @access public
 	 * @param BSFile|string $file CSSファイル、又はその名前
-	 * @param boolean $duplicates 重複を許すか
+	 * @param boolean $duplicates 重複を許すか？
 	 */
 	public function parseFile ($file, $duplicates = false) {
 		if ($file instanceof BSFile) {
@@ -236,7 +236,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	}
 
 	/**
-	 * 登録ファイルを配列に代入する
+	 * 登録ファイルを配列に代入
 	 *
 	 * @access private
 	 * @param BSFile $file CSSファイル又はINIファイル
@@ -264,9 +264,9 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 */
 	static private function getStyleSets () {
 		if (!self::$stylesets) {
-			require_once(BSConfigManager::getInstance()->compile('styleset/application'));
+			require(BSConfigManager::getInstance()->compile('styleset/application'));
 			self::$stylesets += $config;
-			require_once(BSConfigManager::getInstance()->compile('styleset/carrot'));
+			require(BSConfigManager::getInstance()->compile('styleset/carrot'));
 			self::$stylesets += $config;
 		}
 		return self::$stylesets;

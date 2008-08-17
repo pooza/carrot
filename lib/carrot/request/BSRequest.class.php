@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage request
  */
 
@@ -38,7 +38,7 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピーを行う
+	 * ディープコピー
 	 *
 	 * @access public
 	 */
@@ -72,7 +72,7 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
-	 * コマンドラインパーサオプションを追加する
+	 * コマンドラインパーサオプションを追加
 	 *
 	 * @access public
 	 * @param string $name オプション名

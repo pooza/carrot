@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage controller
  */
 
@@ -40,7 +40,7 @@ class BSWebController extends BSController {
 	}
 
 	/**
-	 * Cookieを設定する
+	 * Cookieを設定
 	 *
 	 * @access public
 	 * @param string $name Cookieの名前
@@ -51,7 +51,7 @@ class BSWebController extends BSController {
 	}
 
 	/**
-	 * Cookieを削除する
+	 * Cookieを削除
 	 *
 	 * @access public
 	 * @param string $name Cookieの名前

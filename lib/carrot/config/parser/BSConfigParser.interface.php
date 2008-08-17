@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage config.parser
  */
 
@@ -14,7 +14,7 @@
 interface BSConfigParser extends BSTextRenderer {
 
 	/**
-	 * 変換前の設定内容を設定する
+	 * 変換前の設定内容を設定
 	 *
 	 * @access public
 	 * @param string $contents 設定内容

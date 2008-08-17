@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.http.useragent
  */
 
@@ -36,7 +36,7 @@ class BSMSIEUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * キャッシングに関するバグがあるか
+	 * キャッシングに関するバグがあるか？
 	 *
 	 * @access public
 	 * @return boolean バグがあるならTrue

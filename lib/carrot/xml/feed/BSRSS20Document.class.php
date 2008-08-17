@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage xml.feed
  */
 
@@ -93,7 +93,7 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
-	 * オーサーを設定する
+	 * オーサーを設定
 	 *
 	 * @access public
 	 * @param string $name 名前
@@ -111,7 +111,7 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
-	 * 日付を設定する
+	 * 日付を設定
 	 *
 	 * @access public
 	 * @param BSDate $date 日付

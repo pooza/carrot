@@ -5,7 +5,7 @@
  * var elevator = new Elevator('div_id', 200, 20, 10);
  * setInterval('elevator.move()', 500);
  *
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */

@@ -1,7 +1,7 @@
 /**
  * ロールオーバーJavaScript （DreamWeaver用）
  *
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @version $Id$
  */
 

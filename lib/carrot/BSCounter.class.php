@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -41,7 +41,7 @@ class BSCounter {
 	}
 
 	/**
-	 * カウンタを破棄する
+	 * カウンタを破棄
 	 *
 	 * @access public
 	 */
@@ -52,10 +52,10 @@ class BSCounter {
 	}
 
 	/**
-	 * Mojaviユーザーを返す
+	 * carrotユーザーを返す
 	 *
 	 * @access private
-	 * @return BSUser Mojaviユーザー
+	 * @return BSUser carrotユーザー
 	 */
 	private function getUser () {
 		return BSUser::getInstance();

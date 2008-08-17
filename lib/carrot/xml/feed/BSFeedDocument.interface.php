@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage xml.feed
  */
 
@@ -14,7 +14,7 @@
 interface BSFeedDocument {
 
 	/**
-	 * タイトルを設定する
+	 * タイトルを設定
 	 *
 	 * @access public
 	 * @param string $title タイトル
@@ -30,7 +30,7 @@ interface BSFeedDocument {
 	public function setDescription ($description);
 
 	/**
-	 * リンクを設定する
+	 * リンクを設定
 	 *
 	 * @access public
 	 * @param BSURL $url URL
@@ -38,7 +38,7 @@ interface BSFeedDocument {
 	public function setLink (BSURL $url);
 
 	/**
-	 * オーサーを設定する
+	 * オーサーを設定
 	 *
 	 * @access public
 	 * @param string $name 名前
@@ -47,7 +47,7 @@ interface BSFeedDocument {
 	public function setAuthor ($name, BSMailAddress $email = null);
 
 	/**
-	 * 日付を設定する
+	 * 日付を設定
 	 *
 	 * @access public
 	 * @param BSDate $date 日付

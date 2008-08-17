@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage config.compiler
  */
 
@@ -54,7 +54,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	abstract public function execute (BSConfigFile $file);
 
 	/**
-	 * ログを出力する
+	 * ログを出力
 	 *
 	 * @access public
 	 * @return string コンパイル結果
@@ -155,7 +155,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	}
 
 	/**
-	 * パラメータ配列をPHPスクリプトにパースする
+	 * パラメータ配列をPHPスクリプトにパース
 	 *
 	 * @access public
 	 * @param string $values パラメータ配列

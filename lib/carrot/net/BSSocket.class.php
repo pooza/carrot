@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net
  */
 
@@ -140,7 +140,7 @@ class BSSocket {
 	}
 
 	/**
-	 * 開かれているか
+	 * 開かれているか？
 	 *
 	 * @access public
 	 * @return boolean 開かれていたらtrue
@@ -150,7 +150,7 @@ class BSSocket {
 	}
 
 	/**
-	 * ポインタがEOFに達しているか
+	 * ポインタがEOFに達しているか？
 	 *
 	 * @access public
 	 * @return boolean EOFに達していたらtrue
@@ -170,7 +170,7 @@ class BSSocket {
 	}
 
 	/**
-	 * ホストを設定する
+	 * ホストを設定
 	 *
 	 * @access public
 	 * @param BSHost $host ホスト
@@ -190,7 +190,7 @@ class BSSocket {
 	}
 
 	/**
-	 * ポート番号を設定する
+	 * ポート番号を設定
 	 *
 	 * @access public
 	 * @param integer $port port

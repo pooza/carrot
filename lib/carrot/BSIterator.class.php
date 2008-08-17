@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  */
 
 /**
@@ -127,7 +127,7 @@ class BSIterator implements Iterator {
 	}
 
 	/**
-	 * 現在のカーソル位置に正しいエントリーが存在するか
+	 * 現在のカーソル位置に正しいエントリーが存在するか？
 	 *
 	 * @access public
 	 * @return boolean 正しいエントリーが存在するならTrue

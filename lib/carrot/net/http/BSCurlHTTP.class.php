@@ -1,6 +1,6 @@
 <?php
 /**
- * @package jp.co.b-shock.carrot
+ * @package org.carrot-framework
  * @subpackage net.http
  */
 
@@ -178,7 +178,7 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	/**
-	 * SSLモードを設定する
+	 * SSLモードを設定
 	 *
 	 * @access public
 	 * @param boolean $mode SSLモード
