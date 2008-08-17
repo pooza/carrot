@@ -12,6 +12,7 @@
  * @version $Id$
  */
 class BSMySQLDatabase extends BSDatabase {
+	static private $configFile;
 
 	/**
 	 * インスタンスを生成して返す
@@ -24,21 +25,49 @@ class BSMySQLDatabase extends BSDatabase {
 	static public function getInstance ($name = 'default') {
 		try {
 			$constants = BSConstantHandler::getInstance();
-			$db = new BSMySQLDatabase(
-				$constants['PDO_' . $name . '_DSN'],
-				$constants['PDO_' . $name . '_UID'],
-				$constants['PDO_' . $name . '_PASSWORD']
-			);
-			$db->setName($name);
-			if (!$db->isLegacy()) {
-				$db->exec('SET NAMES ' . $db->getEncodingName());
+			if ($file = self::getConfigFile()) {
+				$db = new BSMySQLDatabase(
+					$constants['PDO_' . $name . '_DSN'],
+					$constants['PDO_' . $name . '_UID'],
+					$constants['PDO_' . $name . '_PASSWORD'],
+					array(self::MYSQL_ATTR_READ_DEFAULT_FILE => $file->getPath())
+				);
+			} else {
+				$db = new BSMySQLDatabase(
+					$constants['PDO_' . $name . '_DSN'],
+					$constants['PDO_' . $name . '_UID'],
+					$constants['PDO_' . $name . '_PASSWORD']
+				);
+				if (!$db->isLegacy()) {
+					$db->exec('SET NAMES ' . $db->getEncodingName());
+				}
 			}
+			$db->setName($name);
 		} catch (Exception $e) {
 			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
 			$e->sendAlert();
 			throw $e;
 		}
 		return $db;
+	}
+
+	/**
+	 * 設定ファイルを返す
+	 *
+	 * @access private
+	 * @return BSConfigFile 設定ファイル
+	 * @static
+	 */
+	static private function getConfigFile () {
+		if (!self::$configFile) {
+			$dir = BSController::getInstance()->getDirectory('config');
+			foreach (array('my.cnf', 'my.cnf.ini', 'my.cnf') as $name) {
+				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
+					break;
+				}
+			}
+		}
+		return self::$configFile;
 	}
 
 	/**
@@ -52,6 +81,7 @@ class BSMySQLDatabase extends BSDatabase {
 		$this->attributes['host'] = new BSHost($matches[1]);
 		$this->attributes['port'] = self::getDefaultPort();
 		$this->attributes['name'] = $matches[2];
+		$this->attributes['config_file'] = self::getConfigFile();
 	}
 
 	/**
@@ -246,7 +276,7 @@ class BSMySQLDatabase extends BSDatabase {
 				}
 				$this->attributes['encoding'] = $encoding;
 			} else {
-				// 4.1以降のMySQLでは、接続時にSET NAMESクエリーを送信済み
+				// 4.1以降のMySQLでは、クライアント側エンコードに固定。
 				$this->attributes['encoding'] = 'utf-8';
 			}
 		}
