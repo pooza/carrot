@@ -45,13 +45,6 @@ class GenerateAction extends BSAction {
 		return BSView::INPUT;
 	}
 
-	public function validate () {
-		if (!$this->request['directories']) {
-			$this->request->setError('directories', 'ディレクトリが選ばれていません。');
-		}
-		return (count($this->request->getErrors()) == 0);
-	}
-
 	public function getRequestMethods () {
 		return BSRequest::POST;
 	}

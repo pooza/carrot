@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCryptException extends BSException {
+class BSConsoleException extends BSException {
 }
 
 /* vim:set tabstop=4 ai: */
