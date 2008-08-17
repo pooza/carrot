@@ -41,7 +41,7 @@ class LoginAction extends BSAction {
 		if (!BSAdministrator::auth($this->request['email'], $this->request['password'])) {
 			$this->request->setError('password', 'ユーザー又はパスワードが違います。');
 		}
-		return (count($this->request->getErrors()) == 0);
+		return !$this->request->hasErrors();
 	}
 
 	public function getRequestMethods () {

@@ -107,6 +107,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * バリデータ登録
 	 *
 	 * 動的に登録しなければならないバリデータを、ここで登録。
+	 * 動的に登録する必要のないバリデータは、バリデーション定義ファイルに記述。
 	 *
 	 * @access public
 	 */
@@ -116,14 +117,14 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * 論理バリデーション
 	 *
-	 * 定義ファイルで吸収できない、複雑なバリデーションをここに記述。
+	 * registerValidatorsで吸収できない、複雑なバリデーションをここに記述。
 	 * registerValidatorsで実現できないか、まずは検討すべき。
 	 *
 	 * @access public
 	 * @return boolean 妥当な入力ならTrue
 	 */
 	public function validate () {
-		return true;
+		return !$this->request->hasErrors();
 	}
 
 	/**

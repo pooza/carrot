@@ -111,7 +111,7 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	public function hasErrors () {
-		return (0 < count($this->errors));
+		return (0 < count($this->getErrors()));
 	}
 
 	public function removeAttribute ($name) {
