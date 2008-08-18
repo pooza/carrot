@@ -15,8 +15,7 @@ class BSMenuFilter extends BSFilter {
 	private $menu = array();
 
 	public function execute (BSFilterChain $filters) {
-		$module = $this->controller->getModule();
-		$this->request->setAttribute('title', $module->getConfig('description'));
+		$this->request->setAttribute('title', $this->getModule()->getConfig('description'));
 		$this->request->setAttribute('menu', $this->getMenu());
 		$filters->execute();
 	}
@@ -35,13 +34,11 @@ class BSMenuFilter extends BSFilter {
 				if ($menuitem['title'] == '---') {
 					$this->menu[] = $menuitem;
 				} else if (isset($menuitem['module'])) {
-					$moduleMenu = $this->controller->getModule($menuitem['module']);
-					$moduleCurrent = $this->controller->getModule();
-					if ($moduleCurrent->getName() == $moduleMenu->getName()) {
+					$module = $this->controller->getModule($menuitem['module']);
+					if ($this->getModule()->getName() == $module->getName()) {
 						$menuitem['on'] = true;
 					}
-
-					$credential = $moduleMenu->getCredential();
+					$credential = $module->getCredential();
 					if (!$credential || $this->user->hasCredential($credential)) {
 						$this->menu[] = $menuitem;
 					}
@@ -60,7 +57,26 @@ class BSMenuFilter extends BSFilter {
 	 * @return BSConfigFile メニューファイル
 	 */
 	private function getMenuFile () {
-		return BSConfigManager::getConfigFile('menu/' . $this->getParameter('name'));
+		$names = array(
+			$this->getParameter('name'),
+			BSString::pascalize($this->getModule()->getPrefix()),
+			BSString::underscorize($this->getModule()->getPrefix()),
+		);
+		foreach ($names as $name) {
+			if ($file = BSConfigManager::getConfigFile('menu/' . $name)) {
+				return $file;
+			}
+		}
+	}
+
+	/**
+	 * 呼ばれたモジュールを返す
+	 *
+	 * @access private
+	 * @return BSConfigFile メニューファイル
+	 */
+	private function getModule () {
+		return $this->controller->getModule();
 	}
 }
 

@@ -12,5 +12,3 @@
 - class: BSHostSecurityFilter
 
 - class: BSMenuFilter
-  params:
-    name: admin
