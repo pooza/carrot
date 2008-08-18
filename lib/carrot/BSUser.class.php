@@ -151,7 +151,7 @@ class BSUser extends BSParameterHolder {
 	 * ストレージを返す
 	 *
 	 * @access private
-	 * @return BSSessioqnStorage ストレージ
+	 * @return BSSessionStorage ストレージ
 	 */
 	private function getStorage () {
 		return BSSessionStorage::getInstance();
