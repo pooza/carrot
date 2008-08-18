@@ -13,17 +13,18 @@
  */
 class BSSecurityFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
-		$action = $this->controller->getAction();
-		if ($action->getCredential() !== null) {
-			$credential = $action->getCredential();
-		} else {
-			$credential = $this->getParameter('credential');
-		}
-
-		if ($credential && !$this->user->hasCredential($credential)) {
+		if (!$this->user->hasCredential($this->getCredential())) {
 			return $this->controller->forwardTo($this->controller->getSecureAction());
 		}
 		$filters->execute();
+	}
+
+	private function getCredential () {
+		if ($credential = $this->getParameter('credential')) {
+			return $credential;
+		} else {
+			return $this->controller->getAction()->getCredential();
+		}
 	}
 }
 

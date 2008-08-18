@@ -6,8 +6,6 @@
 # @version $Id$
 
 - class: BSSecurityFilter
-  params:
-    credential: Admin
 
 - class: BSHostSecurityFilter
 

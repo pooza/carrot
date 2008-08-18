@@ -38,8 +38,7 @@ class BSMenuFilter extends BSFilter {
 					if ($this->getModule()->getName() == $module->getName()) {
 						$menuitem['on'] = true;
 					}
-					$credential = $module->getCredential();
-					if (!$credential || $this->user->hasCredential($credential)) {
+					if ($this->user->hasCredential($module->getCredential())) {
 						$this->menu[] = $menuitem;
 					}
 				} else if (isset($menuitem['href'])) {

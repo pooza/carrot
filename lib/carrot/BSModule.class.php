@@ -212,6 +212,7 @@ class BSModule implements BSHTTPRedirector {
 				}
 			}
 		}
+		return $this->getPrefix();
 	}
 
 	/**

@@ -11,10 +11,8 @@
  * @version $Id$
  */
 class BSUser extends BSParameterHolder {
-	const ATTRIBUTE_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/attributes';
-	const CREDENTIAL_NAMESPACE = 'jp/co/b-shock/carrot/BSUser/credentials';
-	private $attributes = array();
-	private $credentials = array();
+	private $attributes;
+	private $credentials;
 	static private $instance;
 
 	/**
@@ -23,11 +21,14 @@ class BSUser extends BSParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		if ($attributes = $this->getStorage()->read(self::ATTRIBUTE_NAMESPACE)) {
-			$this->attributes = $attributes;
+		$this->attributes = new BSArray;
+		if ($values = $this->getStorage()->read('attributes')) {
+			$this->attributes->setParameters($values);
 		}
-		if ($credentials = $this->getStorage()->read(self::CREDENTIAL_NAMESPACE)) {
-			$this->credentials = $credentials;
+
+		$this->credentials = new BSArray;
+		if ($values = $this->getStorage()->read('credentials')) {
+			$this->credentials->setParameters($values);
 		}
 	}
 
@@ -37,8 +38,8 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __destruct () {
-		$this->getStorage()->write(self::ATTRIBUTE_NAMESPACE, $this->attributes);
-		$this->getStorage()->write(self::CREDENTIAL_NAMESPACE, $this->credentials);
+		$this->getStorage()->write('attributes', $this->attributes->getParameters());
+		$this->getStorage()->write('credentials', $this->credentials->getParameters());
 	}
 
 	/**
@@ -70,7 +71,7 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function clearAttributes () {
-		$this->attributes = array();
+		$this->attributes->clearParameters();
 	}
 
 	/**
@@ -81,9 +82,7 @@ class BSUser extends BSParameterHolder {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name) {
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -94,7 +93,7 @@ class BSUser extends BSParameterHolder {
 	 * @return boolean 属性値が存在すればTrue
 	 */
 	public function hasAttribute ($name) {
-		return isset($this->attributes[$name]);
+		return $this->attributes->hasParameter($name);
 	}
 
 	/**
@@ -115,16 +114,14 @@ class BSUser extends BSParameterHolder {
 	 * @param string $name 属性名
 	 */
 	public function removeAttribute ($name) {
-		if ($this->hasAttribute($name)) {
-			unset($this->attributes[$name]);
-		}
+		$this->attributes->removeParameter($name);
 	}
 
 	/**
 	 * 属性値を全て返す
 	 *
 	 * @access public
-	 * @return mixed[] 属性値
+	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
 		return $this->attributes;
@@ -137,7 +134,7 @@ class BSUser extends BSParameterHolder {
 	 * @param mixed[] $attributes 属性値
 	 */
 	public function setAttributes ($attributes) {
-		$this->attributes += $attributes;
+		$this->attributes->setParameters($attributes);
 	}
 
 	/**
@@ -147,7 +144,7 @@ class BSUser extends BSParameterHolder {
 	 * @return string[] 属性値の名前
 	 */
 	public function getAttributeNames () {
-		return array_keys($this->attributes);
+		return $this->attributes->getKeys();
 	}
 
 	/**
@@ -164,7 +161,7 @@ class BSUser extends BSParameterHolder {
 	 * 全てのクレデンシャルを返す
 	 *
 	 * @access public
-	 * @return string[] 全てのクレデンシャル
+	 * @return BSArray 全てのクレデンシャル
 	 */
 	public function getCredentials () {
 		return $this->credentials;
@@ -177,9 +174,7 @@ class BSUser extends BSParameterHolder {
 	 * @param string $credential クレデンシャル
 	 */
 	public function addCredential ($credential) {
-		if (!$this->hasCredential($credential)) {
-			$this->credentials[$credential] = true;
-		}
+		$this->credentials[$credential] = true;
 	}
 
 	/**
@@ -189,9 +184,7 @@ class BSUser extends BSParameterHolder {
 	 * @param string $credential クレデンシャル
 	 */
 	public function removeCredential ($credential) {
-		if ($this->hasCredential($credential)) {
-			$this->credentials[$credential] = false;
-		}
+		$this->credentials[$credential] = false;
 	}
 
 	/**
@@ -200,18 +193,20 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function clearCredentials () {
-		$this->credentials = array();
+		$this->credentials->clearParameters();
 	}
 
 	/**
 	 * クレデンシャルを持っているか？
 	 *
 	 * @access public
-	 * @param string $credential クレデンシャル
+	 * @param string $name クレデンシャル名
 	 * @return boolean 持っていればTrue
 	 */
-	public function hasCredential ($credential) {
-		return isset($this->credentials[$credential]) && $this->credentials[$credential];
+	public function hasCredential ($name) {
+		return (!$name || $this->credentials[$name]);
 	}
 }
+
+/* vim:set tabstop=4 ai: */
 ?>

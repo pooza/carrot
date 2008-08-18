@@ -233,11 +233,14 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * 必要なクレデンシャルを返す
 	 *
+	 * モジュール規定のクレデンシャル以外の、動的なクレデンシャルを設定する
+	 * 必要がある場合、このメソッドをオーバライドする。
+	 *
 	 * @access public
 	 * @return string 必要なクレデンシャル
 	 */
 	public function getCredential () {
-		return null;
+		return $this->getModule()->getCredential();
 	}
 
 	/**
