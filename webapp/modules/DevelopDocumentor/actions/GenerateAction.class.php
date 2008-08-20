@@ -12,10 +12,7 @@ class GenerateAction extends BSAction {
 		$command = new BSCommandLine('bin/phpdoc');
 		$command->setDirectory(new BSDirectory('/usr/local'));
 		$command->addValue('-d');
-		foreach ($this->request['directories'] as $dir) {
-			$command->addValue($dir);
-			$command->addValue(',');
-		}
+		$command->addValue(implode(',', $this->request['directories']));
 		$command->addValue('-t');
 		$command->addValue($this->controller->getPath('doc'));
 		$command->addValue('-o');
