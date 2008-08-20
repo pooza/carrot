@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSCalendar {
+class BSCalendar implements IteratorAggregate {
 	private $weeks = array();
 	private $start;
 	private $end;
@@ -199,6 +199,22 @@ class BSCalendar {
 	 */
 	public function getWeeks () {
 		return $this->weeks;
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		$dates = new BSArray;
+		$date = clone $this->start;
+		do {
+			$dates[] = clone $date;
+			$date->setAttribute('day', '+1');
+		} while ($date->getTimeStamp() <= $this->end->getTimeStamp());
+		return new BSIterator($dates);
 	}
 }
 
