@@ -1651,11 +1651,11 @@ sub Check_Config {
 	if ($LogFormat =~ /^\d$/ && $LogFormat !~ /[1-6]/)  { error("LogFormat parameter is wrong in config/domain file. Value is '$LogFormat' (should be 1,2,3,4,5 or a 'personalized AWStats log format string')"); }
 	$LogSeparator||="\\s";
 	$DirData||='.';
-	$DirCgi||='/cgi-bin';
-	$DirIcons||='/icon';
-	$DirJs||='/js';
-	$DirCss||='/css';
-	$StyleSheet||='/awstatscss/awstats_bw.css';
+	$DirCgi||='/cgi-bin/awstats';
+	$DirIcons||='/carrotlib/images/awstats';
+	$DirJs||='/carrotlib/js';
+	$DirCss||='/carrotlib/css';
+	$StyleSheet||='/carrotlib/css/awstats.css';
 	if ($DNSLookup !~ /[0-2]/)                      { error("DNSLookup parameter is wrong in config/domain file. Value is '$DNSLookup' (should be 0,1 or 2)"); }
 	if (! $SiteDomain)                              { error("SiteDomain parameter not defined in your config/domain file. You must edit it for using this version of AWStats."); }
 	if ($AllowToUpdateStatsFromBrowser !~ /[0-1]/) 	{ $AllowToUpdateStatsFromBrowser=0; }
