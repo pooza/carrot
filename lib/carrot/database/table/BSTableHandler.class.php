@@ -635,7 +635,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @return string 辞書の名前
 	 */
 	public function getDictionaryName () {
-		return sprintf('%s.%s', get_class($this), $this->getName());
+		return get_class($this);
 	}
 
 	/**
