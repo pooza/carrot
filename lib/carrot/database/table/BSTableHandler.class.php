@@ -12,7 +12,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSTableHandler implements IteratorAggregate {
+abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	private $fields = '*';
 	private $key = 'id';
 	private $criteria;
@@ -612,6 +612,30 @@ abstract class BSTableHandler implements IteratorAggregate {
 	 */
 	public function isAutoIncrement () {
 		return false;
+	}
+
+	/**
+	 * 翻訳して返す
+	 *
+	 * @access public
+	 * @param string $label ラベル
+	 * @param string $language 言語
+	 * @return string 翻訳された文字列
+	 */
+	public function translate ($label, $language) {
+		if ($record = $this->getRecord($label)) {
+			$record->getLabel($language);
+		}
+	}
+
+	/**
+	 * 辞書の名前を返す
+	 *
+	 * @access public
+	 * @return string 辞書の名前
+	 */
+	public function getDictionaryName () {
+		return sprintf('%s.%s', get_class($this), $this->getName());
 	}
 
 	/**
