@@ -20,6 +20,7 @@ module:
   prefixes:
     - Admin
     - User
+    - Develop
 
 secure:
   #module: Default
