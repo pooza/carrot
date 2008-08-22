@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage date
+ * @subpackage service
  */
 
 /**
