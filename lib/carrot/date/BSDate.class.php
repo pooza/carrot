@@ -199,9 +199,7 @@ class BSDate {
 		// 各属性を再計算
 		$this->getTimestamp();
 		$this->getWeekday();
-		$this->getWeekdayName('ja');
-		$this->isHoliday();
-		$this->getHolidayName();
+		$this->getWeekdayName();
 		$this->getGengo();
 		$this->getJapaneseYear();
 
@@ -224,8 +222,6 @@ class BSDate {
 			case 'day':
 				$this->attributes->removeAttribute('weekday');
 				$this->attributes->removeAttribute('weekday_name');
-				$this->attributes->removeAttribute('is_holiday');
-				$this->attributes->removeAttribute('holiday_name');
 				break;
 			case 'hour':
 			case 'minute':
@@ -381,45 +377,34 @@ class BSDate {
 	 * 休日ならば、その名前を返す
 	 *
 	 * @access public
+	 * @param string $country 国名
 	 * @return string 休日の名前
 	 */
-	public function getHolidayName () {
+	public function getHolidayName ($country = 'ja') {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
-		} else if (!BSController::getInstance()->isResolvable()) {
-			return null;
 		}
 
-		if (!$this->attributes->hasAttribute('holiday_name')) {
-			if (!$class = BSController::getInstance()->getConstant('HOLIDAY_JA_CLASS')) {
-				$class = 'BSJapaneseHolidayList';
-			}
-			$holidays = new $class($this);
-			$this->attributes->setAttribute(
-				'holiday_name',
-				$holidays->getHolidays()->getParameter($this->getAttribute('day'))
-			);
+		$config = array();
+		require(BSConfigManager::getInstance()->compile('date/holiday'));
+		if (!isset($config[$country])) {
+			throw new BSConfigException('国名"%s"の休日が未定義です。', $country);
 		}
-		return $this->attributes['holiday_name'];
+		$class = $config[$country]['class'];
+		$holidays = new $class;
+		$holidays->setDate($this);
+		return $holidays[$this->getAttribute('day')];
 	}
 
 	/**
 	 * 休日か？
 	 *
 	 * @access public
+	 * @param string $country 国名
 	 * @return boolean 日曜日か祭日ならTrue
 	 */
-	public function isHoliday () {
-		if (!$this->attributes->hasAttribute('is_holiday')) {
-			if ($this->getWeekday() == self::SUN) {
-				$this->attributes['is_holiday'] = true;
-			} else if ($this->getHolidayName() != null) {
-				$this->attributes['is_holiday'] = true;
-			} else {
-				$this->attributes['is_holiday'] = false;
-			}
-		}
-		return $this->attributes['is_holiday'];
+	public function isHoliday ($country = 'ja') {
+		return ($this->getWeekday() == self::SUN) || ($this->getHolidayName($country) != null);
 	}
 
 	/**
@@ -442,7 +427,6 @@ class BSDate {
 	 * 曜日文字列を返す
 	 *
 	 * @access public
-	 * @param string $lang 言語
 	 * @return string 曜日
 	 */
 	public function getWeekdayName () {

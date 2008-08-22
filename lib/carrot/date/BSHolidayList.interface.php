@@ -11,17 +11,17 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSHolidayList {
+interface BSHolidayList extends ArrayAccess {
 
 	/**
-	 * コンストラクタ
+	 * 対象日付を設定
 	 *
 	 * 対象日付の年月のみ参照され、日は捨てられる。
 	 *
 	 * @access public
 	 * @param BSDate $date 対象日付
 	 */
-	public function __construct (BSDate $date = null);
+	public function setDate (BSDate $date = null);
 
 	/**
 	 * 祝日を返す

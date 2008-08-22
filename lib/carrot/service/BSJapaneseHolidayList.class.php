@@ -5,26 +5,63 @@
  */
 
 /**
- * 日本の祝日リスト
+ * ReFITS Lab 「曜日・祝日計算サービス」クライアント
+ *
+ * 同サービスの祝日機能のみを実装。
+ * 曜日を知りたい場合は、BSDate::getWeekday等を利用すること。
+ *
+ * サンプルコード
+ * $holidays = new BSJapaneseHolidayList;
+ * $holidays->setDate(BSDate::getNow());
+ * p($holidays[5]);  //当月5日の祝日の名前を表示
+ * p($holidays[10]); //当月10日
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
+ * @link http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.html
  */
-class BSJapaneseHolidayList implements BSHolidayList {
+class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	private $date;
-	private $url;
 	private $holidays;
+	const DEFAULT_HOST = 'refits.cgk.affrc.go.jp';
 
 	/**
 	 * コンストラクタ
+	 *
+	 * @access public
+	 * @param BSHost $host ホスト
+	 * @param integer $port ポート
+	 */
+	public function __construct (BSHost $host = null, $port = null) {
+		if (!$host) {
+			$host = new BSHost(self::DEFAULT_HOST);
+		}
+		parent::__construct($host, $port);
+	}
+
+	/**
+	 * 対象日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 対象日付
+	 */
+	public function getDate () {
+		if (!$this->date) {
+			throw new BSDateException('%sの対象日付が設定されていません。', get_class($this));
+		}
+		return $this->date;
+	}
+
+	/**
+	 * 対象日付を設定
 	 *
 	 * 対象日付の年月のみ参照され、日は捨てられる。
 	 *
 	 * @access public
 	 * @param BSDate $date 対象日付
 	 */
-	public function __construct (BSDate $date = null) {
+	public function setDate (BSDate $date = null) {
 		if ($date) {
 			$this->date = clone $date;
 		} else {
@@ -40,42 +77,39 @@ class BSJapaneseHolidayList implements BSHolidayList {
 	 * @access public
 	 * @return BSArray 祝日配列
 	 */
-	public function execute () {
-		if (!BSSocket::isResolvable()) {
-			return new BSArray;
-		}
+	public function getHolidays () {
 		if (!$this->holidays) {
-			$name = get_class($this) . '.' . $this->getDate()->format('Y-m');
+			$name = sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
 			$expire = BSDate::getNow()->setAttribute('month', '-1');
 			$holidays = BSController::getInstance()->getAttribute($name, $expire);
-			if ($holidays !== null) {
-				$holidays = new BSArray($holidays);
-			} else {
-				try {
-					$xml = new BSXMLDocument;
-					$xml->setContents($this->getURL()->fetch());
-					$holidays = $this->parse($xml);
-					BSController::getInstance()->setAttribute($name, $holidays->getParameters());
-				} catch (Exception $e) {
-					throw new BSDateException('祝日が取得できません。');
-				}
+			if ($holidays === null) {
+				$holidays = $this->execute()->getParameters();
+				BSController::getInstance()->setAttribute($name, $holidays);
 			}
-			$this->holidays = $holidays;
+			$this->holidays = new BSArray($holidays);
 		}
 		return $this->holidays;
 	}
 
 	/**
-	 * 祝日を返す
+	 * クエリーを実行
 	 *
-	 * executeのエイリアス
-	 *
-	 * @access public
+	 * @access private
 	 * @return BSArray 祝日配列
-	 * @final
 	 */
-	final public function getHolidays () {
-		return $this->execute();
+	private function execute () {
+		try {
+			$path = sprintf(
+				'/tsrv/jp/calendar.php?y=%d&m=%d&t=h',
+				$this->getDate()->getAttribute('year'),
+				$this->getDate()->getAttribute('month')
+			);
+			$xml = new BSXMLDocument;
+			$xml->setContents($this->sendGetRequest($path));
+			return $this->parse($xml);
+		} catch (Exception $e) {
+			throw new BSDateException('祝日が取得できません。');
+		}
 	}
 
 	/**
@@ -103,38 +137,46 @@ class BSJapaneseHolidayList implements BSHolidayList {
 	}
 
 	/**
-	 * 対象日付を返す
+	 * 要素が存在するか？
 	 *
 	 * @access public
-	 * @return BSDate 対象日付
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
 	 */
-	public function getDate () {
-		return $this->date;
+	public function offsetExists ($key) {
+		return $this->getHolidays()->hasParameter($key);
 	}
 
 	/**
-	 * カレンダーのURLを返す
+	 * 要素を返す
 	 *
 	 * @access public
-	 * @return BSURL カレンダーのURL
+	 * @param string $key 添え字
+	 * @return mixed 要素
 	 */
-	public function getURL () {
-		require(BSConfigManager::getInstance()->compile('date/holiday'));
-		if (isset($config['ja']['params'])) {
-			$params = $config['ja']['params'];
-			$this->url = new BSURL($params['url']);
-		} else {
-			throw new BSDateException('定数 "BS_HOLIDAY_JA_URL" が未定義です。');
-		}
+	public function offsetGet ($key) {
+		return $this->getHolidays()->getParameter($key);
+	}
 
-		$params = array(
-			'y' => $this->getDate()->getAttribute('year'),
-			'm' => $this->getDate()->getAttribute('month'),
-			't' => 'h',
-		);
-		$this->url->setParameters($params);
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		throw new BSDateException('%sは更新出来ません。', get_class($this));
+	}
 
-		return $this->url;
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		throw new BSDateException('%sは更新出来ません。', get_class($this));
 	}
 }
 

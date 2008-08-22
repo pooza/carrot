@@ -6,5 +6,3 @@
 
 ja:
   class: BSJapaneseHolidayList
-  params:
-    url: http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.php
