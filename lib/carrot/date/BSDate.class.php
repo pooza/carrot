@@ -469,9 +469,9 @@ class BSDate {
 		if (!$this->attributes->hasAttribute('gengo')) {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile('date/gengo'));
-			foreach ($config as $gengo => $values) {
-				if ($values['start_date'] <= $this->format('Y-m-d')) {
-					$this->attributes['gengo'] = $gengo;
+			foreach ($config as $gengo) {
+				if ($gengo['start_date'] <= $this->format('Y-m-d')) {
+					$this->attributes['gengo'] = $gengo['name'];
 					break;
 				}
 			}
