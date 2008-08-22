@@ -16,6 +16,7 @@ class BSURL implements BSHTTPRedirector {
 	private $fullpath;
 	private $attributes = array('path' => '/');
 	private $parameters;
+	private $tinyurl;
 	const PATTERN = '/^[a-z]+:\/\/[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
@@ -292,6 +293,20 @@ class BSURL implements BSHTTPRedirector {
 	 */
 	public function validate () {
 		return ($this->getContents() != null);
+	}
+
+	/**
+	 * TinyURLを返す
+	 *
+	 * @access public
+	 * @return BSURL TinyURL
+	 */
+	public function getTinyURL () {
+		if (!$this->tinyurl) {
+			$service = new BSTinyURL; 
+			$this->tinyurl = $service->encode($this);
+		}
+		return $this->tinyurl;
 	}
 
 	/**
