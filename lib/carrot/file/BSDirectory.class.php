@@ -112,6 +112,10 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSDirectoryEntry ディレクトリかファイル
 	 */
 	public function getEntry ($name, $class = null) {
+		// "/"が含まれること許したいので、basename関数は利用出来ない。
+		$name = str_replace("\0", '', $name);
+		$name = str_replace('..' . DIRECTORY_SEPARATOR, '', $name);
+
 		if (!$class) {
 			$class = $this->getDefaultEntryClassName();
 		}
