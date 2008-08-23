@@ -98,7 +98,7 @@ class BSConfigManager {
 	 * @return BSFile キャッシュファイル
 	 */
 	static private function getCacheFile (BSConfigFile $file) {
-		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
+		$name = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
 		$name = str_replace(BS_WEBAPP_DIR, '', $name);
 		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
 		$name = preg_replace('/^\./', '', $name);

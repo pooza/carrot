@@ -464,7 +464,7 @@ abstract class BSController {
 	static public function includeFile ($file) {
 		if (!($file instanceof BSFile)) {
 			if (!BSUtility::isPathAbsolute($file)) {
-				$file = self::getInstance()->getPath('lib') . '/' . $file;
+				$file = self::getInstance()->getPath('lib') . DIRECTORY_SEPARATOR . $file;
 			}
 			$file = new BSFile($file);
 		}

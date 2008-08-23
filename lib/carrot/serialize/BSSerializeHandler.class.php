@@ -23,11 +23,11 @@ class BSSerializeHandler {
 	 */
 	private function __construct () {
 		if (extension_loaded('json')) {
-			$this->engine = new BSJSONSerializer;
+			$this->setEngine(new BSJSONSerializer);
 		} else {
-			$this->engine = new BSPHPSerializer;
+			$this->setEngine(new BSPHPSerializer);
 		}
-		$this->getDirectory()->setDefaultSuffix($this->engine->getSuffix());
+		$this->getDirectory()->setDefaultSuffix($this->getEngine()->getSuffix());
 	}
 
 	/**
@@ -57,10 +57,20 @@ class BSSerializeHandler {
 	 * シリアライザーを返す
 	 *
 	 * @access private
-	 * @param BSSerializer シリアライザー
+	 * @return BSSerializer シリアライザー
 	 */
 	private function getEngine () {
 		return $this->engine;
+	}
+
+	/**
+	 * シリアライザーを設定する
+	 *
+	 * @access private
+	 * @param BSSerializer $engine シリアライザー
+	 */
+	private function setEngine (BSSerializer $engine) {
+		$this->engine = $engine;
 	}
 
 	/**

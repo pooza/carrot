@@ -14,6 +14,7 @@
 class BSCrypt {
 	private $engine;
 	static private $instance;
+	const WITH_BASE64 = 1;
 
 	/**
 	 * コンストラクタ
@@ -112,12 +113,15 @@ class BSCrypt {
 	 *
 	 * @access public
 	 * @param string $value 対象文字列
+	 * @param integer $option オプションのビット列、現状self::WITH_BASE64のみ。
 	 * @return string 暗号化された文字列
 	 */
-	public function encrypt ($value) {
-		if ($value) {
-			return $this->getEngine()->encrypt($value);
+	public function encrypt ($value, $option = self::WITH_BASE64) {
+		$value = $this->getEngine()->encrypt($value);
+		if ($option & self::WITH_BASE64) {
+			$value = base64_encode($value);
 		}
+		return $value;
 	}
 
 	/**
@@ -125,12 +129,16 @@ class BSCrypt {
 	 *
 	 * @access public
 	 * @param string $value 対象文字列
+	 * @param integer $option オプションのビット列、現状self::WITH_BASE64のみ。
 	 * @return string 複号化された文字列
 	 */
-	public function decrypt ($value) {
-		if ($value) {
-			return $this->getEngine()->decrypt($value);
+	public function decrypt ($value, $option = self::WITH_BASE64) {
+		if ($option & self::WITH_BASE64) {
+			$value = base64_decode($value);
 		}
+		$value = $this->getEngine()->decrypt($value);
+		$value = trim($value);
+		return $value;
 	}
 
 	/**

@@ -123,7 +123,7 @@ class BSCommandLine extends BSParameterHolder {
 	 */
 	public function getContents () {
 		if ($this->directory) {
-			$contents = $this->directory->getPath() . '/' . $this->command;
+			$contents = $this->directory->getPath() . DIRECTORY_SEPARATOR . $this->command;
 		} else {
 			$contents = $this->command;
 		}

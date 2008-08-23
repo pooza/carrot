@@ -119,7 +119,7 @@ class BSModule implements BSHTTPRedirector {
 		}
 		if (!$this->configFiles[$name]) {
 			$this->configFiles[$name] = BSConfigManager::getConfigFile(
-				$this->getDirectory()->getEntry('config')->getPath() . '/' . $name
+				$this->getDirectory()->getEntry('config')->getPath() . DIRECTORY_SEPARATOR . $name
 			);
 		}
 		return $this->configFiles[$name];
@@ -164,7 +164,7 @@ class BSModule implements BSHTTPRedirector {
 		if (!$dir = $this->getDirectory()->getEntry('validate')) {
 			return null;
 		}
-		return BSConfigManager::getConfigFile($dir->getPath() . '/' . $name);
+		return BSConfigManager::getConfigFile($dir->getPath() . DIRECTORY_SEPARATOR . $name);
 	}
 
 	/**

@@ -120,7 +120,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			$class = $this->getDefaultEntryClassName();
 		}
 
-		$path = $this->getPath() . '/' . $name;
+		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
 		if ($this->hasSubDirectory() && is_dir($path)) {
 			return new BSDirectory($path);
 		} else if (is_file($path)) {
@@ -144,7 +144,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		}
 
 		$name = basename($name, $this->getDefaultSuffix());
-		$path = $this->getPath() . '/' . $name . $this->getDefaultSuffix();
+		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name . $this->getDefaultSuffix();
 		$file = new $class($path);
 		$file->setContents(null);
 		$this->entries = array();
@@ -173,7 +173,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSDirectory 作成されたディレクトリ
 	 */
 	public function createDirectory ($name) {
-		$path = $this->getPath() . '/' . $name;
+		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
 		if (file_exists($path)) {
 			if (!is_dir($path)) {
 				throw new BSFileException('"%s"と同名のファイルが存在します。', $path);

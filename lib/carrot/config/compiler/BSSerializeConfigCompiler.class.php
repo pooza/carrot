@@ -31,9 +31,9 @@ class BSSerializeConfigCompiler extends BSConfigCompiler {
 	}
 
 	static private function getAttributeName (BSFile $file) {
-		$name = $file->getDirectory()->getPath() . '/' . $file->getBaseName();
+		$name = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
 		$name = str_replace(BSController::getInstance()->getPath('webapp'), '', $name);
-		$name = implode('.', explode('/', $name));
+		$name = implode('.', explode(DIRECTORY_SEPARATOR, $name));
 		return __CLASS__ . $name;
 	}
 

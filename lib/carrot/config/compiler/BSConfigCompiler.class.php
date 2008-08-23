@@ -165,7 +165,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 */
 	static public function parseParameters ($values, $prefix = 'param') {
 		$body = new BSArray;
-		$pattern = '/^' . preg_quote($prefix) . '\.([0-9a-z_]+)/i';
+		$pattern = '/^' . preg_quote($prefix, '/') . '\.([0-9a-z_]+)/i';
 
 		foreach ($values as $key => $value) {
 			if (!$prefix) {

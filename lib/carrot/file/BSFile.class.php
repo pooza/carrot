@@ -69,7 +69,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		}
 
 		if ($this->isUploaded()) {
-			$path = $this->getDirectory()->getPath() . '/' . basename($name);
+			$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
 			if (!move_uploaded_file($this->getPath(), $path)) {
 				throw new BSFileException('アップロードされた%sをリネーム出来ません。', $this);
 			}
@@ -90,7 +90,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
 		if ($this->isUploaded()) {
-			$path = $dir->getPath() . '/' . $this->getName();
+			$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 			if (!move_uploaded_file($this->getPath(), $path)) {
 				throw new BSFileException('アップロードされた%sを移動出来ません。', $this);
 			}
