@@ -66,6 +66,7 @@ awstats:
 session:
   #storage_type: file
   #storage_type: database
+  #storage_type: memcache
 
 date:
   timezone: Asia/Tokyo

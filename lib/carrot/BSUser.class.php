@@ -22,12 +22,12 @@ class BSUser extends BSParameterHolder {
 	 */
 	private function __construct () {
 		$this->attributes = new BSArray;
-		if ($values = $this->getStorage()->read('attributes')) {
+		if ($values = $this->getSession()->read('attributes')) {
 			$this->attributes->setParameters($values);
 		}
 
 		$this->credentials = new BSArray;
-		if ($values = $this->getStorage()->read('credentials')) {
+		if ($values = $this->getSession()->read('credentials')) {
 			$this->credentials->setParameters($values);
 		}
 	}
@@ -38,8 +38,8 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __destruct () {
-		$this->getStorage()->write('attributes', $this->attributes->getParameters());
-		$this->getStorage()->write('credentials', $this->credentials->getParameters());
+		$this->getSession()->write('attributes', $this->attributes->getParameters());
+		$this->getSession()->write('credentials', $this->credentials->getParameters());
 	}
 
 	/**
@@ -148,13 +148,13 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
-	 * ストレージを返す
+	 * セッションを返す
 	 *
 	 * @access private
-	 * @return BSSessionStorage ストレージ
+	 * @return BSSession セッション
 	 */
-	private function getStorage () {
-		return BSSessionStorage::getInstance();
+	private function getSession () {
+		return BSSessionHandler::getInstance();
 	}
 
 	/**

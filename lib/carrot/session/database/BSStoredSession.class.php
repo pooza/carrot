@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage session
+ * @subpackage session.database
  */
 
 /**

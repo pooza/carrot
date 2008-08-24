@@ -7,7 +7,7 @@
 carrot:
   name: carrot Framework
   url: http://trac.carrot-framework.org/project/carrot/
-  ver: 2.0.43
+  ver: 2.0.44
 
 default:
   module: Default

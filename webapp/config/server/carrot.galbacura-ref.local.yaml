@@ -65,8 +65,12 @@ awstats:
   server_name_aliases: 
 
 session:
-  #storage_type: file
-  #storage_type: database
+  storage:
+    #type: default
+    #type: database
+    type: memcache
+    host: unix:///tmp/memcached.sock
+    port: 0
 
 date:
   timezone: Asia/Tokyo
