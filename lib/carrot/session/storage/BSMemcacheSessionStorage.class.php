@@ -99,7 +99,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return string シリアライズされたセッション
 	 */
 	public function getAttribute ($name) {
-		return $this->getServer()->get(self::getAttributeName($name));
+		return $this->getServer()->get($this->getAttributeName($name));
 	}
 
 	/**
@@ -114,7 +114,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 */
 	public function setAttribute ($name, $value) {
 		return $this->getServer()->set(
-			self::getAttributeName($name),
+			$this->getAttributeName($name),
 			$value,
 			0,
 			ini_get('session.gc_maxlifetime')
@@ -131,21 +131,20 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return boolean 処理の成否
 	 */
 	public function removeAttribute ($name) {
-		return $this->getServer()->delete(self::getAttributeName($name));
+		return $this->getServer()->delete($this->getAttributeName($name));
 	}
 
 	/**
 	 * memcachedでの属性名を返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $name 属性名
 	 * @return string memcachedでの属性名
-	 * @static
 	 */
-	static private function getAttributeName ($name) {
+	protected function getAttributeName ($name) {
 		$name = array(
 			BSController::getInstance()->getServerHost()->getName(),
-			__CLASS__,
+			get_class($this),
 			$name
 		);
 		return join('.', $name);
