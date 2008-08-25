@@ -42,6 +42,10 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
     loggable: no
 
+memcache:
+  host: unix:///tmp/memcached.sock
+  port: 0
+
 smtp:
   host: localhost
   #check_addresses: no
@@ -64,9 +68,10 @@ awstats:
   server_name_aliases: 
 
 session:
-  #storage_type: file
-  #storage_type: database
-  #storage_type: memcache
+  storage:
+    #type: default
+    #type: database
+    type: memcache
 
 date:
   timezone: Asia/Tokyo

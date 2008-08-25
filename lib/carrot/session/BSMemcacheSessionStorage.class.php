@@ -21,7 +21,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 */
 	public function initialize () {
 		if (!extension_loaded('memcache')) {
-			throw new BSException('memcachedモジュールが利用できません。');
+			throw new BSException('memcacheモジュールが利用できません。');
 		}
 
 		session_set_save_handler(
@@ -44,10 +44,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 		if (!$this->server) {
 			$constants = BSConstantHandler::getInstance();
 			$this->server = new Memcache;
-			$this->server->pconnect(
-				$constants['SESSION_STORAGE_HOST'],
-				$constants['SESSION_STORAGE_PORT']
-			);
+			$this->server->pconnect($constants['MEMCACHE_HOST'], $constants['MEMCACHE_PORT']);
 		}
 		return $this->server;
 	}

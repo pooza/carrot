@@ -43,6 +43,10 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
     loggable: no
 
+memcache:
+  host: unix:///tmp/memcached.sock
+  port: 0
+
 smtp:
   host: localhost
   #check_addresses: no
@@ -69,8 +73,6 @@ session:
     #type: default
     #type: database
     type: memcache
-    host: unix:///tmp/memcached.sock
-    port: 0
 
 date:
   timezone: Asia/Tokyo
