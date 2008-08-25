@@ -69,14 +69,12 @@ awstats:
 
 session:
   storage:
-    #type: default
     #type: database
-    type: memcache
+    #type: memcache
 
 serialize:
   storage:
-    #type: default
-    type: memcache
+    #type: memcache
 
 date:
   timezone: Asia/Tokyo
