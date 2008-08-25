@@ -11,8 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMemcacheSessionStorage implements BSSessionStorage {
-	private $server;
+class BSMemcacheSessionStorage extends BSMemcache implements BSSessionStorage {
 
 	/**
 	 * 初期化
@@ -20,10 +19,6 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @access public
 	 */
 	public function initialize () {
-		if (!extension_loaded('memcache')) {
-			throw new BSException('memcacheモジュールが利用できません。');
-		}
-
 		session_set_save_handler(
 			array($this, 'open'),
 			array($this, 'close'),
@@ -32,21 +27,6 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 			array($this, 'removeAttribute'),
 			array($this, 'clean')
 		);
-	}
-
-	/**
-	 * memcachedサーバを返す
-	 *
-	 * @access public
-	 * @return Memcache memcachedサーバ
-	 */
-	private function getServer () {
-		if (!$this->server) {
-			$constants = BSConstantHandler::getInstance();
-			$this->server = new Memcache;
-			$this->server->pconnect($constants['MEMCACHE_HOST'], $constants['MEMCACHE_PORT']);
-		}
-		return $this->server;
 	}
 
 	/**
@@ -99,7 +79,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return string シリアライズされたセッション
 	 */
 	public function getAttribute ($name) {
-		return $this->getServer()->get($this->getAttributeName($name));
+		return $this->get($name);
 	}
 
 	/**
@@ -113,12 +93,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return boolean 処理の成否
 	 */
 	public function setAttribute ($name, $value) {
-		return $this->getServer()->set(
-			$this->getAttributeName($name),
-			$value,
-			0,
-			ini_get('session.gc_maxlifetime')
-		);
+		return $this->set($name, $value, 0, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**
@@ -131,23 +106,7 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return boolean 処理の成否
 	 */
 	public function removeAttribute ($name) {
-		return $this->getServer()->delete($this->getAttributeName($name));
-	}
-
-	/**
-	 * memcachedでの属性名を返す
-	 *
-	 * @access protected
-	 * @param string $name 属性名
-	 * @return string memcachedでの属性名
-	 */
-	protected function getAttributeName ($name) {
-		$name = array(
-			BSController::getInstance()->getServerHost()->getName(),
-			get_class($this),
-			$name
-		);
-		return join('.', $name);
+		return $this->delete($name);
 	}
 }
 

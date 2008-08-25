@@ -20,7 +20,16 @@ class BSJavaScriptFile extends BSFile {
 	 * @return string 最適化された内容
 	 */
 	public function getOptimizedContents () {
-		$name = sprintf('%s.%s', get_class($this), BSCrypt::getSHA1($this->getPath()));
+		$name = new BSArray;
+		$name[] = get_class($this);
+		$path = str_replace(
+			BSController::getInstance()->getPath('js') . DIRECTORY_SEPARATOR,
+			'',
+			$this->getPath()
+		);
+		$name->merge(explode(DIRECTORY_SEPARATOR, $path));
+		$name = $name->join(',');
+
 		$expire = $this->getUpdateDate();
 		if (!$contents = BSController::getInstance()->getAttribute($name, $expire)) {
 			BSController::includeFile('jsmin.php');

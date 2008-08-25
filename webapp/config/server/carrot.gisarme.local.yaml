@@ -73,6 +73,11 @@ session:
     #type: database
     type: memcache
 
+serialize:
+  storage:
+    #type: default
+    type: memcache
+
 date:
   timezone: Asia/Tokyo
 

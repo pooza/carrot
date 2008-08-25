@@ -11,8 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMemcacheSerializeStorage implements BSSerializeStorage {
-	private $server;
+class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorage {
 
 	/**
 	 * 初期化
@@ -20,12 +19,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * @access public
 	 */
 	public function initialize () {
-		if (!extension_loaded('memcache')) {
-			throw new BSException('memcacheモジュールが利用できません。');
-		}
-		if (!$this->getServer()) {
-			throw new BSException('memcachedに接続出来ません。');
-		}
 	}
 
 	/**
@@ -36,21 +29,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 */
 	private function getSerializer () {
 		return BSSerializeHandler::getInstance()->getSerializer();
-	}
-
-	/**
-	 * memcachedサーバを返す
-	 *
-	 * @access public
-	 * @return Memcache memcachedサーバ
-	 */
-	private function getServer () {
-		if (!$this->server) {
-			$constants = BSConstantHandler::getInstance();
-			$this->server = new Memcache;
-			$this->server->pconnect($constants['MEMCACHE_HOST'], $constants['MEMCACHE_PORT']);
-		}
-		return $this->server;
 	}
 
 	/**
@@ -78,16 +56,12 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * @return string シリアライズされた値
 	 */
 	public function setAttribute ($name, $value) {
-		if (is_object($value)) {
-			throw new BSException('オブジェクトはシリアライズ出来ません。');
-		}
-
 		$values = array(
 			'update_date' => BSDate::getNow('Y-m-d H:i:s'),
 			'contents' => $value,
 		);
 		$serialized = $this->getSerializer()->encode($values);
-		$this->getServer()->set($this->getAttributeName($name), $serialized);
+		$this->set($name, $serialized);
 		return $serialized;
 	}
 
@@ -98,26 +72,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		return $this->getServer()->delete($this->getAttributeName($name));
-	}
-
-	/**
-	 * エントリーを返す
-	 *
-	 * エントリーには、属性の値と更新日が含まれる
-	 *
-	 * @access private
-	 * @param string $name 属性の名前
-	 * @return BSArray エントリー
-	 */
-	private function getEntry ($name) {
-		if ($values = $this->getServer()->get($this->getAttributeName($name))) {
-			$values = $this->getSerializer()->decode($values);
-			$entry = new BSArray;
-			$entry['contents'] = $values['contents'];
-			$entry['update_date'] = new BSDate($values['update_date']);
-			return $entry;
-		}
+		return $this->delete($name);
 	}
 
 	/**
@@ -134,19 +89,21 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	}
 
 	/**
-	 * memcachedでの属性名を返す
+	 * エントリーを返す
 	 *
-	 * @access protected
-	 * @param string $name 属性名
-	 * @return string memcachedでの属性名
+	 * エントリーには、属性の値と更新日が含まれる
+	 *
+	 * @access private
+	 * @param string $name 属性の名前
+	 * @return BSArray エントリー
 	 */
-	protected function getAttributeName ($name) {
-		$name = array(
-			BSController::getInstance()->getServerHost()->getName(),
-			get_class($this),
-			$name
-		);
-		return join('.', $name);
+	private function getEntry ($name) {
+		if ($values = $this->get($name)) {
+			$values = $this->getSerializer()->decode($values);
+			$entry = new BSArray($values);
+			$entry['update_date'] = new BSDate($entry['update_date']);
+			return $entry;
+		}
 	}
 }
 
