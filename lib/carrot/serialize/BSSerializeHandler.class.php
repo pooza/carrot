@@ -12,7 +12,8 @@
  * @version $Id$
  */
 class BSSerializeHandler {
-	private $engine;
+	private $serializer;
+	private $storage;
 	private $attributes;
 	static private $instance;
 
@@ -22,12 +23,6 @@ class BSSerializeHandler {
 	 * @access private
 	 */
 	private function __construct () {
-		if (extension_loaded('json')) {
-			$this->setEngine(new BSJSONSerializer);
-		} else {
-			$this->setEngine(new BSPHPSerializer);
-		}
-		$this->getDirectory()->setDefaultSuffix($this->getEngine()->getSuffix());
 	}
 
 	/**
@@ -56,31 +51,36 @@ class BSSerializeHandler {
 	/**
 	 * シリアライザーを返す
 	 *
-	 * @access private
+	 * @access public
 	 * @return BSSerializer シリアライザー
 	 */
-	private function getEngine () {
-		return $this->engine;
+	public function getSerializer () {
+		if (!$this->serializer) {
+			if (extension_loaded('json')) {
+				$this->serializer = new BSJSONSerializer;
+			} else {
+				$this->serializer = new BSPHPSerializer;
+			}
+		}
+		return $this->serializer;
 	}
 
 	/**
-	 * シリアライザーを設定する
+	 * ストレージを返す
 	 *
-	 * @access private
-	 * @param BSSerializer $engine シリアライザー
+	 * @access public
+	 * @return BSSerializeStorage ストレージ
 	 */
-	private function setEngine (BSSerializer $engine) {
-		$this->engine = $engine;
-	}
-
-	/**
-	 * ディレクトリを返す
-	 *
-	 * @access private
-	 * @param BSDictionary ディレクトリ
-	 */
-	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('serialized');
+	public function getStorage () {
+		if (!$this->storage) {
+			if (!$type = BSController::getInstance()->getConstant('SERIALIZE_STORAGE_TYPE')) {
+				$type = 'default';
+			}
+			$class = sprintf('BS%sSerializeStorage', BSString::pascalize($type));
+			$this->storage = new $class;
+			$this->storage->initialize();
+		}
+		return $this->storage;
 	}
 
 	/**
@@ -91,14 +91,11 @@ class BSSerializeHandler {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		$file = $this->getDirectory()->createEntry($name);
-		$file->setMode(0666);
-		$file->setContents($this->getEngine()->encode($value));
-		$this->attributes[$name] = $value;
+		$serialized = $this->getStorage()->setAttribute($name, $value);
 		$message = sprintf(
-			'%sをシリアライズしました。 (%s)',
+			'%sをシリアライズしました。 (%sbytes)',
 			$name,
-			$file->getFormattedSize('Bytes')
+			number_format(strlen($serialized))
 		);
 		BSController::getInstance()->putLog($message, get_class($this));
 	}
@@ -110,11 +107,7 @@ class BSSerializeHandler {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		if ($this->getAttribute($name)) {
-			$file = $this->getDirectory()->getEntry($name);
-			$file->delete();
-			unset($this->attributes[$name]);
-		}
+		$this->getStorage()->removeAttribute($name);
 	}
 
 	/**
@@ -126,19 +119,7 @@ class BSSerializeHandler {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
-		if (!isset($this->attributes[$name])) {
-			$this->attributes[$name] = null;
-
-			if (!$file = $this->getDirectory()->getEntry($name)) {
-				return null;
-			} else if (!$file->isReadable()) {
-				return null;
-			} else if ($date && $file->getUpdateDate()->isAgo($date)) {
-				return null;
-			}
-			$this->attributes[$name] = $this->getEngine()->decode($file->getContents());
-		}
-		return $this->attributes[$name];
+		return $this->getStorage()->getAttribute($name, $date);
 	}
 
 	/**
@@ -149,10 +130,7 @@ class BSSerializeHandler {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate ($name) {
-		if (!$file = $this->getDirectory()->getEntry($name)) {
-			return null;
-		}
-		return $file->getUpdateDate();
+		return $this->getStorage()->getUpdateDate($name);
 	}
 }
 

@@ -1,17 +1,17 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage serialize
+ * @subpackage serialize.serializer
  */
 
 /**
- * シリアライザー
+ * PHPシリアライザー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-interface BSSerializer {
+class BSPHPSerializer implements BSSerializer {
 
 	/**
 	 * シリアライズされた文字列を返す
@@ -20,7 +20,9 @@ interface BSSerializer {
 	 * @param mixed $value 対象
 	 * @return string シリアライズされた文字列
 	 */
-	public function encode ($value);
+	public function encode ($value) {
+		return serialize($value);
+	}
 
 	/**
 	 * シリアライズされた文字列を元に戻す
@@ -29,7 +31,9 @@ interface BSSerializer {
 	 * @param string $value 対象
 	 * @return mixed もとの値
 	 */
-	public function decode ($value);
+	public function decode ($value) {
+		return unserialize($value);
+	}
 
 	/**
 	 * サフィックスを返す
@@ -37,7 +41,9 @@ interface BSSerializer {
 	 * @access public
 	 * @return string サフィックス
 	 */
-	public function getSuffix ();
+	public function getSuffix () {
+		return '.serialized';
+	}
 }
 
 /* vim:set tabstop=4 ai: */
