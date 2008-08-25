@@ -1,52 +1,36 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage session
+ * @subpackage session.storage.database
  */
 
 /**
- * memcacheセッションストレージ
+ * セッションテーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSMemcacheSessionStorage implements BSSessionStorage {
-	private $server;
+class BSStoredSessionHandler extends BSTableHandler {
 
 	/**
-	 * 初期化
+	 * レコード追加可能か？
 	 *
-	 * @access public
+	 * @access protected
+	 * @return boolean レコード追加可能ならTrue
 	 */
-	public function initialize () {
-		if (!extension_loaded('memcache')) {
-			throw new BSException('memcacheモジュールが利用できません。');
-		}
-
-		session_set_save_handler(
-			array($this, 'open'),
-			array($this, 'close'),
-			array($this, 'getAttribute'),
-			array($this, 'setAttribute'),
-			array($this, 'removeAttribute'),
-			array($this, 'clean')
-		);
+	protected function isInsertable () {
+		return true;
 	}
 
 	/**
-	 * memcachedサーバを返す
+	 * テーブル名を返す
 	 *
 	 * @access public
-	 * @return Memcache memcachedサーバ
+	 * @return string テーブル名
 	 */
-	private function getServer () {
-		if (!$this->server) {
-			$constants = BSConstantHandler::getInstance();
-			$this->server = new Memcache;
-			$this->server->pconnect($constants['MEMCACHE_HOST'], $constants['MEMCACHE_PORT']);
-		}
-		return $this->server;
+	public function getName () {
+		return BSSessionStorage::TABLE_NAME;
 	}
 
 	/**
@@ -79,13 +63,21 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * 古いセッションを削除
 	 *
 	 * PHPから不定期（低確率）にコールバックされる
-	 * 実際には何もしない
 	 *
 	 * @access public
 	 * @param integer $lifetime セッションの寿命（秒数）
 	 * @return boolean 処理の成否
 	 */
 	public function clean ($lifetime) {
+		$expire = new BSDate;
+		$expire->setTimeStamp(BSDate::getNow()->getTimeStamp() - $lifetime);
+
+		foreach ($this as $record) {
+			if ($record->getUpdateDate()->isAgo($expire)) {
+				$record->delete();
+			}
+		}
+
 		return true;
 	}
 
@@ -99,7 +91,9 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return string シリアライズされたセッション
 	 */
 	public function getAttribute ($name) {
-		return $this->getServer()->get(self::getAttributeName($name));
+		if ($record = $this->getRecord($name)) {
+			return $record->getAttribute('data');
+		}
 	}
 
 	/**
@@ -113,12 +107,21 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return boolean 処理の成否
 	 */
 	public function setAttribute ($name, $value) {
-		return $this->getServer()->set(
-			self::getAttributeName($name),
-			$value,
-			0,
-			ini_get('session.gc_maxlifetime')
-		);
+		if ($record = $this->getRecord($name)) {
+			$values = array(
+				'data' => $value,
+				'update_date' => BSDate::getNow('Y-m-d H:i:s'),
+			);
+			$record->update($values);
+		} else {
+			$values = array(
+				'id' => $name,
+				'data' => $value,
+				'update_date' => BSDate::getNow('Y-m-d H:i:s'),
+			);
+			$this->createRecord($values);
+		}
+		return true;
 	}
 
 	/**
@@ -131,24 +134,24 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * @return boolean 処理の成否
 	 */
 	public function removeAttribute ($name) {
-		return $this->getServer()->delete(self::getAttributeName($name));
+		if ($record = $this->getRecord($name)) {
+			$record->delete();
+		}
+		return true;
 	}
 
 	/**
-	 * memcachedでの属性名を返す
+	 * データベースを返す
 	 *
-	 * @access private
-	 * @param string $name 属性名
-	 * @return string memcachedでの属性名
-	 * @static
+	 * @access public
+	 * @return BSDatabase データベース
 	 */
-	static private function getAttributeName ($name) {
-		$name = array(
-			BSController::getInstance()->getServerHost()->getName(),
-			__CLASS__,
-			$name
-		);
-		return join('.', $name);
+	public function getDatabase () {
+		foreach (array('session', 'default') as $db) {
+			if ($db = BSDatabase::getInstance($db)) {
+				return $db;
+			}
+		}
 	}
 }
 

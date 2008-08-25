@@ -14,7 +14,6 @@
 class BSSessionHandler {
 	private $storage;
 	static private $instance;
-	const DEFAULT_STORAGE_CLASS = 'BSDefaultSessionStorage';
 
 	/**
 	 * コンストラクタ
@@ -65,11 +64,10 @@ class BSSessionHandler {
 	 */
 	private function getStorage () {
 		if (!$this->storage) {
-			if ($type = BSController::getInstance()->getConstant('SESSION_STORAGE_TYPE')) {
-				$class = sprintf('BS%sSessionStorage', BSString::pascalize($type));
-			} else {
-				$class = self::DEFAULT_STORAGE_CLASS;
+			if (!$type = BSController::getInstance()->getConstant('SESSION_STORAGE_TYPE')) {
+				$type = 'default';
 			}
+			$class = sprintf('BS%sSessionStorage', BSString::pascalize($type));
 			$this->storage = new $class;
 		}
 		return $this->storage;
