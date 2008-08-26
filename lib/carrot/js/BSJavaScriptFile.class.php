@@ -20,15 +20,13 @@ class BSJavaScriptFile extends BSFile {
 	 * @return string 最適化された内容
 	 */
 	public function getOptimizedContents () {
+		$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $this->getBaseName();
+		$path = str_replace(BSController::getInstance()->getPath('js'), '', $path);
+		$path = preg_replace('/^' . preg_quote(DIRECTORY_SEPARATOR, '/') . '/', '', $path);
 		$name = new BSArray;
 		$name[] = get_class($this);
-		$path = str_replace(
-			BSController::getInstance()->getPath('js') . DIRECTORY_SEPARATOR,
-			'',
-			$this->getPath()
-		);
-		$name->merge(explode(DIRECTORY_SEPARATOR, $path));
-		$name = $name->join(',');
+		$name->merge(explode('/', $path));
+		$name = $name->join('.');
 
 		$expire = $this->getUpdateDate();
 		if (!$contents = BSController::getInstance()->getAttribute($name, $expire)) {
