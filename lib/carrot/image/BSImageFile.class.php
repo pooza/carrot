@@ -74,9 +74,7 @@ class BSImageFile extends BSFile {
 	 * @param string $name 新しい名前
 	 */
 	public function rename ($name) {
-		if (!$this->getSuffix()) {
-			$name .= BSImage::getSuffixes()->getParameter($this->getEngine()->getType());
-		}
+		$name .= BSImage::getSuffixes()->getParameter($this->getEngine()->getType());
 		parent::rename($name);
 	}
 
