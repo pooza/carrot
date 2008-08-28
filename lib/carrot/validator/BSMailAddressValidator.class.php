@@ -24,6 +24,8 @@ class BSMailAddressValidator extends BSValidator {
 		$this->setParameter('unique_error', '重複します。');
 		$this->setParameter('domain', false);
 		$this->setParameter('domain_error', '正しいドメインではない様です。');
+		$this->setParameter('mobile_allowed', true);
+		$this->setParameter('mobile_allowed_error', '携帯電話用のアドレスは使用出来ません。');
 		$this->setParameter('table', 'account');
 		$this->setParameter('field', 'email');
 		$this->setParameter('invalid_error', '正しいメールアドレスではありません。');
@@ -47,6 +49,11 @@ class BSMailAddressValidator extends BSValidator {
 
 		if ($this->getParameter('domain') && !$email->isValidDomain()) {
 			$this->error = $this->getParameter('domain_error');
+			return false;
+		}
+
+		if (!$this->getParameter('mobile_allowed') && $email->isMobile()) {
+			$this->error = $this->getParameter('mobile_allowed_error');
 			return false;
 		}
 

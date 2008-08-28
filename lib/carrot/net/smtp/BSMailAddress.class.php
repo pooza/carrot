@@ -168,6 +168,16 @@ class BSMailAddress {
 	}
 
 	/**
+	 * ケータイ用のアドレスか？
+	 *
+	 * @access public
+	 * @return boolean ケータイ用ならTrue
+	 */
+	public function isMobile () {
+		return ($this->getCarrier() != '');
+	}
+
+	/**
 	 * 基本情報を文字列で返す
 	 *
 	 * @access public
