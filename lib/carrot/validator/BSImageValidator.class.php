@@ -20,10 +20,17 @@ class BSImageValidator extends BSValidator {
 	 * @return BSArray 許可されるメディアタイプ
 	 */
 	private function getAllowedTypes () {
-		if ($this->getParameter('types')) {
-			$types = new BSArray;
-			foreach (BSString::explode(',', $this->getParameter('types')) as $type) {
-				if (!preg_match('/^image\//', $type)) {
+		if ($this['types']) {
+			if (BSArray::isArray($this['types'])) {
+				$types = new BSArray($this['types']);
+			} else {
+				$types = BSString::explode(',', $this['types']);
+			}
+
+			foreach ($types as $type) {
+				if ($suggested = BSMediaType::getType($type)) {
+					$type = $suggested;
+				} else if (!preg_match('/^image\//', $type)) {
 					$type = 'image/' . $type;
 				}
 				$types[] = $type;
@@ -69,21 +76,20 @@ class BSImageValidator extends BSValidator {
 			$file = new BSImageFile($name);
 			$image = $file->getEngine();
 		} catch (BSException $e) {
-			$this->error = $this->getParameter('types_error');
+			$this->error = $this['types_error'];
 			return false;
 		}
 
-		$params = new BSArray($this->getParameters());
 		if (!$this->getAllowedTypes()->isIncluded($image->getType())) {
-			$this->error = $this->getParameter('types_error');
-		} else if ($params['min_width'] && ($image->getWidth() < $params['min_width'])) {
-			$this->error = $this->getParameter('min_width_error');
-		} else if ($params['min_height'] && ($image->getHeight() < $params['min_height'])) {
-			$this->error = $this->getParameter('min_height_error');
-		} else if ($params['max_width'] && ($params['max_width'] < $image->getWidth())) {
-			$this->error = $this->getParameter('max_width_error');
-		} else if ($params['max_height'] && ($params['max_height'] < $image->getHeight())) {
-			$this->error = $this->getParameter('max_height_error');
+			$this->error = $this['types_error'];
+		} else if ($this['min_width'] && ($image->getWidth() < $this['min_width'])) {
+			$this->error = $this['min_width_error'];
+		} else if ($this['min_height'] && ($image->getHeight() < $this['min_height'])) {
+			$this->error = $this['min_height_error'];
+		} else if ($this['max_width'] && ($this['max_width'] < $image->getWidth())) {
+			$this->error = $this['max_width_error'];
+		} else if ($this['max_height'] && ($this['max_height'] < $image->getHeight())) {
+			$this->error = $this['max_height_error'];
 		}
 		return ($this->error == null);
 	}
