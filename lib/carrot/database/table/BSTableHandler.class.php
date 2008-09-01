@@ -624,7 +624,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 */
 	public function translate ($label, $language) {
 		if ($record = $this->getRecord($label)) {
-			$record->getLabel($language);
+			return $record->getLabel($language);
 		}
 	}
 

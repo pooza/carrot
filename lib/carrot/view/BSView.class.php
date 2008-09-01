@@ -49,6 +49,8 @@ abstract class BSView {
 				return BSController::getInstance()->getUserAgent();
 			case 'renderer':
 				return $this->getRenderer();
+			case 'translator':
+				return BSTranslator::getInstance();
 		}
 	}
 

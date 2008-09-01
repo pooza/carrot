@@ -254,7 +254,17 @@ abstract class BSRecord {
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		return $this->getAttribute('name');
+		$names = array(
+			'label_' . $language,
+			'label',
+			'name_' . $language,
+			'name',
+		);
+		foreach ($names as $name) {
+			if ($label = $this->getAttribute($name)) {
+				return $label;
+			}
+		}
 	}
 
 	/**
