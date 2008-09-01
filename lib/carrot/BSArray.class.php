@@ -161,11 +161,20 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * 値が含まれているか？
 	 *
 	 * @access public
-	 * @param mixed $value 値
+	 * @param mixed $values 値、又は値の配列
 	 * @return boolean 値が含まれていればTrue
 	 */
-	public function isIncluded ($value) {
-		return in_array($value, $this->getParameters());
+	public function isIncluded ($values) {
+		if (!BSArray::isArray($values)) {
+			$values = array($values);
+		}
+
+		foreach ($values as $value) {
+			if (in_array($value, $this->getParameters())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
