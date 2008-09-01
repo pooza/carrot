@@ -160,7 +160,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 */
 	public function getView ($name) {
 		$class = $this->getName() . $name . 'View';
-		if (!$dir = $this->getModule()->getDirectory()->getEntry('views')) {
+		if (!$dir = $this->getModule()->getDirectory('views')) {
 			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
 			throw new BSFileException(

@@ -12,7 +12,7 @@
  */
 class BSModule implements BSHTTPRedirector {
 	private $name;
-	private $directory;
+	private $directories;
 	private $actions;
 	private $config = array();
 	private $configFiles;
@@ -78,14 +78,25 @@ class BSModule implements BSHTTPRedirector {
 	 * ディレクトリを返す
 	 *
 	 * @access public
-	 * @return BSDirectory モジュールのディレクトリ
+	 * @param string $name ディレクトリ名
+	 * @return BSDirectory 対象ディレクトリ
 	 */
-	public function getDirectory () {
-		if (!$this->directory) {
-			$controller = BSController::getInstance();
-			$this->directory = $controller->getDirectory('modules')->getEntry($this->getName());
+	public function getDirectory ($name = 'module') {
+		if (!$this->directories) {
+			$this->directories = new BSArray;
 		}
-		return $this->directory;
+		if (!$this->directories[$name]) {
+			switch ($name) {
+				case 'module':
+					$dir = BSController::getInstance()->getDirectory('modules');
+					$this->directories['module'] = $dir->getEntry($this->getName());
+					break;
+				default:
+					$this->directories[$name] = $this->getDirectory('module')->getEntry($name);
+					break;
+			}
+		}
+		return $this->directories[$name];
 	}
 
 	/**
@@ -119,7 +130,7 @@ class BSModule implements BSHTTPRedirector {
 		}
 		if (!$this->configFiles[$name]) {
 			$this->configFiles[$name] = BSConfigManager::getConfigFile(
-				$this->getDirectory()->getEntry('config')->getPath() . DIRECTORY_SEPARATOR . $name
+				$this->getDirectory('config')->getPath() . DIRECTORY_SEPARATOR . $name
 			);
 		}
 		return $this->configFiles[$name];
@@ -161,7 +172,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return BSConfigFile バリデーション設定ファイル
 	 */
 	public function getValidationFile ($name) {
-		if (!$dir = $this->getDirectory()->getEntry('validate')) {
+		if (!$dir = $this->getDirectory('validate')) {
 			return null;
 		}
 		return BSConfigManager::getConfigFile($dir->getPath() . DIRECTORY_SEPARATOR . $name);
@@ -177,7 +188,7 @@ class BSModule implements BSHTTPRedirector {
 	public function getAction ($name) {
 		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
 		$class = $name . 'Action';
-		if (!$dir = $this->getDirectory()->getEntry('actions')) {
+		if (!$dir = $this->getDirectory('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
 			throw new BSFileException('%sにアクション "%s" がありません。', $this, $name);

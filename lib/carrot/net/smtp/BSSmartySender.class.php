@@ -43,8 +43,7 @@ class BSSmartySender extends BSSMTP {
 	public function getRenderer () {
 		if (!$this->renderer) {
 			$this->renderer = new BSSmarty;
-			$module = BSController::getInstance()->getModule();
-			if ($dir = $module->getDirectory()->getEntry('templates')) {
+			if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
 				$this->renderer->setTemplatesDirectory($dir);
 			}
 		}
