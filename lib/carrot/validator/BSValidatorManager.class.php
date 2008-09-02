@@ -71,7 +71,7 @@ class BSValidatorManager implements IteratorAggregate {
 				}
 			}
 		}
-		return (count(BSRequest::getInstance()->getErrors()) < 1);
+		return !BSRequest::getInstance()->hasErrors();
 	}
 
 	/**
