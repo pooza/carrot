@@ -17,10 +17,7 @@ function smarty_modifier_strip_html_tag ($value) {
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		while (preg_match('/<\/?[^>]>/', $value, $matches)) {
-			$value = str_replace($matches[0], '', $value);
-		} 
-		return $value;
+		return BSString::stripHTMLTags($value);
 	}
 }
 

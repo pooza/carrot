@@ -311,6 +311,27 @@ class BSString {
 	}
 
 	/**
+	 * HTMLタグを取り除く
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function stripHTMLTags ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::stripHTMLTags($item);
+			}
+		} else {
+			while (preg_match('/<\/?[^>]>/', $value, $matches)) {
+				$value = str_replace($matches[0], '', $value);
+			} 
+		}
+		return $value;
+	}
+
+	/**
 	 * 文字列に変換
 	 *
 	 * @access public
