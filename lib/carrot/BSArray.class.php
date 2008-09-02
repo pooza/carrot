@@ -25,11 +25,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param mixed[] $params 要素の配列
 	 */
 	public function __construct ($params = array()) {
-		if ($params instanceof BSArray) {
-			$this->setParameters($params->getParameters());
-		} else if (is_array($params)) {
-			$this->setParameters($params);
-		}
+		$this->setParameters($params);
 	}
 
 	/**
@@ -39,6 +35,9 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param mixed[] $params 要素の配列
 	 */
 	public function setParameters ($params) {
+		if (!self::isArray($params)) {
+			throw new BSException('配列でない値は代入出来ません。');
+		}
 		foreach ($params as $name => $value) {
 			$this->setParameter($name, $value);
 		}
