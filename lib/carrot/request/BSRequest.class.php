@@ -19,8 +19,8 @@ abstract class BSRequest extends BSParameterHolder {
 	const PUT = 8;
 	const DELETE = 16;
 	protected $method;
-	private $attributes = array();
-	private $errors = array();
+	private $attributes;
+	private $errors;
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -46,29 +46,47 @@ abstract class BSRequest extends BSParameterHolder {
 		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
+	/**
+	 * 全ての属性を削除
+	 *
+	 * @access public
+	 */
 	public function clearAttributes () {
-		$this->attributes = array();
+		$this->getAttributes()->clearParameters();
 	}
 
+	/**
+	 * 属性を返す
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return mixed 属性
+	 */
 	public function getAttribute ($name) {
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->getAttributes()->getParameter($name);
 	}
-
 
 	/**
 	 * 属性値を全て返す
 	 *
 	 * @access public
-	 * @return mixed[] 属性値
+	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+		}
 		return $this->attributes;
 	}
 
+	/**
+	 * 全ての属性名を返す
+	 *
+	 * @access public
+	 * @return BSArray 全ての属性名
+	 */
 	public function getAttributeNames () {
-		return array_keys($this->attributes);
+		return $this->getAttributes()->getKeys();
 	}
 
 	/**
@@ -88,58 +106,132 @@ abstract class BSRequest extends BSParameterHolder {
 	public function parse () {
 	}
 
+	/**
+	 * エラーを返す
+	 *
+	 * @access public
+	 * @param string $name エラー名
+	 * @return mixed エラー
+	 */
 	public function getError ($name) {
-		if (isset($this->errors[$name])) {
-			return $this->errors[$name];
-		}
+		return $this->getErrors()->getParameter($name);
 	}
 
+	/**
+	 * 全てのエラー名を返す
+	 *
+	 * @access public
+	 * @return BSArray 全てのエラー名
+	 */
 	public function getErrorNames () {
-		return array_keys($this->errors);
+		return $this->getErrors()->getKeys();
 	}
 
+	/**
+	 * エラーを全て返す
+	 *
+	 * @access public
+	 * @return mixed[] エラー
+	 */
 	public function getErrors () {
+		if (!$this->errors) {
+			$this->errors = new BSArray;
+		}
 		return $this->errors;
 	}
 
+	/**
+	 * 属性が存在するか？
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return boolean 存在すればTrue
+	 */
 	public function hasAttribute ($name) {
-		return isset($this->attributes[$name]);
+		return $this->getAttributes()->hasParameter($name);
 	}
 
+	/**
+	 * エラーが存在するか？
+	 *
+	 * @access public
+	 * @param string $name エラー名
+	 * @return boolean 存在すればTrue
+	 */
 	public function hasError ($name) {
-		return isset($this->errors[$name]);
+		return $this->getErrors()->hasParameter($name);
 	}
 
+	/**
+	 * ひとつ以上のエラーが存在するか？
+	 *
+	 * @access public
+	 * @return boolean 存在すればTrue
+	 */
 	public function hasErrors () {
-		return (0 < count($this->getErrors()));
+		return (0 < $this->getErrors()->count());
 	}
 
+	/**
+	 * 属性を削除
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 */
 	public function removeAttribute ($name) {
-		if ($this->hasAttribute($name)) {
-			unset($this->attributes[$name]);
-		}
+		$this->getAttributes()->removeParameter($name);
 	}
 
+	/**
+	 * エラーを削除
+	 *
+	 * @access public
+	 * @param string $name エラー名
+	 */
 	public function removeError ($name) {
-		if ($this->hasError($name)) {
-			unset($this->errors[$name]);
-		}
+		$this->getErrors()->removeParameter($name);
 	}
 
+	/**
+	 * 属性を設定
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @param mixed $value 値
+	 */
 	public function setAttribute ($name, $value) {
-		$this->attributes[$name] = $value;
+		$this->getAttributes()->setParameter($name, $value);
 	}
 
+	/**
+	 * 属性をまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] 属性
+	 */
 	public function setAttributes ($attributes) {
-		$this->attributes = array_merge($this->attribures, $attributes);
+		$this->getAttributes()->setParameters($attributes);
 	}
 
+	/**
+	 * エラーを設定
+	 *
+	 * @access public
+	 * @param string $name エラー名
+	 * @param mixed $value 値
+	 */
 	public function setError ($name, $message) {
-		$this->errors[$name] = $message;
+		$this->getErrors()->setParameter($name, $value);
 	}
 
+	/**
+	 * エラーをまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] エラー
+	 */
 	public function setErrors ($errors) {
-		$this->errors = array_merge($this->errors, $errors);
+		$this->getErrors()->setParameters($attributes);
 	}
 
 	/**
