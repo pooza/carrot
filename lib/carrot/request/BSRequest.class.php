@@ -231,7 +231,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @param mixed[] エラー
 	 */
 	public function setErrors ($errors) {
-		$this->getErrors()->setParameters($attributes);
+		$this->getErrors()->setParameters($errors);
 	}
 
 	/**
