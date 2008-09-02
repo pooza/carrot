@@ -207,7 +207,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * 属性をまとめて設定
 	 *
 	 * @access public
-	 * @param mixed[] 属性
+	 * @param mixed[] $attributes 属性
 	 */
 	public function setAttributes ($attributes) {
 		$this->getAttributes()->setParameters($attributes);
@@ -220,7 +220,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @param string $name エラー名
 	 * @param mixed $value 値
 	 */
-	public function setError ($name, $message) {
+	public function setError ($name, $value) {
 		$this->getErrors()->setParameter($name, $value);
 	}
 
@@ -228,7 +228,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * エラーをまとめて設定
 	 *
 	 * @access public
-	 * @param mixed[] エラー
+	 * @param mixed[] $errors エラー
 	 */
 	public function setErrors ($errors) {
 		$this->getErrors()->setParameters($errors);
