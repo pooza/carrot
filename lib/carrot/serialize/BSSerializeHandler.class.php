@@ -93,7 +93,7 @@ class BSSerializeHandler {
 	public function setAttribute ($name, $value) {
 		$serialized = $this->getStorage()->setAttribute($name, $value);
 		$message = sprintf(
-			'%sをシリアライズしました。 (%sbytes)',
+			'%sをシリアライズしました。 (%s bytes)',
 			$name,
 			number_format(strlen($serialized))
 		);
