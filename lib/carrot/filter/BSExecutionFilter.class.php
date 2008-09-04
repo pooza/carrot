@@ -13,24 +13,22 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
-		$action = $this->controller->getAction();
-
-		if ($action->getRequestMethods() & $this->request->getMethod()) {
-			if ($file = $action->getValidationFile()) {
+		if ($this->action->getRequestMethods() & $this->request->getMethod()) {
+			if ($file = $this->action->getValidationFile()) {
 				require(BSConfigManager::getInstance()->compile($file));
 			}
-			$action->registerValidators();
-			if (BSValidatorManager::getInstance()->execute() && $action->validate()) {
-				$view = $action->execute();
+			$this->action->registerValidators();
+			if (BSValidatorManager::getInstance()->execute() && $this->action->validate()) {
+				$view = $this->action->execute();
 			} else {
-				$view = $action->handleError();
+				$view = $this->action->handleError();
 			}
 		} else {
-			$view = $action->getDefaultView();
+			$view = $this->action->getDefaultView();
 		}
 
 		if ($view != BSView::NONE) {
-			$view = $action->getView($view);
+			$view = $this->action->getView($view);
 			if ($view->initialize()) {
 				$view->execute();
 				$view->render();

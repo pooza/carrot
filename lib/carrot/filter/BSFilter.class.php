@@ -29,6 +29,8 @@ abstract class BSFilter extends BSParameterHolder {
 				return BSRequest::getInstance();
 			case 'user':
 				return BSUser::getInstance();
+			case 'action':
+				return BSController::getInstance()->getAction();
 		}
 	}
 
