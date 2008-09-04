@@ -33,3 +33,4 @@ types:
   txt: text/plain
   yaml: text/yaml
   xml: application/xml
+  zip: application/zip
