@@ -11,6 +11,7 @@ types:
   csv: text/csv
   dat: application/octet-stream
   gif: image/gif
+  gz: application/x-gzip
   htm: text/html
   html: text/html
   ini: text/x-ini-file
