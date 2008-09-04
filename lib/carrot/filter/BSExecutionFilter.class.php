@@ -14,9 +14,8 @@
 class BSExecutionFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
 		$action = $this->controller->getAction();
-		$method = $this->request->getMethod();
 
-		if (($action->getRequestMethods() & $method) != $method) {
+		if ($action->getRequestMethods() & $this->request->getMethod()) {
 			$view = $action->getDefaultView();
 		} else {
 			if ($file = $action->getValidationFile()) {
@@ -39,7 +38,7 @@ class BSExecutionFilter extends BSFilter {
 				throw new BSException('%sの%sが初期化できません。', $module, $view);
 			}
 		}
-    }
+	}
 }
 
 /* vim:set tabstop=4 ai: */
