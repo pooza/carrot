@@ -27,6 +27,7 @@ types:
   rb:
   sql:
   swf: application/x-shockwave-flash
+  tgz: application/x-gzip
   tpl:
   ttf: application/x-truetype-font
   txt: text/plain
