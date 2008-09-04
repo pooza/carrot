@@ -16,8 +16,6 @@ class BSExecutionFilter extends BSFilter {
 		$action = $this->controller->getAction();
 
 		if ($action->getRequestMethods() & $this->request->getMethod()) {
-			$view = $action->getDefaultView();
-		} else {
 			if ($file = $action->getValidationFile()) {
 				require(BSConfigManager::getInstance()->compile($file));
 			}
@@ -27,6 +25,8 @@ class BSExecutionFilter extends BSFilter {
 			} else {
 				$view = $action->handleError();
 			}
+		} else {
+			$view = $action->getDefaultView();
 		}
 
 		if ($view != BSView::NONE) {
