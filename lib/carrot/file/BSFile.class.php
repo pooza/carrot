@@ -20,8 +20,8 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	private $size;
 	private $handle;
 	private $error;
-	protected $type;
 	const LINE_SEPARATOR = "\n";
+	const COMPRESSED_SUFFIX = '.gz';
 
 	/**
 	 * コンストラクタ
@@ -51,10 +51,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		if (!$this->type) {
-			$this->type = BSMediaType::getType($this->getSuffix());
-		}
-		return $this->type;
+		return BSMediaType::getType($this->getSuffix());
 	}
 
 	/**
@@ -255,7 +252,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		}
 		$contents = gzencode($this->getContents(), 9);
 		$this->setContents($contents);
-		$this->rename($this->getName() . '.gz');
+		$this->rename($this->getName() . self::COMPRESSED_SUFFIX);
 	}
 
 	/**
@@ -265,8 +262,8 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return boolean gzip圧縮されていたらTrue
 	 */
 	public function isCompressed () {
-		//無限ループを起こす為、$this->getType()による判定が行えない。
-		return ($this->getSuffix() == '.gz');
+		// BSMediaType等を通る無限ループが発生する為、$this->getType()は使用できない。
+		return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
 	}
 
 	/**
