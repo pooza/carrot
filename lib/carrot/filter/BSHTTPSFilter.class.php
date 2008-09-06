@@ -14,8 +14,8 @@
 class BSHTTPSFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
 		if (!$this->controller->isDebugMode()
-			&& !$this->controller->isCLI()
-			&& !$this->controller->isSSL()
+			&& !$this->request->isCLI()
+			&& !$this->request->isSSL()
 			&& ($this->request->getMethod() == BSRequest::GET)) {
 
 			$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));

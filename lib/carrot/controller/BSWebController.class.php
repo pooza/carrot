@@ -87,26 +87,6 @@ class BSWebController extends BSController {
 	}
 
 	/**
-	 * コマンドライン環境か？
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 */
-	public function isCLI () {
-		return false;
-	}
-
-	/**
-	 * SSL環境か？
-	 *
-	 * @access public
-	 * @return boolean SSL環境ならTrue
-	 */
-	public function isSSL () {
-		return ($this->getEnvironment('HTTPS') != '');
-	}
-
-	/**
 	 * ヘッダを送信
 	 *
 	 * @access public

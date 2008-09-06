@@ -243,6 +243,26 @@ abstract class BSRequest extends BSParameterHolder {
 	public function getMethod () {
 		return $this->method;
 	}
+
+	/**
+	 * コマンドライン環境か？
+	 *
+	 * @access public
+	 * @return boolean コマンドライン環境ならTrue
+	 */
+	public function isCLI () {
+		return false;
+	}
+
+	/**
+	 * SSL環境か？
+	 *
+	 * @access public
+	 * @return boolean SSL環境ならTrue
+	 */
+	public function isSSL () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4 ai: */

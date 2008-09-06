@@ -29,7 +29,7 @@ class BSURL implements BSHTTPRedirector {
 		if ($url) {
 			$this->setContents($url);
 		} else {
-			if (BSController::getInstance()->isSSL()) {
+			if (BSRequest::getInstance()->isSSL()) {
 				$this->setAttribute('scheme', 'https');
 			} else {
 				$this->setAttribute('scheme', 'http');

@@ -69,6 +69,16 @@ class BSConsoleRequest extends BSRequest {
 		$this->clearParameters();
 		$this->setParameters(getopt($config));
 	}
+
+	/**
+	 * コマンドライン環境か？
+	 *
+	 * @access public
+	 * @return boolean コマンドライン環境ならTrue
+	 */
+	public function isCLI () {
+		return true;
+	}
 }
 
 /* vim:set tabstop=4 ai: */

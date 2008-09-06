@@ -229,7 +229,7 @@ abstract class BSController {
 		if (!$this->useragent) {
 			if ($this->isDebugMode() && $this->request->hasParameter('ua')) {
 				$name = $this->request->getParameter('ua');
-			} else if ($this->isCLI()) {
+			} else if ($this->request->isCLI()) {
 				$name = 'Console';
 			} else {
 				$name = $this->getEnvironment('HTTP_USER_AGENT');
@@ -399,20 +399,28 @@ abstract class BSController {
 	/**
 	 * コマンドライン環境か？
 	 *
+	 * BSRequest::isCLI()のエイリアス
+	 *
 	 * @access public
 	 * @return boolean コマンドライン環境ならTrue
-	 * @abstract
+	 * @final
 	 */
-	abstract public function isCLI ();
+	final public function isCLI () {
+		return $this->request->isCLI();
+	}
 
 	/**
 	 * SSL環境か？
 	 *
+	 * BSRequest::isSSL()のエイリアス
+	 *
 	 * @access public
 	 * @return boolean SSL環境ならTrue
-	 * @abstract
+	 * @final
 	 */
-	abstract public function isSSL ();
+	final public function isSSL () {
+		return $this->request->isSSL();
+	}
 
 	/**
 	 * デバッグモードか？

@@ -40,26 +40,6 @@ class BSConsoleController extends BSController {
 	}
 
 	/**
-	 * コマンドライン環境か？
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 */
-	public function isCLI () {
-		return true;
-	}
-
-	/**
-	 * SSL環境か？
-	 *
-	 * @access public
-	 * @return boolean SSL環境ならTrue
-	 */
-	public function isSSL () {
-		return false;
-	}
-
-	/**
 	 * ヘッダを送信
 	 *
 	 * @access public

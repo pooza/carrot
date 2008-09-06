@@ -69,6 +69,16 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
+	 * SSL環境か？
+	 *
+	 * @access public
+	 * @return boolean SSL環境ならTrue
+	 */
+	public function isSSL () {
+		return (BSController::getInstance()->getEnvironment('HTTPS') != '');
+	}
+
+	/**
 	 * サポートしているメソッドを返す
 	 *
 	 * @access public

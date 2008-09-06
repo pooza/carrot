@@ -31,7 +31,7 @@ abstract class BSSmartyView extends BSView {
 		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
 		$this->getEngine()->addModifier('sanitize');
 
-		if (!$this->controller->isCLI()) {
+		if (!$this->request->isCLI()) {
 			$this->getEngine()->addOutputFilter('trim');
 		}
 
@@ -56,7 +56,7 @@ abstract class BSSmartyView extends BSView {
 		$this->setAttribute('credentials', $this->user->getCredentials());
 		$this->setAttribute('useragent', $this->useragent->getAttributes());
 		$this->setAttribute('is_debug', $this->controller->isDebugMode());
-		$this->setAttribute('is_ssl', $this->controller->isSSL());
+		$this->setAttribute('is_ssl', $this->request->isSSL());
 
 		return true;
 	}
