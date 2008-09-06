@@ -8,6 +8,66 @@
  * @version $Id$
  */
 class BackupDatabaseAction extends BSAction {
+	private $database;
+
+	/**
+	 * 対象データベースを返す
+	 *
+	 * @access private
+	 * @return BSDatabase 対象データベース
+	 */
+	private function getDatabase () {
+		if (!$this->database) {
+			if (!$name = $this->request['d']) {
+				$name = 'default';
+			}
+			try {
+				$this->database = BSDatabase::getInstance($name);
+			} catch (BSDatabaseException $e) {
+				return null;
+			}
+		}
+		return $this->database;
+	}
+
+	/**
+	 * バックアップ
+	 *
+	 * @access private
+	 * @param BSDirectory 出力先ディレクトリ
+	 */
+	private function backup (BSDirectory $dir) {
+		$suffix = '_' . BSDate::getNow('Y-m-d');
+		if (!$file = $this->getDatabase()->createDumpFile($suffix, $dir)) {
+			throw new BSDatabaseException('%sがバックアップ出来ません。', $this->getDatabase());
+		}
+
+		$file->setMode(0666);
+		$file->compress();
+		$this->controller->putLog(
+			sprintf('%sをバックアップしました。', $this->getDatabase()),
+			get_class($this->getDatabase())
+		);
+	}
+
+	/**
+	 * 古いダンプをパージ
+	 *
+	 * @access private
+	 * @param BSDirectory 対象ディレクトリ
+	 */
+	private function purge (BSDirectory $dir) {
+		$expire = BSDate::getNow()->setAttribute('month', '-1');
+		foreach ($dir as $entry) {
+			if ($entry->isDirectory()) {
+				continue;
+			}
+			if ($entry->getUpdateDate()->isAgo($expire)) {
+				$entry->delete();
+			}
+		}
+	}
+
 	public function initialize () {
 		$this->request->addOption('d');
 		$this->request->parse();
@@ -15,18 +75,24 @@ class BackupDatabaseAction extends BSAction {
 	}
 
 	public function execute () {
-		if (!$db = $this->request['d']) {
-			$db = 'default';
+		try {
+			$dir = $this->controller->getDirectory('dump');
+			$this->backup($dir);
+			$this->purge($dir);
+		} catch (Exception $e) {
+			$this->handleError();
 		}
-		$db = BSDatabase::getInstance($db);
 
-		$dir = $this->controller->getDirectory('dump');
-		if ($file = $db->createDumpFile('_' . BSDate::getNow('Y-m-d'), $dir)) {
-			$file->setMode(0666);
-			$file->compress();
-			$this->controller->putLog(sprintf('%sをバックアップしました。', $db), get_class($db));
-		}
+		$this->controller->putLog('実行しました。', get_class($this));
 		return BSView::NONE;
+	}
+
+	public function handleError () {
+		return BSView::NONE;
+	}
+
+	public function validate () {
+		return ($this->getDatabase() != null);
 	}
 }
 

@@ -112,7 +112,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($this->getName() . $suffix);
+		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
 		return $file;
 	}
@@ -135,7 +135,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		if (!$dir) {
 			$dir = BSController::getInstance()->getDirectory('sql');
 		}
-		$file = $dir->createEntry($this->getName() . $suffix);
+		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
 		return $file;
 	}

@@ -21,6 +21,7 @@ class BSConsoleRequest extends BSRequest {
 	 * @access private
 	 */
 	private function __construct () {
+		$this->method = self::GET;
 		$this->options = new BSArray;
 		$this->addOption(BSController::MODULE_ACCESSOR);
 		$this->addOption(BSController::ACTION_ACCESSOR);

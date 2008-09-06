@@ -50,7 +50,6 @@ doc:
 
 dump:
   parent: var
-  suffix: .sql
 
 font:
   parent: share
