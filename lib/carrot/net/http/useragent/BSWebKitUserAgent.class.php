@@ -20,7 +20,7 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 * @return string タイプ名
 	 */
 	public function getTypeName () {
-		return 'Safari';
+		return 'WebKit';
 	}
 
 	/**

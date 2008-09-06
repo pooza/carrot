@@ -5,13 +5,13 @@
  */
 
 /**
- * Tasmanユーザーエージェント
+ * Safariユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTasmanUserAgent extends BSMSIEUserAgent {
+class BSSafariUserAgent extends BSWebKitUserAgent {
 
 	/**
 	 * 全ての基本属性を返す
@@ -21,8 +21,18 @@ class BSTasmanUserAgent extends BSMSIEUserAgent {
 	 */
 	public function getAttributes () {
 		$attributes = parent::getAttributes();
-		$attributes['is_msie'] = true;
+		$attributes['is_webkit'] = true;
 		return $attributes;
+	}
+
+	/**
+	 * タイプ名を返す
+	 *
+	 * @access public
+	 * @return string タイプ名
+	 */
+	public function getTypeName () {
+		return 'Safari';
 	}
 
 	/**
@@ -32,7 +42,7 @@ class BSTasmanUserAgent extends BSMSIEUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE [0-9]+\.[0-9]+; Mac/';
+		return '/Safari/';
 	}
 }
 

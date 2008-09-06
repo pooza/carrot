@@ -69,15 +69,17 @@ class BSBrowscap extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $name ユーザーエージェント名
-	 * @return string[] ユーザーエージェント情報
+	 * @return BSArray ユーザーエージェント情報
 	 */
 	public function getInfo ($name = null) {
 		if (!$name) {
 			$name = BSController::getInstance()->getUserAgent()->getName();
 		}
-		$info = array('Name' => $name);
+
+		$info = new BSArray;
+		$info['Name'] = $name;
 		foreach ($this->getMatchedNames($name) as $key) {
-			$info = array_merge($info, $this->getParameter($key));
+			$info->setParameters($this[$key]);
 		}
 		return $info;
 	}

@@ -81,35 +81,32 @@ class BSUserAgent {
 	 *
 	 * @access public
 	 * @param string $name 属性名
-	 * @return mixed 属性値
+	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		$attributes = $this->getAttributes();
-		if (isset($attributes[$name])) {
-			return $attributes[$name];
+		if ($value = $this->getAttributes()->getParameter($name)) {
+			return $value;
 		}
 
 		if (!$this->browscap) {
 			$this->browscap = BSBrowscap::getInstance()->getInfo($this->getName());
 		}
-		if (isset($this->browscap[$name])) {
-			return $this->browscap[$name];
-		}
+		return $this->browscap[$name];
 	}
 
 	/**
 	 * 全ての基本属性を返す
 	 *
 	 * @access public
-	 * @return mixed[] 属性の配列
+	 * @return BSArray 属性の配列
 	 */
 	public function getAttributes () {
-		return array(
+		return new BSArray(array(
 			'name' => $this->getName(),
 			'type' => $this->getTypeName(),
 			'is_' . strtolower($this->getType()) => true,
 			'is_mobile' => $this->isMobile(),
-		);
+		));
 	}
 
 	/**
@@ -164,11 +161,13 @@ class BSUserAgent {
 	static public function getTypes () {
 		// 評価を行う順に記述すること
 		return array(
-			'Opera',
-			'WebKit',
-			'Gecko',
 			'Tasman',
 			'MSIE',
+			'Chrome',
+			'Safari',
+			'WebKit',
+			'Gecko',
+			'Opera',
 			'LegacyMozilla',
 			'Docomo',
 			'Au',
