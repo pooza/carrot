@@ -463,17 +463,23 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function includeFile ($file) {
-		if (!($file instanceof BSFile)) {
+		if (($file instanceof BSFile) == false) {
 			if (!BSUtility::isPathAbsolute($file)) {
 				$file = self::getInstance()->getPath('lib') . DIRECTORY_SEPARATOR . $file;
 			}
 			$file = new BSFile($file);
 		}
-
 		if (!$file->isReadable()) {
 			throw new BSFileException('"%s"はインクルード出来ません。', $file);
 		}
-		@require_once($file->getPath());
+
+		if ($config = ini_get('display_errors')) {
+			ini_set('display_errors', 0);
+		}
+		require_once($file->getPath());
+		if ($config) {
+			ini_set('display_errors', 1);
+		}
 	}
 
 	/**
