@@ -28,7 +28,7 @@ abstract class BSSmartyView extends BSView {
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
 			$this->getEngine()->setTemplatesDirectory($dir);
 		}
-		$this->getEngine()->setUserAgent($this->controller->getUserAgent());
+		$this->getEngine()->setUserAgent($this->request->getUserAgent());
 		$this->getEngine()->addModifier('sanitize');
 
 		if (!$this->request->isCLI()) {

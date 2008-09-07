@@ -70,7 +70,7 @@ class BSException extends Exception {
 			$smtp->setTemplate('BSException.mail');
 			$smtp->setAttribute('exception_name', $this->getName());
 			$smtp->setAttribute('clienthost', $controller->getClientHost()->getName());
-			$smtp->setAttribute('useragent', $controller->getUserAgent()->getName());
+			$smtp->setAttribute('useragent', BSRequest::getInstance()->getUserAgent()->getName());
 			$smtp->setAttribute('message', $this->getMessage());
 			$smtp->render();
 			$smtp->send();

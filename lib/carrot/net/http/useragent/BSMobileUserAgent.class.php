@@ -26,7 +26,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 
 		$query = array(session_name() => $this->getSessionID());
 		if (BSController::getInstance()->isDebugMode()) {
-			$query['ua'] = BSController::getInstance()->getUserAgent()->getName();
+			$query['ua'] = BSRequest::getInstance()->getUserAgent()->getName();
 		}
 		$this->attributes['query'] = $query;
 		$this->attributes['query_params'] = BSString::toString($query, '=', '&');

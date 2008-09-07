@@ -17,7 +17,7 @@ function smarty_modifier_emoji_number ($value) {
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if (in_array($value, range(0, 9))) {
-		switch (BSController::getInstance()->getUserAgent()->getType()) {
+		switch (BSRequest::getInstance()->getUserAgent()->getType()) {
 			case 'Docomo':
 			case 'Au':
 				if ($value == '0') {

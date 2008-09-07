@@ -75,10 +75,10 @@ class BSWebController extends BSController {
 			$url->setAttribute('path', $arg);
 		}
 
-		if ($this->getUserAgent()->isMobile()) {
+		if ($this->request->getUserAgent()->isMobile()) {
 			$url->setParameter(session_name(), session_id());
 			if ($this->isDebugMode()) {
-				$url->setParameter('ua', $this->getUserAgent()->getName());
+				$url->setParameter('ua', $this->request->getUserAgent()->getName());
 			}
 		}
 

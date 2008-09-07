@@ -16,7 +16,6 @@ abstract class BSController {
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
 	const MAX_FORWARDS = 20;
-	private $useragent;
 
 	/**
 	 * プロパティ取得のオーバライド
@@ -222,23 +221,14 @@ abstract class BSController {
 	/**
 	 * UserAgentを返す
 	 *
+	 * BSRequest::getUserAgent()のエイリアス
+	 *
 	 * @access public
 	 * @return BSUserAgent リモートホストのUserAgent
+	 * @final
 	 */
-	public function getUserAgent () {
-		if (!$this->useragent) {
-			if ($this->isDebugMode() && $this->request->hasParameter('ua')) {
-				$name = $this->request->getParameter('ua');
-			} else if ($this->request->isCLI()) {
-				$name = 'Console';
-			} else {
-				$name = $this->getEnvironment('HTTP_USER_AGENT');
-			}
-			if (!$this->useragent = BSUserAgent::getInstance($name)) {
-				throw new BSUserAgentException('サポートされていないUserAgentです。');
-			}
-		}
-		return $this->useragent;
+	final public function getUserAgent () {
+		return $this->request->getUserAgent();
 	}
 
 	/**
@@ -435,10 +425,13 @@ abstract class BSController {
 	/**
 	 * リゾルバは有効か？
 	 *
+	 * BSSocket::isResolvable()のエイリアス
+	 *
 	 * @access public
 	 * @return boolean デバッグモードならTrue
+	 * @final
 	 */
-	public function isResolvable () {
+	final public function isResolvable () {
 		return BSSocket::isResolvable();
 	}
 

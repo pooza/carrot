@@ -245,6 +245,16 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
+	 * UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getUserAgent () {
+		return BSUserAgent::getInstance('Console');
+	}
+
+	/**
 	 * コマンドライン環境か？
 	 *
 	 * @access public

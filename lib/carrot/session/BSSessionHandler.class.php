@@ -23,7 +23,7 @@ class BSSessionHandler {
 	private function __construct () {
 		$this->getStorage()->initialize();
 
-		if (BSController::getInstance()->getUserAgent()->isMobile()) {
+		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
 			ini_set('session.use_only_cookies', 0);
 		}
 
