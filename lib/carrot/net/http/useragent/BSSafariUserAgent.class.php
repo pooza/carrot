@@ -14,15 +14,14 @@
 class BSSafariUserAgent extends BSWebKitUserAgent {
 
 	/**
-	 * 全ての基本属性を返す
+	 * コンストラクタ
 	 *
 	 * @access public
-	 * @return mixed[] 属性の配列
+	 * @param string $name ユーザーエージェント名
 	 */
-	public function getAttributes () {
-		$attributes = parent::getAttributes();
-		$attributes['is_webkit'] = true;
-		return $attributes;
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['is_webkit'] = true;
 	}
 
 	/**

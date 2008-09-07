@@ -35,7 +35,7 @@ class BSBrowscap extends BSParameterHolder {
 				$pattern = str_replace(array('\*', '\?'), array('.*', '.'), $pattern);
 				$pattern = '/^' . $pattern . '/i';
 				$values['Pattern'] = $pattern;
-				$this->setParameter($key, $values);
+				$this[$key] = $values;
 			}
 			BSController::getInstance()->setAttribute(get_class($this), $this->getParameters());
 		}
@@ -73,11 +73,11 @@ class BSBrowscap extends BSParameterHolder {
 	 */
 	public function getInfo ($name = null) {
 		if (!$name) {
-			$name = BSController::getInstance()->getUserAgent()->getName();
+			$name = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
 		}
 
 		$info = new BSArray;
-		$info['Name'] = $name;
+		$info['name'] = $name;
 		foreach ($this->getMatchedNames($name) as $key) {
 			$info->setParameters($this[$key]);
 		}
@@ -107,7 +107,7 @@ class BSBrowscap extends BSParameterHolder {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL(BS_BROWSCAP_URL);
+			$this->url = new BSURL(BSController::getInstance()->getConstant('BROWSCAP_URL'));
 		}
 		return $this->url;
 	}
@@ -117,7 +117,7 @@ class BSBrowscap extends BSParameterHolder {
 	 *
 	 * @access private
 	 * @param string $useragent ユーザーエージェント
-	 * @return string[] マッチした属性名
+	 * @return BSArray マッチした属性名
 	 */
 	private function getMatchedNames ($useragent) {
 		$key = null;
@@ -129,12 +129,11 @@ class BSBrowscap extends BSParameterHolder {
 			}
 		}
 
-		$keys = array();
+		$keys = new BSArray;
 		do {
-			$keys[] = $key;
-			$values = $this->getParameter($key);
+			$keys->setParameter(null, $key, BSArray::POSITION_TOP);
+			$values = $this[$key];
 		} while ($key = $values['Parent']);
-		krsort($keys);
 		return $keys;
 	}
 }

@@ -12,9 +12,8 @@
  * @version $Id$
  */
 class BSUserAgent {
-	private $name;
 	private $type;
-	private $browscap;
+	protected $attributes;
 
 	/**
 	 * コンストラクタ
@@ -23,7 +22,11 @@ class BSUserAgent {
 	 * @param string $name ユーザーエージェント名
 	 */
 	public function __construct ($name = null) {
-		$this->setName($name);
+		$this->attributes = new BSArray;
+		$this->attributes['name'] = $name;
+		$this->attributes['type'] = $this->getTypeName();
+		$this->attributes['is_mobile'] = $this->isMobile();
+		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 	}
 
 	/**
@@ -53,7 +56,7 @@ class BSUserAgent {
 	 * @return string ユーザーエージェント名
 	 */
 	public function getName () {
-		return $this->name;
+		return $this->getAttributes()->getParameter('name');
 	}
 
 	/**
@@ -63,7 +66,7 @@ class BSUserAgent {
 	 * @param string $name ユーザーエージェント名
 	 */
 	public function setName ($name) {
-		$this->name = $name;
+		return $this->getAttributes()->setParameter('name', $name);
 	}
 
 	/**
@@ -88,10 +91,10 @@ class BSUserAgent {
 			return $value;
 		}
 
-		if (!$this->browscap) {
-			$this->browscap = BSBrowscap::getInstance()->getInfo($this->getName());
-		}
-		return $this->browscap[$name];
+		$this->attributes->setParameters(
+			BSBrowscap::getInstance()->getInfo($this->getName())
+		);
+		return $this->getAttributes()->getParameter($name);
 	}
 
 	/**
@@ -101,12 +104,7 @@ class BSUserAgent {
 	 * @return BSArray 属性の配列
 	 */
 	public function getAttributes () {
-		return new BSArray(array(
-			'name' => $this->getName(),
-			'type' => $this->getTypeName(),
-			'is_' . strtolower($this->getType()) => true,
-			'is_mobile' => $this->isMobile(),
-		));
+		return $this->attributes;
 	}
 
 	/**

@@ -15,6 +15,24 @@
 abstract class BSMobileUserAgent extends BSUserAgent {
 
 	/**
+	 * コンストラクタ
+	 *
+	 * @access public
+	 * @param string $name ユーザーエージェント名
+	 */
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['is_unsupported'] = $this->isUnsupported();
+
+		$query = array(session_name() => $this->getSessionID());
+		if (BSController::getInstance()->isDebugMode()) {
+			$query['ua'] = BSController::getInstance()->getUserAgent()->getName();
+		}
+		$this->attributes['query'] = $query;
+		$this->attributes['query_params'] = BSString::toString($query, '=', '&');
+	}
+
+	/**
 	 * ドメインサフィックスを返す
 	 *
 	 * @access public
@@ -22,24 +40,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @abstract
 	 */
 	abstract public function getDomainSuffix ();
-
-	/**
-	 * 全ての基本属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 属性の配列
-	 */
-	public function getAttributes () {
-		$query = array(session_name() => $this->getSessionID());
-		if (BSController::getInstance()->isDebugMode()) {
-			$query['ua'] = BSController::getInstance()->getUserAgent()->getName();
-		}
-		$attributes = parent::getAttributes();
-		$attributes['query'] = $query;
-		$attributes['query_params'] = BSString::toString($query, '=', '&');
-		$attributes['is_unsupported'] = $this->isUnsupported();
-		return $attributes;
-	}
 
 	/**
 	 * セッションIDを返す
