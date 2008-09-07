@@ -95,7 +95,7 @@ class BSWebController extends BSController {
 	public function sendHeader ($header) {
 		if (headers_sent()) {
 			$this->putLog('"' . $header . '"を送信出来ませんでした。', get_class($this));
-		} else if (ereg('[[:cntrl:]]', $header)) {
+		} else if (preg_match('/[[:cntrl:]]/', $header)) {
 			throw new BSHTTPException('"%s"にコントロールコードが含まれています。', $header);
 		} else {
 			header($header);
