@@ -33,20 +33,48 @@ class BSUserAgent {
 	 * インスタンスを返す
 	 *
 	 * @access public
-	 * @param string $name UserAgent名
+	 * @param string $useragent UserAgent名
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name) {
-		foreach (self::getTypes() as $type) {
-			$type = 'BS' . $type . 'UserAgent';
-			$useragent = new $type;
-			if (preg_match($useragent->getPattern(), $name)) {
-				$useragent->setName($name);
-				return $useragent;
-			}
+	static public function getInstance ($useragent) {
+		$types = new BSArray;
+		$name = sprintf('%s.%s', __CLASS__, __FUNCTION__);
+		if ($values = BSController::getInstance()->getAttribute($name)) {
+			$types->setAttributes($values);
 		}
-		return new BSUserAgent($name);
+
+		if ($type = $types[$useragent]) {
+			$class = 'BS' . $type . 'UserAgent';
+			$instance = new $class($useragent);
+		} else {
+			foreach (self::getTypes() as $type) {
+				$class = 'BS' . $type . 'UserAgent';
+				$instance = new $class;
+				if (preg_match($instance->getPattern(), $useragent)) {
+					$instance->setName($useragent);
+					break;
+				}
+			}
+			$types[$useragent] = $type;
+			BSController::getInstance()->setAttribute($name, $types->getParameters());
+		}
+
+		if (!$instance) {
+			$instance = new BSUserAgent($useragent);
+		}
+		return $instance;
+	}
+
+	/**
+	 * browscap.iniの情報をインポートする
+	 *
+	 * @access public
+	 */
+	public function importBrowscap () {
+		$this->attributes->setParameters(
+			BSBrowscap::getInstance()->getInfo($this->getName())
+		);
 	}
 
 	/**
@@ -87,14 +115,11 @@ class BSUserAgent {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		if ($value = $this->getAttributes()->getParameter($name)) {
-			return $value;
+		if (!$value = $this->getAttributes()->getParameter($name)) {
+			$this->importBrowscap();
+			$value = $this->getAttributes()->getParameter($name);
 		}
-
-		$this->attributes->setParameters(
-			BSBrowscap::getInstance()->getInfo($this->getName())
-		);
-		return $this->getAttributes()->getParameter($name);
+		return $value;
 	}
 
 	/**

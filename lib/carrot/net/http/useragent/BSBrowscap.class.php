@@ -68,20 +68,60 @@ class BSBrowscap extends BSParameterHolder {
 	 * ユーザーエージェント情報を返す
 	 *
 	 * @access public
-	 * @param string $name ユーザーエージェント名
+	 * @param string $useragent ユーザーエージェント名
 	 * @return BSArray ユーザーエージェント情報
 	 */
-	public function getInfo ($name = null) {
-		if (!$name) {
-			$name = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
+	public function getInfo ($useragent = null) {
+		if (!$useragent) {
+			$useragent = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
 		}
 
-		$info = new BSArray;
-		$info['name'] = $name;
-		foreach ($this->getMatchedTypes($name) as $key) {
-			$info->setParameters($this[$key]);
+		$type = $this->getType($useragent);
+		$name = sprintf('%s.%s', get_class($this), BSString::pascalize($type));
+		$expire = $this->getFile()->getUpdateDate();
+		if ($info = BSController::getInstance()->getAttribute($name, $expire)) {
+			return new BSArray($info);
+		} else {
+			$info = new BSArray;
+			foreach ($this->getMatchedKeys($type) as $key) {
+				$info->setParameters($this[$key]);
+			}
+			BSController::getInstance()->setAttribute($name, $info->getParameters());
+			return $info;
 		}
-		return $info;
+	}
+
+	/**
+	 * タイプ名を返す
+	 *
+	 * @access public
+	 * @param string $useragent ユーザーエージェント名
+	 * @return string タイプ名
+	 */
+	public function getType ($useragent = null) {
+		if (!$useragent) {
+			$useragent = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
+		}
+
+		$types = new BSArray;
+		$name = sprintf('%s.%s', get_class($this), __FUNCTION__);
+		$expire = $this->getFile()->getUpdateDate();
+		if ($values = BSController::getInstance()->getAttribute($name, $expire)) {
+			$types->setAttributes($values);
+		}
+
+		if (!$type = $types[$useragent]) {
+			foreach ($this as $key => $values) {
+				if (preg_match($values['Pattern'], $useragent)) {
+					if (strlen($type) < strlen($key)) {
+						$type = $values['Parent'];
+					}
+				}
+			}
+			$types[$useragent] = $type;
+			BSController::getInstance()->setAttribute($name, $types->getParameters());
+		}
+		return $type;
 	}
 
 	/**
@@ -93,8 +133,10 @@ class BSBrowscap extends BSParameterHolder {
 	private function getFile () {
 		if (!$this->file) {
 			$dir = BSController::getInstance()->getDirectory('tmp');
-			$this->file = $dir->createEntry('browscap.ini', 'BSConfigFile');
-			$this->file->setContents($this->getURL()->fetch());
+			if (!$this->file = $dir->getEntry('browscap.ini', 'BSConfigFile')) {
+				$this->file = $dir->createEntry('browscap.ini', 'BSConfigFile');
+				$this->file->setContents($this->getURL()->fetch());
+			}
 		}
 		return $this->file;
 	}
@@ -116,25 +158,16 @@ class BSBrowscap extends BSParameterHolder {
 	 * マッチした属性名の配列を返す
 	 *
 	 * @access private
-	 * @param string $useragent ユーザーエージェント
+	 * @param string $type タイプ名
 	 * @return BSArray マッチした属性名
 	 */
-	private function getMatchedTypes ($useragent) {
-		$type = null;
-		foreach ($this as $current => $values) {
-			if (preg_match($values['Pattern'], $useragent)) {
-				if (strlen($type) < strlen($current)) {
-					$type = $current;
-				}
-			}
-		}
-
-		$types = new BSArray;
+	private function getMatchedKeys ($type) {
+		$keys = new BSArray;
 		do {
-			$types->setParameter(null, $type, BSArray::POSITION_TOP);
+			$keys->setParameter(null, $type, BSArray::POSITION_TOP);
 			$values = $this[$type];
 		} while ($type = $values['Parent']);
-		return $types;
+		return $keys;
 	}
 }
 
