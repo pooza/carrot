@@ -78,7 +78,7 @@ class BSBrowscap extends BSParameterHolder {
 
 		$info = new BSArray;
 		$info['name'] = $name;
-		foreach ($this->getMatchedNames($name) as $key) {
+		foreach ($this->getMatchedTypes($name) as $key) {
 			$info->setParameters($this[$key]);
 		}
 		return $info;
@@ -119,22 +119,22 @@ class BSBrowscap extends BSParameterHolder {
 	 * @param string $useragent ユーザーエージェント
 	 * @return BSArray マッチした属性名
 	 */
-	private function getMatchedNames ($useragent) {
-		$key = null;
+	private function getMatchedTypes ($useragent) {
+		$type = null;
 		foreach ($this as $current => $values) {
 			if (preg_match($values['Pattern'], $useragent)) {
-				if (strlen($key) < strlen($current)) {
-					$key = $current;
+				if (strlen($type) < strlen($current)) {
+					$type = $current;
 				}
 			}
 		}
 
-		$keys = new BSArray;
+		$types = new BSArray;
 		do {
-			$keys->setParameter(null, $key, BSArray::POSITION_TOP);
-			$values = $this[$key];
-		} while ($key = $values['Parent']);
-		return $keys;
+			$types->setParameter(null, $type, BSArray::POSITION_TOP);
+			$values = $this[$type];
+		} while ($type = $values['Parent']);
+		return $types;
 	}
 }
 
