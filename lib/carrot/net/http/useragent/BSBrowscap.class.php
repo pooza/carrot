@@ -77,7 +77,11 @@ class BSBrowscap extends BSParameterHolder {
 		}
 
 		$type = $this->getType($useragent);
-		$name = sprintf('%s.%s', get_class($this), BSString::pascalize($type));
+		$name = sprintf(
+			'%s.%s',
+			get_class($this),
+			BSString::pascalize(str_replace('.', '', $type))
+		);
 		$expire = $this->getFile()->getUpdateDate();
 		if ($info = BSController::getInstance()->getAttribute($name, $expire)) {
 			return new BSArray($info);
