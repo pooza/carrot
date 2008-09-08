@@ -324,9 +324,7 @@ class BSString {
 				$value[$key] = self::stripHTMLTags($item);
 			}
 		} else {
-			while (preg_match('/<\/?[^>]>/', $value, $matches)) {
-				$value = str_replace($matches[0], '', $value);
-			} 
+			$value = preg_replace('/<\/?[^>]*>/', '', $value);
 		}
 		return $value;
 	}
