@@ -30,7 +30,7 @@ class BSUserAgent {
 	}
 
 	/**
-	 * インスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @param string $useragent UserAgent名
@@ -38,21 +38,30 @@ class BSUserAgent {
 	 * @static
 	 */
 	static public function getInstance ($useragent) {
+		$class = 'BS' . self::getDefaultType($useragent) . 'UserAgent';
+		return new $class($useragent);
+	}
+
+	/**
+	 * 規定タイプ名を返す
+	 *
+	 * @access public
+	 * @param string $useragent UserAgent名
+	 * @return string タイプ名
+	 * @static
+	 */
+	static public function getDefaultType ($useragent) {
 		$types = new BSArray;
 		$name = sprintf('%s.%s', __CLASS__, __FUNCTION__);
 		if ($values = BSController::getInstance()->getAttribute($name)) {
 			$types->setAttributes($values);
 		}
 
-		if ($type = $types[$useragent]) {
-			$class = 'BS' . $type . 'UserAgent';
-			$instance = new $class($useragent);
-		} else {
+		if (!$type = $types[$useragent]) {
 			foreach (self::getTypes() as $type) {
 				$class = 'BS' . $type . 'UserAgent';
 				$instance = new $class;
 				if (preg_match($instance->getPattern(), $useragent)) {
-					$instance->setName($useragent);
 					break;
 				}
 			}
@@ -60,10 +69,7 @@ class BSUserAgent {
 			BSController::getInstance()->setAttribute($name, $types->getParameters());
 		}
 
-		if (!$instance) {
-			$instance = new BSUserAgent($useragent);
-		}
-		return $instance;
+		return $type;
 	}
 
 	/**
@@ -210,7 +216,7 @@ class BSUserAgent {
 			if (preg_match('/BS([a-z0-9]+)UserAgent/i', get_class($this), $matches)) {
 				$this->type = $matches[1];
 			} else {
-				$this->type = 'GenericUserAgent';
+				$this->type = 'Generic';
 			}
 		}
 		return $this->type;

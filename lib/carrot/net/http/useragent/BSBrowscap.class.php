@@ -115,13 +115,16 @@ class BSBrowscap extends BSParameterHolder {
 		}
 
 		if (!$type = $types[$useragent]) {
+			$pattern = null;
 			foreach ($this as $key => $values) {
-				if (preg_match($values['Pattern'], $useragent)) {
-					if (strlen($type) < strlen($key)) {
-						$type = $values['Parent'];
-					}
+				if (preg_match($values['Pattern'], $useragent)
+					&& (strlen($pattern) < strlen($values['Pattern']))) {
+
+					$type = $values['Parent'];
+					$pattern = $values['Pattern'];
 				}
 			}
+
 			$types[$useragent] = $type;
 			BSController::getInstance()->setAttribute($name, $types->getParameters());
 		}
