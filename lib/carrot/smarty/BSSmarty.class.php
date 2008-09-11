@@ -290,7 +290,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return BSFile 実テンプレートファイル
 	 */
 	public function getTemplateFile ($name) {
-		if (BSUtility::isPathAbsolute($name)) {
+		if ($name instanceof BSFile) {
+			return $name;
+		} else if (BSUtility::isPathAbsolute($name)) {
 			$file = new BSFile($name);
 			if ($file->isReadable()) {
 				return $file;
@@ -331,7 +333,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			$template = $file->getPath();
 			return parent::_smarty_include($params);
 		}
-		throw new BSSmartyException('"%s"が見つかりません。', $template);
+		throw new BSSmartyException('テンプレート"%s"が見つかりません。', $template);
 	}
 
 	/**

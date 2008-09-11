@@ -17,6 +17,7 @@ function smarty_modifier_sanitize ($value) {
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
+		$value = BSString::unsanitize($value);
 		return BSString::sanitize($value);
 	}
 }
