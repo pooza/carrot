@@ -114,7 +114,7 @@ class BSBrowscap extends BSParameterHolder {
 			$types->setAttributes($values);
 		}
 
-		if (!$type = $types[$useragent]) {
+		if (!$type = $types[BSCrypt::getSHA1($useragent)]) {
 			$pattern = null;
 			foreach ($this as $key => $values) {
 				if (preg_match($values['Pattern'], $useragent)
@@ -125,7 +125,7 @@ class BSBrowscap extends BSParameterHolder {
 				}
 			}
 
-			$types[$useragent] = $type;
+			$types[BSCrypt::getSHA1($useragent)] = $type;
 			BSController::getInstance()->setAttribute($name, $types->getParameters());
 		}
 		return $type;

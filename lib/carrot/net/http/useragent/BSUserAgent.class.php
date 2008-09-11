@@ -57,7 +57,7 @@ class BSUserAgent {
 			$types->setAttributes($values);
 		}
 
-		if (!$type = $types[$useragent]) {
+		if (!$type = $types[BSCrypt::getSHA1($useragent)]) {
 			foreach (self::getTypes() as $type) {
 				$class = 'BS' . $type . 'UserAgent';
 				$instance = new $class;
@@ -65,7 +65,7 @@ class BSUserAgent {
 					break;
 				}
 			}
-			$types[$useragent] = $type;
+			$types[BSCrypt::getSHA1($useragent)] = $type;
 			BSController::getInstance()->setAttribute($name, $types->getParameters());
 		}
 
