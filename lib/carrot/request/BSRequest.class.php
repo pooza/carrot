@@ -18,6 +18,7 @@ abstract class BSRequest extends BSParameterHolder {
 	const POST = 4;
 	const PUT = 8;
 	const DELETE = 16;
+	private $useragent;
 	protected $method;
 	private $attributes;
 	private $errors;
@@ -251,7 +252,22 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @return BSUserAgent リモートホストのUserAgent
 	 */
 	public function getUserAgent () {
-		return BSUserAgent::getInstance('Console');
+		if (!$this->useragent) {
+			if (!$this->useragent = BSUserAgent::getInstance($this->getUserAgentName())) {
+				throw new BSUserAgentException('サポートされていないUserAgentです。');
+			}
+		}
+		return $this->useragent;
+	}
+
+	/**
+	 * UserAgent名を返す
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent名
+	 */
+	public function getUserAgentName () {
+		return 'Console';
 	}
 
 	/**

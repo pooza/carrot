@@ -12,7 +12,6 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
-	private $useragent;
 	static private $instance;
 
 	/**
@@ -69,24 +68,18 @@ class BSWebRequest extends BSRequest {
 		}
 	}
 
+
 	/**
-	 * UserAgentを返す
+	 * UserAgent名を返す
 	 *
 	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent
+	 * @return BSUserAgent リモートホストのUserAgent名
 	 */
-	public function getUserAgent () {
-		if (!$this->useragent) {
-			if (BSController::getInstance()->isDebugMode() && $this->hasParameter('ua')) {
-				$name = $this['ua'];
-			} else {
-				$name = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
-			}
-			if (!$this->useragent = BSUserAgent::getInstance($name)) {
-				throw new BSUserAgentException('サポートされていないUserAgentです。');
-			}
+	public function getUserAgentName () {
+		if (BSController::getInstance()->isDebugMode() && $this->hasParameter('ua')) {
+			return $this['ua'];
 		}
-		return $this->useragent;
+		return BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
 	}
 
 	/**
