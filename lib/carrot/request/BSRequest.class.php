@@ -42,7 +42,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
 	/**
