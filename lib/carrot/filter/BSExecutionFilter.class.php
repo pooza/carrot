@@ -32,7 +32,7 @@ class BSExecutionFilter extends BSFilter {
 				$view->execute();
 				$view->render();
 			} else {
-				throw new BSException('%sの%sが初期化できません。', $module, $view);
+				throw new BSInitializeException('%sの%sが初期化できません。', $module, $view);
 			}
 		}
 	}

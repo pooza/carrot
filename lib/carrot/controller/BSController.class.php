@@ -85,7 +85,7 @@ abstract class BSController {
 	public function forwardTo (BSAction $action) {
 		BSActionStack::getInstance()->register($action);
 		if (!$action->initialize()) {
-			throw new BSException('%sの%sが初期化できません。', $module, $action);
+			throw new BSInitializeException('%sの%sが初期化できません。', $module, $action);
 		}
 
 		$filters = new BSFilterChain;
