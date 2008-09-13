@@ -138,6 +138,22 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 
 	/**
+	 * 単語を変換して返す
+	 *
+	 * translateのエイリアス
+	 *
+	 * @access public
+	 * @param string $string 単語
+	 * @param string $name 辞書の名前
+	 * @param string $language 言語
+	 * @return string 訳語
+	 * @final
+	 */
+	final public function execute ($string, $name = null, $language = null) {
+		return $this->translate($string, $name, $language);
+	}
+
+	/**
 	 * 言語コードを返す
 	 *
 	 * @access public
@@ -172,7 +188,7 @@ class BSTranslateManager implements IteratorAggregate {
 	public function getHash ($words, $language = 'ja') {
 		$hash = new BSArray;
 		foreach ($words as $word) {
-			$hash[$word] = $this->translate($word, $language);
+			$hash[$word] = $this->execute($word, $language);
 		}
 		return $hash;
 	}

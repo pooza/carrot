@@ -300,7 +300,7 @@ abstract class BSRecord {
 	public function __toString () {
 		return sprintf(
 			'%s(%s)',
-			BSTranslateManager::getInstance()->translate($this->getTable()->getName()),
+			BSTranslateManager::getInstance()->execute($this->getTable()->getName()),
 			$this->getID()
 		);
 	}

@@ -76,7 +76,7 @@ class BSRecordValidator extends BSValidator {
 			$fieldValue = $record->getAttribute($fieldName);
 			$message = sprintf(
 				'%sが正しくありません。',
-				BSTranslateManager::getInstance()->translate($fieldName)
+				BSTranslateManager::getInstance()->execute($fieldName)
 			);
 			if (is_array($validValue)) {
 				if (!in_array($fieldValue, $validValue)) {
