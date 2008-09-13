@@ -8,15 +8,12 @@
  * ディレクトリイテレータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDirectoryIterator extends BSIterator {
 	private $directory;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSDirectory $directory ディレクトリ
 	 */

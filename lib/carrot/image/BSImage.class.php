@@ -8,7 +8,6 @@
  * GD画像レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSImage implements BSImageRenderer {
@@ -26,8 +25,6 @@ class BSImage implements BSImageRenderer {
 	const DEFAULT_FONT_SIZE = 9;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param integer $width 幅
 	 * @param integer $height 高さ

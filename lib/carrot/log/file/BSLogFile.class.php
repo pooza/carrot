@@ -8,7 +8,6 @@
  * ログファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSLogFile extends BSFile {
@@ -44,8 +43,6 @@ class BSLogFile extends BSFile {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

@@ -8,15 +8,12 @@
  * Atom1.0エントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct() {

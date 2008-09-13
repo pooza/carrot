@@ -8,7 +8,6 @@
  * 座標
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCoordinate {
@@ -17,8 +16,6 @@ class BSCoordinate {
 	private $y;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSImage $image 画像レンダラー
 	 * @param integer $x X座標

@@ -8,7 +8,6 @@
  * 抽象バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -16,8 +15,6 @@ abstract class BSValidator extends BSParameterHolder {
 	protected $error;
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト

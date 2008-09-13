@@ -8,15 +8,12 @@
  * RSS2.0エントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	const DATE_FORMAT = 'r';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct() {

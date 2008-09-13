@@ -8,7 +8,6 @@
  * JavaScriptセット
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSJavaScriptSet implements BSTextRenderer {
@@ -17,8 +16,6 @@ class BSJavaScriptSet implements BSTextRenderer {
 	static private $jssets = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $jsset JavaScriptセット名
 	 */

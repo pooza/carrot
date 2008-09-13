@@ -7,7 +7,6 @@
  * 基底イテレータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSIterator implements Iterator {
@@ -16,8 +15,6 @@ class BSIterator implements Iterator {
 	protected $cursor;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param $array 対象配列
 	 */

@@ -10,15 +10,12 @@
  * 可能な限りBSSessionStorageのほうを使うこと。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCookieHandler extends BSParameterHolder {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -40,8 +37,6 @@ class BSCookieHandler extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

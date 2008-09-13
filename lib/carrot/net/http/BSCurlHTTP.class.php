@@ -8,7 +8,6 @@
  * CurlによるHTTP処理
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCurlHTTP extends BSHTTP {
@@ -17,8 +16,6 @@ class BSCurlHTTP extends BSHTTP {
 	private $ssl = false;
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {

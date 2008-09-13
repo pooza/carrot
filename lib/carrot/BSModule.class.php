@@ -7,7 +7,6 @@
  * モジュール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSModule implements BSHTTPRedirector {
@@ -21,8 +20,6 @@ class BSModule implements BSHTTPRedirector {
 	static private $prefixes = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 * @param string $name モジュール名
 	 */
@@ -273,8 +270,6 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

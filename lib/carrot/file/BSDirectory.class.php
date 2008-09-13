@@ -8,7 +8,6 @@
  * ディレクトリ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
@@ -18,8 +17,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	const SORT_DESC = 'dsc';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $path ディレクトリのパス
 	 */
@@ -245,8 +242,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

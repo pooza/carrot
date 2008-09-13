@@ -8,7 +8,6 @@
  * CSVファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCSVFile extends BSFile {
@@ -16,8 +15,6 @@ class BSCSVFile extends BSFile {
 	const DEFAULT_ENGINE_CLASS = 'BSCSVData';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $path パス
 	 * @param BSCSVData $engine CSVエンジン
@@ -34,8 +31,6 @@ class BSCSVFile extends BSFile {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
@@ -86,8 +81,6 @@ class BSCSVFile extends BSFile {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

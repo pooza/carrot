@@ -8,7 +8,6 @@
  * メディアタイプのリスト
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSMediaType extends BSParameterHolder {
@@ -16,8 +15,6 @@ class BSMediaType extends BSParameterHolder {
 	private $file;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -49,8 +46,6 @@ class BSMediaType extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

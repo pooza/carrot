@@ -8,7 +8,6 @@
  * データベース用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDatabaseLogger extends BSLogger {
@@ -18,8 +17,6 @@ class BSDatabaseLogger extends BSLogger {
 	const TABLE_NAME = 'log';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {

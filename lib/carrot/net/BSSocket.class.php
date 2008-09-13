@@ -8,7 +8,6 @@
  * ソケット
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSocket {
@@ -20,8 +19,6 @@ class BSSocket {
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $host ホスト
 	 * @param integer $port ポート
@@ -32,8 +29,6 @@ class BSSocket {
 	}
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {
@@ -216,8 +211,6 @@ class BSSocket {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

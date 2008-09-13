@@ -10,14 +10,11 @@ BSController::includeFile('pear/Crypt/Rc4.php');
  * RC4暗号
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $salt ソルト
 	 */

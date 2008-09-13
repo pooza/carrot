@@ -7,15 +7,12 @@
  * 定数ハンドラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -36,8 +33,6 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

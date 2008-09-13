@@ -8,7 +8,6 @@
  * データベース接続
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -54,8 +53,6 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {
@@ -403,8 +400,6 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

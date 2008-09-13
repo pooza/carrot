@@ -8,7 +8,6 @@
  * 日付
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDate {
@@ -24,8 +23,6 @@ class BSDate {
 	const GMT = 'gmt';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $str 日付文字列
 	 */
@@ -44,8 +41,6 @@ class BSDate {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {
@@ -585,8 +580,6 @@ class BSDate {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

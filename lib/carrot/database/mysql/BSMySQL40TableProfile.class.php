@@ -8,7 +8,6 @@
  * MySQL4.0テーブルのプロフィール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSMySQL40TableProfile extends BSMySQLTableProfile {

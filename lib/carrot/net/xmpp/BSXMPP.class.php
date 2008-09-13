@@ -8,7 +8,6 @@
  * XMPPプロトコル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSXMPP extends BSSocket {
@@ -18,8 +17,6 @@ class BSXMPP extends BSSocket {
 	private $jid;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $path ホスト
 	 * @param integer $port ポート
@@ -235,8 +232,6 @@ class BSXMPP extends BSSocket {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

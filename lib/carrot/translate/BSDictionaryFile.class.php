@@ -8,15 +8,12 @@
  * 辞書ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	private $contents = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $path パス
 	 */
@@ -71,8 +68,6 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

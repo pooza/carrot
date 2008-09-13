@@ -8,7 +8,6 @@
  * 抽象リクエスト
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -40,8 +39,6 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

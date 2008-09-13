@@ -8,7 +8,6 @@
  * Excel形式ヘッダ付きCSVデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @link http://project-p.jp/halt/kinowiki/php/Tips/csv 参考
  * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
  * @version $Id$

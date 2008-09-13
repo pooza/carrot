@@ -7,10 +7,9 @@
 BSController::includeFile('pear/HTML/CSS.php');
 
 /**
- * CSS
+ * スタイルセット
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSStyleSet extends HTML_CSS implements BSTextRenderer {
@@ -21,8 +20,6 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	static private $stylesets = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $styleset スタイルセット名
 	 */

@@ -8,15 +8,12 @@
  * キャッシュ機能つきデータベーステーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
 abstract class BSCachedTableHandler extends BSTableHandler {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $criteria 抽出条件
 	 * @param string $order ソート順

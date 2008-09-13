@@ -11,7 +11,6 @@ ini_set('auto_detect_line_endings', true);
  * ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSFile extends BSDirectoryEntry implements BSRenderer {
@@ -24,8 +23,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	const COMPRESSED_SUFFIX = '.gz';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $path パス
 	 */
@@ -34,8 +31,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {
@@ -381,8 +376,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

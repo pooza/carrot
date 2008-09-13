@@ -8,7 +8,6 @@
  * HTTP処理
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSHTTP extends BSSocket {
@@ -150,8 +149,6 @@ class BSHTTP extends BSSocket {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

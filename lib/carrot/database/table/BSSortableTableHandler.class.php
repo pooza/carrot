@@ -14,8 +14,6 @@
 abstract class BSSortableTableHandler extends BSTableHandler {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $criteria 抽出条件
 	 * @param string $order ソート順
@@ -110,7 +108,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 * @param mixed[] $values 値
 	 * @static
 	 */
-	public static function getStatusOptions () {
+	static public function getStatusOptions () {
 		return BSTranslateManager::getInstance()->getHash(
 			array('show', 'hide')
 		);

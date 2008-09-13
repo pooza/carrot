@@ -7,7 +7,6 @@
  * 配列
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSArray extends BSParameterHolder implements Countable {
@@ -19,8 +18,6 @@ class BSArray extends BSParameterHolder implements Countable {
 	const SORT_VALUE_DESC = 'VALUE_DESC';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param mixed[] $params 要素の配列
 	 */
@@ -236,8 +233,6 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

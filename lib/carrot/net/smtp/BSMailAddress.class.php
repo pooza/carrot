@@ -8,7 +8,6 @@
  * メールアドレス
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSMailAddress {
@@ -20,8 +19,6 @@ class BSMailAddress {
 	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $contents メールアドレス
 	 * @param string $name 名前
@@ -178,8 +175,6 @@ class BSMailAddress {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

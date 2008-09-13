@@ -8,7 +8,6 @@
  * Twitterステータス
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTwitterStatus {
@@ -18,8 +17,6 @@ class BSTwitterStatus {
 	private $account;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSXMLElement $source status要素
 	 */
@@ -92,8 +89,6 @@ class BSTwitterStatus {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

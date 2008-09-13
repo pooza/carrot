@@ -10,7 +10,6 @@ BSController::includeFile('Smarty/Smarty.class.php');
  * Smartyラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSmarty extends Smarty implements BSTextRenderer {
@@ -22,8 +21,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	private $useragent;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct() {

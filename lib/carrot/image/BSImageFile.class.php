@@ -8,7 +8,6 @@
  * 画像ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSImageFile extends BSFile {
@@ -18,8 +17,6 @@ class BSImageFile extends BSFile {
 	const DEFAULT_ENGINE_CLASS = 'BSImage';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $path パス
 	 * @param string $class レンダラーのクラス名
@@ -48,8 +45,6 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
@@ -188,8 +183,6 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

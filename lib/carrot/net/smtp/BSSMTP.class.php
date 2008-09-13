@@ -8,7 +8,6 @@
  * メール送信
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSMTP extends BSSocket {
@@ -25,8 +24,6 @@ class BSSMTP extends BSSocket {
 	const TEST_MODE = true;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $path ホスト
 	 * @param integer $port ポート
@@ -523,8 +520,6 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

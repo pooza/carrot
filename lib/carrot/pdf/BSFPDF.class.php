@@ -12,7 +12,6 @@ BSController::includeFile('fpdf/mbfpdf.php');
  * MBFPDFラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSFPDF extends MBFPDF implements BSRenderer {
@@ -29,8 +28,6 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	const LEFT = 'L';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $orientation 用紙の向き
 	 * @param string $unit 単位

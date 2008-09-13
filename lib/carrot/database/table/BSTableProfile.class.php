@@ -8,7 +8,6 @@
  * テーブルのプロフィール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -19,8 +18,6 @@ abstract class BSTableProfile {
 	private $name;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $table テーブル名
 	 */
@@ -75,8 +72,6 @@ abstract class BSTableProfile {
 	abstract public function getConstraints ();
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

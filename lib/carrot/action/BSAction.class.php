@@ -8,7 +8,6 @@
  * アクション
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -19,8 +18,6 @@ abstract class BSAction implements BSHTTPRedirector {
 	protected $recordClassName;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @params BSModule $module 呼び出し元モジュール
 	 */
@@ -29,8 +26,6 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト
@@ -279,8 +274,6 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

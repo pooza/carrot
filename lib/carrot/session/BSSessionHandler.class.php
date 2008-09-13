@@ -8,7 +8,6 @@
  * セッションハンドラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSessionHandler {
@@ -16,8 +15,6 @@ class BSSessionHandler {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -48,8 +45,6 @@ class BSSessionHandler {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

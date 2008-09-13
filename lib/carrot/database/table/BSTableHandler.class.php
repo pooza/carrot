@@ -8,7 +8,6 @@
  * データベーステーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -30,8 +29,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	const WITHOUT_PAGING = false;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $criteria 抽出条件
 	 * @param string $order ソート順
@@ -42,8 +39,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
@@ -639,8 +634,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

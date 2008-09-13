@@ -7,7 +7,6 @@
  * シンプル汎用カウンター
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCounter {
@@ -15,8 +14,6 @@ class BSCounter {
 	private $name;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $name カウンター名
 	 */

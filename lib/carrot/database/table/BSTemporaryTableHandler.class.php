@@ -8,15 +8,12 @@
  * 一時テーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTemporaryTableHandler extends BSTableHandler {
 	private $name;
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {

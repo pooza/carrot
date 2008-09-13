@@ -8,7 +8,6 @@
  * URL
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSURL implements BSHTTPRedirector {
@@ -20,8 +19,6 @@ class BSURL implements BSHTTPRedirector {
 	const PATTERN = '/^[a-z]+:\/\/[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $url URL
 	 */
@@ -320,8 +317,6 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

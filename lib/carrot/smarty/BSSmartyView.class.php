@@ -8,7 +8,6 @@
  * Smarty用のView
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @link http://ozaki.kyoichi.jp/mojavi3/smarty.html 参考
  * @abstract

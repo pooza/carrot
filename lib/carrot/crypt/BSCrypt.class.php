@@ -8,7 +8,6 @@
  * 暗号化
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCrypt {
@@ -17,8 +16,6 @@ class BSCrypt {
 	const WITH_BASE64 = 1;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -39,8 +36,6 @@ class BSCrypt {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {
@@ -48,8 +43,6 @@ class BSCrypt {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数

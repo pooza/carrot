@@ -8,7 +8,6 @@
  * XML要素
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSXMLElement implements IteratorAggregate {
@@ -20,8 +19,6 @@ class BSXMLElement implements IteratorAggregate {
 	private $elements = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $name 要素の名前
 	 */

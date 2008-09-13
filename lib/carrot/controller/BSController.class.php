@@ -8,7 +8,6 @@
  * Carrotアプリケーションコントローラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -19,8 +18,6 @@ abstract class BSController {
 	const MAX_FORWARDS = 20;
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト
@@ -50,8 +47,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

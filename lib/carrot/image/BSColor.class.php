@@ -8,15 +8,12 @@
  * 色
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSColor extends BSParameterHolder {
 	const DEFAULT_COLOR = 'black';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $color HTML形式の色コード
 	 */

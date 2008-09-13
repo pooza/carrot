@@ -8,15 +8,12 @@
  * 抽象フィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト

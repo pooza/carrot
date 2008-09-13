@@ -8,7 +8,6 @@
  * カレンダー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCalendar implements IteratorAggregate {
@@ -17,8 +16,6 @@ class BSCalendar implements IteratorAggregate {
 	private $end;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSDate $start 開始日
 	 * @param BSDate $end 終了日

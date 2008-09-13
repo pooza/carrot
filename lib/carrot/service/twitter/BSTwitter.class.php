@@ -8,7 +8,6 @@
  * Twitterクライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTwitter extends BSCurlHTTP {
@@ -17,8 +16,6 @@ class BSTwitter extends BSCurlHTTP {
 	const DEFAULT_HOST = 'twitter.com';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $host ホスト
 	 * @param integer $port ポート

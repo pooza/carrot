@@ -5,10 +5,9 @@
  */
 
 /**
- * 画像を扱うレンダラー
+ * 画像レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 interface BSImageRenderer extends BSRenderer {

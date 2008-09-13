@@ -8,7 +8,6 @@
  * ディレクトリファインダー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSDirectoryFinder {
@@ -16,8 +15,6 @@ class BSDirectoryFinder {
 	private $directories = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -40,8 +37,6 @@ class BSDirectoryFinder {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

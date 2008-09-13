@@ -8,7 +8,6 @@
  * ファイル用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSFileLogger extends BSLogger {
@@ -18,8 +17,6 @@ class BSFileLogger extends BSLogger {
 	private $directory;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {
@@ -32,8 +29,6 @@ class BSFileLogger extends BSLogger {
 	}
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {

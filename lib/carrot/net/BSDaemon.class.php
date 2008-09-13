@@ -11,15 +11,12 @@ BSController::includeFile('nanoserv/handlers/NS_Line_Input_Connection_Handler.ph
  * デーモン
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
 abstract class BSDaemon extends NS_Line_Input_Connection_Handler {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {

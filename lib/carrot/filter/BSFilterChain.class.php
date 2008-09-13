@@ -8,7 +8,6 @@
  * フィルタチェーン
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -17,8 +16,6 @@ class BSFilterChain {
 	private $index = -1;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {

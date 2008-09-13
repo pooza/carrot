@@ -10,15 +10,12 @@ BSController::includeFile('pear/Crypt/Blowfish.php');
  * Blowfish暗号
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	private $salt;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $salt ソルト
 	 */

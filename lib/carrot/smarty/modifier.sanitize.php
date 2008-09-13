@@ -8,7 +8,6 @@
  * サニタイズ修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 function smarty_modifier_sanitize ($value) {

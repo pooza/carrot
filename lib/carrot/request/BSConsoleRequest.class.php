@@ -8,7 +8,6 @@
  * コンソールリクエスト
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSConsoleRequest extends BSRequest {
@@ -16,8 +15,6 @@ class BSConsoleRequest extends BSRequest {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {

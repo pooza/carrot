@@ -8,7 +8,6 @@
  * 単語翻訳機能
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTranslateManager implements IteratorAggregate {
@@ -18,8 +17,6 @@ class BSTranslateManager implements IteratorAggregate {
 	static private $languages;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -46,8 +43,6 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

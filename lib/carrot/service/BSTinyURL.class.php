@@ -8,15 +8,12 @@
  * TinyURLクライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTinyURL extends BSCurlHTTP {
 	const DEFAULT_HOST = 'tinyurl.com';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $host ホスト
 	 * @param integer $port ポート

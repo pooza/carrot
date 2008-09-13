@@ -8,7 +8,6 @@
  * CLI環境用 ダミーユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSConsoleUserAgent extends BSUserAgent {

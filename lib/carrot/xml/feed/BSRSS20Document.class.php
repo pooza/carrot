@@ -8,14 +8,11 @@
  * RSS2.0文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct() {

@@ -8,14 +8,11 @@
  * syslog用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSystemLogger extends BSLogger {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {
@@ -29,8 +26,6 @@ class BSSystemLogger extends BSLogger {
 	}
 
 	/**
-	 * デストラクタ
-	 *
 	 * @access public
 	 */
 	public function __destruct () {

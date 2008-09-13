@@ -8,7 +8,6 @@
  * コマンドラインビルダー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCommandLine extends BSParameterHolder {
@@ -22,8 +21,6 @@ class BSCommandLine extends BSParameterHolder {
 	const WITH_QUOTE = 1;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $command prefix以降のコマンドパス。 'bin/mysql'等。
 	 */

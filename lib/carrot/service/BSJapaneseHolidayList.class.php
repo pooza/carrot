@@ -17,7 +17,6 @@
  * p($holidays[10]); //当月10日
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @link http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.html
  */
@@ -27,8 +26,6 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	const DEFAULT_HOST = 'refits.cgk.affrc.go.jp';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSHost $host ホスト
 	 * @param integer $port ポート

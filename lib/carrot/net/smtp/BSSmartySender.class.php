@@ -8,15 +8,12 @@
  * Smartyテンプレートによるメール送信
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSmartySender extends BSSMTP {
 	private $renderer;
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数

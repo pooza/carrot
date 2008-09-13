@@ -10,7 +10,6 @@ BSController::includeFile('phplot/phplot.php');
  * グラフレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSGraph extends PHPlot implements BSImageRenderer {
@@ -30,8 +29,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	const DEFAULT_FONT = 'VL-PGothic-Regular';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param integer $width プロットエリアの幅（ピクセル）
 	 * @param integer $height プロットエリアの高さ（ピクセル）

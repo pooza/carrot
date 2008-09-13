@@ -8,7 +8,6 @@
  * CSVデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSCSVData implements BSTextRenderer {
@@ -21,8 +20,6 @@ class BSCSVData implements BSTextRenderer {
 	const LINE_SEPARATOR_TAG = '#CRLF#';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $contents 
 	 */

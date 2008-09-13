@@ -8,7 +8,6 @@
  * テーブルのレコード
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -19,8 +18,6 @@ abstract class BSRecord {
 	private $records = array();
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSTableHandler $table テーブルハンドラ
 	 * @param string[] $attributes 属性の連想配列
@@ -31,8 +28,6 @@ abstract class BSRecord {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
@@ -292,8 +287,6 @@ abstract class BSRecord {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

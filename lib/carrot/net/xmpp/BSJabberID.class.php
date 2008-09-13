@@ -8,7 +8,6 @@
  * JabberID
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSJabberID {
@@ -19,8 +18,6 @@ class BSJabberID {
 	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)\/([0-9a-z_\-]+)$/i';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $contents JabberID
 	 */
@@ -75,8 +72,6 @@ class BSJabberID {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

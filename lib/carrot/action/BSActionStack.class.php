@@ -8,7 +8,6 @@
  * アクションスタック
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -17,8 +16,6 @@ class BSActionStack implements IteratorAggregate {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -40,8 +37,6 @@ class BSActionStack implements IteratorAggregate {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

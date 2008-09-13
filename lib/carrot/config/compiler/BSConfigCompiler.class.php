@@ -8,15 +8,12 @@
  * 抽象設定コンパイラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 abstract class BSConfigCompiler extends BSParameterHolder {
 	private $body;
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト

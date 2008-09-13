@@ -8,14 +8,11 @@
  * サブネットワーク
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSNetwork extends BSHost {
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $address CIDR形式のIPアドレス
 	 */
@@ -58,8 +55,6 @@ class BSNetwork extends BSHost {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

@@ -8,7 +8,6 @@
  * ビュー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  * @abstract
  */
@@ -26,13 +25,15 @@ abstract class BSView {
 	const NONE = null;
 	const SUCCESS = 'Success';
 
+	/**
+	 * @access public
+	 * @param BSaction $action 呼び出し元アクション
+	 */
 	public function __construct (BSAction $action) {
 		$this->action = $action;
 	}
 
 	/**
-	 * プロパティ取得のオーバライド
-	 *
 	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト
@@ -55,8 +56,6 @@ abstract class BSView {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
@@ -253,8 +252,6 @@ abstract class BSView {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

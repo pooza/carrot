@@ -8,7 +8,6 @@
  * シリアライズされたキャッシュ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSSerializeHandler {
@@ -18,8 +17,6 @@ class BSSerializeHandler {
 	static private $instance;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -40,8 +37,6 @@ class BSSerializeHandler {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {

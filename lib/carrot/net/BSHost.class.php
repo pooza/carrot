@@ -8,7 +8,6 @@
  * ホストコンピュータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSHost {
@@ -17,8 +16,6 @@ class BSHost {
 	const DEFAULT_SOCKET_CLASS = 'BSSocket';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param string $address ホスト名又はIPアドレス
 	 */
@@ -143,8 +140,6 @@ class BSHost {
 	}
 
 	/**
-	 * 基本情報を文字列で返す
-	 *
 	 * @access public
 	 * @return string 基本情報
 	 */

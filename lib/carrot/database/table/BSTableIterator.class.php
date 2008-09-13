@@ -8,15 +8,12 @@
  * テーブルイテレータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSTableIterator extends BSIterator {
 	private $table;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 * @param BSTableHandler $table テーブル
 	 */

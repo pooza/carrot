@@ -8,7 +8,6 @@
  * QRCodeレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSQRCode implements BSImageRenderer {
@@ -19,8 +18,6 @@ class BSQRCode implements BSImageRenderer {
 	private $engine;
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access public
 	 */
 	public function __construct () {
@@ -33,8 +30,6 @@ class BSQRCode implements BSImageRenderer {
 	}
 
 	/**
-	 * 未定義メソッドの呼び出し
-	 *
 	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数

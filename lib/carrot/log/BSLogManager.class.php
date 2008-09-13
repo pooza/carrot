@@ -8,7 +8,6 @@
  * ログマネージャ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
 class BSLogManager implements IteratorAggregate {
@@ -17,8 +16,6 @@ class BSLogManager implements IteratorAggregate {
 	const DEFAULT_LOGGER_CLASSES = 'BSSystemLogger';
 
 	/**
-	 * コンストラクタ
-	 *
 	 * @access private
 	 */
 	private function __construct () {
@@ -46,8 +43,6 @@ class BSLogManager implements IteratorAggregate {
 	}
 
 	/**
-	 * ディープコピー
-	 *
 	 * @access public
 	 */
 	public function __clone () {
