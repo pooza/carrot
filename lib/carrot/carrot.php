@@ -8,8 +8,6 @@
  */
 
 /**
- * クラス未定義時処理のオーバーロード
- *
  * @access public
  * @param string $name クラス名
  */
@@ -78,6 +76,7 @@ try {
 		$_SERVER['HTTP_USER_AGENT'] = 'Console';
 		$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
 		$names[] = $_SERVER['HOST'];
+		$names[] = basename(BS_ROOT_DIR);
 		$names[] = basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'];
 	} else {
 		$names[] = $_SERVER['SERVER_NAME'];
