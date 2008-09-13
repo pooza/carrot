@@ -64,7 +64,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function setParameter ($name, $value) {
 		if (defined($name = strtoupper($name))) {
-			throw new BSException('定数 "%s" は定義済みです。', $name);
+			throw new BSRegisterException('定数 "%s" は定義済みです。', $name);
 		} else {
 			define($name, $value);
 		}
@@ -105,7 +105,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @param string $name パラメータ名
 	 */
 	public function removeParameter ($name) {
-		throw new BSException('定数は削除できません。');
+		throw new BSRegisterException('定数は削除できません。');
 	}
 
 	/**

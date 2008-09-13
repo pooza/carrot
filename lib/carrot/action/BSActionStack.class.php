@@ -52,7 +52,7 @@ class BSActionStack implements IteratorAggregate {
 	 */
 	public function register (BSAction $action) {
 		if (self::LIMIT < $this->getSize()) {
-			throw new BSException('フォワードが多すぎます。');
+			throw new BSRegisterException('フォワードが多すぎます。');
 		}
 		$this->stack[] = $action;
 	}

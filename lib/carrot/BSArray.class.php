@@ -33,7 +33,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	 */
 	public function setParameters ($params) {
 		if (!self::isArray($params)) {
-			throw new BSException('配列でない値は代入出来ません。');
+			throw new BSRegisterException('配列でない値は代入出来ません。');
 		}
 		foreach ($params as $name => $value) {
 			$this->setParameter($name, $value);
@@ -67,7 +67,7 @@ class BSArray extends BSParameterHolder implements Countable {
 		} else if (is_array($parameters)) {
 			$this->parameters = array_merge($this->parameters, $parameters);
 		} else {
-			throw new BSException('配列でない値はマージできません。');
+			throw new BSRegisterException('配列でない値はマージできません。');
 		}
 	}
 
