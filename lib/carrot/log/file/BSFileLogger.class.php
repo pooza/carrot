@@ -57,13 +57,7 @@ class BSFileLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		$message = array(
-			'[' . BSDate::getNow('Y-m-d H:i:s') . ']',
-			'[' . BSRequest::getInstance()->getHost()->getName() . ']',
-			'[' . $priority . ']',
-			BSString::convertEncoding($message),
-		);
-		$this->file->putLine(implode(' ', $message));
+		$this->file->putLine(BSLogManager::formatMessage($message, $priority));
 	}
 
 	/**

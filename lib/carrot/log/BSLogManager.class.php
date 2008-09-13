@@ -91,6 +91,24 @@ class BSLogManager implements IteratorAggregate {
 	public function getIterator () {
 		return $this->loggers->getIterator();
 	}
+
+	/**
+	 * メッセージを整形
+	 *
+	 * @access public
+	 * @param string $message メッセージ
+	 * @return string 整形済みメッセージ
+	 * @static
+	 */
+	static public function formatMessage ($message, $priority) {
+		$message = array(
+			'[' . date('Y-m-d H:i:s') . ']',
+			'[' . $_SERVER['SERVER_NAME'] . ']',
+			'[' . $priority . ']',
+			BSString::convertEncoding($message),
+		);
+		return implode(' ', $message);
+	}
 }
 
 /* vim:set tabstop=4 ai: */
