@@ -51,7 +51,7 @@ class BSActionStack implements IteratorAggregate {
 	 * @param BSAction $action アクション
 	 */
 	public function register (BSAction $action) {
-		if (self::LIMIT < $this->getSize()) {
+		if (self::LIMIT < $this->stack->count()) {
 			throw new BSRegisterException('フォワードが多すぎます。');
 		}
 		$this->stack[] = $action;
@@ -75,16 +75,6 @@ class BSActionStack implements IteratorAggregate {
 	 */
 	public function getLastEntry () {
 		return $this->getIterator()->getLast();
-	}
-
-	/**
-	 * 登録済みのアクション数を返す
-	 *
-	 * @access public
-	 * @return integer 登録数
-	 */
-	public function getSize () {
-		return count($this->stack);
 	}
 
 	/**

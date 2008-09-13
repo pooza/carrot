@@ -177,7 +177,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 			$body[] = sprintf('%s => %s', self::quote($name), self::quote($value));
 		}
 
-		if (0 < count($body)) {
+		if (0 < $body->count()) {
 			return sprintf('array(%s)', $body->join(', '));
 		}
 	}

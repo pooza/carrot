@@ -29,7 +29,7 @@ class BSFilterChain {
 	 */
 	public function execute () {
 		$this->index ++;
-		if ($this->index < count($this->chain)) {
+		if ($this->index < $this->chain->count()) {
 			$this->chain[$this->index]->execute($this);
 		}
 	}

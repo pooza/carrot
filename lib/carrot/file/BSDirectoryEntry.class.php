@@ -120,9 +120,9 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getSuffix () {
 		if (!$this->suffix) {
-			$name = explode('.', $this->getName());
-			if (1 < count($name)) {
-				$this->suffix = '.' . end($name);
+			$name = BSString::explode('.', $this->getName());
+			if (1 < $name->count()) {
+				$this->suffix = '.' . $name->getIterator()->getLast();
 			}
 		}
 		return $this->suffix;

@@ -14,31 +14,12 @@
  * @param string $name クラス名
  */
 function __autoload ($name) {
-	static $classes = array();
-	if (!$classes) {
-		foreach (array(BS_LIB_DIR . '/carrot', BS_WEBAPP_DIR . '/lib') as $path) {
-			$classes += getClasses($path);
-		}
-	}
+	require_once(BS_LIB_DIR . '/carrot/BSAutoloadHandler.class.php');
+	$classes = BSAutoloadHandler::getInstance()->getClasses();
 	if (!isset($classes[$name])) {
 		trigger_error($name . 'がロードできません。', E_USER_ERROR);
 	}
 	require_once($classes[$name]);
-}
-function getClasses ($path) {
-	require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
-	$iterator = new RecursiveDirectoryIterator($path);
-	$entries = array();
-	foreach ($iterator as $entry) {
-		if ($entry->getFilename() == '.svn') {
-			continue;
-		} else if ($iterator->isDir()) {
-			$entries += getClasses($entry->getPathname());
-		} else if ($key = BSUtility::extractClassName($entry->getfilename())) {
-			$entries[$key] = $entry->getPathname();
-		}
-	}
-	return $entries;
 }
 
 /**

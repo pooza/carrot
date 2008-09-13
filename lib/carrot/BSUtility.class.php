@@ -12,23 +12,6 @@
 class BSUtility {
 
 	/**
-	 * ファイル名からクラス名を返す
-	 *
-	 * @access public
-	 * @param string $filename ファイル名
-	 * @return string クラス名
-	 * @static
-	 */
-	static public function extractClassName ($filename) {
-		if (self::isPathAbsolute($filename)) {
-			$filename = basename($filename);
-		}
-		if (preg_match('/(.*?)\.(class|interface)\.php/', $filename, $matches)) {
-			return $matches[1];
-		}
-	}
-
-	/**
 	 * 絶対パスか？
 	 *
 	 * @access public
