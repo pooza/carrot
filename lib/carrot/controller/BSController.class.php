@@ -15,7 +15,6 @@ abstract class BSController {
 	private $host;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
-	const MAX_FORWARDS = 20;
 
 	/**
 	 * @access public
@@ -84,10 +83,6 @@ abstract class BSController {
 	 * @return string ビュー名
 	 */
 	public function forwardTo (BSAction $action) {
-		if (self::MAX_FORWARDS < BSActionStack::getInstance()->getSize()) {
-			throw new BSException('フォワードが多すぎます。');
-		}
-
 		BSActionStack::getInstance()->register($action);
 		if (!$action->initialize()) {
 			throw new BSException('%sの%sが初期化できません。', $module, $action);

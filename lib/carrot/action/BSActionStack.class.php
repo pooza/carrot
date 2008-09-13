@@ -14,6 +14,7 @@
 class BSActionStack implements IteratorAggregate {
 	private $stack;
 	static private $instance;
+	const LIMIT = 20;
 
 	/**
 	 * @access private
@@ -50,6 +51,9 @@ class BSActionStack implements IteratorAggregate {
 	 * @param BSAction $action アクション
 	 */
 	public function register (BSAction $action) {
+		if (self::LIMIT < $this->getSize()) {
+			throw new BSException('フォワードが多すぎます。');
+		}
 		$this->stack[] = $action;
 	}
 
