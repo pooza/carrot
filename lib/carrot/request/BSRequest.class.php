@@ -18,6 +18,7 @@ abstract class BSRequest extends BSParameterHolder {
 	const POST = 4;
 	const PUT = 8;
 	const DELETE = 16;
+	private $host;
 	private $useragent;
 	protected $method;
 	private $attributes;
@@ -243,6 +244,21 @@ abstract class BSRequest extends BSParameterHolder {
 	 */
 	public function getMethod () {
 		return $this->method;
+	}
+
+	/**
+	 * リモートホストを返す
+	 *
+	 * @access public
+	 * @return string リモートホスト
+	 */
+	public function getHost () {
+		if (!$this->host) {
+			$this->host = new BSHost(
+				BSController::getInstance()->getEnvironment('REMOTE_ADDR')
+			);
+		}
+		return $this->host;
 	}
 
 	/**

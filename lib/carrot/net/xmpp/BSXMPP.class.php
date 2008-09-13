@@ -176,7 +176,7 @@ class BSXMPP extends BSSocket {
 			$signature = sprintf(
 				'%s-%s',
 				BSDate::getNow('YmdHis'),
-				BSController::getInstance()->getClientHost()->getName()
+				BSRequest::getInstance()->getHost()->getName()
 			);
 			$this->authID = 'auth_' . BSCrypt::getMD5($signature);
 		}

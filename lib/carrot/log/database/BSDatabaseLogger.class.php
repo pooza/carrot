@@ -46,7 +46,7 @@ class BSDatabaseLogger extends BSLogger {
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
 		$values = array(
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
-			'remote_host' => BSController::getInstance()->getClientHost()->getName(),
+			'remote_host' => BSRequest::getInstance()->getHost()->getName(),
 			'priority' => $priority,
 			'message' => $message,
 		);

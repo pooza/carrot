@@ -34,7 +34,7 @@ class BSHostSecurityFilter extends BSFilter {
 		}
 
 		foreach ($networks as $network) {
-			if ($this->controller->getClientHost()->isInNetwork($network)) {
+			if ($this->request->getHost()->isInNetwork($network)) {
 				return true;
 			}
 		}

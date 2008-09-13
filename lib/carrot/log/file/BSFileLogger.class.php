@@ -64,7 +64,7 @@ class BSFileLogger extends BSLogger {
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
 		$message = array(
 			'[' . BSDate::getNow('Y-m-d H:i:s') . ']',
-			'[' . BSController::getInstance()->getClientHost()->getName() . ']',
+			'[' . BSRequest::getInstance()->getHost()->getName() . ']',
 			'[' . $priority . ']',
 			BSString::convertEncoding($message),
 		);
