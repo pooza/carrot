@@ -73,7 +73,7 @@ class BSMemcache extends Memcache {
 	 */
 	protected function getAttributeName ($name) {
 		$name = array(
-			BSController::getInstance()->getServerHost()->getName(),
+			BSController::getInstance()->getHost()->getName(),
 			get_class($this),
 			$name
 		);

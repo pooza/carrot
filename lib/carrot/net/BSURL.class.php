@@ -34,7 +34,7 @@ class BSURL implements BSHTTPRedirector {
 			} else {
 				$this->setAttribute('scheme', 'http');
 			}
-			$this->setAttribute('host', BSController::getInstance()->getServerHost());
+			$this->setAttribute('host', BSController::getInstance()->getHost());
 		}
 	}
 

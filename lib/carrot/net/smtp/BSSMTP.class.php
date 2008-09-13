@@ -57,7 +57,7 @@ class BSSMTP extends BSSocket {
 		}
 
 		parent::open();
-		$this->putLine('EHLO ' . BSController::getInstance()->getServerHost()->getName());
+		$this->putLine('EHLO ' . BSController::getInstance()->getHost()->getName());
 		if (!in_array($this->getResultCode(), array(220, 250))) {
 			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
 		}

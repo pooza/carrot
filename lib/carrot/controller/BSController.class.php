@@ -199,6 +199,16 @@ abstract class BSController {
 	}
 
 	/**
+	 * サーバホストを返す
+	 *
+	 * @access public
+	 * @return string サーバホスト
+	 */
+	public function getHost () {
+		return new BSHost($this->getEnvironment('SERVER_NAME'));
+	}
+
+	/**
 	 * リモートホストを返す
 	 *
 	 * BSRequest::getHostのエイリアス
@@ -214,11 +224,14 @@ abstract class BSController {
 	/**
 	 * サーバホストを返す
 	 *
+	 * getHostのエイリアス
+	 *
 	 * @access public
 	 * @return string サーバホスト
+	 * @final
 	 */
-	public function getServerHost () {
-		return new BSHost($this->getEnvironment('SERVER_NAME'));
+	final public function getServerHost () {
+		return $this->getHost();
 	}
 
 	/**

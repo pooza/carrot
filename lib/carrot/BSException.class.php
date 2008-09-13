@@ -87,7 +87,7 @@ class BSException extends Exception {
 	public function sendAlert () {
 		try {
 			$controller = BSController::getInstance();
-			$xmpp = new BSXMPPBotClient($controller->getServerHost());
+			$xmpp = new BSXMPPBotClient($controller->getHost());
 			$xmpp->putLine(BSLog::getMessage($this->getMessage(), $this->getName()));
 		} catch (Exception $e) {
 			$this->sendMail();
