@@ -1,17 +1,17 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage validator
+ * @subpackage validate.validator
  */
 
 /**
- * 日付バリデータ
+ * 一致バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSDateValidator extends BSValidator {
+class BSPairValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -20,7 +20,8 @@ class BSDateValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('invalid_error', '日付が正しくありません。');
+		$this->setParameter('field', '');
+		$this->setParameter('match_error', '一致しません。');
 		return parent::initialize($parameters);
 	}
 
@@ -32,15 +33,16 @@ class BSDateValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		try {
-			$date = new BSDate($value);
-		} catch (BSDateException $e) {
-			$this->error = $this->getParameter('invalid_error');
+		if (!$name = $this->getParameter('field')) {
+			return true;
+		}
+
+		if ($value != BSRequest::getInstance()->getParameter($name)) {
+			$this->error = $this->getParameter('match_error');
 			return false;
 		}
+
 		return true;
 	}
 }
-
-/* vim:set tabstop=4 ai: */
 ?>

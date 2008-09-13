@@ -18,7 +18,7 @@ class BSExecutionFilter extends BSFilter {
 				require(BSConfigManager::getInstance()->compile($file));
 			}
 			$this->action->registerValidators();
-			if (BSValidatorManager::getInstance()->execute() && $this->action->validate()) {
+			if (BSValidateManager::getInstance()->execute() && $this->action->validate()) {
 				$view = $this->action->execute();
 			} else {
 				$view = $this->action->handleError();

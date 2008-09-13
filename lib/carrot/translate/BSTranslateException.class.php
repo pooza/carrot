@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage translation
+ * @subpackage translate
  */
 
 /**
@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTranslationException extends BSException {
+class BSTranslateException extends BSException {
 }
 
 /* vim:set tabstop=4 ai: */

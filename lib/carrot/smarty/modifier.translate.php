@@ -17,7 +17,7 @@ function smarty_modifier_translate ($value, $dictionary = null, $language = null
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		return BSTranslator::getInstance()->translate($value, $dictionary, $language);
+		return BSTranslateManager::getInstance()->translate($value, $dictionary, $language);
 	}
 }
 

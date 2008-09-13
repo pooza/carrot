@@ -50,7 +50,7 @@ abstract class BSView {
 			case 'renderer':
 				return $this->getRenderer();
 			case 'translator':
-				return BSTranslator::getInstance();
+				return BSTranslateManager::getInstance();
 		}
 	}
 

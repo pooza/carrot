@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage validator
+ * @subpackage validate.validator
  */
 
 /**
@@ -26,7 +26,7 @@ class BSRegexValidator extends BSStringValidator {
 		parent::initialize($parameters);
 
 		if (!$this->getParameter('pattern')) {
-			throw new BSValidatorException('正規表現パターンが指定されていません。');
+			throw new BSValidateException('正規表現パターンが指定されていません。');
 		}
 		return true;
 	}

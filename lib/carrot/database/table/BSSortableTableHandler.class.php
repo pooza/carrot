@@ -111,7 +111,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 * @static
 	 */
 	public static function getStatusOptions () {
-		return BSTranslator::getInstance()->getHash(
+		return BSTranslateManager::getInstance()->getHash(
 			array('show', 'hide')
 		);
 	}

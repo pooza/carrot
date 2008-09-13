@@ -278,7 +278,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 
 		$this->setExecuted(false);
 		if ($flag & BSDatabase::WITH_LOGGING) {
-			$name = BSTranslator::getInstance()->translate($this->getName());
+			$name = BSTranslateManager::getInstance()->translate($this->getName());
 			$this->getDatabase()->putLog(sprintf('%s(%s)を作成しました。', $name, $id));
 		}
 
@@ -530,7 +530,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	public function getFieldNames ($language = 'ja') {
 		if (!$this->fieldNames) {
 			if ($result = $this->getResult()) {
-				$translator = BSTranslator::getInstance();
+				$translator = BSTranslateManager::getInstance();
 				foreach ($result[0] as $key => $value) {
 					$this->fieldNames[$key] = $translator->translate($key, $language);
 				}

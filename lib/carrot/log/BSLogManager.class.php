@@ -35,7 +35,7 @@ class BSLogManager implements IteratorAggregate {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSValidatorManager インスタンス
+	 * @return BSLogManager インスタンス
 	 * @static
 	 */
 	static public function getInstance () {

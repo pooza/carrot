@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage validator
+ * @subpackage validate.validator
  */
 
 /**
@@ -61,7 +61,7 @@ class BSRecordValidator extends BSValidator {
 				if ($record = $action->getRecord()) {
 					return ($record->getID() != $recordFound->getID());
 				} else {
-					throw new BSValidatorException('%sにレコードが見つかりません。', $action);
+					throw new BSValidateException('%sにレコードが見つかりません。', $action);
 				}
 			} else {
 				return true;
@@ -76,7 +76,7 @@ class BSRecordValidator extends BSValidator {
 			$fieldValue = $record->getAttribute($fieldName);
 			$message = sprintf(
 				'%sが正しくありません。',
-				BSTranslator::getInstance()->translate($fieldName)
+				BSTranslateManager::getInstance()->translate($fieldName)
 			);
 			if (is_array($validValue)) {
 				if (!in_array($fieldValue, $validValue)) {
@@ -103,7 +103,7 @@ class BSRecordValidator extends BSValidator {
 
 	private function getTable () {
 		if (!$table = $this->getParameter('table')) {
-			throw new BSValidatorException('テーブル名が定義されていません。');
+			throw new BSValidateException('テーブル名が定義されていません。');
 		}
 		$class = BSString::pascalize($table) . 'Handler';
 		return new $class;

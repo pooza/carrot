@@ -1,17 +1,17 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage validator
+ * @subpackage validate
  */
 
 /**
- * バリデータマネージャ
+ * バリデートマネージャ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSValidatorManager implements IteratorAggregate {
+class BSValidateManager implements IteratorAggregate {
 	private $fields;
 	static private $instance;
 
@@ -28,12 +28,12 @@ class BSValidatorManager implements IteratorAggregate {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSValidatorManager インスタンス
+	 * @return BSValidateManager インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSValidatorManager;
+			self::$instance = new BSValidateManager;
 		}
 		return self::$instance;
 	}
@@ -117,7 +117,7 @@ class BSValidatorManager implements IteratorAggregate {
 	 */
 	public function registerValidator ($name, BSValidator $validator) {
 		if (!$this->fields->hasParameter($name)) {
-			throw new BSValidatorException('フィールド "%s" は登録されていません。', $name);
+			throw new BSValidateException('フィールド "%s" は登録されていません。', $name);
 		}
 		$this->fields[$name]['validators'][] = $validator;
 	}

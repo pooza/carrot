@@ -23,7 +23,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->setNames($config['names']);
 		$this->setValidators($config);
 
-		$this->putLine('$manager = BSValidatorManager::getInstance();');
+		$this->putLine('$manager = BSValidateManager::getInstance();');
 		foreach (BSWebRequest::getMethodNames() as $method) {
 			$this->putMethod($method);
 		}

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage translation
+ * @subpackage translate
  */
 
 /**
@@ -11,7 +11,7 @@
  * @copyright (c)b-shock. co., ltd.
  * @version $Id$
  */
-class BSTranslator implements IteratorAggregate {
+class BSTranslateManager implements IteratorAggregate {
 	private $language = 'ja';
 	private $dictionaries;
 	static private $instance;
@@ -35,12 +35,12 @@ class BSTranslator implements IteratorAggregate {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSTranslator インスタンス
+	 * @return BSTranslateManager インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSTranslator;
+			self::$instance = new BSTranslateManager;
 		}
 		return self::$instance;
 	}
@@ -88,7 +88,7 @@ class BSTranslator implements IteratorAggregate {
 	 */
 	public function setDictionaryPriority ($name, $priority) {
 		if (!$dictionary = $this->dictionaries[$name]) {
-			throw new BSTranslationException('辞書 "%s" は登録されていません。', $name);
+			throw new BSTranslateException('辞書 "%s" は登録されていません。', $name);
 		}
 		$this->dictionaries->removeParameter($name);
 		$this->dictionaries->setParameter($name, $dictionary, $priority);
@@ -131,7 +131,7 @@ class BSTranslator implements IteratorAggregate {
 		}
 
 		if (BSController::getInstance()->isDebugMode()) {
-			throw new BSTranslationException('"%s"の訳語が見つかりません。', $string);
+			throw new BSTranslateException('"%s"の訳語が見つかりません。', $string);
 		} else {
 			return $string;
 		}
@@ -156,7 +156,7 @@ class BSTranslator implements IteratorAggregate {
 	public function setLanguage ($language) {
 		$language = strtolower($language);
 		if (!self::getLanguageNames()->isIncluded($language)) {
-			throw new BSTranslationException('言語コード"%s"が正しくありません。', $language);
+			throw new BSTranslateException('言語コード"%s"が正しくありません。', $language);
 		}
 		$this->language = $language;
 	}
