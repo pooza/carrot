@@ -13,6 +13,7 @@
  * @abstract
  */
 abstract class BSController {
+	private $host;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
 	const MAX_FORWARDS = 20;
@@ -205,7 +206,10 @@ abstract class BSController {
 	 * @return string サーバホスト
 	 */
 	public function getHost () {
-		return new BSHost($this->getEnvironment('SERVER_NAME'));
+		if (!$this->host) {
+			$this->host = new BSHost($this->getEnvironment('SERVER_NAME'));
+		}
+		return $this->host;
 	}
 
 	/**
