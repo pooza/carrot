@@ -105,7 +105,7 @@ class BSLogManager implements IteratorAggregate {
 			'[' . date('Y-m-d H:i:s') . ']',
 			'[' . $_SERVER['SERVER_NAME'] . ']',
 			'[' . $priority . ']',
-			BSString::convertEncoding($message),
+			$message,
 		);
 		return implode(' ', $message);
 	}
