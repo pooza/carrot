@@ -36,7 +36,7 @@ class BSQRCode implements BSImageRenderer {
 	 */
 	public function __call ($method, $values) {
 		if (!method_exists($this->engine, $method)) {
-			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
+			throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
 		}
 
 		// 処理をエンジンに委譲

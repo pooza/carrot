@@ -27,6 +27,8 @@ abstract class BSValidator extends BSParameterHolder {
 				return BSRequest::getInstance();
 			case 'user':
 				return BSUser::getInstance();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
 		}
 	}
 

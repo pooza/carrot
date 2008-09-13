@@ -17,7 +17,7 @@ class BSWebRequest extends BSRequest {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->setMethod(BSController::getInstance()->getEnvironment('REQUEST_METHOD'));
+		$this->setMethod($this->controller->getEnvironment('REQUEST_METHOD'));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class BSWebRequest extends BSRequest {
 	 */
 	public function setMethod ($method) {
 		if (!self::getMethodNames()->isIncluded($method)) {
-			throw new BSException('"%s" はサポートされていないメソッドです。', $method);
+			throw new BSHTTPException('"%s" はサポートされていないメソッドです。', $method);
 		}
 		$this->method = self::getMethods()->getParameter($method);
 		$this->setParameters($_GET);
@@ -73,10 +73,10 @@ class BSWebRequest extends BSRequest {
 	 * @return BSUserAgent リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
-		if (BSController::getInstance()->isDebugMode() && $this->hasParameter('ua')) {
+		if ($this->controller->isDebugMode() && $this->hasParameter('ua')) {
 			return $this['ua'];
 		}
-		return BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
+		return $this->controller->getEnvironment('HTTP_USER_AGENT');
 	}
 
 	/**
@@ -86,7 +86,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return (BSController::getInstance()->getEnvironment('HTTPS') != '');
+		return ($this->controller->getEnvironment('HTTPS') != '');
 	}
 
 	/**

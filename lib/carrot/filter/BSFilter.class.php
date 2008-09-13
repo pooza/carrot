@@ -28,6 +28,8 @@ abstract class BSFilter extends BSParameterHolder {
 				return BSUser::getInstance();
 			case 'action':
 				return BSController::getInstance()->getAction();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
 		}
 	}
 

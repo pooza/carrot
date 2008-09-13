@@ -43,7 +43,7 @@ abstract class BSRecord {
 			}
 			return $this->records[$name];
 		} 
-		throw new BSDatabaseException('仮想メソッド"%s"は未定義です。', $method);
+		throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
 	}
 
 	/**

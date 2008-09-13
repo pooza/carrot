@@ -46,6 +46,22 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'controller':
+				return BSController::getInstance();
+			case 'user':
+				return BSUser::getInstance();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
+		}
+	}
+
+	/**
 	 * 全ての属性を削除
 	 *
 	 * @access public
@@ -252,7 +268,7 @@ abstract class BSRequest extends BSParameterHolder {
 	public function getHost () {
 		if (!$this->host) {
 			$this->host = new BSHost(
-				BSController::getInstance()->getEnvironment('REMOTE_ADDR')
+				$this->controller->getEnvironment('REMOTE_ADDR')
 			);
 		}
 		return $this->host;

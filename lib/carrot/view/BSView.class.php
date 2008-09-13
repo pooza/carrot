@@ -52,6 +52,8 @@ abstract class BSView {
 				return $this->getRenderer();
 			case 'translator':
 				return BSTranslateManager::getInstance();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
 		}
 	}
 
@@ -62,7 +64,7 @@ abstract class BSView {
 	 */
 	public function __call ($method, $values) {
 		if (!method_exists($this->renderer, $method)) {
-			throw new BSException('仮想メソッド"%s"は未定義です。', $method);
+			throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
 		}
 
 		// 処理をエンジンに委譲

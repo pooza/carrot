@@ -50,7 +50,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 			case ('create' . $this->getRecordClassName()):
 				return $this->createRecord($values[0]);
 			default:
-				throw new BSDatabaseException('仮想メソッド"%s"は未定義です。', $method);
+				throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
 		}
 	}
 
