@@ -36,7 +36,6 @@ class BSAutoloadHandler {
 		return self::$instance;
 	}
 
-
 	/**
 	 * @access public
 	 */
