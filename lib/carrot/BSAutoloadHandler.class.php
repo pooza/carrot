@@ -36,6 +36,14 @@ class BSAutoloadHandler {
 		return self::$instance;
 	}
 
+
+	/**
+	 * @access public
+	 */
+	public function __clone () {
+		throw new Exception('"' . __CLASS__ . '"はコピー出来ません。');
+	}
+
 	/**
 	 * クラス名を返す
 	 *
