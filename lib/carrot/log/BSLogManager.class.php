@@ -103,7 +103,7 @@ class BSLogManager implements IteratorAggregate {
 	static public function formatMessage ($message, $priority) {
 		$message = array(
 			'[' . date('Y-m-d H:i:s') . ']',
-			'[' . $_SERVER['SERVER_NAME'] . ']',
+			'[' . $_SERVER['REMOTE_ADDR'] . ']',
 			'[' . $priority . ']',
 			$message,
 		);
