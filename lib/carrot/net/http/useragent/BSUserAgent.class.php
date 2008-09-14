@@ -228,6 +228,20 @@ class BSUserAgent {
 	public function getTypeName () {
 		return 'タイプ不明';
 	}
+
+	/**
+	 * 利用を禁じられたタイプを返す
+	 *
+	 * @access public
+	 * @return BSArray 利用を禁じられたタイプ
+	 */
+	static public function getDeniedTypes () {
+		if ($types = BSConstantHandler::getInstance()->getParameter('USERAGENT_DENIED_TYPES')) {
+			return BSString::explode(',', $types);
+		} else {
+			return new BSArray;
+		}
+	}
 }
 
 /* vim:set tabstop=4 ai: */

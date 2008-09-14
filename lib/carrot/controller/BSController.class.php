@@ -60,11 +60,19 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function dispatch () {
-		if (!$module = $this->request->getParameter(self::MODULE_ACCESSOR)) {
-			$module = BS_DEFAULT_MODULE;
-		}
-		if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
-			$action = BS_DEFAULT_ACTION;
+		$constants = BSConstantHandler::getInstance();
+
+		$types = BSUserAgent::getDeniedTypes();
+		if ($types->isIncluded($this->request->getUserAgent()->getType())) {
+			$module = $constants['USERAGENT_DENIED_MODULE'];
+			$action = $constants['USERAGENT_DENIED_ACTION'];
+		} else {
+			if (!$module = $this->request->getParameter(self::MODULE_ACCESSOR)) {
+				$module = $constants['DEFAULT_MODULE'];
+			}
+			if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
+				$action = $constants['DEFAULT_ACTION'];
+			}
 		}
 
 		try {

@@ -29,3 +29,10 @@ secure:
 feed:
   class: BSAtom10Document
 
+useragent:
+  denied:
+    types:
+      - LegacyNetscape
+      - Tasman
+    module: Default
+    action: Unsupported

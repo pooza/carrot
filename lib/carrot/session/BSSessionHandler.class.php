@@ -18,11 +18,15 @@ class BSSessionHandler {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->getStorage()->initialize();
+		if (BSRequest::getInstance()->isCLI()) {
+			return; //CLIではセッションの利用を禁止
+		}
 
 		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
 			ini_set('session.use_only_cookies', 0);
 		}
+
+		$this->getStorage()->initialize();
 
 		if (headers_sent()) {
 			throw new BSHTTPException('セッションの開始に失敗しました。');
