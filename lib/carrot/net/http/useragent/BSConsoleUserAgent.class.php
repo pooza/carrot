@@ -29,7 +29,7 @@ class BSConsoleUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/Console/';
+		return '/./';
 	}
 }
 

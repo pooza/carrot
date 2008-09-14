@@ -9,8 +9,9 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
+ * @abstract
  */
-class BSUserAgent {
+abstract class BSUserAgent {
 	private $type;
 	protected $attributes;
 
@@ -182,10 +183,9 @@ class BSUserAgent {
 	 *
 	 * @access public
 	 * @return string パターン
+	 * @abstract
 	 */
-	public function getPattern () {
-		return null;
-	}
+	abstract public function getPattern ();
 
 	/**
 	 * タイプを返す
@@ -195,11 +195,8 @@ class BSUserAgent {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			if (preg_match('/BS([a-z0-9]+)UserAgent/i', get_class($this), $matches)) {
-				$this->type = $matches[1];
-			} else {
-				$this->type = 'Generic';
-			}
+			preg_match('/BS([a-z0-9]+)UserAgent/i', get_class($this), $matches);
+			$this->type = $matches[1];
 		}
 		return $this->type;
 	}
@@ -209,10 +206,9 @@ class BSUserAgent {
 	 *
 	 * @access public
 	 * @return string タイプ名
+	 * @abstract
 	 */
-	public function getTypeName () {
-		return 'タイプ不明';
-	}
+	abstract public function getTypeName ();
 
 	/**
 	 * 登録済みのタイプを配列で返す
