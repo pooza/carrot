@@ -146,6 +146,16 @@ class BSUserAgent {
 	}
 
 	/**
+	 * 利用を禁じられているか？
+	 *
+	 * @access public
+	 * @return boolean 利用を禁じられているならTrue
+	 */
+	public function isDenied () {
+		return self::getDeniedTypes()->isIncluded($this->getType());
+	}
+
+	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public
@@ -178,31 +188,6 @@ class BSUserAgent {
 	}
 
 	/**
-	 * 登録済みのタイプを配列で返す
-	 *
-	 * @access public
-	 * @return string[] タイプリスト
-	 * @static
-	 */
-	static public function getTypes () {
-		// 評価を行う順に記述すること
-		return array(
-			'Tasman',
-			'MSIE',
-			'Chrome',
-			'Safari',
-			'WebKit',
-			'Gecko',
-			'Opera',
-			'LegacyMozilla',
-			'Docomo',
-			'Au',
-			'SoftBank',
-			'Console',
-		);
-	}
-
-	/**
 	 * タイプを返す
 	 *
 	 * @access public
@@ -227,6 +212,31 @@ class BSUserAgent {
 	 */
 	public function getTypeName () {
 		return 'タイプ不明';
+	}
+
+	/**
+	 * 登録済みのタイプを配列で返す
+	 *
+	 * @access public
+	 * @return string[] タイプリスト
+	 * @static
+	 */
+	static public function getTypes () {
+		// 評価を行う順に記述すること
+		return array(
+			'Tasman',
+			'MSIE',
+			'Chrome',
+			'Safari',
+			'WebKit',
+			'Gecko',
+			'Opera',
+			'LegacyMozilla',
+			'Docomo',
+			'Au',
+			'SoftBank',
+			'Console',
+		);
 	}
 
 	/**

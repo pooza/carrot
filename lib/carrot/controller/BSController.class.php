@@ -61,9 +61,7 @@ abstract class BSController {
 	 */
 	public function dispatch () {
 		$constants = BSConstantHandler::getInstance();
-
-		$types = BSUserAgent::getDeniedTypes();
-		if ($types->isIncluded($this->request->getUserAgent()->getType())) {
+		if ($this->request->getUserAgent()->isDenied()) {
 			$module = $constants['USERAGENT_DENIED_MODULE'];
 			$action = $constants['USERAGENT_DENIED_ACTION'];
 		} else {
