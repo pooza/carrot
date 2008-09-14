@@ -217,13 +217,13 @@ class BSUserAgent {
 	/**
 	 * 登録済みのタイプを配列で返す
 	 *
-	 * @access public
-	 * @return string[] タイプリスト
+	 * @access private
+	 * @return BSArray タイプリスト
 	 * @static
 	 */
-	static public function getTypes () {
+	static private function getTypes () {
 		// 評価を行う順に記述すること
-		return array(
+		return new BSArray(array(
 			'Tasman',
 			'MSIE',
 			'Chrome',
@@ -236,7 +236,7 @@ class BSUserAgent {
 			'Au',
 			'SoftBank',
 			'Console',
-		);
+		));
 	}
 
 	/**
@@ -244,9 +244,10 @@ class BSUserAgent {
 	 *
 	 * @access public
 	 * @return BSArray 利用を禁じられたタイプ
+	 * @static
 	 */
 	static public function getDeniedTypes () {
-		if ($types = BSConstantHandler::getInstance()->getParameter('USERAGENT_DENIED_TYPES')) {
+		if ($types = BSController::getInstance()->getConstant('USERAGENT_DENIED_TYPES')) {
 			return BSString::explode(',', $types);
 		} else {
 			return new BSArray;
