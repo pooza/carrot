@@ -88,9 +88,9 @@ class BSSerializeHandler {
 	public function setAttribute ($name, $value) {
 		$serialized = $this->getStorage()->setAttribute($name, $value);
 		$message = sprintf(
-			'%sをシリアライズしました。 (%s bytes)',
+			'%sをシリアライズしました。 (%sB)',
 			$name,
-			number_format(strlen($serialized))
+			BSNumeric::getBinarySize(strlen($serialized))
 		);
 		BSController::getInstance()->putLog($message, get_class($this));
 	}

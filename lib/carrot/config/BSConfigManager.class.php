@@ -73,9 +73,9 @@ class BSConfigManager {
 				if (preg_match($pattern, $file->getPath())) {
 					$cache->setContents($compiler->execute($file));
 					$message = sprintf(
-						'%sをコンパイルしました。 (%s bytes)',
+						'%sをコンパイルしました。 (%sB)',
 						$cache->getName(),
-						number_format($cache->getSize())
+						BSNumeric::getBinarySize($cache->getSize())
 					);
 					$compiler->putLog($message);
 					break;

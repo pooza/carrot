@@ -65,6 +65,23 @@ class BSNumeric {
 	}
 
 	/**
+	 * バイナリ書式化して返す
+	 *
+	 * @access public
+	 * @param float $number 処理対象の数値
+	 * @return string バイナリ書式化された数値
+	 * @static
+	 */
+	static public function getBinarySize ($num) {
+		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E', 'z') as $i => $unit) {
+			$unitsize = pow(1024, $i);
+			if ($num < ($unitsize * 1024 * 2)) {
+				return number_format(floor($num / $unitsize)) . $unit;
+			}
+		}
+	}
+
+	/**
 	 * 数字で分けた配列を返す
 	 *
 	 * @access public

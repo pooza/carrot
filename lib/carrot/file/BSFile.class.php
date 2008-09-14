@@ -307,18 +307,22 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @param string $suffix サフィックス、デフォルトはバイトの略で"B"
 	 * @return string 書式化されたファイルサイズ
 	 */
-	public function getFormattedSize ($suffix = 'B') {
-		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E') as $number => $unit) {
-			$unitsize = pow(1024, $number);
-			if ($this->getSize() < ($unitsize * 1024 * 2)) {
-				return sprintf(
-					'%s %s%s',
-					number_format(floor($this->getSize() / $unitsize)),
-					$unit,
-					$suffix
-				);
-			}
-		}
+	public function getBinarySize ($suffix = 'B') {
+		return BSNumeric::getBinarySize($this->getSize()) . $suffix;
+	}
+
+	/**
+	 * 書式化されたファイルサイズを文字列で返す
+	 *
+	 * getBinarySizeのエイリアス
+	 *
+	 * @access public
+	 * @param string $suffix サフィックス、デフォルトはバイトの略で"B"
+	 * @return string 書式化されたファイルサイズ
+	 * @final
+	 */
+	final public function getFormattedSize ($suffix = 'B') {
+		return $this->getBinarySize($suffix);
 	}
 
 	/**
