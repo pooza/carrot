@@ -60,16 +60,15 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function dispatch () {
-		$constants = BSConstantHandler::getInstance();
 		if ($this->request->getUserAgent()->isDenied()) {
-			$module = $constants['USERAGENT_DENIED_MODULE'];
-			$action = $constants['USERAGENT_DENIED_ACTION'];
+			$module = $this->getConstant('USERAGENT_DENIED_MODULE');
+			$action = $this->getConstant('USERAGENT_DENIED_ACTION');
 		} else {
 			if (!$module = $this->request[self::MODULE_ACCESSOR]) {
-				$module = $constants['DEFAULT_MODULE'];
+				$module = $this->getConstant('DEFAULT_MODULE');
 			}
 			if (!$action = $this->request[self::ACTION_ACCESSOR]) {
-				$action = $constants['DEFAULT_ACTION'];
+				$action = $this->getConstant('DEFAULT_ACTION');
 			}
 		}
 
