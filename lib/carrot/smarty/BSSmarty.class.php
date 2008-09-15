@@ -238,7 +238,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setTemplate ($template) {
 		if (!$file = $this->getTemplateFile($template)) {
-			throw new BSSmartyException('"%s"が見つかりません。', $template);
+			throw new BSSmartyException('テンプレート"%s"が見つかりません。', $template);
 		}
 		$this->template = $file->getPath();
 	}

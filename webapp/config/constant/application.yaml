@@ -27,7 +27,7 @@ secure:
   #action: Login
 
 feed:
-  class: BSAtom10Document
+  class: BSRSS20Document
 
 useragent:
   denied:
@@ -35,4 +35,4 @@ useragent:
       - LegacyNetscape
       - Tasman
     module: Default
-    action: Unsupported
+    action: DeniedUserAgent

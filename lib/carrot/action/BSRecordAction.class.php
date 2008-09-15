@@ -61,7 +61,7 @@ abstract class BSRecordAction extends BSAction {
 	 * @return integer カレントレコードID
 	 */
 	public function getRecordID () {
-		if ($id = $this->request->getParameter('id')) {
+		if ($id = $this->request['id']) {
 			if ($this->getName() != 'Create') {
 				$this->setRecordID($id);
 			}

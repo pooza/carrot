@@ -13,16 +13,6 @@
 class BSWebKitUserAgent extends BSUserAgent {
 
 	/**
-	 * タイプ名を返す
-	 *
-	 * @access public
-	 * @return string タイプ名
-	 */
-	public function getTypeName () {
-		return 'WebKit';
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

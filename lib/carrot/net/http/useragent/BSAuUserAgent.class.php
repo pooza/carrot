@@ -13,16 +13,6 @@
 class BSAuUserAgent extends BSMobileUserAgent {
 
 	/**
-	 * タイプ名を返す
-	 *
-	 * @access public
-	 * @return string タイプ名
-	 */
-	public function getTypeName () {
-		return 'au';
-	}
-
-	/**
 	 * ドメインサフィックスを返す
 	 *
 	 * @access public

@@ -13,16 +13,6 @@
 class BSLegacyMozillaUserAgent extends BSUserAgent {
 
 	/**
-	 * タイプ名を返す
-	 *
-	 * @access public
-	 * @return string タイプ名
-	 */
-	public function getTypeName () {
-		return 'NetscapeNavigator';
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

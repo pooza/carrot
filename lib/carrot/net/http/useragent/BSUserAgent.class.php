@@ -22,7 +22,7 @@ abstract class BSUserAgent {
 	public function __construct ($name = null) {
 		$this->attributes = new BSArray;
 		$this->attributes['name'] = $name;
-		$this->attributes['type'] = $this->getTypeName();
+		$this->attributes['type'] = $this->getType();
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 	}
@@ -200,15 +200,6 @@ abstract class BSUserAgent {
 		}
 		return $this->type;
 	}
-
-	/**
-	 * タイプ名を返す
-	 *
-	 * @access public
-	 * @return string タイプ名
-	 * @abstract
-	 */
-	abstract public function getTypeName ();
 
 	/**
 	 * 登録済みのタイプを配列で返す

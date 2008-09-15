@@ -4,7 +4,7 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-DoCoMo:
+Docomo:
   terminals:
     - D20
     - D21
@@ -50,7 +50,7 @@ DoCoMo:
     - NM850iG
     - F2051
 
-au:
+Au:
   terminals:
     - ST14
     - HI14

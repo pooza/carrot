@@ -65,10 +65,10 @@ abstract class BSController {
 			$module = $constants['USERAGENT_DENIED_MODULE'];
 			$action = $constants['USERAGENT_DENIED_ACTION'];
 		} else {
-			if (!$module = $this->request->getParameter(self::MODULE_ACCESSOR)) {
+			if (!$module = $this->request[self::MODULE_ACCESSOR]) {
 				$module = $constants['DEFAULT_MODULE'];
 			}
-			if (!$action = $this->request->getParameter(self::ACTION_ACCESSOR)) {
+			if (!$action = $this->request[self::ACTION_ACCESSOR]) {
 				$action = $constants['DEFAULT_ACTION'];
 			}
 		}

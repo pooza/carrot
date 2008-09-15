@@ -13,16 +13,6 @@
 class BSOperaUserAgent extends BSUserAgent {
 
 	/**
-	 * タイプ名を返す
-	 *
-	 * @access public
-	 * @return string タイプ名
-	 */
-	public function getTypeName () {
-		return 'Opera';
-	}
-
-	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
 	 *
 	 * @access public
