@@ -147,16 +147,6 @@ abstract class BSUserAgent {
 	}
 
 	/**
-	 * 利用を禁じられているか？
-	 *
-	 * @access public
-	 * @return boolean 利用を禁じられているならTrue
-	 */
-	public function isDenied () {
-		return self::getDeniedTypes()->isIncluded($this->getType());
-	}
-
-	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public
@@ -224,21 +214,6 @@ abstract class BSUserAgent {
 			'SoftBank',
 			'Console',
 		));
-	}
-
-	/**
-	 * 利用を禁じられたタイプを返す
-	 *
-	 * @access public
-	 * @return BSArray 利用を禁じられたタイプ
-	 * @static
-	 */
-	static public function getDeniedTypes () {
-		if ($types = BSController::getInstance()->getConstant('USERAGENT_DENIED_TYPES')) {
-			return BSString::explode(',', $types);
-		} else {
-			return new BSArray;
-		}
 	}
 }
 

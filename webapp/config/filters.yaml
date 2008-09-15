@@ -10,4 +10,9 @@
       new_line: yes
       reading: yes
       date: yes
+- class: BSDeniedUserAgentFilter
+    params:
+      types:
+        - LegacyMozilla
+        - Tasman
 

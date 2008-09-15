@@ -28,11 +28,3 @@ secure:
 
 feed:
   class: BSRSS20Document
-
-useragent:
-  denied:
-    types:
-      - LegacyNetscape
-      - Tasman
-    module: Default
-    action: DeniedUserAgent
