@@ -19,11 +19,14 @@ class BSDeniedUserAgentFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function getDeniedTypes () {
-		if (is_array($this['types'])) {
-			return new BSArray($this['types']);
+		if ($this['types'] instanceof BSArray) {
+			//素通り
+		} else if (is_array($this['types'])) {
+			$this['types'] = new BSArray($this['types']);
 		} else {
-			return BSString::explode(',', $this['types']);
+			$this['types'] = BSString::explode(',', $this['types']);
 		}
+		return $this['types'];
 	}
 
 	/**
