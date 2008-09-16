@@ -4,15 +4,17 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-- class: BSRequestCleaningFilter
-    params:
-      convert_kana: KVa
-      new_line: yes
-      reading: yes
-      date: yes
+- class: BSNullByteRequestFilter
+- class: BSEncodingRequestFilter
+- class: BSMagicQuoteRequestFilter
+- class: BSNewLineRequestFilter
+- class: BSKanaRequestFilter
+  params:
+    option: KVa
+- class: BSReadingRequestFilter
+- class: BSDateRequestFilter
 - class: BSDeniedUserAgentFilter
-    params:
-      types:
-        - LegacyMozilla
-        - Tasman
+  params:
+    types:
+      - LegacyMozilla
 

@@ -15,8 +15,9 @@ abstract class BSTableAction extends BSAction {
 	protected $criteria;
 	protected $order;
 	protected $rows = array();
+	protected $table;
+	protected $page;
 	private $isShowRows = false;
-	private $table;
 
 	/**
 	 * アクションを初期化
