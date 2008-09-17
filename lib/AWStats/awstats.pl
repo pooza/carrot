@@ -1,5 +1,17 @@
 #!/usr/bin/perl
 #!c:/perl/bin/perl
+
+# awstats.pl 6.7
+#
+# 日本語の検索語に対応。
+#
+# @package org.carrot-framework
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+# @link http://www.freewheelburning.com/linux/awstats.html
+# @link http://www.bflets.dyndns.org/Tools/AWStatsJpn.html
+# @link http://www.fiberbit.net/user/hobbit-t/html/awstats.html
+
 #------------------------------------------------------------------------------
 # Free realtime web server logfile analyzer to show advanced web statistics.
 # Works from command line or as a CGI. You must use this script as often as
@@ -7,8 +19,6 @@
 # line or a browser to read report results.
 # See AWStats documentation (in docs/ directory) for all setup instructions.
 #------------------------------------------------------------------------------
-# $Revision: 1.892 $ - $Author: eldy $ - $Date: 2007/07/07 11:00:05 $
-# Modified by makoto_hobbit 2007/9/27
 require 5.005;
 
 #$|=1;
