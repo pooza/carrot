@@ -17,7 +17,7 @@ require 5.005;
 use strict;no strict "refs";
 use Time::Local;	# use Time::Local 'timelocal_nocheck' is faster but not supported by all Time::Local modules
 use Socket;
-
+use Jcode;
 
 #------------------------------------------------------------------------------
 # Defines
@@ -4374,6 +4374,7 @@ sub DecodeEncodedString {
 	my $stringtodecode=shift;
 	$stringtodecode =~ tr/\+/ /s;
 	$stringtodecode =~ s/%([A-F0-9][A-F0-9])/pack("C", hex($1))/ieg;
+	Jcode::convert(\$stringtodecode, "utf8");
 	return $stringtodecode;
 }
 
