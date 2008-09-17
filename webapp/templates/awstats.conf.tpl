@@ -19,7 +19,7 @@ DNSLookup=1
 DirCgi="/awstats"
 DirIcons="/carrotlib/images/awstats"
 AllowToUpdateStatsFromBrowser=0
-AllowFullYearView=2
+AllowFullYearView=3
 
 EnableLockForUpdate=0
 DNSStaticCacheFile="dnscache.txt"
