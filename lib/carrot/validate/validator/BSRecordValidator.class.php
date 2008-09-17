@@ -19,13 +19,13 @@ class BSRecordValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('table', null);
-		$this->setParameter('field', 'id');
-		$this->setParameter('exist', true);
-		$this->setParameter('update', false);
-		$this->setParameter('exist_error', '登録されていません。');
-		$this->setParameter('duplicate_error', '重複します。');
-		$this->setParameter('valid_values', array());
+		$this['table'] = null;
+		$this['field'] = 'id';
+		$this['exist'] = true;
+		$this['update'] = false;
+		$this['exist_error'] = '登録されていません。';
+		$this['duplicate_error'] = '重複します。';
+		$this['valid_values'] = array();
 		return parent::initialize($parameters);
 	}
 
@@ -33,29 +33,38 @@ class BSRecordValidator extends BSValidator {
 	 * 実行
 	 *
 	 * @access public
-	 * @param mixed $id バリデート対象（レコードのID）
+	 * @param mixed $value バリデート対象（レコードのID、又はその配列）
 	 * @return boolean 妥当な値ならばTrue
 	 */
-	public function execute ($id) {
-		if ($this->isExist($id)) {
-			if (!$this->getParameter('exist')) {
-				$this->error = $this->getParameter('duplicate_error');
-				return false;
-			} else if ($this->getParameter('valid_values') && !$this->validateValues($id)) {
-				return false;
-			}
-		} else {
-			if ($this->getParameter('exist')) {
-				$this->error = $this->getParameter('exist_error');
-				return false;
+	public function execute ($value) {
+		foreach ((array)$value as $id) {
+			if ($this->isExist($id)) {
+				if (!$this['exist']) {
+					$this->error = $this['duplicate_error'];
+					return false;
+				} else if ($this['valid_values'] && !$this->validateValues($id)) {
+					return false;
+				}
+			} else {
+				if ($this['exist']) {
+					$this->error = $this['exist_error'];
+					return false;
+				}
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * 該当するレコードが存在するか
+	 *
+	 * @access private
+	 * @param integer $id 対象ID
+	 * @return boolean 該当するレコードが存在するならTrue
+	 */
 	private function isExist ($id) {
 		if ($recordFound = $this->getRecord($id)) {
-			if ($this->getParameter('update')) {
+			if ($this['update']) {
 				$action = $this->controller->getAction();
 				if ($record = $action->getRecord()) {
 					return ($record->getID() != $recordFound->getID());
@@ -69,9 +78,16 @@ class BSRecordValidator extends BSValidator {
 		return false;
 	}
 
+	/**
+	 * 該当するレコードのフィールド値が適切か
+	 *
+	 * @access private
+	 * @param integer $id 対象ID
+	 * @return boolean 該当するレコードのフィールド値が適切ならTrue
+	 */
 	private function validateValues ($id) {
 		$record = $this->getRecord($id);
-		foreach ($this->getParameter('valid_values') as $fieldName => $validValue) {
+		foreach ($this['valid_values'] as $fieldName => $validValue) {
 			$fieldValue = $record->getAttribute($fieldName);
 			$message = sprintf(
 				'%sが正しくありません。',
@@ -92,16 +108,29 @@ class BSRecordValidator extends BSValidator {
 		return true;
 	}
 
+	/**
+	 * 該当するレコードを返す
+	 *
+	 * @access private
+	 * @param integer $id 対象ID
+	 * @return BSRecord 該当するレコード
+	 */
 	private function getRecord ($id) {
 		try {
-			$values = array($this->getParameter('field') => $id);
+			$values = array($this['field'] => $id);
 			return $this->getTable()->getRecord($values);
 		} catch (Exception $e) {
 		}
 	}
 
+	/**
+	 * 対象テーブルを返す
+	 *
+	 * @access private
+	 * @return BSTableHandler 対象テーブル
+	 */
 	private function getTable () {
-		if (!$table = $this->getParameter('table')) {
+		if (!$table = $this['table']) {
 			throw new BSValidateException('テーブル名が定義されていません。');
 		}
 		$class = BSString::pascalize($table) . 'Handler';
