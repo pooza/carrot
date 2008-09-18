@@ -88,7 +88,10 @@ abstract class BSRecordAction extends BSAction {
 	 * @return boolean 妥当な入力ならTrue
 	 */
 	public function validate () {
-		return (!$this->isCreateAction() && $this->getRecord());
+		if (!$this->isCreateAction() && !$this->getRecord()) {
+			return false;
+		}
+		return parent::validate();
 	}
 
 	/**
