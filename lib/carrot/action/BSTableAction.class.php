@@ -17,7 +17,6 @@ abstract class BSTableAction extends BSAction {
 	protected $rows = array();
 	protected $table;
 	protected $page;
-	private $isShowRows = false;
 
 	/**
 	 * アクションを初期化
@@ -55,7 +54,7 @@ abstract class BSTableAction extends BSAction {
 	 * @return string[][] テーブルの内容
 	 */
 	protected function getRows () {
-		if (!$this->isShowRows()) {
+		if (!$this->isShowable()) {
 			return array();
 		}
 
@@ -152,24 +151,13 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * リストを表示するか？
+	 * リストを表示するか
 	 *
 	 * @access protected
 	 * @return boolean 表示して良いならTrue
 	 */
-	protected function isShowRows () {
-		$this->getCriteria();
-		return $this->isShowRows;
-	}
-
-	/**
-	 * リスト表示フラグを設定
-	 *
-	 * @access protected
-	 * @param boolean $flag 設定値
-	 */
-	protected function setShowRows ($flag) {
-		$this->isShowRows = $flag;
+	protected function isShowable () {
+		return !$this->request->hasErrors();
 	}
 }
 
