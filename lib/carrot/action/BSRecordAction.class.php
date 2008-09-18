@@ -62,11 +62,33 @@ abstract class BSRecordAction extends BSAction {
 	 */
 	public function getRecordID () {
 		if ($id = $this->request['id']) {
-			if ($this->getName() != 'Create') {
+			if (!$this->isCreateAction()) {
 				$this->setRecordID($id);
 			}
 		}
 		return $this->user->getAttribute($this->getModule()->getName() . 'ID');
+	}
+
+	/**
+	 * レコードを登録する為のアクションか？
+	 *
+	 * @access protected
+	 * @return integer カレントレコードID
+	 */
+	protected function isCreateAction () {
+		return $this->getName() == 'Create';
+	}
+
+	/**
+	 * 論理バリデーション
+	 *
+	 * レコードが存在するか、最低限チェックする。
+	 *
+	 * @access public
+	 * @return boolean 妥当な入力ならTrue
+	 */
+	public function validate () {
+		return (!$this->isCreateAction() && $this->getRecord());
 	}
 
 	/**
