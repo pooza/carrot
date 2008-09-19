@@ -280,6 +280,18 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
+	 * 属性をまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] $attribures 属性値
+	 */
+	public function setAttributes ($attributes) {
+		foreach ($attributes as $key => $value) {
+			$this->setAttribute($key, $value);
+		}
+	}
+
+	/**
 	 * ファイル名から実テンプレートファイルを返す
 	 *
 	 * @access public

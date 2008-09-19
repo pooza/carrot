@@ -260,9 +260,7 @@ class BSString {
 	 * @static
 	 */
 	static public function getWidth ($str) {
-		return strlen(
-			self::convertEncoding($str, 'eucjp-win', 'utf-8')
-		);
+		return mb_strwidth($str);
 	}
 
 	/**
@@ -346,6 +344,22 @@ class BSString {
 			$elements[] = $key . $fieldGlue . $element;
 		}
 		return $elements->join($elementGlue);
+	}
+
+	/**
+	 * よく使うエンコード名を返す
+	 *
+	 * @access public
+	 * @return BSArray エンコード名の配列
+	 * @static
+	 */
+	static public function getEncodings () {
+		return new BSArray(array(
+			'utf-8',
+			'eucjp-win',
+			'sjis-win',
+			'iso-2022-jp',
+		));
 	}
 }
 
