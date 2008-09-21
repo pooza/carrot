@@ -125,3 +125,6 @@ webapp:
 www:
   constant: yes
 
+zipcode:
+  parent: var
+  suffix: .json
