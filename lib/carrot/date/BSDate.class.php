@@ -263,7 +263,7 @@ class BSDate {
 	 * @param BSDate $now 比較対象の日付
 	 * @return boolean 過去日付ならtrue
 	 */
-	public function isAgo ($now = null) {
+	public function isPast ($now = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
@@ -272,6 +272,20 @@ class BSDate {
 			$now = self::getNow();
 		}
 		return ($this->getTimestamp() < $now->getTimestamp());
+	}
+
+	/**
+	 * 指定日付よりも過去か？
+	 *
+	 * isPastのエイリアス
+	 *
+	 * @access public
+	 * @param BSDate $now 比較対象の日付
+	 * @return boolean 過去日付ならtrue
+	 * @final
+	 */
+	final public function isAgo ($now = null) {
+		return $this->isPast($now);
 	}
 
 	/**
