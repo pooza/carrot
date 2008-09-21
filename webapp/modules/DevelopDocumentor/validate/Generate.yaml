@@ -9,7 +9,6 @@ methods:
   post:
     - directories
     - format
-  get: 
 
 names:
   directories:
