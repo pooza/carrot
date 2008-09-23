@@ -115,6 +115,16 @@ class BSWebRequest extends BSRequest {
 	static public function getMethodNames () {
 		return self::getMethods()->getKeys();
 	}
+
+	/**
+	 * Ajax環境か？
+	 *
+	 * @access public
+	 * @return boolean Ajax環境ならTrue
+	 */
+	public function isAjax () {
+		return ($this->controller->getEnvironment('HTTP_X_PROTOTYPE_VERSION') != null);
+	}
 }
 
 /* vim:set tabstop=4 ai: */

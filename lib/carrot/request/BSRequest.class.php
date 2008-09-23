@@ -318,6 +318,16 @@ abstract class BSRequest extends BSParameterHolder {
 	public function isSSL () {
 		return false;
 	}
+
+	/**
+	 * Ajax環境か？
+	 *
+	 * @access public
+	 * @return boolean Ajax環境ならTrue
+	 */
+	public function isAjax () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4 ai: */
