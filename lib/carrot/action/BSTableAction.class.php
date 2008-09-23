@@ -48,7 +48,7 @@ abstract class BSTableAction extends BSAction {
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			$this->table = clone $this->getRecord()->getTable();
+			$this->table = clone $this->getModule()->getTable();
 			$this->table->setCriteria($this->getCriteria());
 			$this->table->setOrder($this->getOrder());
 		}

@@ -150,6 +150,20 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
+	 * テーブルを返す
+	 *
+	 * @access public
+	 * @return BSTableHandler テーブル
+	 */
+	public function getTable () {
+		if (!$this->table) {
+			$class = $this->getRecordClassName() . 'Handler';
+			$this->table = new $class;
+		}
+		return $this->table;
+	}
+
+	/**
 	 * 編集中レコードを返す
 	 *
 	 * @access public
