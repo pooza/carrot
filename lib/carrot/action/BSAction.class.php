@@ -15,7 +15,6 @@ abstract class BSAction implements BSHTTPRedirector {
 	private $name;
 	private $module;
 	private $views;
-	protected $recordClassName;
 
 	/**
 	 * @access public
@@ -156,6 +155,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return BSView ビュー
 	 */
 	public function getView ($name) {
+		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
 		$class = $this->getName() . $name . 'View';
 		if (!$dir = $this->getModule()->getDirectory('views')) {
 			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
@@ -171,7 +171,7 @@ abstract class BSAction implements BSHTTPRedirector {
 			$this->views = new BSArray;
 		}
 		if (!$this->views[$name]) {
-			require_once($file->getPath());
+			require($file->getPath());
 			$this->views[$name] = new $class($this);
 		}
 
@@ -181,11 +181,39 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * カレントレコードIDを返す
 	 *
+	 * BSModule::getRecordID()のエイリアス。
+	 *
 	 * @access public
 	 * @return integer カレントレコードID
+	 * @final
 	 */
-	public function getRecordID () {
-		return null;
+	final public function getRecordID () {
+		return $this->getModule()->getRecordID();
+	}
+
+	/**
+	 * カレントレコードIDを設定
+	 *
+	 * BSModule::setRecordID()のエイリアス。
+	 *
+	 * @access public
+	 * @param integer $id カレントレコードID
+	 * @final
+	 */
+	final public function setRecordID ($id) {
+		$this->getModule()->setRecordID($id);
+	}
+
+	/**
+	 * カレントレコードIDをクリア
+	 *
+	 * BSModule::clearRecordID()のエイリアス。
+	 *
+	 * @access public
+	 * @final
+	 */
+	final public function clearRecordID () {
+		$this->getModule()->clearRecordID();
 	}
 
 	/**
@@ -205,26 +233,20 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return BSTableHandler テーブル
 	 */
 	public function getTable () {
-		return null;
+		return $this->getModule()->getTable();
 	}
 
 	/**
 	 * レコードクラス名を返す
 	 *
-	 * @access protected
+	 * BSModule::getRecordClassName()のエイリアス
+	 *
+	 * @access public
 	 * @return string レコードクラス名
+	 * @final
 	 */
-	protected function getRecordClassName () {
-		if (!$this->recordClassName) {
-			if (!$this->recordClassName = $this->getModule()->getConfig('record_class')) {
-				$prefixes = BSModule::getPrefixes();
-				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
-				if (preg_match($pattern, $this->getModule()->getName(), $matches)) {
-					$this->recordClassName = $matches[2];
-				}
-			}
-		}
-		return $this->recordClassName;
+	final public function getRecordClassName () {
+		return $this->getModule()->getRecordClassName();
 	}
 
 	/**

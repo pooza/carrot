@@ -65,11 +65,11 @@ class BSRecordValidator extends BSValidator {
 	private function isExist ($id) {
 		if ($recordFound = $this->getRecord($id)) {
 			if ($this['update']) {
-				$action = $this->controller->getAction();
-				if ($record = $action->getRecord()) {
+				$module = $this->controller->getModule();
+				if ($record = $module->getRecord()) {
 					return ($record->getID() != $recordFound->getID());
 				} else {
-					throw new BSValidateException('%sにレコードが見つかりません。', $action);
+					throw new BSValidateException('%sにレコードが見つかりません。', $module);
 				}
 			} else {
 				return true;

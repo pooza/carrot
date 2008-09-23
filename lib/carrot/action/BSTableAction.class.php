@@ -19,14 +19,24 @@ abstract class BSTableAction extends BSAction {
 	protected $page;
 
 	/**
-	 * アクションを初期化
+	 * 初期化
+	 *
+	 * Falseを返すと、例外が発生。
 	 *
 	 * @access public
+	 * @return boolean 正常終了ならTrue
 	 */
 	public function initialize () {
 		parent::initialize();
-		$this->clearRecordID();
-		$this->cacheCriteria();
+		$this->getModule()->clearRecordID();
+
+		$params = $this->getDefaultParameters();
+		$params->setParameters($this->getModule()->getParameterCache());
+		$params->setParameters($this->request->getParameters());
+
+		$this->request->setParameters($params->getParameters());
+		$this->getModule()->setParameterCache($params);
+
 		return true;
 	}
 
@@ -38,11 +48,9 @@ abstract class BSTableAction extends BSAction {
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			$name = $this->getRecordClassName() . 'Handler';
-			$this->table = new $name(
-				$this->getCriteria(),
-				$this->getOrder()
-			);
+			$this->table = clone $this->getRecord()->getTable();
+			$this->table->setCriteria($this->getCriteria());
+			$this->table->setOrder($this->getOrder());
 		}
 		return $this->table;
 	}
@@ -67,57 +75,13 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
-	 * カレントレコードIDをクリア
-	 *
-	 * @access protected
-	 */
-	protected function clearRecordID () {
-		$this->user->removeAttribute($this->getRecordClassName() . 'ID');
-	}
-
-	/**
-	 * 検索条件をセッションにキャッシュ
-	 *
-	 * @access protected
-	 */
-	protected function cacheCriteria () {
-		$params = $this->request->getParameters();
-		unset($params[BSController::MODULE_ACCESSOR]);
-		unset($params[BSController::ACTION_ACCESSOR]);
-		unset($params['page']);
-		unset($params['order']);
-		$name = $this->controller->getModule()->getName() . 'Criteria';
-		if (!$criteria = $this->user->getAttribute($name)) {
-			$criteria = $this->getDefaultCriteria();
-		}
-		foreach ($this->request->getParameters() as $key => $value) {
-			if ($this->request->hasParameter($key)) {
-				$criteria[$key] = $value;
-			}
-		}
-		$this->user->setAttribute($name, $criteria);
-		$this->request->setParameters($criteria);
-	}
-
-	/**
-	 * 検索条件のキャッシュをクリア
-	 *
-	 * @access protected
-	 */
-	protected function clearCriteria () {
-		$this->user->removeAttribute(
-			$this->controller->getModule()->getName() . 'Criteria'
-		);
-	}
-
-	/**
 	 * デフォルトの検索条件を返す
 	 *
 	 * @access protected
-	 * @return string[] 検索条件
+	 * @return BSArray 検索条件
 	 */
-	protected function getDefaultCriteria () {
-		return array();
+	protected function getDefaultParameters () {
+		return new BSArray;
 	}
 
 	/**
@@ -127,16 +91,6 @@ abstract class BSTableAction extends BSAction {
 	 * @return string[] 検索条件
 	 */
 	protected function getCriteria () {
-		return $this->getDefaultCriteria();
-	}
-
-	/**
-	 * デフォルトのソート順を返す
-	 *
-	 * @access protected
-	 * @return string[] ソート順
-	 */
-	protected function getDefaultOrder () {
 		return array();
 	}
 
@@ -147,7 +101,7 @@ abstract class BSTableAction extends BSAction {
 	 * @return string[] ソート順
 	 */
 	protected function getOrder () {
-		return $this->getDefaultOrder();
+		return array();
 	}
 
 	/**

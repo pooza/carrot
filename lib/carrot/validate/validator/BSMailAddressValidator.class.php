@@ -61,7 +61,7 @@ class BSMailAddressValidator extends BSValidator {
 			$table = new $class;
 			$values = array($this->getParameter('field') => $value);
 			if ($record = $table->getRecord($values)) {
-				if ($id = $this->controller->getAction()->getRecordID()) {
+				if ($id = $this->controller->getModule()->getRecordID()) {
 					if ($id != $record->getID()) {
 						$this->error = $this->getParameter('unique_error');
 						return false;

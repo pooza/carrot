@@ -16,6 +16,10 @@ class BSModule implements BSHTTPRedirector {
 	private $config = array();
 	private $configFiles;
 	private $prefix;
+	private $record;
+	private $table;
+	private $parameters;
+	private $recordClassName;
 	static private $instances = array();
 	static private $prefixes = array();
 
@@ -33,8 +37,6 @@ class BSModule implements BSHTTPRedirector {
 		if ($file = $this->getConfigFile('module')) {
 			require(BSConfigManager::getInstance()->compile($file));
 			$this->config += $config;
-		} else {
-			throw new BSConfigException('%sの設定ファイルが見つかりません。', $this);
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
@@ -54,7 +56,7 @@ class BSModule implements BSHTTPRedirector {
 			self::$instances = new BSArray;
 		}
 
-		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
+		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
 		if (!self::$instances[$name]) {
 			self::$instances[$name] = new BSModule($name);
 		}
@@ -94,6 +96,113 @@ class BSModule implements BSHTTPRedirector {
 			}
 		}
 		return $this->directories[$name];
+	}
+
+	/**
+	 * 検索条件キャッシュを返す
+	 *
+	 * @access public
+	 * @return BSArray 検索条件キャッシュ
+	 */
+	public function getParameterCache () {
+		if (!$this->parameters) {
+			$this->parameters = new BSArray;
+			if ($params = BSUser::getInstance()->getAttribute($this->getParameterCacheName())) {
+				$this->parameters->setParameters($params);
+			}
+		}
+		return $this->parameters;
+	}
+
+	/**
+	 * 検索条件キャッシュを設定する
+	 *
+	 * @access public
+	 * @param BSArray $params 検索条件キャッシュ
+	 */
+	public function setParameterCache (BSArray $params) {
+		$this->parameters = clone $params;
+		$this->parameters->removeParameter(BSController::MODULE_ACCESSOR);
+		$this->parameters->removeParameter(BSController::ACTION_ACCESSOR);
+		BSUser::getInstance()->setAttribute(
+			$this->getParameterCacheName(),
+			$this->parameters->getParameters()
+		);
+	}
+
+	/**
+	 * 検索条件キャッシュをクリア
+	 *
+	 * @access public
+	 */
+	public function clearParameterCache () {
+		BSUser::getInstance()->removeAttribute($this->getParameterCacheName());
+	}
+
+	/**
+	 * 検索条件キャッシュの属性名を返す
+	 *
+	 * @access private
+	 * @return string 検索条件キャッシュの属性名
+	 */
+	private function getParameterCacheName () {
+		return $this->getName() . 'Criteria';
+	}
+
+	/**
+	 * 編集中レコードを返す
+	 *
+	 * @access public
+	 * @return BSRecord 編集中レコード
+	 */
+	public function getRecord () {
+		if (!$this->record && $this->getRecordID()) {
+			$this->record = $this->getTable()->getRecord($this->getRecordID());
+		}
+		return $this->record;
+	}
+
+	/**
+	 * カレントレコードIDを返す
+	 *
+	 * @access public
+	 * @return integer カレントレコードID
+	 */
+	public function getRecordID () {
+		return BSUser::getInstance()->getAttribute($this->getRecordIDName());
+	}
+
+	/**
+	 * カレントレコードIDを設定
+	 *
+	 * @access public
+	 * @param integer $id カレントレコードID
+	 */
+	public function setRecordID ($id) {
+		if (BSArray::isArray($id)) {
+			$id = new BSArray($id);
+			$id = $id[$this->getTable()->getKeyField()];
+		}
+		BSUser::getInstance()->setAttribute($this->getRecordIDName(), $id);
+	}
+
+	/**
+	 * カレントレコードIDをクリア
+	 *
+	 * @access public
+	 */
+	public function clearRecordID () {
+		BSUser::getInstance()->removeAttribute($this->getRecordIDName());
+	}
+
+	/**
+	 * カレントレコードIDの属性名を返す
+	 *
+	 * @access private
+	 * @return string カレントレコードIDの属性名
+	 */
+	private function getRecordIDName () {
+		return $this->getName() . 'ID';
 	}
 
 	/**
@@ -183,7 +292,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return BSAction アクション
 	 */
 	public function getAction ($name) {
-		$name = preg_replace('/[^a-z0-9]+/i', '', $name);
+		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
@@ -195,7 +304,7 @@ class BSModule implements BSHTTPRedirector {
 			$this->actions = new BSArray;
 		}
 		if (!$this->actions[$name]) {
-			require_once($file->getPath());
+			require($file->getPath());
 			$this->actions[$name] = new $class($this);
 		}
 
@@ -252,6 +361,25 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
+	 * レコードクラス名を返す
+	 *
+	 * @access public
+	 * @return string レコードクラス名
+	 */
+	public function getRecordClassName () {
+		if (!$this->recordClassName) {
+			if (!$this->recordClassName = $this->getConfig('record_class')) {
+				$prefixes = self::getPrefixes();
+				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
+				if (preg_match($pattern, $this->getName(), $matches)) {
+					$this->recordClassName = $matches[2];
+				}
+			}
+		}
+		return $this->recordClassName;
+	}
+
+	/**
 	 * 全てのモジュール名プレフィックスを配列で返す
 	 *
 	 * @access public
@@ -261,7 +389,7 @@ class BSModule implements BSHTTPRedirector {
 	static public function getPrefixes () {
 		if (!self::$prefixes) {
 			if ($prefixes = BSController::getInstance()->getConstant('MODULE_PREFIXES')) {
-				self::$prefixes = BSString::capitalize(explode(',', $prefixes));
+				self::$prefixes = BSString::pascalize(explode(',', $prefixes));
 			} else {
 				self::$prefixes = array('Admin', 'User');
 			}
