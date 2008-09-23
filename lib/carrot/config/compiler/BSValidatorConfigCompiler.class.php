@@ -61,7 +61,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 						}
 					}
 				} else {
-					$name = explode('.', $name);
+					$name = BSString::explode('.', $name);
 					$field = $name[0];
 					$param = $name[1];
 					if ($this->fields[$method][$field]) {
@@ -71,7 +71,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 								$this->validators[$validator] = new BSArray;
 								$this->validators[$validator]['params'] = new BSArray;
 							}
-						} else {
+						} else if ($param) {
 							$this->fields[$method][$field][$param] = $value;
 						}
 					}
