@@ -19,7 +19,7 @@
 }
 .tabs10 a {
 	float:left;
-	background:url(/carrotlib/images/tableft10.gif) no-repeat left top;
+	background:url(/carrotlib/images/prototabs/tableft10.gif) no-repeat left top;
 	margin:0;
 	padding:0 0 0 4px;
 	text-decoration:none;	
@@ -29,7 +29,7 @@
 	font: bold 10px/1.5em Verdana;
 	display:block;
 	float:left;
-	background:url(/carrotlib/images/tabright10.gif) no-repeat right top;
+	background:url(/carrotlib/images/prototabs/tabright10.gif) no-repeat right top;
 	padding:5px 15px 4px 6px;
 	color:#FFF;	
 	background-position:100% -42px;
