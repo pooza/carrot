@@ -35,8 +35,9 @@ class BSModule implements BSHTTPRedirector {
 		}
 
 		if ($file = $this->getConfigFile('module')) {
+			$config = array();
 			require(BSConfigManager::getInstance()->compile($file));
-			$this->config += $config;
+			$this->config += (array)$config;
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
@@ -248,7 +249,7 @@ class BSModule implements BSHTTPRedirector {
 		if (!$this->configFiles) {
 			$this->configFiles = new BSArray;
 		}
-		if (!$this->configFiles[$name]) {
+		if (!$this->configFiles[$name] && $this->getDirectory('config')) {
 			$this->configFiles[$name] = BSConfigManager::getConfigFile(
 				$this->getDirectory('config')->getPath() . DIRECTORY_SEPARATOR . $name
 			);
