@@ -148,7 +148,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
-		if (BSController::getInstance()->isResolvable() && !BSRequest::getInstance()->isCLI()) {
+		if (BSController::getInstance()->isResolvable()
+			&& ($useragent->getType() != 'Console')
+			&& !BSRequest::getInstance()->isCLI()) {
 			$this->useragent->importBrowscap();
 		}
 	}
