@@ -42,6 +42,9 @@ a:hover {
 	color: white;
 	background-color: #0000d2;
 }
+a img {
+	border: 0;
+}
 
 del {
 	text-decoration: line-through;
