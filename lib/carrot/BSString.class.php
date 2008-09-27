@@ -177,7 +177,7 @@ class BSString {
 				$value[$key] = self::camelize($item);
 			}
 		} else {
-			if ($parts = preg_split('/[_ ]/', $value)) {
+			if ($parts = preg_split('/[_ ]/u', $value)) {
 				$dest = strtolower(array_shift($parts));
 				foreach ($parts as $part) {
 					$dest .= self::capitalize($part);
@@ -203,7 +203,7 @@ class BSString {
 			}
 		} else {
 			$dest = '';
-			foreach (preg_split('/[_ ]/', $value) as $part) {
+			foreach (preg_split('/[_ ]/u', $value) as $part) {
 				$dest .= self::capitalize($part);
 			}
 			$value = $dest;
@@ -225,14 +225,14 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			foreach (array('/[A-Z][a-z0-9]+/', '/[A-Z]{2,}/', '/[A-Z]/') as $pattern) {
+			foreach (array('/[A-Z][a-z0-9]+/u', '/[A-Z]{2,}/u', '/[A-Z]/u') as $pattern) {
 				while (preg_match($pattern, $value, $matches)) {
 					$word = $matches[0];
 					$value = str_replace($word, '_' . strtolower($word), $value);
 				}
 			}
-			$value = preg_replace('/_+/', '_', $value);
-			$value = preg_replace('/^_/', '', $value);
+			$value = preg_replace('/_+/u', '_', $value);
+			$value = preg_replace('/^_/u', '', $value);
 			$value = strtolower($value);
 		}
 		return $value;
@@ -319,7 +319,26 @@ class BSString {
 				$value[$key] = self::stripHTMLTags($item);
 			}
 		} else {
-			$value = preg_replace('/<\/?[^>]*>/', '', $value);
+			$value = preg_replace('/<\/?[^>]*>/u', '', $value);
+		}
+		return $value;
+	}
+
+	/**
+	 * コントロール文字を取り除く
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function stripControlCharacters ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::stripControlCharacters($item);
+			}
+		} else {
+			$value = preg_replace('/[^a-z0-9]+/iu', '', $value);
 		}
 		return $value;
 	}

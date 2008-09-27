@@ -28,6 +28,13 @@ class BSWebController extends BSController {
 	}
 
 	/**
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+	}
+
+	/**
 	 * Cookieを返す
 	 *
 	 * @access public
@@ -63,41 +70,47 @@ class BSWebController extends BSController {
 	 * リダイレクト
 	 *
 	 * @access public
-	 * @param string $arg リダイレクト先
+	 * @param string $redirectTo リダイレクト先
 	 * @return string ビュー名
 	 */
-	public function redirect ($arg) {
-		if ($arg instanceof BSHTTPRedirector) {
-			$url = $arg->getURL();
+	public function redirect ($redirectTo) {
+		if ($redirectTo instanceof BSHTTPRedirector) {
+			$url = $redirectTo->getURL();
 		} else {
 			$url = new BSURL;
-			$url->setAttribute('path', $arg);
+			$url->setAttribute('path', $redirectTo);
 		}
 
-		if ($this->request->getUserAgent()->isMobile()) {
-			$url->setParameter(session_name(), session_id());
+		$useragent = $this->request->getUserAgent();
+		if ($useragent->isMobile()) {
+			$session = BSSessionHandler::getInstance();
+			$url->setParameter($session->getName(), $session->getID());
 			if ($this->isDebugMode()) {
-				$url->setParameter('ua', $this->request->getUserAgent()->getName());
+				$url->setParameter(BSRequest::USER_AGENT_ACCESSOR, $useragent->getName());
 			}
 		}
 
-		$this->sendHeader('Location: ' . $url->getContents());
+		$this->setHeader('Location', $url->getContents());
+		$this->putHeaders();
 		return BSView::NONE;
 	}
 
 	/**
-	 * ヘッダを送信
+	 * レスポンスヘッダを送信
 	 *
 	 * @access public
-	 * @param string $header ヘッダの内容
 	 */
-	public function sendHeader ($header) {
+	public function putHeaders () {
 		if (headers_sent()) {
-			$this->putLog('"' . $header . '"を送信出来ませんでした。', get_class($this));
-		} else if (preg_match('/[[:cntrl:]]/', $header)) {
-			throw new BSHTTPException('"%s"にコントロールコードが含まれています。', $header);
-		} else {
-			header($header);
+			$this->putLog('レスポンスヘッダを送信出来ませんでした。', get_class($this));
+		}
+
+		foreach ($this->getHeaders() as $name => $value) {
+			header(sprintf('%s: %s', $name, $value));
+		}
+
+		if ($status = $this->getHeaders()->getParameter('Status')) {
+			header('HTTP/1.0 ' . $status);
 		}
 	}	
 }

@@ -30,7 +30,7 @@ class BSMSIEUserAgent extends BSUserAgent {
 	 * @access public
 	 * @return boolean バグがあるならTrue
 	 */
-	public function hasCachingBug () {
+	public function isBuggy () {
 		return BSRequest::getInstance()->isSSL();
 	}
 

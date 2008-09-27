@@ -14,7 +14,7 @@ class BSSMTP extends BSSocket {
 	private $from;
 	private $to;
 	private $bcc = array();
-	private $headers = array();
+	private $headers;
 	private $body;
 	private $parts = array();
 	private $messageID;
@@ -243,9 +243,7 @@ class BSSMTP extends BSSocket {
 	 * @return string ヘッダ
 	 */
 	public function getHeader ($name) {
-		if (isset($this->headers[$name])) {
-			return $this->headers[$name];
-		}
+		return $this->headers[$name];
 	}
 
 	/**
@@ -256,8 +254,8 @@ class BSSMTP extends BSSocket {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		if (preg_match('/[[:cntrl:]]/u', $value)) {
-			throw new BSMailException('"%s"にコントロールコードが含まれています。', $name);
+		if (preg_match('/[[:cntrl:]]/', $name . $value)) {
+			throw new BSMailException('メールヘッダにコントロール文字が含まれています。');
 		}
 		$this->headers[$name] = $value;
 	}
@@ -269,6 +267,9 @@ class BSSMTP extends BSSocket {
 	 * @return string[] ヘッダ一式
 	 */
 	public function getHeaders () {
+		if (!$this->headers) {
+			$this->headers = new BSArray;
+		}
 		return $this->headers;
 	}
 

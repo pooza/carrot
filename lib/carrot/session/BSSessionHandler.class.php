@@ -15,22 +15,13 @@ class BSSessionHandler {
 	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
-		if (BSRequest::getInstance()->isCLI()) {
-			return; //CLIではセッションの利用を禁止
-		}
-
-		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
-			ini_set('session.use_only_cookies', 0);
-		}
-
-		$this->getStorage()->initialize();
-
+	protected function __construct () {
 		if (headers_sent()) {
 			throw new BSHTTPException('セッションの開始に失敗しました。');
 		}
+		$this->getStorage()->initialize();
 		session_start();
 	}
 
@@ -43,7 +34,13 @@ class BSSessionHandler {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSSessionHandler;
+			if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
+				self::$instance = BSMobileSessionHandler::getInstance();
+			} else if (BSRequest::getInstance()->isCLI()) {
+				self::$instance = BSConsoleSessionHandler::getInstance();
+			} else {
+				self::$instance = new BSSessionHandler;
+			}
 		}
 		return self::$instance;
 	}
@@ -56,12 +53,32 @@ class BSSessionHandler {
 	}
 
 	/**
-	 * セッションストレージを返す
+	 * セッションIDを返す
 	 *
 	 * @access public
+	 * @return integer セッションID
+	 */
+	public function getID () {
+		return session_id();
+	}
+
+	/**
+	 * セッション名を返す
+	 *
+	 * @access public
+	 * @return integer セッション名
+	 */
+	public function getName () {
+		return session_name();
+	}
+
+	/**
+	 * セッションストレージを返す
+	 *
+	 * @access protected
 	 * @return BSSessionStorage セッションストレージ
 	 */
-	private function getStorage () {
+	protected function getStorage () {
 		if (!$this->storage) {
 			if (!$type = BSController::getInstance()->getConstant('SESSION_STORAGE_TYPE')) {
 				$type = 'default';

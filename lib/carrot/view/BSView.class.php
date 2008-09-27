@@ -116,19 +116,16 @@ abstract class BSView {
 
 		$this->setContentType();
 		$this->setHeader('Content-Length', $this->renderer->getSize());
-		if ($this->useragent->hasCachingBug()) {
+		if ($this->useragent->isBuggy()) {
 			$this->setHeader('Cache-Control', null);
 			$this->setHeader('Pragma', null);
 		}
-		foreach ($this->getHeaders() as $name => $value) {
-			if ($name) {
-				$this->controller->sendHeader(sprintf('%s: %s', $name, $value));
-			} else {
-				$this->controller->sendHeader($value);
-			}
+		$this->putHeaders();
+
+		if ($this->request->getMethod() != BSRequest::HEAD) {
+			mb_http_output('pass');
+			print $this->renderer->getContents();
 		}
-		mb_http_output('pass');
-		print $this->renderer->getContents();
 	}
 
 	/**
@@ -211,25 +208,43 @@ abstract class BSView {
 	}
 
 	/**
-	 * 定義済みのHTTPヘッダ一式を返す
+	 * レスポンスヘッダを返す
+	 *
+	 * BSController::getHeaders()のエイリアス。
 	 *
 	 * @access public
-	 * @return string[] HTTPヘッダ
+	 * @return BSArray レスポンスヘッダの配列
+	 * @final
 	 */
-	public function getHeaders () {
-		return $this->headers;
+	final public function getHeaders () {
+		return $this->controller->getHeaders();
 	}
 
 	/**
-	 * HTTPヘッダを定義
+	 * レスポンスヘッダを設定
+	 *
+	 * BSController::setHeader()のエイリアス。
 	 *
 	 * @access public
-	 * @param string $name ヘッダ名
-	 * @param string $value 値
+	 * @param string $name フィールド名
+	 * @param string $value フィールド値
+	 * @final
 	 */
-	public function setHeader ($name, $value) {
-		$this->headers[$name] = $value;
+	final public function setHeader ($name, $value) {
+		$this->controller->setHeader($name, $value);
 	}
+
+	/**
+	 * レスポンスヘッダを送信
+	 *
+	 * BSController::putHeaders()のエイリアス。
+	 *
+	 * @access public
+	 * @final
+	 */
+	final public function putHeaders () {
+		$this->controller->putHeaders();
+	}	
 
 	/**
 	 * ファイル名を返す

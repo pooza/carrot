@@ -34,16 +34,43 @@ class BSWebRequest extends BSRequest {
 		return self::$instance;
 	}
 
+	/**
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+	}
+
+	/**
+	 * アップロードファイルの情報を返す
+	 *
+	 * @access public
+	 * @param string $name フィールド名
+	 * @return BSArray アップロードファイルの情報
+	 */
 	public function getFile ($name) {
 		if ($this->hasFile($name)) {
 			return new BSArray($_FILES[$name]);
 		}
 	}
 
+	/**
+	 * アップロードファイルの情報を返す
+	 *
+	 * @access public
+	 * @return mixed[][] アップロードファイルの情報
+	 */
 	public function getFiles () {
 		return $_FILES;
 	}
 
+	/**
+	 * アップロードされたか？
+	 *
+	 * @access public
+	 * @param string $name フィールド名
+	 * @return boolean アップロードされたファイルがあればTrue
+	 */
 	public function hasFile ($name) {
 		return (isset($_FILES[$name]) && ($_FILES[$name]['name'] != ''));
 	}
@@ -58,13 +85,19 @@ class BSWebRequest extends BSRequest {
 		if (!self::getMethodNames()->isIncluded($method)) {
 			throw new BSHTTPException('"%s" はサポートされていないメソッドです。', $method);
 		}
+
 		$this->method = self::getMethods()->getParameter($method);
-		$this->setParameters($_GET);
-		if ($this->getMethod() != self::GET) {
-			$this->setParameters($_POST);
+		switch ($this->getMethod()) {
+			case self::GET:
+			case self::HEAD:
+				$this->setParameters($_GET);
+				break;
+			default:
+				$this->setParameters($_GET);
+				$this->setParameters($_POST);
+				break;
 		}
 	}
-
 
 	/**
 	 * UserAgent名を返す
@@ -73,8 +106,8 @@ class BSWebRequest extends BSRequest {
 	 * @return BSUserAgent リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
-		if ($this->controller->isDebugMode() && $this->hasParameter('ua')) {
-			return $this['ua'];
+		if ($this->controller->isDebugMode() && ($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
+			return $name;
 		}
 		return $this->controller->getEnvironment('HTTP_USER_AGENT');
 	}
@@ -102,6 +135,7 @@ class BSWebRequest extends BSRequest {
 		$methods['POST'] = self::POST;
 		$methods['PUT'] = self::PUT;
 		$methods['DELETE'] = self::DELETE;
+		$methods['HEAD'] = self::HEAD;
 		return $methods;
 	}
 

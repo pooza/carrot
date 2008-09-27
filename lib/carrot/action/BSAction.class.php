@@ -18,7 +18,7 @@ abstract class BSAction implements BSHTTPRedirector {
 
 	/**
 	 * @access public
-	 * @params BSModule $module 呼び出し元モジュール
+	 * @param BSModule $module 呼び出し元モジュール
 	 */
 	public function __construct (BSModule $module) {
 		$this->module = $module;
@@ -155,8 +155,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return BSView ビュー
 	 */
 	public function getView ($name) {
-		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
-		$class = $this->getName() . $name . 'View';
+		$class = $this->getName() . BSString::stripControlCharacters($name) . 'View';
 		if (!$dir = $this->getModule()->getDirectory('views')) {
 			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
@@ -252,7 +251,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * 必要なクレデンシャルを返す
 	 *
-	 * モジュール規定のクレデンシャル以外の、動的なクレデンシャルを設定する
+	 * モジュール規定のクレデンシャル以外の、動的なクレデンシャルを設定。
 	 * 必要がある場合、このメソッドをオーバライドする。
 	 *
 	 * @access public

@@ -121,7 +121,7 @@ abstract class BSUserAgent {
 	 * @access public
 	 * @return boolean バグがあるならTrue
 	 */
-	public function hasCachingBug () {
+	public function isBuggy () {
 		return false;
 	}
 
@@ -138,6 +138,17 @@ abstract class BSUserAgent {
 			$value = $this->getAttributes()->getParameter($name);
 		}
 		return $value;
+	}
+
+	/**
+	 * 属性を設定
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @param string $value 属性値
+	 */
+	public function setAttribute ($name, $value) {
+		$this->getAttributes()->setParameter($name, $value);
 	}
 
 	/**

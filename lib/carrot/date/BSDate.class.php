@@ -149,7 +149,7 @@ class BSDate {
 	}
 
 	/**
-	 * 時刻を持つかどうかを設定する？
+	 * 時刻を持つかどうかを設定
 	 *
 	 * @access public
 	 * @param boolean $mode 時刻を持つならTrue

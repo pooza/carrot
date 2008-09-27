@@ -57,7 +57,7 @@ class BSModule implements BSHTTPRedirector {
 			self::$instances = new BSArray;
 		}
 
-		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
+		$name = BSString::stripControlCharacters($name);
 		if (!self::$instances[$name]) {
 			self::$instances[$name] = new BSModule($name);
 		}
@@ -116,7 +116,7 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
-	 * 検索条件キャッシュを設定する
+	 * 検索条件キャッシュを設定
 	 *
 	 * @access public
 	 * @param BSArray $params 検索条件キャッシュ
@@ -307,7 +307,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return BSAction アクション
 	 */
 	public function getAction ($name) {
-		$name = preg_replace('/[^a-z0-9]+/i', '', $name); //\0等を除去
+		$name = BSString::stripControlCharacters($name);
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);

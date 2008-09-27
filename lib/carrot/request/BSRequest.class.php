@@ -12,11 +12,13 @@
  * @abstract
  */
 abstract class BSRequest extends BSParameterHolder {
+	const USER_AGENT_ACCESSOR = 'ua';
 	const NONE = 1;
 	const GET = 2;
 	const POST = 4;
 	const PUT = 8;
 	const DELETE = 16;
+	const HEAD = 32;
 	private $host;
 	private $useragent;
 	protected $method;

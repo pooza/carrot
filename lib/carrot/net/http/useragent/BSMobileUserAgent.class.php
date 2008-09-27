@@ -20,13 +20,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['is_unsupported'] = $this->isUnsupported();
-
-		$query = array(session_name() => $this->getSessionID());
-		if (BSController::getInstance()->isDebugMode()) {
-			$query['ua'] = BSRequest::getInstance()->getUserAgentName();
-		}
-		$this->attributes['query'] = $query;
-		$this->attributes['query_params'] = BSString::toString($query, '=', '&');
 	}
 
 	/**
@@ -59,19 +52,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @abstract
 	 */
 	abstract public function getDomainSuffix ();
-
-	/**
-	 * セッションIDを返す
-	 *
-	 * @access private
-	 * @return string セッションID
-	 */
-	private function getSessionID () {
-		if ($id = BSRequest::getInstance()->getParameter(session_name())) {
-			session_id($id);
-		}
-		return session_id();
-	}
 
 	/**
 	 * 非対応端末か？

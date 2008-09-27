@@ -19,13 +19,13 @@ class BSBasicAuthFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function isAuthenticated () {
-		$id = $this->controller->getEnvironment('PHP_AUTH_USER');
 		$password = BSCrypt::getMD5($this->controller->getEnvironment('PHP_AUTH_PW'));
-
-		if ($password != $this->getParameter('password')) {
+		if ($password != $this['password']) {
 			return false;
 		}
-		if ($this->getParameter('user_id') && ($id != $this->getParameter('user_id'))) {
+
+		$id = $this->controller->getEnvironment('PHP_AUTH_USER');
+		if ($this['user_id'] && ($id != $this['user_id'])) {
 			return false;
 		}
 
@@ -33,17 +33,20 @@ class BSBasicAuthFilter extends BSFilter {
 	}
 
 	public function initialize ($parameters = array()) {
-		$this->setParameter('user_id', BS_ADMIN_EMAIL);
-		$this->setParameter('password', BS_ADMIN_PASSWORD);
-		$this->setParameter('realm', BSController::getInstance()->getHost()->getName());
+		$this['user_id'] = $this->controller->getConstant('ADMIN_EMAIL');
+		$this['password'] = $this->controller->getConstant('ADMIN_PASSWORD');
+		$this['realm'] = $this->controller->getHost()->getName();
 		return parent::initialize($parameters);
 	}
 
 	public function execute (BSFilterChain $filters) {
 		if (!$this->isAuthenticated()) {
-			$realm = $this->getParameter('realm');
-			$this->controller->sendHeader('WWW-Authenticate: Basic realm=\'' . $realm . '\'');
-			$this->controller->sendHeader('HTTP/1.0 401 Unauthorized');
+			$this->controller->setHeader(
+				'WWW-Authenticate',
+				sprintf('Basic realm=\'%s\'', $this['realm'])
+			);
+			$this->controller->setHeader('Status', '401 Unauthorized');
+			$this->controller->putHeaders();
 			exit;
 		}
 		$filters->execute();

@@ -13,6 +13,7 @@
  */
 abstract class BSController {
 	private $host;
+	private $headers;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
 
@@ -45,13 +46,6 @@ abstract class BSController {
 		} else {
 			return BSWebController::getInstance();
 		}
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
 	/**
@@ -495,13 +489,39 @@ abstract class BSController {
 	}
 
 	/**
-	 * ヘッダを送信
+	 * レスポンスヘッダを返す
 	 *
 	 * @access public
-	 * @param string $header ヘッダの内容
-	 * @abstract
+	 * @return BSArray レスポンスヘッダの配列
 	 */
-	abstract public function sendHeader ($header);
+	public function getHeaders () {
+		if (!$this->headers) {
+			$this->headers = new BSArray;
+		}
+		return $this->headers;
+	}
+
+	/**
+	 * レスポンスヘッダを設定
+	 *
+	 * @access public
+	 * @param string $name フィールド名
+	 * @param string $value フィールド値
+	 */
+	public function setHeader ($name, $value) {
+		if (preg_match('/[[:cntrl:]]/', $name . $value)) {
+			throw new BSHTTPException('レスポンスヘッダにコントロール文字が含まれています。');
+		}
+		$this->getHeaders()->setParameter($name, $value);
+	}
+
+	/**
+	 * レスポンスヘッダを送信
+	 *
+	 * @access public
+	 */
+	public function putHeaders () {
+	}	
 }
 
 /* vim:set tabstop=4 ai: */

@@ -172,7 +172,9 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	}
 
 	/**
-	 * @規則を設定する ごく単純な、文字列で指定するものだけ
+	 * @規則を設定
+	 *
+	 * ごく単純な、文字列で指定するものだけ
 	 *
 	 * @access protected
 	 * @param string $name @規則の名前

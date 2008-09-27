@@ -1,37 +1,37 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage controller
+ * @subpackage session
  */
 
 /**
- * コンソールコントローラー
+ * コンソール環境用セッションハンドラ
+ *
+ * セッション機能が必要な状況がない為、現状は単なるモック。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSConsoleController extends BSController {
+class BSConsoleSessionHandler extends BSSessionHandler {
 	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
-		if (!$this->request[self::MODULE_ACCESSOR]) {
-			$this->request[self::MODULE_ACCESSOR] = 'Console';
-		}
+	protected function __construct () {
+		$this->getStorage()->initialize();
 	}
 
 	/**
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSConsoleController インスタンス
+	 * @return BSSessionHandler インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSConsoleController;
+			self::$instance = new BSConsoleSessionHandler;
 		}
 		return self::$instance;
 	}
