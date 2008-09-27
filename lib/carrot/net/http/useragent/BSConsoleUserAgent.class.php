@@ -13,6 +13,16 @@
 class BSConsoleUserAgent extends BSUserAgent {
 
 	/**
+	 * Smartyを初期化する
+	 *
+	 * @access public
+	 * @param BSSmarty
+	 */
+	public function initializeSmarty (BSSmarty $smarty) {
+		$smarty->setAttribute('useragent', $this->getAttributes());
+	}
+
+	/**
 	 * browscap.iniの情報をインポートする
 	 *
 	 * @access public

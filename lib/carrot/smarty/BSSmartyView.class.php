@@ -37,10 +37,6 @@ abstract class BSSmartyView extends BSView {
 		$this->setAttribute('is_debug', $this->controller->isDebugMode());
 		$this->setAttribute('is_ssl', $this->request->isSSL());
 
-		if (!$this->request->isCLI()) {
-			$this->renderer->addOutputFilter('trim');
-		}
-
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
 			$this->renderer->setTemplatesDirectory($dir);
 		}

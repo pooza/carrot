@@ -148,15 +148,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
-		$this->useragent->importBrowscap();
-
-		if ($this->useragent->isMobile()) {
-			$this->setEncoding('sjis');
-			$this->addOutputFilter('mobile');
-			$this->addOutputFilter('encoding');
-		}
-
-		$this->setAttribute('useragent', $this->useragent->getAttributes());
+		$this->useragent->initializeSmarty($this);
 	}
 
 	/**

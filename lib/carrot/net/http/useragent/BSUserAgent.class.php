@@ -71,12 +71,24 @@ abstract class BSUserAgent {
 	}
 
 	/**
+	 * Smartyを初期化する
+	 *
+	 * @access public
+	 * @param BSSmarty
+	 */
+	public function initializeSmarty (BSSmarty $smarty) {
+		$this->importBrowscap();
+		$smarty->setAttribute('useragent', $this->getAttributes());
+		$smarty->addOutputFilter('trim');
+	}
+
+	/**
 	 * browscap.iniの情報をインポートする
 	 *
 	 * @access public
 	 */
 	public function importBrowscap () {
-		if (BSController::getInstance()->isResolvable() && !BSRequest::getInstance()->isCLI()) {
+		if (BSController::getInstance()->isResolvable()) {
 			$this->attributes->setParameters(
 				BSBrowscap::getInstance()->getInfo($this->getName())
 			);

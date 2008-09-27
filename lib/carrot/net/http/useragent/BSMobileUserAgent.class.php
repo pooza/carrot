@@ -30,6 +30,28 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * Smartyを初期化する
+	 *
+	 * @access public
+	 * @param BSSmarty
+	 */
+	public function initializeSmarty (BSSmarty $smarty) {
+		$smarty->setAttribute('useragent', $this->getAttributes());
+		$smarty->setEncoding('sjis');
+		$smarty->addOutputFilter('mobile');
+		$smarty->addOutputFilter('encoding');
+		$smarty->addOutputFilter('trim');
+	}
+
+	/**
+	 * browscap.iniの情報をインポートする
+	 *
+	 * @access public
+	 */
+	public function importBrowscap () {
+	}
+
+	/**
 	 * ドメインサフィックスを返す
 	 *
 	 * @access public
