@@ -29,8 +29,8 @@ abstract class BSSmartyView extends BSView {
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
 		$this->setAttributes($this->request->getAttributes());
-		$this->setAttribute('module', $this->controller->getModule()->getName());
-		$this->setAttribute('action', $this->controller->getAction()->getName());
+		$this->setAttribute('module', $this->controller->getModule()->getAttributes());
+		$this->setAttribute('action', $this->controller->getAction()->getAttributes());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());

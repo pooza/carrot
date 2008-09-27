@@ -12,7 +12,7 @@
  * @abstract
  */
 abstract class BSAction implements BSHTTPRedirector {
-	private $name;
+	private $attributes;
 	private $module;
 	private $views;
 
@@ -22,6 +22,14 @@ abstract class BSAction implements BSHTTPRedirector {
 	 */
 	public function __construct (BSModule $module) {
 		$this->module = $module;
+
+		if (!preg_match('/^(.+)Action$/', get_class($this), $matches)) {
+			throw new BSInitializeException(
+				'アクションの名前が正しくありません。(%s)',
+				get_class($this)
+			);
+		}
+		$this->getAttributes()->setParameter('name', $matches[1]);
 	}
 
 	/**
@@ -124,17 +132,26 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
+	 * 属性値を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 属性値
+	 */
+	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+		}
+		return $this->attributes;
+	}
+
+	/**
 	 * アクション名を返す
 	 *
 	 * @access public
 	 * @return string アクション名
 	 */
 	public function getName () {
-		if (!$this->name) {
-			preg_match('/^(.+)Action$/', get_class($this), $matches);
-			$this->name = $matches[1];
-		}
-		return $this->name;
+		return $this->getAttributes()->getParameter('name');
 	}
 
 	/**

@@ -9,8 +9,8 @@
 {include file='AdminHeader'}
 
 <div id="BreadCrumbs">
-	<a href="/{$module}/">データベース一覧</a>
-	<a href="/{$module}/Database?database={$database.name}">データベース:{$database.name}</a>
+	<a href="/{$module.name}/">データベース一覧</a>
+	<a href="/{$module.name}/Database?database={$database.name}">データベース:{$database.name}</a>
 	<a href="#">テーブル:{$table.name}</a>
 </div>
 

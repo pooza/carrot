@@ -10,7 +10,7 @@
 {include file='ErrorMessages' hide_error_code=true}
 
 <div id="BreadCrumbs">
-	<a href="/{$module}/">データベース一覧</a>
+	<a href="/{$module.name}/">データベース一覧</a>
 	<a href="#">データベース:{$database.name}</a>
 </div>
 
@@ -42,7 +42,7 @@
 {foreach from=$database.tables item='table'}
 	<tr>
 		<td width="120">
-			<a href="/{$module}/Table?database={$database.name}&table={$table}">{$table}</a>
+			<a href="/{$module.name}/Table?database={$database.name}&table={$table}">{$table}</a>
 		</td>
 		<td width="120">{$table|translate}</td>
 	</tr>

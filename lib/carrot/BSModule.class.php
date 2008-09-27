@@ -10,9 +10,9 @@
  * @version $Id$
  */
 class BSModule implements BSHTTPRedirector {
-	private $name;
 	private $directories;
 	private $actions;
+	private $attributes;
 	private $config = array();
 	private $configFiles;
 	private $prefix;
@@ -28,7 +28,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @param string $name モジュール名
 	 */
 	private function __construct ($name) {
-		$this->name = $name;
+		$this->getAttributes()->setParameter('name', $name);
 
 		if (!$this->getDirectory()) {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
@@ -38,6 +38,7 @@ class BSModule implements BSHTTPRedirector {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile($file));
 			$this->config += (array)$config;
+			$this->getAttributes()->setParameters($config['module']);
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
@@ -71,7 +72,20 @@ class BSModule implements BSHTTPRedirector {
 	 * @return string モジュール名
 	 */
 	public function getName () {
-		return $this->name;
+		return $this->getAttributes()->getParameter('name');
+	}
+
+	/**
+	 * 属性値を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 属性値
+	 */
+	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+		}
+		return $this->attributes;
 	}
 
 	/**

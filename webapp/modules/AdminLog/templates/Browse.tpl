@@ -9,7 +9,7 @@
 
 {include file='AdminHeader'}
 
-<form method="get" action="/{$module}/{$action}">
+<form method="get" action="/{$module.name}/{$action.name}">
 	{html_options name='date' options=$dates selected=$params.date}
 	<input type="submit" value="表示" />
 	<a href="/AdminFeed/Log"><img src="/carrotlib/images/feed.gif" width="16" height="16" alt="FEED" border="0" /></a>
