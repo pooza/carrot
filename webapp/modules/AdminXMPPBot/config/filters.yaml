@@ -6,7 +6,5 @@
 # @version $Id$
 
 - class: BSSecurityFilter
-
 - class: BSHostSecurityFilter
-
 - class: BSMenuFilter

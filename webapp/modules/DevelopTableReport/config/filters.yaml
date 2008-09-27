@@ -6,9 +6,7 @@
 # @version $Id$
 
 - class: BSSecurityFilter
-
 - class: BSHostSecurityFilter
-
 - class: BSMenuFilter
   params:
     name: admin
