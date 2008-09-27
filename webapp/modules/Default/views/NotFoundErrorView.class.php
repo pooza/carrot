@@ -15,7 +15,7 @@ class NotFoundErrorView extends BSSmartyView {
 			$this->setTemplate('DefaultMessage');
 			$this->setAttribute('message', 'ファイルが見つかりません。');
 		}
-		$this->controller->setStatus('404 Not Found');
+		$this->controller->setHeader('Status', '404 Not Found');
 	}
 }
 
