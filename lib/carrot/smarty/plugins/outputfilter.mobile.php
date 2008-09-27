@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty
+ * @subpackage smarty.plugins
  */
 
 /**
@@ -12,7 +12,6 @@
  */
 function smarty_outputfilter_mobile ($source, &$smarty) {
 	$source = BSString::convertKana($source, 'kas');
-	$source = BSString::convertEncoding($source, 'sjis', 'utf-8');
 	return $source;
 }
 

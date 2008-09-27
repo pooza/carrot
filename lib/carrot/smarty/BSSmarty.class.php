@@ -27,7 +27,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->config_dir = BSController::getInstance()->getPath('config');
 		$this->cache_dir = BSController::getInstance()->getPath('cache');
 		$this->compile_dir = BSController::getInstance()->getPath('compile');
-		$this->plugins_dir[] = BSController::getInstance()->getPath('carrot') . '/smarty';
+		$this->plugins_dir[] = BSController::getInstance()->getPath('carrot') . '/smarty/plugins';
 		$this->plugins_dir[] = BSController::getInstance()->getPath('local_lib') . '/smarty';
 		$this->force_compile = BSController::getInstance()->isDebugMode();
 		$this->addModifier('encoding');
@@ -148,11 +148,15 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
-		if (BSController::getInstance()->isResolvable()
-			&& ($useragent->getType() != 'Console')
-			&& !BSRequest::getInstance()->isCLI()) {
-			$this->useragent->importBrowscap();
+		$this->useragent->importBrowscap();
+
+		if ($this->useragent->isMobile()) {
+			$this->setEncoding('sjis');
+			$this->addOutputFilter('mobile');
+			$this->addOutputFilter('encoding');
 		}
+
+		$this->setAttribute('useragent', $this->useragent->getAttributes());
 	}
 
 	/**

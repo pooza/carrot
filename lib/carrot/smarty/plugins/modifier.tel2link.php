@@ -1,27 +1,26 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty
+ * @subpackage smarty.plugins
  */
 
 /**
- * 日付書式化修飾子
+ * 電話番号変換修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-function smarty_modifier_bs_date_format ($value, $format = 'Y/m/d H:i:s') {
+function smarty_modifier_tel2link ($value) {
 	if (is_array($value)) {
 		return $value;
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		try {
-			$date = new BSDate($value);
-			return $date->format($format);
-		} catch (BSDateException $e) {
-			return null;
-		}
+		return preg_replace(
+			"/[0-9]{2,4}\-[0-9]{2,4}\-[0-9]{4}/",
+			"<a href=\"tel:\\0\">\\0</a>",
+			$value
+		);
 	}
 }
 

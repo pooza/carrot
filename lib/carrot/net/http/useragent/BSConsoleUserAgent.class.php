@@ -13,6 +13,14 @@
 class BSConsoleUserAgent extends BSUserAgent {
 
 	/**
+	 * browscap.iniの情報をインポートする
+	 *
+	 * @access public
+	 */
+	public function importBrowscap () {
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

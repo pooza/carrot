@@ -1,22 +1,23 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty
+ * @subpackage smarty.plugins
  */
 
 /**
- * 翻訳修飾子
+ * サニタイズ修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-function smarty_modifier_translate ($value, $dictionary = null, $language = null) {
+function smarty_modifier_sanitize ($value) {
 	if (is_array($value)) {
 		return $value;
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		return BSTranslateManager::getInstance()->execute($value, $dictionary, $language);
+		$value = BSString::unsanitize($value);
+		return BSString::sanitize($value);
 	}
 }
 

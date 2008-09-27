@@ -24,38 +24,31 @@ abstract class BSSmartyView extends BSView {
 		parent::initialize();
 
 		$this->setEngine(new BSSmarty);
-		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
-			$this->renderer->setTemplatesDirectory($dir);
-		}
-		$this->renderer->setUserAgent($this->request->getUserAgent());
 		$this->renderer->addModifier('sanitize');
-
-		if (!$this->request->isCLI()) {
-			$this->renderer->addOutputFilter('trim');
-		}
-
-		if ($this->useragent->isMobile()) {
-			$this->renderer->setEncoding('sjis');
-			$this->renderer->addOutputFilter('mobile');
-		}
-
+		$this->renderer->setUserAgent($this->useragent);
 		$this->setHeader('Content-Script-Type', 'text/javascript');
 		$this->setHeader('Content-Style-Type', 'text/css');
-
-		$name = $this->controller->getAction()->getName();
-		if ($this->renderer->getTemplatesDirectory()->getEntry($name)) {
-			$this->setTemplate($name);
-		}
-
 		$this->setAttributes($this->request->getAttributes());
 		$this->setAttribute('module', $this->controller->getModule()->getName());
 		$this->setAttribute('action', $this->controller->getAction()->getName());
 		$this->setAttribute('errors', $this->request->getErrors());
 		$this->setAttribute('params', $this->request->getParameters());
 		$this->setAttribute('credentials', $this->user->getCredentials());
-		$this->setAttribute('useragent', $this->renderer->getUserAgent()->getAttributes());
 		$this->setAttribute('is_debug', $this->controller->isDebugMode());
 		$this->setAttribute('is_ssl', $this->request->isSSL());
+
+		if (!$this->request->isCLI()) {
+			$this->renderer->addOutputFilter('trim');
+		}
+
+		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
+			$this->renderer->setTemplatesDirectory($dir);
+		}
+
+		$name = $this->controller->getAction()->getName();
+		if ($this->renderer->getTemplatesDirectory()->getEntry($name)) {
+			$this->setTemplate($name);
+		}
 
 		return true;
 	}

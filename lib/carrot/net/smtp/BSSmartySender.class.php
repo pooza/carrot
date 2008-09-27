@@ -40,6 +40,7 @@ class BSSmartySender extends BSSMTP {
 	public function getRenderer () {
 		if (!$this->renderer) {
 			$this->renderer = new BSSmarty;
+			$this->renderer->setEncoding('iso-2022-jp');
 			if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
 				$this->renderer->setTemplatesDirectory($dir);
 			}

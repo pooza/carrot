@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty
+ * @subpackage smarty.plugins
  */
 
 /**

@@ -76,9 +76,11 @@ abstract class BSUserAgent {
 	 * @access public
 	 */
 	public function importBrowscap () {
-		$this->attributes->setParameters(
-			BSBrowscap::getInstance()->getInfo($this->getName())
-		);
+		if (BSController::getInstance()->isResolvable() && !BSRequest::getInstance()->isCLI()) {
+			$this->attributes->setParameters(
+				BSBrowscap::getInstance()->getInfo($this->getName())
+			);
+		}
 	}
 
 	/**
