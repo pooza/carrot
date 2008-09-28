@@ -36,7 +36,7 @@ class BSRaderChart extends BSImage {
 	 */
 	public function __construct ($width, $height) {
 		parent::__construct($width, $height);
-		$this->chartSize = min($width, $height) / 2 - 16;
+		$this->chartSize = min($width, $height) / 2 - 20;
 		$this->origin = $this->getCoordinate($width / 2, $height / 2);
 	}
 
@@ -68,14 +68,30 @@ class BSRaderChart extends BSImage {
 	}
 
 	/**
+	 * 色を返す
+	 *
+	 * @access private
+	 * @param string $name 領域の名前
+	 * @return BSColor 色
+	 */
+	private function getColor ($name) {
+		$config = array();
+		require(BSConfigManager::getInstance()->compile('image/rader_chart'));
+		$config = new BSArray($config);
+		if (!$config->hasParameter($name)) {
+			throw new BSImageException('レーダーチャートの色 "%s" は未定義です。', $name);
+		}
+		return new BSColor($config[$name]);
+	}
+
+	/**
 	 * 外枠を描く
 	 *
 	 * @access private
 	 */
-	private function drawPlotBorder () {
-		$coords = new BSArray;		
+	private function drawBorder () {
+		$coords = new BSArray;
 		$angle = 0;
-		$color = new BSColor('black');//100,100,100
 		foreach ($this->data as $key => $value){
 			$cursor = $this->getCursor(0, $this->chartSize * -1)->rotate($this->origin, $angle);
 			$coords[] = clone $cursor;
@@ -88,11 +104,11 @@ class BSRaderChart extends BSImage {
 			if ($this->origin->getY() < $cursor->getY()) {
 				$cursor->move(0, $this->getFontSize());
 			}
-			$this->drawText($key, $cursor, $color);
+			$this->drawText($key, $cursor, $this->getColor('item_label'));
 
 			$angle += $this->theta;
 		}
-		$this->drawPolygon($coords, $color);
+		$this->drawPolygon($coords, $this->getColor('chart_border'));
 	}
 
 	/**
@@ -102,12 +118,11 @@ class BSRaderChart extends BSImage {
 	 */
 	private function drawRadiation () {
 		$angle = 0;
-		$color = new BSColor('black');//200,200,200
 		foreach ($this->data as $row){
 			$this->drawLine(
 				$this->origin,
 				$this->getCursor(0, $this->chartSize * -1)->rotate($this->origin, $angle),
-				$color
+				$this->getColor('radiation')
 			);
 			$angle += $this->theta;
 		}
@@ -127,7 +142,7 @@ class BSRaderChart extends BSImage {
 					strlen($label) * $this->getFontSize() * -0.9, //フォントによる微調整必要？
 					$this->chartSize * $label / 100 * -1 + $this->getFontSize()
 				),
-				$color
+				$this->getColor('grid_number')
 			);
 		}
 	}
@@ -144,8 +159,8 @@ class BSRaderChart extends BSImage {
 			$coords[] = $this->getCursor(0, $value * -1)->rotate($this->origin, $angle);
 			$angle += $this->theta;
 		}
-		$this->drawPolygon($coords, new BSColor('yellow'), BSImage::FILLED); //200,0,0
-		$this->drawPolygon($coords, new BSColor('gray')); //255,100,100
+		$this->drawPolygon($coords, $this->getColor('rader_fill'), BSImage::FILLED);
+		$this->drawPolygon($coords, $this->getColor('rader_border'));
 	}
 
 	/**
@@ -155,8 +170,8 @@ class BSRaderChart extends BSImage {
 	 */
 	public function draw () {
 		if (!$this->drawed) {
-			$this->fill($this->getCoordinate(0, 0), new BSColor('white'));
-			$this->drawPlotBorder();
+			$this->fill($this->getCoordinate(0, 0), $this->getColor('background'));
+			$this->drawBorder();
 			$this->drawRadar();
 			$this->drawRadiation();
 			$this->drawGridNumber();
