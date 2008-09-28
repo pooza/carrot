@@ -23,6 +23,7 @@ class BSImage implements BSImageRenderer {
 	const DEFAULT_HEIGHT = 240;
 	const DEFAULT_FONT = 'VL-PGothic-Regular';
 	const DEFAULT_FONT_SIZE = 9;
+	const FILLED = 1;
 
 	/**
 	 * @access public
@@ -37,6 +38,13 @@ class BSImage implements BSImageRenderer {
 		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
+	}
+
+	/**
+	 * @access public
+	 */
+	public function __destruct () {
+		imagedestroy($this->getImage());
 	}
 
 	/**
@@ -165,11 +173,11 @@ class BSImage implements BSImageRenderer {
 	/**
 	 * 色IDを生成して返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSColor $color 色
 	 * @return integer 色ID
 	 */
-	private function getColorID (BSColor $color) {
+	protected function getColorID (BSColor $color) {
 		return imagecolorallocatealpha(
 			$this->getImage(),
 			$color['red'],
@@ -269,6 +277,46 @@ class BSImage implements BSImageRenderer {
 			$this->getColorID($color),
 			$fontfile->getPath(),
 			$text
+		);
+	}
+
+	/**
+	 * 多角形を描く
+	 *
+	 * @access public
+	 * @param BSArray $coords 座標の配列
+	 * @param BSColor $color 描画色
+	 * @param integer $flag 各種フラグ、現状はself::FILLEDのみ。
+	 */
+	public function drawPolygon (BSArray $coords, BSColor $color, $flag = null) {
+		$polygon = array();
+		foreach ($coords as $coord) {
+			$polygon[] = $coord->getX();
+			$polygon[] = $coord->getY();
+		}
+
+		if ($flag & self::FILLED) {
+			$function = 'imagefilledpolygon';
+		} else {
+			$function = 'imagepolygon';
+		}
+		$function($this->getImage(), $polygon, $coords->count(), $this->getColorID($color));
+	}
+
+	/**
+	 * 線を引く
+	 *
+	 * @access public
+	 * @param BSCoordinate $start 始点
+	 * @param BSCoordinate $end 終点
+	 * @param BSColor $color 描画色
+	 */
+	public function drawLine (BSCoordinate $start, BSCoordinate $end, BSColor $color) {
+		imageline(
+			$this->getImage(),
+			$start->getX(), $start->getY(),
+			$end->getX(), $end->getY(),
+			$this->getColorID($color)
 		);
 	}
 

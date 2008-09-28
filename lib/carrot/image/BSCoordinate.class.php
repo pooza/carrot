@@ -22,15 +22,10 @@ class BSCoordinate {
 	 * @param integer $y Y座標
 	 */
 	public function __construct (BSImage $image, $x, $y) {
-		if (($x < 0) || ($image->getWidth() - 1 < $x)) {
-			throw new BSImageException('X座標[%d]は領域外です。', $x);
-		} else if (($y < 0) || ($image->getHeight() - 1 < $y)) {
-			throw new BSImageException('Y座標[%d]は領域外です。', $y);
-		}
-
 		$this->image = $image;
 		$this->x = $x;
 		$this->y = $y;
+		$this->validate();
 	}
 
 	/**
@@ -51,6 +46,54 @@ class BSCoordinate {
 	 */
 	public function getY () {
 		return $this->y;
+	}
+
+	/**
+	 * 正しい座標か
+	 *
+	 * @access private
+	 * @return boolean 正しい座標ならTrue
+	 */
+	private function validate () {
+		if (($this->getX() < 0) || ($this->getImage()->getWidth() - 1 < $this->getX())) {
+			throw new BSImageException('X座標[%d]は領域外です。', $this->getX());
+		} else if (($this->getY() < 0) || ($this->getImage()->getHeight() - 1 < $this->getY())) {
+			throw new BSImageException('Y座標[%d]は領域外です。', $this->getY());
+		}
+	}
+
+	/**
+	 * 移動
+	 *
+	 * @access public
+	 * @param integer $x X座標
+	 * @param integer $y Y座標
+	 * @return BSCoordinate 移動後の自分自身
+	 */
+	public function move ($x, $y) {
+		$this->x += $x;
+		$this->y += $y;
+		$this->validate();
+		return $this;
+	}
+
+	/**
+	 * 回転
+	 *
+	 * @access public
+	 * @param BSCoordinate $origin 中心
+	 * @param integer $angle 角度
+	 * @return BSCoordinate 移動後の自分自身
+	 */
+	public function rotate (BSCoordinate $origin, $angle) {
+		$x = $this->getX() - $origin->getX();
+		$y = $this->getY() - $origin->getY();
+		$sin = sin(deg2rad($angle));
+		$cos = cos(deg2rad($angle));
+		return $this->move(
+			($x * $cos - $y * $sin) - $x,
+			($x * $sin + $y * $cos) - $y
+		);
 	}
 
 	/**
