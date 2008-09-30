@@ -254,7 +254,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		if (preg_match('/[[:cntrl:]]/', $name . $value)) {
+		if (preg_match('/[[:cntrl:]]/u', $name . $value)) {
 			throw new BSMailException('メールヘッダにコントロール文字が含まれています。');
 		}
 		$this->headers[$name] = $value;
