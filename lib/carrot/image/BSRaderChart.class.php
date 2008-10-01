@@ -27,6 +27,7 @@ class BSRaderChart extends BSImage {
 	private $origin;
 	private $theta;
 	private $data;
+	private $max = 100;
 	private $drawed = false;
 
 	/**
@@ -50,6 +51,16 @@ class BSRaderChart extends BSImage {
 		$this->data = $data;
 		$this->theta = 360 / $this->data->count();
 		$this->drawed = false;
+	}
+
+	/**
+	 * 最大値を設定
+	 *
+	 * @access public
+	 * @param integer $max 最大値
+	 */
+	public function setMax ($max) {
+		$this->max = $max;
 	}
 
 	/**
@@ -129,25 +140,6 @@ class BSRaderChart extends BSImage {
 	}
 
 	/**
-	 * 軸ラベルを描く
-	 *
-	 * @access private
-	 */
-	private function drawGridNumber () {
-		$color = new BSColor('gray');
-		foreach (array(0, 50, 100) as $label) {
-			$this->drawText(
-				$label,
-				$this->getCursor(
-					strlen($label) * $this->getFontSize() * -0.9, //フォントによる微調整必要？
-					$this->chartSize * $label / 100 * -1 + $this->getFontSize()
-				),
-				$this->getColor('grid_number')
-			);
-		}
-	}
-
-	/**
 	 * レーダーチャートを描く
 	 *
 	 * @access private
@@ -156,7 +148,8 @@ class BSRaderChart extends BSImage {
 		$angle   = 0;
 		$coords = new BSArray;
 		foreach ($this->data as $key => $value){
-			$coords[] = $this->getCursor(0, $value * -1)->rotate($this->origin, $angle);
+			$pixel = ($this->chartSize / $this->max) * $value;
+			$coords[] = $this->getCursor(0, $pixel * -1)->rotate($this->origin, $angle);
 			$angle += $this->theta;
 		}
 		$this->drawPolygon($coords, $this->getColor('rader_fill'), BSImage::FILLED);
@@ -174,7 +167,6 @@ class BSRaderChart extends BSImage {
 			$this->drawBorder();
 			$this->drawRadar();
 			$this->drawRadiation();
-			$this->drawGridNumber();
 			$this->drawed = true;
 		}
 	}
