@@ -239,7 +239,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 				$criteria[] = $field . '=' . $this->getDatabase()->quote($value);
 			}
 			$table->setCriteria($criteria);
-			if ($table->getRecordCount() == 1) {
+			if ($table->count() == 1) {
 				$class = $this->getRecordClassName();
 				return new $class($this, $table->result[0]);
 			}
@@ -422,6 +422,20 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
+	 * レコード数を返す
+	 *
+	 * getRecordCountのエイリアス
+	 *
+	 * @access public
+	 * @param boolean $mode ページングされたレコード数を返すか？
+	 * @return integer レコード数
+	 * @final
+	 */
+	final public function count ($mode = self::WITH_PAGING) {
+		return $this->getRecordCount();
+	}
+
+	/**
 	 * クエリー文字列を返す
 	 *
 	 * @access public
@@ -461,7 +475,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 		$table = clone $this;
 		$table->setFields($this->getKeyField());
 		$table->setCriteria($criteria);
-		return (0 < $table->getRecordCount());
+		return (0 < $table->count());
 	}
 
 	/**
@@ -484,7 +498,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @return integer ページ数
 	 */
 	function getLastPage () {
-		if (!$page = ceil($this->getRecordCount(self::WITHOUT_PAGING) / $this->getPageSize())) {
+		if (!$page = ceil($this->count(self::WITHOUT_PAGING) / $this->getPageSize())) {
 			$page = 1;
 		}
 		return $page;
