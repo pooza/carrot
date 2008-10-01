@@ -215,9 +215,8 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param string $option オプションのビット列
 	 *   self::WITHOUT_KEY:キーを含まない
 	 * @return BSArray 添字の配列
-	 * @final
 	 */
-	final public function getKeys ($option = null) {
+	public function getKeys ($option = null) {
 		$keys = new BSArray;
 		foreach ($this as $key => $value) {
 			if ($option & self::WITHOUT_KEY) {
@@ -227,6 +226,19 @@ class BSArray extends BSParameterHolder implements Countable {
 			}
 		}
 		return $keys;
+	}
+
+	/**
+	 * ランダムな要素を返す
+	 *
+	 * @access public
+	 * @return mixed ランダムな要素
+	 */
+	public function getRandom () {
+		$key = $this->getKeys(self::WITHOUT_KEY)->getParameter(
+			BSNumeric::getRandom(0, $this->count() - 1)
+		);
+		return $this[$key];
 	}
 
 	/**
