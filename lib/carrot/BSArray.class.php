@@ -16,6 +16,7 @@ class BSArray extends BSParameterHolder implements Countable {
 	const SORT_KEY_DESC = 'KEY_DESC';
 	const SORT_VALUE_ASC = 'VALUE_ASC';
 	const SORT_VALUE_DESC = 'VALUE_DESC';
+	const WITHOUT_KEY = 1;
 
 	/**
 	 * @access public
@@ -211,13 +212,19 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * 添字の配列を返す
 	 *
 	 * @access public
+	 * @param string $option オプションのビット列
+	 *   self::WITHOUT_KEY:キーを含まない
 	 * @return BSArray 添字の配列
 	 * @final
 	 */
-	final public function getKeys () {
+	final public function getKeys ($option = null) {
 		$keys = new BSArray;
 		foreach ($this as $key => $value) {
-			$keys[$value] = $key;
+			if ($option & self::WITHOUT_KEY) {
+				$keys[] = $key;
+			} else {
+				$keys[$value] = $key;
+			}
 		}
 		return $keys;
 	}

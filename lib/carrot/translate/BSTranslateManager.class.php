@@ -113,15 +113,16 @@ class BSTranslateManager implements IteratorAggregate {
 			$language = $this->getLanguage();
 		}
 
-		if ($dictionary = $this->dictionaries[$name]) {
-			if ($answer = $dictionary->translate($string, $language)) {
-				return $answer;
-			}
-		}
+		$names = new BSArray;
+		$names[] = $name;
+		$names[] = 'BSDictionaryFile.' . $name;
+		$names->merge($this->dictionaries->getKeys(BSArray::WITHOUT_KEY));
 
-		foreach ($this as $dictionary) {
-			if ($answer = $dictionary->translate($string, $language)) {
-				return $answer;
+		foreach ($names as $key) {
+			if ($dictionary = $this->dictionaries[$key]) {
+				if ($answer = $dictionary->translate($string, $language)) {
+					return $answer;
+				}
 			}
 		}
 
