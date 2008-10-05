@@ -91,7 +91,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function hasParameter ($name) {
 		if (is_array($name) || is_object($name)) {
-			return false
+			return false;
 		}
 		foreach (array('', 'APP_', 'BS_') as $prefix) {
 			$fullname = strtoupper($prefix . $name);
