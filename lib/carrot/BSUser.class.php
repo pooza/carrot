@@ -86,9 +86,6 @@ class BSUser extends BSParameterHolder {
 	 * @return boolean 属性値が存在すればTrue
 	 */
 	public function hasAttribute ($name) {
-		if (is_array($name) || is_object($name)) {
-			return false;
-		}
 		return $this->attributes->hasParameter($name);
 	}
 
@@ -101,7 +98,7 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function setAttribute ($name, $value) {
 		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+			throw new BSRegisterException('属性名が文字列ではありません。');
 		}
 		$this->attributes[$name] = $value;
 	}

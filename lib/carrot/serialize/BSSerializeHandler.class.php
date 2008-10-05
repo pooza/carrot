@@ -87,7 +87,7 @@ class BSSerializeHandler {
 	 */
 	public function setAttribute ($name, $value) {
 		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+			throw new BSRegisterException('属性名が文字列ではありません。');
 		}
 		$serialized = $this->getStorage()->setAttribute($name, $value);
 		$message = sprintf(

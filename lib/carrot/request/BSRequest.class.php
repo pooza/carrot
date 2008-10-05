@@ -165,9 +165,6 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasAttribute ($name) {
-		if (is_array($name) || is_object($name)) {
-			return false;
-		}
 		return $this->getAttributes()->hasParameter($name);
 	}
 
@@ -220,6 +217,9 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('属性名が文字列ではありません。');
+		}
 		$this->getAttributes()->setParameter($name, $value);
 	}
 

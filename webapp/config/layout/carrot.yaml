@@ -94,7 +94,6 @@ root:
 
 serialized:
   parent: var
-  suffix: .serialized
 
 share:
   constant: yes

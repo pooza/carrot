@@ -148,6 +148,9 @@ abstract class BSUserAgent {
 	 * @param string $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('属性名が文字列ではありません。');
+		}
 		$this->getAttributes()->setParameter($name, $value);
 	}
 

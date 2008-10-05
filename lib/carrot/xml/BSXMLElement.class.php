@@ -70,7 +70,7 @@ class BSXMLElement implements IteratorAggregate {
 	 */
 	public function setAttribute ($name, $value) {
 		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+			throw new BSRegisterException('属性名が文字列ではありません。');
 		}
 		$value = trim($value);
 		$value = BSString::convertEncoding($value, 'utf-8');
