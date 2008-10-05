@@ -165,6 +165,9 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasAttribute ($name) {
+		if (is_array($name) || is_object($name)) {
+			return false;
+		}
 		return $this->getAttributes()->hasParameter($name);
 	}
 

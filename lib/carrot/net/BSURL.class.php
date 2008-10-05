@@ -226,7 +226,9 @@ class BSURL implements BSHTTPRedirector {
 	 * @param string $value パラメータの値
 	 */
 	public function setParameter ($name, $value) {
-		if ($value == '') {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		} else if ($value == '') {
 			return;
 		}
 

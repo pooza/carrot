@@ -81,6 +81,9 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		}
 		if ($name === null) {
 			if ($position == self::POSITION_TOP) {
 				array_unshift($this->parameters, $value);

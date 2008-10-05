@@ -34,6 +34,9 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		}
 		$this->parameters[$name] = $value;
 	}
 
@@ -67,6 +70,9 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasParameter ($name) {
+		if (is_array($name) || is_object($name)) {
+			return false;
+		}
 		return isset($this->parameters[$name]);
 	}
 

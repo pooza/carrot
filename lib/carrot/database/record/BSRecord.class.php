@@ -91,6 +91,9 @@ abstract class BSRecord {
 	 * @param string $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		}
 		$this->attributes[$name] = $value;
 	}
 

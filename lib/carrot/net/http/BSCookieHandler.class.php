@@ -53,6 +53,8 @@ class BSCookieHandler extends BSParameterHolder {
 	public function setParameter ($name, $value) {
 		if (headers_sent()) {
 			throw new BSHTTPException('Cookieの送信に失敗しました。');
+		} else if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
 		}
 		$expire = BSDate::getNow()->setAttribute('month', '+1')->getTimestamp();
 		setcookie($name, $value, $expire, '/');

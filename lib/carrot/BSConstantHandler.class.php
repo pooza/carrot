@@ -63,11 +63,12 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
-		if (defined($name = strtoupper($name))) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		} else if (defined($name = strtoupper($name))) {
 			throw new BSRegisterException('定数 "%s" は定義済みです。', $name);
-		} else {
-			define($name, $value);
 		}
+		define($name, $value);
 	}
 
 	/**
@@ -89,6 +90,9 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasParameter ($name) {
+		if (is_array($name) || is_object($name)) {
+			return false
+		}
 		foreach (array('', 'APP_', 'BS_') as $prefix) {
 			$fullname = strtoupper($prefix . $name);
 			if (defined($fullname)) {

@@ -69,6 +69,9 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param mixed $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('パラメータ名が文字列ではありません。');
+		}
 		$value = trim($value);
 		$value = BSString::convertEncoding($value, 'utf-8');
 		$this->attributes[$name] = $value;
