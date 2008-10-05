@@ -81,14 +81,8 @@ class BSWebController extends BSController {
 			$url->setAttribute('path', $redirectTo);
 		}
 
-		$useragent = $this->request->getUserAgent();
-		if ($useragent->isMobile()) {
-			$session = BSSessionHandler::getInstance();
-			$url->setParameter($session->getName(), $session->getID());
-			if ($this->isDebugMode()) {
-				$url->setParameter(BSRequest::USER_AGENT_ACCESSOR, $useragent->getName());
-			}
-		}
+		$this->request->createSession();
+		$url->setParameters($this->request->getUserAgent()->getAttribute('query'));
 
 		$this->setHeader('Location', $url->getContents());
 		$this->putHeaders();

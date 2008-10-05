@@ -13,34 +13,12 @@
  * @version $Id$
  */
 class BSConsoleSessionHandler extends BSSessionHandler {
-	static private $instance;
 
 	/**
-	 * @access protected
+	 * @access public
 	 */
-	protected function __construct () {
+	public function __construct () {
 		$this->getStorage()->initialize();
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSSessionHandler インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new BSConsoleSessionHandler;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
 	}
 }
 

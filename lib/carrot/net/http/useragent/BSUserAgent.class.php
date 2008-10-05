@@ -14,6 +14,7 @@
 abstract class BSUserAgent {
 	private $type;
 	protected $attributes;
+	protected $session;
 
 	/**
 	 * @access public
@@ -23,7 +24,6 @@ abstract class BSUserAgent {
 		$this->attributes = new BSArray;
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
-		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 	}
 
@@ -96,6 +96,16 @@ abstract class BSUserAgent {
 	}
 
 	/**
+	 * セッションハンドラを設定
+	 *
+	 * @access public
+	 * @param BSSessionHandler
+	 */
+	public function setSession (BSSessionHandler $session) {
+		$this->session = $session;
+	}
+
+	/**
 	 * ユーザーエージェント名を返す
 	 *
 	 * @access public
@@ -138,20 +148,6 @@ abstract class BSUserAgent {
 			$value = $this->getAttributes()->getParameter($name);
 		}
 		return $value;
-	}
-
-	/**
-	 * 属性を設定
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @param string $value 属性値
-	 */
-	public function setAttribute ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('属性名が文字列ではありません。');
-		}
-		$this->getAttributes()->setParameter($name, $value);
 	}
 
 	/**

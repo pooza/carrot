@@ -21,6 +21,7 @@ abstract class BSRequest extends BSParameterHolder {
 	const HEAD = 32;
 	private $host;
 	private $useragent;
+	private $session;
 	protected $method;
 	private $attributes;
 	private $errors;
@@ -277,6 +278,39 @@ abstract class BSRequest extends BSParameterHolder {
 			);
 		}
 		return $this->host;
+	}
+
+	/**
+	 * セッションハンドラを返す
+	 *
+	 * @access public
+	 * @return BSSessionHandler セッションハンドラ
+	 */
+	public function getSession () {
+		if (!$this->session) {
+			if ($this->isCLI()) {
+				$this->session = new BSConsoleSessionHandler;
+			} else if ($this->getUserAgent()->isMobile()) {
+				$this->session = new BSMobileSessionHandler;
+			} else {
+				$this->session = new BSSessionHandler;
+			}
+			$this->getUserAgent()->setSession($this->session);
+		}
+		return $this->session;
+	}
+
+	/**
+	 * セッションハンドラを生成する
+	 *
+	 * getSessionのエイリアス
+	 *
+	 * @access public
+	 * @return BSSessionHandler セッションハンドラ
+	 * @final
+	 */
+	final public function createSession () {
+		return $this->getSession();
 	}
 
 	/**

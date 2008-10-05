@@ -241,7 +241,7 @@ class BSURL implements BSHTTPRedirector {
 	 * クエリー文字列の全てのパラメータを返す
 	 *
 	 * @access public
-	 * @return string[] パラメータの連想配列
+	 * @return BSArray パラメータの配列
 	 */
 	public function getParameters () {
 		$this->parseQuery();
@@ -252,10 +252,10 @@ class BSURL implements BSHTTPRedirector {
 	 * パラメータを設定
 	 *
 	 * @access public
-	 * @param string[] $parameters 属性
+	 * @param string[] $parameters パラメータ
 	 */
 	public function setParameters ($parameters) {
-		if (!is_array($parameters)) {
+		if (!BSArray::isArray($parameters)) {
 			parse_str($parameters, $parameters);
 		}
 		foreach ($parameters as $name => $value) {

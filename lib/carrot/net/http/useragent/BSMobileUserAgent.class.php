@@ -19,8 +19,20 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
+		$this->attributes['is_mobile'] = $this->isMobile();
+		$this->attributes['id'] = $this->getID();
 		$this->attributes['is_unsupported'] = $this->isUnsupported();
+		$this->attributes['query'] = new BSArray;
 	}
+
+	/**
+	 * 端末IDを返す
+	 *
+	 * @access public
+	 * @return string 端末ID
+	 * @abstract
+	 */
+	abstract public function getID ();
 
 	/**
 	 * Smartyを初期化する
@@ -42,6 +54,25 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @access public
 	 */
 	public function importBrowscap () {
+	}
+
+	/**
+	 * セッションハンドラを設定
+	 *
+	 * @access public
+	 * @param BSSessionHandler
+	 */
+	public function setSession (BSSessionHandler $session) {
+		parent::setSession($session);
+
+		$url = new BSURL;
+		$url->setParameters($this->attributes['query']);
+		$url->setParameter($session->getName(), $session->getID());
+		if (BSController::getInstance()->isDebugMode()) {
+			$url->setParameter(BSRequest::USER_AGENT_ACCESSOR, $this->getName());
+		}
+		$this->attributes['query'] = $url->getParameters();
+		$this->attributes['query_params'] = $url->getAttribute('query');
 	}
 
 	/**

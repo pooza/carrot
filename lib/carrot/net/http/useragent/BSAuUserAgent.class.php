@@ -13,6 +13,16 @@
 class BSAuUserAgent extends BSMobileUserAgent {
 
 	/**
+	 * 端末IDを返す
+	 *
+	 * @access public
+	 * @return string 端末ID
+	 */
+	public function getID () {
+		return BSController::getInstance()->getEnvironment('HTTP_X_UP_SUBNO');
+	}
+
+	/**
 	 * ドメインサフィックスを返す
 	 *
 	 * @access public
@@ -29,7 +39,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/UP\.Browser/';
+		return '/^(UP\.Browser|KDDI)/';
 	}
 }
 

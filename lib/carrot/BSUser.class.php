@@ -150,7 +150,7 @@ class BSUser extends BSParameterHolder {
 	 * @return BSSession セッション
 	 */
 	private function getSession () {
-		return BSSessionHandler::getInstance();
+		return BSRequest::getInstance()->getSession();
 	}
 
 	/**

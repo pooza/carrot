@@ -12,44 +12,16 @@
  */
 class BSSessionHandler {
 	private $storage;
-	static private $instance;
 
 	/**
-	 * @access protected
+	 * @access public
 	 */
-	protected function __construct () {
+	public function __construct () {
 		if (headers_sent()) {
 			throw new BSHTTPException('セッションの開始に失敗しました。');
 		}
 		$this->getStorage()->initialize();
 		session_start();
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSSessionHandler インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
-				self::$instance = BSMobileSessionHandler::getInstance();
-			} else if (BSRequest::getInstance()->isCLI()) {
-				self::$instance = BSConsoleSessionHandler::getInstance();
-			} else {
-				self::$instance = new BSSessionHandler;
-			}
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
 	/**
