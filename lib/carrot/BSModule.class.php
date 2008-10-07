@@ -20,7 +20,7 @@ class BSModule implements BSHTTPRedirector {
 	private $table;
 	private $parameters;
 	private $recordClassName;
-	static private $instances = array();
+	static private $instances;
 	static private $prefixes = array();
 
 	/**
@@ -369,7 +369,7 @@ class BSModule implements BSHTTPRedirector {
 	 */
 	public function getPrefix () {
 		if (!$this->prefix) {
-			$pattern = sprintf('/^(%s)/', implode('|', self::getPrefixes()));
+			$pattern = sprintf('/^(%s)/', self::getPrefixes()->join('|'));
 			if (preg_match($pattern, $this->getName(), $matches)) {
 				$this->prefix = $matches[1];
 			}
@@ -398,8 +398,7 @@ class BSModule implements BSHTTPRedirector {
 	public function getRecordClassName () {
 		if (!$this->recordClassName) {
 			if (!$this->recordClassName = $this->getConfig('record_class')) {
-				$prefixes = self::getPrefixes();
-				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', implode('|', $prefixes));
+				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', self::getPrefixes()->join('|'));
 				if (preg_match($pattern, $this->getName(), $matches)) {
 					$this->recordClassName = $matches[2];
 				}
@@ -412,15 +411,15 @@ class BSModule implements BSHTTPRedirector {
 	 * 全てのモジュール名プレフィックスを配列で返す
 	 *
 	 * @access public
-	 * @return string[] モジュール名プレフィックス
+	 * @return BSArray モジュール名プレフィックス
 	 * @static
 	 */
 	static public function getPrefixes () {
 		if (!self::$prefixes) {
 			if ($prefixes = BSController::getInstance()->getConstant('MODULE_PREFIXES')) {
-				self::$prefixes = BSString::pascalize(explode(',', $prefixes));
+				self::$prefixes = BSString::explode(',', $prefixes);
 			} else {
-				self::$prefixes = array('Admin', 'User');
+				self::$prefixes = new BSArray(array('Admin', 'Develop', 'User'));
 			}
 		}
 		return self::$prefixes;
