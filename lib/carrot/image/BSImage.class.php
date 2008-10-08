@@ -447,6 +447,18 @@ class BSImage implements BSImageRenderer {
 		}
 		return $suffixes;
 	}
+
+	/**
+	 * メディアタイプに適切な拡張子を返す
+	 *
+	 * @access public
+	 * $params string $type メディアタイプ
+	 * @return string 拡張子
+	 * @static
+	 */
+	static public function getSuffix ($type) {
+		return self::getSuffixes()->getParameter($type);
+	}
 }
 
 /* vim:set tabstop=4 ai: */
