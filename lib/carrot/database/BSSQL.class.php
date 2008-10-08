@@ -197,22 +197,7 @@ class BSSQL {
 			return $tables;
 		}
 
-		$i = 0;
-		foreach ($tables as $table) {
-			$i ++;
-			switch ($i) {
-				case 1:
-					$from = $table;
-					break;
-				case 2:
-					$from .= ' ' . $table;
-					break;
-				default:
-					$from = sprintf('(%s) %s', $from, $table);
-					break;
-			}
-		}
-		return $from;
+		return implode(', ', $tables);
 	}
 
 	/**

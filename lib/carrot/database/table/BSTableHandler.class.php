@@ -121,6 +121,32 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
+	 * 抽出条件文字列を返す
+	 *
+	 * getCriteriaのエイリアス
+	 *
+	 * @access public
+	 * @return string 抽出条件文字列
+	 * final
+	 */
+	final public function getWhere () {
+		return $this->getCriteria();
+	}
+
+	/**
+	 * 抽出条件文字列を設定
+	 *
+	 * setCriteriaのエイリアス
+	 *
+	 * @access public
+	 * @param mixed $criteria 配列または文字列による抽出条件
+	 * @final
+	 */
+	final public function setWhere ($criteria) {
+		$this->setCriteria($criteria);
+	}
+
+	/**
 	 * ソート順文字列を返す
 	 *
 	 * @access public
@@ -579,7 +605,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 		}
 		return $date;
 	}
-
 
 	/**
 	 * テーブル名を返す
