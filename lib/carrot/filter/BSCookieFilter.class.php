@@ -14,7 +14,8 @@ class BSCookieFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
 		if (!$this->request->isCLI()
 			&& !$this->request->getUserAgent()->isMobile()
-			&& !$this->request->isAjax()) {
+			&& !$this->request->isAjax()
+			&& !$this->request->isFlash()) {
 
 			$name = BSCookieHandler::getTestCookieName();
 			switch ($this->request->getMethod()) {

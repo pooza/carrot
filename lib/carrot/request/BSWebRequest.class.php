@@ -159,6 +159,16 @@ class BSWebRequest extends BSRequest {
 	public function isAjax () {
 		return ($this->controller->getEnvironment('HTTP_X_PROTOTYPE_VERSION') != null);
 	}
+
+	/**
+	 * Flash環境か？
+	 *
+	 * @access public
+	 * @return boolean Ajax環境ならTrue
+	 */
+	public function isFlash () {
+		return ($this->controller->getEnvironment('HTTP_X_FLASH_VERSION') != null);
+	}
 }
 
 /* vim:set tabstop=4 ai: */
