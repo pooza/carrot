@@ -49,25 +49,14 @@ abstract class BSUserAgent {
 	 * @static
 	 */
 	static public function getDefaultType ($useragent) {
-		$types = new BSArray;
-		$name = sprintf('%s.%s', __CLASS__, __FUNCTION__);
-		if ($values = BSController::getInstance()->getAttribute($name)) {
-			$types->setAttributes($values);
-		}
-
-		if (!$type = $types[BSCrypt::getSHA1($useragent)]) {
-			foreach (self::getTypes() as $type) {
-				$class = 'BS' . $type . 'UserAgent';
-				$instance = new $class;
-				if (preg_match($instance->getPattern(), $useragent)) {
-					break;
-				}
+		foreach (self::getTypes() as $type) {
+			$class = 'BS' . $type . 'UserAgent';
+			$instance = new $class;
+			if (preg_match($instance->getPattern(), $useragent)) {
+				return $type;
 			}
-			$types[BSCrypt::getSHA1($useragent)] = $type;
-			BSController::getInstance()->setAttribute($name, $types->getParameters());
 		}
-
-		return $type;
+		return 'Console';
 	}
 
 	/**
@@ -88,10 +77,9 @@ abstract class BSUserAgent {
 	 * @access public
 	 */
 	public function importBrowscap () {
-		if (BSController::getInstance()->isResolvable()) {
-			$this->attributes->setParameters(
-				BSBrowscap::getInstance()->getInfo($this->getName())
-			);
+		$browscap = BSBrowscap::getInstance();
+		if ($browscap->isEnable()) {
+			$this->attributes->setParameters($browscap->getInfo($this->getName()));
 		}
 	}
 

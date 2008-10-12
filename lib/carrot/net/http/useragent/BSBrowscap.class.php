@@ -19,6 +19,9 @@ class BSBrowscap extends BSParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
+		if (!$this->isEnable()) {
+			return;
+		}
 		$expire = BSDate::getNow()->setAttribute('day', '-7');
 		if ($params = BSController::getInstance()->getAttribute(get_class($this), $expire)) {
 			$this->setParameters($params);
@@ -57,6 +60,26 @@ class BSBrowscap extends BSParameterHolder {
 	 */
 	public function __clone () {
 		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+	}
+
+	/**
+	 * 利用可能か？
+	 *
+	 * @access public
+	 * @return boolean 利用可能ならTrue
+	 */
+	public function isEnable () {
+		if (!BSController::getInstance()->isResolvable()) {
+			return false;
+		}
+
+		$constants = BSConstantHandler::getInstance();
+		$name = 'USERAGENT_BROWSCAP_ENABLE';
+		if ($constants->hasParameter($name) && !$constants[$name]) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
