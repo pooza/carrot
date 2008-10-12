@@ -367,6 +367,16 @@ abstract class BSRequest extends BSParameterHolder {
 	public function isAjax () {
 		return false;
 	}
+
+	/**
+	 * Flash環境か？
+	 *
+	 * @access public
+	 * @return boolean Flash環境ならTrue
+	 */
+	public function isFlash () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4 ai: */

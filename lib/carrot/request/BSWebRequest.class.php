@@ -164,7 +164,7 @@ class BSWebRequest extends BSRequest {
 	 * Flash環境か？
 	 *
 	 * @access public
-	 * @return boolean Ajax環境ならTrue
+	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
 		return ($this->controller->getEnvironment('HTTP_X_FLASH_VERSION') != null);
