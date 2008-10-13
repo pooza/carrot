@@ -523,7 +523,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @access public
 	 * @return integer ページ数
 	 */
-	function getLastPage () {
+	public function getLastPage () {
 		if (!$page = ceil($this->count(self::WITHOUT_PAGING) / $this->getPageSize())) {
 			$page = 1;
 		}
@@ -536,7 +536,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @access public
 	 * @return boolean 最終ページならTrue
 	 */
-	function isLastPage () {
+	public function isLastPage () {
 		return $this->getPage() == $this->getLastPage();
 	}
 
