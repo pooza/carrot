@@ -110,7 +110,9 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 			self::quote($field['file'])
 		);
 		$this->putLine($line);
-
+		if (BSArray::isArray($field['validators'])) {
+			$field['validators'] = new BSArray($field['validators']);
+		}
 		foreach ($field['validators'] as $validator) {
 			$this->putValidator($name, $validator);
 		}
