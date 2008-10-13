@@ -195,7 +195,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 * @param string $str CSS文字列
 	 * @param boolean $duplicates 重複を許すか？
 	 */
-	function parseString ($str, $duplicates = false) {
+	public function parseString ($str, $duplicates = false) {
 		// "@charset" 等を保護
 		if (preg_match('/@(charset) *[\'"]?([^;\'"]+)[\'"]?;/', $str, $matches)) {
 			$this->setRule($matches[1], $matches[2]);

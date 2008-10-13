@@ -21,7 +21,7 @@ class BSXMPP extends BSSocket {
 	 * @param BSHost $path ホスト
 	 * @param integer $port ポート
 	 */
-	function __construct (BSHost $host = null, $port = null) {
+	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
 			$host = new BSHost(BS_XMPP_HOST);
 		}
