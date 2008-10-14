@@ -4,10 +4,9 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-background: ivory
+background: white
 chart_border: darkgray
 item_label: darkblue
 radiation: darkgray
-grid_number: olivedrab
 rader_border: darkgray
 rader_fill: lavender
