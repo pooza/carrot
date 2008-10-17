@@ -89,37 +89,35 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function putMethod ($method) {
-		$line = sprintf('if (BSRequest::getInstance()->getMethod() == BSRequest::%s) {', $method);
-		$this->putLine($line);
-
-		if (isset($this->fields[$method])) {
-			foreach ($this->fields[$method] as $name => $field) {
-				$this->putField($name, $field);
-			}
+		if (!isset($this->fields[$method]) || !$this->fields[$method]) {
+			return;
 		}
 
+		$this->putLine(
+			sprintf('if (BSRequest::getInstance()->getMethod() == BSRequest::%s) {', $method)
+		);
+		foreach ($this->fields[$method] as $name => $field) {
+			$this->putField($name, $field);
+		}
 		$this->putLine('}');
 	}
 
 	private function putField ($name, $field) {
 		$options = new BSArray;
-		foreach (array('file', 'virtual') as $option) {
-			if ($field[$option]) {
+		foreach (array('required', 'file', 'virtual') as $option) {
+			if (isset($field[$option]) && $field[$option]) {
 				$options[] = 'BSValidateManager::VALIDATE_' . strtoupper($option);
 			}
 		}
-		if ($options->count()) {
-			$options = $options->join(' | ');
-		} else {
+		if (!$options = $options->join(' | ')) {
 			$options = 'null';
 		}
 
 		$line = sprintf(
-			'  $manager->register(%s, %s, %s, %s);',
+			'  $manager->register(%s, %s, %s);',
 			self::quote($name),
-			self::quote($field['required']),
-			self::quote($field['required_msg']),
-			$options
+			$options,
+			self::quote($field['required_msg'])
 		);
 		$this->putLine($line);
 		if (BSArray::isArray($field['validators'])) {

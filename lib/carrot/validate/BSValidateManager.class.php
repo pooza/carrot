@@ -13,8 +13,9 @@
 class BSValidateManager implements IteratorAggregate {
 	private $fields;
 	static private $instance;
-	const VALIDATE_FILE = 1;
-	const VALIDATE_VIRTUAL = 2;
+	const VALIDATE_REQUIRED = 1;
+	const VALIDATE_FILE = 2;
+	const VALIDATE_VIRTUAL = 4;
 
 	/**
 	 * @access private
@@ -76,13 +77,13 @@ class BSValidateManager implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $name フィールド名
-	 * @param boolean $required 必須項目ならTrue
-	 * @param string $message 空欄時エラーメッセージ
 	 * @param integer $option オプションのビット列
-	 *   VALIDATE_FILE    アップロードファイル項目
-	 *   VALIDATE_VIRTUAL 仮想項目（パラメータに含まれない項目）
+	 *   VALIDATE_REQUIRED 必須項目
+	 *   VALIDATE_FILE     アップロードファイル項目
+	 *   VALIDATE_VIRTUAL  仮想項目（パラメータに含まれない項目）
+	 * @param string $message 空欄時エラーメッセージ
 	 */
-	public function register ($name, $required = false, $message = null, $option = null) {
+	public function register ($name, $option = null, $message = null) {
 		$values = array(
 			'name' => $name,
 			'is_file' => ($option & self::VALIDATE_FILE),
@@ -91,7 +92,7 @@ class BSValidateManager implements IteratorAggregate {
 		);
 		$this->fields[$name] = new BSArray($values);
 
-		if ($required) {
+		if ($option & self::VALIDATE_REQUIRED) {
 			$validator = new BSEmptyValidator;
 			$params = array();
 			if ($message) {
@@ -100,7 +101,6 @@ class BSValidateManager implements IteratorAggregate {
 			$validator->initialize($params);
 			$this->registerValidator($name, $validator);
 		}
-
 		if ($option & self::VALIDATE_FILE) {
 			$validator = new BSFileValidator;
 			$validator->initialize();
