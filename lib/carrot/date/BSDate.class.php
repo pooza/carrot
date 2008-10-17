@@ -245,10 +245,10 @@ class BSDate {
 	/**
 	 * 日付の妥当性をチェック
 	 *
-	 * @access private
+	 * @access public
 	 * @return boolean 妥当な日付ならtrue
 	 */
-	private function validate () {
+	public function validate () {
 		return checkdate(
 			$this->getAttribute('month'),
 			$this->getAttribute('day'),

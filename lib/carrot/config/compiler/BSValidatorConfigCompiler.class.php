@@ -102,12 +102,24 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function putField ($name, $field) {
+		$options = new BSArray;
+		foreach (array('file', 'virtual') as $option) {
+			if ($field[$option]) {
+				$options[] = 'BSValidateManager::VALIDATE_' . strtoupper($option);
+			}
+		}
+		if ($options->count()) {
+			$options = $options->join(' | ');
+		} else {
+			$options = 'null';
+		}
+
 		$line = sprintf(
 			'  $manager->register(%s, %s, %s, %s);',
 			self::quote($name),
 			self::quote($field['required']),
 			self::quote($field['required_msg']),
-			self::quote($field['file'])
+			$options
 		);
 		$this->putLine($line);
 		if (BSArray::isArray($field['validators'])) {
