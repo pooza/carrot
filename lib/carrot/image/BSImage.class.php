@@ -15,6 +15,7 @@ class BSImage implements BSImageRenderer {
 	private $image;
 	private $height;
 	private $width;
+	private $origin;
 	private $antialias = false;
 	private $fontname;
 	private $fontsize;
@@ -38,13 +39,6 @@ class BSImage implements BSImageRenderer {
 		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		imagedestroy($this->getImage());
 	}
 
 	/**
@@ -197,6 +191,19 @@ class BSImage implements BSImageRenderer {
 	 */
 	public function getCoordinate ($x, $y) {
 		return new BSCoordinate($this, $x, $y);
+	}
+
+	/**
+	 * 原点座標を返す
+	 *
+	 * @access public
+	 * @return BSCoordinate 原点座標
+	 */
+	public function getOrigin () {
+		if (!$this->origin) {
+			$this->origin = $this->getCoordinate(0, 0);
+		}
+		return $this->origin;
 	}
 
 	/**
@@ -384,12 +391,11 @@ class BSImage implements BSImageRenderer {
 			$coord = $dest->getCoordinate(0, $y);
 		}
 
-		$coordSrc = $this->getCoordinate(0, 0);
 		imagecopyresampled(
 			$dest->getImage(), //コピー先
 			$this->getImage(), //コピー元
 			$coord->getX(), $coord->getY(),
-			$coordSrc->getX(), $coordSrc->getY(),
+			$this->getOrigin()->getX(), $this->getOrigin()->getY(),
 			$width, $height, //コピー先サイズ
 			$this->getWidth(), $this->getHeight() //コピー元サイズ
 		);
