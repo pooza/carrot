@@ -23,7 +23,7 @@ abstract class BSSmartyView extends BSView {
 	public function initialize () {
 		parent::initialize();
 
-		$this->setEngine(new BSSmarty);
+		$this->setRenderer(new BSSmarty);
 		$this->renderer->addModifier('sanitize');
 		$this->renderer->setUserAgent($this->useragent);
 		$this->setHeader('Content-Script-Type', 'text/javascript');

@@ -123,34 +123,6 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
-	 * サポートしているメソッドを返す
-	 *
-	 * @access public
-	 * @return BSArray サポートしているメソッド
-	 * @static
-	 */
-	static public function getMethods () {
-		$methods = new BSArray;
-		$methods['GET'] = self::GET;
-		$methods['POST'] = self::POST;
-		$methods['PUT'] = self::PUT;
-		$methods['DELETE'] = self::DELETE;
-		$methods['HEAD'] = self::HEAD;
-		return $methods;
-	}
-
-	/**
-	 * サポートしているメソッド名を返す
-	 *
-	 * @access public
-	 * @return BSArray サポートしているメソッド名
-	 * @static
-	 */
-	static public function getMethodNames () {
-		return self::getMethods()->getKeys();
-	}
-
-	/**
 	 * Ajax環境か？
 	 *
 	 * @access public

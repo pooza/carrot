@@ -13,12 +13,12 @@
  */
 abstract class BSRequest extends BSParameterHolder {
 	const USER_AGENT_ACCESSOR = 'ua';
-	const NONE = 1;
-	const GET = 2;
-	const POST = 4;
-	const PUT = 8;
-	const DELETE = 16;
-	const HEAD = 32;
+	const NONE = 0;
+	const HEAD = 0;
+	const GET = 1;
+	const POST = 2;
+	const PUT = 4;
+	const DELETE = 8;
 	private $host;
 	private $useragent;
 	private $session;
@@ -376,6 +376,34 @@ abstract class BSRequest extends BSParameterHolder {
 	 */
 	public function isFlash () {
 		return false;
+	}
+
+	/**
+	 * サポートしているメソッドを返す
+	 *
+	 * @access public
+	 * @return BSArray サポートしているメソッド
+	 * @static
+	 */
+	static public function getMethods () {
+		$methods = new BSArray;
+		$methods['HEAD'] = self::HEAD;
+		$methods['GET'] = self::GET;
+		$methods['POST'] = self::POST;
+		$methods['PUT'] = self::PUT;
+		$methods['DELETE'] = self::DELETE;
+		return $methods;
+	}
+
+	/**
+	 * サポートしているメソッド名を返す
+	 *
+	 * @access public
+	 * @return BSArray サポートしているメソッド名
+	 * @static
+	 */
+	static public function getMethodNames () {
+		return self::getMethods()->getKeys();
 	}
 }
 

@@ -172,15 +172,12 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return BSView ビュー
 	 */
 	public function getView ($name) {
-		$class = $this->getName() . BSString::stripControlCharacters($name) . 'View';
+		$name = BSString::stripControlCharacters($name);
+		$class = $this->getName() . $name . 'View';
 		if (!$dir = $this->getModule()->getDirectory('views')) {
 			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
-			throw new BSFileException(
-				'%sに、ビュー "%s" がありません。',
-				$this->getModule(),
-				$class
-			);
+			throw new BSFileException('%sに "%s" がありません。', $this->getModule(), $class);
 		}
 
 		if (!$this->views) {
@@ -188,9 +185,13 @@ abstract class BSAction implements BSHTTPRedirector {
 		}
 		if (!$this->views[$name]) {
 			require($file->getPath());
+			if (!class_exists($class)) {
+				throw new BSInitializationException(
+					'%sに "%s" が見つかりません。', $this->getModule(), $class
+				);
+			}
 			$this->views[$name] = new $class($this);
 		}
-
 		return $this->views[$name];
 	}
 

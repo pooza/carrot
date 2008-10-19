@@ -326,7 +326,7 @@ class BSModule implements BSHTTPRedirector {
 		if (!$dir = $this->getDirectory('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
-			throw new BSFileException('%sにアクション "%s" がありません。', $this, $name);
+			throw new BSFileException('%sに "%s" がありません。', $this, $class);
 		}
 
 		if (!$this->actions) {
@@ -334,9 +334,13 @@ class BSModule implements BSHTTPRedirector {
 		}
 		if (!$this->actions[$name]) {
 			require($file->getPath());
+			if (!class_exists($class)) {
+				throw new BSInitializationException(
+					'%sに "%s" が見つかりません。', $this, $class
+				);
+			}
 			$this->actions[$name] = new $class($this);
 		}
-
 		return $this->actions[$name];
 	}
 
