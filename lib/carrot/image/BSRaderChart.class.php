@@ -107,10 +107,11 @@ class BSRaderChart extends BSImage {
 			$cursor = $this->getCursor(0, $this->chartSize * -1)->rotate($this->origin, $angle);
 			$coords[] = clone $cursor;
 
+			$charWidth =  $this->getFontSize() / 2 * $this->fontaspect;
 			if ($cursor->getX() < $this->origin->getX()) {
-				$cursor->move(strlen($key) * $this->getFontSize() / 2 * -1, 0);
+				$cursor->move(strlen($key) * $charWidth * -1, 0);
 			} else if ($this->origin->getX() == $cursor->getX()) {
-				$cursor->move(strlen($key) * $this->getFontSize() / 4 * -1, 0);
+				$cursor->move(strlen($key) * $charWidth * -0.5, 0);
 			}
 			if ($this->origin->getY() < $cursor->getY()) {
 				$cursor->move(0, $this->getFontSize());

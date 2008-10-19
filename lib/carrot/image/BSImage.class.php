@@ -19,6 +19,7 @@ class BSImage implements BSImageRenderer {
 	private $antialias = false;
 	private $fontname;
 	private $fontsize;
+	protected $fontaspect;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
@@ -39,6 +40,7 @@ class BSImage implements BSImageRenderer {
 		$this->setAntialias(false);
 		$this->setFontName(self::DEFAULT_FONT);
 		$this->setFontSize(self::DEFAULT_FONT_SIZE);
+		$this->fontaspect = 0.9;
 	}
 
 	/**
