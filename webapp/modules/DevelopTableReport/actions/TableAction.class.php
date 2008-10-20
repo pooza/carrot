@@ -39,7 +39,7 @@ class TableAction extends BSAction {
 	}
 
 	public function handleError () {
-		return $this->controller->forwardTo($this->controller->getNotFoundAction());
+		return $this->controller->getNotFoundAction()->forward();
 	}
 
 	public function validate () {

@@ -9,7 +9,7 @@
  */
 class DefaultAction extends BSAction {
 	public function execute () {
-		return $this->controller->forwardTo($this->getModule()->getAction('Summary'));
+		return $this->getModule()->getAction('Summary')->forward();
 	}
 }
 

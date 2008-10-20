@@ -18,7 +18,7 @@ class DefaultAction extends BSAction {
 			$href = '/index.html';
 		}
 		$url->setAttribute('path', $href);
-		return $this->controller->redirect($url);
+		return $url->redirect();
 	}
 
 	public function validate () {

@@ -18,7 +18,7 @@ class LoginAction extends BSAction {
 
 		$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));
 		$url->setAttribute('path', '/' . self::DEFAULT_MODULE_NAME . '/');
-		return $this->controller->redirect($url);
+		return $url->redirect();
 	}
 
 	public function getDefaultView () {

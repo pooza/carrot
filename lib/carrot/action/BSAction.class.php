@@ -315,6 +315,16 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
+	 * リダイレクト
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function redirect () {
+		return BSController::getInstance()->redirect($this->getURL());
+	}
+
+	/**
 	 * 転送
 	 *
 	 * @access public

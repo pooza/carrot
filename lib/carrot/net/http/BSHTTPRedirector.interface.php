@@ -19,6 +19,14 @@ interface BSHTTPRedirector {
 	 * @return BSURL
 	 */
 	public function getURL ();
+
+	/**
+	 * リダイレクト
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function redirect ();
 }
 
 /* vim:set tabstop=4 ai: */

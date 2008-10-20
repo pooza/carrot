@@ -14,7 +14,7 @@ class SendAction extends BSAction {
 			$xmpp->putLine($command);
 			sleep(1);
 		}
-		return $this->controller->redirect($this->getModule());
+		return $this->getModule()->redirect();
 	}
 
 	public function getRequestMethods () {

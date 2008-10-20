@@ -21,7 +21,7 @@ class StartAction extends BSAction {
 			throw new BSConsoleException($command->getResult());
 		}
 
-		return $this->controller->redirect($this->getModule());
+		return $this->getModule()->redirect();
 	}
 }
 

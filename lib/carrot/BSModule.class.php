@@ -376,6 +376,16 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
+	 * リダイレクト
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function redirect () {
+		return BSController::getInstance()->redirect($this->getURL());
+	}
+
+	/**
 	 * レコードクラス名を返す
 	 *
 	 * @access public
