@@ -15,7 +15,7 @@ class BSHostSecurityFilter extends BSFilter {
 		if (!$this->isAuthenticated()) {
 			$e = new BSNetException('リモートアクセス禁止のホストです。');
 			$e->sendAlert();
-			$this->controller->forwardTo($this->controller->getSecureAction());
+			$this->controller->getSecureAction()->forward();
 			exit;
 		}
 		$filters->execute();

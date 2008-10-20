@@ -13,7 +13,7 @@
 class BSSecurityFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
 		if (!$this->user->hasCredential($this->getCredential())) {
-			return $this->controller->forwardTo($this->controller->getSecureAction());
+			return $this->controller->getSecureAction()->forward();
 		}
 		$filters->execute();
 	}

@@ -62,35 +62,24 @@ abstract class BSController {
 		}
 
 		try {
-			$action = BSModule::getInstance($module)->getAction($action);
+			BSModule::getInstance($module)->getAction($action)->forward();
 		} catch (Exception $e) {
-			$action = $this->getNotFoundAction();
+			$this->getNotFoundAction()->forward();
 		}
-		$this->forwardTo($action);
 	}
 
 	/**
 	 * 転送
 	 *
+	 * BSAction::forwardのエイリアス
+	 *
 	 * @access public
 	 * @param BSAction $action アクション
 	 * @return string ビュー名
+	 * @final
 	 */
-	public function forwardTo (BSAction $action) {
-		BSActionStack::getInstance()->register($action);
-		if (!$action->initialize()) {
-			throw new BSInitializeException('%sの%sが初期化できません。', $module, $action);
-		}
-
-		$filters = new BSFilterChain;
-		$this->loadFilters($filters);
-		$action->getModule()->loadFilters($filters);
-
-		$filter = new BSExecutionFilter;
-		$filter->initialize();
-		$filters->register($filter);
-		$filters->execute();
-		return BSView::NONE;
+	final public function forwardTo (BSAction $action) {
+		return $action->forward();
 	}
 
 	/**
@@ -102,29 +91,13 @@ abstract class BSController {
 	 * @param string $module モジュール名
 	 * @param string $action アクション名
 	 * @return string ビュー名
+	 * @final
 	 */
-	public function forward ($module, $action) {
+	final public function forward ($module, $action) {
 		try {
-			$action = BSModule::getInstance($module)->getAction($action);
+			return BSModule::getInstance($module)->getAction($action)->forward();
 		} catch (BSFileException $e) {
-			$action = $this->getNotFoundAction();
-		}
-		return $this->forwardTo($action);
-	}
-
-	/**
-	 * グローバルフィルタをフィルタチェーンに加える
-	 *
-	 * @access private
-	 * @param BSFilterChain $filters フィルタチェーン
-	 */
-	private function loadFilters (BSFilterChain $filters) {
-		$objects = array();
-		require(BSConfigManager::getInstance()->compile('filters'));
-		if ($objects) {
-			foreach ($objects as $filter) {
-				$filters->register($filter);
-			}
+			return $this->getNotFoundAction()->forward();
 		}
 	}
 

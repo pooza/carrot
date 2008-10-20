@@ -315,6 +315,33 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
+	 * 転送
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function forward () {
+		BSActionStack::getInstance()->register($this);
+		if (!$this->initialize()) {
+			throw new BSInitializeException(
+				'%sの%sが初期化できません。',
+				$this->getModule(),
+				$this
+			);
+		}
+
+		$filters = new BSFilterChain;
+		$filters->loadGlobal();
+		$filters->loadModule($this->getModule());
+
+		$filter = new BSExecutionFilter;
+		$filter->initialize();
+		$filters->register($filter);
+		$filters->execute();
+		return BSView::NONE;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

@@ -43,6 +43,43 @@ class BSFilterChain {
 	public function register (BSFilter $filter) {
 		$this->chain[] = $filter;
 	}
+
+	/**
+	 * グローバルフィルタをフィルタチェーンに加える
+	 *
+	 * @access public
+	 */
+	public function loadGlobal () {
+		$this->load('filters');
+	}
+
+	/**
+	 * モジュールフィルタをフィルタチェーンに加える
+	 *
+	 * @access public
+	 * @param BSModule $module モジュール
+	 */
+	public function loadModule (BSModule $module) {
+		if ($file = $module->getConfigFile('filters')) {
+			$this->load($file);
+		}
+	}
+
+	/**
+	 * フィルタチェーンに加える
+	 *
+	 * @access private
+	 * @param mixed $file 設定ファイル名、又はBSFileオブジェクト
+	 */
+	private function load ($file) {
+		$objects = array();
+		require(BSConfigManager::getInstance()->compile($file));
+		if ($objects) {
+			foreach ($objects as $filter) {
+				$this->register($filter);
+			}
+		}
+	}
 }
 
 /* vim:set tabstop=4 ai: */

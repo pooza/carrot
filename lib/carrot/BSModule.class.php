@@ -235,31 +235,13 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
-	 * モジュールフィルタをフィルタチェーンに加える
-	 *
-	 * @access private
-	 * @param BSFilterChain $finterChain フィルタチェーン
-	 */
-	public function loadFilters (BSFilterChain $filterChain) {
-		if ($file = $this->getConfigFile('filters')) {
-			$objects = array();
-			require(BSConfigManager::getInstance()->compile($file));
-			if ($objects) {
-				foreach ($objects as $filter) {
-					$filterChain->register($filter);
-				}
-			}
-		}
-    }
-
-	/**
 	 * 設定ファイルを返す
 	 *
-	 * @access private
+	 * @access public
 	 * @param string $name ファイル名
 	 * @return BSConfigFile 設定ファイル
 	 */
-	private function getConfigFile ($name = 'module') {
+	public function getConfigFile ($name = 'module') {
 		if (!$this->configFiles) {
 			$this->configFiles = new BSArray;
 		}
