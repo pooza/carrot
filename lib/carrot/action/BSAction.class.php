@@ -321,7 +321,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return BSController::getInstance()->redirect($this->getURL());
+		return $this->controller->redirect($this->getURL());
 	}
 
 	/**
