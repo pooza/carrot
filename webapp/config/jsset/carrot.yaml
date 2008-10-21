@@ -15,5 +15,6 @@ carrot:
     - scriptaculous/controls
     - scriptaculous/slider
     - scriptaculous/sound
+    - ajaxzip2/ajaxzip2
     - prototabs
     - datepicker
