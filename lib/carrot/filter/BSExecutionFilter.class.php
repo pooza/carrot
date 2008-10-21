@@ -24,7 +24,7 @@ class BSExecutionFilter extends BSFilter {
 	 * @return string ビュー名、ビューが必要ない場合は空文字列
 	 */
 	private function executeAction () {
-		if ($this->action->isExecutable($this->request->getMethod())) {
+		if (!$this->action->isExecutable()) {
 			return $this->action->getDefaultView();
 		}
 

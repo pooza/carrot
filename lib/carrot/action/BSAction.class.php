@@ -77,10 +77,9 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * HEAD又は未定義メソッドの場合、GETとしてふるまう。
 	 *
 	 * @access public
-	 * @param integer メソッド
 	 * @return boolean executeメソッドを実行可能ならTrue
 	 */
-	public function isExecutable ($method) {
+	public function isExecutable () {
 		if (!$method = $this->request->getMethod()) {
 			$method = BSRequest::GET;
 		}
