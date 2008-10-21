@@ -71,6 +71,23 @@ abstract class BSAction implements BSHTTPRedirector {
 	abstract public function execute ();
 
 	/**
+	 * executeメソッドを実行可能か？
+	 *
+	 * getDefaultViewに遷移すべきかどうかの判定。
+	 * HEAD又は未定義メソッドの場合、GETとしてふるまう。
+	 *
+	 * @access public
+	 * @param integer メソッド
+	 * @return boolean executeメソッドを実行可能ならTrue
+	 */
+	public function isExecutable ($method) {
+		if (!$method = $this->request->getMethod()) {
+			$method = BSRequest::GET;
+		}
+		return ($this->getRequestMethods() & $method);
+	}
+
+	/**
 	 * 初期化
 	 *
 	 * Falseを返すと、例外が発生。
@@ -282,7 +299,8 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * 正規なリクエストとして扱うメソッド
 	 *
-	 * ここに指定したリクエストではexecuteが、それ以外ではgetDefaultViewが実行される
+	 * ここに指定したリクエストではexecuteが、それ以外ではgetDefaultViewが実行される。
+	 * 適宜オーバライド。
 	 *
 	 * @access public
 	 * @return integer メソッドのビット列

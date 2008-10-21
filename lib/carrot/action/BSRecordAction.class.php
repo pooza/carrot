@@ -25,6 +25,13 @@ abstract class BSRecordAction extends BSAction {
 		if ($id = $this->request['id']) {
 			$this->setRecordID($id);
 		}
+		if ($record = $this->getRecord()) {
+			$name = BSString::underscorize($this->getRecordClassName());
+			$this->request->setAttribute($name, $record->getAttributes());
+			if (!$this->isExecutable() && !$this->request['submit']) {
+				$this->request->setParameters($record->getAttributes());
+			}
+		}
 		return true;
 	}
 

@@ -12,12 +12,7 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute (BSFilterChain $filters) {
-		if (!$method = $this->request->getMethod()) {
-			//HEAD又は未定義メソッドの場合、GETとしてふるまう。
-			$method = BSRequest::GET;
-		}
-
-		if ($view = $this->executeAction($method)) {
+		if ($view = $this->executeAction()) {
 			$this->executeView($view);
 		}
 	}
@@ -26,11 +21,10 @@ class BSExecutionFilter extends BSFilter {
 	 * アクションを実行する
 	 *
 	 * @access private
-	 * @param integer $method メソッド、BSRequest::GET等
 	 * @return string ビュー名、ビューが必要ない場合は空文字列
 	 */
-	private function executeAction ($method) {
-		if (($this->action->getRequestMethods() & $method) == false) {
+	private function executeAction () {
+		if ($this->action->isExecutable($this->request->getMethod())) {
 			return $this->action->getDefaultView();
 		}
 

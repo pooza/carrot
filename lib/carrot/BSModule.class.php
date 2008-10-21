@@ -393,12 +393,13 @@ class BSModule implements BSHTTPRedirector {
 	 */
 	public function getRecordClassName () {
 		if (!$this->recordClassName) {
-			if (!$this->recordClassName = $this->getConfig('record_class')) {
+			if (!$name = $this->getConfig('record_class')) {
 				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', self::getPrefixes()->join('|'));
 				if (preg_match($pattern, $this->getName(), $matches)) {
-					$this->recordClassName = $matches[2];
+					$name = $matches[2];
 				}
 			}
+			$this->recordClassName = BSString::stripControlCharacters($name);
 		}
 		return $this->recordClassName;
 	}
