@@ -18,6 +18,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	private $order;
 	private $page;
 	private $pagesize = 20;
+	private $lastpage;
 	private $executed = false;
 	private $result = array();
 	private $queryString;
@@ -524,10 +525,14 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @return integer ページ数
 	 */
 	public function getLastPage () {
-		if (!$page = ceil($this->count(self::WITHOUT_PAGING) / $this->getPageSize())) {
-			$page = 1;
+		if (!$this->lastpage) {
+			if ($page = ceil($this->count(self::WITHOUT_PAGING) / $this->getPageSize())) {
+				$this->lastpage = $page;
+			} else {
+				$this->lastpage = 1;
+			}
 		}
-		return $page;
+		return $this->lastpage;
 	}
 
 	/**
