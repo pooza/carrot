@@ -48,6 +48,27 @@ abstract class BSSmartyView extends BSView {
 
 		return true;
 	}
+
+	/**
+	 * 配列をカラム数で分割する
+	 *
+	 * @access public
+	 * @param mixed[] $array 対象配列
+	 * @param integer $columns カラム数
+	 * @return mixed[] 分割後の配列
+	 * @static
+	 */
+	static public function columnize ($array, $columns = 3) {
+		$array = array_chunk($array, $columns);
+		$last = array_pop($array);
+
+		for ($i = count($last) ; $i < $columns ; $i ++) {
+			$last[] = null;
+		}
+		$array[] = $last;
+
+		return $array;
+	}
 }
 
 /* vim:set tabstop=4 ai: */
