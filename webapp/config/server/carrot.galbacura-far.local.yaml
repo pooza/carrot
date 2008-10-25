@@ -4,8 +4,8 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-root_url: http://carrot.galbacura-ref.local/
-root_url_https: http://carrot.galbacura-ref.local/
+root_url: http://carrot.galbacura-far.local/
+root_url_https: http://carrot.galbacura-far.local/
 debug: yes
 #resolvable: yes
 
@@ -20,7 +20,7 @@ admin:
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
-  jid: carrot.galbacura-ref@jabber.b-shock.co.jp/carrot
+  jid: carrot.galbacura-far@jabber.b-shock.co.jp/carrot
   password: aaa
 
 crypt:
