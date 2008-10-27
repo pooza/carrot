@@ -15,7 +15,7 @@ function __autoload ($name) {
 	require_once(BS_LIB_DIR . '/carrot/BSAutoloadHandler.class.php');
 	$classes = BSAutoloadHandler::getInstance()->getClasses();
 	if (!isset($classes[$name])) {
-		trigger_error($name . 'がロードできません。', E_USER_ERROR);
+		throw new RuntimeException($name . 'がロードできません。');
 	}
 	require_once($classes[$name]);
 }
@@ -83,18 +83,16 @@ try {
 	}
 	$names[] = 'localhost';
 
-	$initialized = false;
+	$_SERVER['SERVER_NAME'] = null;
 	foreach ($names as $servername) {
 		if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
 			require(BSConfigManager::getInstance()->compile($file));
 			$_SERVER['SERVER_NAME'] = $servername;
-			$initialized = true;
 			break;
 		}
 	}
-	if (!$initialized) {
-		$message = sprintf('サーバ定義 (%s) が見つかりません。', implode('|', $names));
-		trigger_error($message, E_USER_ERROR);
+	if (!$_SERVER['SERVER_NAME']) {
+		throw new Exception('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
 	}
 
 	if (defined('BS_DEBUG') && BS_DEBUG) {
@@ -113,13 +111,13 @@ try {
 	BSController::getInstance()->dispatch();
 } catch (BSException $e) {
 	if (defined('BS_DEBUG') && BS_DEBUG) {
-		throw $e;
+		trigger_error($e->getMessage(), E_USER_ERROR);
+	} else {
+		if (!headers_sent()) {
+			header('Content-Type: text/plain; charset=utf-8');
+		}
+		print 'サーバへのアクセスが集中しています。しばらくお待ち下さい。';
 	}
-	$message = array(
-		'只今、サーバへのアクセスが集中しています。',
-		'しばらくお待ち下さい。',
-	);
-	print implode("<br/>\n", $message);
 } catch (Exception $e) {
 	throw new BSException($e->getMessage());
 }
