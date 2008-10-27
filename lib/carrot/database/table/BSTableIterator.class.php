@@ -33,6 +33,17 @@ class BSTableIterator extends BSIterator {
 	public function current () {
 		return $this->table->getRecord(parent::key());
 	}
+
+	/**
+	 * カーソルを終端に進める
+	 *
+	 * @access public
+	 * @return mixed 最後のエントリー
+	 */
+	public function forward () {
+		$this->cursor = $this->table->count() - 1;
+		return $this->current();
+	}
 }
 
 /* vim:set tabstop=4 ai: */
