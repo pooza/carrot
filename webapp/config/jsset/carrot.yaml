@@ -17,4 +17,6 @@ carrot:
     - scriptaculous/sound
     - ajaxzip2/ajaxzip2
     - prototabs
+    - protocalendar/protocalendar
+    - protocalendar/lang_ja
     - datepicker
