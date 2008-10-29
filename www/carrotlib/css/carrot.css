@@ -24,7 +24,10 @@ ol,ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-left: -20px;
-	_margin-left: 20px;
+	_margin-left: 20px; /* IE6 Hack */
+}
+*:first-child+html ol, *:first-child+html ul { /* IE7 Hack */
+	margin-left: 20px;
 }
 
 h1,h2,h3,h4,h5,h6,h7 {
