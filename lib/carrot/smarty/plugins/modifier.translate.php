@@ -16,7 +16,12 @@ function smarty_modifier_translate ($value, $dictionary = null, $language = null
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		return BSTranslateManager::getInstance()->execute($value, $dictionary, $language);
+		try {
+			return BSTranslateManager::getInstance()->execute($value, $dictionary, $language);
+		} catch (Exception $e) {
+			// Smartyプラグインの中なので、例外は即エラー。
+			trigger_error($e->getMessage(), E_USER_ERROR);
+		}
 	}
 }
 
