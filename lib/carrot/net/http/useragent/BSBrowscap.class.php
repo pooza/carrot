@@ -125,14 +125,8 @@ class BSBrowscap extends BSParameterHolder {
 			$useragent = BSController::getInstance()->getEnvironment('HTTP_USER_AGENT');
 		}
 
-		$types = new BSArray;
 		$name = sprintf('%s.%s', get_class($this), __FUNCTION__);
-		$expire = $this->getFile()->getUpdateDate();
-		if ($values = BSController::getInstance()->getAttribute($name, $expire)) {
-			$types->setAttributes($values);
-		}
-
-		if (!$type = $types[BSCrypt::getSHA1($useragent)]) {
+		if (!$type = BSUser::getInstance()->getAttribute($name)) {
 			$pattern = null;
 			foreach ($this as $key => $values) {
 				if (preg_match($values['Pattern'], $useragent)
@@ -142,9 +136,7 @@ class BSBrowscap extends BSParameterHolder {
 					$pattern = $values['Pattern'];
 				}
 			}
-
-			$types[BSCrypt::getSHA1($useragent)] = $type;
-			BSController::getInstance()->setAttribute($name, $types->getParameters());
+			BSUser::getInstance()->setAttribute($name, $type);
 		}
 		return $type;
 	}
