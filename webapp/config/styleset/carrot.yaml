@@ -9,7 +9,6 @@ carrot.Detail:
     - carrot
     - carrot.Detail
     - protocalendar
-    - datepicker
     - prototabs
 
 carrot.LoginForm:

@@ -19,4 +19,4 @@ carrot:
     - prototabs
     - protocalendar/protocalendar
     - protocalendar/lang_ja
-    - datepicker
+    - ObjTree
