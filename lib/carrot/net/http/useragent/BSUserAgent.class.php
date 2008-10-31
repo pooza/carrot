@@ -13,6 +13,7 @@
  */
 abstract class BSUserAgent {
 	private $type;
+	private $denied = null;
 	protected $attributes;
 	protected $session;
 
@@ -25,6 +26,8 @@ abstract class BSUserAgent {
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
+		$this->attributes['is_unsupported'] = $this->isDenied();
+		$this->attributes['is_denied'] = $this->isDenied();
 	}
 
 	/**
@@ -57,6 +60,52 @@ abstract class BSUserAgent {
 			}
 		}
 		return 'Console';
+	}
+
+
+	/**
+	 * 非対応のUserAgentか？
+	 *
+	 * @access public
+	 * @return boolean 非対応のUserAgentならTrue
+	 */
+	public function isDenied () {
+		if ($this->denied === null) {
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('useragent/carrot'));
+			$types = $config['Deny'];
+			require(BSConfigManager::getInstance()->compile('useragent/application'));
+			if (is_array($config['Deny'])) {
+				$types += $config['Deny'];
+			}
+
+			if (!isset($types[$this->getType()]) || !$types[$this->getType()]) {
+				$this->denied = false;
+			} else if (is_array($types[$this->getType()])) {
+				foreach ($types[$this->getType()] as $pattern) {
+					if (strpos($this->getName(), $pattern) !== false) {
+						$this->denied = true;
+					}
+				}
+				$this->denied = false;
+			} else {
+				$this->denied = true;
+			}
+		}
+		return $this->denied;
+	}
+
+	/**
+	 * 非対応のUserAgentか？
+	 *
+	 * isDeniedのエイリアス
+	 *
+	 * @access public
+	 * @return boolean 非対応のUserAgentならTrue
+	 * @final
+	 */
+	final public function isUnsupported () {
+		return $this->isDenied();
 	}
 
 	/**

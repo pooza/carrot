@@ -166,7 +166,9 @@ class BSBrowscap extends BSParameterHolder {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL(BSController::getInstance()->getConstant('BROWSCAP_URL'));
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('useragent/carrot'));
+			$this->url = new BSURL($config['browscap']['url']);
 		}
 		return $this->url;
 	}

@@ -21,7 +21,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		parent::__construct($name);
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['id'] = $this->getID();
-		$this->attributes['is_unsupported'] = $this->isUnsupported();
 		$this->attributes['query'] = new BSArray;
 	}
 
@@ -83,26 +82,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @abstract
 	 */
 	abstract public function getDomainSuffix ();
-
-	/**
-	 * 非対応端末か？
-	 *
-	 * @access public
-	 * @return boolean 非対応端末ならTrue
-	 */
-	public function isUnsupported () {
-		$config = array();
-		require(BSConfigManager::getInstance()->compile('mobile/unsupport_terminals'));
-		if (!isset($config[$this->getType()]['terminals'])) {
-			return false;
-		}
-		foreach ($config[$this->getType()]['terminals'] as $pattern) {
-			if (strpos($this->getName(), $pattern) !== false) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * ケータイ環境か？

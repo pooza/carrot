@@ -29,7 +29,3 @@ pgsql:
 
 sqlite3:
   dir: /usr/local
-
-browscap:
-  url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
-

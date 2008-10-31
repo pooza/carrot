@@ -1,11 +1,15 @@
-# 非対応端末設定ファイル
+# UserAgent設定ファイル
 #
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-Docomo:
-  terminals:
+browscap:
+  url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
+
+Deny:
+  LegacyMozilla:
+  Docomo:
     - D20
     - D21
     - D25
@@ -49,9 +53,7 @@ Docomo:
     - SO50
     - NM850iG
     - F2051
-
-Au:
-  terminals:
+  Au:
     - ST14
     - HI14
     - HI22
@@ -77,9 +79,7 @@ Au:
     - DN11
     - CA14
     - TS14
-
-SoftBank:
-  terminals:
+  SoftBank:
     - 304T
     - C980
     - J-D03
