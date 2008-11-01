@@ -26,7 +26,6 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	public $plot_max_y;
 	public $plot_min_y;
 	public $plot_area;
-	const DEFAULT_FONT = 'VL-PGothic-Regular';
 
 	/**
 	 * @access public
@@ -39,7 +38,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$this->setType('image/gif');
 		parent::PHPlot($width, $height);
 		$this->setTTFPath(BSController::getInstance()->getPath('font'));
-		$this->setDefaultTTFont(self::DEFAULT_FONT);
+		$this->setDefaultTTFont(BSFontManager::DEFAULT_FONT);
 		$this->setUseTTF(true);
 		$this->setPlotType('lines');
 		$this->setBackGroundColor('white');

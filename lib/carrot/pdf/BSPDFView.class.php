@@ -22,7 +22,7 @@ abstract class BSPDFView extends BSView {
 		parent::initialize();
 		$this->setRenderer(new BSFPDF);
 		$this->getRenderer()->addPage();
-		$this->getRenderer()->setFont(BSFPDF::MINCHO_FONT);
+		$this->getRenderer()->setFont(BSFontManager::MINCHO_FONT);
 		$this->setFileName('export.pdf');
 		return true;
 	}

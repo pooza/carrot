@@ -16,8 +16,6 @@ BSController::includeFile('fpdf/mbfpdf.php');
  */
 class BSFPDF extends MBFPDF implements BSRenderer {
 	private $error;
-	const MINCHO_FONT = 'MSPMincho';
-	const GOTHIC_FONT = 'MSPGothic';
 	const PORTRAIT = 'P';
 	const LANDSCAPE = 'L';
 	const BOLD = 'B';

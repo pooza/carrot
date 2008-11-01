@@ -17,14 +17,11 @@ class BSImage implements BSImageRenderer {
 	private $width;
 	private $origin;
 	private $antialias = false;
-	private $fontname;
+	private $font;
 	private $fontsize;
-	protected $fontaspect;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
-	const DEFAULT_FONT = 'VL-PGothic-Regular';
-	const DEFAULT_FONT_SIZE = 9;
 	const FILLED = 1;
 
 	/**
@@ -38,9 +35,8 @@ class BSImage implements BSImageRenderer {
 		$this->setType('image/gif');
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
 		$this->setAntialias(false);
-		$this->setFontName(self::DEFAULT_FONT);
-		$this->setFontSize(self::DEFAULT_FONT_SIZE);
-		$this->fontaspect = 0.9;
+		$this->setFont(BSFontManager::getInstance()->getFont());
+		$this->setFontSize(BSFontManager::DEFAULT_FONT_SIZE);
 	}
 
 	/**
@@ -268,13 +264,6 @@ class BSImage implements BSImageRenderer {
 	 * @param BSColor $color 色
 	 */
 	public function drawText ($text, BSCoordinate $coord, BSColor $color = null) {
-		$dir = BSController::getInstance()->getDirectory('font');
-		if (!$fontfile = $dir->getEntry($this->getFontName())) {
-			throw new BSImageException('フォントファイルが見つかりません。');
-		} else if (!$fontfile->isReadable()) {
-			throw new BSImageException('フォント"%s"が読めません。', $this->getFontName());
-		}
-
 		if (!$color) {
 			$color = new BSColor('black');
 		}
@@ -284,7 +273,7 @@ class BSImage implements BSImageRenderer {
 			0, //角度
 			$coord->getX(), $coord->getY(),
 			$this->getColorID($color),
-			$fontfile->getPath(),
+			$this->getFont()->getFile()->getPath(),
 			$text
 		);
 	}
@@ -330,26 +319,26 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * フォント名を返す
+	 * フォントを返す
 	 *
 	 * @access public
-	 * @return string フォント名
+	 * @return string フォント
 	 */
-	public function getFontName () {
-		return $this->fontname;
+	public function getFont () {
+		if (!$this->font) {
+			throw new BSImageException('フォントが未定義です。');
+		}
+		return $this->font;
 	}
 
 	/**
-	 * フォント名を設定
+	 * フォントを設定
 	 *
 	 * @access public
-	 * @param integer $fontname フォント名
+	 * @param BSFont $font フォント
 	 */
-	public function setFontName ($fontname) {
-		if (!BSController::getInstance()->getDirectory('font')->getEntry($fontname)) {
-			throw new BSImageException('フォント名"%s"が正しくありません。', $fontname);
-		}
-		$this->fontname = $fontname;
+	public function setFont ($font) {
+		$this->font = $font;
 	}
 
 	/**
