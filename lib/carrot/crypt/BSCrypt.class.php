@@ -14,6 +14,9 @@ class BSCrypt {
 	private $engine;
 	static private $instance;
 	const WITH_BASE64 = 1;
+	const SHA1 = 1;
+	const MD5 = 2;
+	const PLAINTEXT = 4;
 
 	/**
 	 * @access private
@@ -132,6 +135,45 @@ class BSCrypt {
 		$value = $this->getEngine()->decrypt($value);
 		$value = trim($value);
 		return $value;
+	}
+
+	/**
+	 * 暗号化したパスワードを配列で返す
+	 *
+	 * @access public
+	 * @param string $password パスワード文字列
+	 * @return BSArray 暗号化したパスワード
+	 */
+	public function getPasswords ($password, $methods = self::PLAINTEXT) {
+		$passwords = new BSArray;
+		$passwords[] = $this->decrypt($password);
+
+		if ($methods & self::PLAINTEXT) {
+			$passwords[] = $password;
+		}
+		if ($methods & self::SHA1) {
+			$passwords[] = self::getSHA1($password);
+		}
+		if ($methods & self::MD5) {
+			$passwords[] = self::getMD5($password);
+		}
+		return $passwords;
+	}
+
+	/**
+	 * パスワード認証
+	 *
+	 * @access public
+	 * @param string $password 正規文字列
+	 * @param string $challenge 認証対象
+	 * @param integer $methods 許可すべき認証方法のビット列
+	 * @return boolean 一致するならTrue
+	 */
+	public function auth ($password, $challenge, $methods = null) {
+		if (!$methods) {
+			$methods = self::SHA1 | self::MD5 | self::PLAINTEXT;
+		}
+		return $this->getPasswords($password, $methods)->isIncluded($challenge);
 	}
 
 	/**

@@ -14,40 +14,38 @@ class BSMySQLDatabase extends BSDatabase {
 	static private $configFile;
 
 	/**
-	 * インスタンスを生成して返す
+	 * 接続
 	 *
-	 * @access public
+	 * @access protected
 	 * @name string $name データベース名
-	 * @return BSDatabase インスタンス
+	 * @return BSMySQLDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name = 'default') {
-		try {
-			$constants = BSConstantHandler::getInstance();
-			if ($file = self::getConfigFile()) {
+	static protected function connect ($name) {
+		$params = array();
+		if ($file = self::getConfigFile()) {
+			$params[self::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
+		}
+
+		$constants = BSConstantHandler::getInstance();
+		$password = $constants['PDO_' . $name . '_PASSWORD'];
+		foreach (BSCrypt::getInstance()->getPasswords($password) as $password) {
+			try {
 				$db = new BSMySQLDatabase(
 					$constants['PDO_' . $name . '_DSN'],
 					$constants['PDO_' . $name . '_UID'],
-					$constants['PDO_' . $name . '_PASSWORD'],
-					array(self::MYSQL_ATTR_READ_DEFAULT_FILE => $file->getPath())
+					$password,
+					$params
 				);
-			} else {
-				$db = new BSMySQLDatabase(
-					$constants['PDO_' . $name . '_DSN'],
-					$constants['PDO_' . $name . '_UID'],
-					$constants['PDO_' . $name . '_PASSWORD']
-				);
-				if (!$db->isLegacy()) {
+				$db->setName($name);
+				if (!self::getConfigFile() && !$db->isLegacy()) {
 					$db->exec('SET NAMES ' . $db->getEncodingName());
 				}
+				return $db;
+			} catch (Exception $e) {
 			}
-			$db->setName($name);
-		} catch (Exception $e) {
-			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-			$e->sendAlert();
-			throw $e;
 		}
-		return $db;
+		throw new BSDatabaseException('データベース "%s" に接続できません。', $name);
 	}
 
 	/**

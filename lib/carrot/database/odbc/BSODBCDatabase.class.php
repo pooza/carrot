@@ -13,28 +13,29 @@
 class BSODBCDatabase extends BSDatabase {
 
 	/**
-	 * インスタンスを生成して返す
+	 * 接続
 	 *
-	 * @access public
+	 * @access protected
 	 * @name string $name データベース名
-	 * @return BSDatabase インスタンス
+	 * @return BSODBCDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name = 'default') {
-		try {
-			$constants = BSConstantHandler::getInstance();
-			$db = new BSODBCDatabase(
-				$constants['PDO_' . $name . '_DSN'],
-				$constants['PDO_' . $name . '_UID'],
-				$constants['PDO_' . $name . '_PASSWORD']
-			);
-			$db->setName($name);
-		} catch (Exception $e) {
-			$e = new BSDatabaseException('DB接続エラーです。 (%s)', $e->getMessage());
-			$e->sendAlert();
-			throw $e;
+	static protected function connect ($name) {
+		$constants = BSConstantHandler::getInstance();
+		$password = $constants['PDO_' . $name . '_PASSWORD'];
+		foreach (BSCrypt::getInstance()->getPasswords($password) as $password) {
+			try {
+				$db = new BSODBCDatabase(
+					$constants['PDO_' . $name . '_DSN'],
+					$constants['PDO_' . $name . '_UID'],
+					$password
+				);
+				$db->setName($name);
+				return $db;
+			} catch (Exception $e) {
+			}
 		}
-		return $db;
+		throw new BSDatabaseException('データベース "%s" に接続できません。', $name);
 	}
 
 	/**

@@ -22,7 +22,10 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	static public function getMailAddress ($language = 'ja') {
-		return new BSMailAddress(BS_AUTHOR_EMAIL, self::getName($language));
+		return new BSMailAddress(
+			BSController::getInstance()->getConstant('AUTHOR_EMAIL'),
+			self::getName($language)
+		);
 	}
 
 	/**
@@ -48,11 +51,11 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	static public function getJabberID () {
-		return new BSJabberID(BS_AUTHOR_JID);
+		return new BSJabberID(BSController::getInstance()->getConstant('AUTHOR_JID'));
 	}
 
 	/**
-	 * 簡易発行者認証
+	 * 発行者認証
 	 *
 	 * @access public
 	 * @param string $email メールアドレス
@@ -61,7 +64,14 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	static public function auth ($email, $password) {
-		return ($email == BS_AUTHOR_EMAIL) && ($password == BS_AUTHOR_PASSWORD);
+		$constants = BSConstantHandler::getInstance();
+
+		if ($email != $constants['AUTHOR_EMAIL']) {
+			return false;
+		} else if (!BSCrypt::getInstance()->auth($constants['AUTHOR_PASSWORD'], $password)) {
+			return false;
+		}
+		return true;
 	}
 }
 

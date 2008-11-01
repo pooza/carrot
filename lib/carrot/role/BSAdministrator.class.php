@@ -22,7 +22,10 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function getMailAddress ($language = 'ja') {
-		return new BSMailAddress(BS_ADMIN_EMAIL, self::getName($language));
+		return new BSMailAddress(
+			BSController::getInstance()->getConstant('ADMIN_EMAIL'),
+			self::getName($language)
+		);
 	}
 
 	/**
@@ -45,7 +48,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function getJabberID () {
-		return new BSJabberID(BS_ADMIN_JID);
+		return new BSJabberID(BSController::getInstance()->getConstant('ADMIN_JID'));
 	}
 
 	/**
@@ -72,7 +75,7 @@ class BSAdministrator implements BSRole {
 	}
 
 	/**
-	 * 簡易管理者認証
+	 * 管理者認証
 	 *
 	 * @access public
 	 * @param string $email メールアドレス
@@ -81,7 +84,14 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function auth ($email, $password) {
-		return ($email == BS_ADMIN_EMAIL) && (BSCrypt::getMD5($password) == BS_ADMIN_PASSWORD);
+		$constants = BSConstantHandler::getInstance();
+
+		if ($email != $constants['ADMIN_EMAIL']) {
+			return false;
+		} else if (!BSCrypt::getInstance()->auth($constants['ADMIN_PASSWORD'], $password)) {
+			return false;
+		}
+		return true;
 	}
 }
 

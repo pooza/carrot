@@ -12,7 +12,7 @@ debug: yes
 admin:
   email: admin@b-shock.co.jp
   jid: pooza@jabber.b-shock.co.jp/carrot
-  password: 47bce5c74f589f4867dbd57e9ca9f808
+  password: LRSOV7gId+o=
   networks:
     - 192.168.100.0/24
 
@@ -20,7 +20,7 @@ author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
   jid: carrot.gisarme@jabber.b-shock.co.jp/carrot
-  password: aaa
+  password: LRSOV7gId+o=
 
 crypt:
   engine: blowfish

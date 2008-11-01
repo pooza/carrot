@@ -33,20 +33,20 @@ abstract class BSDatabase extends PDO {
 		}
 		if (!self::$instances[$name]) {
 			$constants = BSConstantHandler::getInstance();
-			if (!preg_match('/^([a-z0-9]+):/', $constants['PDO_' . $name . '_DSN'], $matches)) {
-				throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
+			if (preg_match('/^([a-z0-9]+):/', $constants['PDO_' . $name . '_DSN'], $matches)) {
+				switch ($matches[1]) {
+					case 'mysql':
+						self::$instances[$name] = BSMySQLDatabase::connect($name);
+					case 'pgsql':
+						self::$instances[$name] = BSPostgreSQLDatabase::connect($name);
+					case 'sqlite':
+						self::$instances[$name] = BSSQLiteDatabase::connect($name);
+					case 'odbc':
+						self::$instances[$name] = BSODBCDatabase::connect($name);
+				}
 			}
-			switch ($dbms = $matches[1]) {
-				case 'mysql':
-					return self::$instances[$name] = BSMySQLDatabase::getInstance($name);
-				case 'pgsql':
-					return self::$instances[$name] = BSPostgreSQLDatabase::getInstance($name);
-				case 'sqlite':
-					return self::$instances[$name] = BSSQLiteDatabase::getInstance($name);
-				case 'odbc':
-					return self::$instances[$name] = BSODBCDatabase::getInstance($name);
-				default:
-					throw new BSDatabaseException('"%s" のDBMSが適切ではありません。', $name);
+			if (!self::$instances[$name]) {
+				throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
 			}
 		}
 		return self::$instances[$name];
