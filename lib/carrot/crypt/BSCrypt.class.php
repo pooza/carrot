@@ -173,7 +173,7 @@ class BSCrypt {
 		if (!$methods) {
 			$methods = self::SHA1 | self::MD5 | self::PLAINTEXT;
 		}
-		return $this->getPasswords($password, $methods)->isIncluded($challenge);
+		return $this->getPasswords($challenge, $methods)->isIncluded($password);
 	}
 
 	/**

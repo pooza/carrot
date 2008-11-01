@@ -36,13 +36,13 @@ abstract class BSDatabase extends PDO {
 			if (preg_match('/^([a-z0-9]+):/', $constants['PDO_' . $name . '_DSN'], $matches)) {
 				switch ($matches[1]) {
 					case 'mysql':
-						self::$instances[$name] = BSMySQLDatabase::connect($name);
+						return self::$instances[$name] = BSMySQLDatabase::connect($name);
 					case 'pgsql':
-						self::$instances[$name] = BSPostgreSQLDatabase::connect($name);
+						return self::$instances[$name] = BSPostgreSQLDatabase::connect($name);
 					case 'sqlite':
-						self::$instances[$name] = BSSQLiteDatabase::connect($name);
+						return self::$instances[$name] = BSSQLiteDatabase::connect($name);
 					case 'odbc':
-						self::$instances[$name] = BSODBCDatabase::connect($name);
+						return self::$instances[$name] = BSODBCDatabase::connect($name);
 				}
 			}
 			if (!self::$instances[$name]) {
