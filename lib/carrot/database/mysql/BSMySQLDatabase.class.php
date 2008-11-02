@@ -29,7 +29,7 @@ class BSMySQLDatabase extends BSDatabase {
 
 		$constants = BSConstantHandler::getInstance();
 		$password = $constants['PDO_' . $name . '_PASSWORD'];
-		foreach (BSCrypt::getInstance()->getPasswords($password) as $password) {
+		foreach (array(BSCrypt::getInstance()->decrypt($password), $password) as $password) {
 			try {
 				$db = new BSMySQLDatabase(
 					$constants['PDO_' . $name . '_DSN'],

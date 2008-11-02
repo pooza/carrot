@@ -23,7 +23,7 @@ class BSODBCDatabase extends BSDatabase {
 	static protected function connect ($name) {
 		$constants = BSConstantHandler::getInstance();
 		$password = $constants['PDO_' . $name . '_PASSWORD'];
-		foreach (BSCrypt::getInstance()->getPasswords($password) as $password) {
+		foreach (array(BSCrypt::getInstance()->decrypt($password), $password) as $password) {
 			try {
 				$db = new BSODBCDatabase(
 					$constants['PDO_' . $name . '_DSN'],

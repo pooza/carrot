@@ -138,29 +138,6 @@ class BSCrypt {
 	}
 
 	/**
-	 * 暗号化したパスワードを配列で返す
-	 *
-	 * @access public
-	 * @param string $password パスワード文字列
-	 * @return BSArray 暗号化したパスワード
-	 */
-	public function getPasswords ($password, $methods = self::PLAINTEXT) {
-		$passwords = new BSArray;
-		$passwords[] = $this->decrypt($password);
-
-		if ($methods & self::PLAINTEXT) {
-			$passwords[] = $password;
-		}
-		if ($methods & self::SHA1) {
-			$passwords[] = self::getSHA1($password);
-		}
-		if ($methods & self::MD5) {
-			$passwords[] = self::getMD5($password);
-		}
-		return $passwords;
-	}
-
-	/**
 	 * パスワード認証
 	 *
 	 * @access public
@@ -173,7 +150,20 @@ class BSCrypt {
 		if (!$methods) {
 			$methods = self::SHA1 | self::MD5 | self::PLAINTEXT;
 		}
-		return $this->getPasswords($challenge, $methods)->isIncluded($password);
+
+		$targets = new BSArray;
+		$targets[] = $this->encrypt($challenge);
+		if ($methods & self::PLAINTEXT) {
+			$targets[] = $challenge;
+		}
+		if ($methods & self::SHA1) {
+			$targets[] = self::getSHA1($challenge);
+		}
+		if ($methods & self::MD5) {
+			$targets[] = self::getMD5($challenge);
+		}
+
+		return $targets->isIncluded($password);
 	}
 
 	/**
