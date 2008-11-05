@@ -62,10 +62,11 @@ abstract class BSController {
 		}
 
 		try {
-			BSModule::getInstance($module)->getAction($action)->forward();
+			$action = BSModule::getInstance($module)->getAction($action)
 		} catch (Exception $e) {
-			$this->getNotFoundAction()->forward();
+			$action = $this->getNotFoundAction();
 		}
+		$action->forward();
 	}
 
 	/**
