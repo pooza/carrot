@@ -35,11 +35,15 @@ abstract class BSUserAgent {
 	 *
 	 * @access public
 	 * @param string $useragent UserAgent名
+	 * @param string $type タイプ名
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	static public function getInstance ($useragent) {
-		$class = 'BS' . self::getDefaultType($useragent) . 'UserAgent';
+	static public function getInstance ($useragent, $type = null) {
+		if (!$type) {
+			$type = self::getDefaultType($useragent);
+		}
+		$class = 'BS' . $type . 'UserAgent';
 		return new $class($useragent);
 	}
 

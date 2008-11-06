@@ -62,7 +62,7 @@ abstract class BSController {
 		}
 
 		try {
-			$action = BSModule::getInstance($module)->getAction($action)
+			$action = BSModule::getInstance($module)->getAction($action);
 		} catch (Exception $e) {
 			$action = $this->getNotFoundAction();
 		}

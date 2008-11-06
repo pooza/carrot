@@ -69,57 +69,50 @@ ini_set('magic_quotes_gpc', 0);
 ini_set('magic_quotes_runtime', 0);
 set_include_path(get_include_path() . PATH_SEPARATOR . BS_LIB_PEAR_DIR);
 
-try {
-	$names = array();
-	if (php_sapi_name() == 'cli') {
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$_SERVER['HTTP_USER_AGENT'] = 'Console';
-		$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
-		$names[] = $_SERVER['HOST'];
-		$names[] = basename(BS_ROOT_DIR);
-		$names[] = basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'];
-	} else {
-		$names[] = $_SERVER['SERVER_NAME'];
-	}
-	$names[] = 'localhost';
+$names = array();
+if (php_sapi_name() == 'cli') {
+	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+	$_SERVER['HTTP_USER_AGENT'] = 'Console';
+	$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
+	$names[] = $_SERVER['HOST'];
+	$names[] = basename(BS_ROOT_DIR);
+	$names[] = basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'];
+} else {
+	$names[] = $_SERVER['SERVER_NAME'];
+}
+$names[] = 'localhost';
 
-	$_SERVER['SERVER_NAME'] = null;
-	foreach ($names as $servername) {
-		if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
-			require(BSConfigManager::getInstance()->compile($file));
-			$_SERVER['SERVER_NAME'] = $servername;
-			break;
-		}
+$_SERVER['SERVER_NAME'] = null;
+foreach ($names as $servername) {
+	if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
+		require(BSConfigManager::getInstance()->compile($file));
+		$_SERVER['SERVER_NAME'] = $servername;
+		break;
 	}
-	if (!$_SERVER['SERVER_NAME']) {
-		throw new Exception('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
-	}
+}
+if (!$_SERVER['SERVER_NAME']) {
+	throw new Exception('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
+}
 
-	if (defined('BS_DEBUG') && BS_DEBUG) {
-		error_reporting(E_ALL | E_STRICT);
-		ini_set('display_errors', 1);
-		ini_set('log_errors', 0);
-	} else {
-		ini_set('display_errors', 0);
-		ini_set('log_errors', 1);
-		ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
-	}
+require(BSConfigManager::getInstance()->compile('constant/application'));
+require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
-	require(BSConfigManager::getInstance()->compile('constant/application'));
-	require(BSConfigManager::getInstance()->compile('constant/carrot'));
-
+if (defined('BS_DEBUG') && BS_DEBUG) {
+	error_reporting(E_ALL | E_STRICT);
+	ini_set('display_errors', 1);
+	ini_set('log_errors', 0);
 	BSController::getInstance()->dispatch();
-} catch (BSException $e) {
-	if (defined('BS_DEBUG') && BS_DEBUG) {
-		trigger_error($e->getMessage(), E_USER_ERROR);
-	} else {
-		if (!headers_sent()) {
-			header('Content-Type: text/plain; charset=utf-8');
-		}
+} else {
+	ini_set('display_errors', 0);
+	ini_set('log_errors', 1);
+	ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
+	try {
+		BSController::getInstance()->dispatch();
+	} catch (BSException $e) {
 		print 'サーバへのアクセスが集中しています。しばらくお待ち下さい。';
+	} catch (Exception $e) {
+		throw new BSException($e->getMessage());
 	}
-} catch (Exception $e) {
-	throw new BSException($e->getMessage());
 }
 
 /* vim:set tabstop=4 ai: */
