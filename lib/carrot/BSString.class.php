@@ -338,7 +338,7 @@ class BSString {
 				$value[$key] = self::stripControlCharacters($item);
 			}
 		} else {
-			$value = preg_replace('/[[:cntrl:]]/', '', $value);
+			$value = preg_replace('/[[:cntrl:]]/u', '', $value);
 		}
 		return $value;
 	}
