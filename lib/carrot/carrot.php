@@ -67,6 +67,7 @@ ini_set('session.hash_function', 1);
 ini_set('session.save_path', BS_VAR_DIR . '/tmp');
 ini_set('magic_quotes_gpc', 0);
 ini_set('magic_quotes_runtime', 0);
+ini_set('realpath_cache_size', '128K');
 set_include_path(get_include_path() . PATH_SEPARATOR . BS_LIB_PEAR_DIR);
 
 $names = array();
