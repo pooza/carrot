@@ -56,19 +56,14 @@ abstract class BSUserAgent {
 	 * @static
 	 */
 	static public function getDefaultType ($useragent) {
-		$name = sprintf('%s.%s.%s', __CLASS__, __FUNCTION__, BSCrypt::getSHA1($useragent));
-		if (!$type = BSController::getInstance()->getAttribute($name)) {
-			foreach (self::getTypes() as $type) {
-				$class = 'BS' . $type . 'UserAgent';
-				$instance = new $class;
-				if (preg_match($instance->getPattern(), $useragent)) {
-					BSController::getInstance()->setAttribute($name, $type);
-					return $type;
-				}
+		foreach (self::getTypes() as $type) {
+			$class = 'BS' . $type . 'UserAgent';
+			$instance = new $class;
+			if (preg_match($instance->getPattern(), $useragent)) {
+				return $type;
 			}
-			return 'Console';
 		}
-		return $type;
+		return 'Console';
 	}
 
 	/**
