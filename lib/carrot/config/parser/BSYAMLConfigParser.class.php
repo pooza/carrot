@@ -4,7 +4,7 @@
  * @subpackage config.parser
  */
 
-//BSController::includeFileではインクルードできない
+//BSUtility::includeFileではインクルードできない
 require_once(BS_LIB_DIR . '/spyc.php5');
 
 /**

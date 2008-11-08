@@ -4,7 +4,7 @@
  * @subpackage css
  */
 
-BSController::includeFile('pear/HTML/CSS.php');
+BSUtility::includeFile('pear/HTML/CSS.php');
 
 /**
  * スタイルセット

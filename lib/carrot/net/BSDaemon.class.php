@@ -4,8 +4,8 @@
  * @subpackage net
  */
 
-BSController::includeFile('nanoserv/nanoserv.php');
-BSController::includeFile('nanoserv/handlers/NS_Line_Input_Connection_Handler.php');
+BSUtility::includeFile('nanoserv/nanoserv.php');
+BSUtility::includeFile('nanoserv/handlers/NS_Line_Input_Connection_Handler.php');
 
 /**
  * デーモン

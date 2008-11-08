@@ -33,6 +33,33 @@ class BSUtility {
 
 		return false;
 	}
+
+	/**
+	 * エラーチェックなしでインクルード
+	 *
+	 * @access public
+	 * @param string $path インクルードするファイルのパス、又はBSFileオブジェクト
+	 * @static
+	 */
+	static public function includeFile ($file) {
+		if (($file instanceof BSFile) == false) {
+			if (!self::isPathAbsolute($file)) {
+				$file = BSController::getInstance()->getPath('lib') . DIRECTORY_SEPARATOR . $file;
+			}
+			$file = new BSFile($file);
+		}
+		if (!$file->isReadable()) {
+			throw new BSFileException('"%s"はインクルード出来ません。', $file);
+		}
+
+		if ($config = ini_get('display_errors')) {
+			ini_set('display_errors', 0);
+		}
+		require_once($file->getPath());
+		if ($config) {
+			ini_set('display_errors', 1);
+		}
+	}
 }
 
 /* vim:set tabstop=4 ai: */

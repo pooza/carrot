@@ -29,7 +29,7 @@ class BSJavaScriptFile extends BSFile {
 
 		$expire = $this->getUpdateDate();
 		if (!$contents = BSController::getInstance()->getAttribute($name, $expire)) {
-			BSController::includeFile('jsmin.php');
+			BSUtility::includeFile('jsmin.php');
 			$contents = JSMin::minify($this->getContents());
 			BSController::getInstance()->setAttribute($name, $contents);
 		}

@@ -4,7 +4,7 @@
  * @subpackage crypt
  */
 
-BSController::includeFile('pear/Crypt/Rc4.php');
+BSUtility::includeFile('pear/Crypt/Rc4.php');
 
 /**
  * RC4暗号
