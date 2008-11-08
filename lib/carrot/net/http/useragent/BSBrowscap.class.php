@@ -69,17 +69,9 @@ class BSBrowscap extends BSParameterHolder {
 	 * @return boolean 利用可能ならTrue
 	 */
 	public function isEnable () {
-		if (!BSController::getInstance()->isResolvable()) {
-			return false;
-		}
-
-		$constants = BSConstantHandler::getInstance();
-		$name = 'USERAGENT_BROWSCAP_ENABLE';
-		if ($constants->hasParameter($name) && !$constants[$name]) {
-			return false;
-		}
-
-		return true;
+		$controller = BSController::getInstance();
+		return $controller->isResolvable()
+			&& $controller->getConstant('USERAGENT_BROWSCAP_ENABLE');
 	}
 
 	/**

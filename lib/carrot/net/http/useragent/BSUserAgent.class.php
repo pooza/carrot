@@ -92,7 +92,7 @@ abstract class BSUserAgent {
 			} else if (is_array($types[$this->getType()])) {
 				foreach ($types[$this->getType()] as $pattern) {
 					if (strpos($this->getName(), $pattern) !== false) {
-						$this->denied = true;
+						return $this->denied = true;
 					}
 				}
 				$this->denied = false;
