@@ -225,13 +225,10 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			foreach (array('/[A-Z][a-z0-9]+/u', '/[A-Z]{2,}/u', '/[A-Z]/u') as $pattern) {
-				while (preg_match($pattern, $value, $matches)) {
-					$word = $matches[0];
-					$value = str_replace($word, '_' . strtolower($word), $value);
-				}
+			while (preg_match('/[A-Z][a-z0-9]+/u', $value, $matches)) {
+				$word = $matches[0];
+				$value = str_replace($word, '_' . strtolower($word), $value);
 			}
-			$value = preg_replace('/_+/u', '_', $value);
 			$value = preg_replace('/^_/u', '', $value);
 			$value = strtolower($value);
 		}
@@ -319,7 +316,7 @@ class BSString {
 				$value[$key] = self::stripHTMLTags($item);
 			}
 		} else {
-			$value = preg_replace('/<\/?[^>]*>/u', '', $value);
+			$value = strip_tags($value);
 		}
 		return $value;
 	}
