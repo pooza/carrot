@@ -5,7 +5,7 @@
  */
 
 //BSController::includeFileではインクルードできない
-require_once(BS_LIB_DIR . '/spyc/spyc.php5');
+require_once(BS_LIB_DIR . '/spyc.php5');
 
 /**
  * YAML設定パーサー
