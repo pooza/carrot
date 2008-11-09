@@ -60,7 +60,13 @@ class BSModule implements BSHTTPRedirector {
 
 		$name = BSString::stripControlCharacters($name);
 		if (!self::$instances[$name]) {
-			self::$instances[$name] = new BSModule($name);
+			$module = new BSModule($name);
+			$class = $name . 'Module';
+			if ($file = $module->getDirectory()->getEntry($class . '.class.php')) {
+				require($file->getPath());
+				$module = new $class($name);
+			}
+			self::$instances[$name] = $module;
 		}
 		return self::$instances[$name];
 	}
