@@ -64,6 +64,9 @@ class BSModule implements BSHTTPRedirector {
 			$class = $name . 'Module';
 			if ($file = $module->getDirectory()->getEntry($class . '.class.php')) {
 				require($file->getPath());
+				if (!class_exists($class)) {
+					throw new BSInitializationException('"%s" が見つかりません。', $class);
+				}
 				$module = new $class($name);
 			}
 			self::$instances[$name] = $module;
