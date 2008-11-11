@@ -15,6 +15,20 @@ class BSSmartySender extends BSSMTP {
 
 	/**
 	 * @access public
+	 * @param BSHost $path ホスト
+	 * @param integer $port ポート
+	 */
+	public function __construct (BSHost $host = null, $port = null) {
+		parent::__construct($host, $port);
+
+		$request = BSRequest::getInstance();
+		$this->getRenderer()->setAttribute('date', BSDate::getNow()->format());
+		$this->getRenderer()->setAttribute('useragent', $request->getUserAgent()->getName());
+		$this->getRenderer()->setAttribute('remote_host', $request->getHost()->getName());
+	}
+
+	/**
+	 * @access public
 	 * @param string $method メソッド名
 	 * @param mixed[] $values 引数
 	 */
@@ -59,6 +73,21 @@ class BSSmartySender extends BSSMTP {
 	 */
 	final public function getEngine () {
 		return $this->getRenderer();
+	}
+
+	/**
+	 * テンプレートを設定
+	 *
+	 * @access public
+	 * @param string $template テンプレートファイル名
+	 */
+	public function setTemplate ($template) {
+		foreach (array($template, $template . '.mail') as $name) {
+			try {
+				$this->getRenderer()->setTemplate($template);
+			} catch (BSSmartyException $e) {
+			}
+		}
 	}
 
 	/**
