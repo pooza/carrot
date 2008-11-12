@@ -47,6 +47,24 @@ class BSModule implements BSHTTPRedirector {
 	}
 
 	/**
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'controller':
+				return BSController::getInstance();
+			case 'request':
+				return BSRequest::getInstance();
+			case 'user':
+				return BSUser::getInstance();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
+		}
+	}
+
+	/**
 	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
@@ -111,7 +129,7 @@ class BSModule implements BSHTTPRedirector {
 		if (!$this->directories[$name]) {
 			switch ($name) {
 				case 'module':
-					$dir = BSController::getInstance()->getDirectory('modules');
+					$dir = $this->controller->getDirectory('modules');
 					$this->directories['module'] = $dir->getEntry($this->getName());
 					break;
 				default:
@@ -131,7 +149,7 @@ class BSModule implements BSHTTPRedirector {
 	public function getParameterCache () {
 		if (!$this->parameters) {
 			$this->parameters = new BSArray;
-			if ($params = BSUser::getInstance()->getAttribute($this->getParameterCacheName())) {
+			if ($params = $this->user->getAttribute($this->getParameterCacheName())) {
 				$this->parameters->setParameters($params);
 			}
 		}
@@ -148,7 +166,7 @@ class BSModule implements BSHTTPRedirector {
 		$this->parameters = clone $params;
 		$this->parameters->removeParameter(BSController::MODULE_ACCESSOR);
 		$this->parameters->removeParameter(BSController::ACTION_ACCESSOR);
-		BSUser::getInstance()->setAttribute(
+		$this->user->setAttribute(
 			$this->getParameterCacheName(),
 			$this->parameters->getParameters()
 		);
@@ -160,7 +178,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @access public
 	 */
 	public function clearParameterCache () {
-		BSUser::getInstance()->removeAttribute($this->getParameterCacheName());
+		$this->user->removeAttribute($this->getParameterCacheName());
 	}
 
 	/**
@@ -207,7 +225,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return integer カレントレコードID
 	 */
 	public function getRecordID () {
-		return BSUser::getInstance()->getAttribute($this->getRecordIDName());
+		return $this->user->getAttribute($this->getRecordIDName());
 	}
 
 	/**
@@ -221,7 +239,7 @@ class BSModule implements BSHTTPRedirector {
 			$id = new BSArray($id);
 			$id = $id[$this->getTable()->getKeyField()];
 		}
-		BSUser::getInstance()->setAttribute($this->getRecordIDName(), $id);
+		$this->user->setAttribute($this->getRecordIDName(), $id);
 	}
 
 	/**
@@ -230,7 +248,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @access public
 	 */
 	public function clearRecordID () {
-		BSUser::getInstance()->removeAttribute($this->getRecordIDName());
+		$this->user->removeAttribute($this->getRecordIDName());
 	}
 
 	/**
@@ -391,7 +409,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return BSController::getInstance()->redirect($this->getURL());
+		return $this->controller->redirect($this->getURL());
 	}
 
 	/**
