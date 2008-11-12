@@ -174,6 +174,18 @@ class BSDate {
 	}
 
 	/**
+	 * 時刻を0:00に設定し、返す
+	 *
+	 * @access public
+	 * @return BSDate 自分自身
+	 */
+	public function clearTime () {
+		$this->setHasTime(false);
+		$this->setHasTime(true);
+		return $this;
+	}
+
+	/**
 	 * 属性を返す
 	 *
 	 * @access public
@@ -219,8 +231,16 @@ class BSDate {
 				$this->attributes->removeAttribute('weekday_name');
 				break;
 			case 'hour':
+				if (($value < 0) || (23 < $value)) {
+					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
+				}
+				$this->setHasTime(true);
+				break;
 			case 'minute':
 			case 'second':
+				if (($value < 0) || (59 < $value)) {
+					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
+				}
 				$this->setHasTime(true);
 				break;
 			default:
