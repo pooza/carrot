@@ -409,7 +409,7 @@ class BSModule implements BSHTTPRedirector {
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return $this->controller->redirect($this->getURL());
+		return $this->getURL()->redirect();
 	}
 
 	/**
