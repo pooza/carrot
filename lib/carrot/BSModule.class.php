@@ -24,10 +24,10 @@ class BSModule implements BSHTTPRedirector {
 	static private $prefixes = array();
 
 	/**
-	 * @access private
+	 * @access protected
 	 * @param string $name モジュール名
 	 */
-	private function __construct ($name) {
+	protected function __construct ($name) {
 		$this->getAttributes()->setParameter('name', $name);
 
 		if (!$this->getDirectory()) {
