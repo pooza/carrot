@@ -231,14 +231,14 @@ class BSDate {
 				$this->attributes->removeAttribute('weekday_name');
 				break;
 			case 'hour':
-				if (($value < 0) || (23 < $value)) {
+				if (preg_match('/^[0-9]+$/', $value) && (($value < 0) || (23 < $value))) {
 					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
 				}
 				$this->setHasTime(true);
 				break;
 			case 'minute':
 			case 'second':
-				if (($value < 0) || (59 < $value)) {
+				if (preg_match('/^[0-9]+$/', $value) && (($value < 0) || (59 < $value))) {
 					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
 				}
 				$this->setHasTime(true);

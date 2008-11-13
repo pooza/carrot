@@ -107,6 +107,26 @@ class BSCalendar implements IteratorAggregate {
 	 * カレンダーに値を書き込む
 	 *
 	 * @access public
+	 * @param BSDate $date 日付
+	 * @param string $name 値の名前
+	 * @param mixed $value 値
+	 */
+	public function setValue (BSDate $date, $name, $value) {
+		$datekey = $date->format('Y-m-d');
+		foreach ($this->weeks as &$week) {
+			foreach ($week as $key => &$day) {
+				if ($datekey == $key) {
+					$day[$name][] = $value;
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * カレンダーに値を書き込む
+	 *
+	 * @access public
 	 * @param string $name 値の名前
 	 * @param mixed[] $values 値の連想配列
 	 */
