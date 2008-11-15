@@ -22,7 +22,7 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 	 */
 	protected function convert ($key, $value) {
 		if ($this->request->getUserAgent()->isMobile()) {
-			return BSString::convertEncoding($value, 'utf-8', 'sjis');
+			return BSString::convertEncoding($value, 'utf-8', 'sjis-win');
 		} else {
 			return BSString::convertEncoding($value);
 		}

@@ -41,7 +41,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function initializeSmarty (BSSmarty $smarty) {
 		$smarty->setAttribute('useragent', $this->getAttributes());
-		$smarty->setEncoding('sjis');
+		$smarty->setEncoding('sjis-win');
 		$smarty->addOutputFilter('mobile');
 		$smarty->addOutputFilter('encoding');
 		$smarty->addOutputFilter('trim');

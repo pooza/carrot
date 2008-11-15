@@ -20,7 +20,7 @@ class BSMSIEUserAgent extends BSUserAgent {
 	 * @return string エンコード済みファイル名
 	 */
 	public function getEncodedFileName ($name) {
-		$name = BSString::convertEncoding($name, 'sjis');
+		$name = BSString::convertEncoding($name, 'sjis-win');
 		return BSString::sanitize($name);
 	}
 
