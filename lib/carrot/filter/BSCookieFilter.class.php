@@ -19,6 +19,7 @@ class BSCookieFilter extends BSFilter {
 
 			$name = BSCookieHandler::getTestCookieName();
 			switch ($this->request->getMethod()) {
+				case BSRequest::HEAD:
 				case BSRequest::GET:
 					$this->controller->setCookie($name, true);
 					break;
