@@ -82,7 +82,7 @@ abstract class BSUserAgent {
 				$types += $config['Deny'];
 			}
 
-			if (!isset($types[$this->getType()]) || !$types[$this->getType()]) {
+			if (!isset($types[$this->getType()])) {
 				$this->denied = false;
 			} else if (is_array($types[$this->getType()])) {
 				foreach ($types[$this->getType()] as $pattern) {
