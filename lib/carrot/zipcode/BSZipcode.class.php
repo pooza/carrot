@@ -53,9 +53,7 @@ class BSZipcode {
 	public function getFile () {
 		if (!$this->file) {
 			$dir = BSController::getInstance()->getDirectory('zipcode');
-			if (!$this->file = $dir->getEntry('zip-' . $this->major)) {
-				throw new BSZipcodeException('郵便番号情報 "%s" が不正です。', $this->major);
-			}
+			$this->file = $dir->getEntry('zip-' . $this->major);
 		}
 		return $this->file;
 	}
@@ -67,13 +65,12 @@ class BSZipcode {
 	 * @return BSArray 住所情報
 	 */
 	private function getInfo () {
-		if (!$this->info) {
+		if (!$this->info && $this->getFile()) {
 			$serializer = new BSJSONSerializer;
 			$addresses = new BSArray($serializer->decode($this->getFile()->getContents()));
-			if (!$info = $addresses[$this->major. $this->minor]) {
-				throw new BSZipcodeException('郵便番号 "%s" が不正です。', $this->getContents());
+			if ($info = $addresses[$this->major. $this->minor]) {
+				$this->info = new BSArray($info);
 			}
-			$this->info = new BSArray($info);
 		}
 		return $this->info;
 	}
@@ -85,7 +82,7 @@ class BSZipcode {
 	 * @return string 都道府県
 	 */
 	public function getPref () {
-		if (!$this->pref) {
+		if (!$this->pref && $this->getInfo()) {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile('postal/pref'));
 			$prefs = new BSArray($config);
@@ -101,7 +98,9 @@ class BSZipcode {
 	 * @return string 市区町村
 	 */
 	public function getCity () {
-		return $this->getInfo()->getParameter(1);
+		if ($this->getInfo()) {
+			return $this->getInfo()->getParameter(1);
+		}
 	}
 
 	/**
@@ -111,7 +110,9 @@ class BSZipcode {
 	 * @return string 町域
 	 */
 	public function getLocality () {
-		return $this->getInfo()->getParameter(2);
+		if ($this->getInfo()) {
+			return $this->getInfo()->getParameter(2);
+		}
 	}
 
 	/**

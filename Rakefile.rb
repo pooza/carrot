@@ -13,10 +13,10 @@ desc '運用環境の構築（productionと同じ）'
 task :install => :production
 
 desc '運用環境の構築'
-task :production => [:chmod_var, :log, :pset, :awstats, :ajaxzip2, :production_local]
+task :production => [:chmod_var, :log, :pset, :awstats, :production_local]
 
 desc 'テスト環境の構築'
-task :development => [:chmod_var, :log, :pset, :phpdoc, :ajaxzip2, :development_local]
+task :development => [:chmod_var, :log, :pset, :phpdoc, :development_local]
 
 desc 'varディレクトリを書き込み可に'
 task :chmod_var do
