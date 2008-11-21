@@ -28,6 +28,13 @@ class BSCalendar implements IteratorAggregate {
 			$this->start = $end;
 			$this->end = $start;
 		}
+
+		$date = clone $this->start;
+		$date->setAttribute('year', '+1');
+		if ($date->getTimeStamp() < $this->getTimeStamp()) {
+			thorw new BSDateException('1年以上の期間は設定できません。');
+		}
+
 		$this->initialize();
 	}
 
