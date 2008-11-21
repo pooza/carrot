@@ -10,6 +10,7 @@
 class BrowseAction extends BSAction {
 	private $logger;
 	private $date;
+	private $exception;
 
 	private function getLogger () {
 		if (!$this->logger) {
@@ -37,11 +38,28 @@ class BrowseAction extends BSAction {
 	}
 
 	public function handleError () {
-		return $this->controller->getNotFoundAction()->forward();
+		$this->request->setAttribute('dates', array());
+		$entry = array(
+			'exception' => true,
+			'date' => BSDate::getNow('Y-m-d H:i:s'),
+			'remote_host' => $this->request->getHost()->getName(),
+			'message' => 'ログを取得できません。',
+		);
+		if ($this->exception) {
+			$entry['priority']= get_class($this->exception);
+			$entry['message'] = $this->exception->getMessage();
+		}
+		$this->request->setAttribute('entries', array($entry));
+		return BSView::SUCCESS;
 	}
 
 	public function validate () {
-		return ($this->getDate() && $this->getLogger());
+		try {
+			return ($this->getDate() && $this->getLogger());
+		} catch (BSLogException $e) {
+			$this->exception = $e;
+			return false;
+		}
 	}
 }
 
