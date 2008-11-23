@@ -86,6 +86,14 @@ abstract class BSView {
 	}
 
 	/**
+	 * 実行
+	 *
+	 * @access public
+	 * @abstract
+	 */
+	abstract public function execute ();
+
+	/**
 	 * 完了処理
 	 *
 	 * @access public

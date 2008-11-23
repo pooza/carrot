@@ -14,7 +14,6 @@
 abstract class BSAction implements BSHTTPRedirector {
 	private $attributes;
 	private $module;
-	private $views;
 
 	/**
 	 * @access public
@@ -190,25 +189,15 @@ abstract class BSAction implements BSHTTPRedirector {
 	public function getView ($name) {
 		$name = BSString::stripControlCharacters($name);
 		$class = $this->getName() . $name . 'View';
-		if (!$dir = $this->getModule()->getDirectory('views')) {
-			throw new BSFileException('%sにビューディレクトリがありません。', $this->getModule());
-		} else if (!$file = $dir->getEntry($class . '.class.php')) {
-			throw new BSFileException('%sに "%s" がありません。', $this->getModule(), $class);
-		}
-
-		if (!$this->views) {
-			$this->views = new BSArray;
-		}
-		if (!$this->views[$name]) {
-			require($file->getPath());
-			if (!class_exists($class)) {
-				throw new BSInitializationException(
-					'%sに "%s" が見つかりません。', $this->getModule(), $class
-				);
+		if ($dir = $this->getModule()->getDirectory('views')) {
+			if ($file = $dir->getEntry($class . '.class.php')) {
+				require($file->getPath());
+				if (class_exists($class)) {
+					return new $class($this);
+				}
 			}
-			$this->views[$name] = new $class($this);
 		}
-		return $this->views[$name];
+		return new BSDefaultView($this);
 	}
 
 	/**

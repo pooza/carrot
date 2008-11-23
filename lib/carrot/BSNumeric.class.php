@@ -85,7 +85,7 @@ class BSNumeric {
 	 * @static
 	 */
 	static public function getBinarySize ($num) {
-		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E', 'z') as $i => $unit) {
+		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z') as $i => $unit) {
 			$unitsize = pow(1024, $i);
 			if ($num < ($unitsize * 1024 * 2)) {
 				return number_format(floor($num / $unitsize)) . $unit;

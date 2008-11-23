@@ -1,13 +1,22 @@
 <?php
 /**
- * DatabaseListSuccessビュー
- *
  * @package org.carrot-framework
- * @subpackage DevelopTableReport
+ * @subpackage view
+ */
+
+/**
+ * 規定View
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DatabaseListSuccessView extends BSSmartyView {
+class BSDefaultView extends BSSmartyView {
+
+	/**
+	 * 実行
+	 *
+	 * @access public
+	 */
 	public function execute () {
 	}
 }
