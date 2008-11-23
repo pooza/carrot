@@ -88,7 +88,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 				return null;
 			} else if (!$file->isReadable()) {
 				return null;
-			} else if ($date && $file->getUpdateDate()->isAgo($date)) {
+			} else if ($date && $file->getUpdateDate()->isPast($date)) {
 				return null;
 			}
 			$this->attributes[$name] = $this->getSerializer()->decode($file->getContents());

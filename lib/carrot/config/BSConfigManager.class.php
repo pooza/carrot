@@ -63,7 +63,7 @@ class BSConfigManager {
 		}
 
 		$cache = self::getCacheFile($file);
-		if (!$cache->isExists() || $cache->getUpdateDate()->isAgo($file->getUpdateDate())) {
+		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($file->getUpdateDate())) {
 			foreach ($this->compilers as $pattern => $compiler) {
 				if ($pattern == '.default') {
 					$pattern = '/./'; //全てにマッチ

@@ -126,7 +126,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $body 本文
 	 */
 	public function setBody ($body = null) {
-		if (($body === 0) || ($body === '0')) {
+		if (BSNumeric::isZero($body)) {
 			$this->body = 0;
 		} else if ($body) {
 			$body = trim($body);

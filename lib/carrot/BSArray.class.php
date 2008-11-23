@@ -30,14 +30,18 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * 要素をまとめて設定
 	 *
 	 * @access public
-	 * @param mixed[] $params 要素の配列
+	 * @param mixed[] $values 要素の配列
 	 */
-	public function setParameters ($params) {
-		if (!self::isArray($params)) {
-			throw new BSRegisterException('配列でない値は代入出来ません。');
+	public function setParameters ($values) {
+		if ($values instanceof BSParameterHolder) {
+			$values = $values->getParameters();
+		} else if (BSNumeric::isZero($values)) {
+			$values = array(0);
+		} else if (!$values) {
+			return;
 		}
-		foreach ($params as $name => $value) {
-			$this->setParameter($name, $value);
+		foreach ((array)$values as $name => $value) {
+			$this->parameters[$name] = $value;
 		}
 	}
 
@@ -60,15 +64,18 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * ハッシュではない普通の配列同士は、setParametersではマージできない。
 	 *
 	 * @access public
-	 * @param mixed $parameters 配列
+	 * @param mixed $values 配列
 	 */
-	public function merge ($parameters) {
-		if ($parameters instanceof BSParameterHolder) {
-			$this->parameters = array_merge($this->parameters, $parameters->getParameters());
-		} else if (is_array($parameters)) {
-			$this->parameters = array_merge($this->parameters, $parameters);
-		} else {
-			throw new BSRegisterException('配列でない値はマージできません。');
+	public function merge ($values) {
+		if ($values instanceof BSParameterHolder) {
+			$values = $values->getParameters();
+		} else if (BSNumeric::isZero($values)) {
+			$values = array(0);
+		} else if (!$values) {
+			return;
+		}
+		foreach ((array)$values as $value) {
+			$this->parameters[] = $value;
 		}
 	}
 
@@ -220,15 +227,12 @@ class BSArray extends BSParameterHolder implements Countable {
 	 * @return BSArray 添字の配列
 	 */
 	public function getKeys ($option = null) {
-		$keys = new BSArray;
-		foreach ($this as $key => $value) {
-			if ($option & self::WITHOUT_KEY) {
-				$keys[] = $key;
-			} else {
-				$keys[$value] = $key;
-			}
+		if ($option & self::WITHOUT_KEY) {
+			$keys = array_keys($this->getParameters());
+		} else {
+			$keys = array_flip($this->getParameters());
 		}
-		return $keys;
+		return new BSArray($keys);
 	}
 
 	/**

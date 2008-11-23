@@ -243,7 +243,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string クォート後の文字列
 	 */
 	public function quote ($string, $type = PDO::PARAM_STR) {
-		if (($string === '0') || ($string === 0) || $string) {
+		if (BSNumeric::isZero($string) || $string) {
 			return parent::quote($string, $type);
 		} else {
 			return 'NULL';

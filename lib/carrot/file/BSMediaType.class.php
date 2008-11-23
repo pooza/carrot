@@ -19,7 +19,7 @@ class BSMediaType extends BSParameterHolder {
 	 */
 	private function __construct () {
 		$expire = $this->getTypesFile()->getUpdateDate();
-		if (!$this->getConfigFile()->getUpdateDate()->isAgo($expire)) {
+		if (!$this->getConfigFile()->getUpdateDate()->isPast($expire)) {
 			$expire = $this->getConfigFile()->getUpdateDate();
 		}
 

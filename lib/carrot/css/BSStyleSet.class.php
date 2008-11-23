@@ -69,7 +69,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 
 			$date = new BSDate;
 			foreach ($this->files as $file) {
-				if ($date->getTimeStamp() < $file->getUpdateDate()->getTimeStamp()) {
+				if ($date->getTimestamp() < $file->getUpdateDate()->getTimestamp()) {
 					$date = $file->getUpdateDate();
 				}
 			}

@@ -40,7 +40,7 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
 		if ($entry = $this->getEntry($name)) {
-			if (!$date || !$entry['update_date']->isAgo($date)) {
+			if (!$date || !$entry['update_date']->isPast($date)) {
 				return $entry['contents'];
 			}
 		}

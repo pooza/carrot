@@ -69,10 +69,10 @@ class BSStoredSessionHandler extends BSTableHandler {
 	 */
 	public function clean ($lifetime) {
 		$expire = new BSDate;
-		$expire->setTimeStamp(BSDate::getNow()->getTimeStamp() - $lifetime);
+		$expire->setTimestamp(BSDate::getNow()->getTimestamp() - $lifetime);
 
 		foreach ($this as $record) {
-			if ($record->getUpdateDate()->isAgo($expire)) {
+			if ($record->getUpdateDate()->isPast($expire)) {
 				$record->delete();
 			}
 		}

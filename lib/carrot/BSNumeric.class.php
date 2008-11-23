@@ -65,6 +65,18 @@ class BSNumeric {
 	}
 
 	/**
+	 * ゼロか？
+	 *
+	 * @access public
+	 * @param float $num 処理対象の数値
+	 * @return boolean ゼロならTrue
+	 * @static
+	 */
+	static public function isZero ($num) {
+		return (($num === 0) || ($num === '0'))
+	}
+
+	/**
 	 * バイナリ書式化して返す
 	 *
 	 * @access public
