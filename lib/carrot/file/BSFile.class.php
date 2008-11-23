@@ -153,13 +153,13 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @access public
 	 * @param string $str 書き込む内容
 	 */
-	public function putLine ($str = '') {
+	public function putLine ($str = '', $separator = self::LINE_SEPARATOR) {
 		if (!$this->isOpened() || !in_array($this->mode, array('w', 'a'))) {
 			throw new BSFileException('%sはw又はaモードで開かれていません。', $this);
 		}
 
 		flock($this->handle, LOCK_EX);
-		fputs($this->handle, $str . self::LINE_SEPARATOR);
+		fputs($this->handle, $str . $separator);
 		flock($this->handle, LOCK_UN);
 		$this->lines = null;
 	}

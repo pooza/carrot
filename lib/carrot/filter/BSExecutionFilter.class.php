@@ -55,9 +55,6 @@ class BSExecutionFilter extends BSFilter {
 		}
 		$instance->execute();
 		$instance->render();
-		if (!$instance->finalize()) {
-			throw new BSRenderException('%sが完了できません。', $instance);
-		}
 	}
 }
 

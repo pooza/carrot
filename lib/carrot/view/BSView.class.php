@@ -94,21 +94,6 @@ abstract class BSView {
 	abstract public function execute ();
 
 	/**
-	 * 完了処理
-	 *
-	 * @access public
-	 * @return boolean 完了処理が成功すればTrue
-	 */
-	public function finalize () {
-		if ($this->controller->getConstant('LOG_RENDER')) {
-			$this->controller->putLog(
-				BSString::toString($this->controller->getHeaders(), ':', ' / ')
-			);
-		}
-		return true;
-	}
-
-	/**
 	 * ビュー名を返す
 	 *
 	 * @access public
