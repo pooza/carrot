@@ -32,6 +32,7 @@ abstract class BSRecordAction extends BSAction {
 				$this->request->setParameters($record->getAttributes());
 			}
 		}
+		$this->request->setAttribute('styleset', 'carrot.Detail');
 		return true;
 	}
 
