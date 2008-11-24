@@ -25,6 +25,7 @@ abstract class BSRecordAction extends BSAction {
 		if ($id = $this->request['id']) {
 			$this->setRecordID($id);
 		}
+
 		if ($record = $this->getRecord()) {
 			$name = BSString::underscorize($this->getRecordClassName());
 			$this->request->setAttribute($name, $record->getAttributes());
@@ -32,7 +33,12 @@ abstract class BSRecordAction extends BSAction {
 				$this->request->setParameters($record->getAttributes());
 			}
 		}
+
 		$this->request->setAttribute('styleset', 'carrot.Detail');
+		if (method_exists($this->getTable(), 'getStatusOptions')) {
+			$this->request->setAttribute('status_options', $this->getTable()->getStatusOptions());
+		}
+
 		return true;
 	}
 

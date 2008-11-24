@@ -94,11 +94,6 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return boolean 正常終了ならTrue
 	 */
 	public function initialize () {
-		if ($table = $this->getTable()) {
-			if (method_exists($table, 'getStatusOptions')) {
-				$this->request->setAttribute('status_options', $table->getStatusOptions());
-			}
-		}
 		return true;
 	}
 

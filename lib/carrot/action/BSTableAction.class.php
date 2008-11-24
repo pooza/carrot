@@ -37,6 +37,10 @@ abstract class BSTableAction extends BSAction {
 		$this->request->setParameters($params->getParameters());
 		$this->getModule()->setParameterCache($params);
 
+		if (method_exists($this->getTable(), 'getStatusOptions')) {
+			$this->request->setAttribute('status_options', $this->getTable()->getStatusOptions());
+		}
+
 		return true;
 	}
 
