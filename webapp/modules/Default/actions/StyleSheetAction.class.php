@@ -27,7 +27,7 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function execute () {
-		$this->request->setAttribute('styleset', $this->getStyleSet());
+		$this->request->setAttribute('renderer', $this->getStyleSet());
 		return BSView::SUCCESS;
 	}
 

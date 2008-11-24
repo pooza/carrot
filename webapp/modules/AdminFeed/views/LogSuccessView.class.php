@@ -13,7 +13,7 @@ class LogSuccessView extends BSView {
 		if (!$class = BSConstantHandler::getInstance()->getParameter('FEED_CLASS')) {
 			$class = 'BSAtom10Document';
 		}
-		$this->setEngine(new $class);
+		$this->setRenderer(new $class);
 		return true;
 	}
 

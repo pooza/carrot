@@ -11,14 +11,6 @@
  * @version $Id$
  */
 class BSDefaultView extends BSSmartyView {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
-	public function execute () {
-	}
 }
 
 /* vim:set tabstop=4 ai: */

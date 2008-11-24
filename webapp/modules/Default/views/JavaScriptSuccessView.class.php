@@ -8,9 +8,6 @@
  * @version $Id$
  */
 class JavaScriptSuccessView extends BSView {
-	public function execute () {
-		$this->setEngine($this->request->getAttribute('jsset'));
-	}
 }
 
 /* vim:set tabstop=4 ai: */

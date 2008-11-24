@@ -27,7 +27,7 @@ class JavaScriptAction extends BSAction {
 	}
 
 	public function execute () {
-		$this->request->setAttribute('jsset', $this->getJavaScriptSet());
+		$this->request->setAttribute('renderer', $this->getJavaScriptSet());
 		return BSView::SUCCESS;
 	}
 

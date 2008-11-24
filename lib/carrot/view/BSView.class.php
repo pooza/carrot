@@ -82,6 +82,12 @@ abstract class BSView {
 	 * @return boolean 初期化が成功すればTrue
 	 */
 	public function initialize () {
+		if ($renderer = $this->request->getAttribute('renderer')) {
+			$this->setRenderer($renderer);
+		}
+		if ($filename = $this->request->getAttribute('filename')) {
+			$this->setFileName($filename);
+		}
 		return true;
 	}
 
@@ -89,9 +95,9 @@ abstract class BSView {
 	 * 実行
 	 *
 	 * @access public
-	 * @abstract
 	 */
-	abstract public function execute ();
+	public function execute () {
+	}
 
 	/**
 	 * ビュー名を返す
@@ -270,7 +276,7 @@ abstract class BSView {
 	 * @access public
 	 * @param string $name ファイル名
 	 */
-	public function setFileName ($name, $mode = self::INLINE) {
+	public function setFileName ($name, $mode = self::ATTACHMENT) {
 		$this->filename = $name;
 		$name = $this->useragent->getEncodedFileName($name);
 		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
