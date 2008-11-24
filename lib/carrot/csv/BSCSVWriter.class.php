@@ -24,9 +24,7 @@ class BSCSVWriter implements BSTextRenderer {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$dir = BSController::getInstance()->getDirectory('tmp');
-			$name = BSCrypt::getSHA1(BSDate::getNow('YmdHis') . BSNumeric::getRandom()) . '.csv';
-			$this->file = $dir->createEntry($name);
+			$this->file = BSFile::getTemporaryFile('.csv');
 		}
 		return $this->file;
 	}

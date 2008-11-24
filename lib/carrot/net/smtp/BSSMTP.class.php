@@ -355,12 +355,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function getMessageID () {
 		if (!$this->messageID) {
-			$this->messageID = sprintf(
-				'%s.%s@%s',
-				BSDate::getNow('YmdHis'),
-				BSNumeric::getRandom(),
-				$this->getHost()->getName()
-			);
+			$this->messageID = BSUtility::getUniqueID() . '@' . $this->getHost()->getName();
 		}
 		return $this->messageID;
 	}

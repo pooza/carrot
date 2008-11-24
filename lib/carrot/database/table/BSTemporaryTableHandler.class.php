@@ -40,8 +40,7 @@ class BSTemporaryTableHandler extends BSTableHandler {
 		if (!$this->name) {
 			$name = array(
 				$this->getRecordClassName(),
-				BSDate::getNow('YmdHis'),
-				BSNumeric::getRandom(),
+				BSUtility::getUniqueID(),
 			);
 			$this->name = strtolower(implode('_', $name));
 		}

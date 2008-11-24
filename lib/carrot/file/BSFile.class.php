@@ -387,6 +387,22 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		return sprintf('ファイル "%s"', $this->getPath());
 	}
 
+	/**
+	 * 一時ファイルを生成して返す
+	 *
+	 * @access public
+	 * @param string $suffix 拡張子
+	 * @return BSFile 一時ファイル
+	 * @static
+	 */
+	static public function getTemporaryFile ($suffix = null) {
+		$dir = BSController::getInstance()->getDirectory('tmp');
+		$name = BSUtility::getUniqueID() . $suffix;
+		if (!$file = $dir->createEntry($name)) {
+			throw new BSFileException('一時ファイルが生成できません。');
+		}
+		return $file;
+	}
 }
 
 /* vim:set tabstop=4 ai: */

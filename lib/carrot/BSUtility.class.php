@@ -35,6 +35,19 @@ class BSUtility {
 	}
 
 	/**
+	 * ユニークなIDを生成して返す
+	 *
+	 * @access public
+	 * @return string ユニークなID
+	 * @static
+	 */
+	static public function getUniqueID () {
+		return BSCrypt::getSHA1(
+			BSDate::getNow('YmdHis') . uniqid(BSNumeric::getRandom(), true)
+		);
+	}
+
+	/**
 	 * エラーチェックなしでインクルード
 	 *
 	 * @access public

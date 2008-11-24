@@ -188,12 +188,7 @@ class BSXMPP extends BSSocket {
 	 * @return string メッセージID
 	 */
 	private function getMessageID () {
-		return sprintf(
-			'%s.%s@%s',
-			BSDate::getNow('YmdHis'),
-			BSNumeric::getRandom(),
-			$this->getHost()->getName()
-		);
+		return BSUtility::getUniqueID() . '@' . $this->getHost()->getName();
 	}
 
 	/**

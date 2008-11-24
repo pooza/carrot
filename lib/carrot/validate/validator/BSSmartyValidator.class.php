@@ -21,11 +21,7 @@ class BSSmartyValidator extends BSValidator {
 	 */
 	private function getFile () {
 		if (!$this->file) {
-			$name = BSCrypt::getSHA1(BSDate::getNow('YmdHis') . BSNumeric::getRandom());
-			$dir = BSController::getInstance()->getDirectory('tmp');
-			if (!$this->file = $dir->createEntry($name)) {
-				throw new BSFileException('一時ファイルが生成できません。');
-			}
+			$this->file = BSFile::getTemporaryFile('.tpl');
 		}
 		return $this->file;
 	}
