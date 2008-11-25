@@ -64,6 +64,7 @@ class BSMenuFilter extends BSFilter {
 				return $file;
 			}
 		}
+		throw new BSConfigException('メニューファイルが見つかりません。');
 	}
 
 	/**
