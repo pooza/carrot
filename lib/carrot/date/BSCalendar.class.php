@@ -33,6 +33,9 @@ class BSCalendar implements IteratorAggregate {
 		while ($date->getTimestamp() <= $this->getEndDate()->getTimestamp()) {
 			$values = clone $date->getAttributes();
 			$values['date'] = $date->format('Y-m-d');
+			if ($date->isToday()) {
+				$values['today'] = true;
+			}
 			$values['holiday'] = $date->isHoliday();
 			$values['holiday_name'] = $date->getHolidayName();
 			$this->getDates()->setParameter($date->format('Y-m-d'), $values);
