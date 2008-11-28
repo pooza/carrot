@@ -18,6 +18,7 @@ class BSModule implements BSHTTPRedirector {
 	private $prefix;
 	private $record;
 	private $table;
+	private $url;
 	private $parameters;
 	private $recordClassName;
 	static private $instances;
@@ -397,9 +398,11 @@ class BSModule implements BSHTTPRedirector {
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = new BSURL;
-		$url->setAttribute('path', sprintf('/%s/', $this->getName()));
-		return $url;
+		if (!$this->url) {
+			$this->url = new BSCarrotURL;
+			$this->url->setModuleName($this);
+		}
+		return $this->url;
 	}
 
 	/**

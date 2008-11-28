@@ -14,6 +14,7 @@
 abstract class BSAction implements BSHTTPRedirector {
 	private $attributes;
 	private $module;
+	private $url;
 
 	/**
 	 * @access public
@@ -314,10 +315,11 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = new BSURL;
-		$path = sprintf('/%s/%s', $this->getModule()->getName(), $this->getName());
-		$url->setAttribute('path', $path);
-		return $url;
+		if (!$this->url) {
+			$this->url = new BSCarrotURL;
+			$this->url->setActionName($this);
+		}
+		return $this->url;
 	}
 
 	/**
