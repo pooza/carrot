@@ -15,6 +15,12 @@ class BSCarrotURL extends BSURL {
 	private $action;
 	private $id;
 
+	/**
+	 * モジュール名を返す
+	 *
+	 * @access public
+	 * @return string モジュール名
+	 */
 	public function getModuleName () {
 		if (!$this->module) {
 			$this->module = BSController::getInstance()->getConstant('DEFAULT_MODULE');
@@ -22,6 +28,12 @@ class BSCarrotURL extends BSURL {
 		return $this->module;
 	}
 
+	/**
+	 * モジュール名を設定
+	 *
+	 * @access public
+	 * @param mixed $module モジュール又はその名前
+	 */
 	public function setModuleName ($module) {
 		if ($module instanceof BSModule) {
 			$this->module = $module->getName();
@@ -31,6 +43,12 @@ class BSCarrotURL extends BSURL {
 		$this->parsePath();
 	}
 
+	/**
+	 * アクション名を返す
+	 *
+	 * @access public
+	 * @return string アクション名
+	 */
 	public function getActionName () {
 		if (!$this->action) {
 			$this->action = BSController::getInstance()->getConstant('DEFAULT_ACTION');
@@ -38,6 +56,12 @@ class BSCarrotURL extends BSURL {
 		return $this->action;
 	}
 
+	/**
+	 * アクション名を設定
+	 *
+	 * @access public
+	 * @param mixed $action アクション又はその名前
+	 */
 	public function setActionName ($action) {
 		if ($action instanceof BSAction) {
 			$this->module = $action->getModule()->getName();
@@ -48,10 +72,22 @@ class BSCarrotURL extends BSURL {
 		$this->parsePath();
 	}
 
+	/**
+	 * レコードのIDを返す
+	 *
+	 * @access public
+	 * @return integer レコードのID
+	 */
 	public function getRecordID () {
 		return $this->id;
 	}
 
+	/**
+	 * レコードのIDを設定
+	 *
+	 * @access public
+	 * @param mixed $id レコード又はそのID
+	 */
 	public function setRecordID ($id) {
 		if ($module instanceof BSRecord) {
 			$this->id = $id->getID();
@@ -61,6 +97,11 @@ class BSCarrotURL extends BSURL {
 		$this->parsePath();
 	}
 
+	/**
+	 * パスをパース
+	 *
+	 * @access private
+	 */
 	private function parsePath () {
 		$path = new BSArray;
 		$path[] = null;
