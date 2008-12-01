@@ -55,7 +55,7 @@ class BSSessionHandler {
 			if (!$type = BSController::getInstance()->getConstant('SESSION_STORAGE_TYPE')) {
 				$type = 'default';
 			}
-			$class = sprintf('BS%sSessionStorage', BSString::pascalize($type));
+			$class = 'BS' . BSString::pascalize($type) . 'SessionStorage';
 			$this->storage = new $class;
 		}
 		return $this->storage;

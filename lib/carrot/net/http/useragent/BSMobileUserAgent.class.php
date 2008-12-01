@@ -103,7 +103,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	static public function getDomainSuffixes () {
 		$patterns = array();
 		foreach (array('Docomo', 'Au', 'SoftBank') as $carrier) {
-			$name = sprintf('BS%sUserAgent', $carrier);
+			$name = 'BS' . $carrier . 'UserAgent';
 			$useragent = new $name;
 			$patterns[$useragent->getType()] = $useragent->getDomainSuffix();
 		}
