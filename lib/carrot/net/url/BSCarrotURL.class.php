@@ -89,7 +89,7 @@ class BSCarrotURL extends BSURL {
 	 * @param mixed $id レコード又はそのID
 	 */
 	public function setRecordID ($id) {
-		if ($module instanceof BSRecord) {
+		if ($id instanceof BSRecord) {
 			$this->id = $id->getID();
 		} else {
 			$this->id = $id;
