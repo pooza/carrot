@@ -39,7 +39,7 @@ class BSCalendar implements IteratorAggregate {
 			$values['holiday'] = $date->isHoliday();
 			$values['holiday_name'] = $date->getHolidayName();
 			$this->getDates()->setParameter($date->format('Y-m-d'), $values);
-			$date->setAttribute('day', '+1');
+			$date['day'] = '+1';
 		}
 	}
 
@@ -159,9 +159,9 @@ class BSCalendar implements IteratorAggregate {
 	public function getWeeks () {
 		$weeks = new BSArray;
 		$date = clone $this->getStartDate();
-		$date->setAttribute('day', '-' . ($date->format('N') - 1));
+		$date['day'] = '-' . ($date->format('N') - 1);
 		$end = clone $this->getEndDate();
-		$end->setAttribute('day', '+' . (7 - $end->format('N')));
+		$end['day'] = '+' . (7 - $end->format('N'));
 
 		while ($date->getTimestamp() <= $end->getTimestamp()) {
 			if ($date->format('N') == 1) {
@@ -173,7 +173,7 @@ class BSCalendar implements IteratorAggregate {
 				$values['disabled'] = true;
 			}
 			$week[] = $values;
-			$date->setAttribute('day', '+1');
+			$date['day'] = '+1';
 		}
 		return $weeks;
 	}

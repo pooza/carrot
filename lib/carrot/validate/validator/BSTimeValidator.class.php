@@ -26,7 +26,7 @@ class BSTimeValidator extends BSValidator {
 			$date = BSDate::getNow()->clearTime();
 			if ($fields = $this['fields']) {
 				foreach ($fields as $key => $value) {
-					$date->setAttribute($key, $this->request[$value]);
+					$date[$key] = $this->request[$value];
 				}
 			} else {
 				$date->setDate('2001-01-01 ' . $value);

@@ -65,7 +65,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 			$this->date = BSDate::getNow();
 		}
 		$this->date->setHasTime(false);
-		$this->date->setAttribute('day', 1);
+		$this->date['day'] = 1;
 	}
 
 	/**

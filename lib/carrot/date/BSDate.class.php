@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDate {
+class BSDate implements ArrayAccess {
 	const MON = 1;
 	const TUE = 2;
 	const WED = 3;
@@ -24,9 +24,9 @@ class BSDate {
 
 	/**
 	 * @access public
-	 * @param string $str 日付文字列
+	 * @param string $date 日付文字列
 	 */
-	public function __construct ($str = null) {
+	public function __construct ($date = null) {
 		if (!self::$timezone) {
 			if ($timezone = BSController::getInstance()->getConstant('DATE_TIMEZONE')) {
 				self::$timezone = $timezone;
@@ -34,9 +34,11 @@ class BSDate {
 			}
 		}
 
-		$this->attributes = new BSArray(array('timestamp' => null, 'has_time' => false));
-		if ($str) {
-			$this->setDate($str);
+		$this->attributes = new BSArray;
+		$this->attributes['timestamp'] = null;
+		$this->attributes['has_time'] = false;
+		if ($date) {
+			$this->setDate($date);
 		}
 	}
 
@@ -51,40 +53,25 @@ class BSDate {
 	 * 日付を設定
 	 *
 	 * @access public
-	 * @param string $str 日付文字列
+	 * @param string $date 日付文字列
+	 * @return BSDate 適用後の自分自身
 	 */
-	public function setDate ($str) {
-		if ($time = strtotime($str)) {
+	public function setDate ($date) {
+		if ($time = strtotime($date)) {
 			$this->setTimestamp($time);
 		} else {
-			$str = preg_replace('/[^0-9]+/', '', $str);
-			$this->setAttribute('year', substr($str, 0, 4));
-			$this->setAttribute('month', substr($str, 4, 2));
-			$this->setAttribute('day', substr($str, 6, 2));
-			$this->setAttribute('hour', substr($str, 8, 2));
-			$this->setAttribute('minute', substr($str, 10, 2));
-			$this->setAttribute('second', substr($str, 12, 2));
+			$date = preg_replace('/[^0-9]+/', '', $date);
+			$this['year'] = substr($date, 0, 4);
+			$this['month'] = substr($date, 4, 2);
+			$this['day'] = substr($date, 6, 2);
+			$this['hour'] = substr($date, 8, 2);
+			$this['minute'] = substr($date, 10, 2);
+			$this['second'] = substr($date, 12, 2);
 		}
 
-		if (!$this->validate()) {
-			throw new BSDateException('%sは正しくない日付です。', $this);
-		}
-	}
-
-	/**
-	 * 年月日による日付設定
-	 *
-	 * @access public
-	 * @param integer $year 年
-	 * @param integer $month 月
-	 * @param integer $day 日
-	 */
-	public function setYMD ($year, $month, $day = 1) {
-		$this->setAttribute('year', $year);
-		$this->setAttribute('month', $month);
-		$this->setAttribute('day', $day);
-
-		if (!$this->validate()) {
+		if ($this->validate()) {
+			return $this;
+		} else {
 			throw new BSDateException('%sは正しくない日付です。', $this);
 		}
 	}
@@ -98,12 +85,8 @@ class BSDate {
 	public function getTimestamp () {
 		if (!$this->attributes['timestamp']) {
 			$this->attributes['timestamp'] = mktime(
-				$this->getAttribute('hour'),
-				$this->getAttribute('minute'),
-				$this->getAttribute('second'),
-				$this->getAttribute('month'),
-				$this->getAttribute('day'),
-				$this->getAttribute('year')
+				$this['hour'], $this['minute'], $this['second'],
+				$this['month'], $this['day'], $this['year']
 			);
 		}
 		return $this->attributes['timestamp'];
@@ -114,17 +97,21 @@ class BSDate {
 	 *
 	 * @access public
 	 * @param integer $timestamp UNIXタイムスタンプ
+	 * @return BSDate 適用後の自分自身
 	 */
 	public function setTimestamp ($timestamp) {
-		$this->setAttribute('year', date('Y', $timestamp));
-		$this->setAttribute('month', date('m', $timestamp));
-		$this->setAttribute('day', date('d', $timestamp));
-		$this->setAttribute('hour', date('H', $timestamp));
-		$this->setAttribute('minute', date('i', $timestamp));
-		$this->setAttribute('second', date('s', $timestamp));
+		$info = getdate($timestamp);
+		$this['year'] = $info['year'];
+		$this['month'] = $info['mon'];
+		$this['day'] = $info['mday'];
+		$this['hour'] = $info['hours'];
+		$this['minute'] = $info['minutes'];
+		$this['second'] = $info['seconds'];
 		$this->attributes['timestamp'] = $timestamp;
 
-		if (!$this->validate()) {
+		if ($this->validate()) {
+			return $this;
+		} else {
 			throw new BSDateException('"%s"は正しくないタイムスタンプです。', $timestamp);
 		}
 	}
@@ -163,7 +150,7 @@ class BSDate {
 		if ($this->attributes['has_time'] = $mode) {
 			foreach (array('hour', 'minute', 'second') as $name) {
 				if (!$this->attributes->hasAttribute($name)) {
-					$this->attributes->setAttribute($name, 0);
+					$this->attributes[$name] = 0;
 				}
 			}
 		} else {
@@ -231,16 +218,8 @@ class BSDate {
 				$this->attributes->removeAttribute('weekday_name');
 				break;
 			case 'hour':
-				if (preg_match('/^[0-9]+$/', $value) && (($value < 0) || (23 < $value))) {
-					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
-				}
-				$this->setHasTime(true);
-				break;
 			case 'minute':
 			case 'second':
-				if (preg_match('/^[0-9]+$/', $value) && (($value < 0) || (59 < $value))) {
-					throw new BSDateException('属性"%s"を%dに設定できません。', $name, $value);
-				}
 				$this->setHasTime(true);
 				break;
 			default:
@@ -269,11 +248,11 @@ class BSDate {
 	 * @return boolean 妥当な日付ならtrue
 	 */
 	public function validate () {
-		return checkdate(
-			$this->getAttribute('month'),
-			$this->getAttribute('day'),
-			$this->getAttribute('year')
-		) && ($this->getTimestamp() !== false);
+		return checkdate($this['month'], $this['day'], $this['year'])
+			&& (0 <= $this['hour']) && ($this['hour'] <= 23)
+			&& (0 <= $this['minute']) && ($this['minute'] <= 59)
+			&& (0 <= $this['second']) && ($this['second'] <= 59)
+			&& ($this->getTimestamp() !== false);
 	}
 
 	/**
@@ -312,18 +291,13 @@ class BSDate {
 	 * 今日か？
 	 *
 	 * @access public
-	 * @param BSDate $now 比較対象の日付
 	 * @return boolean 今日の日付ならtrue
 	 */
-	public function isToday ($now = null) {
+	public function isToday () {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-
-		if (!$now) {
-			$now = self::getNow();
-		}
-		return ($this->format('Ymd') == $now->format('Ymd'));
+		return ($this->format('Ymd') == self::getNow('Ymd'));
 	}
 
 	/**
@@ -342,11 +316,10 @@ class BSDate {
 			$now = self::getNow();
 		}
 
-		$age = $now->getAttribute('year') - $this->getAttribute('year');
-		if ($now->getAttribute('month') < $this->getAttribute('month')) {
+		$age = $now['year'] - $this['year'];
+		if ($now['month'] < $this['month']) {
 			$age --;
-		} else if (($now->getAttribute('month') == $this->getAttribute('month'))
-			&& ($now->getAttribute('day') < $this->getAttribute('day'))) {
+		} else if (($now['month'] == $this['month']) && ($now['day'] < $this['day'])) {
 			$age --;
 		}
 		return $age;
@@ -380,11 +353,9 @@ class BSDate {
 		}
 
 		$date = clone $this;
-		$date->setAttribute('hour', 0);
-		$date->setAttribute('minute', 0);
-		$date->setAttribute('second', 0);
+		$date->setHasTime(false);
 		while ($date->getWeekday() != $weekday) {
-			$date->setAttribute('day', '+1');
+			$date['day'] = '+1';
 		}
 		return $date;
 	}
@@ -422,7 +393,7 @@ class BSDate {
 		$class = $config[$country]['class'];
 		$holidays = new $class;
 		$holidays->setDate($this);
-		return $holidays[$this->getAttribute('day')];
+		return $holidays[$this['day']];
 	}
 
 	/**
@@ -508,7 +479,7 @@ class BSDate {
 			foreach ($config as $gengo => $values) {
 				if ($values['start_date'] <= $this->format('Y-m-d')) {
 					$start = new BSDate($values['start_date']);
-					$year = $this->getAttribute('year') - $start->getAttribute('year') + 1;
+					$year = $this['year'] - $start['year'] + 1;
 					$this->attributes['japanese_year'] = $year;
 					break;
 				}
@@ -547,6 +518,49 @@ class BSDate {
 		} else {
 			return date($format, $this->getTimestamp());
 		}
+	}
+
+	/**
+	 * 要素が存在するか？
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return $this->attributes->hasParameter($key);
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		$this->setAttribute($key, $value);
+	}
+
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		$this->attributes->removeParameter($key);
 	}
 
 	/**
@@ -618,12 +632,7 @@ class BSDate {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'日付 "%04d-%02d-%02d"',
-			$this->getAttribute('year'),
-			$this->getAttribute('month'),
-			$this->getAttribute('day')
-		);
+		return sprintf('日付 "%04d-%02d-%02d"', $this['year'], $this['month'], $this['day']);
 	}
 }
 

@@ -70,6 +70,8 @@ ini_set('magic_quotes_runtime', 0);
 ini_set('realpath_cache_size', '128K');
 set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
 
+date_default_timezone_set('UTC');
+
 $names = array();
 if (php_sapi_name() == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';

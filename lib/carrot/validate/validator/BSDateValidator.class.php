@@ -26,7 +26,7 @@ class BSDateValidator extends BSValidator {
 			$date = new BSDate;
 			if ($fields = $this['fields']) {
 				foreach ($fields as $key => $value) {
-					$date->setAttribute($key, $this->request[$value]);
+					$date[$key] = $this->request[$value];
 				}
 			} else {
 				$date->setDate($value);
