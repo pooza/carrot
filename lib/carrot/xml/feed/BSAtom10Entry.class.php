@@ -88,12 +88,10 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	static public function getID (BSURL $url) {
 		$id = $url->getContents();
+		$id = str_replace($url['scheme'] . '://', '', $id);
 
-		$scheme = $url->getAttribute('scheme') . '://';
-		$id = str_replace($scheme, '', $id);
-
-		if ($auth = $url->getAttribute('user')) {
-			if ($pass = $url->getAttribute('pass')) {
+		if ($auth = $url['user']) {
+			if ($pass = $url['pass']) {
 				$auth .= ':' . $pass; 
 			}
 			$auth .= '@';
@@ -102,7 +100,7 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 
 		$id = str_replace('#', '/', $id);
 
-		$host = $url->getAttribute('host')->getName();
+		$host = $url['host']->getName();
 		$date = BSDate::getNow(',Y-m-d:');
 		$id = str_replace($host, $host . $date, $id);
 

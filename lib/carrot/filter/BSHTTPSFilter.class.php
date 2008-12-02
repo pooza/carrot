@@ -18,7 +18,7 @@ class BSHTTPSFilter extends BSFilter {
 			&& ($this->request->getMethod() == BSRequest::GET)) {
 
 			$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));
-			$url->setAttribute('path', $this->controller->getEnvironment('REQUEST_URI'));
+			$url['path'] = $this->controller->getEnvironment('REQUEST_URI');
 			$url->redirect();
 			exit;
 		}

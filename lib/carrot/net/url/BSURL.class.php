@@ -10,10 +10,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSURL implements BSHTTPRedirector {
-	private $url;
+class BSURL implements BSHTTPRedirector, ArrayAccess {
+	private $contents;
 	private $fullpath;
-	private $attributes = array('path' => '/');
+	private $attributes;
 	private $parameters;
 	private $tinyurl;
 	const PATTERN = '/^[a-z]+:\/\/[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
@@ -27,11 +27,11 @@ class BSURL implements BSHTTPRedirector {
 			$this->setContents($url);
 		} else {
 			if (BSRequest::getInstance()->isSSL()) {
-				$this->setAttribute('scheme', 'https');
+				$this['scheme'] = 'https';
 			} else {
-				$this->setAttribute('scheme', 'http');
+				$this['scheme'] = 'http';
 			}
-			$this->setAttribute('host', BSController::getInstance()->getHost());
+			$this['host'] = BSController::getInstance()->getHost();
 		}
 	}
 
@@ -42,41 +42,13 @@ class BSURL implements BSHTTPRedirector {
 	 * @return string URL
 	 */
 	public function getContents () {
-		if (!$this->url && $this->getAttributes()) {
-			if (!$scheme = $this->getAttribute('scheme')) {
+		if (!$this->contents && $this->getAttributes()) {
+			if (!$this->contents = $this->getHeadString()) {
 				return null;
 			}
-			$this->url = $scheme . '://';
-
-			if ($user = $this->getAttribute('user')) {
-				$this->url .= $user;
-				if ($pass = $this->getAttribute('pass')) {
-					$this->url .= ':' . $pass;
-				}
-				$this->url .= '@';
-			}
-
-			if (!$host = $this->getAttribute('host')) {
-				$this->url = null;
-				return null;
-			}
-			$this->url .= $host->getName();
-
-			if ($this->getAttribute('port') != BSNetworkService::getPort($scheme)) {
-				$this->url .= ':' . $this->getAttribute('port');
-			}
-
-			$this->url .= $this->getAttribute('path');
-
-			if ($fragment = $this->getAttribute('fragment')) {
-				$this->url .= '#' . $fragment;
-			}
-
-			if ($query = $this->getAttribute('query')) {
-				$this->url .= '?' . $query;
-			}
+			$this->contents .= $this->getFullPath();
 		}
-		return $this->url;
+		return $this->contents;
 	}
 
 	/**
@@ -90,9 +62,9 @@ class BSURL implements BSHTTPRedirector {
 			return false;
 		}
 
-		$this->attributes = array('path' => '/');
+		$this->attributes = null;
 		foreach (parse_url($url) as $name => $value) {
-			$this->setAttribute($name, $value);
+			$this[$name] = $value;
 		}
 	}
 
@@ -110,6 +82,40 @@ class BSURL implements BSHTTPRedirector {
 	}
 
 	/**
+	 * フルパスを除いた前半を返す
+	 *
+	 * @access private
+	 * @return string 前半
+	 */
+	private function getHeadString () {
+		$head = null;
+
+		if (!$this['scheme']) {
+			return null;
+		}
+		$head = $this['scheme'] . '://';
+
+		if ($this['user']) {
+			$head .= $this['user'];
+			if ($this['pass']) {
+				$head .= ':' . $this['pass'];
+			}
+			$head .= '@';
+		}
+
+		if (!$this['host']) {
+			return null;
+		}
+		$head .= $this['host']->getName();
+
+		if ($this['port'] != BSNetworkService::getPort($this['scheme'])) {
+			$head .= ':' . $this['port'];
+		}
+
+		return $head;
+	}
+
+	/**
 	 * path以降を返す
 	 *
 	 * @access public
@@ -117,14 +123,12 @@ class BSURL implements BSHTTPRedirector {
 	 */
 	public function getFullPath () {
 		if (!$this->fullpath && $this->getAttributes()) {
-			$this->fullpath .= $this->getAttribute('path');
-
-			if ($query = $this->getAttribute('query')) {
-				$this->fullpath .= '?' . $query;
+			$this->fullpath = $this['path'];
+			if ($this['query']) {
+				$this->fullpath .= '?' . $this['query'];
 			}
-
-			if ($fragment = $this->getAttribute('fragment')) {
-				$this->fullpath .= '#' . $fragment;
+			if ($this['fragment']) {
+				$this->fullpath .= '#' . $this['fragment'];
 			}
 		}
 		return $this->fullpath;
@@ -138,9 +142,7 @@ class BSURL implements BSHTTPRedirector {
 	 * @return string 属性
 	 */
 	public function getAttribute ($name) {
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->getAttributes()->getParameter($name);
 	}
 
 	/**
@@ -153,38 +155,38 @@ class BSURL implements BSHTTPRedirector {
 	public function setAttribute ($name, $value) {
 		switch ($name) {
 			case 'scheme':
-				$this->attributes['scheme'] = $value;
-				if (!$this->getAttribute('port')) {
-					$this->setAttribute('port', BSNetworkService::getPort($value));
+				$this->getAttributes()->setParameter('scheme', $value);
+				if (!$this['port']) {
+					$this['port'] = BSNetworkService::getPort($value);
 				}
 				break;
 			case 'host':
-				if (!($value instanceof BSHost)) {
+				if (($value instanceof BSHost) == false) {
 					$value = new BSHost($value);
 				}
-				$this->attributes['host'] = $value;
+				$this->getAttributes()->setParameter('host', $value);
 				break;
 			case 'path':
 				$value = preg_replace('/^\/*/', '/', $value);
 				foreach (parse_url($value) as $name => $attribute) {
-					$this->attributes[$name] = $attribute;
+					$this->getAttributes()->setParameter($name, $attribute);
 				}
 				$this->parseQuery();
 				break;
 			case 'query':
-				$this->attributes[$name] = $value;
+				$this->getAttributes()->setParameter($name, $value);
 				$this->parseQuery();
 				break;
 			case 'port':
 			case 'user':
 			case 'pass':
 			case 'fragment':
-				$this->attributes[$name] = $value;
+				$this->getAttributes()->setParameter($name, $value);
 				break;
 			default:
 				throw new BSNetException('"%s"は正しくない属性名です。', $name);
 		}
-		$this->url = null;
+		$this->contents = null;
 	}
 
 	/**
@@ -194,6 +196,10 @@ class BSURL implements BSHTTPRedirector {
 	 * @return string[] 属性
 	 */
 	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+			$this->attributes['path'] = '/';
+		}
 		return $this->attributes;
 	}
 
@@ -203,7 +209,7 @@ class BSURL implements BSHTTPRedirector {
 	 * @access private
 	 */
 	private function parseQuery () {
-		parse_str($this->getAttribute('query'), $parameters);
+		parse_str($this['query'], $parameters);
 		$this->parameters = new BSArray($parameters);
 	}
 
@@ -234,7 +240,7 @@ class BSURL implements BSHTTPRedirector {
 
 		$this->parseQuery();
 		$this->parameters[$name] = urlencode($value);
-		$this->setAttribute('query', BSString::toString($this->parameters, '=', '&'));
+		$this['query'] = BSString::toString($this->parameters, '=', '&');
 	}
 
 	/**
@@ -272,12 +278,12 @@ class BSURL implements BSHTTPRedirector {
 	public function fetch () {
 		if (!$this->validate()) {
 			throw new BSNetException('URLが正しくありません。');
-		} else if (!in_array($this->getAttribute('scheme'), array('http', 'https'))) {
+		} else if (!in_array($this['scheme'], array('http', 'https'))) {
 			throw new BSNetException('URLのスキーム"%s"が正しくありません。');
 		}
 
 		try {
-			$http = new BSCurlHTTP($this->getAttribute('host'));
+			$http = new BSCurlHTTP($this['host']);
 			return $http->sendGetRequest($this->getFullPath());
 		} catch (BSException $e) {
 			throw new BSHTTPException('"%s"を取得出来ませんでした。', $this->getContents());
@@ -326,6 +332,49 @@ class BSURL implements BSHTTPRedirector {
 	 */
 	public function redirect () {
 		return BSController::getInstance()->redirect($this);
+	}
+
+	/**
+	 * 要素が存在するか？
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return isset($this->attribute[$key]);
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		$this->setAttribute($key, $value);
+	}
+
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		$this->setAttribute($key, null);
 	}
 
 	/**

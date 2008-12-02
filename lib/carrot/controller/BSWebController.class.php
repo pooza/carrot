@@ -78,7 +78,7 @@ class BSWebController extends BSController {
 			$url = $redirectTo->getURL();
 		} else {
 			$url = new BSURL;
-			$url->setAttribute('path', $redirectTo);
+			$url['path'] = $redirectTo;
 		}
 
 		$this->request->createSession();

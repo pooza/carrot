@@ -71,7 +71,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 			$url->setParameter(BSRequest::USER_AGENT_ACCESSOR, $this->getName());
 		}
 		$this->attributes['query'] = $url->getParameters();
-		$this->attributes['query_params'] = $url->getAttribute('query');
+		$this->attributes['query_params'] = $url['query'];
 	}
 
 	/**

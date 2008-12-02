@@ -110,7 +110,7 @@ class BSCarrotURL extends BSURL {
 		if ($id = $this->getRecordID()) {
 			$path[] = $id;
 		}
-		$this->setAttribute('path', $path->join('/'));
+		$this['path'] = $path->join('/');
 	}
 }
 
