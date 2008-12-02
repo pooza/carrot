@@ -19,12 +19,12 @@ class BSRegexValidator extends BSStringValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('match', true);
-		$this->setParameter('match_error', '正しくありません。');
-		$this->setParameter('pattern', null);
+		$this['match'] = true;
+		$this['match_error'] = '正しくありません。';
+		$this['pattern'] = null;
 		parent::initialize($parameters);
 
-		if (!$this->getParameter('pattern')) {
+		if (!$this['pattern']) {
 			throw new BSValidateException('正規表現パターンが指定されていません。');
 		}
 		return true;
@@ -42,12 +42,12 @@ class BSRegexValidator extends BSStringValidator {
 			return false;
 		}
 
-		$match = $this->getParameter('match');
-		$pattern = $this->getParameter('pattern');
+		$match = $this['match'];
+		$pattern = $this['pattern'];
 		if (($match && !preg_match($pattern, $value))
 			|| (!$match && preg_match($pattern, $value)))
 		{
-			$this->error = $this->getParameter('match_error');
+			$this->error = $this['match_error'];
 			return false;
 		}
 

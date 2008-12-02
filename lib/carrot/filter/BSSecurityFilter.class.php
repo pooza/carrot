@@ -23,7 +23,7 @@ class BSSecurityFilter extends BSFilter {
 	}
 
 	private function getCredential () {
-		if ($credential = $this->getParameter('credential')) {
+		if ($credential = $this['credential']) {
 			return $credential;
 		} else {
 			return $this->action->getCredential();

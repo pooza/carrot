@@ -19,9 +19,9 @@ class BSURLValidator extends BSRegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('match', true);
-		$this->setParameter('match_error', '正しくありません。');
-		$this->setParameter('pattern', BSURL::PATTERN);
+		$this['match'] = true;
+		$this['match_error'] = '正しくありません。';
+		$this['pattern'] = BSURL::PATTERN;
 		return BSValidator::initialize($parameters);
 	}
 }

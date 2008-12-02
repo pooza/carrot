@@ -19,15 +19,15 @@ class BSMailAddressValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('unique', false);
-		$this->setParameter('unique_error', '重複します。');
-		$this->setParameter('domain', false);
-		$this->setParameter('domain_error', '正しいドメインではない様です。');
-		$this->setParameter('mobile_allowed', true);
-		$this->setParameter('mobile_allowed_error', '携帯電話用のアドレスは使用出来ません。');
-		$this->setParameter('table', 'account');
-		$this->setParameter('field', 'email');
-		$this->setParameter('invalid_error', '正しいメールアドレスではありません。');
+		$this['unique'] = false;
+		$this['unique_error'] = '重複します。';
+		$this['domain'] = false;
+		$this['domain_error'] = '正しいドメインではない様です。';
+		$this['mobile_allowed'] = true;
+		$this['mobile_allowed_error'] = '携帯電話用のアドレスは使用出来ません。';
+		$this['table'] = 'account';
+		$this['field'] = 'email';
+		$this['invalid_error'] = '正しいメールアドレスではありません。';
 		return parent::initialize($parameters);
 	}
 
@@ -42,32 +42,32 @@ class BSMailAddressValidator extends BSValidator {
 		try {
 			$email = new BSMailAddress($value);
 		} catch (BSMailException $e) {
-			$this->error = $this->getParameter('invalid_error');
+			$this->error = $this['invalid_error'];
 			return false;
 		}
 
-		if ($this->getParameter('domain') && !$email->isValidDomain()) {
-			$this->error = $this->getParameter('domain_error');
+		if ($this['domain'] && !$email->isValidDomain()) {
+			$this->error = $this['domain_error'];
 			return false;
 		}
 
-		if (!$this->getParameter('mobile_allowed') && $email->isMobile()) {
-			$this->error = $this->getParameter('mobile_allowed_error');
+		if (!$this['mobile_allowed'] && $email->isMobile()) {
+			$this->error = $this['mobile_allowed_error'];
 			return false;
 		}
 
-		if ($this->getParameter('unique')) {
-			$class = BSString::pascalize($this->getParameter('table')) . 'Handler';
+		if ($this['unique']) {
+			$class = BSString::pascalize($this['table']) . 'Handler';
 			$table = new $class;
-			$values = array($this->getParameter('field') => $value);
+			$values = array($this['field'] => $value);
 			if ($record = $table->getRecord($values)) {
 				if ($id = $this->controller->getModule()->getRecordID()) {
 					if ($id != $record->getID()) {
-						$this->error = $this->getParameter('unique_error');
+						$this->error = $this['unique_error'];
 						return false;
 					}
 				} else {
-					$this->error = $this->getParameter('unique_error');
+					$this->error = $this['unique_error'];
 					return false;
 				}
 			}

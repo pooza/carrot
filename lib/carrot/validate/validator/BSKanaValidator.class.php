@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSKanaValidator extends BSValidator {
-	const PATTERN = '^[ぁ-んァ-ンヴー0-9]*$';
+	const PATTERN = '/^[ぁ-んァ-ンヴー0-9]*$/u';
 
 	/**
 	 * 初期化
@@ -20,7 +20,7 @@ class BSKanaValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('invalid_error', 'フリガナとして使用出来ない文字が含まれています。');
+		$this['invalid_error'] = 'フリガナとして使用出来ない文字が含まれています。';
 		return parent::initialize($parameters);
 	}
 
@@ -32,8 +32,8 @@ class BSKanaValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!mb_ereg(self::PATTERN, $value)) {
-			$this->error = $this->getParameter('invalid_error');
+		if (!preg_match(self::PATTERN, $value)) {
+			$this->error = $this['invalid_error'];
 			return false;
 		}
 		return true;

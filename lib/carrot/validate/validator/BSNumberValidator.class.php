@@ -19,11 +19,11 @@ class BSNumberValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('max', null);
-		$this->setParameter('max_error', '値が大きすぎます。');
-		$this->setParameter('min', null);
-		$this->setParameter('min_error', '値が小さすぎます。');
-		$this->setParameter('nan_error', '数値を入力して下さい。');
+		$this['max'] = null;
+		$this['max_error'] = '値が大きすぎます。';
+		$this['min'] = null;
+		$this['min_error'] = '値が小さすぎます。';
+		$this['nan_error'] = '数値を入力して下さい。';
 		return parent::initialize($parameters);
 	}
 
@@ -36,19 +36,19 @@ class BSNumberValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (!is_numeric($value)) {
-			$this->error = $this->getParameter('nan_error');
+			$this->error = $this['nan_error'];
 			return false;
 		}
 
-		$min = $this->getParameter('min');
+		$min = $this['min'];
 		if (($min != null) && ($value < $min)) {
-			$this->error = $this->getParameter('min_error');
+			$this->error = $this['min_error'];
 			return false;
 		}
 
-		$max = $this->getParameter('max');
+		$max = $this['max'];
 		if (($max != null) && ($max < $value)) {
-			$this->error = $this->getParameter('max_error');
+			$this->error = $this['max_error'];
 			return false;
 		}
 

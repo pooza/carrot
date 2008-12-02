@@ -21,9 +21,9 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('element_error', '許可されていない要素又は属性が含まれています。');
-		$this->setParameter('allowed_tags', 'a,br,div,li,ol,p,span,ul');
-		$this->setParameter('javascript_allowed', false);
+		$this['element_error'] = '許可されていない要素又は属性が含まれています。';
+		$this['allowed_tags'] = 'a,br,div,li,ol,p,span,ul';
+		$this['javascript_allowed'] = false;
 		return parent::initialize($parameters);
 	}
 
@@ -43,7 +43,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 			if (!self::isValidElement($element)) {
 				throw new BSXMLException(
 					'%s(%s)',
-					$this->getParameter('element_error'),
+					$this['element_error'],
 					$this->invalidNode
 				);
 			}
@@ -94,7 +94,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
 			$this->allowedTags[] = 'div';
-			$tags = $this->getParameter('allowed_tags');
+			$tags = $this['allowed_tags'];
 			if (!is_array($tags)) {
 				$tags = explode(',', $tags);
 			}
@@ -114,7 +114,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @return boolean 許可されているならTrue
 	 */
 	private function isJavaScriptAllowed () {
-		return ($this->getParameter('javascript_allowed') == true);
+		return ($this['javascript_allowed'] == true);
 	}
 }
 

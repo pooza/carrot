@@ -22,7 +22,7 @@ class BSPasswordValidator extends BSRegexValidator {
 		if (!isset($parameters['digits'])) {
 			$parameters['digits'] = 6;
 		}
-		$parameters['match'] = 'Yes';
+		$parameters['match'] = true;
 		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
 		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
 

@@ -55,7 +55,7 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenuFile () {
 		$names = array(
-			$this->getParameter('name'),
+			$this['name'],
 			BSString::pascalize($this->getModule()->getPrefix()),
 			BSString::underscorize($this->getModule()->getPrefix()),
 		);

@@ -19,10 +19,10 @@ class BSStringValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('max', 1024);
-		$this->setParameter('max_error', '長すぎます。');
-		$this->setParameter('min', null);
-		$this->setParameter('min_error', '短すぎます。');
+		$this['max'] = 1024;
+		$this['max_error'] = '長すぎます。';
+		$this['min'] = null;
+		$this['min_error'] = '短すぎます。';
 		return parent::initialize($parameters);
 	}
 
@@ -34,15 +34,15 @@ class BSStringValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$min = $this->getParameter('min');
+		$min = $this['min'];
 		if (($min != null) && (strlen($value) < $min)) {
-			$this->error = $this->getParameter('min_error');
+			$this->error = $this['min_error'];
 			return false;
 		}
 
-		$max = $this->getParameter('max');
+		$max = $this['max'];
 		if (($max != null) && ($max < strlen($value))) {
-			$this->error = $this->getParameter('max_error');
+			$this->error = $this['max_error'];
 			return false;
 		}
 

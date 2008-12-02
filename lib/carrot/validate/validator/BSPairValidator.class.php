@@ -19,8 +19,8 @@ class BSPairValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('field', '');
-		$this->setParameter('match_error', '一致しません。');
+		$this['field'] = null;
+		$this['match_error'] = '一致しません。';
 		return parent::initialize($parameters);
 	}
 
@@ -32,12 +32,12 @@ class BSPairValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!$name = $this->getParameter('field')) {
+		if (!$name = $this['field']) {
 			return true;
 		}
 
 		if ($value != BSRequest::getInstance()->getParameter($name)) {
-			$this->error = $this->getParameter('match_error');
+			$this->error = $this['match_error'];
 			return false;
 		}
 

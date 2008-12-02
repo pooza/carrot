@@ -19,9 +19,9 @@ class BSFileValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('size', 2);
-		$this->setParameter('size_error', 'ファイルサイズが大きすぎます。');
-		$this->setParameter('invalid_error', '正しいファイルではありません。');
+		$this['size'] = 2;
+		$this['size_error'] = 'ファイルサイズが大きすぎます。';
+		$this['invalid_error'] = '正しいファイルではありません。';
 		return parent::initialize($parameters);
 	}
 
@@ -34,23 +34,23 @@ class BSFileValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (!BSArray::isArray($value)) {
-			$this->error = $this->getParameter('invalid_error');
+			$this->error = $this['invalid_error'];
 			return false;
 		} else if ($value['name']) {
-			if (($this->getParameter('size') * 1024 * 1024) < $value['size']) {
-				$this->error = $this->getParameter('size_error');
+			if (($this['size'] * 1024 * 1024) < $value['size']) {
+				$this->error = $this['size_error'];
 				return false;
 			} else if ($value['error'] == 2) {
-				$this->error = $this->getParameter('size_error');
+				$this->error = $this['size_error'];
 				return false;
 			} else if ($value['error']) {
-				$this->error = $this->getParameter('invalid_error');
+				$this->error = $this['invalid_error'];
 				return false;
 			}
 
 			$file = new BSFile($value['tmp_name']);
 			if (!$file->isExists() || !$file->isUploaded()) {
-				$this->error = $this->getParameter('invalid_error');
+				$this->error = $this['invalid_error'];
 				return false;
 			}
 		}

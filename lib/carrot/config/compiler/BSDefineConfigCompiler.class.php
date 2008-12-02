@@ -13,7 +13,7 @@
 class BSDefineConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$prefix = preg_replace('/_$/', '', $this->getParameter('prefix'));
+		$prefix = preg_replace('/_$/', '', $this['prefix']);
 		$this->putLine('$constants = array(');
 
 		foreach ($this->getConstants($file->getResult(), $prefix) as $key => $value) {

@@ -19,8 +19,8 @@ class BSChoiceValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('choices', null);
-		$this->setParameter('choices_error', '正しくありません。');
+		$this['choices'] = null;
+		$this['choices_error'] = '正しくありません。';
 		return parent::initialize($parameters);
 	}
 
@@ -37,7 +37,7 @@ class BSChoiceValidator extends BSValidator {
 		}
 		foreach ($value as $item) {
 			if (!$this->getChoices()->isIncluded($item)) {
-				$this->error = $this->getParameter('choices_error');
+				$this->error = $this['choices_error'];
 				return false;
 			}
 		}
@@ -45,7 +45,7 @@ class BSChoiceValidator extends BSValidator {
 	}
 
 	private function getChoices () {
-		$choices = $this->getParameter('choices');
+		$choices = $this['choices'];
 		if (is_array($choices)) {
 			$choices = new BSArray($choices);
 		} else {

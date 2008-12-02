@@ -19,9 +19,9 @@ class BSJabberIDValidator extends BSRegexValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('match', true);
-		$this->setParameter('match_error', '正しいJabberIDではありません。');
-		$this->setParameter('pattern', BSJabberID::PATTERN);
+		$this['match'] = true;
+		$this['match_error'] = '正しいJabberIDではありません。';
+		$this['pattern'] = BSJabberID::PATTERN;
 		return BSValidator::initialize($parameters);
 	}
 }

@@ -19,7 +19,7 @@ class BSEmptyValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this->setParameter('required_msg', '空欄です。');
+		$this['required_msg'] = '空欄です。';
 		return parent::initialize($parameters);
 	}
 
@@ -32,7 +32,7 @@ class BSEmptyValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (self::isEmpty($value)) {
-			$this->error = $this->getParameter('required_msg');
+			$this->error = $this['required_msg'];
 			return false;
 		}
 		return true;
