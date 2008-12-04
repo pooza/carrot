@@ -19,3 +19,5 @@ function confirmDelete (m, a, recordType, id) {
     redirect(m, a, id);
   }
 }
+
+AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';

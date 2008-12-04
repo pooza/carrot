@@ -14,7 +14,4 @@
 - class: BSReadingRequestFilter
 - class: BSDateRequestFilter
 - class: BSDeniedUserAgentFilter
-  params:
-    types:
-      - LegacyMozilla
 - class: BSCookieFilter

@@ -303,6 +303,18 @@ class BSString {
 	}
 
 	/**
+	 * 空白か？
+	 *
+	 * @access public
+	 * @param string $str 処理対象の文字列
+	 * @return boolean 空白ならTrue
+	 * @static
+	 */
+	static public function isBlank ($str) {
+		return ($str === '') || ($str === null) ;
+	}
+
+	/**
 	 * HTMLタグを取り除く
 	 *
 	 * @access public

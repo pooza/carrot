@@ -17,7 +17,7 @@ class DefaultAction extends BSAction {
 		if (!$href = $this->controller->getConstant('HOME_HREF')) {
 			$href = '/index.html';
 		}
-		$url->setAttribute('path', $href);
+		$url['path'] = $href;
 		return $url->redirect();
 	}
 
