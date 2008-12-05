@@ -263,14 +263,11 @@ abstract class BSUserAgent {
 	 * @static
 	 */
 	static private function getTypes () {
-		// 評価を行う順に記述すること
 		return new BSArray(array(
+			'Trident',
 			'Tasman',
-			'MSIE',
-			'Chrome',
-			'Safari',
-			'WebKit',
 			'Gecko',
+			'WebKit',
 			'Opera',
 			'LegacyMozilla',
 			'Docomo',

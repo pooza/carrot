@@ -5,12 +5,23 @@
  */
 
 /**
- * InternetExplorerユーザーエージェント
+ * Tridentユーザーエージェント
+ *
+ * Windows版 InternetExplorer 4.x以降
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMSIEUserAgent extends BSUserAgent {
+class BSTridentUserAgent extends BSUserAgent {
+
+	/**
+	 * @access public
+	 * @param string $name ユーザーエージェント名
+	 */
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['is_msie'] = true;
+	}
 
 	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
@@ -41,7 +52,7 @@ class BSMSIEUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE/';
+		return '/MSIE [4-9]+\.[0-9]+; Windows/';
 	}
 }
 

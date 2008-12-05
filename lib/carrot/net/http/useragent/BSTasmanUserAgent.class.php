@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTasmanUserAgent extends BSMSIEUserAgent {
+class BSTasmanUserAgent extends BSUserAgent {
 
 	/**
 	 * @access public
@@ -22,13 +22,25 @@ class BSTasmanUserAgent extends BSMSIEUserAgent {
 	}
 
 	/**
+	 * ダウンロード用にエンコードされたファイル名を返す
+	 *
+	 * @access public
+	 * @param string $name ファイル名
+	 * @return string エンコード済みファイル名
+	 */
+	public function getEncodedFileName ($name) {
+		$name = BSString::convertEncoding($name, 'sjis-win');
+		return BSString::sanitize($name);
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE [0-9]+\.[0-9]+; Mac/';
+		return '/MSIE 5\.[0-9]+; Mac/';
 	}
 }
 
