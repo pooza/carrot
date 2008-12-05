@@ -20,4 +20,17 @@ function confirmDelete (m, a, recordType, id) {
   }
 }
 
-AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
+var actions = {};
+actions['onload'] = [];
+
+window.onload = function () {
+  for (var i = 0 ; i < actions['onload'].length ; i ++) {
+    actions['onload'][i]();
+  }
+}
+
+actions['onload'].push(
+  function () {
+    AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
+  }
+);
