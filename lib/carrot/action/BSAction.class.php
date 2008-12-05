@@ -220,7 +220,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * BSModule::setRecordID()のエイリアス。
 	 *
 	 * @access public
-	 * @param integer $id カレントレコードID
+	 * @param integer $id カレントレコードID、又はレコード
 	 * @final
 	 */
 	final public function setRecordID ($id) {

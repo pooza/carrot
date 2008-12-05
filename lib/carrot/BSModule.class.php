@@ -233,10 +233,12 @@ class BSModule implements BSHTTPRedirector {
 	 * カレントレコードIDを設定
 	 *
 	 * @access public
-	 * @param integer $id カレントレコードID
+	 * @param integer $id カレントレコードID、又はレコード
 	 */
 	public function setRecordID ($id) {
-		if (BSArray::isArray($id)) {
+		if ($id instanceof BSRecord) {
+			$id = $id->getID();
+		} else if (BSArray::isArray($id)) {
 			$id = new BSArray($id);
 			$id = $id[$this->getTable()->getKeyField()];
 		}
