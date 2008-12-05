@@ -32,8 +32,10 @@
 	</ul>
 </div>
 <script type="text/javascript">
-	var elevator = new Elevator('Menu', 10, 10, 10);
-	setInterval('elevator.move()', 10);
+actions['onload'].push(function () {ldelim}
+  elevator = new Elevator('Menu', 10, 10, 10);
+  setInterval('elevator.move()', 10);
+{rdelim});
 </script>
 {/if}
 
