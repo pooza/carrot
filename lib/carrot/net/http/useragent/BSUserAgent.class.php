@@ -15,6 +15,7 @@ abstract class BSUserAgent {
 	private $type;
 	private $denied = null;
 	protected $attributes;
+	protected $bugs;
 	protected $session;
 
 	/**
@@ -28,6 +29,7 @@ abstract class BSUserAgent {
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 		$this->attributes['is_unsupported'] = $this->isDenied();
 		$this->attributes['is_denied'] = $this->isDenied();
+		$this->bugs = new BSArray;
 	}
 
 	/**
@@ -166,13 +168,14 @@ abstract class BSUserAgent {
 	}
 
 	/**
-	 * キャッシングに関するバグがあるか？
+	 * バグがあるか？
 	 *
 	 * @access public
+	 * @param string $name バグ名
 	 * @return boolean バグがあるならTrue
 	 */
-	public function isBuggy () {
-		return false;
+	public function hasBug ($name) {
+		return ($this->bugs[$name] || $this->bugs['general']);
 	}
 
 	/**
@@ -198,6 +201,21 @@ abstract class BSUserAgent {
 	 */
 	public function getAttributes () {
 		return $this->attributes;
+	}
+
+	/**
+	 * プラットホームを返す
+	 *
+	 * @access public
+	 * @return string プラットホーム
+	 */
+	public function getPlatform () {
+		if (!$this->attributes['platform']) {
+			if (preg_match('/^Mozilla\/[0-9]\.[0-9]+ \(([^;]+);/', $this->getName(), $matches)) {
+				$this->attributes['platform'] = $matches[1];
+			}
+		}
+		return $this->attributes['platform'];
 	}
 
 	/**
@@ -265,10 +283,10 @@ abstract class BSUserAgent {
 	static private function getTypes () {
 		return new BSArray(array(
 			'Trident',
-			'Tasman',
 			'Gecko',
 			'WebKit',
 			'Opera',
+			'Tasman',
 			'LegacyMozilla',
 			'Docomo',
 			'Au',

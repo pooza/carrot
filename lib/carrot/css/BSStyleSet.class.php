@@ -224,7 +224,9 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 		}
 
 		if ($this->addFile($file)) {
-			if ($error = parent::parseFile($file->getPath(), $duplicates)) {
+			if (BSRequest::getInstance()->getUserAgent()->hasBug('css')) {
+				return;
+			} else if ($error = parent::parseFile($file->getPath(), $duplicates)) {
 				if ($error instanceof PEAR_Error) {
 					throw new BSCSSException($error->getMessage());
 				} else {

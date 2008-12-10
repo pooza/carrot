@@ -130,7 +130,7 @@ abstract class BSView {
 
 		$this->setContentType();
 		$this->setHeader('Content-Length', $this->renderer->getSize());
-		if ($this->useragent->isBuggy()) {
+		if ($this->useragent->hasBug('cache-control')) {
 			$this->setHeader('Cache-Control', null);
 			$this->setHeader('Pragma', null);
 		}

@@ -13,6 +13,16 @@
 class BSLegacyMozillaUserAgent extends BSUserAgent {
 
 	/**
+	 * @access public
+	 * @param string $name ユーザーエージェント名
+	 */
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['is_msie'] = true;
+		$this->bugs['css'] = true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

@@ -73,7 +73,7 @@ class BSNumeric {
 	 * @static
 	 */
 	static public function isZero ($num) {
-		return (($num === 0) || ($num === '0'));
+		return ($num === 0) || ($num === '0');
 	}
 
 	/**

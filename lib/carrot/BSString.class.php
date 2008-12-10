@@ -311,7 +311,7 @@ class BSString {
 	 * @static
 	 */
 	static public function isBlank ($str) {
-		return ($str === '') || ($str === null) ;
+		return ($str === '') || ($str === null);
 	}
 
 	/**

@@ -21,6 +21,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['is_msie'] = true;
+		$this->bugs['cache-control'] = BSRequest::getInstance()->isSSL();
 	}
 
 	/**
@@ -33,16 +34,6 @@ class BSTridentUserAgent extends BSUserAgent {
 	public function getEncodedFileName ($name) {
 		$name = BSString::convertEncoding($name, 'sjis-win');
 		return BSString::sanitize($name);
-	}
-
-	/**
-	 * キャッシングに関するバグがあるか？
-	 *
-	 * @access public
-	 * @return boolean バグがあるならTrue
-	 */
-	public function isBuggy () {
-		return BSRequest::getInstance()->isSSL();
 	}
 
 	/**
