@@ -291,13 +291,17 @@ class BSDate implements ArrayAccess {
 	 * 今日か？
 	 *
 	 * @access public
+	 * @param BSDate $now 比較対象の日付
 	 * @return boolean 今日の日付ならtrue
 	 */
-	public function isToday () {
+	public function isToday (BSDate $now = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		return ($this->format('Ymd') == self::getNow('Ymd'));
+		if (!$now) {
+			$now = self::getNow();
+		}
+		return ($this->format('Ymd') == $now->format('Ymd'));
 	}
 
 	/**
@@ -307,7 +311,7 @@ class BSDate implements ArrayAccess {
 	 * @param BSDate $now 比較対象の日付
 	 * @return integer 年数
 	 */
-	public function getAge ($now = null) {
+	public function getAge (BSDate $now = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
