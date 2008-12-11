@@ -18,7 +18,7 @@ class BSTasmanUserAgent extends BSUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
-		$this->attributes['is_msie'] = true;
+		$this->attributes['platform'] = 'Macintosh';
 	}
 
 	/**
@@ -31,22 +31,6 @@ class BSTasmanUserAgent extends BSUserAgent {
 	public function getEncodedFileName ($name) {
 		$name = BSString::convertEncoding($name, 'sjis-win');
 		return BSString::sanitize($name);
-	}
-
-	/**
-	 * プラットホームを返す
-	 *
-	 * @access public
-	 * @return string プラットホーム
-	 */
-	public function getPlatform () {
-		if (!$this->attributes['platform']) {
-			$pattern = '/MSIE [0-9]\.[0-9]+; ([^;]+);/';
-			if (preg_match($pattern, $this->getName(), $matches)) {
-				$this->attributes['platform'] = $matches[1];
-			}
-		}
-		return $this->attributes['platform'];
 	}
 
 	/**
