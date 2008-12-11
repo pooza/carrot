@@ -35,13 +35,13 @@ class BSStringValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		$min = $this['min'];
-		if (($min != null) && (strlen($value) < $min)) {
+		if (($min != null) && (BSString::getWidth($value) < $min)) {
 			$this->error = $this['min_error'];
 			return false;
 		}
 
 		$max = $this['max'];
-		if (($max != null) && ($max < strlen($value))) {
+		if (($max != null) && ($max < BSString::getWidth($value))) {
 			$this->error = $this['max_error'];
 			return false;
 		}
