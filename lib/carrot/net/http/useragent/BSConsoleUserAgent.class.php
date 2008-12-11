@@ -31,6 +31,16 @@ class BSConsoleUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * プラットホームを返す
+	 *
+	 * @access public
+	 * @return string プラットホーム
+	 */
+	public function getPlatform () {
+		return null;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

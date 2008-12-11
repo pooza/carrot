@@ -94,6 +94,19 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * プラットホームを返す
+	 *
+	 * @access public
+	 * @return string プラットホーム
+	 */
+	public function getPlatform () {
+		if (!$this->attributes['platform']) {
+			$this->attributes['platform'] = $this->getType();
+		}
+		return $this->attributes['platform'];
+	}
+
+	/**
 	 * 全キャリアのドメインサフィックスを返す
 	 *
 	 * @access public

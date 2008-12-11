@@ -37,6 +37,22 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * プラットホームを返す
+	 *
+	 * @access public
+	 * @return string プラットホーム
+	 */
+	public function getPlatform () {
+		if (!$this->attributes['platform']) {
+			$pattern = '/MSIE [0-9]\.[0-9]+; ([^;]+);/';
+			if (preg_match($pattern, $this->getName(), $matches)) {
+				$this->attributes['platform'] = $matches[1];
+			}
+		}
+		return $this->attributes['platform'];
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

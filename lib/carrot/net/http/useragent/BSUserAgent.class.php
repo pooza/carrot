@@ -211,7 +211,8 @@ abstract class BSUserAgent {
 	 */
 	public function getPlatform () {
 		if (!$this->attributes['platform']) {
-			if (preg_match('/^Mozilla\/[0-9]\.[0-9]+ \(([^;]+);/', $this->getName(), $matches)) {
+			$pattern = '/^Mozilla\/[0-9]\.[0-9]+ \(([^;]+);/';
+			if (preg_match($pattern, $this->getName(), $matches)) {
 				$this->attributes['platform'] = $matches[1];
 			}
 		}
