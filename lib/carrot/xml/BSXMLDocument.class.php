@@ -51,7 +51,7 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 */
 	public function getContents () {
 		$xml = new DOMDocument('1.0', 'utf-8');
-		$xml->loadXML('<?xml version="1.0" encoding="utf-8"?>' . parent::getContents());
+		$xml->loadXML('<?xml version="1.0" encoding="utf-8"' . parent::getContents());
 		$xml->formatOutput = true;
 		$xml->normalizeDocument();
 		return $xml->saveXML();
@@ -82,5 +82,4 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

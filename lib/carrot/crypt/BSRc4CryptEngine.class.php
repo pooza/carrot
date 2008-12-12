@@ -73,5 +73,4 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

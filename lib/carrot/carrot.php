@@ -118,5 +118,5 @@ if (defined('BS_DEBUG') && BS_DEBUG) {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */
+

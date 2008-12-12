@@ -57,5 +57,4 @@ interface BSSerializeStorage {
 	public function getUpdateDate ($name);
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

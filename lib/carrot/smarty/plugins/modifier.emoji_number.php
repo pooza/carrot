@@ -36,5 +36,4 @@ function smarty_modifier_emoji_number ($value) {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

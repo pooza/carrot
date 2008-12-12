@@ -187,5 +187,4 @@ class BSQRCode implements BSImageRenderer {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

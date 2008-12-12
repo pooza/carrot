@@ -20,5 +20,4 @@ function smarty_modifier_encoding ($value) {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

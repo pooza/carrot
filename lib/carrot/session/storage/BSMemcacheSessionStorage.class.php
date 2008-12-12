@@ -109,5 +109,4 @@ class BSMemcacheSessionStorage extends BSMemcache implements BSSessionStorage {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

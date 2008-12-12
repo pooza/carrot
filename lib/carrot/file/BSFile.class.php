@@ -405,5 +405,4 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

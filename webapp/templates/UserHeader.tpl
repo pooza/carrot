@@ -45,4 +45,4 @@ actions['onload'].push(function () {ldelim}
 {'app_name'|translate} {$title|default:$module.description}
 </div>
 
-{* vim: set tabstop=4 ai filetype=html: *}
+{* vim: set tabstop=4: *}

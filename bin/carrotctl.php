@@ -11,5 +11,4 @@
 define('BS_ROOT_DIR', dirname(dirname(__FILE__)));
 require_once(BS_ROOT_DIR . '/lib/carrot/carrot.php');
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

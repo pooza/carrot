@@ -24,5 +24,4 @@ function smarty_modifier_email2link ($value) {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

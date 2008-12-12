@@ -386,5 +386,4 @@ class BSURL implements BSHTTPRedirector, ArrayAccess {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

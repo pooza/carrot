@@ -43,5 +43,4 @@ interface BSRole {
 	static public function getJabberID ();
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

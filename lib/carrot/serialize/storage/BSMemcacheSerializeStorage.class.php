@@ -106,5 +106,4 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

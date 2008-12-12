@@ -91,5 +91,4 @@ abstract class BSDaemon extends NS_Line_Input_Connection_Handler {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

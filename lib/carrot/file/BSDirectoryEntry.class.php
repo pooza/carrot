@@ -259,5 +259,5 @@ abstract class BSDirectoryEntry {
 	abstract public function isDirectory ();
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */
+

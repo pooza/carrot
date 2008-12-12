@@ -45,5 +45,4 @@ class BSPHPSerializer implements BSSerializer {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

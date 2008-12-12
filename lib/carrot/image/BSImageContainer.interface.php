@@ -49,5 +49,4 @@ interface BSImageContainer {
 	public function getImageFileBaseName ($size = null);
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

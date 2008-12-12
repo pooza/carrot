@@ -7,4 +7,4 @@
 *}
 {$message}
 
-{* vim: set tabstop=4 ai filetype=html: *}
+{* vim: set tabstop=4: *}

@@ -25,5 +25,4 @@ function smarty_modifier_translate ($value, $dictionary = null, $language = null
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

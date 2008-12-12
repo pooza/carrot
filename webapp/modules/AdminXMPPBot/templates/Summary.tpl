@@ -6,7 +6,6 @@
 @author 小石達也 <tkoishi@b-shock.co.jp>
 @version $Id$
 *}
-
 {include file='AdminHeader'}
 
 <h1>XMPPBotの状態</h1>
@@ -45,4 +44,4 @@
 
 {include file='AdminFooter'}
 
-{* vim: set tabstop=4 ai filetype=html: *}
+{* vim: set tabstop=4: *}

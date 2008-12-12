@@ -60,5 +60,4 @@ class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

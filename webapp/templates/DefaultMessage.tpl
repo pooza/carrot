@@ -9,4 +9,4 @@
 <p>{$message|nl2br}</p>
 {include file='UserFooter'}
 
-{* vim: set tabstop=4 ai filetype=html: *}
+{* vim: set tabstop=4: *}

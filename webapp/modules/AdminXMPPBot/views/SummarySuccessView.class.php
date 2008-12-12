@@ -13,5 +13,4 @@ class SummarySuccessView extends BSSmartyView {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

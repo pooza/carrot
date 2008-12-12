@@ -22,4 +22,3 @@ class BSLogEntry extends BSRecord {
 		return preg_match('/Exception$/', $this->getAttribute('priority'));
 	}
 }
-?>

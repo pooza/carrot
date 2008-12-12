@@ -60,5 +60,4 @@ class BSMySQL40TableProfile extends BSMySQLTableProfile {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

@@ -10,4 +10,4 @@
 ご利用のWebブラウザでは、このページを閲覧できません。
 {include file='UserFooter'}
 
-{* vim: set tabstop=4 ai filetype=html: *}
+{* vim: set tabstop=4: *}

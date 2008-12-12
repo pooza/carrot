@@ -91,5 +91,4 @@ class BSException extends Exception {
 	}
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */

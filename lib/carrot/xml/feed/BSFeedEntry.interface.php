@@ -45,5 +45,4 @@ interface BSFeedEntry {
 	public function setBody ($body = null);
 }
 
-/* vim:set tabstop=4 ai: */
-?>
+/* vim:set tabstop=4: */
