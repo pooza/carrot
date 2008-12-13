@@ -221,9 +221,10 @@ class BSUser extends BSParameterHolder {
 	 */
 	static public function getTestCookieName () {
 		if (!self::$testCookieName) {
-			self::$testCookieName = BSController::getInstance()->getName('en');
-			self::$testCookieName = strtoupper(self::$testCookieName);
-			self::$testCookieName = preg_replace('/[^A-Z0-9]/', '', self::$testCookieName);
+			$name = BSController::getInstance()->getName('en');
+			$name = strtoupper($name);
+			$name = preg_replace('/[^A-Z0-9]/', '', $name);
+			self::$testCookieName = $name;
 		}
 		return self::$testCookieName;
 	}
