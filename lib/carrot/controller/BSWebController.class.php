@@ -68,7 +68,7 @@ class BSWebController extends BSController {
 		}
 
 		foreach ($this->getHeaders() as $name => $value) {
-			header(sprintf('%s: %s', $name, $value));
+			header($name . ': ' . $value);
 		}
 
 		if ($status = $this->getHeaders()->getParameter('Status')) {
