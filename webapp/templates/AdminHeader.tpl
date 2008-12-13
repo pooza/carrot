@@ -33,8 +33,8 @@
 </div>
 <script type="text/javascript">
 actions['onload'].push(function () {ldelim}
-  elevator = new Elevator('Menu', 10, 10, 10);
-  setInterval('elevator.move()', 10);
+  elevatorMenu = new Elevator('Menu', 10, 10, 10);
+  new PeriodicalExecuter(function() {ldelim}elevatorMenu.move(){rdelim}, 0.1);
 {rdelim});
 </script>
 {/if}

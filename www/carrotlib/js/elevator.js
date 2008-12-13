@@ -1,9 +1,11 @@
 /**
  * エレベータ処理
  *
+ * 要 prototype.js
+ *
  * example:
  * var elevator = new Elevator('div_id', 200, 20, 10);
- * setInterval('elevator.move()', 500);
+ * new PeriodicalExecuter(function() {elevator.move()}, 0.1);
  *
  * @package org.carrot-framework
  * @author 小石達也 <tkoishi@b-shock.co.jp>
@@ -11,7 +13,7 @@
  */
 
 function Elevator (id, x, yMin, yMargin) {
-  this.element = document.getElementById(id);
+  this.element = $(id);
   this.x = x;
   this.yMin = yMin;
   this.yMargin = yMargin;
