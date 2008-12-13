@@ -1,30 +1,22 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage crypt
+ * @subpackage crypt.cryptor
  */
 
-BSUtility::includeFile('pear/Crypt/Rc4.php');
-
 /**
- * RC4暗号
+ * 暗号化器
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
+interface BSCryptor {
 
 	/**
 	 * @access public
 	 * @param string $salt ソルト
 	 */
-	public function __construct ($salt = null) {
-		if (!$salt) {
-			$salt = BSCrypt::getDefaultSalt();
-		}
-		parent::Crypt_RC4();
-		$this->setSalt($salt);
-	}
+	public function __construct ($salt = null);
 
 	/**
 	 * 暗号化された文字列を返す
@@ -33,10 +25,7 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	 * @param string $value 対象文字列
 	 * @return string 暗号化された文字列
 	 */
-	public function encrypt ($value) {
-		@$this->crypt($value);
-		return $value;
-	}
+	public function encrypt ($value);
 
 	/**
 	 * 複号化された文字列を返す
@@ -45,10 +34,7 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	 * @param string $value 対象文字列
 	 * @return string 複号化された文字列
 	 */
-	public function decrypt ($value) {
-		@parent::decrypt($value);
-		return $value;
-	}
+	public function decrypt ($value);
 
 	/**
 	 * ソルトを返す
@@ -56,21 +42,15 @@ class BSRc4CryptEngine extends Crypt_RC4 implements BSCryptEngine {
 	 * @access public
 	 * @return string ソルト
 	 */
-	public function getSalt () {
-		return $this->_key;
-	}
+	public function getSalt ();
 
 	/**
 	 * ソルトを設定
 	 *
-	 * keyのエイリアス
-	 *
 	 * @access public
 	 * @param string $salt ソルト
 	 */
-	public function setSalt ($salt) {
-		return @$this->key($salt);
-	}
+	public function setSalt ($salt);
 }
 
 /* vim:set tabstop=4: */

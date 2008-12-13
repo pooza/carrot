@@ -262,7 +262,7 @@ class BSDate implements ArrayAccess {
 	 * @param BSDate $now 比較対象の日付
 	 * @return boolean 過去日付ならtrue
 	 */
-	public function isPast ($now = null) {
+	public function isPast (BSDate $now = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
@@ -283,7 +283,7 @@ class BSDate implements ArrayAccess {
 	 * @return boolean 過去日付ならtrue
 	 * @final
 	 */
-	final public function isAgo ($now = null) {
+	final public function isAgo (BSDate $now = null) {
 		return $this->isPast($now);
 	}
 

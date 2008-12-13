@@ -91,14 +91,14 @@ class BSCrypt {
 	}
 
 	/**
-	 * 暗号化エンジンを返す
+	 * 暗号化器を返す
 	 *
 	 * @access public
-	 * @return BSCryptEngine 暗号化エンジン
+	 * @return BSCryptor 暗号化器
 	 */
 	public function getEngine () {
 		if (!$this->engine) {
-			$class = 'BS' . BSString::pascalize($this->getMethod()) . 'CryptEngine';
+			$class = 'BS' . BSString::pascalize($this->getMethod()) . 'Cryptor';
 			$this->engine = new $class;
 		}
 		return $this->engine;

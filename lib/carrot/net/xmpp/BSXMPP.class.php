@@ -90,7 +90,7 @@ class BSXMPP extends BSSocket {
 			'username' => $jid->getAccount(),
 			'resource' => $jid->getResource(),
 		);
-		$password = BSCryptEngine::getInstance()->decrypt($password);
+		$password = BSCrypt::getInstance()->decrypt($password);
 		if ($response->query('/iq/query/digest')) {
 			// レスポンスにdigest要素が含まれるなら、ダイジェスト認証を行う
 			$query['digest'] = BSCrypt::getSHA1($this->getStreamID() . $password);

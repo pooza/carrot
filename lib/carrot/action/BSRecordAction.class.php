@@ -66,7 +66,7 @@ abstract class BSRecordAction extends BSAction {
 	 * レコードを登録する為のアクションか？
 	 *
 	 * @access protected
-	 * @return integer カレントレコードID
+	 * @return boolean レコードを登録する為のアクションならTrue
 	 */
 	protected function isCreateAction () {
 		return $this->getName() == 'Create';

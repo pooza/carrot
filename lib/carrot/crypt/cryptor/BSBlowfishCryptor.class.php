@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage crypt
+ * @subpackage crypt.cryptor
  */
 
 BSUtility::includeFile('pear/Crypt/Blowfish.php');
@@ -12,7 +12,7 @@ BSUtility::includeFile('pear/Crypt/Blowfish.php');
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSBlowfishCryptEngine extends Crypt_Blowfish implements BSCryptEngine {
+class BSBlowfishCryptor extends Crypt_Blowfish implements BSCryptor {
 	private $salt;
 
 	/**
