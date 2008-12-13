@@ -46,15 +46,8 @@ class BSIniConfigParser implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result) {
-			// 設定内容を一時ファイルに書き出す
-			$name = sprintf(
-				'%s.%s.ini', 
-				get_class($this),
-				BSCrypt::getSHA1($this->getContents())
-			);
-			$file = new BSFile(BS_VAR_DIR . '/tmp/' . $name); // BSDirectoryLayoutは使わない
+			$file = BSFile::getTemporaryFile('.ini');
 			$file->setContents($this->getContents());
-
 			$this->result = parse_ini_file($file->getPath(), true);
 			$file->delete();
 		}
