@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDirectoryFinder {
+class BSDirectoryLayout {
 	static private $instance;
 	private $directories = array();
 
@@ -31,7 +31,7 @@ class BSDirectoryFinder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSDirectoryFinder;
+			self::$instance = new BSDirectoryLayout;
 		}
 		return self::$instance;
 	}

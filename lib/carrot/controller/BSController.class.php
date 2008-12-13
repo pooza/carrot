@@ -145,7 +145,7 @@ abstract class BSController {
 	 * @return BSDirectory ディレクトリ
 	 */
 	public function getDirectory ($name) {
-		return BSDirectoryFinder::getInstance()->getDirectory($name);
+		return BSDirectoryLayout::getInstance()->getDirectory($name);
 	}
 
 	/**
@@ -156,7 +156,7 @@ abstract class BSController {
 	 * @return string パス
 	 */
 	public function getPath ($name) {
-		return BSDirectoryFinder::getInstance()->getPath($name);
+		return BSDirectoryLayout::getInstance()->getPath($name);
 	}
 
 	/**

@@ -98,7 +98,7 @@ class BSConfigManager {
 		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
 		$name = preg_replace('/^\./', '', $name);
 
-		//BSDirectoryFinderは使わない。
+		//BSDirectoryLayoutは使わない。
 		return new BSFile(sprintf('%s/cache/%s.cache.php', BS_VAR_DIR, $name));
 	}
 

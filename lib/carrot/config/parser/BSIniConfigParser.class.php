@@ -52,7 +52,7 @@ class BSIniConfigParser implements BSConfigParser {
 				get_class($this),
 				BSCrypt::getSHA1($this->getContents())
 			);
-			$file = new BSFile(BS_VAR_DIR . '/tmp/' . $name); // BSDirectoryFinderは使わない
+			$file = new BSFile(BS_VAR_DIR . '/tmp/' . $name); // BSDirectoryLayoutは使わない
 			$file->setContents($this->getContents());
 
 			$this->result = parse_ini_file($file->getPath(), true);

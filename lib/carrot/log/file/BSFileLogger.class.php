@@ -43,7 +43,7 @@ class BSFileLogger extends BSLogger {
 	 */
 	public function getDirectory () {
 		if (!$this->directory) {
-			//BSDirectoryFinderは使わない。
+			//BSDirectoryLayoutは使わない。
 			$this->directory = new BSLogDirectory(BS_VAR_DIR . '/log');
 		}
 		return $this->directory;
