@@ -17,14 +17,13 @@ class BSCookieFilter extends BSFilter {
 			&& !$this->request->isFlash()
 			&& !$this->request->getUserAgent()->isMobile()) {
 
-			$name = BSCookieHandler::getTestCookieName();
 			switch ($this->request->getMethod()) {
 				case BSRequest::HEAD:
 				case BSRequest::GET:
-					$this->controller->setCookie($name, true);
+					$this->user->setAttribute(BSUser::getTestCookieName(), true);
 					break;
 				default:
-					if (!$this->controller->getCookie($name)) {
+					if (!$this->user->getAttribute(BSUser::getTestCookieName())) {
 						$this->request->setError('cookie', 'Cookieを受け入れる様にして下さい。');
 					}
 					break;

@@ -13,12 +13,13 @@ class BSUser extends BSParameterHolder {
 	private $attributes;
 	private $credentials;
 	static private $instance;
+	static private $testCookieName;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
-		$this->attributes = new BSArray;
+		$this->attributes = new BSArray($_COOKIE);
 		if ($values = $this->getSession()->read('attributes')) {
 			$this->attributes->setParameters($values);
 		}
@@ -95,12 +96,17 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 * @param string $name 属性名
 	 * @param mixed $value 属性値
+	 * @param BSDate $expire 期限
 	 */
-	public function setAttribute ($name, $value) {
+	public function setAttribute ($name, $value, BSDate $expire = null) {
 		if (is_array($name) || is_object($name)) {
 			throw new BSRegisterException('属性名が文字列ではありません。');
 		}
 		$this->attributes[$name] = $value;
+
+		if ($expire) {
+			setcookie($name, $value, $expire->getTimestamp(), '/');
+		}
 	}
 
 	/**
@@ -111,6 +117,9 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function removeAttribute ($name) {
 		$this->attributes->removeParameter($name);
+
+		$expire = BSDate::getNow()->setAttribute('hour', '-1');
+		setcookie($name, null, $expire->getTimestamp(), '/');
 	}
 
 	/**
@@ -201,6 +210,22 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function hasCredential ($name) {
 		return (!$name || $this->credentials[$name]);
+	}
+
+	/**
+	 * テスト用Cookieの名前を返す
+	 *
+	 * @access public
+	 * @return string テスト用Cookieの名前
+	 * @static
+	 */
+	static public function getTestCookieName () {
+		if (!self::$testCookieName) {
+			self::$testCookieName = BSController::getInstance()->getName('en');
+			self::$testCookieName = strtoupper(self::$testCookieName);
+			self::$testCookieName = preg_replace('/[^A-Z0-9]/', '', self::$testCookieName);
+		}
+		return self::$testCookieName;
 	}
 }
 
