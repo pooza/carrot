@@ -31,6 +31,9 @@ window.onload = function () {
 
 actions['onload'].push(
   function () {
-    AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
+    try {
+      AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
+    } catch (e) {
+    }
   }
 );
