@@ -47,7 +47,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		foreach (array('', 'APP_', 'BS_') as $prefix) {
+		foreach (array('', 'LOCAL_', 'APP_', 'BS_') as $prefix) {
 			$fullname = strtoupper($prefix . $name);
 			if (defined($fullname)) {
 				return constant($fullname);
@@ -93,7 +93,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		if (is_array($name) || is_object($name)) {
 			return false;
 		}
-		foreach (array('', 'APP_', 'BS_') as $prefix) {
+		foreach (array('', 'LOCAL_', 'APP_', 'BS_') as $prefix) {
 			$fullname = strtoupper($prefix . $name);
 			if (defined($fullname)) {
 				return true;

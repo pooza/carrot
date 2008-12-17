@@ -74,7 +74,7 @@ class BSGoogleSearch {
 		$this->query = $query;
 
 		$result = $this->getEngine()->doGoogleSearch(
-			BS_GOOGLE_KEY,
+			BSController::getInstance()->getConstant('GOOGLE_KEY'),
 			BSString::convertEncoding($this->query, 'utf-8'),
 			0, $limit, false, 'countryJP', false, 'lang_ja',
 			'utf-8', 'utf-8'

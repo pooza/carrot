@@ -85,11 +85,14 @@ if (php_sapi_name() == 'cli') {
 }
 $names[] = 'localhost';
 
+$constants = BSConstantHandler::getInstance();
 $_SERVER['SERVER_NAME'] = null;
 foreach ($names as $servername) {
-	if ($file = BSConfigManager::getConfigFile('server/' . $servername)) {
+	if ($file = BSConfigManager::getConfigFile('constant/' . $servername)) {
 		require(BSConfigManager::getInstance()->compile($file));
-		$_SERVER['SERVER_NAME'] = $servername;
+		if (!$_SERVER['SERVER_NAME'] = $constants['SERVER_NAME']) {
+			$_SERVER['SERVER_NAME'] = $servername;
+		}
 		break;
 	}
 }
@@ -100,7 +103,7 @@ if (!$_SERVER['SERVER_NAME']) {
 require(BSConfigManager::getInstance()->compile('constant/application'));
 require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
-if (defined('BS_DEBUG') && BS_DEBUG) {
+if (BSController::getInstance()->isDebugMode()) {
 	error_reporting(E_ALL | E_STRICT);
 	ini_set('display_errors', 1);
 	ini_set('log_errors', 0);

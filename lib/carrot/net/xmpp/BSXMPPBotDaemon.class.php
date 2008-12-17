@@ -86,7 +86,10 @@ class BSXMPPBotDaemon extends BSDaemon {
 	static private function getXMPP () {
 		if (!self::$xmpp) {
 			self::$xmpp = new BSXMPP;
-			self::$xmpp->auth(BSAuthor::getJabberID(), BS_AUTHOR_PASSWORD);
+			self::$xmpp->auth(
+				BSAuthor::getJabberID(),
+				BSController::getInstance()->getConstant('AUTHOR_PASSWORD')
+			);
 		}
 		return self::$xmpp;
 	}
