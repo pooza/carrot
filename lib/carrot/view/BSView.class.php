@@ -163,6 +163,16 @@ abstract class BSView {
 	}
 
 	/**
+	 * モジュールを返す
+	 *
+	 * @access public
+	 * @return BSModule モジュール
+	 */
+	public function getModule () {
+		return $this->getAction()->getModule();
+	}
+
+	/**
 	 * アクションを返す
 	 *
 	 * @access public
