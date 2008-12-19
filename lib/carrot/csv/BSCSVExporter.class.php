@@ -12,7 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSCSVWriter implements BSTextRenderer {
+class BSCSVExporter implements BSExporter, BSTextRenderer {
 	private $file;
 	const LINE_SEPARATOR = "\r\n";
 
