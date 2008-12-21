@@ -5,7 +5,7 @@
 # @version $Id$
 
 - class: BSNullByteRequestFilter
-- class: BSEncodingRequestFilter
+#- class: BSEncodingRequestFilter
 - class: BSMagicQuoteRequestFilter
 - class: BSNewLineRequestFilter
 - class: BSKanaRequestFilter
