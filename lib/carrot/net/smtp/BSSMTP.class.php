@@ -509,7 +509,7 @@ class BSSMTP extends BSSocket {
 		$str = BSString::convertKana($str, 'KV');
 		while (preg_match('/[^[:print:]]+/u', $str, $matches)) {
 			$encoded = BSString::convertEncoding($matches[0], 'iso-2022-jp');
-			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded) . '?=';
+			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded . chr(27) . '(B') . '?=';
 			$str = str_replace($matches[0], $encoded, $str);
 		}
 		return $str;
