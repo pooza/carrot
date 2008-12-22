@@ -20,7 +20,8 @@ class BSCookieFilter extends BSFilter {
 			switch ($this->request->getMethod()) {
 				case BSRequest::HEAD:
 				case BSRequest::GET:
-					$this->user->setAttribute(BSUser::getTestCookieName(), true);
+					$expire = BSDate::getNow()->setAttribute('hour', '+1');
+					$this->user->setAttribute(BSUser::getTestCookieName(), true, $expire);
 					break;
 				default:
 					if (!$this->user->getAttribute(BSUser::getTestCookieName())) {
