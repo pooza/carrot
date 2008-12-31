@@ -47,6 +47,9 @@ task :pset do
 end
 
 desc 'varディレクトリ内の一時ファイルを削除'
+task :clear => :clean
+
+desc 'varディレクトリ内の一時ファイルを削除'
 task :clean => [:clean_var, :log]
 
 task :clean_var do

@@ -13,6 +13,7 @@
 class BSConfigFile extends BSFile {
 	private $config = array();
 	private $parser;
+	private $cache;
 
 	/**
 	 * 設定パーサーを返す
@@ -29,6 +30,16 @@ class BSConfigFile extends BSFile {
 			$this->parser->setContents($this->getContents());
 		}
 		return $this->parser;
+	}
+
+	/**
+	 * コンパイラを返す
+	 *
+	 * @access public
+	 * @return BSConfigCompiler コンパイラ
+	 */
+	public function getCompiler () {
+		return BSConfigManager::getInstance()->getCompiler($this);
 	}
 
 	/**
@@ -60,11 +71,58 @@ class BSConfigFile extends BSFile {
 	}
 
 	/**
+	 * コンパイル
+	 *
+	 * @access public
+	 * @return string キャッシュファイルのフルパス
+	 */
+	public function compile () {
+		$cache = $this->getCacheFile();
+		$compiler = $this->getCompiler();
+		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
+			$cache->setContents($compiler->execute($this));
+			$compiler->putLog($this->getLogMessage());
+		}
+		return $cache->getPath();
+	}
+
+	/**
+	 * キャッシュファイルを返す
+	 *
+	 * @access public
+	 * @return BSFile キャッシュファイル
+	 */
+	public function getCacheFile () {
+		if (!$this->cache) {
+			$name = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $this->getBaseName();
+			$name = str_replace(BS_WEBAPP_DIR, '', $name);
+			$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
+			$name = preg_replace('/^\.+/', '', $name);
+			$this->cache = new BSFile(BS_VAR_DIR . '/cache/' . $name . '.cache.php');
+		}
+		return $this->cache;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
 	public function __toString () {
 		return sprintf('設定ファイル "%s"', $this->getPath());
+	}
+
+	/**
+	 * ログメッセージを返す
+	 *
+	 * @access private
+	 * @return string ログメッセージ
+	 */
+	private function getLogMessage () {
+		return sprintf(
+			'%sをコンパイルしました。 (%sB)',
+			$this->getCacheFile()->getName(),
+			BSNumeric::getBinarySize($this->getCacheFile()->getSize())
+		);
 	}
 
 	/**

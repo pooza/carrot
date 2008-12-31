@@ -18,12 +18,9 @@ class BSConfigManager {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->compilers = new BSArray;
-		$this->compilers['config_compilers'] = new BSObjectRegisterConfigCompiler;
-
 		$objects = array();
-		require_once($this->compile('config_compilers'));
-		$this->compilers->setParameters($objects);
+		require_once(self::getConfigFile('config_compilers', 'BSRootConfigFile')->compile());
+		$this->compilers = new BSArray($objects);
 	}
 
 	/**
@@ -61,45 +58,27 @@ class BSConfigManager {
 		if (!$file->isReadable()) {
 			throw new BSConfigException('%sが読めません。', $file);
 		}
-
-		$cache = self::getCacheFile($file);
-		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($file->getUpdateDate())) {
-			foreach ($this->compilers as $pattern => $compiler) {
-				if ($pattern == '.default') {
-					$pattern = '/./'; //全てにマッチ
-				} else {
-					$pattern = '/' . preg_quote($pattern, '/') . '/';
-				}
-				if (preg_match($pattern, $file->getPath())) {
-					$cache->setContents($compiler->execute($file));
-					$message = sprintf(
-						'%sをコンパイルしました。 (%sB)',
-						$cache->getName(),
-						BSNumeric::getBinarySize($cache->getSize())
-					);
-					$compiler->putLog($message);
-					break;
-				}
-			}
-		}
-		return $cache->getPath();
+		return $file->compile();
 	}
 
 	/**
-	 * キャッシュファイルを返す
+	 * 設定ファイルに適切なコンパイラを返す
 	 *
-	 * @access private
-	 * @param BSConfigFile $file コンパイル対象設定ファイル
-	 * @return BSFile キャッシュファイル
+	 * @access public
+	 * @param BSConfigFile $file 設定ファイル
+	 * @return BSConfigCompiler 設定コンパイラ
 	 */
-	static private function getCacheFile (BSConfigFile $file) {
-		$name = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
-		$name = str_replace(BS_WEBAPP_DIR, '', $name);
-		$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
-		$name = preg_replace('/^\./', '', $name);
-
-		//BSDirectoryLayoutは使わない。
-		return new BSFile(BS_VAR_DIR . '/cache/' . $name . '.cache.php');
+	public function getCompiler (BSConfigFile $file) {
+		foreach ($this->compilers as $pattern => $compiler) {
+			if ($pattern == '.default') {
+				$pattern = '/./'; //全てにマッチ
+			} else {
+				$pattern = '/' . preg_quote($pattern, '/') . '/';
+			}
+			if (preg_match($pattern, $file->getPath())) {
+				return $compiler;
+			}
+		}
 	}
 
 	/**
@@ -107,17 +86,18 @@ class BSConfigManager {
 	 *
 	 * @access public
 	 * @param string $name 設定ファイル名、但し拡張子は含まない
+	 * @param string $class 設定ファイルのクラス名
 	 * @return BSConfigFile 設定ファイル
 	 */
-	static public function getConfigFile ($name) {
+	static public function getConfigFile ($name, $class = 'BSConfigFile') {
 		if (!BSUtility::isPathAbsolute($name)) {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}
 		foreach (BSConfigFile::getSuffixes() as $suffix) {
-			$file = new BSConfigFile($name . $suffix);
+			$file = new $class($name . $suffix);
 			if ($file->isExists()) {
 				if (!$file->isReadable()) {
-					throw new BSFileException('%sが読めません。', $file);
+					throw new BSConfigException('%sが読めません。', $file);
 				}
 				return $file;
 			}
