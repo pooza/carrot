@@ -13,7 +13,6 @@
  */
 abstract class BSUserAgent {
 	private $type;
-	private $denied = null;
 	protected $attributes;
 	protected $bugs;
 	protected $session;
@@ -27,7 +26,6 @@ abstract class BSUserAgent {
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
-		$this->attributes['is_unsupported'] = $this->isDenied();
 		$this->attributes['is_denied'] = $this->isDenied();
 		$this->bugs = new BSArray;
 	}
@@ -75,29 +73,26 @@ abstract class BSUserAgent {
 	 * @return boolean 非対応のUserAgentならTrue
 	 */
 	public function isDenied () {
-		if ($this->denied === null) {
-			$config = array();
-			require(BSConfigManager::getInstance()->compile('useragent/carrot'));
-			$types = $config['Deny'];
-			require(BSConfigManager::getInstance()->compile('useragent/application'));
-			if (is_array($config['Deny'])) {
-				$types += $config['Deny'];
-			}
+		$config = array();
+		require(BSConfigManager::getInstance()->compile('useragent/carrot'));
+		$types = $config;
+		require(BSConfigManager::getInstance()->compile('useragent/application'));
+		$types += $config;
 
-			if (!isset($types[$this->getType()])) {
-				$this->denied = false;
-			} else if (is_array($types[$this->getType()])) {
-				foreach ($types[$this->getType()] as $pattern) {
+		if (isset($types[$this->getType()])) {
+			$type = $types[$this->getType()];
+			if (isset($type['denied']) && $type['denied']) {
+				return true;
+			}
+			if (isset($type['denied_patterns']) && is_array($type['denied_patterns'])) {
+				foreach ($type['denied_patterns'] as $pattern) {
 					if (strpos($this->getName(), $pattern) !== false) {
-						return $this->denied = true;
+						return true;
 					}
 				}
-				$this->denied = false;
-			} else {
-				$this->denied = true;
 			}
 		}
-		return $this->denied;
+		return false;
 	}
 
 	/**
@@ -120,21 +115,8 @@ abstract class BSUserAgent {
 	 * @param BSSmarty
 	 */
 	public function initializeSmarty (BSSmarty $smarty) {
-		$this->importBrowscap();
 		$smarty->setAttribute('useragent', $this->getAttributes());
 		$smarty->addOutputFilter('trim');
-	}
-
-	/**
-	 * browscap.iniの情報をインポートする
-	 *
-	 * @access public
-	 */
-	public function importBrowscap () {
-		$browscap = BSBrowscap::getInstance();
-		if ($browscap->isEnable()) {
-			$this->attributes->setParameters($browscap->getInfo($this->getName()));
-		}
 	}
 
 	/**
@@ -186,11 +168,7 @@ abstract class BSUserAgent {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		if (!$value = $this->getAttributes()->getParameter($name)) {
-			$this->importBrowscap();
-			$value = $this->getAttributes()->getParameter($name);
-		}
-		return $value;
+		return $this->getAttributes()->getParameter($name);
 	}
 
 	/**

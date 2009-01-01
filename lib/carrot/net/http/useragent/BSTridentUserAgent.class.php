@@ -58,7 +58,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE [4-9]+\.[0-9]+; Windows/';
+		return '/MSIE [4-9]\.[0-9]+; Windows/';
 	}
 }
 

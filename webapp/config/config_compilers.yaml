@@ -27,11 +27,6 @@ validate/:
 menu/:
   class: BSMenuConfigCompiler
 
-server/:
-  class: BSDefineConfigCompiler
-  params:
-    prefix: BS
-
 layout/:
   class: BSLayoutConfigCompiler
 

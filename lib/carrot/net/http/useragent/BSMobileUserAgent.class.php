@@ -48,14 +48,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * browscap.iniの情報をインポートする
-	 *
-	 * @access public
-	 */
-	public function importBrowscap () {
-	}
-
-	/**
 	 * セッションハンドラを設定
 	 *
 	 * @access public

@@ -4,12 +4,12 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-browscap:
-  url: http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI
-
-Deny:
-  LegacyMozilla:
-  Docomo:
+Tasman:
+  denied: yes
+LegacyMozilla:
+  denied: yes
+Docomo:
+  denied_patterns:
     - D20
     - D21
     - D25
@@ -53,7 +53,8 @@ Deny:
     - SO50
     - NM850iG
     - F2051
-  Au:
+Au:
+  denied_patterns:
     - ST14
     - HI14
     - HI22
@@ -79,7 +80,8 @@ Deny:
     - DN11
     - CA14
     - TS14
-  SoftBank:
+SoftBank:
+  denied_patterns:
     - 304T
     - C980
     - J-D03
