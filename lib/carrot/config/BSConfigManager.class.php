@@ -71,14 +71,14 @@ class BSConfigManager {
 	public function getCompiler (BSConfigFile $file) {
 		foreach ($this->compilers as $pattern => $compiler) {
 			if ($pattern == '.default') {
-				$pattern = '/./'; //全てにマッチ
-			} else {
-				$pattern = '/' . preg_quote($pattern, '/') . '/';
+				return $compiler;
 			}
+			$pattern = '/' . preg_quote($pattern, '/') . '/';
 			if (preg_match($pattern, $file->getPath())) {
 				return $compiler;
 			}
 		}
+		throw new BSConfigException('%sの設定コンパイラがありません。', $file->getName());
 	}
 
 	/**
