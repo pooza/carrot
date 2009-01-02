@@ -4,11 +4,11 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-name:
-  ja: __NAME_JA__
-  en: __NAME_EN__
-
-ver: 1.0.0-dev
+app:
+  name:
+    ja: __NAME_JA__
+    en: __NAME_EN__
+  ver: 1.0.0-dev
 
 languages:
   - ja

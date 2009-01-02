@@ -6,20 +6,8 @@
 
 # 評価する順番に記述
 
-constant/carrot:
-  class: BSDefineConfigCompiler
-  params:
-    prefix: BS
-
-constant/application:
-  class: BSDefineConfigCompiler
-  params:
-    prefix: APP
-
 constant/:
   class: BSDefineConfigCompiler
-  params:
-    prefix: LOCAL
 
 validate/:
   class: BSValidatorConfigCompiler

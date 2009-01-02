@@ -13,10 +13,9 @@
 class BSDefineConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$prefix = preg_replace('/_$/', '', $this['prefix']);
 		$this->putLine('$constants = array(');
 
-		foreach ($this->getConstants($file->getResult(), $prefix) as $key => $value) {
+		foreach ($this->getConstants($file->getResult()) as $key => $value) {
 			$line = sprintf('  %s => %s,', self::quote($key), self::quote($value));
 			$line = parent::replaceConstants($line);
 			$this->putLine($line);
@@ -29,7 +28,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 		return $this->getBody();
 	}
 
-	private function getConstants ($arg, $prefix) {
+	private function getConstants ($arg, $prefix = BSConstantHandler::PREFIX) {
 		if (BSArray::isArray($arg)) {
 			if (isset($arg[0])) { //配列であっても、連想配列でなければノードと見なす
 				return array(strtoupper($prefix) => implode(',', $arg));
