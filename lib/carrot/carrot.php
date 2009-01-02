@@ -70,8 +70,6 @@ ini_set('magic_quotes_runtime', 0);
 ini_set('realpath_cache_size', '128K');
 set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
 
-date_default_timezone_set('UTC');
-
 $names = array();
 if (php_sapi_name() == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
@@ -102,6 +100,8 @@ if (!$_SERVER['SERVER_NAME']) {
 
 require(BSConfigManager::getInstance()->compile('constant/application'));
 require(BSConfigManager::getInstance()->compile('constant/carrot'));
+
+date_default_timezone_set(BS_DATE_TIMEZONE);
 
 if (BSController::getInstance()->isDebugMode()) {
 	error_reporting(E_ALL | E_STRICT);

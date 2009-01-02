@@ -19,7 +19,6 @@ class BSDate implements ArrayAccess {
 	const SAT = 6;
 	const SUN = 7;
 	private $attributes;
-	static private $timezone;
 	const GMT = 'gmt';
 
 	/**
@@ -27,11 +26,6 @@ class BSDate implements ArrayAccess {
 	 * @param string $date 日付文字列
 	 */
 	public function __construct ($date = null) {
-		if (!self::$timezone) {
-			self::$timezone = BS_DATE_TIMEZONE;
-			date_default_timezone_set(self::$timezone);
-		}
-
 		$this->attributes = new BSArray;
 		$this->attributes['timestamp'] = null;
 		$this->attributes['has_time'] = false;

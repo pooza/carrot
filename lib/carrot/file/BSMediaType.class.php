@@ -89,14 +89,14 @@ class BSMediaType extends BSParameterHolder {
 			$line = preg_replace('/#.*$/', '', $line);
 			$line = preg_split('/[ \t]+/', $line);
 			for ($i = 1 ; $i < count($line) ; $i ++) {
-				$this->setParameter(strtolower($line[$i]), $line[0]);
+				$this[strtolower($line[$i])] = $line[0];
 			}
 		}
 
 		require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
 		foreach ($config['types'] as $key => $value) {
 			if ($value) {
-				$this->setParameter(strtolower($key), $value);
+				$this[strtolower($key)] = $value;
 			} else {
 				$this->removeParameter($key);
 			}
