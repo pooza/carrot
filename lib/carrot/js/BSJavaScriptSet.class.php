@@ -13,7 +13,7 @@
 class BSJavaScriptSet implements BSTextRenderer {
 	private $name;
 	private $files = array();
-	static private $jssets = array();
+	static private $jssets;
 
 	/**
 	 * @access public
@@ -121,15 +121,16 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * 全てのJavaScriptセットを返す
 	 *
 	 * @access private
-	 * @return string[][] JavaScriptセットを配列で返す
+	 * @return BSArray JavaScriptセットを配列で返す
 	 * @static
 	 */
 	static private function getJavaScriptSets () {
 		if (!self::$jssets) {
-			require(BSConfigManager::getInstance()->compile('jsset/application'));
-			self::$jssets += $config;
+			self::$jssets = new BSArray;
 			require(BSConfigManager::getInstance()->compile('jsset/carrot'));
-			self::$jssets += $config;
+			self::$jssets->setParameters($config);
+			require(BSConfigManager::getInstance()->compile('jsset/application'));
+			self::$jssets->setParameters($config);
 		}
 		return self::$jssets;
 	}
@@ -138,13 +139,14 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * 全てのJavaScriptセットの名前を返す
 	 *
 	 * @access public
-	 * @return string[] JavaScriptセットの名前を配列で返す
+	 * @return BSArray JavaScriptセットの名前を配列で返す
 	 * @static
 	 */
 	static public function getJavaScriptSetNames () {
-		$names = array_keys(self::getJavaScriptSets());
+		$names = clone self::getJavaScriptSets()->getKeys();
 		$names[] = 'carrot';
-		sort($names);
+		$names->uniquize();
+		$names->sort(BSArray::SORT_VALUE_ASC);
 		return $names;
 	}
 }

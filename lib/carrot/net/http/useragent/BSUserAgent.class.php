@@ -16,6 +16,7 @@ abstract class BSUserAgent {
 	protected $attributes;
 	protected $bugs;
 	protected $session;
+	static private $denied;
 
 	/**
 	 * @access public
@@ -73,14 +74,7 @@ abstract class BSUserAgent {
 	 * @return boolean 非対応のUserAgentならTrue
 	 */
 	public function isDenied () {
-		$config = array();
-		require(BSConfigManager::getInstance()->compile('useragent/carrot'));
-		$types = $config;
-		require(BSConfigManager::getInstance()->compile('useragent/application'));
-		$types += $config;
-
-		if (isset($types[$this->getType()])) {
-			$type = $types[$this->getType()];
+		if ($type = $this->getDeniedTypes()->getParameter($this->getType())) {
 			if (isset($type['denied']) && $type['denied']) {
 				return true;
 			}
@@ -250,6 +244,24 @@ abstract class BSUserAgent {
 			$this->type = $matches[1];
 		}
 		return $this->type;
+	}
+
+	/**
+	 * 全てのタイプ情報を返す
+	 *
+	 * @access private
+	 * @return BSArray 全てのタイプ情報
+	 * @static
+	 */
+	static private function getDeniedTypes () {
+		if (!self::$denied) {
+			self::$denied = new BSArray;
+			require(BSConfigManager::getInstance()->compile('useragent/carrot'));
+			self::$denied->setParameters($config);
+			require(BSConfigManager::getInstance()->compile('useragent/application'));
+			self::$denied->setParameters($config);
+		}
+		return self::$denied;
 	}
 
 	/**

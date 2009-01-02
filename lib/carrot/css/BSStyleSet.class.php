@@ -17,7 +17,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	private $files = array();
 	private $rules = array();
 	private $contents;
-	static private $stylesets = array();
+	static private $stylesets;
 
 	/**
 	 * @access public
@@ -265,10 +265,11 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 */
 	static private function getStyleSets () {
 		if (!self::$stylesets) {
-			require(BSConfigManager::getInstance()->compile('styleset/application'));
-			self::$stylesets += $config;
+			self::$stylesets = new BSArray;
 			require(BSConfigManager::getInstance()->compile('styleset/carrot'));
-			self::$stylesets += $config;
+			self::$stylesets->setParameters($config);
+			require(BSConfigManager::getInstance()->compile('styleset/application'));
+			self::$stylesets->setParameters($config);
 		}
 		return self::$stylesets;
 	}
@@ -277,13 +278,14 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 * 全てのスタイルセットの名前を返す
 	 *
 	 * @access public
-	 * @return string[] スタイルセットの名前を配列で返す
+	 * @return BSArray スタイルセットの名前を配列で返す
 	 * @static
 	 */
 	static public function getStyleSetNames () {
-		$names = array_keys(self::getStyleSets());
+		$names = clone self::getStyleSets()->getKeys();
 		$names[] = 'carrot';
-		sort($names);
+		$names->uniquize();
+		$names->sort(BSArray::SORT_VALUE_ASC);
 		return $names;
 	}
 }
