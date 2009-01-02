@@ -57,7 +57,7 @@ class BSUtility {
 	static public function includeFile ($file) {
 		if (($file instanceof BSFile) == false) {
 			if (!self::isPathAbsolute($file)) {
-				$file = BSController::getInstance()->getPath('lib') . DIRECTORY_SEPARATOR . $file;
+				$file = BS_LIB_DIR . DIRECTORY_SEPARATOR . $file;
 			}
 			$file = new BSFile($file);
 		}

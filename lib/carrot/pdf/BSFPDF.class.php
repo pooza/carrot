@@ -34,8 +34,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	public function __construct ($orientation = self::PORTRAIT, $unit = 'mm', $format = 'A4') {
 		$constants = BSConstantHandler::getInstance();
 		if (!$constants->hasParameter('FPDF_FONTPATH')) {
-			$dir = BSController::getInstance()->getDirectory('lib');
-			$constants['FPDF_FONTPATH'] =  $dir->getPath() . '/fpdf/font/';
+			$constants['FPDF_FONTPATH'] =  BS_LIB_DIR . '/fpdf/font/';
 		}
 		parent::FPDF($orientation, $unit, $format);
 		$this->open();
