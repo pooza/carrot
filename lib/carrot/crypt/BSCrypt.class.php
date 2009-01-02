@@ -64,33 +64,6 @@ class BSCrypt {
 	}
 
 	/**
-	 * 暗号化の方法を返す
-	 *
-	 * @access public
-	 * @return string 暗号化の方法
-	 */
-	public function getMethod () {
-		if ($method = BSController::getInstance()->getConstant('CRYPT_ENGINE')) {
-			return $method;
-		} else {
-			return 'blowfish';
-		}
-	}
-
-	/**
-	 * 暗号化の方法を返す
-	 *
-	 * getMethodのエイリアス
-	 *
-	 * @access public
-	 * @return string 暗号化の方法
-	 * @final
-	 */
-	final public function getName () {
-		return $this->getMethod();
-	}
-
-	/**
 	 * 暗号化器を返す
 	 *
 	 * @access public
@@ -98,7 +71,7 @@ class BSCrypt {
 	 */
 	public function getEngine () {
 		if (!$this->engine) {
-			$class = 'BS' . BSString::pascalize($this->getMethod()) . 'Cryptor';
+			$class = 'BS' . BSString::pascalize(BS_CRYPT_ENGINE) . 'Cryptor';
 			$this->engine = new $class;
 		}
 		return $this->engine;

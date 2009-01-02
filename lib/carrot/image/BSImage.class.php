@@ -369,9 +369,8 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		$color = BSController::getInstance()->getConstant('THUMBNAIL_BGCOLOR');
 		$dest = new BSImage($width, $height);
-		$dest->fill($this->getCoordinate(0, 0), new BSColor($color));
+		$dest->fill($this->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
 		if ($this->getAspect() < $dest->getAspect()) {
 			$width = $dest->getHeight() * $this->getAspect();
 			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);

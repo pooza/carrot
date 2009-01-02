@@ -17,7 +17,7 @@ class BSHTTPSFilter extends BSFilter {
 			&& !$this->request->isSSL()
 			&& ($this->request->getMethod() == BSRequest::GET)) {
 
-			$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));
+			$url = new BSURL(BS_ROOT_URL_HTTPS);
 			$url['path'] = $this->controller->getEnvironment('REQUEST_URI');
 			$url->redirect();
 			exit;

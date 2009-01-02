@@ -7,7 +7,6 @@
 root_url: http://carrot.galbacura-far.local/
 root_url_https: http://carrot.galbacura-far.local/
 debug: yes
-#resolvable: yes
 
 admin:
   email: admin@b-shock.co.jp
@@ -24,61 +23,27 @@ author:
   password: LRSOV7gId+o=
 
 crypt:
-  engine: blowfish
   salt: carrot
 
 types:
-  #file: /etc/httpd/mime.types
   #file: %BS_WEBAPP_DIR%/config/mime/mime.types
 
 pdo:
-  #query_log_enable: no
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
-    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
     uid: root
     password:
-  log:
-    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
-    loggable: no
-
-memcache:
-  host: unix:///tmp/memcached.sock
-  port: 0
 
 smtp:
   host: localhost
-  #check_addresses: no
 
 xmpp:
   host: jabber.b-shock.co.jp
 
-log:
-  classes:
-    - BSDatabaseLogger
-    #- BSFileLogger
-    - BSSystemLogger
-  syslog:
-    facility: LOG_LOCAL6
-
 awstats:
-  log_file: /var/log/httpd/access_%%YYYY%%MM%DD.log
-  #log_dir: /var/log/httpd/www.example.com
-  #daily: no
+  log_dir: /var/log/httpd/www.example.com
   server_name_aliases: 
-
-session:
-  storage:
-    #type: database
-    #type: memcache
-
-serialize:
-  storage:
-    #type: memcache
-
-date:
-  timezone: Asia/Tokyo
 
 google:
   key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I

@@ -445,11 +445,7 @@ class BSModule implements BSHTTPRedirector {
 	 */
 	static public function getPrefixes () {
 		if (!self::$prefixes) {
-			if ($prefixes = BSController::getInstance()->getConstant('MODULE_PREFIXES')) {
-				self::$prefixes = BSString::explode(',', $prefixes);
-			} else {
-				self::$prefixes = new BSArray(array('Admin', 'Develop', 'User'));
-			}
+			self::$prefixes = BSString::explode(',', BS_MODULE_PREFIXES);
 		}
 		return self::$prefixes;
 	}

@@ -9,17 +9,60 @@ carrot:
   url: http://trac.carrot-framework.org/project/carrot/
   ver: 2.1.10
 
-default:
-  module: Default
-  action: Default
+debug: yes
 
-not_found:
-  module: Default
-  action: NotFound
+languages:
+  - ja
 
-secure:
-  module: Default
-  action: NotFound
+home:
+  href: /index.html
+
+date:
+  timezone: Asia/Tokyo
+
+types:
+  file: /etc/httpd/mime.types
+
+serialize:
+  storage: default
+
+session:
+  storage: default
+
+memcache:
+  host: unix:///tmp/memcached.sock
+  port: 0
+
+net:
+  resolvable: yes
+
+smtp:
+  host: localhost
+  check_addresses: no
+
+xmpp:
+  host: localhost
+
+crypt:
+  engine: blowfish
+
+log:
+  classes:
+    - BSDatabaseLogger
+    - BSSystemLogger
+
+image:
+  thumbnail:
+    bgcolor: black
+
+pdo:
+  query_log_enable: no
+  default:
+    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+    uid: root
+  log:
+    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
+    loggable: no
 
 mysql:
   dir: /usr/local
@@ -29,3 +72,25 @@ pgsql:
 
 sqlite3:
   dir: /usr/local
+
+feed:
+  class: BSRSS20Document
+
+awstats:
+  daily: yes
+
+module:
+  prefixes:
+    - Admin
+    - User
+    - Develop
+  default:
+    module: Default
+    action: Default
+  not_found:
+    module: Default
+    action: NotFound
+  secure:
+    module: Default
+    action: NotFound
+

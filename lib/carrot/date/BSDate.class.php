@@ -28,10 +28,8 @@ class BSDate implements ArrayAccess {
 	 */
 	public function __construct ($date = null) {
 		if (!self::$timezone) {
-			if ($timezone = BSController::getInstance()->getConstant('DATE_TIMEZONE')) {
-				self::$timezone = $timezone;
-				date_default_timezone_set($timezone);
-			}
+			self::$timezone = BS_DATE_TIMEZONE;
+			date_default_timezone_set(self::$timezone);
 		}
 
 		$this->attributes = new BSArray;

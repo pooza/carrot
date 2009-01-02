@@ -60,14 +60,9 @@ class BSMediaType extends BSParameterHolder {
 	 */
 	private function getTypesFile () {
 		if (!$this->file) {
-			if (!$path = BSController::getInstance()->getConstant('TYPES_FILE')) {
-				require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
-				$path = $config['file'];
-			}
-
-			$this->file = new BSFile($path);
+			$this->file = new BSFile(BS_TYPES_FILE);
 			if (!$this->file->isReadable()) {
-				throw new BSFileException('"%s"を開くことが出来ません。', $file->getPath());
+				throw new BSConfigException('%sを開くことが出来ません。', $file);
 			}
 		}
 		return $this->file;

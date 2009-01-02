@@ -68,10 +68,7 @@ class BSSerializeHandler {
 	 */
 	public function getStorage () {
 		if (!$this->storage) {
-			if (!$type = BSController::getInstance()->getConstant('SERIALIZE_STORAGE_TYPE')) {
-				$type = 'default';
-			}
-			$class = 'BS' . BSString::pascalize($type) . 'SerializeStorage';
+			$class = 'BS' . BSString::pascalize(BS_SERIALIZE_STORAGE) . 'SerializeStorage';
 			$this->storage = new $class;
 			$this->storage->initialize();
 		}

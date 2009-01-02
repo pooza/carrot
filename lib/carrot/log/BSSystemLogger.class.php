@@ -16,13 +16,7 @@ class BSSystemLogger extends BSLogger {
 	 * @access public
 	 */
 	public function __construct () {
-		$constants = BSConstantHandler::getInstance();
-		if ($facility = $constants['LOG_SYSLOG_FACILITY']) {
-			$facility = $constants[$facility];
-		} else {
-			$facility = LOG_LOCAL6;
-		}
-		openlog('carrot', LOG_PID | LOG_PERROR, $facility);
+		openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
 	}
 
 	/**

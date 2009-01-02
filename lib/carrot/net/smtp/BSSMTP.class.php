@@ -30,7 +30,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
-			$host = new BSHost(BSController::getInstance()->getConstant('SMTP_HOST'));
+			$host = new BSHost(BS_SMTP_HOST);
 		}
 
 		parent::__construct($host, $port);
@@ -49,7 +49,7 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function open () {
-		if (!BSController::getInstance()->isResolvable()) {
+		if (!BS_NET_RESOLVABLE) {
 			return;
 		}
 
@@ -67,7 +67,7 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function close () {
-		if (!BSController::getInstance()->isResolvable()) {
+		if (!BS_NET_RESOLVABLE) {
 			return;
 		}
 
@@ -86,7 +86,7 @@ class BSSMTP extends BSSocket {
 	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($mode = false) {
-		if (!BSController::getInstance()->isResolvable()) {
+		if (!BS_NET_RESOLVABLE) {
 			return;
 		}
 
@@ -220,7 +220,7 @@ class BSSMTP extends BSSocket {
 	 * @return boolean 
 	 */
 	private function checkAddresses () {
-		if (BSController::getInstance()->getConstant('SMTP_CHECK_ADDRESSES')) {
+		if (BS_SMTP_CHECK_ADDRESSES) {
 			if (!BSArray::isArray($this->addresses) || !$this->addresses->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 				return false;

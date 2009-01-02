@@ -35,7 +35,7 @@ class AnalyzeAccessLogAction extends BSAction {
 			}
 			$this->config['admin_networks'] = $networks->implode(' ');
 
-			if ($this->isDaily()) {
+			if (BS_AWSTATS_DAILY) {
 				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
 					. '/%YYYY/%MM/access_%YYYY%MM%DD.log';
 			} else {
@@ -43,16 +43,6 @@ class AnalyzeAccessLogAction extends BSAction {
 			}
 		}
 		return $this->config;
-	}
-
-	/**
-	 * 日次モードか？
-	 *
-	 * @access private
-	 * @return boolean 日次モードならTrue
-	 */
-	private function isDaily () {
-		return $this->controller->getConstant('AWSTATS_DAILY');
 	}
 
 	/**
@@ -85,7 +75,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @return BSFile 昨日のアクセスログ
 	 */
 	private function getPrevLogFile () {
-		if (!$this->prev && $this->isDaily()) {
+		if (!$this->prev && BS_AWSTATS_DAILY) {
 			if ($dir = $this->controller->getDirectory('awstats_log')) {
 				$yesterday = BSDate::getNow()->setAttribute('day', '-1');
 				if ($dir = $dir->getEntry($yesterday->format('Y'))) {

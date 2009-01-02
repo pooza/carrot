@@ -221,22 +221,6 @@ class BSSocket {
 			$this->getPort()
 		);
 	}
-
-	/**
-	 * リゾルバは有効か？
-	 *
-	 * @access public
-	 * @return boolean デバッグモードならTrue
-	 * @static
-	 */
-	static public function isResolvable () {
-		$constants = BSConstantHandler::getInstance();
-		if ($constants->hasParameter('RESOLVABLE') && !$constants['RESOLVABLE']) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 }
 
 /* vim:set tabstop=4: */

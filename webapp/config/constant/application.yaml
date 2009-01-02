@@ -9,22 +9,3 @@ app:
     ja: __NAME_JA__
     en: __NAME_EN__
   ver: 1.0.0-dev
-
-languages:
-  - ja
-
-home:
-  #href: /index.html
-
-module:
-  prefixes:
-    - Admin
-    - User
-    - Develop
-
-secure:
-  #module: Default
-  #action: Login
-
-feed:
-  class: BSRSS20Document

@@ -23,7 +23,7 @@ class BSXMPP extends BSSocket {
 	 */
 	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
-			$host = new BSHost(BSController::getInstance()->getConstant('XMPP_HOST'));
+			$host = new BSHost(BS_XMPP_HOST);
 		}
 		parent::__construct($host, $port);
 	}

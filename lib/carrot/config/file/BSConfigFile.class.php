@@ -81,7 +81,6 @@ class BSConfigFile extends BSFile {
 		$compiler = $this->getCompiler();
 		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
 			$cache->setContents($compiler->execute($this));
-			$compiler->putLog($this->getLogMessage());
 		}
 		return $cache->getPath();
 	}

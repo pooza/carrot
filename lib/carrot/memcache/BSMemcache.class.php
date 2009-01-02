@@ -18,8 +18,7 @@ class BSMemcache extends Memcache {
 	 * @access public
 	 */
 	public function __construct () {
-		$constants = BSConstantHandler::getInstance();
-		if (!$this->connect($constants['MEMCACHE_HOST'], $constants['MEMCACHE_PORT'])) {
+		if (!$this->connect(BS_MEMCACHE_HOST, BS_MEMCACHE_PORT)) {
 			throw new BSMemcacheException('memcachedに接続出来ません。');
 		}
 	}

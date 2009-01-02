@@ -167,7 +167,7 @@ abstract class BSDatabase extends PDO {
 				$query
 			);
 		}
-		if (BSController::getInstance()->getConstant('PDO_QUERY_LOG_ENABLE')) {
+		if (BS_PDO_QUERY_LOG_ENABLE) {
 			$this->putLog($query);
 		}
 		return $r;

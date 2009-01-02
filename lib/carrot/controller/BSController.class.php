@@ -55,10 +55,10 @@ abstract class BSController {
 	 */
 	public function dispatch () {
 		if (!$module = $this->request[self::MODULE_ACCESSOR]) {
-			$module = $this->getConstant('DEFAULT_MODULE');
+			$module = BS_MODULE_DEFAULT_MODULE;
 		}
 		if (!$action = $this->request[self::ACTION_ACCESSOR]) {
-			$action = $this->getConstant('DEFAULT_ACTION');
+			$action = BS_MODULE_DEFAULT_ACTION;
 		}
 
 		try {
@@ -243,9 +243,8 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getSecureAction () {
-		$module = $this->getConstant('SECURE_MODULE');
-		$action = $this->getConstant('SECURE_ACTION');
-		return BSModule::getInstance($module)->getAction($action);
+		return BSModule::getInstance(BS_MODULE_SECURE_MODULE)
+			->getAction(BS_MODULE_SECURE_ACTION);
 	}
 
 	/**
@@ -255,9 +254,8 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getNotFoundAction () {
-		$module = $this->getConstant('NOT_FOUND_MODULE');
-		$action = $this->getConstant('NOT_FOUND_ACTION');
-		return BSModule::getInstance($module)->getAction($action);
+		return BSModule::getInstance(BS_MODULE_NOT_FOUND_MODULE)
+			->getAction(BS_MODULE_NOT_FOUND_ACTION);
 	}
 
 	/**
@@ -400,19 +398,6 @@ abstract class BSController {
 	 */
 	public function isDebugMode () {
 		return $this->getConstant('DEBUG');
-	}
-
-	/**
-	 * リゾルバは有効か？
-	 *
-	 * BSSocket::isResolvable()のエイリアス
-	 *
-	 * @access public
-	 * @return boolean デバッグモードならTrue
-	 * @final
-	 */
-	final public function isResolvable () {
-		return BSSocket::isResolvable();
 	}
 
 	/**

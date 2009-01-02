@@ -61,7 +61,7 @@ class BSHost {
 	 */
 	public function getName () {
 		if (!$this->fqdn) {
-			if (BSController::getInstance()->isResolvable()) {
+			if (BS_NET_RESOLVABLE) {
 				$this->fqdn = gethostbyaddr($this->getAddress());
 			} else {
 				$this->fqdn = $this->getAddress();

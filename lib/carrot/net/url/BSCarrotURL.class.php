@@ -23,7 +23,7 @@ class BSCarrotURL extends BSURL {
 	 */
 	public function getModuleName () {
 		if (!$this->module) {
-			$this->module = BSController::getInstance()->getConstant('DEFAULT_MODULE');
+			$this->module = BS_DEFAULT_MODULE;
 		}
 		return $this->module;
 	}
@@ -51,7 +51,7 @@ class BSCarrotURL extends BSURL {
 	 */
 	public function getActionName () {
 		if (!$this->action) {
-			$this->action = BSController::getInstance()->getConstant('DEFAULT_ACTION');
+			$this->action = BS_MODULE_DEFAULT_ACTION;
 		}
 		return $this->action;
 	}
