@@ -54,6 +54,7 @@ log:
 image:
   thumbnail:
     bgcolor: black
+    type: image/png
 
 pdo:
   query_log_enable: no
