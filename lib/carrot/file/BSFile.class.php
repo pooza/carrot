@@ -93,6 +93,22 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
+	 * コピー
+	 *
+	 * @access public
+	 * @param BSDirectory $dir コピー先ディレクトリ
+	 * @param string $class クラス名
+	 * @return BSFile コピーされたファイル
+	 */
+	public function copyTo (BSDirectory $dir, $class = 'BSFile') {
+		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
+		if (!copy($this->getPath(), $path)) {
+			throw new BSFileException('%sをコピー出来ません。', $this);
+		}
+		return new $class($path);
+	}
+
+	/**
 	 * 削除
 	 *
 	 * @access public
@@ -392,13 +408,14 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 *
 	 * @access public
 	 * @param string $suffix 拡張子
+	 * @param string $class クラス名
 	 * @return BSFile 一時ファイル
 	 * @static
 	 */
-	static public function getTemporaryFile ($suffix = null) {
+	static public function getTemporaryFile ($suffix = null, $class = 'BSFile') {
 		$dir = BSController::getInstance()->getDirectory('tmp');
 		$name = BSUtility::getUniqueID() . $suffix;
-		if (!$file = $dir->createEntry($name)) {
+		if (!$file = $dir->createEntry($name, $class)) {
 			throw new BSFileException('一時ファイルが生成できません。');
 		}
 		return $file;
