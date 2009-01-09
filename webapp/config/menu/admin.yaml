@@ -4,21 +4,17 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
----1:
-
-AdminLog:
-AdminXMPPBot:
-DevelopTableReport:
-DevelopDocumentor:
-
-AWStats:
+- separator: yes
+- module: AdminLog
+- module: AdminXMPPBot
+- module: DevelopTableReport
+- module: DevelopDocumentor
+- name: AWStats
   title: アクセスログ解析
   href: /awstats/awstats.pl
   target: _blank
-
----2:
-
-Logout:
+- separator: yes
+- name: Logout
   title: ログアウト
   module: Default
   action: Logout

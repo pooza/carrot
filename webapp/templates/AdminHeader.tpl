@@ -19,12 +19,10 @@
 <div id="Menu">
 	<ul>
 {foreach from=$menu item=item}
-	{if $item.title=='---'}
-		<li class="spacer">&nbsp;</li>
+	{if $item.separator}
+		<li class="separator">&nbsp;</li>
 	{elseif $item.href}
 		<li><a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a></li>
-	{elseif !$item.action}
-		<li><a href="/{$item.module}/">{$item.title}</a></li>
 	{else}
 		<li><a href="/{$item.module}/{$item.action}">{$item.title}</a></li>
 	{/if}

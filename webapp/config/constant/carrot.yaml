@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  url: http://trac.carrot-framework.org/project/carrot/
+  url: http://guest@trac.carrot-framework.org/project/carrot/
   ver: 2.1.11
 
 debug: yes
@@ -63,6 +63,8 @@ pdo:
     uid: root
   log:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
+    loggable: no
+  session:
     loggable: no
 
 mysql:

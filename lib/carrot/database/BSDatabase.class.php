@@ -32,8 +32,8 @@ abstract class BSDatabase extends PDO {
 			self::$instances = new BSArray;
 		}
 		if (!self::$instances[$name]) {
-			$constants = BSConstantHandler::getInstance();
-			if (preg_match('/^([a-z0-9]+):/', $constants['PDO_' . $name . '_DSN'], $matches)) {
+			$dsn = BSController::getInstance()->getConstant('PDO_' . $name . '_DSN');
+			if (preg_match('/^([a-z0-9]+):/', $dsn, $matches)) {
 				switch ($matches[1]) {
 					case 'mysql':
 						return self::$instances[$name] = BSMySQLDatabase::connect($name);
@@ -269,14 +269,7 @@ abstract class BSDatabase extends PDO {
 	 * @return boolean クエリーログを使用するならTrue
 	 */
 	private function isLoggable () {
-		$constants = BSConstantHandler::getInstance();
-		$name = sprintf('PDO_%s_LOGGABLE', $this->getName());
-		if ($constants->hasParameter($name) && !$constants[$name]) {
-			return false;
-		} else if (in_array($this->getName(), array('session', 'log'))) {
-			return false;
-		}
-		return true;
+		return BSController::getInstance()->getConstant('PDO_' . $this->getName() . '_LOGGABLE');
 	}
 
 	/**
@@ -417,7 +410,8 @@ abstract class BSDatabase extends PDO {
 	static public function getDatabases () {
 		$databases = new BSArray;
 		foreach (BSConstantHandler::getInstance()->getParameters() as $key => $value) {
-			if (preg_match('/_PDO_([A-Z]+)_DSN$/', $key, $matches)) {
+			$pattern = '/^' . BSConstantHandler::PREFIX . '_PDO_([A-Z]+)_DSN$/';
+			if (preg_match($pattern, $key, $matches)) {
 				$name = strtolower($matches[1]);
 				try {
 					$databases[$name] = self::getInstance($name)->getInfo();
