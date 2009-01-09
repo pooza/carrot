@@ -15,12 +15,7 @@ admin:
   networks:
     - 192.168.0.0/24
     - 192.168.1.0/24
-
-author:
-  name: 有限会社 ビーショック
-  email: info@b-shock.co.jp
-  jid: carrot.galbacura-far@jabber.b-shock.co.jp/carrot
-  password: LRSOV7gId+o=
+    - 192.168.100.0/24
 
 crypt:
   salt: carrot
@@ -37,9 +32,6 @@ pdo:
 
 smtp:
   host: localhost
-
-xmpp:
-  host: jabber.b-shock.co.jp
 
 awstats:
   log_dir: /var/log/httpd/www.example.com

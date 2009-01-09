@@ -9,3 +9,7 @@ app:
     ja: __NAME_JA__
     en: __NAME_EN__
   ver: 1.0.0-dev
+
+author:
+  name: 有限会社 ビーショック
+  email: info@b-shock.co.jp

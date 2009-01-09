@@ -20,14 +20,15 @@
 	</tr>
 	<tr>
 		<th width="180">アプリケーションのJabberID</th>
-		<td width="300">{$from}</td>
+		<td width="300">{$from|default:'(未設定)'}</td>
 	</tr>
 	<tr>
 		<th width="180">管理者のJabberID</th>
-		<td width="300">{$to}</td>
+		<td width="300">{$to|default:'(未設定)'}</td>
 	</tr>
 </table>
 
+{if !$errors}
 {if $pid}
 <h1>管理者へIM送信</h1>
 <form method="post" action="/{$module.name}/Send">
@@ -40,6 +41,7 @@
 	XMPPBotは起動していません。
 	<a href='/{$module.name}/Start'>起動</a>
 </p>
+{/if}
 {/if}
 
 {include file='AdminFooter'}

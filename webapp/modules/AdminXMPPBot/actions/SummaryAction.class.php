@@ -22,6 +22,16 @@ class SummaryAction extends BSAction {
 
 		return BSView::SUCCESS;
 	}
+
+	public function validate () {
+		if (!BSAuthor::getJabberID()) {
+			$this->request->setError('author_jid', '未定義です。');
+		}
+		if (!BSAdministrator::getJabberID()) {
+			$this->request->setError('admin_jid', '未定義です。');
+		}
+		return parent::validate();
+	}
 }
 
 /* vim:set tabstop=4: */

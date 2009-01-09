@@ -51,7 +51,9 @@ class BSAuthor implements BSRole {
 	 * @static
 	 */
 	static public function getJabberID () {
-		return new BSJabberID(BSController::getInstance()->getConstant('AUTHOR_JID'));
+		if ($jid = BSController::getInstance()->getConstant('AUTHOR_JID')) {
+			return new BSJabberID($jid);
+		}
 	}
 
 	/**

@@ -82,10 +82,14 @@ class BSException extends Exception {
 	 * @access public
 	 */
 	public function sendAlert () {
-		try {
-			$xmpp = new BSXMPPBotClient(BSController::getInstance()->getHost());
-			$xmpp->putLine(BSLogManager::formatMessage($this->getMessage(), $this->getName()));
-		} catch (Exception $e) {
+		if (BSAdministrator::getJabberID()) {
+			try {
+				$xmpp = new BSXMPPBotClient(BSController::getInstance()->getHost());
+				$xmpp->putLine(BSLogManager::formatMessage($this->getMessage(), $this->getName()));
+			} catch (Exception $e) {
+				$this->sendMail();
+			}
+		} else {
 			$this->sendMail();
 		}
 	}
