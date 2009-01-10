@@ -36,7 +36,7 @@ class BSMenuFilter extends BSFilter {
 						$menuitem['title'] = $module->getConfig('title');
 					}
 					if (!$this->user->hasCredential($module->getCredential())) {
-						return;
+						continue;
 					}
 				}
 				$this->menu[] = $menuitem;
