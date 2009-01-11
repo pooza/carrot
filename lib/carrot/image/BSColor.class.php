@@ -43,7 +43,7 @@ class BSColor extends BSParameterHolder {
 		} else {
 			$color = strtolower($color);
 			$config = array();
-			require(BSConfigManager::getInstance()->compile('image/color'));
+			require(BSConfigManager::getInstance()->compile('color'));
 			$colors = $config;
 			if (isset($colors[$color])) {
 				$this->setColor($colors[$color]);

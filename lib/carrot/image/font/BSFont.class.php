@@ -17,7 +17,7 @@ class BSFont extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __construct ($name, $params) {
-		$params['names']['default'] = $name;
+		$params['name']['default'] = $name;
 		$this->setParameters($params);
 	}
 
@@ -29,10 +29,10 @@ class BSFont extends BSParameterHolder {
 	 * @return string 名前
 	 */
 	public function getName ($language = 'default') {
-		if (isset($this['names'][$language])) {
-			return $this['names'][$language];
+		if (isset($this['name'][$language])) {
+			return $this['name'][$language];
 		} else {
-			return $this['names']['default'];
+			return $this['name']['default'];
 		}
 	}
 
