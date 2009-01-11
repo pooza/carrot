@@ -19,6 +19,7 @@ class BSDate implements ArrayAccess {
 	const SAT = 6;
 	const SUN = 7;
 	private $attributes;
+	static private $gengos;
 	const GMT = 'gmt';
 
 	/**
@@ -382,12 +383,11 @@ class BSDate implements ArrayAccess {
 		}
 
 		$config = array();
-		require(BSConfigManager::getInstance()->compile('date/holiday'));
-		if (!isset($config[$country])) {
+		require(BSConfigManager::getInstance()->compile('date'));
+		if (!isset($config['holiday'][$country])) {
 			throw new BSConfigException('国名"%s"の休日が未定義です。', $country);
 		}
-		$class = $config[$country]['class'];
-		$holidays = new $class;
+		$holidays = new $config['holiday'][$country]['class'];
 		$holidays->setDate($this);
 		return $holidays[$this['day']];
 	}
@@ -447,10 +447,8 @@ class BSDate implements ArrayAccess {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('gengo')) {
-			$config = array();
-			require(BSConfigManager::getInstance()->compile('date/gengo'));
-			foreach ($config as $gengo) {
-				if ($gengo['start_date'] <= $this->format('Y-m-d')) {
+			foreach (self::getGengos() as $gengo) {
+				if (!$this->isPast($gengo['start_date'])) {
 					$this->attributes['gengo'] = $gengo['name'];
 					break;
 				}
@@ -470,12 +468,9 @@ class BSDate implements ArrayAccess {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 		if (!$this->attributes->hasAttribute('japanese_year')) {
-			$config = array();
-			require(BSConfigManager::getInstance()->compile('date/gengo'));
-			foreach ($config as $gengo => $values) {
-				if ($values['start_date'] <= $this->format('Y-m-d')) {
-					$start = new BSDate($values['start_date']);
-					$year = $this['year'] - $start['year'] + 1;
+			foreach (self::getGengos() as $gengo) {
+				if (!$this->isPast($gengo['start_date'])) {
+					$year = $this['year'] - $gengo['start_date']['year'] + 1;
 					$this->attributes['japanese_year'] = $year;
 					break;
 				}
@@ -629,6 +624,34 @@ class BSDate implements ArrayAccess {
 	 */
 	public function __toString () {
 		return sprintf('日付 "%04d-%02d-%02d"', $this['year'], $this['month'], $this['day']);
+	}
+
+	/**
+	 * 元号の配列を返す
+	 *
+	 * @access public
+	 * @return BSArray 元号の配列
+	 * @static
+	 */
+	static public function getGengos () {
+		if (!self::$gengos) {
+			self::$gengos = new BSArray;
+			$config = array();
+			require(BSConfigManager::getInstance()->compile('date'));
+			if (!isset($config['gengo'])) {
+				throw new BSConfigException('元号が設定されていません。');
+			}
+			foreach ($config['gengo'] as $gengo) {
+				$gengo = new BSArray($gengo);
+				try {
+					$gengo['start_date'] = new BSDate($gengo['start_date']);
+				} catch (BSDateException $e) {
+					continue;
+				}
+				self::$gengos[$gengo['name']] = $gengo;
+			}
+		}
+		return self::$gengos;
 	}
 }
 
