@@ -75,7 +75,7 @@ class BSMediaType extends BSParameterHolder {
 	 * @return BSConfigFile 設定ファイル
 	 */
 	private function getConfigFile () {
-		return BSConfigManager::getInstance()->getConfigFile('mime/types');
+		return BSConfigManager::getInstance()->getConfigFile('mime');
 	}
 
 	/**

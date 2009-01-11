@@ -9,12 +9,10 @@
 - module: AdminXMPPBot
 - module: DevelopTableReport
 - module: DevelopDocumentor
-- name: AWStats
-  title: アクセスログ解析
+- title: アクセスログ解析
   href: /awstats/awstats.pl
   target: _blank
 - separator: yes
-- name: Logout
-  title: ログアウト
+- title: ログアウト
   module: Default
   action: Logout

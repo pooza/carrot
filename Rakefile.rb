@@ -92,5 +92,5 @@ end
 
 def media_types
   require 'yaml'
-  return YAML.load_file('webapp/config/mime/types.yaml')['types']
+  return YAML.load_file('webapp/config/mime.yaml')['types']
 end
