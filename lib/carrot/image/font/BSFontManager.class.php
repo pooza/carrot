@@ -24,8 +24,10 @@ class BSFontManager {
 	 */
 	private function __construct () {
 		$config = array();
-		require(BSConfigManager::getInstance()->compile('font'));
+		require(BSConfigManager::getInstance()->compile('font/carrot'));
 		$this->config = new BSArray($config);
+		require(BSConfigManager::getInstance()->compile('font/application'));
+		$this->config->setParameters($config);
 		$this->fonts = new BSArray;
 	}
 
