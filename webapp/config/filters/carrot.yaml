@@ -5,13 +5,6 @@
 # @version $Id$
 
 - class: BSNullByteRequestFilter
-#- class: BSEncodingRequestFilter
 - class: BSMagicQuoteRequestFilter
-- class: BSNewLineRequestFilter
-- class: BSKanaRequestFilter
-  params:
-    option: KVa
-- class: BSReadingRequestFilter
-- class: BSDateRequestFilter
 - class: BSDeniedUserAgentFilter
 - class: BSCookieFilter

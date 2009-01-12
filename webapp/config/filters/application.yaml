@@ -1,0 +1,14 @@
+# フィルタ設定ファイル
+#
+# @package __PACKAGE__
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+#- class: BSEncodingRequestFilter
+- class: BSMagicQuoteRequestFilter
+- class: BSNewLineRequestFilter
+- class: BSKanaRequestFilter
+  params:
+    option: KVa
+- class: BSReadingRequestFilter
+- class: BSDateRequestFilter

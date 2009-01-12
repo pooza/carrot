@@ -50,7 +50,8 @@ class BSFilterChain {
 	 * @access public
 	 */
 	public function loadGlobal () {
-		$this->load('filters');
+		$this->load('filters/carrot');
+		$this->load('filters/application');
 	}
 
 	/**
