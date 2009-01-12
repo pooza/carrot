@@ -3,16 +3,16 @@
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
-# 評価する順番に記述
 
-constant/:
-  class: BSDefineConfigCompiler
-
-validate/:
-  class: BSValidatorConfigCompiler
-
-layout/:
-  class: BSLayoutConfigCompiler
-
-filters:
-  class: BSObjectRegisterConfigCompiler
+- class: BSDefineConfigCompiler
+  params:
+    pattern: constant/
+- class: BSValidatorConfigCompiler
+  params:
+    pattern: validate/
+- class: BSLayoutConfigCompiler
+  params:
+    pattern: layout/
+- class: BSObjectRegisterConfigCompiler
+  params:
+    pattern: filters

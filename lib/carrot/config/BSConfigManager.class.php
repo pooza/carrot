@@ -23,8 +23,8 @@ class BSConfigManager {
 		$this->compilers = new BSArray($objects);
 
 		$compiler = new BSDefaultConfigCompiler;
-		$compiler->initialize();
-		$this->compilers['.'] = $compiler;
+		$compiler->initialize(array('pattern' => '.'));
+		$this->compilers[] = $compiler;
 	}
 
 	/**
@@ -73,8 +73,8 @@ class BSConfigManager {
 	 * @return BSConfigCompiler 設定コンパイラ
 	 */
 	public function getCompiler (BSConfigFile $file) {
-		foreach ($this->compilers as $pattern => $compiler) {
-			$pattern = '/' . preg_quote($pattern, '/') . '/';
+		foreach ($this->compilers as $compiler) {
+			$pattern = '/' . preg_quote($compiler['pattern'], '/') . '/';
 			if (preg_match($pattern, $file->getPath())) {
 				return $compiler;
 			}
