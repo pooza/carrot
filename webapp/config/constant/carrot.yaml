@@ -61,6 +61,7 @@ pdo:
   default:
     dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
     uid: root
+    loggable: yes
   log:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
     loggable: no
