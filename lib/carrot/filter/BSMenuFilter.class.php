@@ -52,17 +52,17 @@ class BSMenuFilter extends BSFilter {
 	 * @return BSConfigFile メニューファイル
 	 */
 	private function getMenuFile () {
-		$names = array(
+		$names = new BSArray(array(
 			$this['name'],
 			BSString::pascalize($this->getModule()->getPrefix()),
 			BSString::underscorize($this->getModule()->getPrefix()),
-		);
+		));
 		foreach ($names as $name) {
 			if ($file = BSConfigManager::getConfigFile('menu/' . $name)) {
 				return $file;
 			}
 		}
-		throw new BSConfigException('メニューファイルが見つかりません。');
+		throw new BSConfigException('メニュー(%s)が見つかりません。', $names->join('|'));
 	}
 
 	/**

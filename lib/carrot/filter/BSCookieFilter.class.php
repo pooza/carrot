@@ -11,6 +11,11 @@
  * @version $Id$
  */
 class BSCookieFilter extends BSFilter {
+	public function initialize ($parameters = array()) {
+		$this['cookie_error'] = 'Cookie機能が有効でない、又はセッションのタイムアウトです。';
+		return parent::initialize($parameters);
+	}
+
 	public function execute (BSFilterChain $filters) {
 		if (!$this->request->isCLI()
 			&& !$this->request->isAjax()
@@ -25,7 +30,7 @@ class BSCookieFilter extends BSFilter {
 					break;
 				default:
 					if (!$this->user->getAttribute(BSUser::getTestCookieName())) {
-						$this->request->setError('cookie', 'Cookieを受け入れる様にして下さい。');
+						$this->request->setError('cookie', $this['cookie_error']);
 					}
 					break;
 			}
