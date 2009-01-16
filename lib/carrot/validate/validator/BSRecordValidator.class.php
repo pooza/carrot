@@ -20,6 +20,7 @@ class BSRecordValidator extends BSValidator {
 	 */
 	public function initialize ($parameters = array()) {
 		$this['table'] = null;
+		$this['class'] = null;
 		$this['field'] = 'id';
 		$this['exist'] = true;
 		$this['update'] = false;
@@ -130,10 +131,15 @@ class BSRecordValidator extends BSValidator {
 	 * @return BSTableHandler 対象テーブル
 	 */
 	private function getTable () {
-		if (!$table = $this['table']) {
-			throw new BSValidateException('テーブル名が定義されていません。');
+		if (!$class = $this['class']) {
+			$class = $this['table'];
 		}
-		$class = BSString::pascalize($table) . 'Handler';
+		$class = BSTableHandler::getClassName($class);
+
+		if (!class_exists($class)) {
+			throw new BSValidateException('クラス "%s" が未定義です。', $class);
+		}
+
 		return new $class;
 	}
 }

@@ -54,7 +54,7 @@ class BSChoiceValidator extends BSValidator {
 				$choices = BSString::explode(',', $choices);
 			}
 		} else if ($this['class']) {
-			$class = preg_replace('/Handler$/', '', $this['class']) . 'Handler';
+			$class = BSTableHandler::getClassName($this['class']);
 			eval(sprintf('$choices = new BSArray(%s::%s());', $class, $this['function']));
 			$choices = $choices->getKeys();
 		}

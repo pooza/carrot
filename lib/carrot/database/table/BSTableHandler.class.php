@@ -28,6 +28,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	private $ids;
 	const WITH_PAGING = true;
 	const WITHOUT_PAGING = false;
+	const CLASS_SUFFIX = 'Handler';
 
 	/**
 	 * @access public
@@ -683,6 +684,22 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 */
 	public function __toString () {
 		return sprintf('テーブル "%s"', $this->getName());
+	}
+
+	/**
+	 * レコード用クラス名から、テーブル用クラス名を返す
+	 *
+	 * @access public
+	 * @param string $class レコード用クラス名
+	 * @return string テーブル用クラス名
+	 * @static
+	 */
+	static public function getClassName ($class) {
+		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
+		$class = preg_replace($pattern, '', $class);
+		$class = BSString::pascalize($class);
+		$class .= self::CLASS_SUFFIX;
+		return $class;
 	}
 }
 

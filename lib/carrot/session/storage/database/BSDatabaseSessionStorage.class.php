@@ -51,7 +51,7 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 						$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
 						$db->exec($query);
 					}
-					$class = 'BS' . BSString::pascalize(self::TABLE_NAME) . 'Handler';
+					$class = 'BS' . BSTableHandler::getClassName(self::TABLE_NAME);
 					$this->table = new $class;
 					break;
 				}

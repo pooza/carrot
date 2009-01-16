@@ -36,7 +36,7 @@ abstract class BSRecord {
 		if (preg_match('/^get([A-Z][A-Za-z0-9]+)$/', $method, $matches)) {
 			$name = $matches[1];
 			if (!isset($this->records[$name])) {
-				$class = $name . 'Handler';
+				$class = BSTableHandler::getClassName($name);
 				$table = new $class;
 				$id = $this->getAttribute($table->getName() . '_id');
 				$this->records[$name] = $table->getRecord($id);
