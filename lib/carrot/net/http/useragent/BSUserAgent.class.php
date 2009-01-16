@@ -283,6 +283,7 @@ abstract class BSUserAgent {
 			'Au',
 			'SoftBank',
 			'Console',
+			'Default',
 		));
 	}
 }
