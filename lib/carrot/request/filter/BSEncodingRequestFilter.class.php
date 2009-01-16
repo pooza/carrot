@@ -27,6 +27,13 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 			return BSString::convertEncoding($value);
 		}
 	}
+
+	public function execute (BSFilterChain $filters) {
+		if (ini_get('mbstring.encoding_translation')) {
+			return $filters->execute();
+		}
+		parent::execute($filters);
+	}
 }
 
 /* vim:set tabstop=4: */
