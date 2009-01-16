@@ -49,9 +49,8 @@ abstract class BSAction implements BSHTTPRedirector {
 				// $this->getTable()は使わない。
 				if ($class = $this->getRecordClassName()) {
 					$class = BSTableHandler::getClassName($class);
-					if ($table = new $class) {
-						return $table->getDatabase();
-					}
+					$table = new $class;
+					return $table->getDatabase();
 				}
 				return BSDatabase::getInstance();
 			default:

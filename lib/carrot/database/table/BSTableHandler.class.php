@@ -687,10 +687,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
-	 * レコード用クラス名から、テーブル用クラス名を返す
+	 * テーブル用クラス名を返す
 	 *
 	 * @access public
-	 * @param string $class レコード用クラス名
+	 * @param string $class レコード用クラス名、又はテーブル名
 	 * @return string テーブル用クラス名
 	 * @static
 	 */
@@ -699,6 +699,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 		$class = preg_replace($pattern, '', $class);
 		$class = BSString::pascalize($class);
 		$class .= self::CLASS_SUFFIX;
+		if (!class_exists($class)) {
+			throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
+		}
 		return $class;
 	}
 }
