@@ -687,11 +687,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
-	 * テーブル用クラス名を返す
+	 * テーブルハンドラのクラス名を返す
 	 *
 	 * @access public
 	 * @param string $class レコード用クラス名、又はテーブル名
-	 * @return string テーブル用クラス名
+	 * @return string テーブルハンドラのクラス名
 	 * @static
 	 */
 	static public function getClassName ($class) {
