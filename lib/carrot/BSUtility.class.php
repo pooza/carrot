@@ -56,6 +56,7 @@ class BSUtility {
 	 */
 	static public function includeFile ($file) {
 		if (($file instanceof BSFile) == false) {
+			$file = BSString::stripControlCharacters($file);
 			if (!self::isPathAbsolute($file)) {
 				$file = BS_LIB_DIR . DIRECTORY_SEPARATOR . $file;
 			}

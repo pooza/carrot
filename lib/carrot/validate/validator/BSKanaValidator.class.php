@@ -20,7 +20,7 @@ class BSKanaValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this['invalid_error'] = 'フリガナとして使用出来ない文字が含まれています。';
+		$this['invalid_error'] = '使用出来ない文字が含まれています。';
 		return parent::initialize($parameters);
 	}
 

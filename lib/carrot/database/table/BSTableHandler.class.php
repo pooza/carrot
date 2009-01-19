@@ -695,6 +695,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @static
 	 */
 	static public function getClassName ($class) {
+		$class = BSString::stripControlCharacters($class);
 		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
 		$class = preg_replace($pattern, '', $class);
 		$class = BSString::pascalize($class);
