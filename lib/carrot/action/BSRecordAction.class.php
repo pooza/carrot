@@ -35,9 +35,7 @@ abstract class BSRecordAction extends BSAction {
 		}
 
 		$this->request->setAttribute('styleset', 'carrot.Detail');
-		if (method_exists($this->getTable(), 'getStatusOptions')) {
-			$this->request->setAttribute('status_options', $this->getTable()->getStatusOptions());
-		}
+		$this->assignStatusOptions();
 
 		return true;
 	}

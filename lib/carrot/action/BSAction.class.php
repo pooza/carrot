@@ -359,6 +359,21 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
+	 * 状態オプションをアサインする
+	 *
+	 * @access protected
+	 * @return string ビュー名
+	 */
+	protected function assignStatusOptions () {
+		// まだフィルタチェーンが完了していない為、$this->getTable()を呼んではいけない。
+		$class = BSTableHandler::getClassName($this->getModule()->getRecordClassName());
+		$table = new $class;
+		if (method_exists($table, 'getStatusOptions')) {
+			$this->request->setAttribute('status_options', $table->getStatusOptions());
+		}
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
