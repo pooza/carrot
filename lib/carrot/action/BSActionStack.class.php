@@ -32,7 +32,7 @@ class BSActionStack implements IteratorAggregate {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSActionStack;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

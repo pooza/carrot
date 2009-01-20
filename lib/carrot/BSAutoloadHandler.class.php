@@ -31,7 +31,7 @@ class BSAutoloadHandler {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSAutoloadHandler;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

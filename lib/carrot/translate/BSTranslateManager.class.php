@@ -37,7 +37,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSTranslateManager;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

@@ -22,7 +22,7 @@ class BSWebController extends BSController {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSWebController;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

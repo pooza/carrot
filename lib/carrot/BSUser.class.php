@@ -47,7 +47,7 @@ class BSUser extends BSParameterHolder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSUser;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

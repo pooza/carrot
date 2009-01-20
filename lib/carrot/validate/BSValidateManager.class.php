@@ -33,7 +33,7 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSValidateManager;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

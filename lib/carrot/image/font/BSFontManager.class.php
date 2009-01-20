@@ -40,7 +40,7 @@ class BSFontManager {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSFontManager;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

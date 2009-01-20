@@ -33,7 +33,7 @@ class BSLogManager implements IteratorAggregate {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSLogManager;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

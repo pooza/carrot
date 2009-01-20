@@ -28,7 +28,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSConstantHandler;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

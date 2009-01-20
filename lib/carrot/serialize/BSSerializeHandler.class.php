@@ -31,7 +31,7 @@ class BSSerializeHandler {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSSerializeHandler;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

@@ -36,7 +36,7 @@ class BSDirectoryLayout {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSDirectoryLayout;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

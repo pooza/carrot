@@ -40,7 +40,7 @@ class BSMediaType extends BSParameterHolder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSMediaType;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}

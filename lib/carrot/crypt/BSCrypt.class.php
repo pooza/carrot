@@ -33,7 +33,7 @@ class BSCrypt {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			self::$instance = new BSCrypt;
+			self::$instance = new self;
 		}
 		return self::$instance;
 	}
