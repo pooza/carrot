@@ -64,6 +64,18 @@ class BSAutoloadHandler {
 	}
 
 	/**
+	 * 存在するクラスか？
+	 *
+	 * @access public
+	 * @param string $class クラス名
+	 * @return boolean 存在するならTrue
+	 */
+	public function isExist ($class) {
+		$classes = $this->getClasses();
+		return isset($classes[$class]);
+	}
+
+	/**
 	 * 検索対象ディレクトリを返す
 	 *
 	 * @access private

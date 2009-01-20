@@ -54,7 +54,14 @@ class BSChoiceValidator extends BSValidator {
 				$choices = BSString::explode(',', $choices);
 			}
 		} else if ($this['class']) {
-			$class = BSTableHandler::getClassName($this['class']);
+			try {
+				$class = BSTableHandler::getClassName($this['class']);
+			} catch (BSDatabaseException $e) {
+				$class = $this['class'];
+			}
+			if (!BSAutoloadHandler::getInstance()->isExist($class)) {
+				throw new BSValidateException('クラス "%s" が未定義です。', $class);
+			}
 			eval(sprintf('$choices = new BSArray(%s::%s());', $class, $this['function']));
 			$choices = $choices->getKeys();
 		}

@@ -698,9 +698,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 		$class = BSString::stripControlCharacters($class);
 		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
 		$class = preg_replace($pattern, '', $class);
+		$class = BSString::underscorize($class);
 		$class = BSString::pascalize($class);
 		$class .= self::CLASS_SUFFIX;
-		if (!class_exists($class)) {
+
+		if (!BSAutoloadHandler::getInstance()->isExist($class)) {
 			throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
 		}
 		return $class;
