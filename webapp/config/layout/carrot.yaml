@@ -89,6 +89,10 @@ mysql:
 pgsql:
   constant: yes
 
+request:
+  parent: var
+  suffix: .txt
+
 root:
   constant: yes
 

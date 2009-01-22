@@ -14,14 +14,14 @@ RewriteRule ^([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [L,QSA]
 # php5
 php_value default_charset UTF-8
 php_value mbstring.language Japanese
-php_value mbstring.http_input auto
+php_value mbstring.http_input pass
 php_value mbstring.detect_order auto
 php_value mbstring.internal_encoding UTF-8
 php_value mbstring.script_encoding UTF-8
-php_value mbstring.http_output UTF-8
+php_value mbstring.http_output pass
 php_value date.timezone Asia/Tokyo
 php_flag register_globals Off
-php_flag mbstring.encoding_translation On
+php_flag mbstring.encoding_translation Off
 php_flag magic_quotes_gpc Off
 php_flag magic_quotes_sybase Off
 php_flag magic_quotes_runtime Off
