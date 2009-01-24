@@ -1,20 +1,33 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage csv
+ * @subpackage export
  */
 
+BSUtility::includeFile('write_excel/Worksheet.php');
+BSUtility::includeFile('write_excel/Workbook.php');
+
 /**
- * ファイル追記型CSVレンダラー
+ * Excelレンダラー
  *
- * パースの必要がなく、大量のCSVデータを出力するケースで使用する。
+ * Excel95形式に対応。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSCSVExporter implements BSExporter, BSTextRenderer {
+class BSExcelExporter implements BSExporter, BSRenderer {
 	private $file;
-	const LINE_SEPARATOR = "\r\n";
+	private $workbook;
+	private $worksheet;
+	private $line = 0;
+
+	/**
+	 * @access public
+	 */
+	public function __construct () {
+		$this->workbook = new Workbook($this->getFile()->getPath());
+		$this->worksheet = $this->workbook->add_worksheet('sheet1');
+	}
 
 	/**
 	 * 一時ファイルを返す
@@ -24,7 +37,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$this->file = BSFile::getTemporaryFile('.csv');
+			$this->file = BSFile::getTemporaryFile('.xls');
 		}
 		return $this->file;
 	}
@@ -36,19 +49,20 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @param BSArray $record レコード
 	 */
 	public function addRecord (BSArray $record) {
-		$values = new BSArray;
-		foreach ($record as $key => $value) {
-			$value = BSString::convertEncoding($value, $this->getEncoding(), 'utf-8');
-			$value = str_replace("\n", self::LINE_SEPARATOR, $value);
-			$value = str_replace('"', '""', $value);
-			$value = '"' . $value . '"';
-			$values[$key] = $value;
-		}
+		$format = $this->workbook->addformat();
+		$format->set_text_wrap();
 
-		if (!$this->getFile()->isOpened()) {
-			$this->getFile()->open('a');
+		$col = 0;
+		foreach ($record as $key => $value) {
+			$this->worksheet->write(
+				$this->line,
+				$col,
+				BSString::convertEncoding($value, 'sjis-win', 'utf-8'),
+				$format
+			);
+			$col ++;
 		}
-		$this->getFile()->putLine($values->join(','), self::LINE_SEPARATOR);
+		$this->line ++;
 	}
 
 	/**
@@ -58,9 +72,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @return string CSVデータの内容
 	 */
 	public function getContents () {
-		if ($this->getFile()->isOpened()) {
-			$this->getFile()->close();
-		}
+		$this->workbook->close();
 		return $this->getFile()->getContents();
 	}
 
@@ -71,7 +83,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('csv');
+		return BSMediaType::getType('xls');
 	}
 
 	/**
@@ -81,17 +93,8 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @return integer サイズ
 	 */
 	public function getSize () {
+		$this->workbook->close();
 		return $this->getFile()->getSize();
-	}
-
-	/**
-	 * エンコードを返す
-	 *
-	 * @access public
-	 * @return string PHPのエンコード名
-	 */
-	public function getEncoding () {
-		return 'sjis-win';
 	}
 
 	/**
@@ -101,6 +104,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
+		$this->workbook->close();
 		return true;
 	}
 
