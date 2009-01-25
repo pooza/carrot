@@ -194,6 +194,53 @@ class BSArray extends BSParameterHolder implements Countable {
 	}
 
 	/**
+	 * 順位を書き込む
+	 *
+	 * この配列が、降順でソート済みでなければならない。
+	 *
+	 * @access public
+	 * @param string $compareField 順位の基準となるフィールド
+	 * @param string $resultField 順位を書き込むフィールド
+	 * @return BSArray 自身
+	 */
+	public function setRanking ($compareField, $resultField = 'rank') {
+		$counter = 0;
+		$rank = 0;
+		foreach ($this as $index => $record) {
+			$counter ++;
+			if (!isset($prev) || ($record[$compareField] < $prev)) {
+				$rank = $counter;
+			}
+			$record[$resultField] = $rank;
+			$prev = $record[$compareField];
+			$this[$index] = $record;
+		}
+		return $this;
+	}
+
+	/**
+	 * 構成比を書き込む
+	 *
+	 * @access public
+	 * @param string $compareField 構成比の基準となるフィールド
+	 * @param string $resultField 順位を書き込むフィールド
+	 * @return BSArray 自身
+	 */
+	public function setPercentage ($compareField, $resultField = 'percentage') {
+		$total = 0;
+		foreach ($this as $record) {
+			$total += $record[$compareField];
+		}
+
+		foreach ($this as $index => $record) {
+			$record[$resultField] = $record[$compareField] / $total * 100;
+			$this[$index] = $record;
+		}
+
+		return $this;
+	}
+
+	/**
 	 * セパレータで結合した文字列を返す
 	 *
 	 * @access public
