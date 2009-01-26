@@ -275,6 +275,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		}
 		if ($value instanceof BSArray) {
 			$this->assign($name, $value->getParameters());
+		} else if ($value instanceof BSTableHandler) {
+			$this->assign($name, $value->getLabels());
 		} else if ($value != '') {
 			$this->assign($name, $value);
 		}
