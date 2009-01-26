@@ -80,7 +80,7 @@ class BSImageFile extends BSFile {
 	 */
 	public function getRenderer () {
 		if (!$this->renderer) {
-			throw new BSRenderException('レンダラーが未設定です。');
+			throw new BSViewException('レンダラーが未設定です。');
 		}
 		return $this->renderer;
 	}

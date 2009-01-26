@@ -237,7 +237,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setTemplate ($template) {
 		if (!$file = $this->getTemplateFile($template)) {
-			throw new BSSmartyException('テンプレート"%s"が見つかりません。', $template);
+			throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
 		}
 		$this->template = $file->getPath();
 	}
@@ -346,7 +346,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			$template = $file->getPath();
 			return parent::_smarty_include($params);
 		}
-		throw new BSSmartyException('テンプレート"%s"が見つかりません。', $template);
+		throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
 	}
 
 	/**
@@ -357,7 +357,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param integer $error_type
 	 */
 	public function trigger_error ($error_msg, $error_type = null) {
-		throw new BSSmartyException($error_msg);
+		throw new BSViewException($error_msg);
 	}
 
 	/**

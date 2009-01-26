@@ -85,7 +85,7 @@ class BSSmartySender extends BSSMTP {
 		foreach (array($template, $template . '.mail') as $name) {
 			try {
 				$this->getRenderer()->setTemplate($template);
-			} catch (BSSmartyException $e) {
+			} catch (BSViewException $e) {
 			}
 		}
 	}
@@ -97,7 +97,7 @@ class BSSmartySender extends BSSMTP {
 	 */
 	public function render () {
 		if (!$lines = explode("\n", $this->getRenderer()->getContents())) {
-			throw new BSSmartyException('テンプレートが指定されていません。');
+			throw new BSViewException('テンプレートが指定されていません。');
 		}
 
 		foreach ($lines as $line) {

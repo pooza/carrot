@@ -137,12 +137,12 @@ abstract class BSView {
 	 */
 	public function render () {
 		if (!$this->renderer) {
-			throw new BSRenderException('レンダラーが指定されていません。');
+			throw new BSViewException('レンダラーが指定されていません。');
 		} else if (!$this->renderer->validate()) {
 			if (!$message = $this->renderer->getError()) {
 				$message = 'レンダラーに登録された情報が正しくありません。';
 			}
-			throw new BSRenderException($message);
+			throw new BSViewException($message);
 		}
 
 		$this->setContentType();
@@ -167,7 +167,7 @@ abstract class BSView {
 	private function setContentType () {
 		if ($this->renderer instanceof BSTextRenderer) {
 			if (!$charset = mb_preferred_mime_name($this->renderer->getEncoding())) {
-				throw new BSRenderException(
+				throw new BSViewException(
 					'エンコード"%s"が正しくありません。',
 					$this->renderer->getEncoding()
 				);
@@ -207,7 +207,7 @@ abstract class BSView {
 	 */
 	public function getRenderer () {
 		if (!$this->renderer) {
-			throw new BSRenderException('レンダラーが未設定です。');
+			throw new BSViewException('レンダラーが未設定です。');
 		}
 		return $this->renderer;
 	}

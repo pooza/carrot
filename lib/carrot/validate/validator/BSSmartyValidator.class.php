@@ -37,7 +37,7 @@ class BSSmartyValidator extends BSValidator {
 		// Smarty_Compilerクラスは例外をthorw出来ない
 		function handleSmartyValidatorError ($errno, $errstr) {
 			if ($errno != E_NOTICE) {
-				throw new BSSmartyException($errstr);
+				throw new BSViewException($errstr);
 			}
 			return true;
 		}
