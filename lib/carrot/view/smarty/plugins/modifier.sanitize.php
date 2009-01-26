@@ -1,27 +1,23 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty.plugins
+ * @subpackage view.smarty.plugins
  */
 
 /**
- * 日付書式化修飾子
+ * サニタイズ修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-function smarty_modifier_bs_date_format ($value, $format = 'Y/m/d H:i:s') {
+function smarty_modifier_sanitize ($value) {
 	if (is_array($value)) {
 		return $value;
 	} else if ($value instanceof BSArray) {
 		return $value->getParameters();
 	} else if ($value != '') {
-		try {
-			$date = new BSDate($value);
-			return $date->format($format);
-		} catch (BSDateException $e) {
-			return null;
-		}
+		$value = BSString::unsanitize($value);
+		return BSString::sanitize($value);
 	}
 }
 

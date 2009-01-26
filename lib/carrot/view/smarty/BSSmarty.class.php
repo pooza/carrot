@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage smarty
+ * @subpackage view.smarty
  */
 
 BSUtility::includeFile('Smarty/Smarty.class.php');
@@ -24,12 +24,13 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->config_dir = BSController::getInstance()->getPath('config');
-		$this->cache_dir = BSController::getInstance()->getPath('cache');
-		$this->compile_dir = BSController::getInstance()->getPath('compile');
-		$this->plugins_dir[] = BSController::getInstance()->getPath('carrot') . '/smarty/plugins';
-		$this->plugins_dir[] = BSController::getInstance()->getPath('local_lib') . '/smarty';
-		$this->force_compile = BSController::getInstance()->isDebugMode();
+		$controller = BSController::getInstance();
+		$this->config_dir = $controller->getPath('config');
+		$this->cache_dir = $controller->getPath('cache');
+		$this->compile_dir = $controller->getPath('compile');
+		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/smarty/plugins';
+		$this->plugins_dir[] = $controller->getPath('local_lib') . '/view/smarty';
+		$this->force_compile = $controller->isDebugMode();
 		$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
 	}
