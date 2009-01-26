@@ -41,9 +41,15 @@ abstract class BSSmartyView extends BSView {
 			$this->renderer->setTemplatesDirectory($dir);
 		}
 
-		$name = $this->controller->getAction()->getName();
-		if ($this->renderer->getTemplatesDirectory()->getEntry($name)) {
-			$this->setTemplate($name);
+		$names = array(
+			$this->getAction()->getName() . '.' . $this->getNameSuffix(),
+			$this->getAction()->getName(),
+		);
+		foreach ($names as $name) {
+			if ($this->renderer->getTemplatesDirectory()->getEntry($name)) {
+				$this->setTemplate($name);
+				break;
+			}
 		}
 
 		return true;

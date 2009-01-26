@@ -12,7 +12,8 @@
  * @abstract
  */
 abstract class BSView {
-	private $name;
+	protected $name;
+	protected $nameSuffix;
 	private $renderer;
 	private $headers = array();
 	private $action;
@@ -27,7 +28,7 @@ abstract class BSView {
 
 	/**
 	 * @access public
-	 * @param BSaction $action 呼び出し元アクション
+	 * @param BSAction $action 呼び出し元アクション
 	 */
 	public function __construct (BSAction $action) {
 		$this->action = $action;
@@ -111,6 +112,22 @@ abstract class BSView {
 			$this->name = $matches[1];
 		}
 		return $this->name;
+	}
+
+	/**
+	 * ビュー名のサフィックスを返す
+	 *
+	 * @access public
+	 * @return string ビュー名のサフィックス
+	 */
+	public function getNameSuffix () {
+		if (!$this->nameSuffix) {
+			$pattern = '/^(.+)(' . self::getNameSuffixes()->join('|') . ')$/';
+			if (preg_match($pattern, $this->getName(), $matches)) {
+				$this->nameSuffix = $matches[2];
+			}
+		}
+		return $this->nameSuffix;
 	}
 
 	/**
@@ -298,6 +315,21 @@ abstract class BSView {
 	 */
 	public function __toString () {
 		return sprintf('ビュー "%s"', $this->getName());
+	}
+
+	/**
+	 * 全てのサフィックスを返す
+	 *
+	 * @access public
+	 * @return BSArray 全てのサフィックス
+	 */
+	static public function getNameSuffixes () {
+		return new BSArray(array(
+			self::ALERT,
+			self::ERROR,
+			self::INPUT,
+			self::SUCCESS,
+		));
 	}
 }
 

@@ -197,7 +197,7 @@ abstract class BSAction implements BSHTTPRedirector {
 				}
 			}
 		}
-		return new BSDefaultView($this);
+		return new BSDefaultView($this, $name);
 	}
 
 	/**
