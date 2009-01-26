@@ -40,19 +40,29 @@ abstract class BSSmartyView extends BSView {
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
 			$this->renderer->setTemplatesDirectory($dir);
 		}
+		if ($file = $this->getDefaultTemplateFile()) {
+			$this->setTemplate($file);
+		}
 
+		return true;
+	}
+
+	/**
+	 * 規定のテンプレートを返す
+	 *
+	 * @access protected
+	 * @param BSFile テンプレートファイル
+	 */
+	protected function getDefaultTemplateFile () {
 		$names = array(
 			$this->getAction()->getName() . '.' . $this->getNameSuffix(),
 			$this->getAction()->getName(),
 		);
 		foreach ($names as $name) {
-			if ($this->renderer->getTemplatesDirectory()->getEntry($name)) {
-				$this->setTemplate($name);
-				break;
+			if ($file = $this->renderer->getTemplatesDirectory()->getEntry($name)) {
+				return $file;
 			}
 		}
-
-		return true;
 	}
 
 	/**
