@@ -285,6 +285,16 @@ abstract class BSAction implements BSHTTPRedirector {
 	}
 
 	/**
+	 * クレデンシャルを持たないユーザーへの処理
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function handleDenied () {
+		return $this->controller->getSecureAction()->forward();
+	}
+
+	/**
 	 * 正規なリクエストとして扱うメソッド
 	 *
 	 * ここに指定したリクエストではexecuteが、それ以外ではgetDefaultViewが実行される。

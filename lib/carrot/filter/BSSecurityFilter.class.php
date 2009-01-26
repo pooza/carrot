@@ -16,7 +16,7 @@ class BSSecurityFilter extends BSFilter {
 			if ($this->request->isAjax() || $this->request->isFlash()) {
 				return $this->controller->getNotFoundAction()->forward();
 			} else {
-				return $this->controller->getSecureAction()->forward();
+				return $this->controller->getAction()->handleDenied();
 			}
 		}
 		$filters->execute();
