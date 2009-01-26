@@ -151,6 +151,7 @@ class BSURL implements BSHTTPRedirector, ArrayAccess {
 	 * @access public
 	 * @param string $name 属性の名前
 	 * @param mixed $value 値
+	 * @return BSURL 自分自身
 	 */
 	public function setAttribute ($name, $value) {
 		switch ($name) {
@@ -187,6 +188,7 @@ class BSURL implements BSHTTPRedirector, ArrayAccess {
 				throw new BSNetException('"%s"は正しくない属性名です。', $name);
 		}
 		$this->contents = null;
+		return $this;
 	}
 
 	/**
