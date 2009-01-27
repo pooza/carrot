@@ -19,10 +19,7 @@ class BSBlowfishCryptor extends Crypt_Blowfish implements BSCryptor {
 	 * @access public
 	 * @param string $salt ソルト
 	 */
-	public function __construct ($salt = null) {
-		if (!$salt) {
-			$salt = BSCrypt::getDefaultSalt();
-		}
+	public function __construct ($salt = BS_CRYPT_SALT) {
 		parent::Crypt_Blowfish($salt);
 	}
 

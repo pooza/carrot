@@ -140,20 +140,6 @@ class BSCrypt {
 	}
 
 	/**
-	 * 規定のソルトを返す
-	 *
-	 * @access public
-	 * @return string ソルト
-	 * @static
-	 */
-	static public function getDefaultSalt () {
-		if (!$salt = BSController::getInstance()->getConstant('CRYPT_SALT')) {
-			throw new BSCryptException('ソルトが未定義です。');
-		}
-		return $salt;
-	}
-
-	/**
 	 * md5ダイジェストを返す
 	 *
 	 * @access public
