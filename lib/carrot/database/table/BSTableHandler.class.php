@@ -419,6 +419,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 * @return string[] 結果の配列
 	 */
 	public function query () {
+		$this->queryString = null;
 		$this->result = BSString::convertEncoding(
 			$this->getDatabase()->query($this->getQueryString())->fetchAll(),
 			'utf-8',
