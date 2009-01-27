@@ -8,16 +8,14 @@
  * @version $Id$
  */
 class LoginAction extends BSAction {
-	const DEFAULT_MODULE_NAME = 'AdminLog';
-
 	public function execute () {
 		$this->user->addCredential('Admin');
-		if ($this->controller->isDebugMode()) {
+		if (BS_DEBUG) {
 			$this->user->addCredential('Develop');
 		}
 
 		$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));
-		$url['path'] = '/' . self::DEFAULT_MODULE_NAME . '/';
+		$url['path'] = '/AdminLog/';
 		return $url->redirect();
 	}
 

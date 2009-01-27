@@ -139,7 +139,7 @@ class BSSMTP extends BSSocket {
 	 */
 	protected function putRcptToRequest ($mode = false) {
 		$this->addresses = new BSArray;
-		if (BSController::getInstance()->isDebugMode() || $mode) {
+		if (BS_DEBUG || $mode) {
 			$this->addresses[] = BSAdministrator::getMailAddress();
 		} else {
 			$this->addresses[] = $this->to;
@@ -290,7 +290,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $subject Subject
 	 */
 	public function setSubject ($subject) {
-		if (BSController::getInstance()->isDebugMode()) {
+		if (BS_DEBUG) {
 			$subject = '[TEST] ' . $subject;
 		}
 		$this->setHeader('Subject', $subject);

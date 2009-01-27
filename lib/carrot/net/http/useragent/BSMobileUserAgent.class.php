@@ -59,7 +59,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		$url = new BSURL;
 		$url->setParameters($this->attributes['query']);
 		$url->setParameter($session->getName(), $session->getID());
-		if (BSController::getInstance()->isDebugMode()) {
+		if (BS_DEBUG) {
 			$url->setParameter(BSRequest::USER_AGENT_ACCESSOR, $this->getName());
 		}
 		$this->attributes['query'] = $url->getParameters();

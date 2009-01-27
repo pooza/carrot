@@ -391,16 +391,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * デバッグモードか？
-	 *
-	 * @access public
-	 * @return boolean デバッグモードならTrue
-	 */
-	public function isDebugMode () {
-		return $this->getConstant('DEBUG');
-	}
-
-	/**
 	 * タイムリミットを設定
 	 *
 	 * @access public

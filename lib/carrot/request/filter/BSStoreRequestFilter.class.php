@@ -25,7 +25,7 @@ class BSStoreRequestFilter extends BSRequestFilter {
 	}
 
 	public function execute (BSFilterChain $filters) {
-		if ($this->controller->isDebugMode() || $this['force']) {
+		if (BS_DEBUG || $this['force']) {
 			if ($this->request->getMethod() == BSRequest::POST) {
 				$this->getFile()->setContents($this->getContents());
 			}

@@ -103,7 +103,7 @@ require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
 date_default_timezone_set(BS_DATE_TIMEZONE);
 
-if (BSController::getInstance()->isDebugMode()) {
+if (BS_DEBUG) {
 	error_reporting(E_ALL | E_STRICT);
 	ini_set('display_errors', 1);
 	ini_set('log_errors', 0);

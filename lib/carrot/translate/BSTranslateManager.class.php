@@ -126,7 +126,7 @@ class BSTranslateManager implements IteratorAggregate {
 			}
 		}
 
-		if (BSController::getInstance()->isDebugMode()) {
+		if (BS_DEBUG) {
 			throw new BSTranslateException('"%s"の訳語が見つかりません。', $string);
 		} else {
 			return $string;

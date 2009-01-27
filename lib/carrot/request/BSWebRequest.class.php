@@ -106,7 +106,7 @@ class BSWebRequest extends BSRequest {
 	 * @return BSUserAgent リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
-		if ($this->controller->isDebugMode() && ($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
+		if (BS_DEBUG && ($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
 			return $name;
 		}
 		return $this->controller->getEnvironment('HTTP_USER_AGENT');

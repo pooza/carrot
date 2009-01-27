@@ -17,7 +17,7 @@ class BSHTTPSFilter extends BSFilter {
 	}
 
 	public function execute (BSFilterChain $filters) {
-		if (!$this->controller->isDebugMode()
+		if (!BS_DEBUG
 			&& !$this->request->isCLI()
 			&& !$this->request->isSSL()
 			&& ($this->request->getMethod() == BSRequest::GET)) {

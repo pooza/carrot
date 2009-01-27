@@ -30,7 +30,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->compile_dir = $controller->getPath('compile');
 		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/smarty/plugins';
 		$this->plugins_dir[] = $controller->getPath('local_lib') . '/view/smarty';
-		$this->force_compile = $controller->isDebugMode();
+		$this->force_compile = BS_DEBUG;
 		$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
 	}
