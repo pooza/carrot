@@ -54,12 +54,10 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 
 		$col = 0;
 		foreach ($record as $key => $value) {
-			$this->worksheet->write(
-				$this->line,
-				$col,
-				BSString::convertEncoding($value, 'sjis-win', 'utf-8'),
-				$format
-			);
+			if ($value || BSNumeric::isZero($value)) {
+				$value = BSString::convertEncoding($value, 'sjis-win', 'utf-8');
+				$this->worksheet->write($this->line, $col, $value, $format);
+			}
 			$col ++;
 		}
 		$this->line ++;
