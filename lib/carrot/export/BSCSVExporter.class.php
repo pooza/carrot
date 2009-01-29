@@ -15,17 +15,13 @@
 class BSCSVExporter implements BSExporter, BSTextRenderer {
 	private $file;
 	const LINE_SEPARATOR = "\r\n";
+	const WITHOUT_LF = 1;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		require_once 'PHPExcel.php';
-		require_once 'PHPExcel/Writer/Excel5.php';
-		$this->engine = new PHPExcel;
-		$this->engine->setActiveSheetIndex(0);
 		BSController::getInstance()->setTimeLimit(0);
-		BSController::getInstance()->setMemoryLimit(-1);
 	}
 
 	/**
@@ -46,13 +42,18 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 *
 	 * @access public
 	 * @param BSArray $record レコード
+	 * @param integer $flags 各種フラグ
+	 *    self::WITHOUT_LF 改行をトリミングする
 	 */
-	public function addRecord (BSArray $record) {
+	public function addRecord (BSArray $record, $flags = null) {
 		$values = new BSArray;
 		foreach ($record as $key => $value) {
 			$value = BSString::convertEncoding($value, $this->getEncoding(), 'utf-8');
 			$value = str_replace("\n", self::LINE_SEPARATOR, $value);
 			$value = str_replace('"', '""', $value);
+			if ($flags & self::WITHOUT_LF) {
+				$value = str_replace("\n", ' ', $value);
+			}
 			$value = '"' . $value . '"';
 			$values[$key] = $value;
 		}
