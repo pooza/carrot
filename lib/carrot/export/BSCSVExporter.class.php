@@ -49,9 +49,9 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 			$value = BSString::convertEncoding($value, $this->getEncoding(), 'utf-8');
 			$value = str_replace('"', '""', $value);
 			if ($flags & self::WITHOUT_LF) {
-				$value = str_replace("\n", self::LINE_SEPARATOR, $value);
-			} else {
 				$value = str_replace("\n", ' ', $value);
+			} else {
+				$value = str_replace("\n", self::LINE_SEPARATOR, $value);
 			}
 			$value = '"' . $value . '"';
 			$values[$key] = $value;
