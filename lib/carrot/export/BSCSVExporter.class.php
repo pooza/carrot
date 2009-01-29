@@ -17,6 +17,18 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
+	 * @access public
+	 */
+	public function __construct () {
+		require_once 'PHPExcel.php';
+		require_once 'PHPExcel/Writer/Excel5.php';
+		$this->engine = new PHPExcel;
+		$this->engine->setActiveSheetIndex(0);
+		BSController::getInstance()->setTimeLimit(0);
+		BSController::getInstance()->setMemoryLimit(-1);
+	}
+
+	/**
 	 * 一時ファイルを返す
 	 *
 	 * @access public

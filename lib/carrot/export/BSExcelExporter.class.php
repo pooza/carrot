@@ -4,29 +4,30 @@
  * @subpackage export
  */
 
-BSUtility::includeFile('write_excel/Worksheet.php');
-BSUtility::includeFile('write_excel/Workbook.php');
-
 /**
  * Excelレンダラー
  *
- * Excel95形式に対応。
+ * Excel97形式に対応。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
 class BSExcelExporter implements BSExporter, BSRenderer {
 	private $file;
-	private $workbook;
-	private $worksheet;
-	private $line = 0;
+	private $engine;
+	private $executed = false;
+	private $line = 1;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		$this->workbook = new Workbook($this->getFile()->getPath());
-		$this->worksheet = $this->workbook->add_worksheet('sheet1');
+		require_once 'PHPExcel.php';
+		require_once 'PHPExcel/Writer/Excel5.php';
+		$this->engine = new PHPExcel;
+		$this->engine->setActiveSheetIndex(0);
+		BSController::getInstance()->setTimeLimit(0);
+		BSController::getInstance()->setMemoryLimit(-1);
 	}
 
 	/**
@@ -49,18 +50,22 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @param BSArray $record レコード
 	 */
 	public function addRecord (BSArray $record) {
-		$format = $this->workbook->addformat();
-		$format->set_text_wrap();
-
 		$col = 0;
 		foreach ($record as $key => $value) {
-			if ($value || BSNumeric::isZero($value)) {
-				$value = BSString::convertEncoding($value, 'sjis-win', 'utf-8');
-				$this->worksheet->write($this->line, $col, $value, $format);
-			}
+			$position = PHPExcel_Cell::stringFromColumnIndex($col) . $this->line;
+			$this->engine->getActiveSheet()->setCellValue($position, $value);
 			$col ++;
 		}
 		$this->line ++;
+	}
+
+	private function execute () {
+		if ($this->executed) {
+			return;
+		}
+		$writer = new PHPExcel_Writer_Excel5($this->engine);
+		$writer->save($this->getFile()->getPath());
+		$this->executed = true;
 	}
 
 	/**
@@ -70,7 +75,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @return string CSVデータの内容
 	 */
 	public function getContents () {
-		$this->workbook->close();
+		$this->execute();
 		return $this->getFile()->getContents();
 	}
 
@@ -91,7 +96,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @return integer サイズ
 	 */
 	public function getSize () {
-		$this->workbook->close();
+		$this->execute();
 		return $this->getFile()->getSize();
 	}
 
@@ -102,7 +107,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		$this->workbook->close();
+		$this->execute();
 		return true;
 	}
 
