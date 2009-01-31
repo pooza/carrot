@@ -314,7 +314,7 @@ abstract class BSView {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('ビュー "%s"', $this->getName());
+		return sprintf('%s のビュー "%s"', $this->getModule(), $this->getName());
 	}
 
 	/**

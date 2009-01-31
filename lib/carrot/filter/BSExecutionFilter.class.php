@@ -46,15 +46,12 @@ class BSExecutionFilter extends BSFilter {
 	 * @param integer $name ビュー名
 	 */
 	private function executeView ($name) {
-		if ((!$instance = $this->action->getView($name)) || !$instance->initialize()) {
-			throw new BSViewException(
-				'%sのビュー "%s" が初期化できません。',
-				$this->action->getModule(),
-				$name
-			);
+		$view = $this->action->getView($name);
+		if (!$view->initialize()) {
+			throw new BSInitializationException('%s が初期化できません。', $view);
 		}
-		$instance->execute();
-		$instance->render();
+		$view->execute();
+		$view->render();
 	}
 }
 

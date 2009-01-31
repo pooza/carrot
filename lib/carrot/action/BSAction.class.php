@@ -349,11 +349,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	public function forward () {
 		$this->controller->registerAction($this);
 		if (!$this->initialize()) {
-			throw new BSInitializeException(
-				'%sの%sが初期化できません。',
-				$this->getModule(),
-				$this
-			);
+			throw new BSInitializeException('%sが初期化できません。', $this);
 		}
 
 		$chain = new BSFilterChain;
@@ -397,7 +393,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('アクション "%s"', $this->getName());
+		return sprintf('%s のアクション "%s"', $this->getModule(), $this->getName());
 	}
 }
 
