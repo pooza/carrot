@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
+abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssignable {
 	private $fields = '*';
 	private $key = 'id';
 	private $criteria;
@@ -661,6 +661,16 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	 */
 	public function getDictionaryName () {
 		return get_class($this);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getLabels();
 	}
 
 	/**

@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRecord {
+abstract class BSRecord implements BSAssignable {
 	private $attributes = array();
 	private $table;
 	private $criteria;
@@ -287,6 +287,16 @@ abstract class BSRecord {
 	 */
 	protected function getRecordClassName () {
 		return get_class($this);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getAttributes();
 	}
 
 	/**

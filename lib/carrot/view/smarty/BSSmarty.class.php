@@ -274,10 +274,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		if (is_array($name) || is_object($name)) {
 			throw new BSRegisterException('属性名が文字列ではありません。');
 		}
-		if ($value instanceof BSArray) {
-			$this->assign($name, $value->getParameters());
-		} else if ($value instanceof BSTableHandler) {
-			$this->assign($name, $value->getLabels());
+		if ($value instanceof BSAssignable) {
+			$this->assign($name, $value->getAssignValue());
 		} else if ($value != '') {
 			$this->assign($name, $value);
 		}
