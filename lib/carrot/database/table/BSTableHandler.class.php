@@ -41,22 +41,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary {
 	}
 
 	/**
-	 * @access public
-	 * @param string $method メソッド名
-	 * @param mixed[] $values 引数
-	 */
-	public function __call ($method, $values) {
-		switch ($method) {
-			case ('get' . $this->getRecordClassName()):
-				return $this->getRecord($values[0]);
-			case ('create' . $this->getRecordClassName()):
-				return $this->createRecord($values[0]);
-			default:
-				throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
-		}
-	}
-
-	/**
 	 * 出力フィールド文字列を返す
 	 *
 	 * @access public
