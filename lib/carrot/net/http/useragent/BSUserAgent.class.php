@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSUserAgent {
+abstract class BSUserAgent implements BSAssignable {
 	private $type;
 	protected $attributes;
 	protected $bugs;
@@ -109,7 +109,7 @@ abstract class BSUserAgent {
 	 * @param BSSmarty
 	 */
 	public function initializeSmarty (BSSmarty $smarty) {
-		$smarty->setAttribute('useragent', $this->getAttributes());
+		$smarty->setAttribute('useragent', $this);
 		$smarty->addOutputFilter('trim');
 	}
 
@@ -244,6 +244,16 @@ abstract class BSUserAgent {
 			$this->type = $matches[1];
 		}
 		return $this->type;
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getAttributes()->getParameters();
 	}
 
 	/**

@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSAction implements BSHTTPRedirector {
+abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	private $attributes;
 	private $module;
 
@@ -380,6 +380,16 @@ abstract class BSAction implements BSHTTPRedirector {
 		if (method_exists($table, 'getStatusOptions')) {
 			$this->request->setAttribute('status_options', $table->getStatusOptions());
 		}
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getAttributes()->getParameters();
 	}
 
 	/**

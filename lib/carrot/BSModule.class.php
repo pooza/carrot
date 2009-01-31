@@ -9,7 +9,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSModule implements BSHTTPRedirector {
+class BSModule implements BSHTTPRedirector, BSAssignable {
 	private $directories;
 	private $actions;
 	private $attributes;
@@ -433,6 +433,16 @@ class BSModule implements BSHTTPRedirector {
 			$this->recordClassName = BSString::stripControlCharacters($name);
 		}
 		return $this->recordClassName;
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getAttributes()->getParameters();
 	}
 
 	/**
