@@ -18,7 +18,6 @@ class BSModule implements BSHTTPRedirector {
 	private $prefix;
 	private $record;
 	private $table;
-	private $url;
 	private $parameters;
 	private $recordClassName;
 	static private $instances;
@@ -396,15 +395,15 @@ class BSModule implements BSHTTPRedirector {
 	/**
 	 * リダイレクト対象
 	 *
+	 * URLを加工するケースが多い為、毎回生成する。
+	 *
 	 * @access public
 	 * @return BSURL
 	 */
 	public function getURL () {
-		if (!$this->url) {
-			$this->url = new BSCarrotURL;
-			$this->url->setModuleName($this);
-		}
-		return $this->url;
+		$url = new BSCarrotURL;
+		$url->setModuleName($this);
+		return $url;
 	}
 
 	/**

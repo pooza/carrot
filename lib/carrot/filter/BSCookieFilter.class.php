@@ -16,26 +16,25 @@ class BSCookieFilter extends BSFilter {
 		return parent::initialize($parameters);
 	}
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if (!$this->request->isCLI()
 			&& !$this->request->isAjax()
 			&& !$this->request->isFlash()
 			&& !$this->request->getUserAgent()->isMobile()) {
 
-			switch ($this->request->getMethod()) {
-				case BSRequest::HEAD:
-				case BSRequest::GET:
-					$expire = BSDate::getNow()->setAttribute('hour', '+1');
-					$this->user->setAttribute(BSUser::getTestCookieName(), true, $expire);
-					break;
-				default:
-					if (!$this->user->getAttribute(BSUser::getTestCookieName())) {
-						$this->request->setError('cookie', $this['cookie_error']);
-					}
-					break;
+			$methods = new BSArray;
+			$methods[] = BSRequest::HEAD;
+			$methods[] = BSRequest::GET;
+
+			if ($methods->isIncluded($this->request->getMethod())) {
+				$expire = BSDate::getNow()->setAttribute('hour', '+1');
+				$this->user->setAttribute(BSUser::getTestCookieName(), true, $expire);
+			} else {
+				if (!$this->user->getAttribute(BSUser::getTestCookieName())) {
+					$this->request->setError('cookie', $this['cookie_error']);
+				}
 			}
 		}
-		$filters->execute();
 	}
 }
 

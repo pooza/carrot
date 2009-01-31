@@ -24,13 +24,12 @@ class BSStoreRequestFilter extends BSRequestFilter {
 		return $value;
 	}
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if (BS_DEBUG || $this['force']) {
 			if ($this->request->getMethod() == BSRequest::POST) {
 				$this->getFile()->setContents($this->getContents());
 			}
 		}
-		return $filters->execute();
 	}
 
 	private function getDirectory () {

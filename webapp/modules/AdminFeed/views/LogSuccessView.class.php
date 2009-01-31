@@ -18,7 +18,7 @@ class LogSuccessView extends BSView {
 	public function execute () {
 		$this->getEngine()->setTitle($this->controller->getServerHost()->getName());
 		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログ');
-		$this->getEngine()->setLink(BSModule::getInstance('AdminLog')->getURL());
+		$this->getEngine()->setLink($this->controller->getModule('AdminLog')->getURL());
 		foreach ($this->request->getAttribute('entries') as $log) {
 			$entry = $this->getEngine()->createEntry();
 			$entry->setTitle($log['message']);

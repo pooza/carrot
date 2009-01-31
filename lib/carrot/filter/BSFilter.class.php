@@ -49,9 +49,8 @@ abstract class BSFilter extends BSParameterHolder {
 	 * 実行
 	 *
 	 * @access public
-	 * @param BSFilterChain $filters フィルタチェーン
 	 */
-	abstract public function execute (BSFilterChain $filters);
+	abstract public function execute ();
 }
 
 /* vim:set tabstop=4: */

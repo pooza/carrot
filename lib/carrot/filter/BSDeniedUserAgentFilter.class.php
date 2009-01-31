@@ -17,16 +17,15 @@ class BSDeniedUserAgentFilter extends BSFilter {
 		return parent::initialize($parameters);
 	}
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if ($this->request->getUserAgent()->isDenied()) {
 			try {
-				$action = BSModule::getInstance($this['module'])->getAction($this['action']);
+				$action = $this->controller->getModule($this['module'])->getAction($this['action']);
 			} catch (BSException $e) {
 				$action = $this->controller->getNotFoundAction();
 			}
-			BSActionStack::getInstance()->register($action);
+			$this->controller->registerAction($action);
 		}
-		$filters->execute();
 	}
 }
 

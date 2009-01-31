@@ -16,7 +16,7 @@ class BSHTTPSFilter extends BSFilter {
 		return parent::initialize($parameters);
 	}
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if (!BS_DEBUG
 			&& !$this->request->isCLI()
 			&& !$this->request->isSSL()
@@ -27,7 +27,6 @@ class BSHTTPSFilter extends BSFilter {
 			$url->redirect();
 			exit;
 		}
-		$filters->execute();
 	}
 }
 

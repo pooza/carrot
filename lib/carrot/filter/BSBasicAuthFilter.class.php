@@ -42,7 +42,7 @@ class BSBasicAuthFilter extends BSFilter {
 		return parent::initialize($parameters);
 	}
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if (!$this->isAuthenticated()) {
 			$this->controller->setHeader(
 				'WWW-Authenticate',
@@ -52,7 +52,6 @@ class BSBasicAuthFilter extends BSFilter {
 			$this->controller->putHeaders();
 			exit;
 		}
-		$filters->execute();
 	}
 }
 

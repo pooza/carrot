@@ -14,8 +14,10 @@
 abstract class BSController {
 	private $host;
 	private $headers;
+	private $actions;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
+	const ACTION_REGISTER_LIMIT = 20;
 
 	/**
 	 * @access public
@@ -67,39 +69,6 @@ abstract class BSController {
 			$action = $this->getNotFoundAction();
 		}
 		$action->forward();
-	}
-
-	/**
-	 * 転送
-	 *
-	 * BSAction::forwardのエイリアス
-	 *
-	 * @access public
-	 * @param BSAction $action アクション
-	 * @return string ビュー名
-	 * @final
-	 */
-	final public function forwardTo (BSAction $action) {
-		return $action->forward();
-	}
-
-	/**
-	 * 転送
-	 *
-	 * Mojaviとの互換性の為のメソッド。
-	 *
-	 * @access public
-	 * @param string $module モジュール名
-	 * @param string $action アクション名
-	 * @return string ビュー名
-	 * @final
-	 */
-	final public function forward ($module, $action) {
-		try {
-			return BSModule::getInstance($module)->getAction($action)->forward();
-		} catch (BSFileException $e) {
-			return $this->getNotFoundAction()->forward();
-		}
 	}
 
 	/**
@@ -173,45 +142,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * リモートホストを返す
-	 *
-	 * BSRequest::getHostのエイリアス
-	 *
-	 * @access public
-	 * @return string リモートホスト
-	 * @final
-	 */
-	final public function getClientHost () {
-		return $this->request->getHost();
-	}
-
-	/**
-	 * サーバホストを返す
-	 *
-	 * getHostのエイリアス
-	 *
-	 * @access public
-	 * @return string サーバホスト
-	 * @final
-	 */
-	final public function getServerHost () {
-		return $this->getHost();
-	}
-
-	/**
-	 * UserAgentを返す
-	 *
-	 * BSRequest::getUserAgent()のエイリアス
-	 *
-	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent
-	 * @final
-	 */
-	final public function getUserAgent () {
-		return $this->request->getUserAgent();
-	}
-
-	/**
 	 * モジュールを返す
 	 *
 	 * @access public
@@ -227,13 +157,39 @@ abstract class BSController {
 	}
 
 	/**
+	 * アクションスタックを返す
+	 *
+	 * @access public
+	 * @return BSArray アクションスタック
+	 */
+	public function getActionStack () {
+		if (!$this->actions) {
+			$this->actions = new BSArray;
+		}
+		return $this->actions;
+	}
+
+	/**
+	 * アクションをアクションスタックに加える
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function registerAction (BSAction $action) {
+		if (self::ACTION_REGISTER_LIMIT < $this->getActionStack()->count()) {
+			throw new BSRegisterException('フォワードが多すぎます。');
+		}
+		$this->getActionStack()->setParameter(null, $action);
+	}
+
+	/**
 	 * 呼ばれたアクションを返す
 	 *
 	 * @access public
 	 * @return BSAction アクション
 	 */
 	public function getAction () {
-		return BSActionStack::getInstance()->getLastEntry();
+		return $this->getActionStack()->getIterator()->getLast();
 	}
 
 	/**
@@ -243,8 +199,7 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getSecureAction () {
-		return BSModule::getInstance(BS_MODULE_SECURE_MODULE)
-			->getAction(BS_MODULE_SECURE_ACTION);
+		return $this->getModule(BS_MODULE_SECURE_MODULE)->getAction(BS_MODULE_SECURE_ACTION);
 	}
 
 	/**
@@ -254,8 +209,7 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getNotFoundAction () {
-		return BSModule::getInstance(BS_MODULE_NOT_FOUND_MODULE)
-			->getAction(BS_MODULE_NOT_FOUND_ACTION);
+		return $this->getModule(BS_MODULE_NOT_FOUND_MODULE)->getAction(BS_MODULE_NOT_FOUND_ACTION);
 	}
 
 	/**
@@ -292,29 +246,24 @@ abstract class BSController {
 	}
 
 	/**
-	 * アプリケーション名を返す
+	 * 全ての属性を返す
 	 *
 	 * @access public
-	 * @param string $lang 言語
-	 * @return string アプリケーション名
-	 * @static
+	 * @return mixed[] 全ての属性
 	 */
-	static public function getApplicationName ($lang = 'ja') {
-		return BSTranslateManager::getInstance()->execute('APP_NAME', 'BSConstantHandler', $lang);
+	public function getAttributes () {
+		return BSSerializeHandler::getInstance()->getAttributes();
 	}
 
 	/**
 	 * アプリケーション名を返す
 	 *
-	 * getApplicationNameのエイリアス
-	 *
 	 * @access public
 	 * @param string $lang 言語
 	 * @return string アプリケーション名
-	 * @final
 	 */
-	final static public function getName ($lang = 'ja') {
-		return self::getApplicationName($lang);
+	static public function getName ($lang = 'ja') {
+		return BSTranslateManager::getInstance()->execute('APP_NAME', 'BSConstantHandler', $lang);
 	}
 
 	/**
@@ -335,59 +284,8 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 * @static
 	 */
-	static public function getFullApplicationName ($lang = 'ja') {
+	static public function getFullName ($lang = 'ja') {
 		return sprintf('%s %s', self::getName($lang), self::getVersion());
-	}
-
-	/**
-	 * バージョン番号込みのアプリケーション名を返す
-	 *
-	 * getFullApplicationNameのエイリアス
-	 *
-	 * @access public
-	 * @param string $lang 言語
-	 * @return string アプリケーション名
-	 * @static
-	 * @final
-	 */
-	final static public function getFullName ($lang = 'ja') {
-		return self::getFullApplicationName($lang);
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		return BSSerializeHandler::getInstance()->getAttributes();
-	}
-
-	/**
-	 * コマンドライン環境か？
-	 *
-	 * BSRequest::isCLI()のエイリアス
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 * @final
-	 */
-	final public function isCLI () {
-		return $this->request->isCLI();
-	}
-
-	/**
-	 * SSL環境か？
-	 *
-	 * BSRequest::isSSL()のエイリアス
-	 *
-	 * @access public
-	 * @return boolean SSL環境ならTrue
-	 * @final
-	 */
-	final public function isSSL () {
-		return $this->request->isSSL();
 	}
 
 	/**

@@ -11,9 +11,8 @@
  * @version $Id$
  * @abstract
  */
-class BSFilterChain {
+class BSFilterChain implements IteratorAggregate {
 	private $chain;
-	private $index = -1;
 
 	/**
 	 * @access public
@@ -28,9 +27,8 @@ class BSFilterChain {
 	 * @access public
 	 */
 	public function execute () {
-		$this->index ++;
-		if ($this->index < $this->chain->count()) {
-			$this->chain[$this->index]->execute($this);
+		foreach ($this as $filter) {
+			$filter->execute();
 		}
 	}
 
@@ -80,6 +78,16 @@ class BSFilterChain {
 				$this->register($filter);
 			}
 		}
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		return $this->chain->getIterator();
 	}
 }
 

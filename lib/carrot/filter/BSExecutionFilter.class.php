@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSExecutionFilter extends BSFilter {
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		if ($view = $this->executeAction()) {
 			$this->executeView($view);
 		}

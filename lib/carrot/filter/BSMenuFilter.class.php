@@ -13,9 +13,8 @@
 class BSMenuFilter extends BSFilter {
 	private $menu = array();
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		$this->request->setAttribute('menu', $this->getMenu());
-		$filters->execute();
 	}
 
 	/**

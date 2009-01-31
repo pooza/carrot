@@ -24,11 +24,10 @@ abstract class BSRequestFilter extends BSFilter {
 	 */
 	abstract protected function convert ($key, $value);
 
-	public function execute (BSFilterChain $filters) {
+	public function execute () {
 		foreach ($this->request->getParameters() as $key => $value) {
 			$this->request[$key] = $this->convert($key, $value);
 		}
-		$filters->execute();
 	}
 }
 

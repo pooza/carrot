@@ -14,7 +14,6 @@
 abstract class BSAction implements BSHTTPRedirector {
 	private $attributes;
 	private $module;
-	private $url;
 
 	/**
 	 * @access public
@@ -320,15 +319,15 @@ abstract class BSAction implements BSHTTPRedirector {
 	/**
 	 * リダイレクト対象
 	 *
+	 * URLを加工するケースが多い為、毎回生成する。
+	 *
 	 * @access public
 	 * @return BSURL
 	 */
 	public function getURL () {
-		if (!$this->url) {
-			$this->url = new BSCarrotURL;
-			$this->url->setActionName($this);
-		}
-		return $this->url;
+		$url = new BSCarrotURL;
+		$url->setActionName($this);
+		return $url;
 	}
 
 	/**
@@ -348,7 +347,7 @@ abstract class BSAction implements BSHTTPRedirector {
 	 * @return string ビュー名
 	 */
 	public function forward () {
-		BSActionStack::getInstance()->register($this);
+		$this->controller->registerAction($this);
 		if (!$this->initialize()) {
 			throw new BSInitializeException(
 				'%sの%sが初期化できません。',
@@ -357,14 +356,14 @@ abstract class BSAction implements BSHTTPRedirector {
 			);
 		}
 
-		$filters = new BSFilterChain;
-		$filters->loadGlobal();
-		$filters->loadModule($this->getModule());
+		$chain = new BSFilterChain;
+		$chain->loadGlobal();
+		$chain->loadModule($this->getModule());
 
 		$filter = new BSExecutionFilter;
 		$filter->initialize();
-		$filters->register($filter);
-		$filters->execute();
+		$chain->register($filter);
+		$chain->execute();
 		return BSView::NONE;
 	}
 

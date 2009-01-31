@@ -28,12 +28,11 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 		}
 	}
 
-	public function execute (BSFilterChain $filters) {
-		if (!ini_get('mbstring.encoding_translation') || $this['force']) {
-			parent::execute($filters);
-		} else {
-			return $filters->execute();
+	public function execute () {
+		if (ini_get('mbstring.encoding_translation') && !$this['force']) {
+			return;
 		}
+		parent::execute();
 	}
 }
 
