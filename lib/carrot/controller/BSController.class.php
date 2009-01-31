@@ -329,10 +329,10 @@ abstract class BSController {
 	 * @param string $value フィールド値
 	 */
 	public function setHeader ($name, $value) {
-		if (preg_match('/[[:cntrl:]]/', $name . $value)) {
-			throw new BSHTTPException('レスポンスヘッダにコントロール文字が含まれています。');
-		}
-		$this->getHeaders()->setParameter($name, $value);
+		$this->getHeaders()->setParameter(
+			BSString::stripControlCharacters($name),
+			BSString::stripControlCharacters($value)
+		);
 	}
 
 	/**
