@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMailAddress {
+class BSMailAddress implements BSAssignable {
 	private $contents;
 	private $name;
 	private $account;
@@ -172,6 +172,16 @@ class BSMailAddress {
 	 */
 	public function isMobile () {
 		return ($this->getCarrier() != '');
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getContents();
 	}
 
 	/**

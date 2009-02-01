@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSJabberID {
+class BSJabberID implements BSAssignable {
 	private $contents;
 	private $account;
 	private $host;
@@ -69,6 +69,16 @@ class BSJabberID {
 	 */
 	public function getResource () {
 		return $this->resource;
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getContents();
 	}
 
 	/**

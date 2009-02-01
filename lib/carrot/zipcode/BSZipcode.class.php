@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSZipcode {
+class BSZipcode implements BSAssignable {
 	private $contents;
 	private $major;
 	private $minor;
@@ -122,6 +122,16 @@ class BSZipcode {
 	 */
 	public function getAddress () {
 		return $this->getPref() . $this->getCity() . $this->getLocality();
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getContents();
 	}
 
 	/**

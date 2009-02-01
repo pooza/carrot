@@ -17,8 +17,8 @@ class SummaryAction extends BSAction {
 				$this->controller->removeAttribute('BSXMPPBotDaemon');
 			}
 		}
-		$this->request->setAttribute('from', BSAuthor::getJabberID()->getContents());
-		$this->request->setAttribute('to', BSAdministrator::getJabberID()->getContents());
+		$this->request->setAttribute('from', BSAuthor::getJabberID());
+		$this->request->setAttribute('to', BSAdministrator::getJabberID());
 
 		return BSView::SUCCESS;
 	}

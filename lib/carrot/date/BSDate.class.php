@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDate implements ArrayAccess {
+class BSDate implements ArrayAccess, BSAssignable {
 	const MON = 1;
 	const TUE = 2;
 	const WED = 3;
@@ -555,6 +555,24 @@ class BSDate implements ArrayAccess {
 	}
 
 	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->format('Y-m-d H:i:s');
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('日付 "%04d-%02d-%02d"', $this['year'], $this['month'], $this['day']);
+	}
+
+	/**
 	 * 現在日付を書式化し、文字列で返す
 	 *
 	 * @access public
@@ -616,14 +634,6 @@ class BSDate implements ArrayAccess {
 			$years[$year] = $year;
 		}
 		return $years;
-	}
-
-	/**
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return sprintf('日付 "%04d-%02d-%02d"', $this['year'], $this['month'], $this['day']);
 	}
 
 	/**

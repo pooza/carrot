@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSURL implements BSHTTPRedirector, ArrayAccess {
+class BSURL implements BSHTTPRedirector, ArrayAccess, BSAssignable {
 	private $contents;
 	private $fullpath;
 	private $attributes;
@@ -377,6 +377,16 @@ class BSURL implements BSHTTPRedirector, ArrayAccess {
 	 */
 	public function offsetUnset ($key) {
 		$this->setAttribute($key, null);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getContents();
 	}
 
 	/**
