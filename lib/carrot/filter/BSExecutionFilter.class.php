@@ -15,6 +15,7 @@ class BSExecutionFilter extends BSFilter {
 		if ($view = $this->executeAction()) {
 			$this->executeView($view);
 		}
+		exit;
 	}
 
 	/**
