@@ -48,7 +48,9 @@ abstract class BSPaginateTableAction extends BSTableAction {
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			$this->table = parent::getTable();
+			$this->table = clone $this->getModule()->getTable();
+			$this->table->setCriteria($this->getCriteria());
+			$this->table->setOrder($this->getOrder());
 			$this->table->setPageSize($this->getPageSize());
 			$this->table->setPage($this->getPage());
 		}
