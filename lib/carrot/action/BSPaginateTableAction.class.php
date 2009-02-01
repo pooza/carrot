@@ -37,7 +37,11 @@ abstract class BSPaginateTableAction extends BSTableAction {
 	 * @return integer ページサイズ
 	 */
 	protected function getPageSize () {
-		return 50;
+		if ($this->request->getUserAgent()->isMobile()) {
+			return 10;
+		} else {
+			return 50;
+		}
 	}
 
 	/**
