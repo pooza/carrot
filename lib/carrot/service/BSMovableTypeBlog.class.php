@@ -40,7 +40,9 @@ class BSMovableTypeBlog {
 		$values['post'] = true;
 		$http = new BSCurlHTTP($url['host']);
 		$http->sendPostRequest($url->getFullPath(), $values);
-		BSController::getInstance()->putLog('%sにコメントを送信しました。', $url);
+
+		$message = $url . 'にコメントを送信しました。';
+		BSController::getInstance()->putLog($message, get_class($this));
 	}
 }
 
