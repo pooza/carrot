@@ -72,6 +72,19 @@ class BSStandardCSVData extends BSCSVData {
 	}
 
 	/**
+	 * 内容を設定
+	 *
+	 * 内容がLF改行であることを前提として。
+	 *
+	 * @access public
+	 * @param string $contents CSVデータの内容
+	 */
+	public function setContents ($contents) {
+		$contents = str_replace("\n", "\r\n", $contents);
+		parent::setContents($contents);
+	}
+
+	/**
 	 * エンコードを返す
 	 *
 	 * @access public
