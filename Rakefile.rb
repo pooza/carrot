@@ -56,6 +56,11 @@ task :clean_var do
   sh 'sudo rm -R var/*/*'
 end
 
+desc 'クラスファイルをリロード'
+task :reload_classes do
+  sh 'rm var/serialized/BSAutoloadHandler.*'
+end
+
 desc 'PHPDocumentorを有効に'
 task :phpdoc => ['www/doc']
 

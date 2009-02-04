@@ -27,7 +27,6 @@ class BSCSVFile extends BSFile {
 			$engine = new $class;
 		}
 		$this->setEngine($engine);
-		$this->getEngine()->setLines($this->getLines());
 	}
 
 	/**
@@ -69,6 +68,7 @@ class BSCSVFile extends BSFile {
 	 */
 	public function setEngine (BSCSVData $engine) {
 		$this->engine = $engine;
+		$this->engine->setLines($this->getLines());
 	}
 
 	/**

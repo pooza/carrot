@@ -11,8 +11,17 @@
  * @version $Id$
  */
 class BSSecurityFilter extends BSFilter {
+	public function initialize ($parameters = array()) {
+		$this['ignore_actions'] = array();
+		$this['credential'] = $this->action->getCredential();
+		return parent::initialize($parameters);
+	}
+
 	public function execute () {
-		if (!$this->user->hasCredential($this->getCredential())) {
+		if ($this->isIgnoreAction($this->action)) {
+			return;
+		}
+		if (!$this->user->hasCredential($this['credential'])) {
 			if ($this->request->isAjax() || $this->request->isFlash()) {
 				return $this->controller->getNotFoundAction()->forward();
 			} else {
@@ -21,12 +30,9 @@ class BSSecurityFilter extends BSFilter {
 		}
 	}
 
-	private function getCredential () {
-		if ($credential = $this['credential']) {
-			return $credential;
-		} else {
-			return $this->action->getCredential();
-		}
+	private function isIgnoreAction (BSAction $action) {
+		$names = new BSArray($this['ignore_actions']);
+		return $names->isIncluded($action->getName());
 	}
 }
 
