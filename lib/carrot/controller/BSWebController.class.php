@@ -67,12 +67,12 @@ class BSWebController extends BSController {
 			$this->putLog('レスポンスヘッダを送信出来ませんでした。', get_class($this));
 		}
 
-		foreach ($this->getHeaders() as $name => $value) {
-			header($name . ': ' . $value);
-		}
-
 		if ($status = $this->getHeaders()->getParameter('Status')) {
 			header('HTTP/1.0 ' . $status);
+		}
+
+		foreach ($this->getHeaders() as $name => $value) {
+			header($name . ': ' . $value);
 		}
 	}	
 }
