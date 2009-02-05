@@ -118,6 +118,28 @@ class BSString {
 	}
 
 	/**
+	 * 改行を標準化
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @param string $separator 改行文字
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function convertLineSeparator ($value, $separator = "\n") {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertLineSeparator($item, $separator);
+			}
+		} else {
+			$value = str_replace("\r\n", "\n", $value);
+			$value = str_replace("\r", "\n", $value);
+			$value = str_replace("\n", $separator, $value);
+		}
+		return $value;
+	}
+
+	/**
 	 * 文字を規定の長さで切り詰める
 	 *
 	 * @access public

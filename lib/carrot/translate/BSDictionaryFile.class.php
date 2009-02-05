@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSDictionaryFile extends BSCSVFile implements BSDictionary {
-	private $contents = array();
+	private $words;
 
 	/**
 	 * @access public
@@ -19,27 +19,40 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 */
 	public function __construct ($path) {
 		parent::__construct($path, new BSHeaderCSVData);
+		$this->getEngine()->setEncoding('utf-8');
+		$this->getEngine()->setRecordSeparator("\n");
 	}
 
 	/**
 	 * 辞書の内容を返す
 	 *
 	 * @access public
-	 * @return string[][] 辞書の内容
+	 * @return BSArray 辞書の内容
 	 */
-	public function getContents () {
-		if (!$this->contents) {
-			$controller = BSController::getInstance();
-			$name = get_class($this) . '.' . $this->getBaseName();
-			$expire = $this->getUpdateDate();
-
-			$this->contents = $controller->getAttribute($name, $expire);
-			if ($this->contents === null) {
-				$this->contents = $this->getEngine()->getRecords();
-				$controller->setAttribute($name, $this->contents);
+	public function getWords () {
+		if (!$this->words) {
+			$words = BSController::getInstance()->getAttribute(
+				$this->getDictionaryName(),
+				$this->getUpdateDate()
+			);
+			if ($words === null) {
+				$words = new BSArray;
+				foreach ($this->getEngine()->getRecords() as $index => $record) {
+					foreach ($record as $lang => $value) {
+						if ($lang == 'label') {
+							continue;
+						}
+						$words[$index . '_' . $lang] = $value;
+					}
+				}
+				BSController::getInstance()->setAttribute(
+					$this->getDictionaryName(),
+					$words->getParameters()
+				);
 			}
+			$this->words = new BSArray($words);
 		}
-		return $this->contents;
+		return $this->words;
 	}
 
 	/**
@@ -51,10 +64,14 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @return string 翻訳された文字列
 	 */
 	public function translate ($label, $language) {
-		$contents = $this->getContents();
-		if (isset($contents[$label][$language])) {
-			return $contents[$label][$language];
+		$words = $this->getWords();
+		if (!$word = $words[$label . '_' . $language]) {
+			// 旧形式への対応
+			if (isset($words[$label][$language])) {
+				$word = $words[$label][$language];
+			}
 		}
+		return $word;
 	}
 
 	/**
@@ -64,7 +81,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @return string 辞書の名前
 	 */
 	public function getDictionaryName () {
-		return sprintf('%s.%s', get_class($this), $this->getBaseName());
+		return get_class($this) . '.' . $this->getBaseName();
 	}
 
 	/**

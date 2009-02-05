@@ -11,13 +11,22 @@
  * @version $Id$
  */
 class BSHeaderCSVData extends BSCSVData {
-	protected $fields = array();
+	protected $fields;
+
+	/**
+	 * @access public
+	 * @param string $contents 
+	 */
+	public function __construct ($contents = null) {
+		$this->fields = new BSArray;
+		parent::__construct($contents);
+	}
 
 	/**
 	 * 見出しを返す
 	 *
 	 * @access public
-	 * @return string[] 見出し
+	 * @return BSArray 見出し
 	 */
 	public function getFieldNames () {
 		return $this->fields;
@@ -27,25 +36,21 @@ class BSHeaderCSVData extends BSCSVData {
 	 * 見出しを設定
 	 *
 	 * @access public
-	 * @param string[] $fields 見出し
+	 * @param BSArray $fields 見出し
 	 */
-	public function setFieldNames ($fields) {
-		foreach ($fields as $field) {
-			$this->fields[] = rtrim($field);
-		}
+	public function setFieldNames (BSarray $fields) {
+		$this->fields = $fields;
 	}
 
 	/**
 	 * 見出しをひとつ返す
 	 *
 	 * @access public
-	 * @param integer $index 序数、省略した時は最初の見出し（即ち主キー）
+	 * @param integer $index 序数
 	 * @return string 見出し
 	 */
-	public function getFieldName ($index = 0) {
-		if (isset($this->fields[$index])) {
-			return $this->fields[$index];
-		}
+	public function getFieldName ($index) {
+		return $this->fields[$index];
 	}
 
 	/**
@@ -55,18 +60,20 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @return string 見出し行
 	 */
 	public function getHeader () {
-		return implode(self::FIELD_SEPARATOR, $this->getFieldNames()) . self::LINE_SEPARATOR;
+		$header = $this->getFieldNames()->join($this->getFieldSeparator());
+		$header .= $this->getRecordSeparator();
+		return $header;
 	}
 
 	/**
 	 * 行をセットして、レコード配列を生成
 	 *
 	 * @access public
-	 * @param string[] $lines 
+	 * @param BSArray $lines 
 	 */
-	public function setLines ($lines) {
-		$this->setFieldNames(explode(self::FIELD_SEPARATOR, $lines[0]));
-		unset($lines[0]);
+	public function setLines (BSArray $lines) {
+		$this->setFieldNames(BSString::explode($this->getFieldSeparator(), $lines[0]));
+		$lines->removeParameter(0);
 		parent::setLines($lines);
 	}
 
@@ -74,33 +81,20 @@ class BSHeaderCSVData extends BSCSVData {
 	 * レコードを追加
 	 *
 	 * @access public
-	 * @param string[] $record 
+	 * @param BSArray $record 
 	 */
-	public function addRecord ($record) {
-		$keys = array_keys($record);
-		if (!$keys || ($record[$keys[0]] == '')) {
+	public function addRecord (BSArray $record) {
+		if (!$record[$this->getFieldName(0)]) {
+			for ($i = 0 ; $i < $this->getFieldNames()->count() ; $i ++) {
+				$record[$this->getFieldName($i)] = $record[$i];
+				$record->removeParameter($i);
+			}
+		}
+		if (!$record[$this->getFieldName(0)]) {
 			return;
 		}
 
-		if (!isset($record[$this->getFieldName(0)])) {
-			for ($i = 0 ; $i < count($this->getFieldNames()) ; $i ++) {
-				$record[$this->getFieldName($i)] = $record[$i];
-				unset($record[$i]);
-			}
-		} else {
-			$recordOriginal = $record;
-			$record = array();
-			foreach ($this->getFieldNames() as $field) {
-				if (isset($recordOriginal[$field])) {
-					$record[$field] = rtrim($recordOriginal[$field]);
-				} else {
-					$record[$field] = null;
-				}
-			}
-		}
-
-		$record = self::replaceTags($record);
-		$this->records[$record[$this->getFieldName()]] = $record;
+		$this->records[$record[$this->getFieldName(0)]] = $record;
 		$this->contents = null;
 	}
 

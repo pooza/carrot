@@ -8,22 +8,24 @@
  * CSVデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @link http://project-p.jp/halt/kinowiki/php/Tips/csv 参考
+ * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
  * @version $Id$
  */
 class BSCSVData implements BSTextRenderer {
 	protected $contents;
-	protected $records = array();
+	protected $records;
+	protected $encoding = 'sjis-win';
+	protected $recordSeparator = "\r\n";
+	protected $fieldSeparator = ',';
 	protected $error;
-	const FIELD_SEPARATOR = ',';
-	const FIELD_SEPARATOR_TAG = '#COMMA#';
-	const LINE_SEPARATOR = "\n";
-	const LINE_SEPARATOR_TAG = '#CRLF#';
 
 	/**
 	 * @access public
 	 * @param string $contents 
 	 */
 	public function __construct ($contents = null) {
+		$this->records = new BSArray;
 		$this->setContents($contents);
 	}
 
@@ -31,15 +33,33 @@ class BSCSVData implements BSTextRenderer {
 	 * 行をセットして、レコード配列を生成
 	 *
 	 * @access public
-	 * @param string[] $lines 
+	 * @param BSArray $lines 
 	 */
-	public function setLines ($lines) {
-		if (!BSArray::isArray($lines)) {
-			$lines = array($lines);
-		}
-		$this->records = array();
+	public function setLines (BSArray $lines) {
 		foreach ($lines as $line) {
-			$this->addRecord(explode(self::FIELD_SEPARATOR, $line));
+			if (isset($record) && $record) {
+				$record .= "\n" . $line;
+			} else {
+				$record = $line;
+			}
+			preg_match_all('/"/', $record, $matched);
+			if ((count($matched[0]) % 2) != 0) {
+				continue;
+			}
+			$fields = BSString::explode(
+				$this->getFieldSeparator(),
+				BSString::convertEncoding($record)
+			);
+			$record = null;
+	
+			foreach ($fields as $key => $field) {
+				$field = rtrim($field);
+				$field = preg_replace('/"(.*)"/s', '\\1', $field);
+				$field = str_replace('""', '"', $field);
+				$fields[$key] = $field;
+			}
+	
+			$this->addRecord($fields);
 		}
 	}
 
@@ -47,15 +67,13 @@ class BSCSVData implements BSTextRenderer {
 	 * レコードを追加
 	 *
 	 * @access public
-	 * @param string[] $record 
+	 * @param BSArray $record 
 	 */
-	public function addRecord ($record) {
-		if (!BSArray::isArray($record)) {
-			$record = array($record);
-		} else if (!isset($record[0]) || ($record[0] == '')) {
+	public function addRecord (BSArray $record) {
+		if (!$record[0]) {
 			return;
 		}
-		$this->records[] = self::replaceTags($record);
+		$this->records[] = $record;
 		$this->contents = null;
 	}
 
@@ -66,8 +84,8 @@ class BSCSVData implements BSTextRenderer {
 	 * @return string[][] 全てのレコード
 	 */
 	public function getRecords () {
-		if (!$this->records && $this->contents) {
-			$this->setLines(explode(self::LINE_SEPARATOR, $this->contents));
+		if (!$this->records->count() && $this->contents) {
+			$this->setLines(BSString::explode($this->getRecordSeparator(), $this->contents));
 		}
 		return $this->records;
 	}
@@ -80,13 +98,16 @@ class BSCSVData implements BSTextRenderer {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			foreach ($this->getRecords() as $record) {
-				$record = self::replaceSeparators($record);
-				$this->contents .= implode(self::FIELD_SEPARATOR, $record);
-				$this->contents .= self::LINE_SEPARATOR;
+			foreach ($this->getRecords() as $key => $record) {
+				foreach ($record as $key => $field) {
+					$field = '"' . str_replace('"', '""', $field) . '"';
+					$record[$key] = $field;
+				}
+				$this->contents .= $record->join($this->getFieldSeparator());
+				$this->contents .= $this->getRecordSeparator();
 			}
 		}
-		return $this->contents;
+		return BSString::convertEncoding($this->contents, $this->getEncoding());
 	}
 
 	/**
@@ -96,8 +117,10 @@ class BSCSVData implements BSTextRenderer {
 	 * @param string $contents CSVデータの内容
 	 */
 	public function setContents ($contents) {
-		$this->contents = BSString::convertEncoding($contents);
-		$this->records = array();
+		$contents = BSString::convertLineSeparator($contents, "\r\n");
+		$contents = BSString::convertEncoding($contents);
+		$this->contents = $contents;
+		$this->records = new BSArray;
 	}
 
 	/**
@@ -108,50 +131,6 @@ class BSCSVData implements BSTextRenderer {
 	 */
 	public function getSize () {
 		return strlen($this->getContents());
-	}
-
-	/**
-	 * セパレータタグを置換して返す
-	 *
-	 * @access public
-	 * @param mixed $value 変換対象の文字列又は配列
-	 * @return mixed 結果
-	 * @static
-	 */
-	static public function replaceTags ($value) {
-		if (BSArray::isArray($value)) {
-			foreach ($value as &$item) {
-				$item = self::replaceTags($item);
-			}
-		} else {
-			if (preg_match('/^[\'"](.*)[\'"]$/', $value, $matches)) {
-				$value = $matches[1];
-			}
-
-			$value = str_replace(self::FIELD_SEPARATOR_TAG, self::FIELD_SEPARATOR, $value);
-			$value = str_replace(self::LINE_SEPARATOR_TAG, self::LINE_SEPARATOR, $value);
-		}
-		return $value;
-	}
-
-	/**
-	 * セパレータを置換して返す
-	 *
-	 * @access public
-	 * @param mixed $value 変換対象の文字列又は配列
-	 * @return mixed 結果
-	 * @static
-	 */
-	static public function replaceSeparators ($value) {
-		if (BSArray::isArray($value)) {
-			foreach ($value as &$item) {
-				$item = self::replaceSeparators($item);
-			}
-		} else {
-			$value = str_replace(self::FIELD_SEPARATOR, self::FIELD_SEPARATOR_TAG, $value);
-			$value = str_replace(self::LINE_SEPARATOR, self::LINE_SEPARATOR_TAG, $value);
-		}
-		return $value;
 	}
 
 	/**
@@ -171,7 +150,57 @@ class BSCSVData implements BSTextRenderer {
 	 * @return string PHPのエンコード名
 	 */
 	public function getEncoding () {
-		return 'utf-8';
+		return $this->encoding;
+	}
+
+	/**
+	 * エンコードを設定
+	 *
+	 * @access public
+	 * @param string $encoding PHPのエンコード名
+	 */
+	public function setEncoding ($encoding) {
+		$this->encoding = $encoding;
+	}
+
+	/**
+	 * レコード区切りを返す
+	 *
+	 * @access public
+	 * @return string レコード区切り
+	 */
+	public function getRecordSeparator () {
+		return $this->recordSeparator;
+	}
+
+	/**
+	 * レコード区切りを設定
+	 *
+	 * @access public
+	 * @param string $recordSeparator レコード区切り
+	 */
+	public function setRecordSeparator ($separator) {
+		$this->recordSeparator = $separator;
+	}
+
+	/**
+	 * フィールド区切りを返す
+	 *
+	 * @access public
+	 * @return string フィールド区切り
+	 */
+	public function getFieldSeparator () {
+		return $this->fieldSeparator;
+	}
+
+	/**
+	 * フィールド区切りを設定
+	 *
+	 * @access public
+	 * @param string $fieldSeparator フィールド区切り
+	 */
+	public function setFieldSeparator ($separator) {
+		$this->fieldSeparator = $separator;
 	}
 
 	/**

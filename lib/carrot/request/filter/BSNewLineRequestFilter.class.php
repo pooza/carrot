@@ -21,9 +21,7 @@ class BSNewLineRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		$value = str_replace("\r\n", "\n", $value);
-		$value = str_replace("\r", "\n", $value);
-		return $value;
+		return BSString::convertLineSeparator($value);
 	}
 }
 
