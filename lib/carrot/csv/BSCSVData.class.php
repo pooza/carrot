@@ -117,7 +117,7 @@ class BSCSVData implements BSTextRenderer {
 	 * @param string $contents CSVデータの内容
 	 */
 	public function setContents ($contents) {
-		$contents = BSString::convertLineSeparator($contents, "\r\n");
+		$contents = BSString::convertLineSeparator($contents, $this->getRecordSeparator());
 		$contents = BSString::convertEncoding($contents);
 		$this->contents = $contents;
 		$this->records = new BSArray;
