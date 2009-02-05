@@ -90,12 +90,19 @@ class BSHeaderCSVData extends BSCSVData {
 				$record->removeParameter($i);
 			}
 		}
-		if (!$record[$this->getFieldName(0)]) {
-			return;
-		}
+		parent::addRecord($record);
+	}
 
-		$this->records[$record[$this->getFieldName(0)]] = $record;
-		$this->contents = null;
+	/**
+	 * レコードは空か？
+	 *
+	 * @access public
+	 * @param BSArray $record レコード
+	 * @return boolean 空ならTrue
+	 */
+	protected function isEmptyRecord ($record) {
+		$value = $record[$this->getFieldName(0)];
+		return (!$value && !BSNumeric::isZero($value));
 	}
 
 	/**

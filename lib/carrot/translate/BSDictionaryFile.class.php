@@ -31,26 +31,12 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 */
 	public function getWords () {
 		if (!$this->words) {
-			$words = BSController::getInstance()->getAttribute(
-				$this->getDictionaryName(),
-				$this->getUpdateDate()
-			);
-			if ($words === null) {
-				$words = new BSArray;
-				foreach ($this->getEngine()->getRecords() as $index => $record) {
-					foreach ($record as $lang => $value) {
-						if ($lang == 'label') {
-							continue;
-						}
-						$words[$index . '_' . $lang] = $value;
-					}
+			$this->words = new BSArray;
+			foreach ($this->getEngine()->getRecords() as $index => $record) {
+				foreach ($record as $lang => $value) {
+					$this->words[$index . '_' . $lang] = $value;
 				}
-				BSController::getInstance()->setAttribute(
-					$this->getDictionaryName(),
-					$words->getParameters()
-				);
 			}
-			$this->words = new BSArray($words);
 		}
 		return $this->words;
 	}
@@ -64,14 +50,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @return string 翻訳された文字列
 	 */
 	public function translate ($label, $language) {
-		$words = $this->getWords();
-		if (!$word = $words[$label . '_' . $language]) {
-			// 旧形式への対応
-			if (isset($words[$label][$language])) {
-				$word = $words[$label][$language];
-			}
-		}
-		return $word;
+		return $this->getWords()->getParameter($label . '_' . $language);
 	}
 
 	/**

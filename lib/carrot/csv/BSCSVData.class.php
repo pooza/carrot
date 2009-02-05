@@ -46,19 +46,12 @@ class BSCSVData implements BSTextRenderer {
 			if ((count($matched[0]) % 2) != 0) {
 				continue;
 			}
+
 			$fields = BSString::explode(
 				$this->getFieldSeparator(),
 				BSString::convertEncoding($record)
 			);
 			$record = null;
-	
-			foreach ($fields as $key => $field) {
-				$field = rtrim($field);
-				$field = preg_replace('/"(.*)"/s', '\\1', $field);
-				$field = str_replace('""', '"', $field);
-				$fields[$key] = $field;
-			}
-	
 			$this->addRecord($fields);
 		}
 	}
@@ -70,11 +63,31 @@ class BSCSVData implements BSTextRenderer {
 	 * @param BSArray $record 
 	 */
 	public function addRecord (BSArray $record) {
-		if (!$record[0]) {
+		if ($this->isEmptyRecord($record)) {
 			return;
 		}
+
+		foreach ($record as $key => $field) {
+			$field = rtrim($field);
+			$field = preg_replace('/"(.*)"/s', '\\1', $field);
+			$field = str_replace('""', '"', $field);
+			$record[$key] = $field;
+		}
+
 		$this->records[] = $record;
 		$this->contents = null;
+	}
+
+	/**
+	 * レコードは空か？
+	 *
+	 * @access public
+	 * @param BSArray $record レコード
+	 * @return boolean 空ならTrue
+	 */
+	protected function isEmptyRecord ($record) {
+		$value = $record[0];
+		return (!$value && !BSNumeric::isZero($value));
 	}
 
 	/**
