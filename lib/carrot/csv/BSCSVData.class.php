@@ -63,31 +63,28 @@ class BSCSVData implements BSTextRenderer {
 	 * @param BSArray $record 
 	 */
 	public function addRecord (BSArray $record) {
-		if ($this->isEmptyRecord($record)) {
+		if (BSString::isBlank($record[0])) {
 			return;
 		}
+		$this->records[] = $this->trimRecord($record);
+		$this->contents = null;
+	}
 
+	/**
+	 * レコードをトリミング
+	 *
+	 * @access public
+	 * @param BSArray $record レコード
+	 * @return BSArray トリミングされたレコード
+	 */
+	protected function trimRecord (BSArray $record) {
 		foreach ($record as $key => $field) {
 			$field = rtrim($field);
 			$field = preg_replace('/"(.*)"/s', '\\1', $field);
 			$field = str_replace('""', '"', $field);
 			$record[$key] = $field;
 		}
-
-		$this->records[] = $record;
-		$this->contents = null;
-	}
-
-	/**
-	 * レコードは空か？
-	 *
-	 * @access public
-	 * @param BSArray $record レコード
-	 * @return boolean 空ならTrue
-	 */
-	protected function isEmptyRecord ($record) {
-		$value = $record[0];
-		return (!$value && !BSNumeric::isZero($value));
+		return $record;
 	}
 
 	/**

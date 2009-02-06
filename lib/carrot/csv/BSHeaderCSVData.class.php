@@ -60,9 +60,8 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @return string 見出し行
 	 */
 	public function getHeader () {
-		$header = $this->getFieldNames()->join($this->getFieldSeparator());
-		$header .= $this->getRecordSeparator();
-		return $header;
+		return $this->getFieldNames()->join($this->getFieldSeparator())
+			. $this->getRecordSeparator();
 	}
 
 	/**
@@ -90,19 +89,12 @@ class BSHeaderCSVData extends BSCSVData {
 				$record->removeParameter($i);
 			}
 		}
-		parent::addRecord($record);
-	}
 
-	/**
-	 * レコードは空か？
-	 *
-	 * @access public
-	 * @param BSArray $record レコード
-	 * @return boolean 空ならTrue
-	 */
-	protected function isEmptyRecord ($record) {
-		$value = $record[$this->getFieldName(0)];
-		return (!$value && !BSNumeric::isZero($value));
+		if (BSString::isBlank($record[$this->getFieldName(0)])) {
+			return;
+		}
+		$this->records[$record[$this->getFieldName(0)]] = $this->trimRecord($record);
+		$this->contents = null;
 	}
 
 	/**
