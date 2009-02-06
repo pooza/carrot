@@ -82,6 +82,7 @@ feed:
 
 awstats:
   daily: yes
+  server_name_aliases:
 
 module:
   prefixes:

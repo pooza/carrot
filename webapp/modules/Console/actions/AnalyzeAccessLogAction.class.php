@@ -20,7 +20,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	private function getConfig () {
 		if (!$this->config) {
 			$this->config = new BSArray;
-			$this->config['server_name'] = $this->controller->getServerHost()->getName();
+			$this->config['server_name'] = $this->controller->getHost()->getName();
 			$this->config['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
 			$this->config['awstat_data_dir'] = $this->controller->getPath('awstats_data');
 			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
