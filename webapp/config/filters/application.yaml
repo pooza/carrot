@@ -5,6 +5,7 @@
 # @version $Id$
 
 - class: BSDeniedUserAgentFilter
+#- class: BSStoreRequestFilter
 - class: BSEncodingRequestFilter
 - class: BSNewLineRequestFilter
 - class: BSCookieFilter
