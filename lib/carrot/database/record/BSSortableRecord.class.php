@@ -54,7 +54,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 * @return boolean 表示して良いならTrue
 	 */
 	public function isVisible () {
-		return ($this->getAttribute('status') == 'show');
+		return ($this['status'] == 'show');
 	}
 
 	/**

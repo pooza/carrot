@@ -11,11 +11,11 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRecord implements BSAssignable {
-	private $attributes = array();
+abstract class BSRecord implements ArrayAccess, BSAssignable {
+	private $attributes;
 	private $table;
 	private $criteria;
-	private $records = array();
+	private $records;
 
 	/**
 	 * @access public
@@ -24,6 +24,8 @@ abstract class BSRecord implements BSAssignable {
 	 */
 	public function __construct (BSTableHandler $table, $attributes) {
 		$this->table = $table;
+		$this->attributes = new BSArray;
+		$this->records = new BSArray;
 		$this->setAttributes($attributes);
 	}
 
@@ -35,11 +37,10 @@ abstract class BSRecord implements BSAssignable {
 	public function __call ($method, $values) {
 		if (preg_match('/^get([A-Z][A-Za-z0-9]+)$/', $method, $matches)) {
 			$name = $matches[1];
-			if (!isset($this->records[$name])) {
+			if (!$this->records->hasParameter($name)) {
 				$class = BSTableHandler::getClassName($name);
 				$table = new $class;
-				$id = $this->getAttribute($table->getName() . '_id');
-				$this->records[$name] = $table->getRecord($id);
+				$this->records[$name] = $table->getRecord($this[$table->getName() . '_id']);
 			}
 			return $this->records[$name];
 		} 
@@ -54,17 +55,14 @@ abstract class BSRecord implements BSAssignable {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		$name = strtolower($name);
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->attributes[strtolower($name)];
 	}
 
 	/**
 	 * 全属性を返す
 	 *
 	 * @access public
-	 * @return string[] 全属性値
+	 * @return BSArray 全属性値
 	 */
 	public function getAttributes () {
 		return $this->attributes;
@@ -76,25 +74,11 @@ abstract class BSRecord implements BSAssignable {
 	 * getAttributesのエイリアス
 	 *
 	 * @access public
-	 * @return string[] 全属性値
+	 * @return BSArray 全属性値
 	 * @final
 	 */
 	final public function getContents () {
 		return $this->getAttributes();
-	}
-
-	/**
-	 * 属性を設定
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @param string $value 属性値
-	 */
-	public function setAttribute ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('属性名が文字列ではありません。');
-		}
-		$this->attributes[$name] = $value;
 	}
 
 	/**
@@ -104,7 +88,7 @@ abstract class BSRecord implements BSAssignable {
 	 * @param string[] $attributes 属性の連想配列
 	 */
 	public function setAttributes ($attributes) {
-		$this->attributes = array_merge($this->attributes, $attributes);
+		$this->attributes->setAttributes($attributes);
 	}
 
 	/**
@@ -183,10 +167,7 @@ abstract class BSRecord implements BSAssignable {
 			throw new BSDatabaseException('%sを削除することは出来ません。', $this);
 		}
 
-		$query = BSSQL::getDeleteQueryString(
-			$this->getTable()->getName(),
-			$this->getCriteria()
-		);
+		$query = BSSQL::getDeleteQueryString($this->getTable()->getName(), $this->getCriteria());
 		$this->getTable()->getDatabase()->exec($query);
 
 		if ($flag & BSDatabase::WITH_LOGGING) {
@@ -252,15 +233,12 @@ abstract class BSRecord implements BSAssignable {
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		$names = array(
-			'label_' . $language,
-			'label',
-			'name_' . $language,
-			'name',
-		);
-		foreach ($names as $name) {
-			if ($label = $this->getAttribute($name)) {
-				return $label;
+		foreach (array('name', 'label') as $name) {
+			foreach (array('', '_' . $language) as $suffix) {
+				$name .= $suffix;
+				if ($label = $this->getAttribute($name)) {
+					return $label;
+				}
 			}
 		}
 	}
@@ -287,6 +265,49 @@ abstract class BSRecord implements BSAssignable {
 	 */
 	protected function getRecordClassName () {
 		return get_class($this);
+	}
+
+	/**
+	 * 要素が存在するか？
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return $this->attributes->hasParameter($key);
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		throw new BSDatabaseException('レコードの属性を直接更新することはできません。');
+	}
+
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		throw new BSDatabaseException('レコードの属性は削除できません。');
 	}
 
 	/**
