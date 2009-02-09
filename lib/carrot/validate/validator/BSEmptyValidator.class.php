@@ -53,7 +53,7 @@ class BSEmptyValidator extends BSValidator {
 				return (count($value) == 0);
 			}
 		} else {
-			return ($value == '');
+			return BSString::isBlank($value);
 		}
 	}
 }

@@ -236,7 +236,7 @@ class BSURL implements BSHTTPRedirector, ArrayAccess, BSAssignable {
 	public function setParameter ($name, $value) {
 		if (is_array($name) || is_object($name)) {
 			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		} else if ($value == '') {
+		} else if (BSString::isBlank($value)) {
 			return;
 		}
 

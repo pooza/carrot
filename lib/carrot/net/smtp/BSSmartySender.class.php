@@ -101,7 +101,7 @@ class BSSmartySender extends BSSMTP {
 		}
 
 		foreach ($lines as $line) {
-			if ($line == '') { //空行を発見したらヘッダのパースをやめる
+			if (BSString::isBlank($line)) { //空行を発見したらヘッダのパースをやめる
 				array_shift($lines);
 				break;
 			} else if ($this->parseHeader($line)) {

@@ -56,7 +56,7 @@ class BSSmartyValidator extends BSValidator {
 
 		restore_error_handler();
 		$this->getFile()->delete();
-		return ($this->error == null);
+		return BSString::isBlank($this->error);
 	}
 }
 

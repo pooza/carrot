@@ -90,7 +90,7 @@ class BSImageValidator extends BSValidator {
 		} else if ($this['max_height'] && ($this['max_height'] < $image->getHeight())) {
 			$this->error = $this['max_height_error'];
 		}
-		return ($this->error == null);
+		return BSString::isBlank($this->error);
 	}
 }
 

@@ -79,7 +79,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 			$name = sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
 			$expire = BSDate::getNow()->setAttribute('month', '-1');
 			$holidays = BSController::getInstance()->getAttribute($name, $expire);
-			if ($holidays === null) {
+			if (BSString::isBlank($holidays)) {
 				$holidays = $this->execute()->getParameters();
 				BSController::getInstance()->setAttribute($name, $holidays);
 			}
