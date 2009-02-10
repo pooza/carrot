@@ -16,6 +16,40 @@
 
 <h1>テーブル:{$table.name}</h1>
 
+<h2>基本属性</h2>
+<table class="Detail">
+	<tr>
+		<th>物理テーブル名</th>
+		<td>{$table.name}</td>
+	</tr>
+	<tr>
+		<th>論理テーブル名</th>
+		<td>{$table.name_ja}</td>
+	</tr>
+	<tr>
+		<th>テーブルクラス名</th>
+		<td>
+
+{foreach from=$table.table_classes item='class' name='table_classes'}
+			{if !$smarty.foreach.table_classes.first}<br/>&nbsp;extends{/if}
+			{$class}
+{/foreach}
+
+		</td>
+	</tr>
+	<tr>
+		<th>レコードクラス名</th>
+		<td>
+
+{foreach from=$table.record_classes item='class' name='record_classes'}
+			{if !$smarty.foreach.record_classes.first}<br/>&nbsp;extends{/if}
+			{$class}
+{/foreach}
+
+		</td>
+	</tr>
+</table>
+
 <h2>フィールド</h2>
 <table>
 	<tr>
@@ -24,6 +58,7 @@
 		<th width="60">データ長</th>
 		<th width="30">NULL</th>
 		<th width="180">既定値</th>
+		<th width="90">外部キー</th>
 		<th width="120">その他</th>
 	</tr>
 
@@ -35,13 +70,18 @@
 		</td>
 		<td width="90">{$field.data_type}</td>
 		<td width="60" align="right">{$field.character_maximum_length}</td>
-		<td width="30" align="center">{if $field.is_nullable=='YES'}可{/if}</td>
+		<td width="30" align="center">{if $field.is_nullable}可{/if}</td>
 		<td width="180">{$field.column_default}</td>
+		<td width="90">
+	{if $field.extrenal_table}
+			<a href="/{$module.name}/Table?database={$database.name}&amp;table={$field.extrenal_table}">{$field.extrenal_table}</a>
+	{/if}
+		</td>
 		<td width="120">{$field.extra}</td>
 	</tr>
 {foreachelse}
 	<tr>
-		<td colspan="6">フィールド情報がありません。</td>
+		<td colspan="7">フィールド情報がありません。</td>
 	</tr>
 {/foreach}
 
@@ -64,7 +104,7 @@
 	{foreach from=$constraint.fields item=field}
 		{$field.column_name}
 		{if $field.referenced_table_name}
-		({$field.referenced_table_name}.{$field.referenced_column_name})
+		(<a href="/{$module.name}/Table?database={$database.name}&amp;table={$field.referenced_table_name}">{$field.referenced_table_name}</a>.{$field.referenced_column_name})
 		{/if}
 		<br />
 	{/foreach}

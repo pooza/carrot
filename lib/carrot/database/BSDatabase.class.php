@@ -109,7 +109,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	protected function parseDSN () {
 		$constants = BSConstantHandler::getInstance();
-		$this->attributes['name'] = $this->getName();
+		$this->attributes['connection_name'] = $this->getName();
 		$this->attributes['dsn'] = $constants['PDO_' . $this->getName() . '_DSN'];
 		$this->attributes['uid'] = $constants['PDO_' . $this->getName() . '_UID'];
 		$this->attributes['password'] = $constants['PDO_' . $this->getName() . '_PASSWORD'];

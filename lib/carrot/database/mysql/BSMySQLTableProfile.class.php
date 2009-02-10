@@ -80,7 +80,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	 */
 	protected function getCriteria () {
 		return array(
-			'table_schema=' . $this->database->quote($this->database->getAttribute('name')),
+			'table_schema=' . $this->database->quote($this->database['database_name']),
 			'table_name=' . $this->database->quote($this->getName()),
 		);
 	}

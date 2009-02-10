@@ -72,17 +72,69 @@ abstract class BSTableProfile implements BSAssignable {
 	abstract public function getConstraints ();
 
 	/**
+	 * テーブルクラスの継承を返す
+	 *
+	 * @access public
+	 * @return BSArray テーブルクラスの継承
+	 */
+	public function getTableClassNames () {
+		$classes = new BSArray;
+
+		$class = new ReflectionClass(BSTableHandler::getClassName($this->getName()));
+		do {
+			$classes[] = $class->getName();
+		} while ($class = $class->getParentClass());
+
+		return $classes;
+	}
+
+	/**
+	 * レコードクラスの継承を返す
+	 *
+	 * @access public
+	 * @return BSArray レコードクラスの継承
+	 */
+	public function getRecordClassNames () {
+		$classes = new BSArray;
+
+		$class = new ReflectionClass(BSString::pascalize($this->getName()));
+		do {
+			$classes[] = $class->getName();
+		} while ($class = $class->getParentClass());
+
+		return $classes;
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return array(
+		$values = array(
 			'name' => $this->getName(),
-			'fields' => $this->getFields(),
+			'name_ja' => BSTranslateManager::getInstance()->execute($this->getName(), 'ja'),
+			'table_classes' => $this->getTableClassNames(),
+			'record_classes' => $this->getRecordClassNames(),
 			'constraints' => $this->getConstraints(),
 		);
+
+		$pattern = sprintf(
+			'/^(%s)_id$/',
+			$this->getDatabase()->getTableNames()->join('|')
+		);
+		foreach ($this->getFields() as $field) {
+			if (isset($field['is_nullable'])) {
+				$field['is_nullable'] = ($field['is_nullable'] == 'YES');
+			}
+			if (preg_match($pattern, $field['column_name'], $matches)) {
+				$field['extrenal_table'] = $matches[1];
+			}
+			$values['fields'][] = $field;
+		}
+
+		return $values;
 	}
 
 	/**
