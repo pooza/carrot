@@ -58,7 +58,7 @@ class BSMySQLDatabase extends BSDatabase {
 	static private function getConfigFile () {
 		if (!self::$configFile) {
 			$dir = BSController::getInstance()->getDirectory('config');
-			foreach (array('my.cnf', 'my.cnf.ini', 'my.cnf') as $name) {
+			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
 				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
 					break;
 				}
@@ -76,8 +76,6 @@ class BSMySQLDatabase extends BSDatabase {
 		parent::parseDSN();
 		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this->getDSN(), $matches);
 		$this->attributes['host'] = new BSHost($matches[1]);
-		$this->attributes['port'] = self::getDefaultPort();
-		$this->attributes['name'] = $matches[2];
 		$this->attributes['config_file'] = self::getConfigFile();
 	}
 
@@ -110,32 +108,6 @@ class BSMySQLDatabase extends BSDatabase {
 		} else {
 			return $query;
 		}
-	}
-
-	/**
-	 * 一時テーブルを生成して返す
-	 *
-	 * @access public
-	 * @param string[] $details フィールド定義等
-	 * @param string $class クラス名
-	 * @return BSTemporaryTableHandler 一時テーブル
-	 */
-	public function getTemporaryTable ($details, $class = 'BSTemporaryTableHandler') {
-		if ($this->isLegacy()) {
-			$engine = 'HEAP';
-		} else {
-			$engine = 'MEMORY';
-		}
-
-		$table = new $class;
-		$query = sprintf(
-			'CREATE TEMPORARY TABLE %s (%s) Engine=%s',
-			$table->getName(),
-			implode(',', $details),
-			$engine
-		);
-		$this->exec($query);
-		return $table;
 	}
 
 	/**

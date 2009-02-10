@@ -20,7 +20,7 @@ class DatabaseAction extends BSAction {
 	public function execute () {
 		$values = array(
 			'name' => $this->getDatabase()->getName(),
-			'info' => $this->getDatabase()->getInfo()->getParameters(),
+			'info' => $this->getDatabase()->getAttributes()->getParameters(),
 			'tables' => $this->getDatabase()->getTableNames(),
 		);
 		$this->request->setAttribute('database', $values);

@@ -35,21 +35,10 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	protected function parseDSN () {
 		parent::parseDSN();
 		preg_match('/^pgsql:(.+)$/', $this->getDSN(), $matches);
-		$this->attributes['port'] = self::getDefaultPort();
-
 		foreach (preg_split('/ +/', $matches[1]) as $config) {
-			$config = explode('=', $config);
-			$value = $config[1];
-			switch ($name = $config[0]) {
-				case 'host':
-					$this->attributes[$name] = new BSHost($value);
-					break;
-				case 'dbname':
-					$this->attributes['name'] = $value;
-					break;
-				default:
-					$this->attributes[$name] = $value;
-					break;
+			$config = BSString::explode('=', $config);
+			if ($config[0] == 'host') {
+				$this->attributes['host'] = new BSHost($config[1]);
 			}
 		}
 	}

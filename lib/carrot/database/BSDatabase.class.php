@@ -76,28 +76,21 @@ abstract class BSDatabase extends PDO {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name) {
-		if (!isset($this->attributes[$name])) {
-			$this->parseDSN();
-		}
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->getAttributes()->getParameter($name);
 	}
 
 	/**
-	 * 各種情報を返す
+	 * 属性を全て返す
 	 *
 	 * @access public
-	 * @return BSArray 各種情報
+	 * @return BSArray 属性
 	 */
-	public function getInfo () {
-		$info = new BSArray;
-		$info['name'] = $this->getName();
-		$info['dsn'] = $this->getDSN();
-		$info['dbms'] = $this->getDBMS();
-		$info['version'] = $this->getVersion();
-		$info['encoding'] = $this->getEncoding();
-		return $info;
+	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+			$this->parseDSN();
+		}
+		return $this->attributes;
 	}
 
 	/**
@@ -107,7 +100,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string DSN
 	 */
 	public function getDSN () {
-		return $this->getAttribute('dsn');
+		return BSController::getInstance()->getConstant('PDO_' . $this->getName() . '_DSN');
 	}
 
 	/**
@@ -116,11 +109,11 @@ abstract class BSDatabase extends PDO {
 	 * @access protected
 	 */
 	protected function parseDSN () {
-		foreach (array('dsn', 'uid', 'password') as $key) {
-			$this->attributes[$key] = BSController::getInstance()->getConstant(
-				'PDO_' . $this->getName() . '_' . $key
-			);
-		}
+		$this->attributes['dsn'] = $this->getDSN();
+		$this->attributes['name'] = $this->getName();
+		$this->attributes['dbms'] = $this->getDBMS();
+		$this->attributes['version'] = $this->getVersion();
+		$this->attributes['encoding'] = $this->getEncoding();
 	}
 
 	/**
@@ -273,20 +266,6 @@ abstract class BSDatabase extends PDO {
 	}
 
 	/**
-	 * 一時テーブルを生成して返す
-	 *
-	 * @access public
-	 * @param string[] $details フィールド定義等
-	 * @param string $class クラス名
-	 * @return BSTemporaryTableHandler 一時テーブル
-	 */
-	public function getTemporaryTable ($details, $class = 'BSTemporaryTableHandler') {
-		$table = new $class;
-		$this->exec(BSSQL::getCreateTableQueryString($table->getName(), $details));
-		return $table;
-	}
-
-	/**
 	 * 命名規則に従い、シーケンス名を返す
 	 *
 	 * @access public
@@ -414,7 +393,7 @@ abstract class BSDatabase extends PDO {
 			if (preg_match($pattern, $key, $matches)) {
 				$name = strtolower($matches[1]);
 				try {
-					$databases[$name] = self::getInstance($name)->getInfo();
+					$databases[$name] = self::getInstance($name)->getAttributes();
 				} catch (BSDatabaseException $e) {
 				}
 			}

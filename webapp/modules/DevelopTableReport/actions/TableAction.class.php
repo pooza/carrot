@@ -26,7 +26,7 @@ class TableAction extends BSAction {
 	}
 
 	public function execute () {
-		$this->request->setAttribute('database', $this->getDatabase()->getInfo());
+		$this->request->setAttribute('database', $this->getDatabase());
 
 		$values = array(
 			'name' => $this->getTableProfile()->getName(),

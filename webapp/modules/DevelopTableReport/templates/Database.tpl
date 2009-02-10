@@ -21,7 +21,7 @@
 
 {foreach from=$database.info key=key item=value}
 	<tr>
-		<th>{$key}</th>
+		<th>{$key|translate:'carrot.TableReport'}</th>
 		<td>{$value}</td>
 	</tr>
 {foreachelse}

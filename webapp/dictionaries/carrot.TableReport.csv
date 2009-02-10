@@ -1,0 +1,9 @@
+label,ja
+config_file,設定ファイル
+dbms,DBMS
+dsn,DSN
+encoding,エンコード
+file,ファイル
+host,ホスト
+name,接続名
+version,バージョン
