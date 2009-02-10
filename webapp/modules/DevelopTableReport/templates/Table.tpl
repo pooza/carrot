@@ -33,6 +33,8 @@
 {foreach from=$table.table_classes item='class' name='table_classes'}
 			{if !$smarty.foreach.table_classes.first}<br/>&nbsp;extends{/if}
 			{$class}
+{foreachelse}
+			(不明)
 {/foreach}
 
 		</td>
@@ -44,6 +46,8 @@
 {foreach from=$table.record_classes item='class' name='record_classes'}
 			{if !$smarty.foreach.record_classes.first}<br/>&nbsp;extends{/if}
 			{$class}
+{foreachelse}
+			(不明)
 {/foreach}
 
 		</td>

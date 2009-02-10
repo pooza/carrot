@@ -80,10 +80,13 @@ abstract class BSTableProfile implements BSAssignable {
 	public function getTableClassNames () {
 		$classes = new BSArray;
 
-		$class = new ReflectionClass(BSTableHandler::getClassName($this->getName()));
-		do {
-			$classes[] = $class->getName();
-		} while ($class = $class->getParentClass());
+		try {
+			$class = new ReflectionClass(BSTableHandler::getClassName($this->getName()));
+			do {
+				$classes[] = $class->getName();
+			} while ($class = $class->getParentClass());
+		} catch (Exception $e) {
+		}
 
 		return $classes;
 	}
@@ -97,10 +100,13 @@ abstract class BSTableProfile implements BSAssignable {
 	public function getRecordClassNames () {
 		$classes = new BSArray;
 
-		$class = new ReflectionClass(BSString::pascalize($this->getName()));
-		do {
-			$classes[] = $class->getName();
-		} while ($class = $class->getParentClass());
+		try {
+			$class = new ReflectionClass(BSString::pascalize($this->getName()));
+			do {
+				$classes[] = $class->getName();
+			} while ($class = $class->getParentClass());
+		} catch (Exception $e) {
+		}
 
 		return $classes;
 	}
