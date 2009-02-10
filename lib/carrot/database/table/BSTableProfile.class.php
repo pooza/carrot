@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSTableProfile {
+abstract class BSTableProfile implements BSAssignable {
 	protected $database;
 	protected $fields = array();
 	protected $constraints = array();
@@ -28,7 +28,7 @@ abstract class BSTableProfile {
 		$this->database = $database;
 		$this->name = $table;
 
-		if (!in_array($this->getName(), $this->getDatabase()->getTableNames())) {
+		if (!$this->getDatabase()->getTableNames()->isIncluded($this->getName())) {
 			throw new BSDatabaseException('%sが取得出来ません。', $this);
 		}
 	}
@@ -70,6 +70,20 @@ abstract class BSTableProfile {
 	 * @abstract
 	 */
 	abstract public function getConstraints ();
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return array(
+			'name' => $this->getName(),
+			'fields' => $this->getFields(),
+			'constraints' => $this->getConstraints(),
+		);
+	}
 
 	/**
 	 * @access public

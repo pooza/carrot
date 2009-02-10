@@ -27,14 +27,7 @@ class TableAction extends BSAction {
 
 	public function execute () {
 		$this->request->setAttribute('database', $this->getDatabase());
-
-		$values = array(
-			'name' => $this->getTableProfile()->getName(),
-			'fields' => $this->getTableProfile()->getFields(),
-			'constraints' => $this->getTableProfile()->getConstraints(),
-		);
-		$this->request->setAttribute('table', $values);
-
+		$this->request->setAttribute('table', $this->getTableProfile());
 		return BSView::SUCCESS;
 	}
 

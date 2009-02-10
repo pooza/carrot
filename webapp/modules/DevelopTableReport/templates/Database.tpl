@@ -19,7 +19,7 @@
 <h2>基本情報</h2>
 <table class="Detail">
 
-{foreach from=$database.info key=key item=value}
+{foreach from=$database.attributes key=key item=value}
 	<tr>
 		<th>{$key|translate:'carrot.TableReport'}</th>
 		<td>{$value}</td>
@@ -35,16 +35,16 @@
 <h2>テーブル</h2>
 <table>
 	<tr>
-		<th width="120">物理テーブル名</th>
-		<th width="120">論理テーブル名</th>
+		<th width="240">物理テーブル名</th>
+		<th width="240">論理テーブル名</th>
 	</tr>
 
 {foreach from=$database.tables item='table'}
 	<tr>
-		<td width="120">
+		<td width="240">
 			<a href="/{$module.name}/Table?database={$database.name}&table={$table}">{$table}</a>
 		</td>
-		<td width="120">{$table|translate}</td>
+		<td width="240">{$table|translate}</td>
 	</tr>
 {foreachelse}
 	<tr>

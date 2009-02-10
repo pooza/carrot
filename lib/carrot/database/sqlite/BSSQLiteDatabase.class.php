@@ -34,7 +34,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^sqlite:(.+)$/', $this->getDSN(), $matches);
+		preg_match('/^sqlite:(.+)$/', $this['dsn'], $matches);
 		$this->attributes['file'] = new BSFile($matches[1]);
 	}
 
@@ -42,10 +42,11 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[] テーブル名のリスト
+	 * @return BSArray テーブル名のリスト
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
+			$this->tables = new BSArray;
 			$query = BSSQL::getSelectQueryString(
 				'name',
 				'sqlite_master',
@@ -114,7 +115,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'sqlite3') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSController::getInstance()->getDirectory('sqlite3'));
-		$command->addValue($this->getAttribute('file')->getPath());
+		$command->addValue($this['file']->getPath());
 		return $command;
 	}
 
@@ -130,10 +131,10 @@ class BSSQLiteDatabase extends BSDatabase {
 	/**
 	 * バージョンを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return float バージョン
 	 */
-	public function getVersion () {
+	protected function getVersion () {
 		return '3.x'; //取得方法不明
 	}
 }

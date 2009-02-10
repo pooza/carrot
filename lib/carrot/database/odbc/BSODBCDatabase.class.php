@@ -54,11 +54,10 @@ class BSODBCDatabase extends BSDatabase {
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[] テーブル名のリスト
+	 * @return BSArray テーブル名のリスト
 	 */
 	public function getTableNames () {
-		// ODBC接続では、テーブル名のリストを返せない
-		return array();
+		return new BSArray;
 	}
 }
 

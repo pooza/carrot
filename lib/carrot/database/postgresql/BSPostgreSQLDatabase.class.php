@@ -34,11 +34,21 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^pgsql:(.+)$/', $this->getDSN(), $matches);
+		$this->attributes['port'] = self::getDefaultPort();
+
+		preg_match('/^pgsql:(.+)$/', $this['dsn'], $matches);
 		foreach (preg_split('/ +/', $matches[1]) as $config) {
 			$config = BSString::explode('=', $config);
-			if ($config[0] == 'host') {
-				$this->attributes['host'] = new BSHost($config[1]);
+			switch ($config[0]) {
+				case 'host':
+					$this->attributes['host'] = new BSHost($config[1]);
+					break;
+				case 'dbname':
+					$this->attributes['database_name'] = $config[1];
+					break;
+				case 'user':
+					$this->attributes['uid'] = $config[1];
+					break;
 			}
 		}
 	}
@@ -59,10 +69,11 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[] テーブル名のリスト
+	 * @return BSArray テーブル名のリスト
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
+			$this->tables = new BSArray;
 			$query = BSSQL::getSelectQueryString(
 				'tablename',
 				'pg_tables',
@@ -130,9 +141,9 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'psql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSController::getInstance()->getDirectory('pgsql'));
-		$command->addValue('--host=' . $this->getAttribute('host')->getAddress());
-		$command->addValue('--user=' . $this->getAttribute('user'));
-		$command->addValue($this->getAttribute('name'));
+		$command->addValue('--host=' . $this['host']->getAddress());
+		$command->addValue('--user=' . $this['user']);
+		$command->addValue($this['database_name']);
 		return $command;
 	}
 
@@ -148,15 +159,12 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	/**
 	 * バージョンを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return float バージョン
 	 */
-	public function getVersion () {
-		if (!isset($this->attributes['version'])) {
-			$result = PDO::query('SELECT version() AS ver')->fetch();
-			$this->attributes['version'] = $result['ver'];
-		}
-		return $this->attributes['version'];
+	protected function getVersion () {
+		$result = PDO::query('SELECT version() AS ver')->fetch();
+		return $result['ver'];
 	}
 
 	/**

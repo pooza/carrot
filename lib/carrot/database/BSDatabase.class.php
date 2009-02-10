@@ -11,10 +11,9 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSDatabase extends PDO {
+abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	protected $attributes;
-	protected $tables = array();
-	private $dbms;
+	protected $tables;
 	private $name;
 	static private $instances;
 	const WITH_LOGGING = 1;
@@ -63,7 +62,7 @@ abstract class BSDatabase extends PDO {
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[] テーブル名のリスト
+	 * @return BSArray テーブル名のリスト
 	 * @abstract
 	 */
 	abstract public function getTableNames ();
@@ -100,7 +99,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string DSN
 	 */
 	public function getDSN () {
-		return BSController::getInstance()->getConstant('PDO_' . $this->getName() . '_DSN');
+		return $this['dsn'];
 	}
 
 	/**
@@ -109,8 +108,11 @@ abstract class BSDatabase extends PDO {
 	 * @access protected
 	 */
 	protected function parseDSN () {
-		$this->attributes['dsn'] = $this->getDSN();
+		$constants = BSConstantHandler::getInstance();
 		$this->attributes['name'] = $this->getName();
+		$this->attributes['dsn'] = $constants['PDO_' . $this->getName() . '_DSN'];
+		$this->attributes['uid'] = $constants['PDO_' . $this->getName() . '_UID'];
+		$this->attributes['password'] = $constants['PDO_' . $this->getName() . '_PASSWORD'];
 		$this->attributes['dbms'] = $this->getDBMS();
 		$this->attributes['version'] = $this->getVersion();
 		$this->attributes['encoding'] = $this->getEncoding();
@@ -119,10 +121,10 @@ abstract class BSDatabase extends PDO {
 	/**
 	 * バージョンを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return float バージョン
 	 */
-	public function getVersion () {
+	protected function getVersion () {
 	}
 
 	/**
@@ -174,11 +176,7 @@ abstract class BSDatabase extends PDO {
 	 * @return string エンコードされたクエリー
 	 */
 	protected function encodeQuery ($query) {
-		return BSString::convertEncoding(
-			$query,
-			$this->getEncoding(),
-			'utf-8'
-		);
+		return BSString::convertEncoding($query, $this['encoding'], 'utf-8');
 	}
 
 	/**
@@ -200,7 +198,7 @@ abstract class BSDatabase extends PDO {
 	 * @return BSTableProfile テーブルのプロフィール
 	 */
 	public function getTableProfile ($table) {
-		$class = 'BS' . $this->getDBMS() . 'TableProfile';
+		$class = 'BS' . $this['dbms'] . 'TableProfile';
 		return new $class($table, $this);
 	}
 
@@ -347,28 +345,92 @@ abstract class BSDatabase extends PDO {
 	/**
 	 * DBMSを返す
 	 *
-	 * @access public
+	 * @access private
 	 * @return string DBMS
 	 */
-	public function getDBMS () {
-		if (!$this->dbms) {
-			if (preg_match('/^BS([A-Za-z]+)Database$/', get_class($this), $matches)) {
-				$this->dbms = $matches[1];
-			} else {
-				throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
-			}
+	private function getDBMS () {
+		if (!preg_match('/^BS([A-Za-z]+)Database$/', get_class($this), $matches)) {
+			throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
 		}
-		return $this->dbms;
+		return $matches[1];
 	}
 
 	/**
 	 * エンコードを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return string PHPのエンコード
 	 */
-	public function getEncoding () {
+	protected function getEncoding () {
 		return 'utf-8';
+	}
+
+	/**
+	 * 要素が存在するか？
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return $this->attributes->hasParameter($key);
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		throw new BSDatabaseException('データベースの属性を直接更新することはできません。');
+	}
+
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		throw new BSDatabaseException('データベースの属性は削除できません。');
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		$values = array(
+			'name' => $this->getName(),
+			'tables' => $this->getTableNames()->getParameters(),
+		);
+		foreach ($this->getAttributes() as $key => $value) {
+			if (in_array($key, array('uid', 'password', 'user'))) {
+				continue;
+			} else if ($value instanceof BSFile) {
+				$values['attributes'][$key] = $value->getPath();
+			} else if ($value instanceof BSHost) {
+				$values['attributes'][$key] = $value->getName();
+			} else {
+				$values['attributes'][$key] = $value;
+			}
+		}
+		return $values;
 	}
 
 	/**
