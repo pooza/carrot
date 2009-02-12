@@ -7,7 +7,7 @@
 carrot:
   name: carrot Framework
   url: http://guest@trac.carrot-framework.org/project/carrot/
-  ver: 2.1.29
+  ver: 2.1.30
 
 debug: yes
 
@@ -44,6 +44,7 @@ xmpp:
   host: localhost
 
 crypt:
+  salt: carrot
   engine: blowfish
 
 log:
