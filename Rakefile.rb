@@ -7,6 +7,7 @@
 # @version $Id$
 
 $KCODE = 'u'
+require 'yaml'
 require 'webapp/config/Rakefile.local'
 
 desc '運用環境の構築（productionと同じ）'
@@ -23,7 +24,10 @@ task :chmod_var do
   sh 'chmod -R 777 var/*'
 end
 
-desc 'ログデータベースを設定'
+desc 'データベースを初期化'
+task :database => [:log, :database_local]
+
+desc 'ログデータベースを初期化'
 task :log => ['var/db/log.sqlite3']
 
 file 'var/db/log.sqlite3' do
@@ -50,7 +54,7 @@ desc 'varディレクトリ内の一時ファイルを削除'
 task :clear => :clean
 
 desc 'varディレクトリ内の一時ファイルを削除'
-task :clean => [:clean_var, :log]
+task :clean => [:clean_var, :database]
 
 task :clean_var do
   sh 'sudo rm -R var/*/*'
@@ -59,6 +63,22 @@ end
 desc 'クラスファイルをリロード'
 task :reload_classes do
   sh 'rm var/serialized/BSAutoloadHandler.*'
+end
+
+desc '配布アーカイブを作成'
+task :dist => :distribution
+
+desc '配布アーカイブを作成'
+task :distribution do
+  if repos_url == nil
+    exit 1
+  end
+
+  export_dest = 'var/tmp/' + project_name
+  sh 'svn export ' + repos_url + ' ' + export_dest
+  sh 'rm ' + export_dest + '/webapp/config/constant/*.local.yaml'
+  sh 'cd ' + export_dest + '/..; tar cvzf ../tmp/' + project_name + '.tar.gz ' + project_name
+  sh 'rm -R ' + export_dest
 end
 
 desc 'PHPDocumentorを有効に'
@@ -96,6 +116,18 @@ file 'lib/ajaxzip2/data' do
 end
 
 def media_types
-  require 'yaml'
   return YAML.load_file('webapp/config/mime.yaml')['types']
+end
+
+def repos_url
+  config = YAML.load_file('webapp/config/constant/application.yaml')
+  begin
+    return config['svn']['url']
+  rescue
+    return nil
+  end
+end
+
+def project_name
+  return File.basename(File.dirname(__FILE__)).split('.')[0]
 end

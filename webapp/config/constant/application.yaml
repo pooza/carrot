@@ -13,3 +13,6 @@ app:
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
+
+svn:
+  url: http://svn.carrot-framework.org/carrot/trunk

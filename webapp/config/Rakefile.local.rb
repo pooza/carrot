@@ -11,3 +11,5 @@ $KCODE = 'u'
 task :production_local => []
 
 task :development_local => []
+
+task :database_local => []
