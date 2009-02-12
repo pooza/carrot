@@ -66,7 +66,14 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @return string 翻訳された文字列
 	 */
 	public function translate ($label, $language) {
-		return $this->getWords()->getParameter($label . '_' . $language);
+		$words = $this->getWords();
+		if (!$word = $words[$label . '_' . $language]) {
+			// 旧形式対応
+			if (isset($words[$label][$language])) {
+				$word = $words[$label][$language];
+			}
+		}
+		return $word;
 	}
 
 	/**
