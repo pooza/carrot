@@ -51,9 +51,9 @@ class BSSerializeHandler {
 	 */
 	public function getSerializer () {
 		if (!$this->serializer) {
-			if (extension_loaded('json')) {
-				$this->serializer = new BSJSONSerializer;
-			} else {
+			$class = 'BS' . BSString::pascalize(BS_SERIALIZE_SERIALIZER) . 'Serializer';
+			$this->serializer = new $class;
+			if (!$this->serializer->isEnable()) {
 				$this->serializer = new BSPHPSerializer;
 			}
 		}

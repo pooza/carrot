@@ -7,7 +7,7 @@
 carrot:
   name: carrot Framework
   url: http://guest@trac.carrot-framework.org/project/carrot/
-  ver: 2.1.30
+  ver: 2.1.31
 
 debug: yes
 
@@ -25,6 +25,7 @@ types:
 
 serialize:
   storage: default
+  serializer: j_s_o_n
 
 session:
   storage: default

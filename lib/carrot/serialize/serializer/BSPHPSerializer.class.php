@@ -13,6 +13,16 @@
 class BSPHPSerializer implements BSSerializer {
 
 	/**
+	 * 利用可能か？
+	 *
+	 * @access public
+	 * @return string 利用可能ならTrue
+	 */
+	public function isEnable () {
+		return true;
+	}
+
+	/**
 	 * シリアライズされた文字列を返す
 	 *
 	 * @access public

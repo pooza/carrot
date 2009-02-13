@@ -13,6 +13,14 @@
 interface BSSerializer {
 
 	/**
+	 * 利用可能か？
+	 *
+	 * @access public
+	 * @return string 利用可能ならTrue
+	 */
+	public function isEnable ();
+
+	/**
 	 * シリアライズされた文字列を返す
 	 *
 	 * @access public

@@ -73,7 +73,8 @@ class BSMemcache extends Memcache {
 		$name = array(
 			BSController::getInstance()->getHost()->getName(),
 			get_class($this),
-			$name
+			$name,
+			BS_CRYPT_SALT,
 		);
 		return BSCrypt::getSHA1(join('.', $name));
 	}
