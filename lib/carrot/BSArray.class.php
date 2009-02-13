@@ -151,6 +151,7 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	 *
 	 * @access public
 	 * @param string $order ソート順
+	 * @return BSArray 自分自身
 	 */
 	public function sort ($order = self::SORT_KEY_ASC) {
 		$funcs = new BSArray;
@@ -162,6 +163,8 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 		if ($func = $funcs[$order]) {
 			$func($this->parameters);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -188,9 +191,36 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	 * 要素をユニーク化
 	 *
 	 * @access public
+	 * @return BSArray 自分自身
 	 */
 	public function uniquize () {
 		$this->parameters = array_unique($this->parameters);
+	}
+
+	/**
+	 * 要素をフラット化
+	 *
+	 * @access public
+	 * @return BSArray 自分自身
+	 */
+	public function flatten () {
+		$this->parameters = self::getFlatContents(null, $this->parameters);
+		return $this;
+	}
+
+	static private function getFlatContents ($prefix, $arg) {
+		$contents = array();
+		if (BSArray::isArray($arg)) {
+			foreach ($arg as $key => $value) {
+				if (!BSString::isBlank($prefix)) {
+					$key = $prefix . '_' . $key;
+				}
+				$contents += self::getFlatContents($key, $value);
+			}
+		} else {
+			$contents[$prefix] = $arg;
+		}
+		return $contents;
 	}
 
 	/**

@@ -122,9 +122,8 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return string 翻訳された文字列
 	 */
 	public function translate ($label, $language) {
-		$labels = array($label, $label . '_' . $language);
-		foreach ($labels as $label) {
-			if ($value = $this->getParameter($label)) {
+		foreach (array(null, '_' . $language) as $suffix) {
+			if ($value = $this->getParameter($label . $suffix)) {
 				return $value;
 			}
 		}

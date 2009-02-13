@@ -31,28 +31,16 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 */
 	public function getWords () {
 		if (!$this->words) {
-			$words = BSController::getInstance()->getAttribute(
-				$this->getDictionaryName(),
-				$this->getUpdateDate()
-			);
+			$controller = BSController::getInstance();
+			$name = $this->getDictionaryName();
+			$words = $controller->getAttribute($name, $this->getUpdateDate());
 			if (BSString::isBlank($words)) {
-				$this->words = new BSArray;
-				foreach ($this->getEngine()->getRecords() as $index => $record) {
-					foreach ($record as $lang => $value) {
-						if ($lang == 'label') {
-							continue;
-						}
-						$this->words[$index . '_' . $lang] = $value;
-					}
-				}
-				BSController::getInstance()->setAttribute(
-					$this->getDictionaryName(),
-					$this->words->getParameters()
-				);
+				$this->words = clone $this->getEngine()->getRecords();
+				$this->words->flatten();
+				$controller->setAttribute($name, $this->words->getParameters());
 			} else {
 				$this->words = new BSArray($words);
 			}
-
 		}
 		return $this->words;
 	}
