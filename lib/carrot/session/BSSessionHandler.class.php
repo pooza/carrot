@@ -18,7 +18,7 @@ class BSSessionHandler {
 	 */
 	public function __construct () {
 		if (headers_sent()) {
-			throw new BSHTTPException('セッションの開始に失敗しました。');
+			throw new BSSessionException('セッションの開始に失敗しました。');
 		}
 		$this->getStorage()->initialize();
 		session_start();
