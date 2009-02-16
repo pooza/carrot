@@ -94,6 +94,21 @@ class BSClassLoader {
 	}
 
 	/**
+	 * オブジェクトを返す
+	 *
+	 * 引数不要なコンストラクタを持ったクラスの、インスタンスを生成して返す
+	 *
+	 * @access public
+	 * @param string $class クラス名
+	 * @param string $suffix クラス名サフィックス
+	 * @return string 存在するクラス名
+	 */
+	public function getObject ($class, $suffix = null) {
+		$class = $this->getClassName($class, $suffix);
+		return new $class;
+	}
+
+	/**
 	 * 検索対象ディレクトリを返す
 	 *
 	 * @access private

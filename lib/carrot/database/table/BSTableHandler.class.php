@@ -694,6 +694,25 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	static public function getClassName ($class) {
 		return BSClassLoader::getInstance()->getClassName($class, self::CLASS_SUFFIX);
 	}
+
+	/**
+	 * テーブルハンドラを返す
+	 *
+	 * 引数なしでインスタンスを生成し、返す
+	 *
+	 * @access public
+	 * @param string $class レコード用クラス名、又はテーブル名
+	 * @return BSTableHandler テーブルハンドラ
+	 * @static
+	 */
+	static public function getInstance ($class) {
+		$class = self::getClassName($class);
+		$table = new $class;
+		if ($table instanceof BSTableHandler) {
+			throw new BSDatabaseException('"%s" はテーブルハンドラではありません。', $class);
+		}
+		return $table;
+	}
 }
 
 /* vim:set tabstop=4: */

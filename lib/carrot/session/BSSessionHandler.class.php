@@ -52,11 +52,10 @@ class BSSessionHandler {
 	 */
 	protected function getStorage () {
 		if (!$this->storage) {
-			$class = BSClassLoader::getInstance()->getClassName(
+			$this->storage = BSClassLoader::getInstance()->getObject(
 				BS_SESSION_STORAGE,
 				'SessionStorage'
 			);
-			$this->storage = new $class;
 		}
 		return $this->storage;
 	}

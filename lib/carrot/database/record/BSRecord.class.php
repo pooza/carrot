@@ -38,8 +38,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		if (preg_match('/^get([A-Z][A-Za-z0-9]+)$/', $method, $matches)) {
 			$name = $matches[1];
 			if (!$this->records->hasParameter($name)) {
-				$class = BSTableHandler::getClassName($name);
-				$table = new $class;
+				$table = BSTableHandler::getInstance($name);
 				$this->records[$name] = $table->getRecord($this[$table->getName() . '_id']);
 			}
 			return $this->records[$name];

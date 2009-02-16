@@ -71,8 +71,7 @@ class BSCrypt {
 	 */
 	public function getEngine () {
 		if (!$this->engine) {
-			$class = BSClassLoader::getInstance()->getClassName(BS_CRYPT_ENGINE, 'Cryptor');
-			$this->engine = new $class;
+			$this->engine = BSClassLoader::getInstance()->getObject(BS_CRYPT_ENGINE, 'Cryptor');
 		}
 		return $this->engine;
 	}

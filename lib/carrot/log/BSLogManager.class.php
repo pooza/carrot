@@ -20,8 +20,7 @@ class BSLogManager implements IteratorAggregate {
 	private function __construct () {
 		$this->loggers = new BSArray;
 		foreach (BSString::explode(',', BS_LOG_CLASSES) as $class) {
-			$class = BSClassLoader::getInstance()->getClassName($class);
-			$this->register(new $class);
+			$this->register(BSClassLoader::getInstance()->getObject($class));
 		}
 	}
 

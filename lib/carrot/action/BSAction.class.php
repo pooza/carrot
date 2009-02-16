@@ -47,8 +47,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 			case 'database':
 				// $this->getTable()は使わない。
 				if ($class = $this->getRecordClassName()) {
-					$class = BSTableHandler::getClassName($class);
-					$table = new $class;
+					$table = BSTableHandler::getInstance($class);
 					return $table->getDatabase();
 				}
 				return BSDatabase::getInstance();
@@ -369,8 +368,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 */
 	protected function assignStatusOptions () {
 		// まだフィルタチェーンが完了していない為、$this->getTable()を呼んではいけない。
-		$class = BSTableHandler::getClassName($this->getModule()->getRecordClassName());
-		$table = new $class;
+		$table = BSTableHandler::getInstance($this->getModule()->getRecordClassName());
 		if (method_exists($table, 'getStatusOptions')) {
 			$this->request->setAttribute('status_options', $table->getStatusOptions());
 		}
