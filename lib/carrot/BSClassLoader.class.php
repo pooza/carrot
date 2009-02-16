@@ -74,11 +74,13 @@ class BSClassLoader {
 	 */
 	public function getClassName ($class, $suffix = null) {
 		$pattern = sprintf(
-			'/^(%s)?([a-z0-9]+)(%s)?$/i',
+			'/^(%s)?([a-z0-9_]+)(%s)?$/i',
 			preg_quote(self::PREFIX, '/'),
 			preg_quote($suffix, '/')
 		);
-		preg_match($pattern, $class, $matches);
+		if (!preg_match($pattern, $class, $matches)) {
+			throw new RuntimeException($class . 'がロードできません。');
+		}
 		$basename = self::stripControlCharacters($matches[2]);
 
 		$classes = $this->getClasses();
@@ -215,12 +217,12 @@ class BSClassLoader {
 	/**
 	 * クラス階層を返す
 	 *
-	 * @access private
+	 * @access public
 	 * @param string $class 対象クラス
 	 * @return string[] クラス階層
 	 * @static
 	 */
-	static private function getParentClasses ($class) {
+	static public function getParentClasses ($class) {
 		$classes = array();
 		try {
 			$class = new ReflectionClass($class);
