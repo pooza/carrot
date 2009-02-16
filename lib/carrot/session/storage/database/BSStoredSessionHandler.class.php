@@ -29,7 +29,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	 * @return string テーブル名
 	 */
 	public function getName () {
-		return BSSessionStorage::TABLE_NAME;
+		return BSDatabaseSessionStorage::TABLE_NAME;
 	}
 
 	/**
@@ -146,7 +146,7 @@ class BSStoredSessionHandler extends BSTableHandler {
 	 * @return BSDatabase データベース
 	 */
 	public function getDatabase () {
-		return BSRequest::getInstance()->getSession()->getStorage()->getDatabase();
+		return BSDatabase::getInstance('session');
 	}
 }
 

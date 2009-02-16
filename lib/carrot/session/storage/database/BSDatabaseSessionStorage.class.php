@@ -40,34 +40,22 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			if (!$this->getDatabase()->getTableNames()->isIncluded(self::TABLE_NAME)) {
+			if (!$db = BSDatabase::getInstance('session')) {
+				throw new BSSessionException('セッションデータベースが正しくありません。');
+			}
+			if (!$db->getTableNames()->isIncluded(self::TABLE_NAME)) {
 				$fields = array(
 					'id varchar(128) NOT NULL PRIMARY KEY',
 					'update_date timestamp NOT NULL',
 					'data TEXT',
 				);
 				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
-				$this->getDatabase()->exec($query);
+				$db->exec($query);
 			}
-			$class = 'BS' . BSTableHandler::getClassName(self::TABLE_NAME);
+			$class = BSTableHandler::getClassName(self::TABLE_NAME);
 			$this->table = new $class;
 		}
 		return $this->table;
-	}
-
-	/**
-	 * セッションデータベースを返す
-	 *
-	 * @access public
-	 * @return BSDatabase セッションデータベース
-	 */
-	public function getDatabase () {
-		foreach (array('session', 'default') as $db) {
-			if ($db = BSDatabase::getInstance($db)) {
-				return $db;
-			}
-		}
-		throw new BSSessionException('セッションデータベースが正しくありません。');
 	}
 }
 

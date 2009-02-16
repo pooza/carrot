@@ -697,10 +697,12 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$class = BSString::pascalize($class);
 		$class .= self::CLASS_SUFFIX;
 
-		if (!BSAutoloadHandler::getInstance()->isExist($class)) {
-			throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
+		foreach (array(null, 'BS') as $prefix) {
+			if (BSAutoloadHandler::getInstance()->isExist($prefix . $class)) {
+				return $prefix . $class;
+			}
 		}
-		return $class;
+		throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
 	}
 }
 

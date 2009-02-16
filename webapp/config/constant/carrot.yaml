@@ -68,6 +68,7 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
     loggable: no
   session:
+    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
     loggable: no
 
 mysql:
