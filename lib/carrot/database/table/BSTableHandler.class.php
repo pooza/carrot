@@ -241,6 +241,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 				}
 				if ($match) {
 					$class = $this->getRecordClassName();
+					$class = BSClassLoader::getInstance()->getClassName($class);
 					return new $class($this, $record);
 				}
 			}
@@ -253,6 +254,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			$table->setCriteria($criteria);
 			if ($table->count() == 1) {
 				$class = $this->getRecordClassName();
+				$class = BSClassLoader::getInstance()->getClassName($class);
 				return new $class($this, $table->result[0]);
 			}
 		}
@@ -691,16 +693,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	static public function getClassName ($class) {
 		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
-		$name = $class;
-		$name = preg_replace($pattern, '', $name);
-		$name = BSString::underscorize($name);
-		$name = BSString::pascalize($name);
-		$name .= self::CLASS_SUFFIX;
-
-		if (!$name = BSClassLoader::getInstance()->getClassName($name)) {
-			throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
-		}
-		return $name;
+		$class = preg_replace($pattern, '', $class);
+		$class = BSString::underscorize($class);
+		$class = BSString::pascalize($class);
+		$class .= self::CLASS_SUFFIX;
+		return BSClassLoader::getInstance()->getClassName($class);
 	}
 }
 

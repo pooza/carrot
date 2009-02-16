@@ -51,7 +51,9 @@ class BSSerializeHandler {
 	 */
 	public function getSerializer () {
 		if (!$this->serializer) {
-			$class = 'BS' . BSString::pascalize(BS_SERIALIZE_SERIALIZER) . 'Serializer';
+			$class = BSClassLoader::getInstance()->getClassName(
+				BSString::pascalize(BS_SERIALIZE_SERIALIZER) . 'Serializer'
+			);
 			$this->serializer = new $class;
 			if (!$this->serializer->isEnable()) {
 				$this->serializer = new BSPHPSerializer;
@@ -68,7 +70,9 @@ class BSSerializeHandler {
 	 */
 	public function getStorage () {
 		if (!$this->storage) {
-			$class = 'BS' . BSString::pascalize(BS_SERIALIZE_STORAGE) . 'SerializeStorage';
+			$class = BSClassLoader::getInstance()->getClassName(
+				BSString::pascalize(BS_SERIALIZE_STORAGE) . 'SerializeStorage'
+			);
 			$this->storage = new $class;
 			$this->storage->initialize();
 		}

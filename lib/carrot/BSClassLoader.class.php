@@ -4,7 +4,7 @@
  */
 
 /**
- * オートロードハンドラ
+ * クラスローダー
  *
  * __autoload関数から呼ばれ、クラス名とクラスファイルのひも付けを行う。
  * 原則的に、PHP標準の関数以外は使用してはならない。
@@ -73,16 +73,16 @@ class BSClassLoader {
 	 */
 	public function getClassName ($class) {
 		$class = self::stripControlCharacters($class);
-		if (class_exists($class)) {
-			return $class;
-		}
-
 		$classes = $this->getClasses();
+		$pattern = '/^' . preg_quote(self::PREFIX, '/') . '/';
+		$basename = preg_replace($pattern, '', $class);
 		foreach (array(null, self::PREFIX) as $prefix) {
-			if (isset($classes[$prefix . $class])) {
-				return $prefix . $class;
+			$name = $prefix . $basename;
+			if (class_exists($name, false) || isset($classes[$name])) {
+				return $name;
 			}
 		}
+		throw new RuntimeException($class . 'がロードできません。');
 	}
 
 	/**

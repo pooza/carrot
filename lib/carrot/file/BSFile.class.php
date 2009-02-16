@@ -105,6 +105,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if (!copy($this->getPath(), $path)) {
 			throw new BSFileException('%sをコピー出来ません。', $this);
 		}
+		$class = BSClassLoader::getInstance()->getClassName($class);
 		return new $class($path);
 	}
 

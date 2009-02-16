@@ -95,6 +95,7 @@ class BSConfigManager {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}
 		foreach (BSConfigFile::getSuffixes() as $suffix) {
+			$class = BSClassLoader::getInstance()->getClassName($class);
 			$file = new $class($name . $suffix);
 			if ($file->isExists()) {
 				if (!$file->isReadable()) {

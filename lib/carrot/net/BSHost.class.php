@@ -125,6 +125,7 @@ class BSHost {
 	 * @return BSSocket ソケット
 	 */
 	public function getSocket ($port, $class = self::DEFAULT_SOCKET_CLASS) {
+		$class = BSClassLoader::getInstance()->getClassName($class);
 		return new $class($this, $port);
 	}
 

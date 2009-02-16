@@ -86,7 +86,7 @@ class BSDirectoryLayout {
 		}
 
 		if (isset($params['class'])) {
-			$class = $params['class'];
+			$class = BSClassLoader::getInstance()->getClassName($params['class']);
 			$dir = new $class($dir->getPath());
 		}
 		if (isset($params['suffix'])) {

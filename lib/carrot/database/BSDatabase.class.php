@@ -198,7 +198,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return BSTableProfile テーブルのプロフィール
 	 */
 	public function getTableProfile ($table) {
-		$class = 'BS' . $this['dbms'] . 'TableProfile';
+		$class = BSClassLoader::getInstance()->getClassName($this['dbms'] . 'TableProfile');
 		return new $class($table, $this);
 	}
 

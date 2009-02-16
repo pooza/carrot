@@ -37,6 +37,7 @@ class BSImageFile extends BSFile {
 				default:
 					throw new BSImageException('%sの形式が不明です。', $this);
 			}
+			$class = BSClassLoader::getInstance()->getClassName($class);
 			$this->setRenderer(new $class($info[0], $info[1]));
 			$this->getRenderer()->setType($type);
 			$this->getRenderer()->setImage($image);
