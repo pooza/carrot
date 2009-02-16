@@ -211,6 +211,26 @@ class BSClassLoader {
 		}
 		return preg_replace('/[[:cntrl:]]/u', '', $value);
 	}
+
+	/**
+	 * クラス階層を返す
+	 *
+	 * @access private
+	 * @param string $class 対象クラス
+	 * @return string[] クラス階層
+	 * @static
+	 */
+	static private function getParentClasses ($class) {
+		$classes = array();
+		try {
+			$class = new ReflectionClass($class);
+			do {
+				$classes[] = $class->getName();
+			} while ($class = $class->getParentClass());
+		} catch (Exception $e) {
+		}
+		return $classes;
+	}
 }
 
 /* vim:set tabstop=4: */

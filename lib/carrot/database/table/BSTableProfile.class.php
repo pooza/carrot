@@ -78,17 +78,9 @@ abstract class BSTableProfile implements BSAssignable {
 	 * @return BSArray テーブルクラスの継承
 	 */
 	public function getTableClassNames () {
-		$classes = new BSArray;
-
-		try {
-			$class = new ReflectionClass(BSTableHandler::getClassName($this->getName()));
-			do {
-				$classes[] = $class->getName();
-			} while ($class = $class->getParentClass());
-		} catch (Exception $e) {
-		}
-
-		return $classes;
+		return new BSArray(
+			BSClassLoader::getParentClasses(BSTableHandler::getClassName($this->getName()))
+		);
 	}
 
 	/**
@@ -98,17 +90,9 @@ abstract class BSTableProfile implements BSAssignable {
 	 * @return BSArray レコードクラスの継承
 	 */
 	public function getRecordClassNames () {
-		$classes = new BSArray;
-
-		try {
-			$class = new ReflectionClass(BSString::pascalize($this->getName()));
-			do {
-				$classes[] = $class->getName();
-			} while ($class = $class->getParentClass());
-		} catch (Exception $e) {
-		}
-
-		return $classes;
+		return new BSArray(
+			BSClassLoader::getParentClasses(BSString::pascalize($this->getName()))
+		);
 	}
 
 	/**

@@ -134,7 +134,7 @@ class BSRecordValidator extends BSValidator {
 		if (!$class = $this['class']) {
 			$class = $this['table'];
 		}
-		return BSTableHandler::getClassName($class);
+		return BSTableHandler::getInstance($class);
 	}
 }
 
