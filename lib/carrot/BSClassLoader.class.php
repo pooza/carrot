@@ -72,8 +72,11 @@ class BSClassLoader {
 	 * @return string 存在するクラス名
 	 */
 	public function getClassName ($class) {
-		require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
 		$class = self::stripControlCharacters($class);
+		if (class_exists($class)) {
+			return $class;
+		}
+
 		$classes = $this->getClasses();
 		foreach (array(null, self::PREFIX) as $prefix) {
 			if (isset($classes[$prefix . $class])) {

@@ -22,13 +22,7 @@ class BSMailAddressValidator extends BSValidator {
 		if (!$class = $this['class']) {
 			$class = $this['table'];
 		}
-		$class = BSTableHandler::getClassName($class);
-
-		if (!class_exists($class)) {
-			throw new BSValidateException('クラス "%s" が未定義です。', $class);
-		}
-
-		return new $class;
+		return BSTableHandler::getClassName($class);
 	}
 
 	/**

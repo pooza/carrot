@@ -186,12 +186,11 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return BSView ビュー
 	 */
 	public function getView ($name) {
-		$name = BSString::stripControlCharacters($name);
 		$class = $this->getName() . $name . 'View';
 		if ($dir = $this->getModule()->getDirectory('views')) {
 			if ($file = $dir->getEntry($class . '.class.php')) {
 				require($file->getPath());
-				if (class_exists($class)) {
+				if ($class = BSClassLoader::getInstance()->getClassName($class)) {
 					return new $class($this);
 				}
 			}

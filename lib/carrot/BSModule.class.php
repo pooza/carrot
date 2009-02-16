@@ -76,13 +76,12 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			self::$instances = new BSArray;
 		}
 
-		$name = BSString::stripControlCharacters($name);
 		if (!self::$instances[$name]) {
 			$module = new BSModule($name);
 			$class = $name . 'Module';
 			if ($file = $module->getDirectory()->getEntry($class . '.class.php')) {
 				require($file->getPath());
-				if (!class_exists($class)) {
+				if (!$class = BSClassLoader::getInstance()->getClassName($class)) {
 					throw new BSInitializationException('"%s" が見つかりません。', $class);
 				}
 				$module = new $class($name);
@@ -332,7 +331,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSAction アクション
 	 */
 	public function getAction ($name) {
-		$name = BSString::stripControlCharacters($name);
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory('actions')) {
 			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
@@ -345,7 +343,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		}
 		if (!$this->actions[$name]) {
 			require($file->getPath());
-			if (!class_exists($class)) {
+			if (!$class = BSClassLoader::getInstance()->getClassName($class)) {
 				throw new BSInitializationException(
 					'%sに "%s" が見つかりません。', $this, $class
 				);
