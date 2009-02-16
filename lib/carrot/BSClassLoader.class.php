@@ -15,6 +15,7 @@
 class BSClassLoader {
 	private $classes = array();
 	static private $instance;
+	const PREFIX = 'BS';
 
 	/**
 	 * @access private
@@ -64,15 +65,21 @@ class BSClassLoader {
 	}
 
 	/**
-	 * 存在するクラスか？
+	 * クラス名を検索して返す
 	 *
 	 * @access public
 	 * @param string $class クラス名
-	 * @return boolean 存在するならTrue
+	 * @return string 存在するクラス名
 	 */
-	public function isExist ($class) {
+	public function getClassName ($class) {
+		require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
+		$class = self::stripControlCharacters($class);
 		$classes = $this->getClasses();
-		return isset($classes[$class]);
+		foreach (array(null, self::PREFIX) as $prefix) {
+			if (isset($classes[$prefix . $class])) {
+				return $prefix . $class;
+			}
+		}
 	}
 
 	/**
@@ -162,6 +169,21 @@ class BSClassLoader {
 		if (preg_match('/(.*?)\.(class|interface)\.php/', $filename, $matches)) {
 			return $matches[1];
 		}
+	}
+
+	/**
+	 * コントロール文字を取り除く
+	 *
+	 * @access private
+	 * @param mixed $value 変換対象の文字列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static private function stripControlCharacters ($value) {
+		if (class_exists('BSArray', false)) {
+			return BSString::stripControlCharacters($value);
+		}
+		return preg_replace('/[[:cntrl:]]/u', '', $value);
 	}
 }
 

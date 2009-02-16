@@ -690,19 +690,17 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getClassName ($class) {
-		$class = BSString::stripControlCharacters($class);
 		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
-		$class = preg_replace($pattern, '', $class);
-		$class = BSString::underscorize($class);
-		$class = BSString::pascalize($class);
-		$class .= self::CLASS_SUFFIX;
+		$name = $class;
+		$name = preg_replace($pattern, '', $name);
+		$name = BSString::underscorize($name);
+		$name = BSString::pascalize($name);
+		$name .= self::CLASS_SUFFIX;
 
-		foreach (array(null, 'BS') as $prefix) {
-			if (BSClassLoader::getInstance()->isExist($prefix . $class)) {
-				return $prefix . $class;
-			}
+		if (!$name = BSClassLoader::getInstance()->getClassName($name)) {
+			throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
 		}
-		throw new BSDatabaseException('クラス "%s" が未定義です。', $class);
+		return $name;
 	}
 }
 

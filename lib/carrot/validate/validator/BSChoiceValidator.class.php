@@ -59,9 +59,6 @@ class BSChoiceValidator extends BSValidator {
 			} catch (BSDatabaseException $e) {
 				$class = $this['class'];
 			}
-			if (!BSClassLoader::getInstance()->isExist($class)) {
-				throw new BSValidateException('クラス "%s" が未定義です。', $class);
-			}
 			eval(sprintf('$choices = new BSArray(%s::%s());', $class, $this['function']));
 			$choices = $choices->getKeys();
 		}
