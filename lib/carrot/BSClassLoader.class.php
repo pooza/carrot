@@ -206,7 +206,7 @@ class BSClassLoader {
 	 * @static
 	 */
 	static private function stripControlCharacters ($value) {
-		if (class_exists('BSArray', false)) {
+		if (class_exists('BSString', false)) {
 			return BSString::stripControlCharacters($value);
 		}
 		return preg_replace('/[[:cntrl:]]/u', '', $value);
