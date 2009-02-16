@@ -9,7 +9,7 @@
  */
 class StopAction extends BSAction {
 	public function execute () {
-		$xmpp = new BSXMPPBotClient($this->controller->getServerHost());
+		$xmpp = new BSXMPPBotClient($this->controller->getHost());
 		$xmpp->putLine('/QUIT');
 		sleep(1);
 		return $this->getModule()->redirect();

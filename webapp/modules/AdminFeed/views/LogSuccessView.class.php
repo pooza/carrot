@@ -10,13 +10,12 @@
 class LogSuccessView extends BSView {
 	public function initialize () {
 		parent::initialize();
-		$class = BS_FEED_CLASS;
-		$this->setRenderer(new $class);
+		$this->setRenderer(BSClassLoader::getInstance()->getObject(BS_FEED_CLASS));
 		return true;
 	}
 
 	public function execute () {
-		$this->getEngine()->setTitle($this->controller->getServerHost()->getName());
+		$this->getEngine()->setTitle($this->controller->getHost()->getName());
 		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログ');
 		$this->getEngine()->setLink($this->controller->getModule('AdminLog')->getURL());
 		foreach ($this->request->getAttribute('entries') as $log) {
