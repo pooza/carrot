@@ -25,7 +25,7 @@ types:
 
 serialize:
   storage: default
-  serializer: j_s_o_n
+  serializer: JSON
 
 session:
   storage: default

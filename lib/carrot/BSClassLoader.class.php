@@ -69,17 +69,25 @@ class BSClassLoader {
 	 *
 	 * @access public
 	 * @param string $class クラス名
+	 * @param string $suffix クラス名サフィックス
 	 * @return string 存在するクラス名
 	 */
-	public function getClassName ($class) {
-		$class = self::stripControlCharacters($class);
+	public function getClassName ($class, $suffix = null) {
+		$pattern = sprintf(
+			'/^(%s)?([a-z0-9]+)(%s)?$/i',
+			preg_quote(self::PREFIX, '/'),
+			preg_quote($suffix, '/')
+		);
+		preg_match($pattern, $class, $matches);
+		$basename = self::stripControlCharacters($matches[2]);
+
 		$classes = $this->getClasses();
-		$pattern = '/^' . preg_quote(self::PREFIX, '/') . '/';
-		$basename = preg_replace($pattern, '', $class);
-		foreach (array(null, self::PREFIX) as $prefix) {
-			$name = $prefix . $basename;
-			if (class_exists($name, false) || isset($classes[$name])) {
-				return $name;
+		foreach (array($basename, BSString::pascalize($basename)) as $basename) {
+			foreach (array(null, self::PREFIX) as $prefix) {
+				$name = $prefix . $basename . $suffix;
+				if (class_exists($name, false) || isset($classes[$name])) {
+					return $name;
+				}
 			}
 		}
 		throw new RuntimeException($class . 'がロードできません。');

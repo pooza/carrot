@@ -692,12 +692,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getClassName ($class) {
-		$pattern = '/' . preg_quote(self::CLASS_SUFFIX, '/') . '$/';
-		$class = preg_replace($pattern, '', $class);
-		$class = BSString::underscorize($class);
-		$class = BSString::pascalize($class);
-		$class .= self::CLASS_SUFFIX;
-		return BSClassLoader::getInstance()->getClassName($class);
+		return BSClassLoader::getInstance()->getClassName($class, self::CLASS_SUFFIX);
 	}
 }
 

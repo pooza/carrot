@@ -178,7 +178,7 @@ class BSString {
 		} else {
 			$value = explode('-', $value);
 			foreach ($value as &$item) {
-				$item = ucfirst(strtolower($item));
+				$item = ucfirst($item);
 			}
 			$value = implode('-', $value);
 		}
