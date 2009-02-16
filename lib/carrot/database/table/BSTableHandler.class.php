@@ -698,7 +698,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$class .= self::CLASS_SUFFIX;
 
 		foreach (array(null, 'BS') as $prefix) {
-			if (BSAutoloadHandler::getInstance()->isExist($prefix . $class)) {
+			if (BSClassLoader::getInstance()->isExist($prefix . $class)) {
 				return $prefix . $class;
 			}
 		}

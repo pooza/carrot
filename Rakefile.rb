@@ -62,7 +62,7 @@ end
 
 desc 'クラスファイルをリロード'
 task :reload_classes do
-  sh 'rm var/serialized/BSAutoloadHandler.*'
+  sh 'rm var/serialized/BSClassLoader.*'
 end
 
 desc '配布アーカイブを作成'

@@ -12,7 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSAutoloadHandler {
+class BSClassLoader {
 	private $classes = array();
 	static private $instance;
 
@@ -26,7 +26,7 @@ class BSAutoloadHandler {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSAutoloadHandler インスタンス
+	 * @return BSClassLoader インスタンス
 	 * @static
 	 */
 	static public function getInstance () {

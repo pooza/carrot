@@ -12,8 +12,8 @@
  * @param string $name クラス名
  */
 function __autoload ($name) {
-	require_once(BS_LIB_DIR . '/carrot/BSAutoloadHandler.class.php');
-	$classes = BSAutoloadHandler::getInstance()->getClasses();
+	require_once(BS_LIB_DIR . '/carrot/BSClassLoader.class.php');
+	$classes = BSClassLoader::getInstance()->getClasses();
 	if (!isset($classes[$name])) {
 		throw new RuntimeException($name . 'がロードできません。');
 	}
