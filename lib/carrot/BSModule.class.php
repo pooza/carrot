@@ -195,8 +195,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSTableHandler テーブル
 	 */
 	public function getTable () {
-		if (!$this->table) {
-			$this->table = BSTableHandler::getInstance($this->getRecordClassName());
+		if (!$this->table && !BSString::isBlank($class = $this->getRecordClassName())) {
+			$this->table = BSTableHandler::getInstance($class);
 		}
 		return $this->table;
 	}
@@ -415,13 +415,15 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getRecordClassName () {
 		if (!$this->recordClassName) {
-			if (!$name = $this->getConfig('record_class')) {
+			if (BSString::isBlank($name = $this->getConfig('record_class'))) {
 				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', self::getPrefixes()->join('|'));
 				if (preg_match($pattern, $this->getName(), $matches)) {
 					$name = $matches[2];
 				}
 			}
-			$this->recordClassName = BSString::stripControlCharacters($name);
+			if (!BSString::isBlank($name)) {
+				$this->recordClassName = BSClassLoader::getInstance()->getClassName($name);
+			}
 		}
 		return $this->recordClassName;
 	}
