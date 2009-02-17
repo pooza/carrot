@@ -6,8 +6,8 @@
 
 carrot:
   name: carrot Framework
-  url: http://guest@trac.carrot-framework.org/project/carrot/
-  ver: 2.1.31
+  url: http://redmine.carrot-framework.org/projects/show/carrot
+  ver: 2.1.32
 
 debug: yes
 
