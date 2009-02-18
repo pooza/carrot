@@ -11,10 +11,9 @@ app:
   ver: 1.0.0-dev
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
+  svn:
+    url: http://svn.carrot-framework.org/carrot/trunk
 
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
-
-svn:
-  url: http://svn.carrot-framework.org/carrot/trunk

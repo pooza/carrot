@@ -122,7 +122,7 @@ end
 def repos_url
   config = YAML.load_file('webapp/config/constant/application.yaml')
   begin
-    return config['svn']['url']
+    return config['app']['svn']['url']
   rescue
     return nil
   end
