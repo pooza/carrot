@@ -6,7 +6,7 @@
 @version $Id$
 *}
 <div id="Footer">
-{'app_name'|translate:null:'en'} {'app_ver'|translate}
+<a href="{'app_bts_url'|translate}" target="_blank">{'app_name'|translate:null:'en'}</a> {'app_ver'|translate}
 (Powered by <a href="{'carrot_bts_url'|translate}" target="_blank">{'carrot_name'|translate}</a> {'carrot_ver'|translate})
 </div>
 </div>

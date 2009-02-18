@@ -10,6 +10,14 @@ carrot:
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
+app:
+  name:
+    ja: unknown
+    en: unknown
+  ver: unknown
+  bts:
+    url: http://redmine.carrot-framework.org/projects/show/carrot
+
 debug: yes
 
 languages:
