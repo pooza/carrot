@@ -106,13 +106,14 @@ class AnalyzeAccessLogAction extends BSAction {
 	}
 
 	public function execute () {
-		$this->updateConfig();
-
-		if ($file = $this->getPrevLogFile()) {
-			$this->analyze($file);
+		try {
+			$this->updateConfig();
+			if ($file = $this->getPrevLogFile()) {
+				$this->analyze($file);
+			}
+			$this->analyze();
+		} catch (Exception $e) {
 		}
-		$this->analyze();
-
 		$this->controller->putLog('実行しました。', get_class($this));
 		return BSView::NONE;
 	}
