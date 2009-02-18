@@ -35,6 +35,8 @@ types:
 serialize:
   storage: default
   serializer: JSON
+  keep:
+    - BSCounter.*
 
 session:
   storage: default

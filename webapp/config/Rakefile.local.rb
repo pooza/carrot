@@ -8,8 +8,23 @@
 
 $KCODE = 'u'
 
-task :production_local => []
+namespace :production do
+  namespace :local do
+    task :init => []
+  end
+end
 
-task :development_local => []
+namespace :development do
+  namespace :local do
+    task :init => []
+  end
+end
 
-task :database_local => []
+namespace :database do
+  namespace :local do
+    task :init => []
+  end
+end
+
+namespace :local do
+end
