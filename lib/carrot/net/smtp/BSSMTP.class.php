@@ -521,6 +521,22 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
+	 * 文字列をbase64デコード
+	 *
+	 * @access public
+	 * @return string デコードされた文字列
+	 * @static
+	 */
+	static public function base64Decode ($str) {
+		while (preg_match('/=\\?iso-2022-jp\\?b\\?([^\\?]+)\\?=/i', $str, $matches)) {
+			$decoded = base64_decode($matches[1]);
+			$decoded = BSString::convertEncoding($decoded);
+			$str = str_replace($matches[0], $decoded, $str);
+		}
+		return $str;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
