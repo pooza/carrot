@@ -12,6 +12,12 @@
 class BSUtility {
 
 	/**
+	 * @access private
+	 */
+	private function __construct () {
+	}
+
+	/**
 	 * 絶対パスか？
 	 *
 	 * @access public

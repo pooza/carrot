@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.smtp
+ * @subpackage net.mail.smtp
  */
 
 /**
@@ -197,7 +197,7 @@ class BSSMTP extends BSSocket {
 			return;
 		}
 
-		$value = self::base64Encode($value);
+		$value = BSMailUtility::base64Encode($value);
 		$value = str_replace('=?iso-2022-jp?B?', "\n=?iso-2022-jp?B?", $value);
 		$body = BSString::split($key . ': ' . $value);
 
@@ -480,7 +480,7 @@ class BSSMTP extends BSSocket {
 				'Content-Transfer-Encoding' => 'base64',
 				'Content-Disposition' => sprintf(
 					'attachment; filename="%s"',
-					self::base64Encode($name)
+					BSMailUtility::base64Encode($name)
 				),
 			),
 			'body' => BSString::split(base64_encode($body)),
@@ -497,43 +497,6 @@ class BSSMTP extends BSSocket {
 		if (preg_match('/^([0-9]+)/', $this->getLine(), $matches)) {
 			return (integer)$matches[1];
 		}
-	}
-
-	/**
-	 * 文字列をbase64エンコード
-	 *
-	 * @access public
-	 * @return string MIME'B'エンコードされた文字列
-	 * @static
-	 */
-	static public function base64Encode ($str) {
-		if (BSString::getEncoding($str) == 'ascii') {
-			return $str;
-		}
-
-		$str = BSString::convertKana($str, 'KV');
-		while (preg_match('/[^[:print:]]+/u', $str, $matches)) {
-			$encoded = BSString::convertEncoding($matches[0], 'iso-2022-jp');
-			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded . chr(27) . '(B') . '?=';
-			$str = str_replace($matches[0], $encoded, $str);
-		}
-		return $str;
-	}
-
-	/**
-	 * 文字列をbase64デコード
-	 *
-	 * @access public
-	 * @return string デコードされた文字列
-	 * @static
-	 */
-	static public function base64Decode ($str) {
-		while (preg_match('/=\\?iso-2022-jp\\?b\\?([^\\?]+)\\?=/i', $str, $matches)) {
-			$decoded = base64_decode($matches[1]);
-			$decoded = BSString::convertEncoding($decoded);
-			$str = str_replace($matches[0], $decoded, $str);
-		}
-		return $str;
 	}
 
 	/**

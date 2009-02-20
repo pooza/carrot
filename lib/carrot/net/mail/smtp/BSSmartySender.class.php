@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.smtp
+ * @subpackage net.mail.smtp
  */
 
 /**

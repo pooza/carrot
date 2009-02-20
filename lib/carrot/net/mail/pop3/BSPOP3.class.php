@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.pop3
+ * @subpackage net.mail.pop3
  */
 
 /**
@@ -84,6 +84,18 @@ class BSPOP3 extends BSSocket {
 		return preg_match('/^\+OK/', $this->getLine());
 	}
 
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf(
+			'POP3サーバ "%s:%d"',
+			$this->getHost()->getName(),
+			$this->getPort()
+		);
+	}
 
 	/**
 	 * 規定のポート番号を返す

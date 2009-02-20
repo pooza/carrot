@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.pop3
+ * @subpackage net.mail.pop3
  */
 
 /**
@@ -61,7 +61,7 @@ class BSPOP3Mail {
 	 */
 	public function getField ($name) {
 		if (!$this->fields->hasParameter($name)) {
-			if (BSString::isBlank($value = BSSMTP::base64Decode($this->getHeader($name)))) {
+			if (BSString::isBlank($value = BSMailUtility::base64Decode($this->getHeader($name)))) {
 				return null;
 			}
 			switch ($name = strtolower($name)) {
