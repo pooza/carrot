@@ -197,7 +197,7 @@ class BSSMTP extends BSSocket {
 			return;
 		}
 
-		$value = BSMailUtility::base64Encode($value);
+		$value = BSMailUtility::encodeHeader($value);
 		$value = str_replace('=?iso-2022-jp?B?', "\n=?iso-2022-jp?B?", $value);
 		$body = BSString::split($key . ': ' . $value);
 
@@ -480,7 +480,7 @@ class BSSMTP extends BSSocket {
 				'Content-Transfer-Encoding' => 'base64',
 				'Content-Disposition' => sprintf(
 					'attachment; filename="%s"',
-					BSMailUtility::base64Encode($name)
+					BSMailUtility::encodeHeader($name)
 				),
 			),
 			'body' => BSString::split(base64_encode($body)),

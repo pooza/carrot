@@ -19,13 +19,14 @@ class BSMailUtility {
 	}
 
 	/**
-	 * 文字列をBエンコード
+	 * ヘッダをエンコード
 	 *
 	 * @access public
+	 * @param string $str 対象文字列
 	 * @return string Bエンコードされた文字列
 	 * @static
 	 */
-	static public function base64Encode ($str) {
+	static public function encodeHeader ($str) {
 		if (BSString::getEncoding($str) == 'ascii') {
 			return $str;
 		}
@@ -40,19 +41,39 @@ class BSMailUtility {
 	}
 
 	/**
-	 * Bエンコードされた文字列をデコード
+	 * ヘッダをデコード
 	 *
-	 * 当面、iso-2022-jpのみに対応。
+	 * @access public
+	 * @param string $str 対象文字列
+	 * @return string デコードされた文字列
+	 * @static
+	 */
+	static public function decodeHeader ($str) {
+		while (preg_match('/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i', $str, $matches)) {
+			switch (strtolower($matches[2])) {
+				case 'b':
+					$decoded = base64_decode($matches[3]);
+					break;
+				case 'q':
+					$decoded = self::decodeQuotedPrintable($matches[3]);
+					break;
+			}
+			$decoded = BSString::convertEncoding($decoded, 'utf-8', $matches[1]);
+			$str = str_replace($matches[0], $decoded, $str);
+		}
+		return $str;
+	}
+
+	/**
+	 * Qエンコードされた文字列をデコード
 	 *
 	 * @access public
 	 * @return string デコードされた文字列
 	 * @static
 	 */
-	static public function base64Decode ($str) {
-		while (preg_match('/=\\?iso-2022-jp\\?b\\?([^\\?]+)\\?=/i', $str, $matches)) {
-			$decoded = base64_decode($matches[1]);
-			$decoded = BSString::convertEncoding($decoded);
-			$str = str_replace($matches[0], $decoded, $str);
+	static public function decodeQuotedPrintable ($str) {
+		while (preg_match('/=([a-f0-9]{2})/i', $str, $matches)) {
+			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
 		return $str;
 	}

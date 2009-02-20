@@ -218,7 +218,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return string エンコード済みファイル名
 	 */
 	public function getEncodedFileName ($name) {
-		$name = BSMailUtility::base64Encode($name);
+		$name = BSMailUtility::encodeHeader($name);
 		return BSString::sanitize($name);
 	}
 

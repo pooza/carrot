@@ -65,7 +65,7 @@ class BSPOP3Mail {
 			if (BSString::isBlank($value = $this->getHeader($name))) {
 				return null;
 			}
-			$value = BSMailUtility::base64Decode($value);
+			$value = BSMailUtility::decodeHeader($value);
 			switch ($name = strtolower($name)) {
 				case 'from':
 				case 'reply-to':
@@ -152,7 +152,7 @@ class BSPOP3Mail {
 					$this->headers[$key] .= "\n" . $matches[2];
 				}
 			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
-				$encoded = BSMailUtility::base64Decode($this->headers[$key]);
+				$encoded = BSMailUtility::decodeHeader($this->headers[$key]);
 				if (BSString::getEncoding($encoded) == 'ascii') {
 					$this->headers[$key] .= ' ';
 				}
