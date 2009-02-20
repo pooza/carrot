@@ -20,8 +20,8 @@ class BSPOP3Mail {
 
 	/**
 	 * @access public
-	 * @param string $line レスポンス行
 	 * @param BSPOP3 $socket ソケット
+	 * @param string $line レスポンス行
 	 */
 	public function __construct (BSPOP3 $socket, $line) {
 		$fields = BSString::explode(' ', $line);
@@ -135,7 +135,7 @@ class BSPOP3Mail {
 	 * 原則的に、デコードなどは一切行わない。
 	 * 但し、複数行にわたるヘッダの場合のみ、行末スペースの扱いを制御する。
 	 *
-	 * @access public
+	 * @access protected
 	 * @param BSArray $lines ヘッダを含んだ行の配列
 	 */
 	protected function parseHeaders (BSArray $lines) {
@@ -194,6 +194,23 @@ class BSPOP3Mail {
 			$this->body = $body;
 		}
 		return $this->body;
+	}
+
+	/**
+	 * サーバから削除
+	 *
+	 * @access public
+	 */
+	public function delete () {
+		$this->socket->putLine('DELE ' . $this->getID());
+		if (!$this->socket->isSuccess()) {
+			throw new BSMailException('削除に失敗しました。(%s)', $this->socket->getPrevLine());
+		}
+
+		BSController::getInstance()->putLog(
+			sprintf('メール "%s" をサーバから削除しました。', $this->getMessageID()),
+			get_class($this)
+		);
 	}
 }
 
