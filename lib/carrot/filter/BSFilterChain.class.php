@@ -50,6 +50,11 @@ class BSFilterChain implements IteratorAggregate {
 	public function loadGlobal () {
 		$this->load('filters/carrot');
 		$this->load('filters/application');
+
+		$name = 'filters/' . BSController::getInstance()->getHost()->getName();
+		if ($file = BSConfigManager::getConfigFile($name)) {
+			$this->load($file);
+		}
 	}
 
 	/**
