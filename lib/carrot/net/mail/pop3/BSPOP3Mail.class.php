@@ -16,6 +16,7 @@ class BSPOP3Mail {
 	private $socket;
 	private $headers;
 	private $fields;
+	private $body;
 
 	/**
 	 * @access public
@@ -57,13 +58,14 @@ class BSPOP3Mail {
 	 *
 	 * @access public
 	 * @param string $name ヘッダ名
-	 * @return mixed ヘッダ
+	 * @return mixed フィールドの内容
 	 */
 	public function getField ($name) {
 		if (!$this->fields->hasParameter($name)) {
-			if (BSString::isBlank($value = BSMailUtility::base64Decode($this->getHeader($name)))) {
+			if (BSString::isBlank($value = $this->getHeader($name))) {
 				return null;
 			}
+			$value = BSMailUtility::base64Decode($value);
 			switch ($name = strtolower($name)) {
 				case 'from':
 				case 'reply-to':
@@ -84,10 +86,10 @@ class BSPOP3Mail {
 					$this->fields[$name] = $matches[1];
 					break;
 				default:
-					if (strpos($value, "\n") !== 0) {
+					if (strpos($value, "\n") !== false) {
 						$this->fields[$name] = BSString::explode("\n", $value);
 					} else {
-						$this->fields[$name] = $this->getHeader($name);
+						$this->fields[$name] = $value;
 					}
 					break;
 			}
@@ -122,28 +124,76 @@ class BSPOP3Mail {
 					$this->socket->getPrevLine()
 				);
 			}
-
-			$this->headers = new BSArray;
-			$key = null;
-			foreach ($this->socket->getLines() as $line) {
-				if (BSString::isBlank($line)) {
-					break;
-				} else if (preg_match('/^([a-z0-9\\-]+): (.*)$/i', $line, $matches)) {
-					$key = strtolower($matches[1]);
-					if (BSString::isBlank($this->headers[$key])) {
-						$this->headers[$key] = $matches[2];
-					} else {
-						$this->headers[$key] .= "\n" . $matches[2];
-					}
-				} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
-					if (BSString::getEncoding($this->headers[$key]) == 'ascii') {
-						$this->headers[$key] .= ' ';
-					}
-					$this->headers[$key] .= $matches[1];
-				}
-			}
+			$this->parseHeaders(new BSArray($this->socket->getLines()));
 		}
 		return $this->headers;
+	}
+
+	/**
+	 * ヘッダをパース
+	 *
+	 * 原則的に、デコードなどは一切行わない。
+	 * 但し、複数行にわたるヘッダの場合のみ、行末スペースの扱いを制御する。
+	 *
+	 * @access public
+	 * @param BSArray $lines ヘッダを含んだ行の配列
+	 */
+	protected function parseHeaders (BSArray $lines) {
+		$this->headers = new BSArray;
+		$key = null;
+		foreach ($lines as $line) {
+			if (BSString::isBlank($line)) {
+				break;
+			} else if (preg_match('/^([a-z0-9\\-]+): (.*)$/i', $line, $matches)) {
+				$key = strtolower($matches[1]);
+				if (BSString::isBlank($this->headers[$key])) {
+					$this->headers[$key] = $matches[2];
+				} else {
+					$this->headers[$key] .= "\n" . $matches[2];
+				}
+			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
+				$encoded = BSMailUtility::base64Decode($this->headers[$key]);
+				if (BSString::getEncoding($encoded) == 'ascii') {
+					$this->headers[$key] .= ' ';
+				}
+				$this->headers[$key] .= $matches[1];
+			}
+		}
+	}
+
+	/**
+	 * 本文を返す
+	 *
+	 * 添付メールの場合でも、素の本文を返す。
+	 *
+	 * @access public
+	 * @return string 本文
+	 */
+	public function getBody () {
+		if (!$this->body) {
+			$this->socket->putLine('RETR ' . $this->getID());
+			if (!$this->socket->isSuccess()) {
+				throw new BSMailException(
+					'本文の取得に失敗しました。(%s)',
+					$this->socket->getPrevLine()
+				);
+			}
+			$body = new BSArray($this->socket->getLines());
+			$body = $body->join("\n");
+			$body = BSString::explode("\n\n", $body);
+
+			if (!$this->headers) {
+				$headers = BSString::explode("\n", $body[0]);
+				$this->parseHeaders($headers);
+			}
+
+			$body->removeParameter(0);
+			$body = $body->join("\n");
+			$body = preg_replace('/\.$/', '', $body);
+			$body = BSString::convertEncoding($body);
+			$this->body = $body;
+		}
+		return $this->body;
 	}
 }
 

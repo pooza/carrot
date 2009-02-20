@@ -38,6 +38,14 @@ class BSPOP3 extends BSSocket {
 		parent::close();
 	}
 
+	/**
+	 * 認証
+	 *
+	 * @access public
+	 * @param string $user ユーザー名
+	 * @param string $password パスワード
+	 * @return boolean 認証の正否
+	 */
 	public function auth ($user, $password) {
 		$this->putLine('USER ' . $user);
 		if (!$this->isSuccess()) {
@@ -50,6 +58,12 @@ class BSPOP3 extends BSSocket {
 		return true;
 	}
 
+	/**
+	 * サーバに残っているメールを全て返す
+	 *
+	 * @access public
+	 * @return BSArray 全てのメール
+	 */
 	public function getMails () {
 		if (!$this->mails) {
 			$this->mails = new BSArray;
@@ -76,14 +90,26 @@ class BSPOP3 extends BSSocket {
 		return $this->mails;
 	}
 
+	/**
+	 * サーバに残っているメールを返す
+	 *
+	 * @access public
+	 * @param integer $id メールの番号
+	 * @return BSPOP3Mail メール
+	 */
 	public function getMail ($id) {
 		return $this->getMails()->getParameter($id);
 	}
 
+	/**
+	 * 直前のコマンドは実行に成功したか？
+	 *
+	 * @access public
+	 * @return boolean 成功ならばTrue
+	 */
 	public function isSuccess () {
 		return preg_match('/^\+OK/', $this->getLine());
 	}
-
 
 	/**
 	 * @access public

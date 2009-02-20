@@ -19,10 +19,10 @@ class BSMailUtility {
 	}
 
 	/**
-	 * 文字列をbase64エンコード
+	 * 文字列をBエンコード
 	 *
 	 * @access public
-	 * @return string MIME'B'エンコードされた文字列
+	 * @return string Bエンコードされた文字列
 	 * @static
 	 */
 	static public function base64Encode ($str) {
@@ -40,7 +40,9 @@ class BSMailUtility {
 	}
 
 	/**
-	 * 文字列をbase64デコード
+	 * Bエンコードされた文字列をデコード
+	 *
+	 * 当面、iso-2022-jpのみに対応。
 	 *
 	 * @access public
 	 * @return string デコードされた文字列
