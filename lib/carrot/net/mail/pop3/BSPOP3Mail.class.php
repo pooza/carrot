@@ -117,8 +117,7 @@ class BSPOP3Mail {
 	 */
 	public function getHeaders () {
 		if (!$this->headers) {
-			$this->socket->putLine('TOP ' . $this->getID() . ' 0');
-			if (!$this->socket->isSuccess()) {
+			if (!$this->socket->execute('TOP ' . $this->getID() . ' 0')) {
 				throw new BSMailException(
 					'ヘッダの取得に失敗しました。(%s)',
 					$this->socket->getPrevLine()
@@ -171,8 +170,7 @@ class BSPOP3Mail {
 	 */
 	public function getBody () {
 		if (!$this->body) {
-			$this->socket->putLine('RETR ' . $this->getID());
-			if (!$this->socket->isSuccess()) {
+			if (!$this->socket->execute('RETR ' . $this->getID())) {
 				throw new BSMailException(
 					'本文の取得に失敗しました。(%s)',
 					$this->socket->getPrevLine()
@@ -202,8 +200,7 @@ class BSPOP3Mail {
 	 * @access public
 	 */
 	public function delete () {
-		$this->socket->putLine('DELE ' . $this->getID());
-		if (!$this->socket->isSuccess()) {
+		if (!$this->socket->execute('DELE ' . $this->getID())) {
 			throw new BSMailException('削除に失敗しました。(%s)', $this->socket->getPrevLine());
 		}
 
