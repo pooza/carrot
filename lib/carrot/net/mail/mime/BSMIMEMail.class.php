@@ -178,7 +178,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 			$this->setHeader('Content-Transfer-Encoding', null);
 		} else {
 			foreach (array('Content-Type', 'Content-Transfer-Encoding') as $name) {
-				$this->setHeader($name, $part->getHeader($name));
+				$this->setHeader($name, $part->getHeader($name)->getContents());
 			}
 		}
 
@@ -259,7 +259,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMIMEType::getType('.eml');
+		return BSMIMEType::getType('eml');
 	}
 
 	/**
