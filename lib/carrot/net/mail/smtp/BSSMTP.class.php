@@ -5,7 +5,7 @@
  */
 
 /**
- * メール送信
+ * SMTPプロトコル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -197,7 +197,7 @@ class BSSMTP extends BSSocket {
 			return;
 		}
 
-		$value = BSMailUtility::encodeHeader($value);
+		$value = BSMIMEUtility::encode($value);
 		$value = str_replace('=?iso-2022-jp?B?', "\n=?iso-2022-jp?B?", $value);
 		$body = BSString::split($key . ': ' . $value);
 
@@ -480,7 +480,7 @@ class BSSMTP extends BSSocket {
 				'Content-Transfer-Encoding' => 'base64',
 				'Content-Disposition' => sprintf(
 					'attachment; filename="%s"',
-					BSMailUtility::encodeHeader($name)
+					BSMIMEUtility::encode($name)
 				),
 			),
 			'body' => BSString::split(base64_encode($body)),

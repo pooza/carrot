@@ -145,7 +145,7 @@ abstract class BSView {
 			throw new BSViewException($message);
 		}
 
-		$this->setContentType();
+		$this->setHeader('Content-Type', BSMediaType::getFullContentType($this->renderer));
 		$this->setHeader('Content-Length', $this->renderer->getSize());
 		if ($this->useragent->hasBug('cache-control')) {
 			$this->setHeader('Cache-Control', null);
@@ -156,26 +156,6 @@ abstract class BSView {
 		if ($this->request->getMethod() != BSRequest::HEAD) {
 			mb_http_output('pass');
 			print $this->renderer->getContents();
-		}
-	}
-
-	/**
-	 * Content-Typeを設定
-	 *
-	 * @access private
-	 */
-	private function setContentType () {
-		if ($this->renderer instanceof BSTextRenderer) {
-			if (!$charset = mb_preferred_mime_name($this->renderer->getEncoding())) {
-				throw new BSViewException(
-					'エンコード"%s"が正しくありません。',
-					$this->renderer->getEncoding()
-				);
-			}
-			$type = sprintf('%s; charset=%s', $this->renderer->getType(), $charset);
-			$this->setHeader('Content-Type', $type);
-		} else {
-			$this->setHeader('Content-Type', $this->renderer->getType());
 		}
 	}
 

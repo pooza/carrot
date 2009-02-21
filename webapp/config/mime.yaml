@@ -8,6 +8,7 @@ types:
   css: text/css
   csv: text/csv
   dat: application/octet-stream
+  eml: message/rfc822
   gif: image/gif
   gz: application/x-gzip
   htm: text/html
@@ -17,6 +18,7 @@ types:
   jpeg: image/jpeg
   js: text/javascript
   json: application/json
+  mime: message/rfc822
   pdf: application/pdf
   php:
   pl:

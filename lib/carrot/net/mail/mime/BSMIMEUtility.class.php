@@ -1,16 +1,18 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mail
+ * @subpackage net.mail.mime
  */
 
 /**
- * メールユーティリティ
+ * MIMEユーティリティ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMailUtility {
+class BSMIMEUtility {
+	const ENCODE_PREFIX = '=?iso-2022-jp?B?';
+	const ENCODE_SUFFIX = '?=';
 
 	/**
 	 * @access private
@@ -19,36 +21,38 @@ class BSMailUtility {
 	}
 
 	/**
-	 * ヘッダをエンコード
+	 * 文字列をエンコード
 	 *
 	 * @access public
 	 * @param string $str 対象文字列
 	 * @return string Bエンコードされた文字列
 	 * @static
 	 */
-	static public function encodeHeader ($str) {
+	static public function encode ($str) {
 		if (BSString::getEncoding($str) == 'ascii') {
 			return $str;
 		}
 
 		$str = BSString::convertKana($str, 'KV');
 		while (preg_match('/[^[:print:]]+/u', $str, $matches)) {
-			$encoded = BSString::convertEncoding($matches[0], 'iso-2022-jp');
-			$encoded = '=?iso-2022-jp?B?' . base64_encode($encoded . chr(27) . '(B') . '?=';
+			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
+			$encoded = self::ENCODE_PREFIX;
+			$encoded .= base64_encode($word . chr(27) . '(B');
+			$encoded .= self::ENCODE_SUFFIX;
 			$str = str_replace($matches[0], $encoded, $str);
 		}
 		return $str;
 	}
 
 	/**
-	 * ヘッダをデコード
+	 * 文字列をデコード
 	 *
 	 * @access public
 	 * @param string $str 対象文字列
 	 * @return string デコードされた文字列
 	 * @static
 	 */
-	static public function decodeHeader ($str) {
+	static public function decode ($str) {
 		while (preg_match('/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i', $str, $matches)) {
 			switch (strtolower($matches[2])) {
 				case 'b':
@@ -76,6 +80,24 @@ class BSMailUtility {
 			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
 		return $str;
+	}
+
+	/**
+	 * レンダラーのContent-Transfer-Encodingを返す
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @return string Content-Transfer-Encoding
+	 * @static
+	 */
+	static public function getContentTransferEncoding (BSRenderer $renderer) {
+		if ($renderer instanceof BSTextRenderer) {
+			if (strtolower($renderer->getEncoding()) == 'iso-2022-jp') {
+				return '7bit';
+			}
+			return '8bit';
+		}
+		return 'base64';
 	}
 }
 

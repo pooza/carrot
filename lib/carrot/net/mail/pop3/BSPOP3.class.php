@@ -5,7 +5,7 @@
  */
 
 /**
- * メール受信
+ * POP3プロトコル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$

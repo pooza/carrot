@@ -10,8 +10,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSPlainTextRenderer implements BSTextRenderer {
+class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	private $encoding = 'UTF-8';
+	private $lineSeparator = "\n";
+	private $width = null;
 	private $contents;
 
 	/**
@@ -20,7 +22,15 @@ class BSPlainTextRenderer implements BSTextRenderer {
 	 * @access public
 	 */
 	public function getContents () {
-		return BSString::convertEncoding($this->contents, $this->getEncoding());
+		$contents = $this->contents;
+
+		if ($this->width) {
+			$contents = BSString::split($contents, $this->width);
+		}
+
+		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
+		$contents = BSString::convertEncoding($contents, $this->getEncoding());
+		return $contents;
 	}
 
 	/**
@@ -91,6 +101,36 @@ class BSPlainTextRenderer implements BSTextRenderer {
 	 */
 	public function setEncoding ($encoding) {
 		$this->encoding = $encoding;
+	}
+
+	/**
+	 * 改行コードを設定
+	 *
+	 * @access public
+	 * @param string $separator 改行コード
+	 */
+	public function setLineSeparator ($separator) {
+		$this->lineSeparator = $separator;
+	}
+
+	/**
+	 * 行幅を設定
+	 *
+	 * @access public
+	 * @param integer $width 行幅
+	 */
+	public function setWidth ($width) {
+		$this->width = $width;
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		return new BSIterator(BSString::explode($this->lineSeparator, $this->contents));
 	}
 }
 
