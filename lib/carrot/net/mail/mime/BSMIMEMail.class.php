@@ -363,7 +363,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 				$this->body .= self::LINE_SEPARATOR;
 				if ($part->getHeader('Content-Transfer-Encoding') == 'base64') {
 					$this->body .= BSString::split(
-						base64_encode($part->getRenderer()->getContents())
+						BSMIMEUtility::encodeBase64($part->getRenderer()->getContents())
 					);
 				} else {
 					$this->body .= $part->getRenderer()->getContents();

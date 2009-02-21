@@ -37,7 +37,7 @@ class BSMIMEUtility {
 		while (preg_match('/[^[:print:]]+/u', $str, $matches)) {
 			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
 			$encoded = self::ENCODE_PREFIX;
-			$encoded .= base64_encode($word . chr(27) . '(B');
+			$encoded .= self::encodeBase64($word . chr(27) . '(B');
 			$encoded .= self::ENCODE_SUFFIX;
 			$str = str_replace($matches[0], $encoded, $str);
 		}
@@ -56,7 +56,7 @@ class BSMIMEUtility {
 		while (preg_match('/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i', $str, $matches)) {
 			switch (strtolower($matches[2])) {
 				case 'b':
-					$decoded = base64_decode($matches[3]);
+					$decoded = self::decodeBase64($matches[3]);
 					break;
 				case 'q':
 					$decoded = self::decodeQuotedPrintable($matches[3]);
@@ -72,6 +72,7 @@ class BSMIMEUtility {
 	 * Qエンコードされた文字列をデコード
 	 *
 	 * @access public
+	 * @param string $str 対象文字列
 	 * @return string デコードされた文字列
 	 * @static
 	 */
@@ -80,6 +81,30 @@ class BSMIMEUtility {
 			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
 		return $str;
+	}
+
+	/**
+	 * Bエンコードされた文字列をデコード
+	 *
+	 * @access public
+	 * @param string $str 対象文字列
+	 * @return string デコードされた文字列
+	 * @static
+	 */
+	static public function decodeBase64 ($str) {
+		return base64_decode($str);
+	}
+
+	/**
+	 * 文字列をBエンコード
+	 *
+	 * @access public
+	 * @param string $str 対象文字列
+	 * @return string エンコードされた文字列
+	 * @static
+	 */
+	static public function encodeBase64 ($str) {
+		return base64_encode($str);
 	}
 
 	/**

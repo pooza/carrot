@@ -87,7 +87,7 @@ class BSCrypt {
 	public function encrypt ($value, $option = self::WITH_BASE64) {
 		$value = $this->getEngine()->encrypt($value);
 		if ($option & self::WITH_BASE64) {
-			$value = base64_encode($value);
+			$value = BSMIMEUtility::encodeBase64($value);
 		}
 		return $value;
 	}
@@ -102,7 +102,7 @@ class BSCrypt {
 	 */
 	public function decrypt ($value, $option = self::WITH_BASE64) {
 		if ($option & self::WITH_BASE64) {
-			$value = base64_decode($value);
+			$value = BSMIMEUtility::decodeBase64($value);
 		}
 		$value = $this->getEngine()->decrypt($value);
 		$value = trim($value);

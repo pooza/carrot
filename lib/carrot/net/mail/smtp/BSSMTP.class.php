@@ -483,7 +483,7 @@ class BSSMTP extends BSSocket {
 					BSMIMEUtility::encode($name)
 				),
 			),
-			'body' => BSString::split(base64_encode($body)),
+			'body' => BSString::split(BSMIMEUtility::encodeBase64($body)),
 		);
 	}
 
