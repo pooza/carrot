@@ -23,7 +23,7 @@ class BSMIMEPart {
 	 *
 	 * @access public
 	 * @param string $name 名前
-	 * @return string ヘッダ
+	 * @return BSMailHeader ヘッダ
 	 */
 	public function getHeader ($name) {
 		$name = BSString::capitalize($name);
@@ -41,12 +41,23 @@ class BSMIMEPart {
 		$name = BSString::stripControlCharacters($name);
 		$name = BSString::capitalize($name);
 		$value = BSString::stripControlCharacters($value);
-		$value = trim($value);
 
 		if (BSString::isBlank($value)) {
 			$this->getHeaders()->removeParameter($name);
 		} else {
-			$this->getHeaders()->setParameter($name, $value);
+			if ($this->getHeaders()->hasParameter($name)) {
+				$this->getHeaders()->getParameter($name)->appendContents($value);
+			} else {
+				$classes = BSClassLoader::getInstance();
+				try {
+					$class = $classes->getClassName($name, 'MailHeader');
+				} catch (Exception $e) {
+					$class = 'BSMailHeader';
+				}
+				$header = new $class($this, $name);
+				$header->setContents($value);
+				$this->getHeaders()->setParameter($name, $header);
+			}
 		}
 	}
 
@@ -70,7 +81,7 @@ class BSMIMEPart {
 	 * @return string Content-Type
 	 */
 	public function getType () {
-		return $this->getHeader('Content-Type');
+		return $this->getHeader('Content-Type')->getContents();
 	}
 
 	/**
@@ -91,11 +102,8 @@ class BSMIMEPart {
 	 */
 	public function setRenderer (BSRenderer $renderer) {
 		$this->renderer = $renderer;
-		$this->setHeader('Content-Type', BSMIMEUtility::getContentType($renderer));
-		$this->setHeader(
-			'Content-Transfer-Encoding',
-			BSMIMEUtility::getContentTransferEncoding($renderer)
-		);
+		$this->setHeader('Content-Type', $renderer);
+		$this->setHeader('Content-Transfer-Encoding', $renderer);
 	}
 
 	/**
@@ -126,33 +134,6 @@ class BSMIMEPart {
 				sprintf('%s; filename="%s"', $mode, $filename)
 			);
 		}
-	}
-
-	/**
-	 * ヘッダをMIMEエンコードして返す
-	 *
-	 * @access protected
-	 * @param string $key フィールド名
-	 * @param string $value フィールド値
-	 * @param ヘッダ行
-	 */
-	protected function encodeHeader ($key, $value) {
-		$value = BSMIMEUtility::encode($value);
-		$value = str_replace(
-			BSMIMEUtility::ENCODE_PREFIX,
-			"\n" . BSMIMEUtility::ENCODE_PREFIX,
-			$value
-		);
-		$body = BSString::split($key . ': ' . $value);
-
-		$header = null;
-		foreach (BSString::explode("\n", $body) as $line) {
-			if (!BSString::isBlank($header)) {
-				$line = "\t" . $line;
-			}
-			$header .= $line . self::LINE_SEPARATOR;
-		}
-		return $header;
 	}
 }
 

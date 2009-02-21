@@ -225,7 +225,7 @@ class BSString {
 			}
 		} else {
 			$dest = '';
-			foreach (preg_split('/[_ ]/u', $value) as $part) {
+			foreach (preg_split('/[_ \-]/u', $value) as $part) {
 				$dest .= self::capitalize($part);
 			}
 			$value = $dest;

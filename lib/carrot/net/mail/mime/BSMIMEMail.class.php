@@ -11,14 +11,9 @@
  * @version $Id$
  */
 class BSMIMEMail extends BSMIMEPart implements BSRenderer {
-	private $from;
-	private $to;
-	private $cc;
-	private $bcc;
 	private $body;
 	private $parts;
 	private $contents;
-	private $messageID;
 	private $boundary;
 	private $error;
 
@@ -26,18 +21,14 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->to = new BSArray;
-		$this->cc = new BSArray;
-		$this->bcc = new BSArray;
-
-		$this->setSubject('untitled');
-		$this->setHeader('Message-ID', '<' . $this->getMessageID() . '>');
-		$this->setHeader('Date', BSDate::getNow('r'));
+		$this->setHeader('Subject', 'untitled');
+		$this->setHeader('Message-ID', null);
+		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', BSController::getFullName('en'));
-		$this->setPriority(3);
-		$this->setFrom(BSAuthor::getMailAddress());
-		$this->setTo(BSAdministrator::getMailAddress());
+		$this->setHeader('X-Priotiry', 3);
+		$this->setHeader('From', BSAuthor::getMailAddress());
+		$this->setHeader('To', BSAdministrator::getMailAddress());
 	}
 
 	/**
@@ -73,32 +64,6 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	}
 
 	/**
-	 * 標題を設定
-	 *
-	 * @access public
-	 * @param string $subject Subject
-	 */
-	public function setSubject ($subject) {
-		if (BS_DEBUG) {
-			$subject = '[TEST] ' . $subject;
-		}
-		$this->setHeader('Subject', $subject);
-	}
-
-	/**
-	 * 優先順位を設定
-	 *
-	 * @access public
-	 * @param integer $priority 優先順位
-	 */
-	public function setPriority ($priority) {
-		if (!in_array($priority, range(1, 5))) {
-			throw new BSMailException('優先順位"%d"が正しくありません。', $priority);
-		}
-		$this->setHeader('X-Priority', $priority);
-	}
-
-	/**
 	 * 全ての宛先を返す
 	 *
 	 * @access public
@@ -106,93 +71,12 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 */
 	public function getReceipts () {
 		$receipts = new BSArray;
-		foreach (array('to', 'cc', 'bcc') as $key) {
-			foreach ($this->$key as $email) {
+		foreach (array('To', 'CC', 'BCC') as $key) {
+			foreach ($this->getHeader($key)->getEntity() as $email) {
 				$recipients[$email->getContents()] = $email;
 			}
 		}
 		return $receipts;
-	}
-
-	/**
-	 * 送信者を設定
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 送信者
-	 */
-	public function setFrom (BSMailAddress $email) {
-		$this->from = $email;
-		$this->setHeader('From', $email->format());
-	}
-
-	/**
-	 * 宛先を設定
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 宛先
-	 */
-	public function setTo (BSMailAddress $email) {
-		$this->to = $this->to->clearParameters();
-		$this->addTo($email);
-	}
-
-	/**
-	 * 宛先を追加
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 宛先
-	 */
-	public function addTo (BSMailAddress $email) {
-		$this->to[] = $email;
-		$addresses = new BSArray;
-		foreach ($this->to as $email) {
-			$addresses[] = $email->format();
-		}
-		$this->setHeader('To', $addresses->join('; '));
-	}
-
-	/**
-	 * CCを加える
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 宛先
-	 */
-	public function addCC (BSMailAddress $email) {
-		$this->cc[] = $email;
-		$addresses = new BSArray;
-		foreach ($this->cc as $email) {
-			$addresses[] = $email->format();
-		}
-		$this->setHeader('Cc', $addresses->join('; '));
-	}
-
-	/**
-	 * CCをクリア
-	 *
-	 * @access public
-	 */
-	public function clearCC () {
-		$this->cc->clearParameters();
-		$this->getHeaders()->removeParameter('cc');
-	}
-
-	/**
-	 * BCCを加える
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 宛先
-	 */
-	public function addBCC (BSMailAddress $email) {
-		$this->bcc[] = $email;
-	}
-
-	/**
-	 * BCCをクリア
-	 *
-	 * @access public
-	 */
-	public function clearBCC () {
-		$this->bcc->clearParameters();
 	}
 
 	/**
@@ -202,24 +86,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @return string メッセージID
 	 */
 	public function getMessageID () {
-		if (!$this->messageID) {
-			$this->messageID = sprintf(
-				'%s.%s@%s',
-				BSDate::getNow('YmdHis'),
-				BSUtility::getUniqueID(),
-				BS_SMTP_HOST
-			);
-		}
-		return $this->messageID;
-	}
-
-	/**
-	 * メッセージIDをクリア
-	 *
-	 * @access public
-	 */
-	public function clearMessageID () {
-		$this->messageID = null;
+		return $this->getHeader('Message-ID')->getEntity();
 	}
 
 	/**
@@ -259,6 +126,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 			$renderer = new BSPlainTextRenderer;
 			$renderer->setEncoding('iso-2022-jp');
 			$renderer->setWidth(78);
+			$renderer->setConvertKanaFlag('KV');
 			$renderer->setLineSeparator(self::LINE_SEPARATOR);
 			$this->addAttachment($renderer);
 		}
@@ -324,8 +192,8 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			foreach ($this->getHeaders() as $key => $value) {
-				$this->contents .= $this->encodeHeader($key, $value);
+			foreach ($this->getHeaders() as $header) {
+				$this->contents .= $header->format();
 			}
 			$this->contents .= self::LINE_SEPARATOR;
 			$this->contents .= $this->getBody();
@@ -357,8 +225,8 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 		if (!$this->body) {
 			foreach ($this->getParts() as $part) {
 				$this->body .= '--' . $this->getBoundary() . self::LINE_SEPARATOR;
-				foreach ($part->getHeaders() as $key => $value) {
-					$this->body .= $this->encodeHeader($key, $value);
+				foreach ($part->getHeaders() as $header) {
+					$this->body .= $header->format();
 				}
 				$this->body .= self::LINE_SEPARATOR;
 				if ($part->getHeader('Content-Transfer-Encoding') == 'base64') {
@@ -372,21 +240,6 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 			$this->body .= '--' . $this->getBoundary() . '--';
 		}
 		return $this->body;
-	}
-
-	/**
-	 * ヘッダをMIMEエンコードして返す
-	 *
-	 * @access protected
-	 * @param string $key フィールド名
-	 * @param string $value フィールド値
-	 * @param ヘッダ行
-	 */
-	protected function encodeHeader ($key, $value) {
-		if (strtolower($key) == 'bcc') {
-			return null;
-		}
-		return parent::encodeHeader($key, $value);
 	}
 
 	/**

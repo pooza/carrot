@@ -13,6 +13,7 @@
 class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	private $encoding = 'UTF-8';
 	private $lineSeparator = "\n";
+	private $convertKanaFlag = 'KV';
 	private $width = null;
 	private $contents;
 
@@ -24,10 +25,12 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	public function getContents () {
 		$contents = $this->contents;
 
+		if ($this->convertKanaFlag) {
+			$contents = BSString::convertKana($contents, $this->convertKanaFlag);
+		}
 		if ($this->width) {
 			$contents = BSString::split($contents, $this->width);
 		}
-
 		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		return $contents;
@@ -111,6 +114,16 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 */
 	public function setLineSeparator ($separator) {
 		$this->lineSeparator = $separator;
+	}
+
+	/**
+	 * カナ変換フラグを設定
+	 *
+	 * @access public
+	 * @param string $flag フラグ
+	 */
+	public function setConvertKanaFlag ($flag) {
+		$this->convertKanaFlag = $flag;
 	}
 
 	/**
