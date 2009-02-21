@@ -103,7 +103,7 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('css');
+		return BSMIMEType::getType('css');
 	}
 
 	/**

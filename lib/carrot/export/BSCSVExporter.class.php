@@ -83,7 +83,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('csv');
+		return BSMIMEType::getType('csv');
 	}
 
 	/**

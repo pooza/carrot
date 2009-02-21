@@ -27,7 +27,7 @@ class BSImageValidator extends BSValidator {
 			}
 
 			foreach ($types as $type) {
-				if ($suggested = BSMediaType::getType($type)) {
+				if ($suggested = BSMIMEType::getType($type)) {
 					$type = $suggested;
 				} else if (!preg_match('/^image\//', $type)) {
 					$type = 'image/' . $type;

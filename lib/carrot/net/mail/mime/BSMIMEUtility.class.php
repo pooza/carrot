@@ -99,6 +99,27 @@ class BSMIMEUtility {
 		}
 		return 'base64';
 	}
+
+	/**
+	 * レンダラーの完全なタイプを返す
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer 対象レンダラー
+	 * @return string メディアタイプ
+	 * @static
+	 */
+	static public function getContentType (BSRenderer $renderer) {
+		if ($renderer instanceof BSTextRenderer) {
+			if (BSString::isBlank($charset = mb_preferred_mime_name($renderer->getEncoding()))) {
+				throw new BSViewException(
+					'エンコード"%s"が正しくありません。',
+					$renderer->getEncoding()
+				);
+			}
+			return sprintf('%s; charset=%s', $renderer->getType(), $charset);
+		}
+		return $renderer->getType();
+	}
 }
 
 /* vim:set tabstop=4: */

@@ -71,7 +71,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('pdf');
+		return BSMIMEType::getType('pdf');
 	}
 
 	/**

@@ -160,7 +160,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			$this->type = BSMediaType::getType('html');
+			$this->type = BSMIMEType::getType('html');
 		}
 		return $this->type;
 	}

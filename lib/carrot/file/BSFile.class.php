@@ -46,7 +46,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType($this->getSuffix());
+		return BSMIMEType::getType($this->getSuffix());
 	}
 
 	/**
@@ -274,7 +274,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return boolean gzip圧縮されていたらTrue
 	 */
 	public function isCompressed () {
-		// BSMediaType等を通る無限ループが発生する為、$this->getType()は使用できない。
+		// BSMIMEType等を通る無限ループが発生する為、$this->getType()は使用できない。
 		return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
 	}
 

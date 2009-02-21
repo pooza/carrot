@@ -71,7 +71,7 @@ class BSIniConfigParser implements BSConfigParser {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('ini');
+		return BSMIMEType::getType('ini');
 	}
 
 	/**

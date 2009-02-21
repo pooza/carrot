@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage file
+ * @subpackage net.mail.mime
  */
 
 /**
- * メディアタイプのリスト
+ * MIMEタイプ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMediaType extends BSParameterHolder {
+class BSMIMEType extends BSParameterHolder {
 	static private $instance;
 	private $file;
 
@@ -35,7 +35,7 @@ class BSMediaType extends BSParameterHolder {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSMediaType インスタンス
+	 * @return BSMIMEType インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
@@ -128,27 +128,6 @@ class BSMediaType extends BSParameterHolder {
 			$type = 'application/octet-stream';
 		}
 		return $type;
-	}
-
-	/**
-	 * レンダラーの完全なタイプを返す
-	 *
-	 * @access public
-	 * @param BSRenderer $renderer 対象レンダラー
-	 * @return string メディアタイプ
-	 * @static
-	 */
-	static public function getFullContentType (BSRenderer $renderer) {
-		if ($renderer instanceof BSTextRenderer) {
-			if (BSString::isBlank($charset = mb_preferred_mime_name($renderer->getEncoding()))) {
-				throw new BSViewException(
-					'エンコード"%s"が正しくありません。',
-					$renderer->getEncoding()
-				);
-			}
-			return sprintf('%s; charset=%s', $renderer->getType(), $charset);
-		}
-		return $renderer->getType();
 	}
 }
 

@@ -425,7 +425,7 @@ class BSImage implements BSImageRenderer {
 	static public function getTypes () {
 		$types = new BSArray;
 		foreach (array('.gif', '.jpg', '.png') as $suffix) {
-			$types[$suffix] = BSMediaType::getType($suffix);
+			$types[$suffix] = BSMIMEType::getType($suffix);
 		}
 		return $types;
 	}

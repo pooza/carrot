@@ -60,7 +60,7 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('.txt');
+		return BSMIMEType::getType('txt');
 	}
 
 	/**

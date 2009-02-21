@@ -46,7 +46,7 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('atom');
+		return BSMIMEType::getType('atom');
 	}
 
 	/**

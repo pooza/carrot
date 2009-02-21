@@ -64,7 +64,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('js');
+		return BSMIMEType::getType('js');
 	}
 
 	/**

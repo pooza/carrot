@@ -20,7 +20,7 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('xml');
+		return BSMIMEType::getType('xml');
 	}
 
 	/**

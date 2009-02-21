@@ -91,7 +91,7 @@ class BSMIMEPart {
 	 */
 	public function setRenderer (BSRenderer $renderer) {
 		$this->renderer = $renderer;
-		$this->setHeader('Content-Type', BSMediaType::getFullContentType($renderer));
+		$this->setHeader('Content-Type', BSMIMEUtility::getContentType($renderer));
 		$this->setHeader(
 			'Content-Transfer-Encoding',
 			BSMIMEUtility::getContentTransferEncoding($renderer)

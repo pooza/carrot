@@ -406,7 +406,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('.eml');
+		return BSMIMEType::getType('.eml');
 	}
 
 	/**

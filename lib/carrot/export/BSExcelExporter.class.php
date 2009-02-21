@@ -86,7 +86,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('xls');
+		return BSMIMEType::getType('xls');
 	}
 
 	/**

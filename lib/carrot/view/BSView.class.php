@@ -145,7 +145,7 @@ abstract class BSView {
 			throw new BSViewException($message);
 		}
 
-		$this->setHeader('Content-Type', BSMediaType::getFullContentType($this->renderer));
+		$this->setHeader('Content-Type', BSMIMEUtility::getContentType($this->renderer));
 		$this->setHeader('Content-Length', $this->renderer->getSize());
 		if ($this->useragent->hasBug('cache-control')) {
 			$this->setHeader('Cache-Control', null);

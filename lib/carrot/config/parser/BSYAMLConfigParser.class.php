@@ -87,7 +87,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMediaType::getType('yaml');
+		return BSMIMEType::getType('yaml');
 	}
 
 	/**
