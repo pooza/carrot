@@ -96,38 +96,6 @@ class BSMail extends BSMIMEDocument {
 	}
 
 	/**
-	 * 添付ファイルを追加
-	 *
-	 * @access public
-	 * @param BSRenderer $renderer レンダラー
-	 * @param string $name ファイル名
-	 * @return BSMIMEPart 追加されたパート
-	 */
-	public function addAttachment (BSRenderer $renderer, $name = null) {
-		$part = new BSMIMEPart;
-		$part->setRenderer($renderer);
-		if (!BSString::isBlank($name)) {
-			$part->setFileName($name, BSMIMEPart::ATTACHMENT);
-		}
-
-		$parts = $this->getParts();
-		$parts[] = $part;
-		$this->body = null;
-		$this->contents = null;
-
-		if ($this->isMultiPart()) {
-			$this->setHeader('Content-Type', 'multipart/mixed; boundary=' . $this->getBoundary());
-			$this->setHeader('Content-Transfer-Encoding', null);
-		} else {
-			foreach (array('Content-Type', 'Content-Transfer-Encoding') as $name) {
-				$this->setHeader($name, $part->getHeader($name)->getContents());
-			}
-		}
-
-		return $part;
-	}
-
-	/**
 	 * 出力可能か？
 	 *
 	 * @access public

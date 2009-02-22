@@ -25,8 +25,8 @@ function smarty_outputfilter_mail ($source, &$smarty) {
 	}
 	$source = $lines->join("\n");
 	$source = BSString::convertKana($source);
-	$source = BSString::split($source);
-	$source = BSString::convertLineSeparator("\r\n", $source);
+	$source = BSString::split($source, 78);
+	$source = BSString::convertLineSeparator(BSMail::LINE_SEPARATOR, $source);
 	return $source;
 }
 
