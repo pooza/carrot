@@ -13,7 +13,7 @@
  */
 class BSMailHeader {
 	protected $part;
-	protected $name
+	protected $name;
 	protected $contents;
 
 	/**
@@ -114,6 +114,16 @@ class BSMailHeader {
 	 */
 	public function isVisible () {
 		return !BSString::isBlank($this->getContents());
+	}
+
+	/**
+	 * 複数行を許容するか？
+	 *
+	 * @access public
+	 * @return boolean 許容するならばTrue
+	 */
+	public function isMultiLine () {
+		return false;
 	}
 }
 

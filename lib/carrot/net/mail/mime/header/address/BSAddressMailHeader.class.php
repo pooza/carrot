@@ -39,6 +39,16 @@ abstract class BSAddressMailHeader extends BSMailHeader {
 			$this->contents = $contents;
 		}
 	}
+
+	/**
+	 * 内容を追加
+	 *
+	 * @access public
+	 * @param string $contents 内容
+	 */
+	public function appendContents ($contents) {
+		throw new BSMIMEException('%sヘッダに追記することは出来ません。', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

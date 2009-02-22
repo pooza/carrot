@@ -21,12 +21,19 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @access public
 	 */
 	public function __construct () {
+		$renderer = new BSPlainTextRenderer;
+		$renderer->setEncoding('iso-2022-jp');
+		$renderer->setWidth(78);
+		$renderer->setConvertKanaFlag('KV');
+		$renderer->setLineSeparator(self::LINE_SEPARATOR);
+		$this->addAttachment($renderer);
+
 		$this->setHeader('Subject', 'untitled');
 		$this->setHeader('Message-ID', null);
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', BSController::getFullName('en'));
-		$this->setHeader('X-Priotiry', 3);
+		$this->setHeader('X-Priority', 3);
 		$this->setHeader('From', BSAuthor::getMailAddress());
 		$this->setHeader('To', BSAdministrator::getMailAddress());
 	}
@@ -122,14 +129,6 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return BSMIMEPart メインパート
 	 */
 	public function getMainPart () {
-		if (!$this->getParts()->count()) {
-			$renderer = new BSPlainTextRenderer;
-			$renderer->setEncoding('iso-2022-jp');
-			$renderer->setWidth(78);
-			$renderer->setConvertKanaFlag('KV');
-			$renderer->setLineSeparator(self::LINE_SEPARATOR);
-			$this->addAttachment($renderer);
-		}
 		return $this->getParts()->getParameter(0);
 	}
 
@@ -229,10 +228,10 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 					$this->body .= $header->format();
 				}
 				$this->body .= self::LINE_SEPARATOR;
-				if ($part->getHeader('Content-Transfer-Encoding') == 'base64') {
-					$this->body .= BSString::split(
-						BSMIMEUtility::encodeBase64($part->getRenderer()->getContents())
-					);
+				if ($part->getHeader('Content-Transfer-Encoding')->getContents() == 'base64') {
+					$contents = $part->getRenderer()->getContents();
+					$contents = BSMIMEUtility::encodeBase64($contents, BSMIMEUtility::WITH_SPLIT);
+					$this->body .= $contents;
 				} else {
 					$this->body .= $part->getRenderer()->getContents();
 				}

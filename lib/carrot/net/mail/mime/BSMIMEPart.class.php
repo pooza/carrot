@@ -40,24 +40,23 @@ class BSMIMEPart {
 	public function setHeader ($name, $value) {
 		$name = BSString::stripControlCharacters($name);
 		$name = BSString::capitalize($name);
-		$value = BSString::stripControlCharacters($value);
+		if (!is_array($value) && !is_object($value)) {
+			$value = BSString::stripControlCharacters($value);
+		}
 
-		if (BSString::isBlank($value)) {
-			$this->getHeaders()->removeParameter($name);
+		try {
+			$class = str_replace('-', '', $name);
+			$class = BSClassLoader::getInstance()->getClassName($class, 'MailHeader');
+		} catch (Exception $e) {
+			$class = 'BSMailHeader';
+		}
+		$header = new $class($this, $name);
+
+		if ($header->isMultiLine() && $this->getHeaders()->hasParameter($name)) {
+			$this->getHeaders()->getParameter($name)->appendContents($value);
 		} else {
-			if ($this->getHeaders()->hasParameter($name)) {
-				$this->getHeaders()->getParameter($name)->appendContents($value);
-			} else {
-				$classes = BSClassLoader::getInstance();
-				try {
-					$class = $classes->getClassName($name, 'MailHeader');
-				} catch (Exception $e) {
-					$class = 'BSMailHeader';
-				}
-				$header = new $class($this, $name);
-				$header->setContents($value);
-				$this->getHeaders()->setParameter($name, $header);
-			}
+			$header->setContents($value);
+			$this->getHeaders()->setParameter($name, $header);
 		}
 	}
 
@@ -129,10 +128,8 @@ class BSMIMEPart {
 		if (BSString::isBlank($filename)) {
 			$this->getHeaders()->removeParameter('Content-Disposition');
 		} else {
-			$this->getHeaders()->setParameter(
-				'Content-Disposition',
-				sprintf('%s; filename="%s"', $mode, $filename)
-			);
+			$value = sprintf('%s; filename="%s"', $mode, $filename);
+			$this->setHeader('Content-Disposition', $value);
 		}
 	}
 }

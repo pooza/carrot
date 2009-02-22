@@ -34,7 +34,17 @@ abstract class BSAddressesMailHeader extends BSMailHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		$addresses = $this->getEntry();
+		$this->appendContents($contents);
+	}
+
+	/**
+	 * 内容を追加
+	 *
+	 * @access public
+	 * @param string $contents 内容
+	 */
+	public function appendContents ($contents) {
+		$addresses = $this->getEntity();
 		if ($contents instanceof BSMailAddress) {
 			$addresses[] = $contents;
 		} else if (BSArray::isArray($contents)) {

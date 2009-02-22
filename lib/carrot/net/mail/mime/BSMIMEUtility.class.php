@@ -13,6 +13,7 @@
 class BSMIMEUtility {
 	const ENCODE_PREFIX = '=?iso-2022-jp?B?';
 	const ENCODE_SUFFIX = '?=';
+	const WITH_SPLIT = 1;
 
 	/**
 	 * @access private
@@ -100,11 +101,17 @@ class BSMIMEUtility {
 	 *
 	 * @access public
 	 * @param string $str 対象文字列
+	 * @param integer $flag フラグ
+	 *   self::WITH_SPLIT
 	 * @return string エンコードされた文字列
 	 * @static
 	 */
-	static public function encodeBase64 ($str) {
-		return base64_encode($str);
+	static public function encodeBase64 ($str, $flag = null) {
+		$str = base64_encode($str);
+		if ($flag & self::WITH_SPLIT) {
+			$str = chunk_split($str);
+		}
+		return $str;
 	}
 
 	/**
