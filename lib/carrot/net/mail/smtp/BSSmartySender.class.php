@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSSmartySender extends BSSMTP {
-	private $renderer;
 
 	/**
 	 * @access public
@@ -21,8 +20,11 @@ class BSSmartySender extends BSSMTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		parent::__construct($host, $port);
 
-		$this->renderer = new BSSmarty;
+		$this->getMail()->getMainPart()->setRenderer(new BSSmarty);
 		$this->getRenderer()->setType('text/plain');
+		$this->getRenderer()->setEncoding('iso-2022-jp');
+		$this->getRenderer()->addOutputFilter('mail');
+		$this->getRenderer()->addOutputFilter('encoding');
 		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
 			$this->getRenderer()->setTemplatesDirectory($dir);
 		}
@@ -58,7 +60,7 @@ class BSSmartySender extends BSSMTP {
 	 * @return BSSmarty レンダラー
 	 */
 	public function getRenderer () {
-		return $this->renderer;
+		return $this->getMail()->getMainPart()->getRenderer();
 	}
 
 	/**
@@ -90,32 +92,6 @@ class BSSmartySender extends BSSMTP {
 	}
 
 	/**
-	 * 本文をレンダリング
-	 *
-	 * @access public
-	 */
-	public function render () {
-		$lines = BSString::explode("\n", $this->getRenderer()->getContents());
-		if (!$lines->count()) {
-			throw new BSViewException('テンプレートが指定されていません。');
-		}
-
-		foreach ($lines as $key => $line) {
-			if (BSString::isBlank($line)) { //空行を発見したらヘッダのパースをやめる
-				$lines->removeParameter($key);
-				break;
-			} else if (preg_match('/^([a-z\-]+): *(.+)$/i', $line, $matches)) {
-				$this->getMail()->setHeader($matches[1], $matches[2]);
-				$lines->removeParameter($key);
-			} else {
-				break;
-			}
-		}
-
-		$this->setBody($lines->join("\n"));
-	}
-
-	/**
 	 * 送信
 	 *
 	 * @access public
@@ -124,8 +100,9 @@ class BSSmartySender extends BSSMTP {
 	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($flag = null) {
-		if (BSString::isBlank($this->getBody())) {
-			$this->render();
+		$this->getRenderer()->render();
+		foreach ($this->getRenderer()->getHeaders() as $key => $value) {
+			$this->getMail()->setHeader($key, $value);
 		}
 		return parent::send($flag);
 	}

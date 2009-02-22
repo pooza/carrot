@@ -25,7 +25,7 @@ class BSSMTP extends BSSocket {
 			$host = new BSHost(BS_SMTP_HOST);
 		}
 		parent::__construct($host, $port);
-		$this->setMail(new BSMIMEDocument);
+		$this->setMail(new BSMail);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class BSSMTP extends BSSocket {
 	 * メールを返す
 	 *
 	 * @access public
-	 * @return BSMIMEDocument メール
+	 * @return BSMail メール
 	 */
 	public function getMail () {
 		return $this->mail;
@@ -75,9 +75,9 @@ class BSSMTP extends BSSocket {
 	 * メールを設定
 	 *
 	 * @access public
-	 * @param BSMIMEDocument $mail メール
+	 * @param BSMail $mail メール
 	 */
-	public function setMail (BSMIMEDocument $mail) {
+	public function setMail (BSMail $mail) {
 		$this->mail = $mail;
 	}
 

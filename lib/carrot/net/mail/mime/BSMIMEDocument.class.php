@@ -14,47 +14,6 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	private $body;
 	private $parts;
 	private $contents;
-	private $boundary;
-	private $error;
-
-	/**
-	 * @access public
-	 */
-	public function __construct () {
-		$renderer = new BSPlainTextRenderer;
-		$renderer->setEncoding('iso-2022-jp');
-		$renderer->setWidth(78);
-		$renderer->setConvertKanaFlag('KV');
-		$renderer->setLineSeparator(self::LINE_SEPARATOR);
-		$this->addAttachment($renderer);
-
-		$this->setHeader('Subject', 'untitled');
-		$this->setHeader('Message-ID', null);
-		$this->setHeader('Date', BSDate::getNow());
-		$this->setHeader('Mime-Version', '1.0');
-		$this->setHeader('X-Mailer', null);
-		$this->setHeader('X-Priority', 3);
-		$this->setHeader('From', BSAuthor::getMailAddress());
-		$this->setHeader('To', BSAdministrator::getMailAddress());
-
-		if (BS_DEBUG) {
-			$this->setHeader('X-Carrot-Debug-Mode', 'yes');
-		}
-	}
-
-	/**
-	 * 送信
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @param string $value 値
-	 */
-	public function send () {
-		$smtp = new BSSMTP;
-		$smtp->setMail($this);
-		$smtp->send();
-		$smtp->close();
-	}
 
 	/**
 	 * ヘッダを設定
@@ -75,7 +34,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return BSRenderer レンダラー
 	 */
 	public function getRenderer () {
-		throw new BSMIMEException('BSMIMEDocument::getRendererは利用できません。');
+		throw new BSMIMEException('%s::getRendererは利用できません。', get_class($this));
 	}
 
 	/**
@@ -85,49 +44,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @param BSRenderer $renderer レンダラー
 	 */
 	public function setRenderer (BSRenderer $renderer) {
-		throw new BSMIMEException('BSMIMEDocument::setRendererは利用できません。');
-	}
-
-	/**
-	 * 全ての宛先を返す
-	 *
-	 * @access public
-	 * @param BSMailAddress $email 送信者
-	 */
-	public function getRecipients () {
-		$recipients = new BSArray;
-		foreach (array('To', 'CC', 'BCC') as $key) {
-			if (!$header = $this->getHeader($key)) {
-				continue;
-			}
-			foreach ($header->getEntity() as $email) {
-				$recipients[$email->getContents()] = $email;
-			}
-		}
-		return $recipients;
-	}
-
-	/**
-	 * メッセージIDを返す
-	 *
-	 * @access public
-	 * @return string メッセージID
-	 */
-	public function getMessageID () {
-		return $this->getHeader('Message-ID')->getEntity();
-	}
-
-	/**
-	 * バウンダリを返す
-	 *
-	 * @access private
-	 * @return string バウンダリ
-	 */
-	private function getBoundary () {
-		if (!$this->boundary) {
-			$this->boundary = BSUtility::getUniqueID();
-		}
-		return $this->boundary;
+		throw new BSMIMEException('%s::setRendererは利用できません。', get_class($this));
 	}
 
 	/**
@@ -174,38 +91,6 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	}
 
 	/**
-	 * 添付ファイルを追加
-	 *
-	 * @access public
-	 * @param BSRenderer $renderer レンダラー
-	 * @param string $name ファイル名
-	 * @return BSMIMEPart 追加されたパート
-	 */
-	public function addAttachment (BSRenderer $renderer, $name = null) {
-		$part = new BSMIMEPart;
-		$part->setRenderer($renderer);
-		if (!BSString::isBlank($name)) {
-			$part->setFileName($name, BSMIMEPart::ATTACHMENT);
-		}
-
-		$parts = $this->getParts();
-		$parts[] = $part;
-		$this->body = null;
-		$this->contents = null;
-
-		if ($this->isMultiPart()) {
-			$this->setHeader('Content-Type', 'multipart/mixed; boundary=' . $this->getBoundary());
-			$this->setHeader('Content-Transfer-Encoding', null);
-		} else {
-			foreach (array('Content-Type', 'Content-Transfer-Encoding') as $name) {
-				$this->setHeader($name, $part->getHeader($name)->getContents());
-			}
-		}
-
-		return $part;
-	}
-
-	/**
 	 * 出力内容を返す
 	 *
 	 * @access public
@@ -249,13 +134,11 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 					$this->body .= $header->format();
 				}
 				$this->body .= self::LINE_SEPARATOR;
+				$contents = $part->getRenderer()->getContents();
 				if ($part->getHeader('Content-Transfer-Encoding')->getContents() == 'base64') {
-					$contents = $part->getRenderer()->getContents();
 					$contents = BSMIMEUtility::encodeBase64($contents, BSMIMEUtility::WITH_SPLIT);
-					$this->body .= $contents;
-				} else {
-					$this->body .= $part->getRenderer()->getContents();
 				}
+				$this->body .= $contents;
 			}
 			$this->body .= '--' . $this->getBoundary() . '--';
 		}
@@ -289,26 +172,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		try {
-			if (BSString::isBlank($this->getHeader('From')->getContents())) {
-				throw new BSMailException('送信元アドレスが指定されていません。');
-			}
-
-			if (!$this->getRecipients()->count()) {
-				throw new BSMailException('宛先アドレスが指定されていません。');
-			}
-			if (BS_SMTP_CHECK_ADDRESSES) {
-				foreach ($this->getRecipients() as $email) {
-					if (!$email->isValidDomain()) {
-						throw new BSMailException('%sが正しくありません。', $address);
-					}
-				}
-			}
-			return true;
-		} catch (BSMailException $e) {
-			$this->error = $e->getMessage();
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -318,7 +182,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return $this->error;
+		return null;
 	}
 
 	/**
@@ -326,7 +190,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('メール "%s"', $this->getMessageID());
+		return sprintf('MIME文書 "%s"', $this->getMessageID());
 	}
 }
 

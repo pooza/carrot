@@ -19,6 +19,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	private $templatesDirectory;
 	private $error;
 	private $useragent;
+	private $headers;
 
 	/**
 	 * @access public
@@ -122,6 +123,19 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
+	 * 送信内容を返す
+	 *
+	 * getContentsのエイリアス
+	 *
+	 * @access public
+	 * @return string 送信内容
+	 * @final
+	 */
+	final public function render () {
+		return $this->getContents();
+	}
+
+	/**
 	 * 出力内容のサイズを返す
 	 *
 	 * @access public
@@ -129,6 +143,19 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function getSize () {
 		return strlen($this->getContents());
+	}
+
+	/**
+	 * ヘッダ一式を返す
+	 *
+	 * @access public
+	 * @return string[] ヘッダ一式
+	 */
+	public function getHeaders () {
+		if (!$this->headers) {
+			$this->headers = new BSArray;
+		}
+		return $this->headers;
 	}
 
 	/**
