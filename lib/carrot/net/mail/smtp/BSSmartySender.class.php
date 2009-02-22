@@ -21,6 +21,12 @@ class BSSmartySender extends BSSMTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		parent::__construct($host, $port);
 
+		$this->renderer = new BSSmarty;
+		$this->getRenderer()->setType('text/plain');
+		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
+			$this->getRenderer()->setTemplatesDirectory($dir);
+		}
+
 		$request = BSRequest::getInstance();
 		$this->getRenderer()->setAttribute('date', BSDate::getNow()->format());
 		$this->getRenderer()->setAttribute('useragent', $request->getUserAgent()->getName());
@@ -52,13 +58,6 @@ class BSSmartySender extends BSSMTP {
 	 * @return BSSmarty レンダラー
 	 */
 	public function getRenderer () {
-		if (!$this->renderer) {
-			$this->renderer = new BSSmarty;
-			$this->renderer->setEncoding('iso-2022-jp');
-			if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
-				$this->renderer->setTemplatesDirectory($dir);
-			}
-		}
 		return $this->renderer;
 	}
 
@@ -96,69 +95,39 @@ class BSSmartySender extends BSSMTP {
 	 * @access public
 	 */
 	public function render () {
-		if (!$lines = explode("\n", $this->getRenderer()->getContents())) {
+		$lines = BSString::explode("\n", $this->getRenderer()->getContents());
+		if (!$lines->count()) {
 			throw new BSViewException('テンプレートが指定されていません。');
 		}
 
-		foreach ($lines as $line) {
+		foreach ($lines as $key => $line) {
 			if (BSString::isBlank($line)) { //空行を発見したらヘッダのパースをやめる
-				array_shift($lines);
+				$lines->removeParameter($key);
 				break;
-			} else if ($this->parseHeader($line)) {
-				array_shift($lines);
+			} else if (preg_match('/^([a-z\-]+): *(.+)$/i', $line, $matches)) {
+				$this->getMail()->setHeader($matches[1], $matches[2]);
+				$lines->removeParameter($key);
 			} else {
 				break;
 			}
 		}
-		$this->setBody(implode("\n", $lines));
-	}
 
-	/**
-	 * 行をパースし、エンベロープフィールドなら適切に処理
-	 *
-	 * @access private
-	 * @param string $line 行
-	 * @return boolean 行がヘッダならばTrue
-	 */
-	private function parseHeader ($line) {
-		if (!preg_match('/^([a-z\-]+): *(.+)$/i', $line, $matches)) {
-			return false;
-		}
-
-		$value = $matches[2];
-		switch ($key = BSString::capitalize($matches[1])) {
-			case 'Subject':
-				$this->setSubject($value);
-				return true;
-			case 'From':
-				$this->setFrom(new BSMailAddress($value));
-				return true;
-			case 'To':
-				$this->setTo(new BSMailAddress($value));
-				return true;
-			case 'Bcc':
-				foreach (explode(',', $value) as $address) {
-					$this->addBCC(new BSMailAddress($address));
-				}
-				return true;
-			default:
-				$this->setHeader($key, $value);
-				return true;
-		}
+		$this->setBody($lines->join("\n"));
 	}
 
 	/**
 	 * 送信
 	 *
 	 * @access public
-	 * @param boolean $mode テストモード
+	 * @param boolean $flag フラグ
+	 *   self::TEST テスト送信
 	 * @return string 送信完了時は最終のレスポンス
 	 */
-	public function send ($mode = false) {
-		if (!$this->getBody()) {
+	public function send ($flag = null) {
+		if (BSString::isBlank($this->getBody())) {
 			$this->render();
 		}
-		return parent::send($mode);
+		return parent::send($flag);
 	}
 }
 

@@ -43,7 +43,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	}
 
 	/**
-	 * ヘッダを設定
+	 * 送信
 	 *
 	 * @access public
 	 * @param string $name 名前
