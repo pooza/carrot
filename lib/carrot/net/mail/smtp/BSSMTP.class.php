@@ -11,17 +11,9 @@
  * @version $Id$
  */
 class BSSMTP extends BSSocket {
-	private $from;
-	private $to;
-	private $bcc = array();
-	private $headers;
-	private $body;
-	private $parts = array();
-	private $messageID;
-	private $boundary;
-	private $keywords = array();
-	private $addresses;
-	const TEST_MODE = true;
+	private $mail;
+	private $keywords;
+	const TEST = 1;
 
 	/**
 	 * @access public
@@ -32,15 +24,8 @@ class BSSMTP extends BSSocket {
 		if (!$host) {
 			$host = new BSHost(BS_SMTP_HOST);
 		}
-
 		parent::__construct($host, $port);
-		$this->setPriority(3);
-		$this->setSubject('untitled');
-		$this->setHeader('Mime-Version', '1.0');
-		$this->setHeader('Content-Transfer-Encoding', '7bit');
-		$this->setHeader('X-Mailer', BSController::getFullName('en'));
-		$this->setFrom(BSAuthor::getMailAddress());
-		$this->setTo(BSAdministrator::getMailAddress());
+		$this->setMail(new BSMIMEDocument);
 	}
 
 	/**
@@ -54,11 +39,11 @@ class BSSMTP extends BSSocket {
 		}
 
 		parent::open();
-		$this->putLine('EHLO ' . BSController::getInstance()->getHost()->getName());
-		if (!in_array($this->getResultCode(), array(220, 250))) {
+		$command = 'EHLO ' . BSController::getInstance()->getHost()->getName();
+		if (!in_array($this->execute($command), array(220, 250))) {
 			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
 		}
-		$this->keywords = $this->getLines();
+		$this->keywords = new BSArray($this->getLines());
 	}
 
 	/**
@@ -70,216 +55,124 @@ class BSSMTP extends BSSocket {
 		if (!BS_NET_RESOLVABLE) {
 			return;
 		}
-
-		$this->putLine('QUIT');
-		if ($this->getResultCode() != 221) {
-			throw new BSMailException('%sの切断に失敗しました。(%s)',$this, $this->getPrevLine());
+		if ($this->execute('QUIT') != 221) {
+			throw new BSMailException('%sから切断できません。(%s)',$this, $this->getPrevLine());
 		}
 		parent::close();
+	}
+
+	/**
+	 * メールを返す
+	 *
+	 * @access public
+	 * @return BSMIMEDocument メール
+	 */
+	public function getMail () {
+		return $this->mail;
+	}
+
+	/**
+	 * メールを設定
+	 *
+	 * @access public
+	 * @param BSMIMEDocument $mail メール
+	 */
+	public function setMail (BSMIMEDocument $mail) {
+		$this->mail = $mail;
 	}
 
 	/**
 	 * 送信
 	 *
 	 * @access public
-	 * @param boolean $mode テストモード
+	 * @param boolean $flag フラグ
+	 *   self::TEST テスト送信
 	 * @return string 送信完了時は最終のレスポンス
 	 */
-	public function send ($mode = false) {
+	public function send ($flag = null) {
 		if (!BS_NET_RESOLVABLE) {
 			return;
 		}
 
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			try {
-				$this->clearMessageID();
-				$this->setHeader('Message-ID', '<' . $this->getMessageID() . '>');
-				$this->setHeader('Date', BSDate::getNow('r'));
-				$this->putMailFromRequest();
-				$this->putRcptToRequest($mode);
-				$this->putDataRequest();
-
-				$message = sprintf(
-					'"%s"宛のメール"%s"を送信しました。(%s)',
-					$this->to->format(),
-					$this->getMessageID(),
-					$this->getPrevLine()
-				);
-				BSController::getInstance()->putLog($message, get_class($this));
-				$this->clearBoundary();
+				$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
+				foreach ($this->getRecipients($flag) as $email) {
+					$this->execute('RCPT TO:' . $email->getContents());
+				}
+				$this->execute('DATA');
+				$this->putLine($this->getMail()->getContents());
+				if ($this->execute('.') != 250) {
+					throw new BSMailException($this->getPrevLine());
+				}
+				$this->putLog($this->getSentMessage());
 				return $this->getPrevLine();
 			} catch (BSMailException $e) {
 				sleep(1);
 			}
 		}
-		throw new BSMailException('%sへの送信に失敗しました。', $this->to->format());
+		throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
 	}
 
 	/**
-	 * MAIL FROMリクエスト
+	 * 送信者を返す
 	 *
 	 * @access protected
+	 * @return BSMailAddress 送信者
 	 */
-	protected function putMailFromRequest () {
-		$this->putLine('MAIL FROM:' . $this->from->getAddress());
-		if ($this->getResultCode() != 250) {
-			throw new BSMailException(
-				'送信アドレス"%s"が拒否されました。(%s)',
-				$this->from->getAddress(),
-				$this->getPrevLine()
-			);
-		}
+	protected function getFrom () {
+		return $this->getMail()->getHeader('From')->getEntity();
 	}
 
 	/**
-	 * RCPT TOリクエスト
+	 * 受信者を返す
 	 *
 	 * @access protected
-	 * @param boolean $mode テストモードならTrue
+	 * @param boolean $flag フラグ
+	 *   self::TEST テスト送信
+	 * @return BSArray 受信者の配列
 	 */
-	protected function putRcptToRequest ($mode = false) {
-		$this->addresses = new BSArray;
-		if (BS_DEBUG || $mode) {
-			$this->addresses[] = BSAdministrator::getMailAddress();
+	protected function getRecipients ($flag = null) {
+		$recipients = new BSArray;
+		if (BS_DEBUG || ($flag & self::TEST)) {
+			$recipients[] = BSAdministrator::getMailAddress();
 		} else {
-			$this->addresses[] = $this->to;
-			foreach ($this->bcc as $address) {
-				$this->addresses[] = $address; 
+			foreach ($this->getMail()->getRecipients() as $email) {
+				$recipients[] = $email;
 			}
 		}
-		$this->checkAddresses();
-
-		foreach ($this->addresses as $address) {
-			$this->putLine('RCPT TO:' . $address->getContents());
-			if (!in_array($this->getResultCode(), array(250, 251))) {
-				throw new BSMailException(
-					'受信アドレス"%s"が拒否されました。(%s)',
-					$address->getContents(),
-					$this->getPrevLine()
-				);
-			}
-		}
+		return $recipients;
 	}
 
 	/**
-	 * DATAリクエスト
+	 * 送信成功時のメッセージを返す
 	 *
 	 * @access protected
+	 * @return string メッセージ
 	 */
-	protected function putDataRequest () {
-		$this->putLine('DATA');
-		if ($this->getResultCode() != 354) {
-			throw new BSMailException('DATA要求が拒否されました。(%s)', $this->getPrevLine());
+	protected function getSentMessage () {
+		$recipients = new BSArray;
+		foreach ($this->getRecipients() as $email) {
+			$recipients[] = $email->getContents();
 		}
-
-		foreach ($this->getHeaders() as $key => $value) {
-			$this->putHeader($key, $value);
-		}
-		$this->putLine();
-
-		$this->putLine($this->getBody());
-		$this->putLine('.');
-		if ($this->getResultCode() != 250) {
-			throw new BSMailException('本文が拒否されました。(%s)', $this->getPrevLine());
-		}
-	}
-
-	/**
-	 * エンベロープフィールドを送信
-	 *
-	 * @access private
-	 * @param string $key フィールド名
-	 * @param string $value フィールド値
-	 */
-	private function putHeader ($key, $value) {
-		$key = BSString::capitalize($key);
-		if ($key == 'Bcc') {
-			return;
-		}
-
-		$value = BSMIMEUtility::encode($value);
-		$value = str_replace('=?iso-2022-jp?B?', "\n=?iso-2022-jp?B?", $value);
-		$body = BSString::split($key . ': ' . $value);
-
-		$init = true;
-		foreach (BSString::explode("\n", $body) as $line) {
-			if ($init) {
-				$init = false;
-			} else {
-				$line = "\t" . $line;
-			}
-			$line = rtrim($line);
-			$this->putLine($line);
-		}
-	}
-
-	/**
-	 * 送信前チェック
-	 *
-	 * @access private
-	 * @return boolean 
-	 */
-	private function checkAddresses () {
-		if (BS_SMTP_CHECK_ADDRESSES) {
-			if (!BSArray::isArray($this->addresses) || !$this->addresses->count()) {
-				throw new BSMailException('宛先アドレスが指定されていません。');
-				return false;
-			}
-			foreach ($this->addresses as $address) {
-				if (!$address->isValidDomain()) {
-					throw new BSMailException('%sが正しくありません。', $address);
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * ヘッダを返す
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @return string ヘッダ
-	 */
-	public function getHeader ($name) {
-		return $this->headers[$name];
-	}
-
-	/**
-	 * ヘッダを設定
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @param string $value 値
-	 */
-	public function setHeader ($name, $value) {
-		$this->getHeaders()->setParameter(
-			BSString::stripControlCharacters($name),
-			BSString::stripControlCharacters($value)
+		return sprintf(
+			'%sから%s宛に、%sを送信しました。',
+			$this->getFrom()->getContents(),
+			$recipients->join(','),
+			$this->getMail()
 		);
-	}
-
-	/**
-	 * ヘッダ一式を返す
-	 *
-	 * @access public
-	 * @return string[] ヘッダ一式
-	 */
-	public function getHeaders () {
-		if (!$this->headers) {
-			$this->headers = new BSArray;
-		}
-		return $this->headers;
 	}
 
 	/**
 	 * キーワードを返す
 	 *
 	 * @access public
-	 * @return string[] キーワード一式
+	 * @return BSArray キーワード一式
 	 */
 	public function getKeywords () {
+		if (!$this->keywords) {
+			$this->keywords = new BSArray;
+		}
 		return $this->keywords;
 	}
 
@@ -290,10 +183,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $subject Subject
 	 */
 	public function setSubject ($subject) {
-		if (BS_DEBUG) {
-			$subject = '[TEST] ' . $subject;
-		}
-		$this->setHeader('Subject', $subject);
+		$this->getMail()->setHeader('Subject', $subject);
 	}
 
 	/**
@@ -303,7 +193,7 @@ class BSSMTP extends BSSocket {
 	 * @param integer $priority X-Priorityヘッダ
 	 */
 	public function setPriority ($priority) {
-		$this->setHeader('X-Priority', $priority);
+		$this->getMail()->setHeader('X-Priority', $priority);
 	}
 
 	/**
@@ -313,8 +203,7 @@ class BSSMTP extends BSSocket {
 	 * @param BSMailAddress $email 送信者
 	 */
 	public function setFrom (BSMailAddress $email) {
-		$this->from = $email;
-		$this->setHeader('From', $email->format());
+		$this->getMail()->setHeader('From', $email);
 	}
 
 	/**
@@ -324,17 +213,7 @@ class BSSMTP extends BSSocket {
 	 * @param BSMailAddress $email 宛先
 	 */
 	public function setTo (BSMailAddress $email) {
-		$this->to = $email;
-		$this->setHeader('To', $email->format());
-	}
-
-	/**
-	 * BCCをクリア
-	 *
-	 * @access public
-	 */
-	public function clearBCC () {
-		$this->bcc[] = array();
+		$this->getMail()->setHeader('To', $email);
 	}
 
 	/**
@@ -344,56 +223,7 @@ class BSSMTP extends BSSocket {
 	 * @param BSMailAddress $bcc 宛先
 	 */
 	public function addBCC (BSMailAddress $bcc) {
-		$this->bcc[] = $bcc;
-	}
-
-	/**
-	 * メッセージIDを返す
-	 *
-	 * @access public
-	 * @return string メッセージID
-	 */
-	public function getMessageID () {
-		if (!$this->messageID) {
-			$this->messageID = sprintf(
-				'%s.%s@%s',
-				BSDate::getNow('YmdHis'),
-				BSUtility::getUniqueID(),
-				$this->getHost()->getName()
-			);
-		}
-		return $this->messageID;
-	}
-
-	/**
-	 * メッセージIDを初期化
-	 *
-	 * @access private
-	 */
-	private function clearMessageID () {
-		$this->messageID = null;
-	}
-
-	/**
-	 * バウンダリを返す
-	 *
-	 * @access private
-	 * @return string バウンダリ
-	 */
-	private function getBoundary () {
-		if (!$this->boundary) {
-			$this->boundary = BSCrypt::getMD5('Carrot-' . BSDate::getNow('YmdHis'));
-		}
-		return $this->boundary;
-	}
-
-	/**
-	 * バウンダリを初期化
-	 *
-	 * @access private
-	 */
-	private function clearBoundary () {
-		$this->boundary = null;
+		$this->getMail()->getHeader('BCC')->appendContents($cc);
 	}
 
 	/**
@@ -403,20 +233,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $body 本文
 	 */
 	public function getBody () {
-		if (!$this->body && $this->parts) {
-			$body = array();
-			foreach ($this->parts as $part) {
-				$body[] = '--' . $this->getBoundary();
-				foreach ($part['headers'] as $key => $value) {
-					$body[] = $key . ': ' . $value;
-				}
-				$body[] = null;
-				$body[] = $part['body'];
-			}
-			$body[] = '--' . $this->getBoundary() . '--';
-			$this->body = implode(self::LINE_SEPARATOR, $body);
-		}
-		return $this->body;
+		return $this->getMail()->getMainPart()->getRenderer()->getContents();
 	}
 
 	/**
@@ -424,79 +241,41 @@ class BSSMTP extends BSSocket {
 	 *
 	 * @access public
 	 * @param string $body 本文
-	 * @param string $type メディアタイプ
 	 */
-	public function setBody ($body, $type = 'text/plain; charset=iso-2022-jp') {
-		$body = BSString::convertKana($body, 'KV');
-		$body .= "\n"; //文末に改行追加（AppleMail対応）
-		if (preg_match('/^text\/plain/', $type)) {
-			$body = BSString::split($body, 78);
-		}
-		$body = BSString::convertEncoding($body, 'iso-2022-jp');
-		$body = str_replace("\n", self::LINE_SEPARATOR, $body);
-
-		if ($this->parts) {
-			// マルチパートメールの場合は、最初のパートを本文と
-			$this->body = null;
-			$this->parts[0] = array(
-				'headers' => array(
-					'Content-Transfer-Encoding' => '7bit',
-					'Content-Type' => $type,
-				),
-				'body' => $body,
-			);
-			$this->setHeader(
-				'Content-Type',
-				'multipart/mixed; boundary=' . $this->getBoundary()
-			);
-		} else {
-			$this->setHeader('Content-Type', $type);
-			$this->body = $body;
-		}
+	public function setBody ($body) {
+		return $this->getMail()->getMainPart()->getRenderer()->setContents($body);
 	}
 
 	/**
-	 * 添付ファイルを追加
+	 * コマンドを実行し、結果を返す。
 	 *
 	 * @access public
-	 * @param string $name ファイル名
-	 * @param string $body 本文
-	 * @param string $type メディアタイプ
+	 * @param string $command コマンド
+	 * @return boolean 成功ならばTrue
 	 */
-	public function addAttachment ($name, $body, $type = null) {
-		if (!$this->parts) {
-			// 初回の添付時、本文の内容を先頭パートに移動
-			$this->parts[0] = array('headers' => array(), 'body' => null);
-			$this->setBody($this->body);
-		}
-		if (!$type) {
-			$file = new BSFile($name);
-			$type = $file->getType();
-		}
+	public function execute ($command) {
+		$this->putLine($command);
 
-		$this->parts[] = array(
-			'headers' => array(
-				'Content-Type' => $type,
-				'Content-Transfer-Encoding' => 'base64',
-				'Content-Disposition' => sprintf(
-					'attachment; filename="%s"',
-					BSMIMEUtility::encode($name)
-				),
-			),
-			'body' => BSString::split(BSMIMEUtility::encodeBase64($body)),
-		);
+		if (!preg_match('/^([0-9]+)/', $this->getLine(), $matches)) {
+			throw new BSMailException('不正なレスポンスです。 (%s)', $this->getPrevLine());
+		}
+		$result = $matches[1];
+
+		if (preg_match('/^[45]$/', $result)) {
+			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
+		}
+		return $result;
 	}
 
 	/**
-	 * リザルトコードを返す
+	 * ログを出力する
 	 *
 	 * @access protected
-	 * @return integer リザルトコード
+	 * @param string $message メッセージ
 	 */
-	protected function getResultCode () {
-		if (preg_match('/^([0-9]+)/', $this->getLine(), $matches)) {
-			return (integer)$matches[1];
-		}
+	protected function putLog ($message) {
+		$message = sprintf('%s (%s)', $message, $this->getPrevLine());
+		BSController::getInstance()->putLog($message, get_class($this));
 	}
 
 	/**

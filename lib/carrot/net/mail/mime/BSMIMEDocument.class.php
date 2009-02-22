@@ -36,6 +36,10 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 		$this->setHeader('X-Priority', 3);
 		$this->setHeader('From', BSAuthor::getMailAddress());
 		$this->setHeader('To', BSAdministrator::getMailAddress());
+
+		if (BS_DEBUG) {
+			$this->setHeader('X-Carrot-Debug-Mode', 'yes');
+		}
 	}
 
 	/**
@@ -76,14 +80,17 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @access public
 	 * @param BSMailAddress $email 送信者
 	 */
-	public function getReceipts () {
+	public function getRecipients () {
 		$receipts = new BSArray;
 		foreach (array('To', 'CC', 'BCC') as $key) {
-			foreach ($this->getHeader($key)->getEntity() as $email) {
+			if (!$header = $this->getHeader($key)) {
+				continue;
+			}
+			foreach ($header->getEntity() as $email) {
 				$recipients[$email->getContents()] = $email;
 			}
 		}
-		return $receipts;
+		return $recipients;
 	}
 
 	/**
@@ -269,7 +276,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 */
 	public function validate () {
 		try {
-			$receipts = $this->getReceipts();
+			$receipts = $this->getRecipients();
 			if (!$receipts->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 			}
@@ -295,6 +302,14 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 */
 	public function getError () {
 		return $this->error;
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('メール "%s"', $this->getMessageID());
 	}
 }
 

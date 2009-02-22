@@ -13,16 +13,16 @@
 class BSSubjectMailHeader extends BSMailHeader {
 
 	/**
-	 * 実体を返す
+	 * 内容を返す
 	 *
 	 * @access public
-	 * @return string 実体
+	 * @return string 内容
 	 */
-	public function getEntity () {
+	public function getContents () {
 		if (BS_DEBUG) {
-			return '[TEST] ' . $this->getContents();
+			return '[TEST] ' . $this->contents;
 		}
-		return $this->getContents();
+		return $this->contents;
 	}
 }
 

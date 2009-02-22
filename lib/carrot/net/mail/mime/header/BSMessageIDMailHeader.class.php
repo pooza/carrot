@@ -34,7 +34,7 @@ class BSMessageIDMailHeader extends BSMailHeader {
 			$this->id = sprintf(
 				'%s.%s@%s',
 				BSDate::getNow('YmdHis'),
-				BSUtility::getUniqueID(),
+				BSNumeric::getRandom(),
 				BS_SMTP_HOST
 			);
 		} else {
