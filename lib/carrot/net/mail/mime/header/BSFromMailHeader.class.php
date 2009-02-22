@@ -9,36 +9,8 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @abstract
  */
-class BSFromMailHeader extends BSMailHeader {
-	private $email;
-
-	/**
-	 * 実体を返す
-	 *
-	 * @access public
-	 * @return BSMailAddress 実体
-	 */
-	public function getEntity () {
-		return $this->email;
-	}
-
-	/**
-	 * 内容を設定
-	 *
-	 * @access public
-	 * @param mixed $contents 内容
-	 */
-	public function setContents ($contents) {
-		if ($contents instanceof BSMailAddress) {
-			$this->email = $contents;
-			$this->contents = $contents->format();
-		} else {
-			$this->email = new BSMailAddress($contents);
-			$this->contents = $contents;
-		}
-	}
+class BSFromMailHeader extends BSAddressMailHeader {
 }
 
 /* vim:set tabstop=4: */

@@ -5,22 +5,23 @@
  */
 
 /**
- * Message-IDメールヘッダ
+ * メールアドレスを格納する抽象メールヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
+ * @abstract
  */
-class BSMessageIDMailHeader extends BSMailHeader {
-	private $id;
+abstract class BSFromMailHeader extends BSMailHeader {
+	private $email;
 
 	/**
 	 * 実体を返す
 	 *
 	 * @access public
-	 * @return BSDate 実体
+	 * @return BSMailAddress 実体
 	 */
 	public function getEntity () {
-		return $this->id;
+		return $this->email;
 	}
 
 	/**
@@ -30,17 +31,13 @@ class BSMessageIDMailHeader extends BSMailHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		if (BSString::isBlank($contents)) {
-			$this->id = sprintf(
-				'%s.%s@%s',
-				BSDate::getNow('YmdHis'),
-				BSUtility::getUniqueID(),
-				BS_SMTP_HOST
-			);
+		if ($contents instanceof BSMailAddress) {
+			$this->email = $contents;
+			$this->contents = $contents->format();
 		} else {
-			$this->id = $contents;
+			$this->email = new BSMailAddress($contents);
+			$this->contents = $contents;
 		}
-		$this->contents = '<' . $this->id . '>';
 	}
 }
 

@@ -5,12 +5,12 @@
  */
 
 /**
- * MIMEメール
+ * MIME文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMIMEMail extends BSMIMEPart implements BSRenderer {
+class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	private $body;
 	private $parts;
 	private $contents;
@@ -50,7 +50,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @return BSRenderer レンダラー
 	 */
 	public function getRenderer () {
-		throw new BSMailException('BSMIMEMail::getRendererは利用できません。');
+		throw new BSMIMEException('BSMIMEDocument::getRendererは利用できません。');
 	}
 
 	/**
@@ -60,7 +60,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @param BSRenderer $renderer レンダラー
 	 */
 	public function setRenderer (BSRenderer $renderer) {
-		throw new BSMailException('BSMIMEMail::setRendererは利用できません。');
+		throw new BSMIMEException('BSMIMEDocument::setRendererは利用できません。');
 	}
 
 	/**
@@ -259,7 +259,7 @@ class BSMIMEMail extends BSMIMEPart implements BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMIMEType::getType('eml');
+		return BSMIMEType::getType('mime');
 	}
 
 	/**

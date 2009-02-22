@@ -110,23 +110,21 @@ class BSMIMEUtility {
 	/**
 	 * レンダラーのContent-Transfer-Encodingを返す
 	 *
+	 * BSContentTransferEncodingMailHeader::getContentTransferEncodingのエイリアス
+	 *
 	 * @access public
 	 * @param BSRenderer $renderer レンダラー
 	 * @return string Content-Transfer-Encoding
 	 * @static
 	 */
 	static public function getContentTransferEncoding (BSRenderer $renderer) {
-		if ($renderer instanceof BSTextRenderer) {
-			if (strtolower($renderer->getEncoding()) == 'iso-2022-jp') {
-				return '7bit';
-			}
-			return '8bit';
-		}
-		return 'base64';
+		return BSContentTransferEncodingMailHeader::getContentTransferEncoding($renderer);
 	}
 
 	/**
 	 * レンダラーの完全なタイプを返す
+	 *
+	 * BSContentTypeMailHeader::getContentTypeのエイリアス
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer 対象レンダラー
@@ -134,16 +132,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function getContentType (BSRenderer $renderer) {
-		if ($renderer instanceof BSTextRenderer) {
-			if (BSString::isBlank($charset = mb_preferred_mime_name($renderer->getEncoding()))) {
-				throw new BSViewException(
-					'エンコード"%s"が正しくありません。',
-					$renderer->getEncoding()
-				);
-			}
-			return sprintf('%s; charset=%s', $renderer->getType(), $charset);
-		}
-		return $renderer->getType();
+		return BSContentTypeMailHeader::getContentType($renderer);
 	}
 }
 

@@ -9,7 +9,6 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @abstract
  */
 class BSContentTypeMailHeader extends BSMailHeader {
 
@@ -21,10 +20,29 @@ class BSContentTypeMailHeader extends BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		if ($contents instanceof BSRenderer) {
-			$this->contents = BSMIMEUtility::getContentType($contents);
+			$this->contents = self::getContentType($contents);
 		} else {
 			$this->contents = $contents;
 		}
+	}
+
+	/**
+	 * レンダラーの完全なタイプを返す
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer 対象レンダラー
+	 * @return string メディアタイプ
+	 * @static
+	 */
+	static public function getContentType (BSRenderer $renderer) {
+		if ($renderer instanceof BSTextRenderer) {
+			$encoding = $renderer->getEncoding();
+			if (BSString::isBlank($charset = mb_preferred_mime_name($encoding))) {
+				throw new BSMIMEException('エンコード"%s"が正しくありません。', $encoding);
+			}
+			return sprintf('%s; charset=%s', $renderer->getType(), $charset);
+		}
+		return $renderer->getType();
 	}
 }
 

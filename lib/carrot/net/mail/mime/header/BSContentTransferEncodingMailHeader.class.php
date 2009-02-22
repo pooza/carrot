@@ -9,7 +9,6 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @abstract
  */
 class BSContentTransferEncodingMailHeader extends BSMailHeader {
 
@@ -21,10 +20,28 @@ class BSContentTransferEncodingMailHeader extends BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		if ($contents instanceof BSRenderer) {
-			$this->contents = BSMIMEUtility::getContentTransferEncoding($contents);
+			$this->contents = self::getContentTransferEncoding($contents);
 		} else {
 			$this->contents = $contents;
 		}
+	}
+
+	/**
+	 * レンダラーのContent-Transfer-Encodingを返す
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @return string Content-Transfer-Encoding
+	 * @static
+	 */
+	static public function getContentTransferEncoding (BSRenderer $renderer) {
+		if ($renderer instanceof BSTextRenderer) {
+			if (strtolower($renderer->getEncoding()) == 'iso-2022-jp') {
+				return '7bit';
+			}
+			return '8bit';
+		}
+		return 'base64';
 	}
 }
 
