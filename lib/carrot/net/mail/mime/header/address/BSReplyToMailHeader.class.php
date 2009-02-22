@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mail.mime.header
+ * @subpackage net.mail.mime.header.address
  */
 
 /**
- * Fromメールヘッダ
+ * Reply-Toメールヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFromMailHeader extends BSAddressMailHeader {
+class BSReplyToMailHeader extends BSAddressMailHeader {
 }
 
 /* vim:set tabstop=4: */

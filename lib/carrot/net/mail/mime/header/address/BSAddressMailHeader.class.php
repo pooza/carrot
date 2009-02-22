@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mail.mime.header
+ * @subpackage net.mail.mime.header.address
  */
 
 /**
@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSFromMailHeader extends BSMailHeader {
+abstract class BSAddressMailHeader extends BSMailHeader {
 	private $email;
 
 	/**
