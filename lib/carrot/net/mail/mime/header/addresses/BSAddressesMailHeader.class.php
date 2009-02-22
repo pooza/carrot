@@ -34,6 +34,7 @@ abstract class BSAddressesMailHeader extends BSMailHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
+		$this->addresses = new BSArray;
 		$this->appendContents($contents);
 	}
 
@@ -65,7 +66,7 @@ abstract class BSAddressesMailHeader extends BSMailHeader {
 		foreach ($addresses as $address) {
 			$contents[] = $address->format();
 		}
-		$this->contents = $contents->join('; ');
+		$this->contents = $contents->join(', ');
 	}
 }
 

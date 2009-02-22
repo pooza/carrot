@@ -31,7 +31,7 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 		if ($this->width) {
 			$contents = BSString::split($contents, $this->width);
 		}
-		$contents .= "\n";
+		$contents .= "\n\n"; //AppleMail対応
 		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		return $contents;

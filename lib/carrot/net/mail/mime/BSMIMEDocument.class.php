@@ -49,6 +49,20 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @param string $name 名前
 	 * @param string $value 値
 	 */
+	public function send () {
+		$smtp = new BSSMTP;
+		$smtp->setMail($this);
+		$smtp->send();
+		$smtp->close();
+	}
+
+	/**
+	 * ヘッダを設定
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @param string $value 値
+	 */
 	public function setHeader ($name, $value) {
 		parent::setHeader($name, $value);
 		$this->contents = null;
@@ -81,7 +95,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @param BSMailAddress $email 送信者
 	 */
 	public function getRecipients () {
-		$receipts = new BSArray;
+		$recipients = new BSArray;
 		foreach (array('To', 'CC', 'BCC') as $key) {
 			if (!$header = $this->getHeader($key)) {
 				continue;
@@ -276,12 +290,15 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 */
 	public function validate () {
 		try {
-			$receipts = $this->getRecipients();
-			if (!$receipts->count()) {
+			if (BSString::isBlank($this->getHeader('From')->getContents())) {
+				throw new BSMailException('送信元アドレスが指定されていません。');
+			}
+
+			if (!$this->getRecipients()->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 			}
 			if (BS_SMTP_CHECK_ADDRESSES) {
-				foreach ($receipts as $email) {
+				foreach ($this->getRecipients() as $email) {
 					if (!$email->isValidDomain()) {
 						throw new BSMailException('%sが正しくありません。', $address);
 					}
