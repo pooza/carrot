@@ -32,7 +32,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 		$this->setHeader('Message-ID', null);
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
-		$this->setHeader('X-Mailer', BSController::getFullName('en'));
+		$this->setHeader('X-Mailer', null);
 		$this->setHeader('X-Priority', 3);
 		$this->setHeader('From', BSAuthor::getMailAddress());
 		$this->setHeader('To', BSAdministrator::getMailAddress());
