@@ -21,18 +21,18 @@ class BSSmartySender extends BSSMTP {
 		parent::__construct($host, $port);
 
 		$this->getMail()->getMainPart()->setRenderer(new BSSmarty);
-		$this->getRenderer()->setType('text/plain');
-		$this->getRenderer()->setEncoding('iso-2022-jp');
-		$this->getRenderer()->addOutputFilter('mail');
-		$this->getRenderer()->addOutputFilter('encoding');
+		$this->setType('text/plain');
+		$this->setEncoding('iso-2022-jp');
+		$this->addOutputFilter('mail');
+		$this->addOutputFilter('encoding');
 		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
-			$this->getRenderer()->setTemplatesDirectory($dir);
+			$this->setTemplatesDirectory($dir);
 		}
 
 		$request = BSRequest::getInstance();
-		$this->getRenderer()->setAttribute('date', BSDate::getNow()->format());
-		$this->getRenderer()->setAttribute('useragent', $request->getUserAgent()->getName());
-		$this->getRenderer()->setAttribute('remote_host', $request->getHost()->getName());
+		$this->setAttribute('date', BSDate::getNow()->format());
+		$this->setAttribute('useragent', $request->getUserAgent()->getName());
+		$this->setAttribute('remote_host', $request->getHost()->getName());
 	}
 
 	/**

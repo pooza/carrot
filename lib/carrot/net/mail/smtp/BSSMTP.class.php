@@ -235,7 +235,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $body 本文
 	 */
 	public function getBody () {
-		return $this->getMail()->getMainPart()->getRenderer()->getContents();
+		return $this->getMail()->getBody();
 	}
 
 	/**
@@ -245,7 +245,7 @@ class BSSMTP extends BSSocket {
 	 * @param string $body 本文
 	 */
 	public function setBody ($body) {
-		return $this->getMail()->getMainPart()->getRenderer()->setContents($body);
+		return $this->getMail()->setBody($body);
 	}
 
 	/**

@@ -10,10 +10,30 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
+class BSMIMEDocument implements BSRenderer {
+	private $headers;
+	private $renderer;
+	private $filename;
+	private $contents;
+	private $boundary;
 	private $body;
 	private $parts;
-	private $contents;
+	const ATTACHMENT = 'attachment';
+	const INLINE = 'inline';
+	const LINE_SEPARATOR = "\r\n";
+
+	/**
+	 * ヘッダを返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return BSMailHeader ヘッダ
+	 */
+	public function getHeader ($name) {
+		$name = BSString::stripControlCharacters($name);
+		$name = BSString::capitalize($name);
+		return $this->getHeaders()->getParameter($name);
+	}
 
 	/**
 	 * ヘッダを設定
@@ -23,8 +43,69 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		parent::setHeader($name, $value);
+		$name = BSString::stripControlCharacters($name);
+		$name = BSString::capitalize($name);
+		if (!is_array($value) && !is_object($value)) {
+			$value = BSString::stripControlCharacters($value);
+		}
+
+		try {
+			$class = str_replace('-', '', $name);
+			$class = BSClassLoader::getInstance()->getClassName($class, 'MailHeader');
+		} catch (Exception $e) {
+			$class = 'BSMailHeader';
+		}
+
+		$header = new $class($this, $name);
+		$header->setContents($value);
+		$this->getHeaders()->setParameter($name, $header);
 		$this->contents = null;
+	}
+
+	/**
+	 * ヘッダに追記
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @param string $value 値
+	 */
+	public function appendHeader ($name, $value) {
+		$name = BSString::stripControlCharacters($name);
+		$name = BSString::capitalize($name);
+		if (!is_array($value) && !is_object($value)) {
+			$value = BSString::stripControlCharacters($value);
+		}
+
+		if ($this->getHeaders()->hasParameter($name)) {
+			$this->getHeader($name)->appendContents($value);
+		} else {
+			$this->setHeader($name, $header);
+		}
+		$this->contents = null;
+	}
+
+	/**
+	 * ヘッダを削除
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 */
+	public function removeHeader ($name) {
+		$this->getHeaders()->removeParameter($name);
+		$this->contents = null;
+	}
+
+	/**
+	 * ヘッダ一式を返す
+	 *
+	 * @access public
+	 * @return string[] ヘッダ一式
+	 */
+	public function getHeaders () {
+		if (!$this->headers) {
+			$this->headers = new BSArray;
+		}
+		return $this->headers;
 	}
 
 	/**
@@ -34,7 +115,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @return BSRenderer レンダラー
 	 */
 	public function getRenderer () {
-		throw new BSMIMEException('%s::getRendererは利用できません。', get_class($this));
+		return $this->renderer;
 	}
 
 	/**
@@ -44,7 +125,37 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * @param BSRenderer $renderer レンダラー
 	 */
 	public function setRenderer (BSRenderer $renderer) {
-		throw new BSMIMEException('%s::setRendererは利用できません。', get_class($this));
+		$this->renderer = $renderer;
+		$this->setHeader('Content-Type', $renderer);
+		$this->setHeader('Content-Transfer-Encoding', $renderer);
+	}
+
+	/**
+	 * ファイル名を返す
+	 *
+	 * @access public
+	 * @return string ファイル名
+	 */
+	public function getFileName () {
+		return $this->filename;
+	}
+
+	/**
+	 * ファイル名を設定
+	 *
+	 * @access public
+	 * @param string $filename ファイル名
+	 * @param string $mode モード
+	 */
+	public function setFileName ($filename, $mode = self::ATTACHMENT) {
+		$this->filename = $filename;
+
+		if (BSString::isBlank($filename)) {
+			$this->getHeaders()->removeParameter('Content-Disposition');
+		} else {
+			$value = sprintf('%s; filename="%s"', $mode, $filename);
+			$this->setHeader('Content-Disposition', $value);
+		}
 	}
 
 	/**
@@ -64,7 +175,7 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * メインパートを返す
 	 *
 	 * @access public
-	 * @return BSMIMEPart メインパート
+	 * @return BSMIMEDocument メインパート
 	 */
 	public function getMainPart () {
 		return $this->getParts()->getParameter(0);
@@ -74,9 +185,9 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 * メインパートを設定
 	 *
 	 * @access public
-	 * @param BSMIMEPart $part メインパート
+	 * @param BSMIMEDocument $part メインパート
 	 */
-	public function setMainPart (BSMIMEPart $part) {
+	public function setMainPart (BSMIMEDocument $part) {
 		$this->getParts()->setParameter(0, $part);
 	}
 
@@ -114,13 +225,63 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	 */
 	public function setContents ($contents) {
 		$this->contents = $contents;
+
+		try {
+			$contents = BSString::explode("\n\n", $contents);
+			$this->parseHeader($contents[0]);
+			$this->parseBody($contents[1]);
+		} catch (Exception $e) {
+			throw new BSMIMEException('MIME文書がパースできません。');
+		}
+	}
+
+	/**
+	 * ヘッダ部をパース
+	 *
+	 * @access protected
+	 * @param string $headers ヘッダ部
+	 */
+	protected function parseHeader ($headers) {
+		foreach (BSString::explode("\n", $headers) as $line) {
+			if (preg_match('/^([a-z0-9\-]+): *(.+)$/i', $line, $matches)) {
+				$key = $matches[1];
+				$this->setHeader($key, $matches[2]);
+			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
+				$this->setHeader($key, $matches[1]);
+			}
+		}
+	}
+
+	/**
+	 * 本文をパース
+	 *
+	 * @access protected
+	 * @param string $body 本文
+	 */
+	protected function parseBody ($body) {
+		if ($this->isMultiPart()) {
+			$this->parts->clearParameters();
+			$this->body = null;
+			foreach (BSString::explode($this->getBoundary(), $body) as $value) {
+				if (BSString::isBlank($value) || ($value == '--')) {
+					continue;
+				}
+				$part = new BSMIMEDocument;
+				$part->setContents($value);
+				$this->getParts()->setParameter(null, $part);
+			}
+		} else {
+			$this->getMainPart()->getRenderer()->setContents($body);
+		}
 	}
 
 	/**
 	 * 本文を返す
 	 *
+	 * マルチパートの場合、素（mixed/multipart）の本文を返す。
+	 *
 	 * @access public
-	 * @param string $body 本文
+	 * @return string 本文
 	 */
 	public function getBody () {
 		if (!$this->isMultiPart()) {
@@ -146,18 +307,34 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 	}
 
 	/**
+	 * 本文を設定
+	 *
+	 * マルチパートの場合でも、メインパートの本文を設定する。
+	 *
+	 * @access public
+	 * @param string $body 本文
+	 */
+	public function setBody ($body) {
+		$renderer = $this->getMainPart()->getRenderer();
+		if (!method_exists($renderer, 'setContents')) {
+			throw new BSMIMEException('%sの本文を上書きできません。', get_glass($renderer));
+		}
+		$renderer->setContents($body);
+	}
+
+	/**
 	 * 添付ファイルを追加
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer レンダラー
 	 * @param string $name ファイル名
-	 * @return BSMIMEPart 追加されたパート
+	 * @return BSMIMEDocument 追加されたパート
 	 */
 	public function addAttachment (BSRenderer $renderer, $name = null) {
-		$part = new BSMIMEPart;
+		$part = new BSMIMEDocument;
 		$part->setRenderer($renderer);
 		if (!BSString::isBlank($name)) {
-			$part->setFileName($name, BSMIMEPart::ATTACHMENT);
+			$part->setFileName($name, self::ATTACHMENT);
 		}
 
 		$parts = $this->getParts();
@@ -175,6 +352,29 @@ class BSMIMEDocument extends BSMIMEPart implements BSRenderer {
 		}
 
 		return $part;
+	}
+
+	/**
+	 * バウンダリを返す
+	 *
+	 * @access public
+	 * @return string バウンダリ
+	 */
+	public function getBoundary () {
+		if (!$this->boundary) {
+			$this->boundary = BSUtility::getUniqueID();
+		}
+		return $this->boundary;
+	}
+
+	/**
+	 * バウンダリを設定
+	 *
+	 * @access public
+	 * @param string $boundary バウンダリ
+	 */
+	public function setBoundary ($boundary) {
+		$this->boundary = $boundary;
 	}
 
 	/**

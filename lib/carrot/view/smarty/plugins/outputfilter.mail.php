@@ -16,7 +16,7 @@ function smarty_outputfilter_mail ($source, &$smarty) {
 		if (BSString::isBlank($line)) { //空行を発見したらヘッダのパースをやめる
 			$lines->removeParameter($key);
 			break;
-		} else if (preg_match('/^([a-z\-]+): *(.+)$/i', $line, $matches)) {
+		} else if (preg_match('/^([a-z0-9\\-]+): *(.+)$/i', $line, $matches)) {
 			$smarty->getHeaders()->setParameter($matches[1], $matches[2]);
 			$lines->removeParameter($key);
 		} else {

@@ -18,10 +18,10 @@ class BSMailHeader {
 
 	/**
 	 * @access public
-	 * @param BSMIMEPart $part メールパート
+	 * @param BSMIMEDocument $part メールパート
 	 * @param string $name ヘッダ名
 	 */
-	public function __construct (BSMIMEPart $part, $name) {
+	public function __construct (BSMIMEDocument $part, $name) {
 		$this->part = $part;
 		$this->name = $name;
 	}
@@ -63,7 +63,7 @@ class BSMailHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		$this->contents = $contents;
+		$this->contents = BSMIMEUtility::decode($contents);
 	}
 
 	/**
@@ -73,7 +73,11 @@ class BSMailHeader {
 	 * @param string $contents 内容
 	 */
 	public function appendContents ($contents) {
-		$this->contents .= BSMIMEPart::LINE_SEPARATOR . $contents;
+		$contents = BSMIMEUtility::decode($contents);
+		if (BSString::getEncoding(BSMIMEUtility::decode($this->getContents())) == 'ascii') {
+			$contents = ' ' . $contents;
+		}
+		$this->contents .= BSMIMEDocument::LINE_SEPARATOR . $contents;
 	}
 
 	/**
@@ -100,7 +104,7 @@ class BSMailHeader {
 			if (!BSString::isBlank($header)) {
 				$line = "\t" . $line;
 			}
-			$header .= $line . BSMIMEPart::LINE_SEPARATOR;
+			$header .= $line . BSMIMEDocument::LINE_SEPARATOR;
 		}
 
 		return $header;
@@ -114,16 +118,6 @@ class BSMailHeader {
 	 */
 	public function isVisible () {
 		return !BSString::isBlank($this->getContents());
-	}
-
-	/**
-	 * 複数行を許容するか？
-	 *
-	 * @access public
-	 * @return boolean 許容するならばTrue
-	 */
-	public function isMultiLine () {
-		return false;
 	}
 }
 

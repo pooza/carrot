@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSMail extends BSMIMEDocument {
-	private $boundary;
 	private $error;
 
 	/**
@@ -80,19 +79,6 @@ class BSMail extends BSMIMEDocument {
 	 */
 	public function getMessageID () {
 		return $this->getHeader('Message-ID')->getEntity();
-	}
-
-	/**
-	 * バウンダリを返す
-	 *
-	 * @access private
-	 * @return string バウンダリ
-	 */
-	private function getBoundary () {
-		if (!$this->boundary) {
-			$this->boundary = BSUtility::getUniqueID();
-		}
-		return $this->boundary;
 	}
 
 	/**

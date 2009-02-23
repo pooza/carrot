@@ -24,6 +24,11 @@ class BSContentTypeMailHeader extends BSMailHeader {
 		} else {
 			$this->contents = $contents;
 		}
+
+		$pattern = '/^mixed\/multipart; *boundary=\\"([.*]+)\\"/i';
+		if (preg_match($pattern, $this->contents, $matches)) {
+			$this->part->setBoundary($matches[1]);
+		}
 	}
 
 	/**
