@@ -35,6 +35,7 @@ abstract class BSAddressMailHeader extends BSMailHeader {
 			$this->email = $contents;
 			$this->contents = $contents->format();
 		} else {
+			$contents = BSMIMEUtility::decode($contents);
 			$this->email = new BSMailAddress($contents);
 			$this->contents = $contents;
 		}

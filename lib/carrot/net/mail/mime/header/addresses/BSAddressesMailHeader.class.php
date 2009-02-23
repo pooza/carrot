@@ -57,6 +57,7 @@ abstract class BSAddressesMailHeader extends BSMailHeader {
 				}
 			}
 		} else {
+			$contents = BSMIMEUtility::decode($contents);
 			foreach (preg_split('/[;,]/', $contents) as $address) {
 				$addresses[] = new BSMailAddress($address);
 			}

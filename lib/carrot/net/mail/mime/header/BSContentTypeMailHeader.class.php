@@ -22,12 +22,20 @@ class BSContentTypeMailHeader extends BSMailHeader {
 		if ($contents instanceof BSRenderer) {
 			$this->contents = self::getContentType($contents);
 		} else {
-			$this->contents = $contents;
+			$this->contents = BSMIMEUtility::decode($contents);
 		}
+		$this->parseParameters();
+	}
 
-		$pattern = '/^mixed\/multipart; *boundary=\\"([.*]+)\\"/i';
-		if (preg_match($pattern, $this->contents, $matches)) {
-			$this->part->setBoundary($matches[1]);
+	/**
+	 * ヘッダの内容からパラメータを抜き出す
+	 *
+	 * @access protected
+	 */
+	protected function parseParameters () {
+		parent::parseParameters();
+		if ($this['boundary']) {
+			$this->part->setBoundary($this['boundary']);
 		}
 	}
 

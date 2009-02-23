@@ -38,7 +38,8 @@ class BSMessageIDMailHeader extends BSMailHeader {
 				BS_SMTP_HOST
 			);
 		} else {
-			$this->id = $contents;
+			preg_match('/^<?([^>]*)>?$/', $contents, $matches);
+			$this->id = $matches[1];
 		}
 		$this->contents = '<' . $this->id . '>';
 	}

@@ -23,7 +23,10 @@ class BSPOP3 extends BSSocket {
 		if (!$this->isSuccess()) {
 			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
 		}
-		$this->sendUIDL();
+		try {
+			$this->execute('UIDL');
+		} catch (Exception $e) {
+		}
 	}
 
 	/**
@@ -32,9 +35,7 @@ class BSPOP3 extends BSSocket {
 	 * @access public
 	 */
 	public function close () {
-		if (!$this->execute('QUIT')) {
-			throw new BSMailException('%sの切断に失敗しました。(%s)',$this, $this->getPrevLine());
-		}
+		$this->execute('QUIT');
 		parent::close();
 	}
 
@@ -63,13 +64,7 @@ class BSPOP3 extends BSSocket {
 				$this->open();
 			}
 
-			if (!$this->execute('LIST')) {
-				throw new BSMailException(
-					'メール一覧の取得に失敗しました。(%s)',
-					$this->getPrevLine()
-				);
-			}
-
+			$this->execute('LIST');
 			foreach ($this->getLines() as $line) {
 				if ($line == '.') {
 					break;
@@ -93,22 +88,6 @@ class BSPOP3 extends BSSocket {
 	}
 
 	/**
-	 * メールに一意なダイジェストを書き込む
-	 *
-	 * X-UIDLヘッダに書き込む。
-	 *
-	 * @access public
-	 */
-	public function sendUIDL () {
-		if (!$this->execute('UIDL')) {
-			BSController::getInstance()->putLog(
-				sprintf('UIDLに失敗しました。 (%s)', $this->getPrevLine()),
-				get_class($this)
-			);
-		}
-	}
-
-	/**
 	 * コマンドを実行し、結果を返す。
 	 *
 	 * @access public
@@ -117,7 +96,10 @@ class BSPOP3 extends BSSocket {
 	 */
 	public function execute ($command) {
 		$this->putLine($command);
-		return $this->isSuccess();
+		if (!$this->isSuccess()) {
+			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
+		}
+		return true;
 	}
 
 	/**

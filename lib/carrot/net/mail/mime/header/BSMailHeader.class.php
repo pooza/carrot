@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-class BSMailHeader {
+class BSMailHeader extends BSParameterHolder {
 	protected $part;
 	protected $name;
 	protected $contents;
@@ -64,6 +64,7 @@ class BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		$this->contents = BSMIMEUtility::decode($contents);
+		$this->parseParameters();
 	}
 
 	/**
@@ -77,7 +78,21 @@ class BSMailHeader {
 		if (BSString::getEncoding(BSMIMEUtility::decode($this->getContents())) == 'ascii') {
 			$contents = ' ' . $contents;
 		}
-		$this->contents .= BSMIMEDocument::LINE_SEPARATOR . $contents;
+		$this->contents .= $contents;
+		$this->parseParameters();
+	}
+
+	/**
+	 * ヘッダの内容からパラメータを抜き出す
+	 *
+	 * @access protected
+	 */
+	protected function parseParameters () {
+		foreach (BSString::explode(';', $this->contents) as $param) {
+			if (preg_match('/^ *([a-z\-]+)="?([a-z0-9_ \-]+)"?/i', $param, $matches)) {
+				$this[strtolower($matches[1])] = $matches[2];
+			}
+		}
 	}
 
 	/**

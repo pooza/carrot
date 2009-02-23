@@ -11,13 +11,13 @@
  * @version $Id$
  */
 class BSMIMEDocument implements BSRenderer {
-	private $headers;
-	private $renderer;
-	private $filename;
-	private $contents;
-	private $boundary;
-	private $body;
-	private $parts;
+	protected $headers;
+	protected $contents;
+	protected $body;
+	protected $renderer;
+	protected $filename;
+	protected $boundary;
+	protected $parts;
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
@@ -30,7 +30,7 @@ class BSMIMEDocument implements BSRenderer {
 	public function getHeader ($name) {
 		$name = BSString::stripControlCharacters($name);
 		$name = BSString::capitalize($name);
-		return $this->getHeaders()->getParameter($name);
+		return $this->getHeaders()->getParameter(strtolower($name));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class BSMIMEDocument implements BSRenderer {
 
 		$header = new $class($this, $name);
 		$header->setContents($value);
-		$this->getHeaders()->setParameter($name, $header);
+		$this->getHeaders()->setParameter(strtolower($header->getName()), $header);
 		$this->contents = null;
 	}
 
@@ -74,7 +74,7 @@ class BSMIMEDocument implements BSRenderer {
 			$value = BSString::stripControlCharacters($value);
 		}
 
-		if ($this->getHeaders()->hasParameter($name)) {
+		if ($this->getHeaders()->hasParameter(strtolower($name))) {
 			$this->getHeader($name)->appendContents($value);
 		} else {
 			$this->setHeader($name, $header);
@@ -176,6 +176,11 @@ class BSMIMEDocument implements BSRenderer {
 	 * @return BSMIMEDocument メインパート
 	 */
 	public function getMainPart () {
+		if (!$this->getParts()->getParameter(0)) {
+			$part = new BSMIMEDocument;
+			$part->setRenderer(new BSPlainTextRenderer);
+			$this->getParts()->setParameter(0, $part);
+		}
 		return $this->getParts()->getParameter(0);
 	}
 
@@ -226,7 +231,7 @@ class BSMIMEDocument implements BSRenderer {
 
 		try {
 			$contents = BSString::explode("\n\n", $contents);
-			$this->parseHeader($contents[0]);
+			$this->parseHeaders($contents[0]);
 			$contents->removeParameter(0);
 			$contents = $contents->join("\n\n");
 			$this->parseBody($contents);
@@ -241,14 +246,14 @@ class BSMIMEDocument implements BSRenderer {
 	 * @access protected
 	 * @param string $headers ヘッダ部
 	 */
-	protected function parseHeader ($headers) {
+	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clearParameters();
 		foreach (BSString::explode("\n", $headers) as $line) {
-			if (preg_match('/^([a-z0-9\-]+): *(.+)$/i', $line, $matches)) {
+			if (preg_match('/^([a-z0-9\\-]+): *(.+)$/i', $line, $matches)) {
 				$key = $matches[1];
 				$this->setHeader($key, $matches[2]);
 			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
-				$this->setHeader($key, $matches[1]);
+				$this->appendHeader($key, $matches[1]);
 			}
 		}
 	}
@@ -260,9 +265,10 @@ class BSMIMEDocument implements BSRenderer {
 	 * @param string $body 本文
 	 */
 	protected function parseBody ($body) {
+		$this->parts = new BSArray;
+		$this->body = null;
+
 		if ($this->isMultiPart()) {
-			$this->parts->clearParameters();
-			$this->body = null;
 			foreach (BSString::explode($this->getBoundary(), $body) as $value) {
 				if (BSString::isBlank($value) || ($value == '--')) {
 					continue;
