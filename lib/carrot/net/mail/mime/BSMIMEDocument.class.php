@@ -201,7 +201,14 @@ class BSMIMEDocument implements BSRenderer {
 	 * @return boolean マルチパートならばTrue
 	 */
 	public function isMultiPart () {
-		return (1 < $this->getParts()->count());
+		if (1 < $this->getParts()->count()) {
+			return true;
+		} else {
+			if ($header = $this->getHeader('Content-Type')) {
+				return preg_match('/^multipart\/mixed/', $header->getContents());
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -249,7 +256,7 @@ class BSMIMEDocument implements BSRenderer {
 	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clearParameters();
 		foreach (BSString::explode("\n", $headers) as $line) {
-			if (preg_match('/^([a-z0-9\\-]+): *(.+)$/i', $line, $matches)) {
+			if (preg_match('/^([a-z0-9\\-]+): *(.*)$/i', $line, $matches)) {
 				$key = $matches[1];
 				$this->setHeader($key, $matches[2]);
 			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
@@ -269,7 +276,7 @@ class BSMIMEDocument implements BSRenderer {
 		$this->body = null;
 
 		if ($this->isMultiPart()) {
-			foreach (BSString::explode($this->getBoundary(), $body) as $value) {
+			foreach (BSString::explode('--' . $this->getBoundary(), $body) as $value) {
 				if (BSString::isBlank($value) || ($value == '--')) {
 					continue;
 				}
@@ -278,14 +285,42 @@ class BSMIMEDocument implements BSRenderer {
 				$this->getParts()->setParameter(null, $part);
 			}
 		} else {
-			$this->getMainPart()->getRenderer()->setContents($body);
+			$this->getMainPart()->setRenderer($this->parsePart($body));
 		}
+	}
+
+	protected function parsePart ($body) {
+		if ($header = $this->getHeader('Content-Transfer-Encoding')) {
+			switch (strtolower($header->getContents())) {
+				case 'base64':
+					$body = BSMIMEUtility::decodeBase64($body);
+					$header['encoded'] = true;
+					break;
+				case 'quoted-printable':
+					$body = BSMIMEUtility::decodeQuotedPrintable($body);
+					$header['encoded'] = true;
+					break;
+			}
+		}
+
+		$renderer = new BSBinaryRenderer;
+		if ($header = $this->getHeader('Content-Type')) {
+			if (preg_match('/^text\//', $header->getContents())) {
+				$renderer = new BSPlainTextRenderer;
+				$renderer->setContents(BSString::convertEncoding($body));
+				return $renderer;
+			} else {
+				$renderer->setType($header->getContents());
+			}
+		}
+		$renderer->setContents($body);
+		return $renderer;
 	}
 
 	/**
 	 * 本文を返す
 	 *
-	 * マルチパートの場合、素（mixed/multipart）の本文を返す。
+	 * マルチパートの場合、素（multipart/mixed）の本文を返す。
 	 *
 	 * @access public
 	 * @return string 本文
@@ -302,10 +337,19 @@ class BSMIMEDocument implements BSRenderer {
 					$this->body .= $header->format();
 				}
 				$this->body .= self::LINE_SEPARATOR;
-				$contents = $part->getRenderer()->getContents();
-				if ($part->getHeader('Content-Transfer-Encoding')->getContents() == 'base64') {
-					$contents = BSMIMEUtility::encodeBase64($contents, BSMIMEUtility::WITH_SPLIT);
+
+				if (!$renderer = $part->getRenderer()) {
+					$renderer = $part->getMainPart()->getRenderer();
 				}
+				$contents = $renderer->getContents();
+				if ($header = $part->getHeader('Content-Transfer-Encoding')) {
+					if ((strtolower($header->getContents()) == 'base64') && !$header['encoded']) {
+						$contents = BSMIMEUtility::encodeBase64(
+							$contents, BSMIMEUtility::WITH_SPLIT
+						);
+					}
+				}
+
 				$this->body .= $contents;
 			}
 			$this->body .= '--' . $this->getBoundary() . '--';

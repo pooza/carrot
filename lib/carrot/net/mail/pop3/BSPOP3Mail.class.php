@@ -66,6 +66,30 @@ class BSPOP3Mail extends BSMIMEDocument {
 	}
 
 	/**
+	 * 本文を取得
+	 *
+	 * @access public
+	 */
+	public function query () {
+		$this->server->execute('RETR ' . $this->getID());
+		$body = new BSArray($this->server->getLines());
+		$body = $body->join("\n");
+		$body = BSString::explode("\n\n", $body);
+
+		if (!$this->getHeaders()->count()) {
+			$this->parseHeaders($body[0]);
+		}
+
+		$body->removeParameter(0);
+		$body = $body->join("\n\n");
+		$body = preg_replace('/\.$/', '', $body);
+		$body = trim($body);
+		$body = BSString::convertEncoding($body);
+		$this->parseBody($body);
+		$this->executed['RETR'] = true;
+	}
+
+	/**
 	 * ヘッダだけを取得
 	 *
 	 * @access public
@@ -87,22 +111,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 */
 	public function getBody () {
 		if (!$this->executed['RETR']) {
-			$this->server->execute('RETR ' . $this->getID());
-			$body = new BSArray($this->server->getLines());
-			$body = $body->join("\n");
-			$body = BSString::explode("\n\n", $body);
-
-			if (!$this->getHeaders()->count()) {
-				$headers = BSString::explode("\n", $body[0]);
-				$this->parseHeaders($headers);
-			}
-
-			$body->removeParameter(0);
-			$body = $body->join("\n");
-			$body = preg_replace('/\.$/', '', $body);
-			$body = BSString::convertEncoding($body);
-			$this->parseBody($body);
-			$this->executed['RETR'] = true;
+			$this->query();
 		}
 		return parent::getBody();
 	}

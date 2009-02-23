@@ -32,13 +32,9 @@ abstract class BSAddressMailHeader extends BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		if ($contents instanceof BSMailAddress) {
-			$this->email = $contents;
-			$this->contents = $contents->format();
-		} else {
-			$contents = BSMIMEUtility::decode($contents);
-			$this->email = new BSMailAddress($contents);
-			$this->contents = $contents;
+			$contents = $contents->format();
 		}
+		parent::setContents($contents);
 	}
 
 	/**
@@ -48,7 +44,23 @@ abstract class BSAddressMailHeader extends BSMailHeader {
 	 * @param string $contents 内容
 	 */
 	public function appendContents ($contents) {
-		throw new BSMIMEException('%sヘッダに追記することは出来ません。', $this->getName());
+		if ($contents instanceof BSMailAddress) {
+			$contents = $contents->format();
+		}
+		parent::appendContents($contents);
+	}
+
+	/**
+	 * ヘッダの内容からパラメータを抜き出す
+	 *
+	 * @access protected
+	 */
+	protected function parseParameters () {
+		parent::parseParameters();
+		try {
+			$this->email = new BSMailAddress($this->contents);
+		} catch (BSMailException $e) {
+		}
 	}
 }
 

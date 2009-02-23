@@ -75,7 +75,7 @@ class BSMailHeader extends BSParameterHolder {
 	 */
 	public function appendContents ($contents) {
 		$contents = BSMIMEUtility::decode($contents);
-		if (BSString::getEncoding(BSMIMEUtility::decode($this->getContents())) == 'ascii') {
+		if (BSString::getEncoding($this->contents . $contents) == 'ascii') {
 			$contents = ' ' . $contents;
 		}
 		$this->contents .= $contents;
@@ -89,7 +89,7 @@ class BSMailHeader extends BSParameterHolder {
 	 */
 	protected function parseParameters () {
 		foreach (BSString::explode(';', $this->contents) as $param) {
-			if (preg_match('/^ *([a-z\-]+)="?([a-z0-9_ \-]+)"?/i', $param, $matches)) {
+			if (preg_match('/^ *([a-z\-]+)="?([^";]+)"?/iu', $param, $matches)) {
 				$this[strtolower($matches[1])] = $matches[2];
 			}
 		}
