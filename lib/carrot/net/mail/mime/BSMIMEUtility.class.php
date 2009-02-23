@@ -11,6 +11,8 @@
  * @version $Id$
  */
 class BSMIMEUtility {
+	const ATTACHMENT = 'attachment';
+	const INLINE = 'inline';
 	const ENCODE_PREFIX = '=?iso-2022-jp?B?';
 	const ENCODE_SUFFIX = '?=';
 	const WITH_SPLIT = 1;

@@ -18,8 +18,6 @@ class BSMIMEDocument implements BSRenderer {
 	private $boundary;
 	private $body;
 	private $parts;
-	const ATTACHMENT = 'attachment';
-	const INLINE = 'inline';
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
@@ -147,7 +145,7 @@ class BSMIMEDocument implements BSRenderer {
 	 * @param string $filename ファイル名
 	 * @param string $mode モード
 	 */
-	public function setFileName ($filename, $mode = self::ATTACHMENT) {
+	public function setFileName ($filename, $mode = BSMIMEUtility::ATTACHMENT) {
 		$this->filename = $filename;
 
 		if (BSString::isBlank($filename)) {
@@ -337,7 +335,7 @@ class BSMIMEDocument implements BSRenderer {
 		$part = new BSMIMEDocument;
 		$part->setRenderer($renderer);
 		if (!BSString::isBlank($name)) {
-			$part->setFileName($name, self::ATTACHMENT);
+			$part->setFileName($name, BSMIMEUtility::ATTACHMENT);
 		}
 
 		$parts = $this->getParts();

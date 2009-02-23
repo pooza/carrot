@@ -18,8 +18,6 @@ abstract class BSView {
 	private $headers = array();
 	private $action;
 	private $filename;
-	const ATTACHMENT = 'attachment';
-	const INLINE = 'inline';
 	const ALERT = 'Alert';
 	const ERROR = 'Error';
 	const INPUT = 'Input';
@@ -283,7 +281,7 @@ abstract class BSView {
 	 * @access public
 	 * @param string $name ファイル名
 	 */
-	public function setFileName ($name, $mode = self::ATTACHMENT) {
+	public function setFileName ($name, $mode = BSMIMEUtility::ATTACHMENT) {
 		$this->filename = $name;
 		$name = $this->useragent->getEncodedFileName($name);
 		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
