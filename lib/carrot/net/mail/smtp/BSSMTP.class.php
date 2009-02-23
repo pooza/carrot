@@ -135,15 +135,13 @@ class BSSMTP extends BSSocket {
 	 * @return BSArray 受信者の配列
 	 */
 	protected function getRecipients ($flag = null) {
-		$recipients = new BSArray;
 		if (BS_DEBUG || ($flag & self::TEST)) {
+			$recipients = new BSArray;
 			$recipients[] = BSAdministrator::getMailAddress();
+			return $recipients;
 		} else {
-			foreach ($this->getMail()->getRecipients() as $email) {
-				$recipients[] = $email;
-			}
+			return clone $this->getMail()->getRecipients();
 		}
-		return $recipients;
 	}
 
 	/**

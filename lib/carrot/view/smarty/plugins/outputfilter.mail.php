@@ -11,22 +11,12 @@
  * @version $Id$
  */
 function smarty_outputfilter_mail ($source, &$smarty) {
-	$lines = BSString::explode("\n", $source);
-	foreach ($lines as $key => $line) {
-		if (BSString::isBlank($line)) { //空行を発見したらヘッダのパースをやめる
-			$lines->removeParameter($key);
-			break;
-		} else if (preg_match('/^([a-z0-9\\-]+): *(.+)$/i', $line, $matches)) {
-			$smarty->getHeaders()->setParameter($matches[1], $matches[2]);
-			$lines->removeParameter($key);
-		} else {
-			break;
-		}
+	$mime = new BSMail;
+	$mime->setContents($source);
+	foreach ($mime->getHeaders() as $header) {
+		$smarty->getHeaders()->setParameter($header->getName(), $header->getEntity());
 	}
-	$source = $lines->join("\n");
-	$source = BSString::convertKana($source);
-	$source = BSString::split($source, 78);
-	$source = BSString::convertLineSeparator(BSMail::LINE_SEPARATOR, $source);
+	$source = $mime->getBody();
 	return $source;
 }
 

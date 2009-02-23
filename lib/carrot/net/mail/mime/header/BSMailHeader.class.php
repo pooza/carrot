@@ -43,7 +43,7 @@ class BSMailHeader {
 	 * @return mixed 実体
 	 */
 	public function getEntity () {
-		return $this->getContents();
+		return $this->contents;
 	}
 
 	/**

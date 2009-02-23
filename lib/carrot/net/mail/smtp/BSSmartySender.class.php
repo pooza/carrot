@@ -24,7 +24,6 @@ class BSSmartySender extends BSSMTP {
 		$this->setType('text/plain');
 		$this->setEncoding('iso-2022-jp');
 		$this->addOutputFilter('mail');
-		$this->addOutputFilter('encoding');
 		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
 			$this->setTemplatesDirectory($dir);
 		}
@@ -100,7 +99,7 @@ class BSSmartySender extends BSSMTP {
 	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($flag = null) {
-		$this->getRenderer()->render();
+		$this->render();
 		foreach ($this->getRenderer()->getHeaders() as $key => $value) {
 			$this->getMail()->setHeader($key, $value);
 		}

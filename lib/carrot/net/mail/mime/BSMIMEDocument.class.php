@@ -5,7 +5,7 @@
  */
 
 /**
- * MIME文書
+ * 基底MIME文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -229,7 +229,9 @@ class BSMIMEDocument implements BSRenderer {
 		try {
 			$contents = BSString::explode("\n\n", $contents);
 			$this->parseHeader($contents[0]);
-			$this->parseBody($contents[1]);
+			$contents->removeParameter(0);
+			$contents = $contents->join("\n\n");
+			$this->parseBody($contents);
 		} catch (Exception $e) {
 			throw new BSMIMEException('MIME文書がパースできません。');
 		}
@@ -242,6 +244,7 @@ class BSMIMEDocument implements BSRenderer {
 	 * @param string $headers ヘッダ部
 	 */
 	protected function parseHeader ($headers) {
+		$this->getHeaders()->clearParameters();
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (preg_match('/^([a-z0-9\-]+): *(.+)$/i', $line, $matches)) {
 				$key = $matches[1];
