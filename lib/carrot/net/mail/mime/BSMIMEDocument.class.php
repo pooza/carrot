@@ -98,7 +98,7 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function getMessageID () {
 		if ($header = $this->getHeader('Message-ID')) {
-			return $header->getEntity();
+			return $header->getContents();
 		}
 	}
 
@@ -110,7 +110,7 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function getContentTransferEncoding () {
 		if ($header = $this->getHeader('Content-Transfer-Encoding')) {
-			return strtolower($header->getEntity());
+			return $header->getContents();
 		}
 	}
 
@@ -132,11 +132,16 @@ class BSMIMEDocument implements BSRenderer {
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer レンダラー
+	 * @param integer $flag フラグ
+	 *   BSMIMEUtility::WITHOUT_HEADER ヘッダを修正しない
+	 *   BSMIMEUtility::WITH_HEADER ヘッダも修正
 	 */
-	public function setRenderer (BSRenderer $renderer) {
+	public function setRenderer (BSRenderer $renderer, $flag = BSMIMEUtility::WITH_HEADER) {
 		$this->renderer = $renderer;
-		$this->setHeader('Content-Type', $renderer);
-		$this->setHeader('Content-Transfer-Encoding', $renderer);
+		if ($flag & BSMIMEUtility::WITH_HEADER) {
+			$this->setHeader('Content-Type', $renderer);
+			$this->setHeader('Content-Transfer-Encoding', $renderer);
+		}
 	}
 
 	/**
@@ -305,6 +310,41 @@ class BSMIMEDocument implements BSRenderer {
 			throw new BSMIMEException('%sの本文を上書きできません。', get_glass($renderer));
 		}
 		$this->getRenderer()->setContents($body);
+	}
+
+	/**
+	 * エンコード前の本文を返す
+	 *
+	 * マルチパートメールの場合は、レンダラーを含んだ配列
+	 *
+	 * @access public
+	 * @return mixed 
+	 */
+	public function getRaw () {
+		if ($this->isMultiPart()) {
+			$parts = new BSArray;
+			foreach ($this->getParts() as $part) {
+				$parts[] = $part->getRaw();
+			}
+			return $parts;
+		} else {
+			if ($header = $this->getHeader('Content-Type')) {
+				$raw = $this->getRenderer()->getContents();
+				switch ($this->getContentTransferEncoding()) {
+					case 'base64':
+						$raw = BSMIMEUtility::decodeBase64($raw);
+						break;
+					case 'quoted-printable':
+						$raw = BSMIMEUtility::decodeQuotedPrintable($raw);
+						break;
+				}
+				if ($header['main_type'] == 'text') {
+					$raw = BSString::convertEncoding($raw, 'utf-8', $header['charset']);
+				}
+				return $raw;
+			}
+			return $this->getRenderer();
+		}
 	}
 
 	/**

@@ -61,16 +61,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	public function query () {
 		$this->server->execute('RETR ' . $this->getID());
 		$body = new BSArray($this->server->getLines());
-		$body = $body->join("\n");
-		$body = BSString::explode("\n\n", $body);
-
-		if (!$this->getHeaders()->count()) {
-			$this->parseHeaders($body[0]);
-		}
-
-		$body->removeParameter(0);
-		$body = $body->join("\n\n");
-		$this->parseBody($body);
+		$this->setContents($body->join("\n"));
 		$this->executed['RETR'] = true;
 	}
 
@@ -84,6 +75,28 @@ class BSPOP3Mail extends BSMIMEDocument {
 		$headers = new BSArray($this->server->getLines());
 		$this->parseHeaders($headers->join("\n"));
 		$this->executed['TOP'] = true;
+	}
+
+	/**
+	 * 本文をパース
+	 *
+	 * @access protected
+	 * @param string $body 本文
+	 */
+	protected function parseBody ($body) {
+		if ($header = $this->getHeader('Content-Type')) {
+			if ($header['main_type'] == 'text') {
+				$renderer = new BSPlainTextRenderer;
+				$renderer->setConvertKanaFlag('KV');
+				$renderer->setLineSeparator(self::LINE_SEPARATOR);
+				if ($encoding = $header['charset']) {
+					$renderer->setEncoding($encoding);
+					$body = BSString::convertEncoding($body, 'utf-8', $encoding);
+				}
+				$this->setRenderer($renderer, BSMIMEUtility::WITHOUT_HEADER);
+			}
+		}
+		parent::parseBody($body);
 	}
 
 	/**

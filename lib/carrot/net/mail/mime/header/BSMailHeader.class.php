@@ -142,7 +142,10 @@ class BSMailHeader extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function parseParameters () {
-		foreach (BSString::explode(';', $this->contents) as $param) {
+		foreach (BSString::explode(';', $this->contents) as $index => $param) {
+			if ($index == 0) {
+				$this[0] = trim($param);
+			}
 			if (preg_match('/^ *([a-z\-]+)="?([^";]+)"?/iu', $param, $matches)) {
 				$this[strtolower($matches[1])] = $matches[2];
 			}

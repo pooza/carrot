@@ -22,7 +22,7 @@ class BSContentTransferEncodingMailHeader extends BSMailHeader {
 		if ($contents instanceof BSRenderer) {
 			$this->contents = self::getContentTransferEncoding($contents);
 		} else {
-			$this->contents = $contents;
+			$this->contents = strtolower($contents);
 		}
 	}
 

@@ -20,11 +20,11 @@ class BSContentTypeMailHeader extends BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		if ($contents instanceof BSRenderer) {
-			$this->contents = self::getContentType($contents);
+			$contents = self::getContentType($contents);
 		} else {
-			$this->contents = BSMIMEUtility::decode($contents);
+			$contents = strtolower($contents);
 		}
-		$this->parseParameters();
+		parent::setContents($contents);
 	}
 
 	/**
@@ -37,6 +37,9 @@ class BSContentTypeMailHeader extends BSMailHeader {
 		if ($this['boundary'] && $this->getPart()) {
 			$this->getPart()->setBoundary($this['boundary']);
 		}
+		$type = BSString::explode('/', $this[0]);
+		$this['main_type'] = $type[0];
+		$this['sub_type'] = $type[1];
 	}
 
 	/**

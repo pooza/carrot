@@ -16,6 +16,8 @@ class BSMIMEUtility {
 	const ENCODE_PREFIX = '=?iso-2022-jp?B?';
 	const ENCODE_SUFFIX = '?=';
 	const WITH_SPLIT = 1;
+	const WITHOUT_HEADER = 0;
+	const WITH_HEADER = 1;
 
 	/**
 	 * @access private

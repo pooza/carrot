@@ -53,13 +53,19 @@ abstract class BSAddressesMailHeader extends BSMailHeader {
 				if ($address instanceof BSMailAddress) {
 					$addresses[] = $address;
 				} else {
-					$addresses[] = new BSMailAddress($address);
+					try {
+						$addresses[] = new BSMailAddress($address);
+					} catch (BSMailException $e) {
+					}
 				}
 			}
 		} else {
 			$contents = BSMIMEUtility::decode($contents);
 			foreach (preg_split('/[;,]/', $contents) as $address) {
-				$addresses[] = new BSMailAddress($address);
+				try {
+					$addresses[] = new BSMailAddress($address);
+				} catch (BSMailException $e) {
+				}
 			}
 		}
 
