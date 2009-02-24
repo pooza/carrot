@@ -48,10 +48,12 @@ class BSPOP3 extends BSSocket {
 	 * @return string[] 読み込んだ内容
 	 */
 	public function getLines () {
-		$lines = parent::getLines();
-		if (end($lines) == '.') {
-			array_pop($lines);
-		}
+		$lines = array();
+		do {
+			$line = $this->getLine();
+			$lines[] = $line;
+		} while ($line != '.');
+		array_pop($lines);
 		return $lines;
 	}
 
@@ -61,7 +63,7 @@ class BSPOP3 extends BSSocket {
 	 * @access public
 	 * @param string $user ユーザー名
 	 * @param string $password パスワード
-	 * @return boolean 認証の正否
+	 * @return boolean 認証の成否
 	 */
 	public function auth ($user, $password) {
 		return ($this->execute('USER ' . $user) && $this->execute('PASS ' . $password));

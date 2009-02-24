@@ -128,7 +128,7 @@ class BSSocket {
 			$status = socket_get_status($this->handle);
 		} while ($status['unread_bytes']);
 
-		if (!$lines[0] && (count($lines) == 1)) {
+		if (BSString::isBlank($lines[0]) && (count($lines) == 1)) {
 			return array();
 		}
 		return $lines;

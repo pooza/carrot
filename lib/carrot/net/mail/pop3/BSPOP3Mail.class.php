@@ -58,7 +58,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 *
 	 * @access public
 	 */
-	public function query () {
+	public function fetch () {
 		$this->server->execute('RETR ' . $this->getID());
 		$body = new BSArray($this->server->getLines());
 		$this->setContents($body->join("\n"));
@@ -70,34 +70,13 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 *
 	 * @access public
 	 */
-	public function queryHeaders () {
+	public function fetchHeaders () {
 		$this->server->execute('TOP ' . $this->getID() . ' 0');
 		$headers = new BSArray($this->server->getLines());
 		$this->parseHeaders($headers->join("\n"));
 		$this->executed['TOP'] = true;
 	}
 
-	/**
-	 * 本文をパース
-	 *
-	 * @access protected
-	 * @param string $body 本文
-	 */
-	protected function parseBody ($body) {
-		if ($header = $this->getHeader('Content-Type')) {
-			if ($header['main_type'] == 'text') {
-				$renderer = new BSPlainTextRenderer;
-				$renderer->setConvertKanaFlag('KV');
-				$renderer->setLineSeparator(self::LINE_SEPARATOR);
-				if ($encoding = $header['charset']) {
-					$renderer->setEncoding($encoding);
-					$body = BSString::convertEncoding($body, 'utf-8', $encoding);
-				}
-				$this->setRenderer($renderer, BSMIMEUtility::WITHOUT_HEADER);
-			}
-		}
-		parent::parseBody($body);
-	}
 
 	/**
 	 * 本文を返す
@@ -109,7 +88,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 */
 	public function getBody () {
 		if (!$this->executed['RETR']) {
-			$this->query();
+			$this->fetch();
 		}
 		return parent::getBody();
 	}

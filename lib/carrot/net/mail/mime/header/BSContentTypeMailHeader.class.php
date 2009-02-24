@@ -22,7 +22,7 @@ class BSContentTypeMailHeader extends BSMailHeader {
 		if ($contents instanceof BSRenderer) {
 			$contents = self::getContentType($contents);
 		} else {
-			$contents = strtolower($contents);
+			$contents = $contents;
 		}
 		parent::setContents($contents);
 	}

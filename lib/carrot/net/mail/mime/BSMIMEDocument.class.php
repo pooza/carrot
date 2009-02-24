@@ -264,7 +264,27 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	protected function parseBody ($body) {
 		if ($this->isMultiPart()) {
+			$separator = '--' . $this->getBoundary();
+			$parts = BSString::explode($separator, $body);
+			$parts->removeParameter($parts->count() - 1);
+			$parts->removeParameter(0);
+			foreach ($parts as $source) {
+				$part = new BSMIMEDocument;
+				$part->setContents($source);
+				$this->getParts()->setParameter(null, $part);
+			}
 		} else {
+			if ($header = $this->getHeader('Content-Type')) {
+				if ($header['main_type'] == 'text') {
+					$renderer = new BSPlainTextRenderer;
+					$renderer->setLineSeparator(self::LINE_SEPARATOR);
+					if ($encoding = $header['charset']) {
+						$renderer->setEncoding($encoding);
+						$body = BSString::convertEncoding($body, 'utf-8', $encoding);
+					}
+					$this->setRenderer($renderer, BSMIMEUtility::WITHOUT_HEADER);
+				}
+			}
 			$this->getRenderer()->setContents($body);
 		}
 	}
@@ -313,35 +333,39 @@ class BSMIMEDocument implements BSRenderer {
 	}
 
 	/**
-	 * エンコード前の本文を返す
+	 * 本文や添付ファイルの実体を返す
 	 *
-	 * マルチパートメールの場合は、レンダラーを含んだ配列
+	 * マルチパートメールの場合は配列
 	 *
 	 * @access public
 	 * @return mixed 
 	 */
-	public function getRaw () {
+	public function getEntities () {
 		if ($this->isMultiPart()) {
 			$parts = new BSArray;
 			foreach ($this->getParts() as $part) {
-				$parts[] = $part->getRaw();
+				$name = null;
+				if ($header = $part->getHeader('Content-Disposition')) {
+					$name = $header['filename'];
+				}
+				$parts[$name] = $part->getEntities();
 			}
 			return $parts;
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
-				$raw = $this->getRenderer()->getContents();
+				$entity = $this->getRenderer()->getContents();
 				switch ($this->getContentTransferEncoding()) {
 					case 'base64':
-						$raw = BSMIMEUtility::decodeBase64($raw);
+						$entity = BSMIMEUtility::decodeBase64($entity);
 						break;
 					case 'quoted-printable':
-						$raw = BSMIMEUtility::decodeQuotedPrintable($raw);
+						$entity = BSMIMEUtility::decodeQuotedPrintable($entity);
 						break;
 				}
 				if ($header['main_type'] == 'text') {
-					$raw = BSString::convertEncoding($raw, 'utf-8', $header['charset']);
+					$entity = BSString::convertEncoding($entity, 'utf-8', $header['charset']);
 				}
-				return $raw;
+				return $entity;
 			}
 			return $this->getRenderer();
 		}
