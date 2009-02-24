@@ -12,7 +12,7 @@
  * @abstract
  */
 abstract class BSAddressMailHeader extends BSMailHeader {
-	private $email;
+	protected $email;
 
 	/**
 	 * 実体を返す

@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSCCMailHeader extends BSAddressesMailHeader {
+class BSCcMailHeader extends BSAddressesMailHeader {
 }
 
 /* vim:set tabstop=4: */

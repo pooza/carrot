@@ -27,7 +27,7 @@ class BSMail extends BSMIMEDocument {
 		$this->setHeader('Subject', 'untitled');
 		$this->setHeader('Content-Type', $renderer);
 		$this->setHeader('Content-Transfer-Encoding', $renderer);
-		$this->setHeader('Message-ID', null);
+		$this->setHeader('Message-Id', null);
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', null);
@@ -62,7 +62,7 @@ class BSMail extends BSMIMEDocument {
 	 */
 	public function getRecipients () {
 		$recipients = new BSArray;
-		foreach (array('To', 'CC', 'BCC') as $key) {
+		foreach (array('To', 'Cc', 'Bcc') as $key) {
 			if (!$header = $this->getHeader($key)) {
 				continue;
 			}

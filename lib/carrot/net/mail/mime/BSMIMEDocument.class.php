@@ -97,7 +97,7 @@ class BSMIMEDocument implements BSRenderer {
 	 * @return string メッセージID
 	 */
 	public function getMessageID () {
-		if ($header = $this->getHeader('Message-ID')) {
+		if ($header = $this->getHeader('Message-Id')) {
 			return $header->getContents();
 		}
 	}
