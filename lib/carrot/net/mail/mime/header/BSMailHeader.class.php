@@ -191,6 +191,16 @@ class BSMailHeader extends BSParameterHolder {
 	public function isVisible () {
 		return !BSString::isBlank($this->getContents());
 	}
+
+	/**
+	 * 複数行を許容するか？
+	 *
+	 * @access public
+	 * @return boolean 許容ならばTrue
+	 */
+	public function isMultiple () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */

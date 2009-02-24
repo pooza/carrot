@@ -42,9 +42,14 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function setHeader ($name, $value) {
 		$header = BSMailHeader::getInstance($name);
-		$header->setPart($this);
-		$header->setContents($value);
-		$this->getHeaders()->setParameter(strtolower($header->getName()), $header);
+		if ($header->isMultiple() && $this->getHeader($name)) {
+			$header = $this->getHeader($name);
+			$header->setContents($value);
+		} else {
+			$header->setPart($this);
+			$header->setContents($value);
+			$this->getHeaders()->setParameter(strtolower($header->getName()), $header);
+		}
 		$this->contents = null;
 	}
 
