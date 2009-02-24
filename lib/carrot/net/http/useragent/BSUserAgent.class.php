@@ -217,9 +217,23 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @param string $name ファイル名
 	 * @return string エンコード済みファイル名
 	 */
-	public function getEncodedFileName ($name) {
+	public function encodeFileName ($name) {
 		$name = BSMIMEUtility::encode($name);
 		return BSString::sanitize($name);
+	}
+
+	/**
+	 * ダウンロード用にエンコードされたファイル名を返す
+	 *
+	 * getEncodedFileNameのエイリアス
+	 *
+	 * @access public
+	 * @param string $name ファイル名
+	 * @return string エンコード済みファイル名
+	 * @final
+	 */
+	final public function getEncodedFileName ($name) {
+		return $this->encodeFileName($name);
 	}
 
 	/**

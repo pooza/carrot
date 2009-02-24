@@ -30,7 +30,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @param string $name ファイル名
 	 * @return string エンコード済みファイル名
 	 */
-	public function getEncodedFileName ($name) {
+	public function encodeFileName ($name) {
 		$name = BSString::convertEncoding($name, 'sjis-win');
 		return BSString::sanitize($name);
 	}

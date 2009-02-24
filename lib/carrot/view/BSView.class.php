@@ -283,7 +283,7 @@ abstract class BSView {
 	 */
 	public function setFileName ($name, $mode = BSMIMEUtility::ATTACHMENT) {
 		$this->filename = $name;
-		$name = $this->useragent->getEncodedFileName($name);
+		$name = $this->useragent->encodeFileName($name);
 		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
 	}
 
