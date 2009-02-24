@@ -31,11 +31,22 @@ class BSDateMailHeader extends BSMailHeader {
 	 */
 	public function setContents ($contents) {
 		if ($contents instanceof BSDate) {
-			$this->date = $contents;
-		} else {
-			$this->date = new BSDate($contents);
+			$contents = $contents->format('r');
 		}
-		$this->contents = $this->date->format('r');
+		parent::setContents($contents);
+	}
+
+	/**
+	 * ヘッダの内容からパラメータを抜き出す
+	 *
+	 * @access protected
+	 */
+	protected function parseParameters () {
+		parent::parseParameters();
+		try {
+			$this->date = new BSDate($this->contents);
+		} catch (BSDateException $e) {
+		}
 	}
 }
 

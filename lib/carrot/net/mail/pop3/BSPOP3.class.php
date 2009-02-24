@@ -40,6 +40,22 @@ class BSPOP3 extends BSSocket {
 	}
 
 	/**
+	 * ストリームの終端まで読んで返す
+	 *
+	 * 最終行のドットは削除
+	 *
+	 * @access public
+	 * @return string[] 読み込んだ内容
+	 */
+	public function getLines () {
+		$lines = parent::getLines();
+		if (end($lines) == '.') {
+			array_pop($lines);
+		}
+		return $lines;
+	}
+
+	/**
 	 * 認証
 	 *
 	 * @access public
@@ -66,9 +82,6 @@ class BSPOP3 extends BSSocket {
 
 			$this->execute('LIST');
 			foreach ($this->getLines() as $line) {
-				if ($line == '.') {
-					break;
-				}
 				$mail = new BSPOP3Mail($this, $line);
 				$this->mails[$mail->getID()] = $mail;
 			}

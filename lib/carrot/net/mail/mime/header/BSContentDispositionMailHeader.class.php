@@ -19,8 +19,8 @@ class BSContentDispositionMailHeader extends BSMailHeader {
 	 */
 	protected function parseParameters () {
 		parent::parseParameters();
-		if ($this['filename'] && BSString::isBlank($this->part->getFileName())) {
-			$this->part->setFileName($this['filename']);
+		if ($this['filename'] && ($part = $this->getPart()) && !$part->getFileName()) {
+			$part->setFileName($this['filename']);
 		}
 	}
 }

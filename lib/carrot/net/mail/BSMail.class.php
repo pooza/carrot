@@ -22,9 +22,11 @@ class BSMail extends BSMIMEDocument {
 		$renderer->setWidth(78);
 		$renderer->setConvertKanaFlag('KV');
 		$renderer->setLineSeparator(self::LINE_SEPARATOR);
+		$this->setRenderer($renderer);
 
-		$this->addAttachment($renderer);
 		$this->setHeader('Subject', 'untitled');
+		$this->setHeader('Content-Type', $renderer);
+		$this->setHeader('Content-Transfer-Encoding', $renderer);
 		$this->setHeader('Message-ID', null);
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
@@ -69,16 +71,6 @@ class BSMail extends BSMIMEDocument {
 			}
 		}
 		return $recipients;
-	}
-
-	/**
-	 * メッセージIDを返す
-	 *
-	 * @access public
-	 * @return string メッセージID
-	 */
-	public function getMessageID () {
-		return $this->getHeader('Message-ID')->getEntity();
 	}
 
 	/**

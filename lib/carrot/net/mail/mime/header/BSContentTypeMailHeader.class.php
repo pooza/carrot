@@ -34,8 +34,8 @@ class BSContentTypeMailHeader extends BSMailHeader {
 	 */
 	protected function parseParameters () {
 		parent::parseParameters();
-		if ($this['boundary']) {
-			$this->part->setBoundary($this['boundary']);
+		if ($this['boundary'] && $this->getPart()) {
+			$this->getPart()->setBoundary($this['boundary']);
 		}
 	}
 

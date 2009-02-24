@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSBinaryRenderer implements BSRenderer {
+	private $contents;
 	private $type = 'application/octet-stream';
 
 	/**

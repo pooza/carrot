@@ -19,11 +19,53 @@ class BSMailHeader extends BSParameterHolder {
 	/**
 	 * @access public
 	 * @param BSMIMEDocument $part メールパート
-	 * @param string $name ヘッダ名
 	 */
-	public function __construct (BSMIMEDocument $part, $name) {
+	public function __construct (BSMIMEDocument $part = null) {
+		if ($part) {
+			$this->setPart($part);
+		}
+	}
+
+	/**
+	 * パートを返す
+	 *
+	 * @access public
+	 * @return BSMIMEDocument メールパート
+	 */
+	public function getPart () {
+		return $this->part;
+	}
+
+	/**
+	 * パートを設定
+	 *
+	 * @access public
+	 * @param BSMIMEDocument $part メールパート
+	 */
+	public function setPart (BSMIMEDocument $part) {
 		$this->part = $part;
-		$this->name = $name;
+	}
+
+	/**
+	 * インスタンスを生成して返す
+	 *
+	 * @access public
+	 * @param string $name ヘッダ名
+	 * @return BSMailHeader ヘッダ
+	 */
+	static public function getInstance ($name) {
+		$name = BSString::stripControlCharacters($name);
+		$name = BSString::capitalize($name);
+
+		try {
+			$class = str_replace('-', '', $name);
+			$header = BSClassLoader::getInstance()->getObject($class, 'MailHeader');
+		} catch (Exception $e) {
+			$header = new self;
+		}
+
+		$header->setName($name);
+		return $header;
 	}
 
 	/**
@@ -34,6 +76,16 @@ class BSMailHeader extends BSParameterHolder {
 	 */
 	public function getName () {
 		return $this->name;
+	}
+
+	/**
+	 * 名前を設定
+	 *
+	 * @access public
+	 * @param string $name ヘッダ名
+	 */
+	public function setName ($name) {
+		$this->name = $name;
 	}
 
 	/**
@@ -63,6 +115,7 @@ class BSMailHeader extends BSParameterHolder {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
+		$contents = BSString::stripControlCharacters($contents);
 		$this->contents = BSMIMEUtility::decode($contents);
 		$this->parseParameters();
 	}
@@ -74,6 +127,7 @@ class BSMailHeader extends BSParameterHolder {
 	 * @param string $contents 内容
 	 */
 	public function appendContents ($contents) {
+		$contents = BSString::stripControlCharacters($contents);
 		$contents = BSMIMEUtility::decode($contents);
 		if (BSString::getEncoding($this->contents . $contents) == 'ascii') {
 			$contents = ' ' . $contents;

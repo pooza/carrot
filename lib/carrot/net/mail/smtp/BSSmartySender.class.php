@@ -20,18 +20,20 @@ class BSSmartySender extends BSSMTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		parent::__construct($host, $port);
 
-		$this->getMail()->getMainPart()->setRenderer(new BSSmarty);
-		$this->setType('text/plain');
-		$this->setEncoding('iso-2022-jp');
-		$this->addOutputFilter('mail');
+		$renderer = new BSSmarty;
+		$renderer->setType('text/plain');
+		$renderer->setEncoding('iso-2022-jp');
+		$renderer->addOutputFilter('mail');
 		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
-			$this->setTemplatesDirectory($dir);
+			$renderer->setTemplatesDirectory($dir);
 		}
 
 		$request = BSRequest::getInstance();
-		$this->setAttribute('date', BSDate::getNow()->format());
-		$this->setAttribute('useragent', $request->getUserAgent()->getName());
-		$this->setAttribute('remote_host', $request->getHost()->getName());
+		$renderer->setAttribute('date', BSDate::getNow()->format());
+		$renderer->setAttribute('useragent', $request->getUserAgent()->getName());
+		$renderer->setAttribute('remote_host', $request->getHost()->getName());
+
+		$this->getMail()->setRenderer($renderer);
 	}
 
 	/**
@@ -59,7 +61,7 @@ class BSSmartySender extends BSSMTP {
 	 * @return BSSmarty レンダラー
 	 */
 	public function getRenderer () {
-		return $this->getMail()->getMainPart()->getRenderer();
+		return $this->getMail()->getRenderer();
 	}
 
 	/**

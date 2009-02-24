@@ -40,18 +40,6 @@ class BSPOP3Mail extends BSMIMEDocument {
 	}
 
 	/**
-	 * メッセージIDを返す
-	 *
-	 * @access public
-	 * @return string メッセージID
-	 */
-	public function getMessageID () {
-		if ($header = $this->getHeader('Message-ID')) {
-			return $header->getEntity();
-		}
-	}
-
-	/**
 	 * ヘッダを返す
 	 *
 	 * @access public
@@ -82,9 +70,6 @@ class BSPOP3Mail extends BSMIMEDocument {
 
 		$body->removeParameter(0);
 		$body = $body->join("\n\n");
-		$body = preg_replace('/\.$/', '', $body);
-		$body = trim($body);
-		$body = BSString::convertEncoding($body);
 		$this->parseBody($body);
 		$this->executed['RETR'] = true;
 	}
