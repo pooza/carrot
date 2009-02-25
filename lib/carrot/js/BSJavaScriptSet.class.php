@@ -22,7 +22,8 @@ class BSJavaScriptSet implements BSTextRenderer {
 	public function __construct ($jsset = 'carrot') {
 		$this->name = $jsset;
 		$jssets = self::getJavaScriptSets();
-		foreach ($jssets[$jsset]['files'] as $name) {
+		$files = $jssets[$jsset]['files'];
+		foreach ($files as $name) {
 			$this->register($name);
 		}
 	}
