@@ -61,8 +61,7 @@ crypt:
 
 log:
   classes:
-    - BSDatabaseLogger
-    - BSSystemLogger
+    - BSFileLogger
 
 image:
   thumbnail:
