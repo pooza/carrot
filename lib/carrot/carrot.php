@@ -84,17 +84,18 @@ if (php_sapi_name() == 'cli') {
 $names[] = 'localhost';
 
 $constants = BSConstantHandler::getInstance();
-$_SERVER['SERVER_NAME'] = null;
+$initialized = false;
 foreach ($names as $servername) {
 	if ($file = BSConfigManager::getConfigFile('constant/' . $servername)) {
 		require(BSConfigManager::getInstance()->compile($file));
 		if (!$_SERVER['SERVER_NAME'] = $constants['SERVER_NAME']) {
 			$_SERVER['SERVER_NAME'] = $servername;
 		}
+		$initialized = !BSString::isBlank($_SERVER['SERVER_NAME']);
 		break;
 	}
 }
-if (!$_SERVER['SERVER_NAME']) {
+if (!$initialized) {
 	throw new Exception('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
 }
 
