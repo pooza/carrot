@@ -87,6 +87,7 @@ class BSSmartySender extends BSSMTP {
 		foreach (array($template, $template . '.mail') as $name) {
 			try {
 				$this->getRenderer()->setTemplate($template);
+				$this->getMail()->clearContents();
 			} catch (BSViewException $e) {
 			}
 		}

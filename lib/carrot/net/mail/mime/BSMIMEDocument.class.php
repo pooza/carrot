@@ -244,6 +244,16 @@ class BSMIMEDocument implements BSRenderer {
 	}
 
 	/**
+	 * 出力内容をクリア
+	 *
+	 * @access public
+	 */
+	public function clearContents () {
+		$this->contents = null;
+		$this->body = null;
+	}
+
+	/**
 	 * ヘッダ部をパース
 	 *
 	 * @access protected
