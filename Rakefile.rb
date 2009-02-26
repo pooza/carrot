@@ -12,34 +12,36 @@ require 'webapp/config/Rakefile.local'
 
 namespace :production do
   desc '運用環境の構築'
-  task :init => ['var:chmod', 'database:init', 'local:init']
+  task :init => ['var:init', 'database:init', 'local:init']
 end
 
 namespace :development do
   desc '開発環境の構築'
-  task :init => ['var:chmod', 'database:init', 'local:init']
+  task :init => ['var:init', 'database:init', 'local:init']
 end
 
 namespace :var do
-  desc 'varディレクトリを書き込み可に'
+  desc 'varディレクトリを初期化'
+  task :init => [:chmod, :clean]
+
   task :chmod do
     system 'chmod 777 var/*'
   end
 
-  desc 'varディレクトリを初期化'
+  desc 'varディレクトリをクリア'
   task :clean do
     sh 'sudo rm -R var/*/*'
   end
 
   namespace :classes do
     desc 'クラスファイルをリロード'
-    task :reload do
+    task :init do
       sh 'rm var/serialized/BSClassLoader.*'
     end
   end
 
   namespace :config do
-    desc '設定キャッシュを初期化'
+    desc '設定キャッシュをクリア'
     task :clean do
       Dir.glob(File.expand_path('var/serialized/*')).each do |path|
         is_delete = true
@@ -56,7 +58,7 @@ namespace :var do
       sh 'sudo rm var/cache/*'
     end
 
-    desc '設定キャッシュを全て初期化'
+    desc '設定キャッシュを全てクリア'
     task :clean_all do
       sh 'sudo rm var/cache/*'
       sh 'sudo rm var/serialized/*'
@@ -76,11 +78,11 @@ namespace :var do
 end
 
 namespace :database do
-  desc 'データベースをインストール'
-  task :init => ['log:init', 'local:init']
+  desc 'データベースを初期化'
+  task :init => ['local:init']
 
   namespace :log do
-    desc 'ログデータベースをインストール'
+    desc 'ログデータベースを初期化'
     task :init => ['var/db/log.sqlite3']
 
     file 'var/db/log.sqlite3' do
@@ -91,7 +93,7 @@ namespace :database do
 end
 
 namespace :phpdoc do
-  desc 'PHPDocumentorを有効に'
+  desc 'PHPDocumentorを初期化'
   task :init => ['www/doc']
 
   file 'www/doc' do
@@ -100,7 +102,7 @@ namespace :phpdoc do
 end
 
 namespace :awstats do
-  desc 'AWStatsを有効に'
+  desc 'AWStatsを初期化'
   task :init => ['www/awstats', 'lib/AWStats/awstats.conf'] do
     system 'svn pset svn:executable ON lib/AWStats/awstats.pl'
   end
@@ -115,7 +117,7 @@ namespace :awstats do
 end
 
 namespace :ajaxzip2 do
-  desc 'ajaxzip2を有効に'
+  desc 'ajaxzip2を初期化'
   task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
     system 'svn pset svn:executable ON lib/ajaxzip2/csv2jsonzip.pl'
     sh 'cd lib/ajaxzip2; rake all'
