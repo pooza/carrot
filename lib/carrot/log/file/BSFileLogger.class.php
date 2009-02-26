@@ -19,20 +19,28 @@ class BSFileLogger extends BSLogger {
 	/**
 	 * @access public
 	 */
-	public function __construct () {
-		$name = BSDate::getNow('Y-m-d');
-		if (!$this->file = $this->getDirectory()->getEntry($name)) {
-			$this->file = $this->getDirectory()->createEntry($name);
-			$this->file->setMode(0666);
-		}
-		$this->file->open('a');
+	public function __destruct () {
+		$this->file->close();
 	}
 
 	/**
+	 * 利用可能か？
+	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
-	public function __destruct () {
-		$this->file->close();
+	public function isEnable () {
+		try {
+			$name = BSDate::getNow('Y-m-d');
+			if (!$this->file = $this->getDirectory()->getEntry($name)) {
+				$this->file = $this->getDirectory()->createEntry($name);
+				$this->file->setMode(0666);
+			}
+			$this->file->open('a');
+			return true;
+		} catch (BSFileException $e) {
+			return false;
+		}
 	}
 
 	/**

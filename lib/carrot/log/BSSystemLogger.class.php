@@ -15,15 +15,18 @@ class BSSystemLogger extends BSLogger {
 	/**
 	 * @access public
 	 */
-	public function __construct () {
-		openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
+	public function __destruct () {
+		closelog();
 	}
 
 	/**
+	 * 利用可能か？
+	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
-	public function __destruct () {
-		closelog();
+	public function isEnable () {
+		openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
 	}
 
 	/**

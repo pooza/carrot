@@ -17,10 +17,22 @@ class BSDatabaseLogger extends BSLogger {
 	const TABLE_NAME = 'log';
 
 	/**
+	 * 利用可能か？
+	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
-	public function __construct () {
-		$this->table = new BSLogEntryHandler;
+	public function isEnable () {
+		try {
+			$this->table = new BSLogEntryHandler;
+			if ($db = BSDatabase::getInstance('log')) {
+				return $db->getTableNames()->isIncluded(self::TABLE_NAME);
+			} else {
+				return false;
+			}
+		} catch (BSDatabaseException $e) {
+			return false;
+		}
 	}
 
 	/**
