@@ -31,7 +31,8 @@ class BSStyleSet extends HTML_CSS implements BSTextRenderer {
 		$files = array();
 		$dir = BSController::getInstance()->getDirectory('css');
 		if (isset($stylesets[$styleset]['files'])) {
-			foreach ($stylesets[$styleset]['files'] as $file) {
+			$files = $stylesets[$styleset]['files'];
+			foreach ($files as $file) {
 				if ($entry = $dir->getEntry($file)) {
 					$files[] = $entry;
 				}
