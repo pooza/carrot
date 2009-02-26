@@ -189,7 +189,7 @@ class BSMailAddress implements BSAssignable {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('メールアドレス "%s"', $this->contents);
+		return sprintf('メールアドレス "%s"', $this->getContents());
 	}
 }
 

@@ -91,7 +91,7 @@ class BSMail extends BSMIMEDocument {
 			if (BS_SMTP_CHECK_ADDRESSES) {
 				foreach ($this->getRecipients() as $email) {
 					if (!$email->isValidDomain()) {
-						throw new BSMailException('%sが正しくありません。', $address);
+						throw new BSMailException('宛先%sが正しくありません。', $email);
 					}
 				}
 			}
