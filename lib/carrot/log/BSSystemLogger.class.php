@@ -20,12 +20,12 @@ class BSSystemLogger extends BSLogger {
 	}
 
 	/**
-	 * 利用可能か？
+	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 */
-	public function isEnable () {
+	public function initialize () {
 		openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
 	}
 

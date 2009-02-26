@@ -17,12 +17,12 @@ class BSDatabaseLogger extends BSLogger {
 	const TABLE_NAME = 'log';
 
 	/**
-	 * 利用可能か？
+	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 */
-	public function isEnable () {
+	public function initialize () {
 		try {
 			$this->table = new BSLogEntryHandler;
 			if ($db = BSDatabase::getInstance('log')) {

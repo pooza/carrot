@@ -24,12 +24,12 @@ class BSFileLogger extends BSLogger {
 	}
 
 	/**
-	 * 利用可能か？
+	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 */
-	public function isEnable () {
+	public function initialize () {
 		try {
 			$name = BSDate::getNow('Y-m-d');
 			if (!$this->file = $this->getDirectory()->getEntry($name)) {

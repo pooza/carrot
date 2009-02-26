@@ -52,7 +52,7 @@ class BSLogManager implements IteratorAggregate {
 	 * @param BSLogger $logger ロガー
 	 */
 	public function register (BSLogger $logger) {
-		if ($logger->isEnable()) {
+		if ($logger->initialize()) {
 			$this->loggers[] = $logger;
 		}
 	}

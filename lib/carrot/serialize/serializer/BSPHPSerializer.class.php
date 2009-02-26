@@ -13,12 +13,12 @@
 class BSPHPSerializer implements BSSerializer {
 
 	/**
-	 * 利用可能か？
+	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 */
-	public function isEnable () {
+	public function initialize () {
 		return true;
 	}
 

@@ -55,7 +55,7 @@ class BSSerializeHandler {
 				BS_SERIALIZE_SERIALIZER,
 				'Serializer'
 			);
-			if (!$this->serializer->isEnable()) {
+			if (!$this->serializer->initialize()) {
 				$this->serializer = new BSPHPSerializer;
 			}
 		}

@@ -15,13 +15,13 @@ abstract class BSLogger {
 	const DEFAULT_PRIORITY = 'Info';
 
 	/**
-	 * 利用可能か？
+	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 * @abstract
 	 */
-	abstract public function isEnable ();
+	abstract public function initialize ();
 
 	/**
 	 * ログを出力
