@@ -16,8 +16,10 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	 * 初期化
 	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
+		return extension_loaded('memcache');
 	}
 
 	/**

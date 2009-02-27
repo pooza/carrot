@@ -74,7 +74,10 @@ class BSSerializeHandler {
 				BS_SERIALIZE_STORAGE,
 				'SerializeStorage'
 			);
-			$this->storage->initialize();
+			if (!$this->storage->initialize()) {
+				$this->storage = new BSDefaultSerializeStorage;
+				$this->storage->initialize();
+			}
 		}
 		return $this->storage;
 	}
@@ -92,11 +95,11 @@ class BSSerializeHandler {
 		}
 		$serialized = $this->getStorage()->setAttribute($name, $value);
 		$message = sprintf(
-			'%sをシリアライズしました。 (%sB)',
+			'%sのシリアライズを格納しました。 (%sB)',
 			$name,
 			BSNumeric::getBinarySize(strlen($serialized))
 		);
-		BSController::getInstance()->putLog($message, get_class($this));
+		BSController::getInstance()->putLog($message, get_class($this->getStorage()));
 	}
 
 	/**
