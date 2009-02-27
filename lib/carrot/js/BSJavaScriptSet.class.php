@@ -29,7 +29,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	}
 
 	/**
-	 *JavaScriptセット名を返す
+	 * JavaScriptセット名を返す
 	 *
 	 * @access public
 	 * @return string JavaScriptセット名

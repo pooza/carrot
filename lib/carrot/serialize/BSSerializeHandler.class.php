@@ -83,6 +83,29 @@ class BSSerializeHandler {
 	}
 
 	/**
+	 * 属性を返す
+	 *
+	 * @access public
+	 * @param string $name 属性の名前
+	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
+	 * @return mixed 属性値
+	 */
+	public function getAttribute ($name, BSDate $date = null) {
+		return $this->getStorage()->getAttribute($this->getAttributeName($name), $date);
+	}
+
+	/**
+	 * 属性の更新日を返す
+	 *
+	 * @access public
+	 * @param string $name 属性の名前
+	 * @return BSDate 更新日
+	 */
+	public function getUpdateDate ($name) {
+		return $this->getStorage()->getUpdateDate($this->getAttributeName($name));
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -90,10 +113,7 @@ class BSSerializeHandler {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('属性名が文字列ではありません。');
-		}
-		$serialized = $this->getStorage()->setAttribute($name, $value);
+		$serialized = $this->getStorage()->setAttribute($this->getAttributeName($name), $value);
 		$message = sprintf(
 			'%sのシリアライズを格納しました。 (%sB)',
 			$name,
@@ -109,30 +129,27 @@ class BSSerializeHandler {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		$this->getStorage()->removeAttribute($name);
+		$this->getStorage()->removeAttribute($this->getAttributeName($name));
 	}
 
 	/**
-	 * 属性を返す
+	 * 属性名を文字列に正規化する
 	 *
 	 * @access public
-	 * @param string $name 属性の名前
-	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
-	 * @return mixed 属性値
+	 * @param mixed $name 属性名に用いる値
+	 * @return string 属性名
 	 */
-	public function getAttribute ($name, BSDate $date = null) {
-		return $this->getStorage()->getAttribute($name, $date);
-	}
-
-	/**
-	 * 属性の更新日を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @return BSDate 更新日
-	 */
-	public function getUpdateDate ($name) {
-		return $this->getStorage()->getUpdateDate($name);
+	private function getAttributeName ($name) {
+		if ($name instanceof BSFile) {
+			$file = $name;
+			$path = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
+			$path = str_replace(BSController::getInstance()->getPath('root'), '', $path);
+			$path = preg_replace('/^./', '', $path);
+			$name = new BSArray(explode(DIRECTORY_SEPARATOR, $path));
+			$name->setAttribute(null, get_class($file), BSArray::POSITION_TOP);
+			return $name->join('.');
+		}
+		return (string)$name;
 	}
 }
 
