@@ -18,9 +18,11 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 	 * 初期化
 	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
 		try {
+			parent::initialize();
 			$table = $this->getTable();
 			if (!$table->getDatabase()->getTableNames()->isIncluded($table->getName())) {
 				$fields = array(

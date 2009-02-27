@@ -18,7 +18,6 @@ class BSConsoleSessionHandler extends BSSessionHandler {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->getStorage()->initialize();
 	}
 }
 

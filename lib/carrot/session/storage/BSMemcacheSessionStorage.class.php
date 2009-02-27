@@ -16,10 +16,16 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 	 * 初期化
 	 *
 	 * @access public
+	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
+		if (!extension_loaded('memcache')) {
+			return false;
+		}
+		parent::initialize();
 		ini_set('session.save_handler', 'memcache');
 		ini_set('session.save_path', BS_MEMCACHE_HOST . ':' . BS_MEMCACHE_PORT);
+		return true;
 	}
 }
 

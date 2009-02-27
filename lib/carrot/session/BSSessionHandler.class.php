@@ -20,7 +20,10 @@ class BSSessionHandler {
 		if (headers_sent()) {
 			throw new BSSessionException('セッションの開始に失敗しました。');
 		}
-		$this->getStorage()->initialize();
+		if (!$this->getStorage()->initialize()) {
+			$this->storage = new BSDefaultSessionStorage;
+			$this->storage->initialize();
+		}
 		session_start();
 	}
 
