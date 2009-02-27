@@ -139,7 +139,7 @@ class BSSerializeHandler {
 	 * @param mixed $name 属性名に用いる値
 	 * @return string 属性名
 	 */
-	private function getAttributeName ($name) {
+	public function getAttributeName ($name) {
 		if ($name instanceof BSFile) {
 			$file = $name;
 			$path = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();

@@ -14,26 +14,17 @@ class BSDefaultConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$expire = $file->getUpdateDate();
-		$name = self::getAttributeName($file);
-		if ($this->controller->getAttribute($name, $expire) === null) {
-			$contents = $this->getContents($file->getResult());
-			$this->controller->setAttribute($name, $contents);
+		if ($this->controller->getAttribute($file, $expire) === null) {
+			$this->controller->setAttribute($file, $this->getContents($file->getResult()));
 		}
 
 		$line = sprintf(
 			'$config = BSController::getInstance()->getAttribute(%s);',
-			self::quote($name)
+			self::quote(BSSerializeHandler::getInstance()->getAttributeName($file))
 		);
 		$this->putLine($line);
 
 		return $this->getBody();
-	}
-
-	static private function getAttributeName (BSFile $file) {
-		$name = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
-		$name = str_replace(BS_WEBAPP_DIR, '', $name);
-		$name = implode('.', explode(DIRECTORY_SEPARATOR, $name));
-		return __CLASS__ . $name;
 	}
 
 	/**
