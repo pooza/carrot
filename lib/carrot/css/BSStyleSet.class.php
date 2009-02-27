@@ -16,26 +16,47 @@ class BSStyleSet implements BSTextRenderer {
 	private $contents;
 	private $error;
 	private $parser;
-	static private $stylesets;
+	static private $instances;
 
 	/**
-	 * @access public
+	 * @access private
 	 * @param string $name スタイルセット名
 	 */
-	public function __construct ($name = 'carrot') {
+	private function __construct ($name = 'carrot') {
 		$this->name = $name;
 		$this->files = new BSArray;
 
-		$stylesets = self::getStyleSets();
 		$dir = BSController::getInstance()->getDirectory('css');
-		if (isset($stylesets[$name]['files'])) {
-			$files = $stylesets[$name]['files'];
+		if (isset(self::$instances[$name]['files'])) {
+			$files = self::$instances[$name]['files'];
 			foreach ($files as $file) {
 				$this->register($dir->getEntry($file, 'BSCSSFile'));
 			}
 		} else if ($file = $dir->getEntry($name, 'BSCSSFile')) {
 			$this->register($file);
 		}
+	}
+
+	/**
+	 * フライウェイトインスタンスを返す
+	 *
+	 * @access public
+	 * @param string $name モジュール名
+	 * @static
+	 */
+	static public function getInstance ($name) {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+			require(BSConfigManager::getInstance()->compile('styleset/carrot'));
+			self::$instances->setParameters($config);
+			require(BSConfigManager::getInstance()->compile('styleset/application'));
+			self::$instances->setParameters($config);
+			self::$instances = self::$instances->getParameters();
+		}
+		if (!isset(self::$instances[$name]['instance'])) {
+			self::$instances[$name]['instance'] = new self($name);
+		}
+		return self::$instances[$name]['instance'];
 	}
 
 	/**
@@ -140,39 +161,6 @@ class BSStyleSet implements BSTextRenderer {
 	 */
 	public function getError () {
 		return $this->error;
-	}
-
-	/**
-	 * 全てのスタイルセットを返す
-	 *
-	 * @access private
-	 * @return string[][] スタイルセットを配列で返す
-	 * @static
-	 */
-	static private function getStyleSets () {
-		if (!self::$stylesets) {
-			self::$stylesets = new BSArray;
-			require(BSConfigManager::getInstance()->compile('styleset/carrot'));
-			self::$stylesets->setParameters($config);
-			require(BSConfigManager::getInstance()->compile('styleset/application'));
-			self::$stylesets->setParameters($config);
-		}
-		return self::$stylesets;
-	}
-
-	/**
-	 * 全てのスタイルセットの名前を返す
-	 *
-	 * @access public
-	 * @return BSArray スタイルセットの名前を配列で返す
-	 * @static
-	 */
-	static public function getStyleSetNames () {
-		$names = clone self::getStyleSets()->getKeys();
-		$names[] = 'carrot';
-		$names->uniquize();
-		$names->sort(BSArray::SORT_VALUE_ASC);
-		return $names;
 	}
 }
 

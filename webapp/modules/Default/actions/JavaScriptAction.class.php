@@ -8,7 +8,6 @@
  * @version $Id$
  */
 class JavaScriptAction extends BSAction {
-	private $jsset;
 
 	/**
 	 * JavaScriptセットを返す
@@ -17,13 +16,10 @@ class JavaScriptAction extends BSAction {
 	 * @return BSJavaScriptSet JavaScriptセット
 	 */
 	private function getJavaScriptSet () {
-		if (!$this->jsset) {
-			if (!$this->request['jsset']) {
-				$this->request['jsset'] = 'carrot';
-			}
-			$this->jsset = new BSJavaScriptSet($this->request['jsset']);
+		if (!$this->request['jsset']) {
+			$this->request['jsset'] = 'carrot';
 		}
-		return $this->jsset;
+		return BSJavaScriptSet::getInstance($this->request['jsset']);
 	}
 
 	public function execute () {

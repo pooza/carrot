@@ -13,19 +13,42 @@
 class BSJavaScriptSet implements BSTextRenderer {
 	private $name;
 	private $files = array();
-	static private $jssets;
+	static private $instances;
 
 	/**
-	 * @access public
-	 * @param string $jsset JavaScriptセット名
+	 * @access private
+	 * @param string $name JavaScriptセット名
 	 */
-	public function __construct ($jsset = 'carrot') {
-		$this->name = $jsset;
-		$jssets = self::getJavaScriptSets();
-		$files = $jssets[$jsset]['files'];
-		foreach ($files as $name) {
-			$this->register($name);
+	private function __construct ($name = 'carrot') {
+		$this->name = $name;
+		if ($files = self::$instances[$name]['files']) {
+			foreach ($files as $name) {
+				$this->register($name);
+			}
 		}
+	}
+
+	/**
+	 * フライウェイトインスタンスを返す
+	 *
+	 * @access public
+	 * @param string $name モジュール名
+	 * @static
+	 */
+	static public function getInstance ($name) {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+			require(BSConfigManager::getInstance()->compile('jsset/carrot'));
+			self::$instances->setParameters($config);
+			require(BSConfigManager::getInstance()->compile('jsset/application'));
+			self::$instances->setParameters($config);
+			self::$instances = self::$instances->getParameters();
+		}
+		if (!isset(self::$instances[$name]['instance'])) {
+			self::$instances[$name]['instance'] = null;
+			self::$instances[$name]['instance'] = new self($name);
+		}
+		return self::$instances[$name]['instance'];
 	}
 
 	/**
@@ -116,39 +139,6 @@ class BSJavaScriptSet implements BSTextRenderer {
 		}
 
 		$this->files[$name] = $file->getOptimizedContents();
-	}
-
-	/**
-	 * 全てのJavaScriptセットを返す
-	 *
-	 * @access private
-	 * @return BSArray JavaScriptセットを配列で返す
-	 * @static
-	 */
-	static private function getJavaScriptSets () {
-		if (!self::$jssets) {
-			self::$jssets = new BSArray;
-			require(BSConfigManager::getInstance()->compile('jsset/carrot'));
-			self::$jssets->setParameters($config);
-			require(BSConfigManager::getInstance()->compile('jsset/application'));
-			self::$jssets->setParameters($config);
-		}
-		return self::$jssets;
-	}
-
-	/**
-	 * 全てのJavaScriptセットの名前を返す
-	 *
-	 * @access public
-	 * @return BSArray JavaScriptセットの名前を配列で返す
-	 * @static
-	 */
-	static public function getJavaScriptSetNames () {
-		$names = clone self::getJavaScriptSets()->getKeys();
-		$names[] = 'carrot';
-		$names->uniquize();
-		$names->sort(BSArray::SORT_VALUE_ASC);
-		return $names;
 	}
 }
 
