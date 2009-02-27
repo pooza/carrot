@@ -20,6 +20,11 @@ namespace :development do
   task :init => ['var:init', 'database:init', 'local:init']
 end
 
+namespace :database do
+  desc 'データベースを初期化'
+  task :init => ['local:init']
+end
+
 namespace :var do
   desc 'varディレクトリを初期化'
   task :init => [:chmod, :clean]
@@ -73,21 +78,6 @@ namespace :var do
         end
       end
       return types
-    end
-  end
-end
-
-namespace :database do
-  desc 'データベースを初期化'
-  task :init => ['local:init']
-
-  namespace :log do
-    desc 'ログデータベースを初期化'
-    task :init => ['var/db/log.sqlite3']
-
-    file 'var/db/log.sqlite3' do
-      sh 'sqlite3 var/db/log.sqlite3 < share/sql/log_schema.sql'
-      sh 'chmod 666 var/db/log.sqlite3'
     end
   end
 end

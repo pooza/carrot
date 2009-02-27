@@ -20,38 +20,38 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 	 * @access public
 	 */
 	public function initialize () {
-		session_set_save_handler(
-			array($this->getTable(), 'open'),
-			array($this->getTable(), 'close'),
-			array($this->getTable(), 'getAttribute'),
-			array($this->getTable(), 'setAttribute'),
-			array($this->getTable(), 'removeAttribute'),
-			array($this->getTable(), 'clean')
-		);
+		try {
+			$table = $this->getTable();
+			if (!$table->getDatabase()->getTableNames()->isIncluded($table->getName())) {
+				$fields = array(
+					'id' => 'varchar(128) NOT NULL PRIMARY KEY',
+					'update_date' => 'timestamp NOT NULL',
+					'data' => 'TEXT',
+				);
+				$query = BSSQL::getCreateTableQueryString($table->getName(), $fields);
+				$table->getDatabase()->exec($query);
+			}
+			return session_set_save_handler(
+				array($table, 'open'),
+				array($table, 'close'),
+				array($table, 'getAttribute'),
+				array($table, 'setAttribute'),
+				array($table, 'removeAttribute'),
+				array($table, 'clean')
+			);
+		} catch (BSDatabaseException $e) {
+			return false;
+		}
 	}
 
 	/**
-	 * ストレージテーブルを返す
-	 *
-	 * テーブルが存在しなければ、作成しようとする。
+	 * テーブルを返す
 	 *
 	 * @access public
-	 * @return BSTableHandler ストレージテーブル
+	 * @return BSTableHandler テーブル
 	 */
 	public function getTable () {
 		if (!$this->table) {
-			if (!$db = BSDatabase::getInstance('session')) {
-				throw new BSSessionException('セッションデータベースが正しくありません。');
-			}
-			if (!$db->getTableNames()->isIncluded(self::TABLE_NAME)) {
-				$fields = array(
-					'id varchar(128) NOT NULL PRIMARY KEY',
-					'update_date timestamp NOT NULL',
-					'data TEXT',
-				);
-				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
-				$db->exec($query);
-			}
 			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
 		}
 		return $this->table;

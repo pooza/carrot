@@ -148,11 +148,18 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $table テーブル名
-	 * @param string[] $details フィールド定義等
+	 * @param string[] $fields フィールド定義等
 	 * @static
 	 */
-	static public function getCreateTableQueryString ($table, $details) {
-		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $details));
+	static public function getCreateTableQueryString ($table, $fields) {
+		foreach ($fields as $key => $field) {
+			if (preg_match('/^[0-9]+$/', $key)) {
+				$fields[$key] = $field;
+			} else {
+				$fields[$key] = $key . ' ' . $field;
+			}
+		}
+		return sprintf('CREATE TABLE %s (%s)', $table, implode(',', $fields));
 	}
 
 	/**

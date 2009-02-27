@@ -43,20 +43,6 @@ class BSLogEntryHandler extends BSTableHandler {
 	}
 
 	/**
-	 * データベースを返す
-	 *
-	 * @access public
-	 * @return BSDatabase データベース
-	 */
-	public function getDatabase () {
-		foreach (array('log', 'default') as $db) {
-			if ($db = BSDatabase::getInstance($db)) {
-				return $db;
-			}
-		}
-	}
-
-	/**
 	 * 日付の配列を返す
 	 *
 	 * @access public
@@ -94,6 +80,16 @@ class BSLogEntryHandler extends BSTableHandler {
 		);
 		$table->setCriteria($criteria);
 		return $table;
+	}
+
+	/**
+	 * データベースを返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		return BSDatabase::getInstance('log');
 	}
 }
 

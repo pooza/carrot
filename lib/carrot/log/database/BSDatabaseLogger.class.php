@@ -14,7 +14,7 @@ class BSDatabaseLogger extends BSLogger {
 	private $table;
 	private $dates;
 	private $entries;
-	const TABLE_NAME = 'log';
+	const TABLE_NAME = 'log_entry';
 
 	/**
 	 * 初期化
@@ -24,12 +24,19 @@ class BSDatabaseLogger extends BSLogger {
 	 */
 	public function initialize () {
 		try {
-			$this->table = new BSLogEntryHandler;
-			if ($db = BSDatabase::getInstance('log')) {
-				return $db->getTableNames()->isIncluded(self::TABLE_NAME);
-			} else {
-				return false;
+			$table = $this->getTable();
+			if (!$table->getDatabase()->getTableNames()->isIncluded($table->getName())) {
+				$fields = array(
+					'id' => 'integer NOT NULL PRIMARY KEY',
+					'date' => 'datetime NOT NULL',
+					'remote_host' => 'varchar(128) NOT NULL',
+					'priority' => 'varchar(32) NOT NULL',
+					'message' => 'varchar(256)',
+				);
+				$query = BSSQL::getCreateTableQueryString($table->getName(), $fields);
+				$table->getDatabase()->exec($query);
 			}
+			return true;
 		} catch (BSDatabaseException $e) {
 			return false;
 		}
@@ -39,9 +46,12 @@ class BSDatabaseLogger extends BSLogger {
 	 * テーブルを返す
 	 *
 	 * @access public
-	 * @return BSLogEntryHandler
+	 * @return BSTableHandler テーブル
 	 */
 	public function getTable () {
+		if (!$this->table) {
+			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
+		}
 		return $this->table;
 	}
 

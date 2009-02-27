@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.1.35
+  ver: 2.1.36
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -73,14 +73,13 @@ pdo:
   query_log_enable: no
   default:
     dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
-    uid: root
     loggable: yes
   log:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
-    loggable: no
   session:
     dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
-    loggable: no
+  serialize:
+    dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
 
 mysql:
   dir: /usr/local
