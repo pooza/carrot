@@ -60,9 +60,9 @@ crypt:
   engine: blowfish
 
 log:
-  classes:
-    - BSFileLogger
-    - BSSystemLogger
+  loggers:
+    - file
+    - system
   syslog:
     facility: LOCAL6
 
