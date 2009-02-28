@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSDatabaseSessionStorage implements BSSessionStorage {
-	const TABLE_NAME = 'stored_session';
+	const TABLE_NAME = 'session_entry';
 	private $table;
 
 	/**
