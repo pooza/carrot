@@ -24,17 +24,7 @@ class BSDatabaseLogger extends BSLogger {
 	 */
 	public function initialize () {
 		try {
-			if (!$this->getTable()->isExists()) {
-				$fields = array(
-					'id' => 'integer NOT NULL PRIMARY KEY',
-					'date' => 'datetime NOT NULL',
-					'remote_host' => 'varchar(128) NOT NULL',
-					'priority' => 'varchar(32) NOT NULL',
-					'message' => 'varchar(256)',
-				);
-				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
-				$this->getTable()->getDatabase()->exec($query);
-			}
+			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
 			return true;
 		} catch (BSDatabaseException $e) {
 			return false;
@@ -48,9 +38,6 @@ class BSDatabaseLogger extends BSLogger {
 	 * @return BSTableHandler テーブル
 	 */
 	public function getTable () {
-		if (!$this->table) {
-			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
-		}
 		return $this->table;
 	}
 

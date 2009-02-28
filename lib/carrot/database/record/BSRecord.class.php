@@ -324,11 +324,12 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'%s(%s)',
-			BSTranslateManager::getInstance()->execute($this->getTable()->getName()),
-			$this->getID()
-		);
+		try {
+			$word = BSTranslateManager::getInstance()->execute($this->getTable()->getName());
+		} catch (BSTranslateException $e) {
+			$word = $this->getTable()->getName();
+		}
+		return sprintf('%s(%s)', $word, $this->getID());
 	}
 }
 

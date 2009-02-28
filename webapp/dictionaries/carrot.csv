@@ -8,14 +8,16 @@ format,形式
 hide,非表示
 id,ID
 log,ログ
+log_entry,ログエントリー
 message,メッセージ
 name,名前
 priority,優先順位
 rank,順位
 remote_host,リモートホスト
+serialize_entry,シリアライズエントリー
+session_entry,セッションエントリー
 show,表示
 status,状態
-stored_session,ストアードセッション
 time,タイムスタンプ
 update_date,更新日
 user_agent,ユーザーエージェント

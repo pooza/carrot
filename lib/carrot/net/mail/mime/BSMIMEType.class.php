@@ -23,11 +23,11 @@ class BSMIMEType extends BSParameterHolder {
 			$expire = $this->getConfigFile()->getUpdateDate();
 		}
 
-		if ($params = BSController::getInstance()->getAttribute(get_class($this), $expire)) {
+		if ($params = BSController::getInstance()->getAttribute($this, $expire)) {
 			$this->setParameters($params);
 		} else {
 			$this->parse();
-			BSController::getInstance()->setAttribute(get_class($this), $this->getParameters());
+			BSController::getInstance()->setAttribute($this, $this->getParameters());
 		}
 	}
 
@@ -113,6 +113,14 @@ class BSMIMEType extends BSParameterHolder {
 	public function getParameter ($name) {
 		$name = preg_replace('/^\./', '', $name);
 		return parent::getParameter($name);
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return 'MIMEタイプ';
 	}
 
 	/**

@@ -148,6 +148,8 @@ class BSSerializeHandler {
 			$name = new BSArray(explode(DIRECTORY_SEPARATOR, $path));
 			$name->setAttribute(null, get_class($file), BSArray::POSITION_TOP);
 			return $name->join('.');
+		} else if (is_object($name)) {
+			return get_class($name);
 		}
 		return (string)$name;
 	}

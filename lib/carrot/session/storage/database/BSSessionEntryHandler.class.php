@@ -148,6 +148,20 @@ class BSSessionEntryHandler extends BSTableHandler {
 	public function getDatabase () {
 		return BSDatabase::getInstance('session');
 	}
+
+	/**
+	 * スキーマを返す
+	 *
+	 * @access public
+	 * @return BSArray フィールド情報の配列
+	 */
+	public function getSchema () {
+		return new BSArray(array(
+			'id' => 'varchar(128) NOT NULL PRIMARY KEY',
+			'update_date' => 'timestamp NOT NULL',
+			'data' => 'TEXT',
+		));
+	}
 }
 
 /* vim:set tabstop=4: */

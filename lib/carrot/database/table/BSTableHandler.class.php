@@ -38,6 +38,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	public function __construct ($criteria = null, $order = null) {
 		$this->setCriteria($criteria);
 		$this->setOrder($order);
+
+		if (!$this->isExists() && $this->getSchema()) {
+			$this->create();
+		}
 	}
 
 	/**
@@ -383,6 +387,22 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * テーブルを作成
+	 *
+	 * @access public
+	 */
+	public function create () {
+		if ($this->isExists()) {
+			throw new BSDatabaseException('%sは既に存在します。', $this);
+		}
+		if ($schema = $this->getSchema()) {
+			$this->getDatabase()->exec(
+				BSSQL::getCreateTableQueryString($this->getName(), $schema->getParameters())
+			);
+		}
+	}
+
+	/**
 	 * 内容を返す
 	 *
 	 * getResultのエイリアス
@@ -660,11 +680,26 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * スキーマを返す
+	 *
+	 * @access public
+	 * @return BSArray フィールド情報の配列
+	 */
+	public function getSchema () {
+		return null;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('テーブル "%s"', $this->getName());
+		try {
+			$word = BSTranslateManager::getInstance()->execute($this->getName());
+		} catch (BSTranslateException $e) {
+			$word = $this->getName();
+		}
+		return $word . 'テーブル';
 	}
 
 	/**
