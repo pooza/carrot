@@ -23,15 +23,14 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 	public function initialize () {
 		try {
 			parent::initialize();
-			$table = $this->getTable();
-			if (!$table->getDatabase()->getTableNames()->isIncluded($table->getName())) {
+			if (!$this->getTable()->isExists()) {
 				$fields = array(
 					'id' => 'varchar(128) NOT NULL PRIMARY KEY',
 					'update_date' => 'timestamp NOT NULL',
 					'data' => 'TEXT',
 				);
-				$query = BSSQL::getCreateTableQueryString($table->getName(), $fields);
-				$table->getDatabase()->exec($query);
+				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
+				$this->getTable()->getDatabase()->exec($query);
 			}
 			return session_set_save_handler(
 				array($table, 'open'),

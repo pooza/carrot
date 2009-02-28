@@ -210,6 +210,16 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * テーブルは存在するか？
+	 *
+	 * @access public
+	 * @return boolean 存在するならTrue
+	 */
+	public function isExists () {
+		return $this->getDatabase()->getTableNames()->isIncluded($this->getName());
+	}
+
+	/**
 	 * データベースを返す
 	 *
 	 * @access public
@@ -478,32 +488,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			}
 		}
 		return $this->queryString;
-	}
-
-	/**
-	 * レコードは存在するか？
-	 *
-	 * @access public
-	 * @param string[] $criteria 検索条件
-	 */
-	public function isExists ($criteria) {
-		$table = clone $this;
-		$table->setFields($this->getKeyField());
-		$table->setCriteria($criteria);
-		return (0 < $table->count());
-	}
-
-	/**
-	 * レコードは存在するか？
-	 *
-	 * isExistsのエイリアス
-	 *
-	 * @access public
-	 * @param string[] $criteria 検索条件
-	 * @final
-	 */
-	final public function isExist ($criteria) {
-		return self::isExists($criteria);
 	}
 
 	/**

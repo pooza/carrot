@@ -24,8 +24,7 @@ class BSDatabaseLogger extends BSLogger {
 	 */
 	public function initialize () {
 		try {
-			$table = $this->getTable();
-			if (!$table->getDatabase()->getTableNames()->isIncluded($table->getName())) {
+			if (!$this->getTable()->isExists()) {
 				$fields = array(
 					'id' => 'integer NOT NULL PRIMARY KEY',
 					'date' => 'datetime NOT NULL',
@@ -33,8 +32,8 @@ class BSDatabaseLogger extends BSLogger {
 					'priority' => 'varchar(32) NOT NULL',
 					'message' => 'varchar(256)',
 				);
-				$query = BSSQL::getCreateTableQueryString($table->getName(), $fields);
-				$table->getDatabase()->exec($query);
+				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
+				$this->getTable()->getDatabase()->exec($query);
 			}
 			return true;
 		} catch (BSDatabaseException $e) {

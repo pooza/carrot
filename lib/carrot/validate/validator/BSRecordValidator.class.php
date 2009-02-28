@@ -39,7 +39,7 @@ class BSRecordValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		foreach ((array)$value as $id) {
-			if ($this->isExist($id)) {
+			if ($this->isExists($id)) {
 				if (!$this['exist']) {
 					$this->error = $this['duplicate_error'];
 					return false;
@@ -63,7 +63,7 @@ class BSRecordValidator extends BSValidator {
 	 * @param integer $id 対象ID
 	 * @return boolean 該当するレコードが存在するならTrue
 	 */
-	private function isExist ($id) {
+	private function isExists ($id) {
 		if ($recordFound = $this->getRecord($id)) {
 			if ($this['update']) {
 				$module = $this->controller->getModule();

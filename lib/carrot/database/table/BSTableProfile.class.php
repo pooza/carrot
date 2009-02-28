@@ -28,7 +28,7 @@ abstract class BSTableProfile implements BSAssignable {
 		$this->database = $database;
 		$this->name = $table;
 
-		if (!$this->getDatabase()->getTableNames()->isIncluded($this->getName())) {
+		if (!$this->isExists()) {
 			throw new BSDatabaseException('%sが取得出来ません。', $this);
 		}
 	}
@@ -51,6 +51,16 @@ abstract class BSTableProfile implements BSAssignable {
 	 */
 	public function getDatabase () {
 		return $this->database;
+	}
+
+	/**
+	 * テーブルは存在するか？
+	 *
+	 * @access public
+	 * @return boolean 存在するならTrue
+	 */
+	public function isExists () {
+		return $this->getDatabase()->getTableNames()->isIncluded($this->getName());
 	}
 
 	/**

@@ -95,6 +95,7 @@ class BSLogManager implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $message メッセージ
+	 * @param string $priority 優先順位
 	 * @return string 整形済みメッセージ
 	 * @static
 	 */

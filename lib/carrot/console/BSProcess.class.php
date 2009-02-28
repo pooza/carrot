@@ -36,7 +36,7 @@ class BSProcess {
 	 * @return boolean pidが存在するならTrue
 	 * @static
 	 */
-	static public function isExist ($pid) {
+	static public function isExists ($pid) {
 		$command = new BSCommandLine('/bin/ps');
 		$command->addValue('ax');
 		if ($command->hasError()) {

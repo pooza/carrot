@@ -10,7 +10,7 @@
 class SummaryAction extends BSAction {
 	public function execute () {
 		if ($info = $this->controller->getAttribute('BSXMPPBotDaemon')) {
-			if (BSProcess::isExist($info['pid'])) {
+			if (BSProcess::isExists($info['pid'])) {
 				$this->request->setAttribute('pid', $info['pid']);
 				$this->request->setAttribute('port', $info['port']);
 			} else {
