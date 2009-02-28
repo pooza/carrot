@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage log.file
+ * @subpackage log.logger.file
  */
 
 /**

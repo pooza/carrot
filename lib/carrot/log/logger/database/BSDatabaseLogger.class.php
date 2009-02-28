@@ -1,27 +1,20 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage log.file
+ * @subpackage log.logger.database
  */
 
 /**
- * ファイル用ロガー
+ * データベース用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFileLogger extends BSLogger {
+class BSDatabaseLogger extends BSLogger {
+	private $table;
 	private $dates;
 	private $entries;
-	private $file;
-	private $directory;
-
-	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		$this->file->close();
-	}
+	const TABLE_NAME = 'log_entry';
 
 	/**
 	 * 初期化
@@ -31,30 +24,34 @@ class BSFileLogger extends BSLogger {
 	 */
 	public function initialize () {
 		try {
-			$name = BSDate::getNow('Y-m-d');
-			if (!$this->file = $this->getDirectory()->getEntry($name)) {
-				$this->file = $this->getDirectory()->createEntry($name);
-				$this->file->setMode(0666);
+			if (!$this->getTable()->isExists()) {
+				$fields = array(
+					'id' => 'integer NOT NULL PRIMARY KEY',
+					'date' => 'datetime NOT NULL',
+					'remote_host' => 'varchar(128) NOT NULL',
+					'priority' => 'varchar(32) NOT NULL',
+					'message' => 'varchar(256)',
+				);
+				$query = BSSQL::getCreateTableQueryString(self::TABLE_NAME, $fields);
+				$this->getTable()->getDatabase()->exec($query);
 			}
-			$this->file->open('a');
 			return true;
-		} catch (BSFileException $e) {
+		} catch (BSDatabaseException $e) {
 			return false;
 		}
 	}
 
 	/**
-	 * ログディレクトリを返す
+	 * テーブルを返す
 	 *
 	 * @access public
-	 * @return BSLogDirectory ログディレクトリ
+	 * @return BSTableHandler テーブル
 	 */
-	public function getDirectory () {
-		if (!$this->directory) {
-			//BSDirectoryLayoutは使わない。
-			$this->directory = new BSLogDirectory(BS_VAR_DIR . '/log');
+	public function getTable () {
+		if (!$this->table) {
+			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
 		}
-		return $this->directory;
+		return $this->table;
 	}
 
 	/**
@@ -65,7 +62,13 @@ class BSFileLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		$this->file->putLine(BSLogManager::formatMessage($message, $priority));
+		$values = array(
+			'date' => BSDate::getNow('Y-m-d H:i:s'),
+			'remote_host' => BSRequest::getInstance()->getHost()->getName(),
+			'priority' => $priority,
+			'message' => $message,
+		);
+		$this->getTable()->createRecord($values);
 	}
 
 	/**
@@ -77,12 +80,8 @@ class BSFileLogger extends BSLogger {
 	public function getDates () {
 		if (!$this->dates) {
 			$this->dates = new BSArray;
-			foreach ($this->getDirectory() as $file) {
-				try {
-					$date = new BSDate($file->getBaseName());
-				} catch (BSDateException $e) {
-					continue;
-				}
+			foreach ($this->getTable()->getDates() as $date) {
+				$date = new BSDate($date);
 				$month = $date->format('Y-m');
 				if (!$this->dates[$month]) {
 					$this->dates[$month] = new BSArray;
@@ -103,11 +102,10 @@ class BSFileLogger extends BSLogger {
 	public function getEntries (BSDate $date) {
 		if (!$this->entries) {
 			$this->entries = new BSArray;
-			if ($month = $this->getDates()->getParameter($date->format('Y-m'))) {
-				if ($month->hasParameter($name = $date->format('Y-m-d'))) {
-					$file = $this->getDirectory()->getEntry($name);
-					$this->entries->setParameters($file->getEntries());
-				}
+			foreach ($this->getTable()->getEntries($date) as $entry) {
+				$values = $entry->getAttributes();
+				$values['exception'] = $entry->isException();
+				$this->entries[] = $values;
 			}
 		}
 		return $this->entries;
