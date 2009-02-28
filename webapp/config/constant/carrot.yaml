@@ -62,9 +62,13 @@ crypt:
 log:
   loggers:
     - file
+    - mail
     - system
   syslog:
     facility: LOCAL6
+  mail:
+    patterns:
+      - BSDatabaseException
 
 image:
   thumbnail:

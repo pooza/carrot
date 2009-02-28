@@ -32,7 +32,10 @@ class BSException extends Exception {
 		}
 
 		parent::__construct($message);
-		BSController::getInstance()->putLog($this->message, $this->getName());
+		try {
+			BSController::getInstance()->putLog($this->message, $this->getName());
+		} catch (Exception $e) {
+		}
 	}
 
 	/**
@@ -53,45 +56,6 @@ class BSException extends Exception {
 	 */
 	protected function setName ($name) {
 		$this->name = $name;
-	}
-
-	/**
-	 * 報告メールを管理者に送信
-	 *
-	 * @access public
-	 */
-	public function sendMail () {
-		try {
-			$smtp = new BSSmartySender;
-			$smtp->setTemplate('BSException.mail');
-			$smtp->setAttribute('exception_name', $this->getName());
-			$smtp->setAttribute('clienthost', BSRequest::getInstance()->getHost()->getName());
-			$smtp->setAttribute('useragent', BSRequest::getInstance()->getUserAgent()->getName());
-			$smtp->setAttribute('message', $this->getMessage());
-			$smtp->render();
-			$smtp->send();
-			$smtp->close();
-		} catch (Exception $e) {
-			// 送信に失敗した場合でもログだけは残る
-		}
-	}
-
-	/**
-	 * 報告IMを管理者に送信
-	 *
-	 * @access public
-	 */
-	public function sendAlert () {
-		if (BSAdministrator::getJabberID()) {
-			try {
-				$xmpp = new BSXMPPBotClient(BSController::getInstance()->getHost());
-				$xmpp->putLine(BSLogManager::formatMessage($this->getMessage(), $this->getName()));
-			} catch (Exception $e) {
-				$this->sendMail();
-			}
-		} else {
-			$this->sendMail();
-		}
 	}
 }
 

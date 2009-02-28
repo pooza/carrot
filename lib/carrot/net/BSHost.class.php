@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSHost {
+class BSHost implements BSAssignable {
 	protected $address;
 	protected $fqdn;
 	const DEFAULT_SOCKET_CLASS = 'BSSocket';
@@ -138,6 +138,16 @@ class BSHost {
 	 */
 	public function isInNetwork (BSNetwork $network) {
 		return $this->address->ipInNetwork($this->getAddress(), $network->getCIDR());
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getAttributes();
 	}
 
 	/**
