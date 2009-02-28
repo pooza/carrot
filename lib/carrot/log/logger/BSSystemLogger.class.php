@@ -26,7 +26,11 @@ class BSSystemLogger extends BSLogger {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		return openlog('carrot', LOG_PID | LOG_PERROR, LOG_LOCAL6);
+		$constants = BSConstantHandler::getInstance();
+		if (!$facility = $constants['LOG_SYSLOG_FACILITY']) {
+			$facility = 'LOCAL6';
+		}
+		return openlog('carrot', LOG_PID | LOG_PERROR, $constants['LOG_' . $facility]);
 	}
 
 	/**

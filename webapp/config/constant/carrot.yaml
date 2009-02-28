@@ -63,6 +63,8 @@ log:
   classes:
     - BSFileLogger
     - BSSystemLogger
+  syslog:
+    facility: LOCAL6
 
 image:
   thumbnail:
