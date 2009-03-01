@@ -45,10 +45,16 @@ class BSDatabaseLogger extends BSLogger {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param string $message ログメッセージ
+	 * @param mixed $message ログメッセージ又は例外
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
+		if ($message instanceof Exception) {
+			if (BSString::isBlank($priority)) {
+				$priority = $message->getName();
+			}
+			$message = $message->getMessage();
+		}
 		$values = array(
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
 			'remote_host' => BSRequest::getInstance()->getHost()->getName(),

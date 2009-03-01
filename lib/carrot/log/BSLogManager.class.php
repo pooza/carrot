@@ -71,7 +71,7 @@ class BSLogManager implements IteratorAggregate {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param string $message ログメッセージ
+	 * @param mixed $message ログメッセージ又は例外
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
