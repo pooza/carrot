@@ -149,11 +149,13 @@ abstract class BSController {
 	 * @return BSModule モジュール
 	 */
 	public function getModule ($name = null) {
-		if ($name) {
-			return BSModule::getInstance($name);
-		} else {
-			return $this->getAction()->getModule();
+		if (BSString::isBlank($name)) {
+			if ($action = $this->getAction()) {
+				return $action->getModule();
+			}
+			$name = BSRequest::getInstance()->getParameter(BSController::MODULE_ACCESSOR);
 		}
+		return BSModule::getInstance($name);
 	}
 
 	/**
