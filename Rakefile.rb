@@ -35,13 +35,13 @@ namespace :var do
 
   desc 'varディレクトリをクリア'
   task :clean do
-    sh 'sudo rm -R var/*/*'
+    system 'sudo rm -R var/*/*'
   end
 
   namespace :classes do
     desc 'クラスファイルをリロード'
     task :init do
-      sh 'rm var/serialized/BSClassLoader.*'
+      system 'rm var/serialized/BSClassLoader.*'
     end
   end
 
@@ -60,13 +60,13 @@ namespace :var do
           File.delete(path)
         end
       end
-      sh 'sudo rm var/cache/*'
+      system 'sudo rm var/cache/*'
     end
 
     desc '設定キャッシュを全てクリア'
     task :clean_all do
-      sh 'sudo rm var/cache/*'
-      sh 'sudo rm var/serialized/*'
+      system 'sudo rm var/cache/*'
+      system 'sudo rm var/serialized/*'
     end
 
     def keep_types
@@ -145,9 +145,9 @@ namespace :distribution do
     end
     export_dest = 'var/tmp/' + project_name
     sh 'svn export ' + repos_url + ' ' + export_dest
-    sh 'rm ' + export_dest + '/webapp/config/constant/*.local.yaml'
+    system 'rm ' + export_dest + '/webapp/config/constant/*.local.yaml'
     sh 'cd ' + export_dest + '/..; tar cvzf ../tmp/' + project_name + '.tar.gz ' + project_name
-    sh 'rm -R ' + export_dest
+    system 'rm -R ' + export_dest
   end
 
   def media_types
