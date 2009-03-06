@@ -70,7 +70,7 @@ class BSRecordValidator extends BSValidator {
 				if ($record = $module->getRecord()) {
 					return ($record->getID() != $recordFound->getID());
 				} else {
-					throw new BSValidateException('%sにレコードが見つかりません。', $module);
+					return false;
 				}
 			} else {
 				return true;
