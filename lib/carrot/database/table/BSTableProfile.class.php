@@ -89,7 +89,10 @@ abstract class BSTableProfile implements BSAssignable {
 	 */
 	public function getTableClassNames () {
 		try {
-			$name = BSTableHandler::getClassName($this->getName());
+			$name = BSClassLoader::getInstance()->getClassName(
+				$this->getName(),
+				BSTableHandler::CLASS_SUFFIX
+			);
 			return new BSArray(BSClassLoader::getParentClasses($name));
 		} catch (Exception $e) {
 			return new BSArray;

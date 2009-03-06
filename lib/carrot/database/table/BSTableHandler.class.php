@@ -703,18 +703,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * テーブルハンドラのクラス名を返す
-	 *
-	 * @access public
-	 * @param string $class レコード用クラス名、又はテーブル名
-	 * @return string テーブルハンドラのクラス名
-	 * @static
-	 */
-	static public function getClassName ($class) {
-		return BSClassLoader::getInstance()->getClassName($class, self::CLASS_SUFFIX);
-	}
-
-	/**
 	 * テーブルハンドラを返す
 	 *
 	 * 引数なしでインスタンスを生成し、返す
@@ -725,7 +713,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getInstance ($class) {
-		$class = self::getClassName($class);
+		$class = BSClassLoader::getInstance()->getClassName($class, self::CLASS_SUFFIX);
 		$table = new $class;
 		if (($table instanceof BSTableHandler) == false) {
 			throw new BSDatabaseException('"%s" はテーブルハンドラではありません。', $class);
