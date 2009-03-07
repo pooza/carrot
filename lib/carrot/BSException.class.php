@@ -15,8 +15,6 @@ class BSException extends Exception {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->setName(get_class($this));
-
 		switch (count($args = func_get_args())) {
 			case 0:
 				$message = $this->getName() . 'が発生しました。';
@@ -42,17 +40,7 @@ class BSException extends Exception {
 	 * @return string 名前
 	 */
 	public function getName () {
-		return $this->name;
-	}
-
-	/**
-	 * 名前を設定
-	 *
-	 * @access protected
-	 * @param string $name 名前
-	 */
-	protected function setName ($name) {
-		$this->name = $name;
+		return get_class($this);
 	}
 }
 
