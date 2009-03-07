@@ -10,7 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorage {
+class BSMemcacheSerializeStorage implements BSSerializeStorage {
+	private $server;
 
 	/**
 	 * 初期化
@@ -19,7 +20,12 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		return extension_loaded('memcache');
+		$manager = BSMemcacheManager::getInstance();
+		if (!$manager->isEnabled()) {
+			return false;
+		}
+		$this->server = $manager->getServer();
+		return true;
 	}
 
 	/**
@@ -62,7 +68,7 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 			'contents' => $value,
 		);
 		$serialized = $this->getSerializer()->encode($values);
-		$this->set($name, $serialized);
+		$this->server->set($name, $serialized);
 		return $serialized;
 	}
 
@@ -73,7 +79,16 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		return $this->delete($name);
+		return $this->server->delete($name);
+	}
+
+	/**
+	 * 属性を全て削除
+	 *
+	 * @access public
+	 */
+	public function clearAttributes () {
+		return $this->server->flush();
 	}
 
 	/**
@@ -99,7 +114,7 @@ class BSMemcacheSerializeStorage extends BSMemcache implements BSSerializeStorag
 	 * @return BSArray エントリー
 	 */
 	private function getEntry ($name) {
-		if ($values = $this->get($name)) {
+		if ($values = $this->server->get($name)) {
 			$values = $this->getSerializer()->decode($values);
 			$entry = new BSArray($values);
 			$entry['update_date'] = new BSDate($entry['update_date']);
