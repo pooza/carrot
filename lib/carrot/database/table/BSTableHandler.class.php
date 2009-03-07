@@ -705,16 +705,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	/**
 	 * テーブルハンドラを返す
 	 *
-	 * 引数なしでインスタンスを生成し、返す
-	 *
 	 * @access public
 	 * @param string $class レコード用クラス名、又はテーブル名
 	 * @return BSTableHandler テーブルハンドラ
 	 * @static
 	 */
 	static public function getInstance ($class) {
-		$class = BSClassLoader::getInstance()->getClassName($class, self::CLASS_SUFFIX);
-		$table = new $class;
+		$table = BSClassLoader::getInstance()->getObject($class, self::CLASS_SUFFIX);
 		if (($table instanceof BSTableHandler) == false) {
 			throw new BSDatabaseException('"%s" はテーブルハンドラではありません。', $class);
 		}
