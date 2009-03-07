@@ -41,6 +41,11 @@ serialize:
 session:
   storage: default
 
+smarty:
+  cache:
+    storage: default
+    life_time: 300
+
 memcache:
   daemon_name: memcached
   host: unix:///tmp/memcached.sock
