@@ -29,6 +29,24 @@ class BSProcess {
 	}
 
 	/**
+	 * プロセス名からpidを返す
+	 *
+	 * @access public
+	 * @param string $name プロセス名
+	 * @return integer プロセスが存在するなら、そのpid
+	 * @static
+	 */
+	static public function getID ($name) {
+		$command = new BSCommandLine('bin/pgrep');
+		$command->addValue($name);
+		$command->setDirectory(BSController::getInstance()->getDirectory('proctools'));
+
+		if ($result = $command->getResult()) {
+			return (int)$result[0];
+		}
+	}
+
+	/**
 	 * pidは存在するか？
 	 *
 	 * @access public

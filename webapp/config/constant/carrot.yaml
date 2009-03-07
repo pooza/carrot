@@ -42,6 +42,7 @@ session:
   storage: default
 
 memcache:
+  daemon_name: memcached
   host: unix:///tmp/memcached.sock
   port: 0
 
@@ -94,6 +95,9 @@ pgsql:
   dir: /usr/local
 
 sqlite3:
+  dir: /usr/local
+
+proctools:
   dir: /usr/local
 
 feed:
