@@ -40,6 +40,9 @@ class BSProcess {
 		$command = new BSCommandLine('bin/pgrep');
 		$command->addValue($name);
 		$command->setDirectory(BSController::getInstance()->getDirectory('proctools'));
+		if ($command->hasError()) {
+			throw new BSConsoleException($command->getResult());
+		}
 
 		if ($result = $command->getResult()) {
 			return (int)$result[0];
