@@ -11,20 +11,20 @@
 <h1>XMPPBotの状態</h1>
 <table class="Detail">
 	<tr>
-		<th width="180">プロセスID</th>
-		<td width="300">{$pid|default:'-'}</td>
+		<th>プロセスID</th>
+		<td>{$pid|default:'-'}</td>
 	</tr>
 	<tr>
-		<th width="180">ポート</th>
-		<td width="300">{$port|default:'-'}</td>
+		<th>ポート</th>
+		<td>{$port|default:'-'}</td>
 	</tr>
 	<tr>
-		<th width="180">アプリケーションのJabberID</th>
-		<td width="300">{$from|default:'(未設定)'}</td>
+		<th>アプリケーションのJabberID</th>
+		<td>{$from|default:'(未設定)'}</td>
 	</tr>
 	<tr>
-		<th width="180">管理者のJabberID</th>
-		<td width="300">{$to|default:'(未設定)'}</td>
+		<th>管理者のJabberID</th>
+		<td>{$to|default:'(未設定)'}</td>
 	</tr>
 </table>
 

@@ -9,8 +9,9 @@
  */
 class SummaryAction extends BSAction {
 	public function execute () {
-		$manager = BSMemcacheManager::getInstance();
-exit;
+		if ($server = BSMemcacheManager::getInstance()->getServer()) {
+			$this->request->setAttribute('server', $server->getAttributes());
+		}
 		return BSView::SUCCESS;
 	}
 }

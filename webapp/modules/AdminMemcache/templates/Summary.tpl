@@ -10,18 +10,19 @@
 
 <h1>memcacheの状態</h1>
 <table class="Detail">
+
+{foreach from=$server key='key' item='value'}
 	<tr>
-		<th width="180">プロセスID</th>
-		<td width="300">{$pid|default:'-'}</td>
+		<th>{$key}</th>
+		<td>{$value}</td>
 	</tr>
+{foreachelse}
 	<tr>
-		<th width="180">ホスト</th>
-		<td width="300">{$port|default:'-'}</td>
+		<th></th>
+		<td class="alert">未接続です。</td>
 	</tr>
-	<tr>
-		<th width="180">ポート</th>
-		<td width="300">{$port|default:'-'}</td>
-	</tr>
+{/foreach}
+
 </table>
 
 {include file='AdminFooter'}

@@ -10,16 +10,114 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMemcache extends Memcache {
+class BSMemcache extends Memcache implements ArrayAccess {
+	private $attributes;
 
 	/**
-	 * 初期化
-	 *
 	 * @access public
 	 */
 	public function __construct () {
-		if (!$this->connect(BS_MEMCACHE_HOST, BS_MEMCACHE_PORT)) {
-			throw new BSMemcacheException('memcachedに接続出来ません。');
+		$this->attributes = new BSArray;
+	}
+
+	/**
+	 * 接続
+	 *
+	 * pconnectのエイリアス
+	 *
+	 * @access public
+	 * @param mixed $host 接続先ホスト、又はUNIXソケット名
+	 * @param integer $port ポート番号、UNIXソケットの場合は0
+	 */
+	public function connect ($host, $port) {
+		return $this->pconnect($host, $port);
+	}
+
+	/**
+	 * 持続接続
+	 *
+	 * @access public
+	 * @param mixed $host 接続先ホスト、又はUNIXソケット名
+	 * @param integer $port ポート番号、UNIXソケットの場合は0
+	 */
+	public function pconnect ($host, $port) {
+		if (BSNumeric::isZero($port)) {
+			$this->attributes['socket'] = $host;
+			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_UNIX;
+			$this->attributes['pid'] = $this->getProcessID();
+		} else {
+			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_INET;
+			if ($host instanceof BSHost) {
+				$host = $host->getName();
+			}
+			$this->attributes['host'] = $host;
+			$this->attributes['port'] = $port;
+		}
+
+		if (!parent::connect($host, $port)) {
+			return false;
+		}
+		$this->attributes['version'] = $this->getVersion();
+		$this->attributes->setParameters($this->getStats());
+		return true;
+	}
+
+	/**
+	 * 属性値を返す
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return mixed 属性値
+	 */
+	public function getAttribute ($name) {
+		return $this->attributes[$name];
+	}
+
+	/**
+	 * 属性を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 属性
+	 */
+	public function getAttributes () {
+		return $this->attributes;
+	}
+
+	/**
+	 * マネージャを返す
+	 *
+	 * @access public
+	 * @return BSMemcacheManager マネージャ
+	 */
+	public function getManager () {
+		return BSMemcacheManager::getInstance();
+	}
+
+	/**
+	 * 接続タイプを返す
+	 *
+	 * @access public
+	 * @return string 接続タイプ
+	 *   BSMemcacheManager::CONNECT_UNIX UNIXソケット
+	 *   BSMemcacheManager::CONNECT_INET TCP/IPソケット
+	 */
+	public function getConnectionType () {
+		return $this->getAttribute('connection_type');
+	}
+
+	/**
+	 * プロセスIDを返す
+	 *
+	 * @access public
+	 * @return integer プロセスID
+	 */
+	public function getProcessID () {
+		if ($this->getConnectionType() == BSMemcacheManager::CONNECT_UNIX) {
+			try {
+				return BSProcess::getID($this->getManager()->getConfig('DAEMON_NAME'));
+			} catch (Exception $e) {
+				return null;
+			}
 		}
 	}
 
@@ -77,6 +175,49 @@ class BSMemcache extends Memcache {
 			BS_CRYPT_SALT,
 		);
 		return BSCrypt::getSHA1(join('.', $name));
+	}
+
+	/**
+	 * 要素が存在するか？
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return ($this->get($key) !== false);
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->get($key);
+	}
+
+	/**
+	 * 要素を設定
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		$this->set($key, $value);
+	}
+
+	/**
+	 * 要素を削除
+	 *
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		$this->delete($key);
 	}
 }
 
