@@ -11,33 +11,20 @@
  * @version $Id$
  */
 class BSXMPPBotDaemon extends BSDaemon {
-	static private $xmpp;
+	private $xmpp;
 
 	/**
-	 * デーモン開始
+	 * 初期化
 	 *
-	 * @access public
-	 * @static
+	 * @access protected
+	 * @return boolean 正常終了ならばTrue
 	 */
-	static public function start () {
-		do {
-			$status = self::initialize(__CLASS__);
-			$listener = Nanoserv::New_Listener(
-				'tcp://0.0.0.0:' . $status['port'],
-				__CLASS__
-			);
-		} while (!$listener->Activate());
-		self::getXMPP();
-
-		$message = sprintf(
-			'%s（ポート:%d, PID:%d）を開始しました。',
-			__CLASS__,
-			$status['port'],
-			$status['pid']
+	protected function initialize () {
+		$this->xmpp = new BSXMPP;
+		return $this->xmpp->auth(
+			BSAuthor::getJabberID(),
+			BSController::getInstance()->getConstant('AUTHOR_PASSWORD')
 		);
-		BSController::getInstance()->putLog($message, __CLASS__);
-
-		Nanoserv::Run();
 	}
 
 	/**
@@ -57,9 +44,9 @@ class BSXMPPBotDaemon extends BSDaemon {
 			default:
 				try {
 					if (preg_match('/^(.*)\t(.*)$/', $line, $matches)) {
-						self::getXMPP()->send($matches[1], new BSJabberID($matches[2]));
+						$this->getXMPP()->send($matches[1], new BSJabberID($matches[2]));
 					} else {
-						self::getXMPP()->send($line);
+						$this->getXMPP()->send($line);
 					}
 				} catch (Exception $e) {
 				}
@@ -73,7 +60,17 @@ class BSXMPPBotDaemon extends BSDaemon {
 	 * @access public
 	 */
 	public function onIdle () {
-		self::getXMPP()->setStatus();
+		$this->getXMPP()->setStatus();
+	}
+
+	/**
+	 * アイドル処理の周期を返す
+	 *
+	 * @access public
+	 * @return integer アイドル処理の周期を秒単位で（何もしないなら0を返す）
+	 */
+	public function getIdleTimeSeconds () {
+		return 300;
 	}
 
 	/**
@@ -81,17 +78,9 @@ class BSXMPPBotDaemon extends BSDaemon {
 	 *
 	 * @access private
 	 * @return BSXMPP XMPPサーバ
-	 * @static
 	 */
-	static private function getXMPP () {
-		if (!self::$xmpp) {
-			self::$xmpp = new BSXMPP;
-			self::$xmpp->auth(
-				BSAuthor::getJabberID(),
-				BSController::getInstance()->getConstant('AUTHOR_PASSWORD')
-			);
-		}
-		return self::$xmpp;
+	private function getXMPP () {
+		return $this->xmpp;
 	}
 }
 

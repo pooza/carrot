@@ -7,7 +7,6 @@
 - separator: yes
 - module: AdminLog
 - module: AdminMemcache
-- module: AdminXMPPBot
 - module: DevelopTableReport
 - module: DevelopDocumentor
 - title: アクセスログ解析

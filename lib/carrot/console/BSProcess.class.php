@@ -65,7 +65,7 @@ class BSProcess {
 		}
 
 		foreach ($command->getResult() as $line) {
-			$fields = preg_split('/ +/', $line);
+			$fields = preg_split('/ +/', trim($line));
 			if ($fields[0] == $pid) {
 				return true;
 			}

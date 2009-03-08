@@ -9,7 +9,8 @@
  */
 class XMPPBotAction extends BSAction {
 	public function execute () {
-		BSXMPPBotDaemon::start();
+		$daemon = new BSXMPPBotDaemon;
+		$daemon->start();
 		$this->controller->putLog('起動しました。', 'BSXMPPBotDaemon');
 		return BSView::NONE;
 	}
