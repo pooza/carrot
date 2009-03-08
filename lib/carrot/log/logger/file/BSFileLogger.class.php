@@ -66,7 +66,7 @@ class BSFileLogger extends BSLogger {
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
 		if ($message instanceof Exception) {
-			if (BSString::isBlank($priority)) {
+			if ($priority == self::DEFAULT_PRIORITY) {
 				$priority = $message->getName();
 			}
 			$message = $message->getMessage();
