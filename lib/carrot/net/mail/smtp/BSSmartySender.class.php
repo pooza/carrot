@@ -24,8 +24,11 @@ class BSSmartySender extends BSSMTP {
 		$renderer->setType('text/plain');
 		$renderer->setEncoding('iso-2022-jp');
 		$renderer->addOutputFilter('mail');
-		if ($dir = BSController::getInstance()->getModule()->getDirectory('templates')) {
-			$renderer->setTemplatesDirectory($dir);
+
+		if ($module = BSController::getInstance()->getModule()) {
+			if ($dir = $module->getDirectory('templates')) {
+				$renderer->setTemplatesDirectory($dir);
+			}
 		}
 
 		$request = BSRequest::getInstance();
