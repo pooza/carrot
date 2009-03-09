@@ -64,8 +64,6 @@ class BSMailLogger extends BSLogger {
 	private function send ($message, $priority) {
 		$this->server->setTemplate('BSException.mail');
 		$this->server->setAttribute('priority', $priority);
-		$this->server->setAttribute('client_host', BSRequest::getInstance()->getHost());
-		$this->server->setAttribute('useragent', BSRequest::getInstance()->getUserAgent());
 		$this->server->setAttribute('message', $message);
 		$this->server->send();
 	}

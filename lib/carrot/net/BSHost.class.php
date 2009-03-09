@@ -12,7 +12,7 @@
  */
 class BSHost implements BSAssignable {
 	protected $address;
-	protected $fqdn;
+	protected $name;
 	const DEFAULT_SOCKET_CLASS = 'BSSocket';
 
 	/**
@@ -60,14 +60,14 @@ class BSHost implements BSAssignable {
 	 * @return string FQDNホスト名
 	 */
 	public function getName () {
-		if (!$this->fqdn) {
+		if (!$this->name) {
 			if (BS_NET_RESOLVABLE) {
-				$this->fqdn = gethostbyaddr($this->getAddress());
+				$this->name = gethostbyaddr($this->getAddress());
 			} else {
-				$this->fqdn = $this->getAddress();
+				$this->name = $this->getAddress();
 			}
 		}
-		return $this->fqdn;
+		return $this->name;
 	}
 
 	/**
@@ -80,7 +80,7 @@ class BSHost implements BSAssignable {
 		if (!$address = gethostbyname($name)) {
 			throw new BSNetException('"%s"は正しくないFQDN名です。', $name);
 		}
-		$this->fqdn = $name;
+		$this->name = $name;
 		$this->setAddress($address);
 	}
 
@@ -113,7 +113,9 @@ class BSHost implements BSAssignable {
 	 * @return mixed[] 全ての属性
 	 */
 	public function getAttributes () {
-		return get_object_vars($this->address);
+		$values = get_object_vars($this->address);
+		$values['name'] = $this->getName();
+		return $values;
 	}
 
 	/**

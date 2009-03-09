@@ -31,10 +31,9 @@ class BSSmartySender extends BSSMTP {
 			}
 		}
 
-		$request = BSRequest::getInstance();
-		$renderer->setAttribute('date', BSDate::getNow()->format());
-		$renderer->setAttribute('useragent', $request->getUserAgent()->getName());
-		$renderer->setAttribute('remote_host', $request->getHost()->getName());
+		$renderer->setAttribute('date', BSDate::getNow());
+		$renderer->setAttribute('client_host', BSRequest::getInstance()->getHost());
+		$renderer->setAttribute('useragent', BSRequest::getInstance()->getUserAgent());
 
 		$this->getMail()->setRenderer($renderer);
 	}
