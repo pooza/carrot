@@ -49,7 +49,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result && $this->contents) {
-			$this->result = parent::YAMLLoad($this->contents);
+			$this->result = BSString::convertKana(parent::YAMLLoad($this->contents), 'KVa');
 		}
 		return $this->result;
 	}
