@@ -20,7 +20,7 @@ function smarty_modifier_bs_date_format ($value, $format = 'Y/m/d H:i:s') {
 			$date = new BSDate($value);
 			return $date->format($format);
 		} catch (BSDateException $e) {
-			return null;
+			return $value;
 		}
 	}
 }
