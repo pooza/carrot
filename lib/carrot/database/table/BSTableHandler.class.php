@@ -26,8 +26,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	private $name;
 	private $fieldNames = array();
 	private $ids;
-	const WITH_PAGING = true;
-	const WITHOUT_PAGING = false;
 	const CLASS_SUFFIX = 'Handler';
 
 	/**
@@ -449,35 +447,28 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * レコード数を返す
 	 *
 	 * @access public
-	 * @param boolean $mode ページングされたレコード数を返すか？
 	 * @return integer レコード数
 	 */
-	public function getRecordCount ($mode = self::WITH_PAGING) {
-		if ($mode == self::WITHOUT_PAGING) {
-			$sql = BSSQL::getSelectQueryString(
-				'count(*) AS cnt',
-				$this->getName(),
-				$this->getCriteria()
-			);
-			$row = $this->getDatabase()->query($sql)->fetch();
-			return $row['cnt'];
-		} else {
-			return count($this->getResult());
-		}
+	public function count () {
+		return count($this->getResult());
 	}
 
 	/**
-	 * レコード数を返す
+	 * 全てのレコード数を返す
 	 *
-	 * getRecordCountのエイリアス
+	 * ページングしていても、全てのレコード数を返す。
 	 *
 	 * @access public
-	 * @param boolean $mode ページングされたレコード数を返すか？
-	 * @return integer レコード数
-	 * @final
+	 * @return integer 全てのレコード数
 	 */
-	final public function count ($mode = self::WITH_PAGING) {
-		return $this->getRecordCount();
+	public function countAll () {
+		$sql = BSSQL::getSelectQueryString(
+			'count(*) AS cnt',
+			$this->getName(),
+			$this->getCriteria()
+		);
+		$row = $this->getDatabase()->query($sql)->fetch();
+		return $row['cnt'];
 	}
 
 	/**
@@ -518,7 +509,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getLastPage () {
 		if (!$this->lastpage) {
-			if ($page = ceil($this->count(self::WITHOUT_PAGING) / $this->getPageSize())) {
+			if ($page = ceil($this->countAll() / $this->getPageSize())) {
 				$this->lastpage = $page;
 			} else {
 				$this->lastpage = 1;
