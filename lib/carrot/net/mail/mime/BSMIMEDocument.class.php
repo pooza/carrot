@@ -127,7 +127,7 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function getRenderer () {
 		if (!$this->renderer) {
-			$this->setRenderer(new BSBinaryRenderer);
+			$this->setRenderer(new BSRawRenderer);
 		}
 		return $this->renderer;
 	}

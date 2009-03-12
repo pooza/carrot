@@ -5,12 +5,12 @@
  */
 
 /**
- * 汎用バイナリレンダラー
+ * 汎用レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSBinaryRenderer implements BSRenderer {
+class BSRawRenderer implements BSRenderer {
 	private $contents;
 	private $type = 'application/octet-stream';
 
