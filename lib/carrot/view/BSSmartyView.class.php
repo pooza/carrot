@@ -14,6 +14,29 @@
 class BSSmartyView extends BSView {
 
 	/**
+	 * @access public
+	 * @param BSAction $action 呼び出し元アクション
+	 * @param string $suffix ビュー名サフィックス
+	 * @param BSRenderer $renderer レンダラー
+	 */
+	public function __construct (BSAction $action, $suffix, BSRenderer $renderer = null) {
+		$this->action = $action;
+		$this->nameSuffix = $suffix;
+
+		if ($renderer) {
+			if (($renderer instanceof BSSmarty) == false) {
+				throw new BSViewException(
+					'BSSmartyViewに%sをセット出来ません。',
+					get_class($renderer)
+				);
+			}
+		} else {
+			$renderer = new BSSmarty;
+		}
+		$this->setRenderer($renderer);
+	}
+
+	/**
 	 * 初期化
 	 *
 	 * @access public
@@ -21,10 +44,6 @@ class BSSmartyView extends BSView {
 	 */
 	public function initialize () {
 		parent::initialize();
-		if (!$this->renderer) {
-			$this->setRenderer(new BSSmarty);
-		}
-
 		$this->renderer->addModifier('sanitize');
 		$this->renderer->setUserAgent($this->useragent);
 		$this->setHeader('Content-Script-Type', 'text/javascript');
@@ -37,14 +56,12 @@ class BSSmartyView extends BSView {
 		$this->setAttribute('credentials', $this->user->getCredentials());
 		$this->setAttribute('is_debug', BS_DEBUG);
 		$this->setAttribute('is_ssl', $this->request->isSSL());
-
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
 			$this->renderer->setTemplatesDirectory($dir);
 		}
 		if ($file = $this->getDefaultTemplateFile()) {
 			$this->setTemplate($file);
 		}
-
 		return true;
 	}
 

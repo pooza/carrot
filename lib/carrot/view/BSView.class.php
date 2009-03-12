@@ -13,8 +13,8 @@
 class BSView {
 	protected $nameSuffix;
 	protected $renderer;
+	protected $action;
 	private $headers = array();
-	private $action;
 	private $filename;
 	const ALERT = 'Alert';
 	const ERROR = 'Error';
@@ -26,10 +26,16 @@ class BSView {
 	 * @access public
 	 * @param BSAction $action 呼び出し元アクション
 	 * @param string $suffix ビュー名サフィックス
+	 * @param BSRenderer $renderer レンダラー
 	 */
-	public function __construct (BSAction $action, $suffix) {
+	public function __construct (BSAction $action, $suffix, BSRenderer $renderer = null) {
 		$this->action = $action;
 		$this->nameSuffix = $suffix;
+
+		if (!$renderer) {
+			$renderer = new BSRawRenderer;
+		}
+		$this->setRenderer($renderer);
 	}
 
 	/**
@@ -79,9 +85,6 @@ class BSView {
 	 * @return boolean 初期化が成功すればTrue
 	 */
 	public function initialize () {
-		if ($renderer = $this->request->getAttribute('renderer')) {
-			$this->setRenderer($renderer);
-		}
 		if ($filename = $this->request->getAttribute('filename')) {
 			$this->setFileName($filename);
 		}
@@ -122,9 +125,7 @@ class BSView {
 	 * @access public
 	 */
 	public function render () {
-		if (!$this->renderer) {
-			throw new BSViewException('レンダラーが指定されていません。');
-		} else if (!$this->renderer->validate()) {
+		if (!$this->renderer->validate()) {
 			if (!$message = $this->renderer->getError()) {
 				$message = 'レンダラーに登録された情報が正しくありません。';
 			}
@@ -172,9 +173,6 @@ class BSView {
 	 * @return BSRenderer レンダラー
 	 */
 	public function getRenderer () {
-		if (!$this->renderer) {
-			throw new BSViewException('レンダラーが未設定です。');
-		}
 		return $this->renderer;
 	}
 
