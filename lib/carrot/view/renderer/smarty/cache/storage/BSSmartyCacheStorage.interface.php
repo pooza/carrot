@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage view.smarty.cache.storage
+ * @subpackage view.renderer.smarty.cache.storage
  */
 
 /**
