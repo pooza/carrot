@@ -22,6 +22,7 @@ class BSMail extends BSMIMEDocument {
 		$renderer->setWidth(78);
 		$renderer->setConvertKanaFlag('KV');
 		$renderer->setLineSeparator(self::LINE_SEPARATOR);
+		$renderer->setOptions(BSPlainTextRenderer::TAIL_LF);
 		$this->setRenderer($renderer);
 
 		$this->setHeader('Subject', 'untitled');

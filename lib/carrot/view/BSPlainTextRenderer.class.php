@@ -14,8 +14,10 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	private $encoding = 'UTF-8';
 	private $lineSeparator = "\n";
 	private $convertKanaFlag = 'KV';
+	private $option = 0;
 	private $width = null;
 	private $contents;
+	const TAIL_LF = 1;
 
 	/**
 	 * 出力内容を返す
@@ -31,7 +33,9 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 		if ($this->width) {
 			$contents = BSString::split($contents, $this->width);
 		}
-		$contents .= "\n\n"; //AppleMail対応
+		if ($this->getOption(self::TAIL_LF)) {
+			$contents .= "\n\n"; //AppleMail対応
+		}
 		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		return $contents;
@@ -125,6 +129,36 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 */
 	public function setConvertKanaFlag ($flag) {
 		$this->convertKanaFlag = $flag;
+	}
+
+	/**
+	 * オプションが設定されているか？
+	 *
+	 * @access public
+	 * @param integer $option オプション
+	 */
+	public function getOption ($option) {
+		return ($this->option & $option);
+	}
+
+	/**
+	 * オプションを設定
+	 *
+	 * @access public
+	 * @param integer $option オプションの和
+	 *    self::TAIL_LF 末尾に改行を追加
+	 */
+	public function setOptions ($option) {
+		$this->option += $option;
+	}
+
+	/**
+	 * オプションをクリア
+	 *
+	 * @access public
+	 */
+	public function clearOptions () {
+		$this->option = 0;
 	}
 
 	/**
