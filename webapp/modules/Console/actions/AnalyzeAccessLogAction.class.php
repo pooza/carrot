@@ -98,7 +98,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @access private
 	 */
 	private function updateConfig () {
-		$smarty = new BSSmarty();
+		$smarty = new BSSmarty;
 		$smarty->setTemplate('awstats.conf');
 		$smarty->setAttribute('config', $this->getConfig());
 		$file = $this->controller->getDirectory('tmp')->createEntry('awstats.conf');

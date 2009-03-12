@@ -5,14 +5,13 @@
  */
 
 /**
- * Smarty用のView
+ * Smartyレンダラー用の基底ビュー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  * @link http://ozaki.kyoichi.jp/mojavi3/smarty.html 参考
- * @abstract
  */
-abstract class BSSmartyView extends BSView {
+class BSSmartyView extends BSView {
 
 	/**
 	 * 初期化
@@ -22,8 +21,10 @@ abstract class BSSmartyView extends BSView {
 	 */
 	public function initialize () {
 		parent::initialize();
+		if (!$this->renderer) {
+			$this->setRenderer(new BSSmarty);
+		}
 
-		$this->setRenderer(new BSSmarty);
 		$this->renderer->addModifier('sanitize');
 		$this->renderer->setUserAgent($this->useragent);
 		$this->setHeader('Content-Script-Type', 'text/javascript');
@@ -50,10 +51,10 @@ abstract class BSSmartyView extends BSView {
 	/**
 	 * 規定のテンプレートを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSFile テンプレートファイル
 	 */
-	protected function getDefaultTemplateFile () {
+	public function getDefaultTemplateFile () {
 		$names = array(
 			$this->getAction()->getName() . '.' . $this->getNameSuffix(),
 			$this->getAction()->getName(),

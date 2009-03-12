@@ -5,16 +5,14 @@
  */
 
 /**
- * ビュー
+ * 基底ビュー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @abstract
  */
-abstract class BSView {
-	protected $name;
+class BSView {
 	protected $nameSuffix;
-	private $renderer;
+	protected $renderer;
 	private $headers = array();
 	private $action;
 	private $filename;
@@ -27,9 +25,11 @@ abstract class BSView {
 	/**
 	 * @access public
 	 * @param BSAction $action 呼び出し元アクション
+	 * @param string $suffix ビュー名サフィックス
 	 */
-	public function __construct (BSAction $action) {
+	public function __construct (BSAction $action, $suffix) {
 		$this->action = $action;
+		$this->nameSuffix = $suffix;
 	}
 
 	/**
@@ -47,8 +47,6 @@ abstract class BSView {
 				return BSUser::getInstance();
 			case 'useragent':
 				return BSRequest::getInstance()->getUserAgent();
-			case 'renderer':
-				return $this->getRenderer();
 			case 'translator':
 				return BSTranslateManager::getInstance();
 			default:
@@ -105,11 +103,7 @@ abstract class BSView {
 	 * @return string ビュー名
 	 */
 	public function getName () {
-		if (!$this->name) {
-			preg_match('/^(.+)View$/', get_class($this), $matches);
-			$this->name = $matches[1];
-		}
-		return $this->name;
+		return $this->getAction()->getName() . $this->getNameSuffix();
 	}
 
 	/**
@@ -119,12 +113,6 @@ abstract class BSView {
 	 * @return string ビュー名のサフィックス
 	 */
 	public function getNameSuffix () {
-		if (!$this->nameSuffix) {
-			$pattern = '/^(.+)(' . self::getNameSuffixes()->join('|') . ')$/';
-			if (preg_match($pattern, $this->getName(), $matches)) {
-				$this->nameSuffix = $matches[2];
-			}
-		}
 		return $this->nameSuffix;
 	}
 

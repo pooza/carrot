@@ -15,18 +15,14 @@ class CryptAction extends BSAction {
 	}
 
 	public function execute () {
-		printf("平文: %s\n", $this->request['t']);
-		printf("暗号文: %s\n", BSCrypt::getInstance()->encrypt($this->request['t']));
-		return BSView::NONE;
+		$crypt = BSCrypt::getInstance();
+		$this->request->setAttribute('plain', $this->request['t']);
+		$this->request->setAttribute('crypted', $crypt->encrypt($this->request['t']));
+		return BSView::SUCCESS;
 	}
 
 	public function handleError () {
-		print "-tオプションが必要。\n";
-		return BSView::NONE;
-	}
-
-	public function validate () {
-		return $this->request['t'] != null;
+		return BSView::ERROR;
 	}
 }
 

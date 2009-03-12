@@ -28,7 +28,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	public function __construct() {
 		$controller = BSController::getInstance();
 		$this->compile_dir = $controller->getPath('compile');
-		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/smarty/plugins';
+		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/renderer/smarty/plugins';
 		$this->plugins_dir[] = $controller->getPath('local_lib') . '/smarty';
 		$this->force_compile = BS_DEBUG;
 		$this->addModifier('encoding');
