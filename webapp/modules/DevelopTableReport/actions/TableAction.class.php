@@ -11,6 +11,16 @@ class TableAction extends BSAction {
 	private $database;
 	private $tableProfile;
 
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return 'テーブル:' . $this->getTableProfile()->getName();
+	}
+
 	private function getDatabase () {
 		if (!$this->database) {
 			$this->database = BSDatabase::getInstance($this->request['database']);

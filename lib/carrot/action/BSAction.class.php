@@ -13,7 +13,7 @@
  */
 abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	private $name;
-	private $title;
+	protected $title;
 	private $config;
 	private $module;
 

@@ -8,3 +8,7 @@
 module:
   title_menu: TableReport
   title: TableReportモジュール
+
+actions:
+  DatabaseList:
+    title: データベース一覧

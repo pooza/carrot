@@ -9,7 +9,7 @@ phpDocumentor 生成画面テンプレート
 {include file='AdminHeader'}
 {include file='ErrorMessages'}
 
-<h1>APIドキュメント生成</h1>
+<h1>{$action.title}</h1>
 <form name="frm" method="post" action="/{$module.name}/{$action.name}">
 	<table class="Detail">
 		<tr>

@@ -8,7 +8,7 @@
 *}
 {include file='AdminHeader'}
 
-<h1>XMPPBotの状態</h1>
+<h1>{$action.title}</h1>
 <table class="Detail">
 	<tr>
 		<th>プロセスID</th>

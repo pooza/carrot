@@ -8,3 +8,7 @@
 module:
   title_menu: 管理ログ
   title: 管理ログ閲覧モジュール
+
+actions:
+  Browse:
+    title: 管理ログ

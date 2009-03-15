@@ -10,10 +10,10 @@
 {include file='ErrorMessages' hide_error_code=true}
 
 <div id="BreadCrumbs">
-	<a href="#">データベース一覧</a>
+	<a href="#">{$action.title}</a>
 </div>
 
-<h1>データベース一覧</h1>
+<h1>{$action.title}</h1>
 
 <table>
 	<tr>

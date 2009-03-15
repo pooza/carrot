@@ -8,7 +8,7 @@
 *}
 {include file='AdminHeader'}
 
-<h1>memcacheの状態</h1>
+<h1>{$action.title}</h1>
 <table class="Detail">
 
 {foreach from=$server key='key' item='value'}

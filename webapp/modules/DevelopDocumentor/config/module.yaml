@@ -8,3 +8,7 @@
 module:
   title_menu: Documentor
   title: Documentorモジュール
+
+actions:
+  Generate:
+    title: APIドキュメント生成

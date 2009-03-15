@@ -8,3 +8,7 @@
 module:
   title_menu: XMPPBot
   title: XMPPBot管理モジュール
+
+actions:
+  Summary:
+    title: XMPPBotの状態

@@ -11,10 +11,10 @@
 
 <div id="BreadCrumbs">
 	<a href="/{$module.name}/">データベース一覧</a>
-	<a href="#">データベース:{$database.name}</a>
+	<a href="#">{$action.title}</a>
 </div>
 
-<h1>データベース:{$database.name}</h1>
+<h1>{$action.title}</h1>
 
 <h2>基本情報</h2>
 <table class="Detail">

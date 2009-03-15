@@ -14,7 +14,7 @@
 	<a href="/AdminFeed/Log"><img src="/carrotlib/images/feed.gif" width="16" height="16" alt="FEED" border="0" /></a>
 </form>
 
-<h1>管理ログ</h1>
+<h1>{$action.title}</h1>
 <table>
 	<tr>
 		<th width="60">時刻</th>
