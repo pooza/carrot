@@ -451,9 +451,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getRecordClassName ($lang = null) {
 		if (!$this->recordClassName) {
 			if (BSString::isBlank($name = $this->getConfig('record_class'))) {
-				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', self::getPrefixes()->join('|'));
+				$pattern = '/^' . $this->getPrefix() . '([A-Z][A-Za-z]+)$/';
 				if (preg_match($pattern, $this->getName(), $matches)) {
-					$name = $matches[2];
+					$name = $matches[1];
 				}
 			}
 			if (!BSString::isBlank($name)) {
