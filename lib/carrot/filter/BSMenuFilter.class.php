@@ -31,11 +31,11 @@ class BSMenuFilter extends BSFilter {
 				$menuitem = new BSArray($menuitem);
 				if ($menuitem['module']) {
 					$module = $this->controller->getModule($menuitem['module']);
-					if (BSString::isBlank($menuitem['title'])) {
-						$menuitem['title'] = $module->getMenuTitle();
-					}
 					if (!$this->user->hasCredential($module->getCredential())) {
 						continue;
+					}
+					if (BSString::isBlank($menuitem['title'])) {
+						$menuitem['title'] = $module->getMenuTitle();
 					}
 				}
 				$this->menu[] = $menuitem;

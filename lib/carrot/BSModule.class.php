@@ -10,9 +10,10 @@
  * @version $Id$
  */
 class BSModule implements BSHTTPRedirector, BSAssignable {
+	private $name;
+	private $title;
 	private $directories;
 	private $actions;
-	private $attributes;
 	private $config = array();
 	private $configFiles;
 	private $prefix;
@@ -28,22 +29,17 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @param string $name モジュール名
 	 */
 	protected function __construct ($name) {
-		$this->attributes = new BSArray;
-		$this->attributes['name'] = $name;
-
+		$this->name = $name;
 		if (!$this->getDirectory()) {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
 		}
-
 		if ($file = $this->getConfigFile('module')) {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile($file));
-			$this->config += (array)$config;
-			$this->attributes->setParameters($config['module']);
+			$this->config = (array)$config;
 		}
-
 		if ($file = $this->getConfigFile('filters')) {
-			$this->config += $file->getResult();
+			$this->config['filters'] = $file->getResult();
 		}
 	}
 
@@ -91,13 +87,51 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
+	 * 属性値を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 属性値
+	 */
+	public function getAttributes () {
+		return new BSArray(array(
+			'name' => $this->getName(),
+			'title' => $this->getTitle(),
+			'title_menu' => $this->getMenuTitle(),
+		));
+	}
+
+	/**
 	 * モジュール名を返す
 	 *
 	 * @access public
 	 * @return string モジュール名
 	 */
 	public function getName () {
-		return $this->attributes['name'];
+		return $this->name;
+	}
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if (BSString::isBlank($this->title)) {
+			if (BSString::isBlank($title = $this->getConfig('title'))) {
+				try {
+					$translator = BSTranslateManager::getInstance();
+					$title = $translator->execute($this->getRecordClassName());
+					if ($this->isAdminModule()) {
+						$title .= '管理';
+					}
+				} catch (Exception $e) {
+					$title = $this->getName();
+				}
+			}
+			$this->title = preg_replace('/モジュール$/u', '', $title) . 'モジュール';
+		}
+		return $this->title;
 	}
 
 	/**
@@ -107,20 +141,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return string タイトル
 	 */
 	public function getMenuTitle () {
-		if (BSString::isBlank($this->attributes['title_menu'])) {
-			return $this->attributes['title'];
+		if (BSString::isBlank($title = $this->getConfig('title_menu'))) {
+			return $this->getTitle();
 		}
-		return $this->attributes['title_menu'];
-	}
-
-	/**
-	 * 属性値を全て返す
-	 *
-	 * @access public
-	 * @return BSArray 属性値
-	 */
-	public function getAttributes () {
-		return $this->attributes;
+		return $title;
 	}
 
 	/**
@@ -378,6 +402,16 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			}
 		}
 		return $this->prefix;
+	}
+
+	/**
+	 * 管理者向けモジュールか？
+	 *
+	 * @access public
+	 * @return boolean 管理者向けモジュールならTrue
+	 */
+	public function isAdminModule () {
+		return $this->getPrefix() == 'Admin';
 	}
 
 	/**
