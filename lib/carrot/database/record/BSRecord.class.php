@@ -232,10 +232,10 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		foreach (array('name', 'label') as $name) {
+		foreach (array('name', 'label', 'title') as $name) {
 			foreach (array('', '_' . $language) as $suffix) {
 				$name .= $suffix;
-				if ($label = $this->getAttribute($name)) {
+				if (!BSString::isBlank($label = $this->getAttribute($name))) {
 					return $label;
 				}
 			}
