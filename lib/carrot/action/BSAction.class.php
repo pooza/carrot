@@ -307,6 +307,22 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
+	 * 登録可能なフィルタか？
+	 *
+	 * @access public
+	 * @param BSFilter $filter フィルタ
+	 * @return boolean 登録可能ならTrue
+	 */
+	public function isRegisterableFilter (BSFilter $filter) {
+		if (is_array($filters = $this->getConfig('filters'))) {
+			if (isset($filters[$filter->getName()])) {
+				return (boolean)$filters[$filter->getName()];
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * 必要なクレデンシャルを返す
 	 *
 	 * モジュール規定のクレデンシャル以外の、動的なクレデンシャルを設定。

@@ -39,7 +39,10 @@ class BSFilterChain implements IteratorAggregate {
 	 * @param BSFilter $filter フィルタ
 	 */
 	public function register (BSFilter $filter) {
-		$this->chain[] = $filter;
+		$action = BSController::getInstance()->getAction();
+		if ($action->isRegisterableFilter($filter)) {
+			$this->chain[] = $filter;
+		}
 	}
 
 	/**
