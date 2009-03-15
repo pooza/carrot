@@ -6,5 +6,5 @@
 # @version $Id$
 
 module:
-  title: Memcache
-  description: Memcache管理モジュール
+  title_menu: Memcache
+  title: Memcache管理モジュール

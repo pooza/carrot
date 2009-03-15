@@ -31,8 +31,8 @@ class BSMenuFilter extends BSFilter {
 				$menuitem = new BSArray($menuitem);
 				if ($menuitem['module']) {
 					$module = $this->controller->getModule($menuitem['module']);
-					if (!$menuitem['title']) {
-						$menuitem['title'] = $module->getConfig('title');
+					if (BSString::isBlank($menuitem['title'])) {
+						$menuitem['title'] = $module->getMenuTitle();
 					}
 					if (!$this->user->hasCredential($module->getCredential())) {
 						continue;

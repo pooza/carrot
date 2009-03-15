@@ -28,7 +28,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @param string $name モジュール名
 	 */
 	protected function __construct ($name) {
-		$this->getAttributes()->setParameter('name', $name);
+		$this->attributes = new BSArray;
+		$this->attributes['name'] = $name;
 
 		if (!$this->getDirectory()) {
 			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
@@ -38,7 +39,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$config = array();
 			require(BSConfigManager::getInstance()->compile($file));
 			$this->config += (array)$config;
-			$this->getAttributes()->setParameters($config['module']);
+			$this->attributes->setParameters($config['module']);
 		}
 
 		if ($file = $this->getConfigFile('filters')) {
@@ -96,7 +97,20 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return string モジュール名
 	 */
 	public function getName () {
-		return $this->getAttributes()->getParameter('name');
+		return $this->attributes['name'];
+	}
+
+	/**
+	 * メニューでのタイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getMenuTitle () {
+		if (BSString::isBlank($this->attributes['title_menu'])) {
+			return $this->attributes['title'];
+		}
+		return $this->attributes['title_menu'];
 	}
 
 	/**
@@ -106,9 +120,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-		}
 		return $this->attributes;
 	}
 
@@ -276,20 +287,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			);
 		}
 		return $this->configFiles[$name];
-	}
-
-	/**
-	 * 設定ファイルを返す
-	 *
-	 * getConfigFileのエイリアス
-	 *
-	 * @access private
-	 * @param string $name ファイル名
-	 * @return BSConfigFile 設定ファイル
-	 * @final
-	 */
-	final private function getIniFile ($name = 'module') {
-		return $this->getConfigFile($name);
 	}
 
 	/**

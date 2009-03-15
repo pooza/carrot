@@ -6,5 +6,5 @@
 # @version $Id$
 
 module:
-  title: XMPPBot
-  description: XMPPBot管理モジュール
+  title_menu: XMPPBot
+  title: XMPPBot管理モジュール

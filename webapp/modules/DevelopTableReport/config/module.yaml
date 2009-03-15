@@ -6,5 +6,5 @@
 # @version $Id$
 
 module:
-  title: TableReport
-  description: TableReportモジュール
+  title_menu: TableReport
+  title: TableReportモジュール

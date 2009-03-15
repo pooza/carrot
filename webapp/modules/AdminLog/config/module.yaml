@@ -6,5 +6,5 @@
 # @version $Id$
 
 module:
-  title: 管理ログ
-  description: 管理ログ閲覧モジュール
+  title_menu: 管理ログ
+  title: 管理ログ閲覧モジュール

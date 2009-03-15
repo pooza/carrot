@@ -6,5 +6,5 @@
 # @version $Id$
 
 module:
-  title: Documentor
-  description: Documentorモジュール
+  title_menu: Documentor
+  title: Documentorモジュール
