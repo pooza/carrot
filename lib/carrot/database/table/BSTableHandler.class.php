@@ -706,6 +706,19 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		}
 		return $table;
 	}
+
+	/**
+	 * 全ステータスを返す
+	 *
+	 * @access public
+	 * @param mixed[] $values 値
+	 * @static
+	 */
+	static public function getStatusOptions () {
+		return BSTranslateManager::getInstance()->getHash(
+			array('show', 'hide')
+		);
+	}
 }
 
 /* vim:set tabstop=4: */
