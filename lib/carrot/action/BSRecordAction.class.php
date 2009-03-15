@@ -55,7 +55,11 @@ abstract class BSRecordAction extends BSAction {
 					if ($this->isCreateAction()) {
 						$this->title .= '登録';
 					} else {
-						$this->title .= '詳細:' . $this->getRecord()->getName();
+						if ($record = $this->getRecord()) {
+							$this->title .= '詳細:' . $record->getName();
+						} else {
+							$this->title = $this->getName();
+						}
 					}
 				} catch (Exception $e) {
 					$this->title = $this->getName();
