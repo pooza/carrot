@@ -43,6 +43,26 @@ abstract class BSTableAction extends BSAction {
 	}
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if (BSString::isBlank($this->title)) {
+			if (BSString::isBlank($this->title = $this->getConfig('title')) {
+				try {
+					$word = BSString::underscorize($this->getRecordClassName());
+					$this->title = BSTranslateManager::getInstance()->execute($word) . '一覧';
+				} catch (Exception $e) {
+					$this->title = $this->getName();
+				}
+			}
+		}
+		return $this->title;
+	}
+
+	/**
 	 * テーブルを返す
 	 *
 	 * @access public

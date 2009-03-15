@@ -41,6 +41,31 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if (BSString::isBlank($this->title)) {
+			if (BSString::isBlank($this->title = $this->getConfig('title')) {
+				try {
+					$word = BSString::underscorize($this->getRecordClassName());
+					$this->title = BSTranslateManager::getInstance()->execute($word);
+					if ($this->isCreateAction()) {
+						$this->title .= '登録';
+					} else {
+						$this->title .= '詳細:' . $this->getRecord()->getName();
+					}
+				} catch (Exception $e) {
+					$this->title = $this->getName();
+				}
+			}
+		}
+		return $this->title;
+	}
+
+	/**
 	 * 更新レコードのフィールド値を配列で返す
 	 *
 	 * @access protected

@@ -14,6 +14,7 @@
 abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	private $name;
 	private $title;
+	private $config;
 	private $module;
 
 	/**
@@ -138,6 +139,22 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
+	 * 設定を返す
+	 *
+	 * @access public
+	 * @param string $name 設定名
+	 * @return mixed 設定値
+	 */
+	public function getConfig ($name) {
+		if (!$this->config) {
+			$this->config = new BSArray(
+				$this->getModule()->getConfig($this->getName(), 'actions')
+			);
+		}
+		return $this->config[$name];
+	}
+
+	/**
 	 * アクション名を返す
 	 *
 	 * @access public
@@ -164,6 +181,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getTitle () {
 		if (BSString::isBlank($this->title)) {
+			$this->title = $this->getConfig('title');
 		}
 		return $this->title;
 	}
@@ -307,7 +325,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @access public
 	 * @return string ビュー名
 	 */
-	public function handleDenied () {
+	public function deny () {
 		return $this->controller->getSecureAction()->forward();
 	}
 
