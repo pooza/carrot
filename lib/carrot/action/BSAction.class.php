@@ -12,7 +12,8 @@
  * @abstract
  */
 abstract class BSAction implements BSHTTPRedirector, BSAssignable {
-	private $attributes;
+	private $name;
+	private $title;
 	private $module;
 
 	/**
@@ -21,14 +22,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function __construct (BSModule $module) {
 		$this->module = $module;
-
-		if (!preg_match('/^(.+)Action$/', get_class($this), $matches)) {
-			throw new BSInitializeException(
-				'アクションの名前が正しくありません。(%s)',
-				get_class($this)
-			);
-		}
-		$this->getAttributes()->setParameter('name', $matches[1]);
 	}
 
 	/**
@@ -145,26 +138,47 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
-	 * 属性値を全て返す
-	 *
-	 * @access public
-	 * @return BSArray 属性値
-	 */
-	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-		}
-		return $this->attributes;
-	}
-
-	/**
 	 * アクション名を返す
 	 *
 	 * @access public
 	 * @return string アクション名
 	 */
 	public function getName () {
-		return $this->getAttributes()->getParameter('name');
+		if (BSString::isBlank($this->name)) {
+			if (!preg_match('/^(.+)Action$/', get_class($this), $matches)) {
+				throw new BSInitializeException(
+					'アクションの名前が正しくありません。(%s)',
+					get_class($this)
+				);
+			}
+			$this->name = $matches[1];
+		}
+		return $this->name;
+	}
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if (BSString::isBlank($this->title)) {
+		}
+		return $this->title;
+	}
+
+	/**
+	 * 属性値を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 属性値
+	 */
+	public function getAttributes () {
+		return new BSArray(array(
+			'name' => $this->getName(),
+			'title' => $this->getTitle(),
+		));
 	}
 
 	/**

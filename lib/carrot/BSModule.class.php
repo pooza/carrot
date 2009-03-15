@@ -120,8 +120,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if (BSString::isBlank($this->title)) {
 			if (BSString::isBlank($title = $this->getConfig('title'))) {
 				try {
-					$translator = BSTranslateManager::getInstance();
-					$title = $translator->execute($this->getRecordClassName());
+					$word = BSString::underscorize($this->getRecordClassName());
+					$title = BSTranslateManager::getInstance()->execute($word);
 					if ($this->isAdminModule()) {
 						$title .= '管理';
 					}
@@ -142,7 +142,12 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getMenuTitle () {
 		if (BSString::isBlank($title = $this->getConfig('title_menu'))) {
-			return $this->getTitle();
+			try {
+				$word = BSString::underscorize($this->getRecordClassName());
+				$title = BSTranslateManager::getInstance()->execute($word);
+			} catch (Exception $e) {
+				$title = $this->getName();
+			}
 		}
 		return $title;
 	}
