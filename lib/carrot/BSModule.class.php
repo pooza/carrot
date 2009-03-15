@@ -120,8 +120,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if (BSString::isBlank($this->title)) {
 			if (BSString::isBlank($title = $this->getConfig('title'))) {
 				try {
-					$word = BSString::underscorize($this->getRecordClassName());
-					$title = BSTranslateManager::getInstance()->execute($word);
+					$title = $this->getRecordClassName('ja');
 					if ($this->isAdminModule()) {
 						$title .= '管理';
 					}
@@ -143,8 +142,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getMenuTitle () {
 		if (BSString::isBlank($title = $this->getConfig('title_menu'))) {
 			try {
-				$word = BSString::underscorize($this->getRecordClassName());
-				$title = BSTranslateManager::getInstance()->execute($word);
+				$title = $this->getRecordClassName('ja');
 			} catch (Exception $e) {
 				$title = $this->getName();
 			}
@@ -447,9 +445,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * レコードクラス名を返す
 	 *
 	 * @access public
+	 * @param string $lang 言語 - 翻訳が必要な場合
 	 * @return string レコードクラス名
 	 */
-	public function getRecordClassName () {
+	public function getRecordClassName ($lang = null) {
 		if (!$this->recordClassName) {
 			if (BSString::isBlank($name = $this->getConfig('record_class'))) {
 				$pattern = sprintf('/^(%s)([A-Z][A-Za-z]+)$/', self::getPrefixes()->join('|'));
@@ -461,7 +460,12 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 				$this->recordClassName = BSClassLoader::getInstance()->getClassName($name);
 			}
 		}
-		return $this->recordClassName;
+		if (BSString::isBlank($lang)) {
+			return $this->recordClassName;
+		} else {
+			$word = BSString::underscorize($this->recordClassName);
+			return BSTranslateManager::getInstance()->execute($word);
+		}
 	}
 
 	/**

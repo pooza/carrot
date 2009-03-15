@@ -257,16 +257,6 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * レコードクラス名を返す
-	 *
-	 * @access protected
-	 * @return string レコードクラス名
-	 */
-	protected function getRecordClassName () {
-		return get_class($this);
-	}
-
-	/**
 	 * 要素が存在するか？
 	 *
 	 * @access public

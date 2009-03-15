@@ -253,7 +253,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 				}
 				if ($match) {
 					$class = $this->getRecordClassName();
-					$class = BSClassLoader::getInstance()->getClassName($class);
 					return new $class($this, $record);
 				}
 			}
@@ -266,7 +265,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			$table->setCriteria($criteria);
 			if ($table->count() == 1) {
 				$class = $this->getRecordClassName();
-				$class = BSClassLoader::getInstance()->getClassName($class);
 				return new $class($this, $table->result[0]);
 			}
 		}
@@ -616,7 +614,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
 			if (preg_match('/^([A-Za-z]+)Handler$/', get_class($this), $matches)) {
-				$this->recordClassName = $matches[1];
+				$this->recordClassName = BSClassLoader::getInstance()->getClassName($matches[1]);
 			} else {
 				throw new BSDatabaseException(
 					'"%s"のクラス名が正しくありません。', get_class($this)

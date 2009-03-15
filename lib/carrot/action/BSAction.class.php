@@ -40,7 +40,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 				return BSUser::getInstance();
 			case 'database':
 				// $this->getTable()は使わない。
-				if ($class = $this->getRecordClassName()) {
+				if ($class = $this->getModule()->getRecordClassName()) {
 					$table = BSTableHandler::getInstance($class);
 					return $table->getDatabase();
 				}
@@ -291,19 +291,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getTable () {
 		return $this->getModule()->getTable();
-	}
-
-	/**
-	 * レコードクラス名を返す
-	 *
-	 * BSModule::getRecordClassName()のエイリアス
-	 *
-	 * @access public
-	 * @return string レコードクラス名
-	 * @final
-	 */
-	final public function getRecordClassName () {
-		return $this->getModule()->getRecordClassName();
 	}
 
 	/**

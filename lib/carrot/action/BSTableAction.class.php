@@ -52,8 +52,7 @@ abstract class BSTableAction extends BSAction {
 		if (BSString::isBlank($this->title)) {
 			if (BSString::isBlank($this->title = $this->getConfig('title'))) {
 				try {
-					$word = BSString::underscorize($this->getRecordClassName());
-					$this->title = BSTranslateManager::getInstance()->execute($word) . '一覧';
+					$this->title = $this->getModule()->getRecordClassName('ja') . '一覧';
 				} catch (Exception $e) {
 					$this->title = $this->getName();
 				}
