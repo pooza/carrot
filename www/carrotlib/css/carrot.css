@@ -119,6 +119,10 @@ table tr.hide td {
 	background-color: gray;
 }
 
+table tr.row_even td {
+	background-color: #CCCCCC;
+}
+
 table tr.alert td {
 	background-color: #FF6633;
 }
