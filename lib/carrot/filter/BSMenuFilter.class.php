@@ -25,11 +25,20 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenu () {
 		if (!$this->menu) {
+			$prevItemIsSeparator = true;
 			$config = array();
 			require(BSConfigManager::getInstance()->compile($this->getMenuFile()));
 			foreach ($config as $menuitem) {
 				$menuitem = new BSArray($menuitem);
-				if ($menuitem['module']) {
+				if (!BSString::isBlank($menuitem['separator'])) {
+					if ($prevItemIsSeparator) {
+						continue;
+					}
+					$prevItemIsSeparator = true;
+				} else {
+					$prevItemIsSeparator = false;
+				}
+				if (!BSString::isBlank($menuitem['module'])) {
 					$module = $this->controller->getModule($menuitem['module']);
 					if (!$this->user->hasCredential($module->getCredential())) {
 						continue;
