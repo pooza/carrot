@@ -93,6 +93,10 @@ class BSSmartyView extends BSView {
 	 * @static
 	 */
 	static public function columnize ($array, $columns = 3) {
+		if ($array instanceof BSArray) {
+			$array = $array->getParameters();
+		}
+
 		$array = array_chunk($array, $columns);
 		$last = array_pop($array);
 
