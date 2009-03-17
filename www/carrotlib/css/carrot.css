@@ -53,6 +53,14 @@ del {
 	text-decoration: line-through;
 }
 
+big {
+	font-size: 14px;
+}
+
+small {
+	font-size: 10px;
+}
+
 h1 {
 	font-size: 16px;
 	line-height: 22px;
@@ -119,7 +127,7 @@ table tr.hide td {
 	background-color: gray;
 }
 
-table tr.row_even td {
+table tr.even td {
 	background-color: #CCCCCC;
 }
 
