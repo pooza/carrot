@@ -16,7 +16,7 @@ class BSMailAddress implements BSAssignable {
 	private $account;
 	private $domain;
 	private $mx = array();
-	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
+	const PATTERN = '/^([0-9a-z_\.\+\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
 
 	/**
 	 * @access public
@@ -24,7 +24,7 @@ class BSMailAddress implements BSAssignable {
 	 * @param string $name 名前
 	 */
 	public function __construct ($contents, $name = null) {
-		if (!$name && preg_match('/^(.+) <(.+)>$/i', $contents, $matches)) {
+		if (BSString::isBlank($name) && preg_match('/^(.+) <(.+)>$/i', $contents, $matches)) {
 			$name = $matches[1];
 			$contents = $matches[2];
 		}
@@ -101,39 +101,15 @@ class BSMailAddress implements BSAssignable {
 	 * @return boolean 正しいドメインならTrue
 	 */
 	public function isValidDomain () {
-		if (!$domains = $this->getMXRecords()) {
-			$domains = array($this->getDomainName());
-		}
+		$domains = $this->getMXRecords();
+		$domains[] = $this->getDomainName();
 		foreach ($domains as $domain) {
-			try {
-				$host = new BSHost($domain);
-				if (!$host->getName()) {
-					return false;
-				}
-			} catch (BSNetException $e) {
-				// 例外が発生するのは、名前解決の失敗。
-				return false;
+			$host = new BSHost($domain);
+			if ($host->isExists()) {
+				return true;
 			}
 		}
-		return true;
-	}
-
-	/**
-	 * 最優先のメールサーバを返す
-	 *
-	 * @access public
-	 * @return BSHost メールサーバ
-	 */
-	public function getPrimaryMailServer () {
-		if (!$hosts = $this->getMXRecords()) {
-			$hosts = array($this->getDomainName());
-		}
-
-		try {
-			return new BSHost($hosts[0]);
-		} catch (BSNetException $e) {
-			return null;
-		}
+		return false;
 	}
 
 	/**
@@ -171,7 +147,7 @@ class BSMailAddress implements BSAssignable {
 	 * @return boolean ケータイ用ならTrue
 	 */
 	public function isMobile () {
-		return ($this->getCarrier() != '');
+		return !BSString::isBlank($this->getCarrier());
 	}
 
 	/**

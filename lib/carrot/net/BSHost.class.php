@@ -77,11 +77,25 @@ class BSHost implements BSAssignable {
 	 * @param string $name FQDNホスト名
 	 */
 	public function setName ($name) {
-		if (!$address = gethostbyname($name)) {
+		if (BSString::isBlank($address = gethostbyname($name))) {
 			throw new BSNetException('"%s"は正しくないFQDN名です。', $name);
 		}
 		$this->name = $name;
 		$this->setAddress($address);
+	}
+
+	/**
+	 * 名前解決が可能か？
+	 *
+	 * @access public
+	 * @return boolean 可能ならばTrue
+	 */
+	public function isExists () {
+		try {
+			return !BSString::isBlank($this->getName());
+		} catch (BSNetException $e) {
+			return false;
+		}
 	}
 
 	/**

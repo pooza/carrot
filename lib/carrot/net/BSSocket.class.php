@@ -183,8 +183,8 @@ class BSSocket {
 	 * @param integer $port port
 	 */
 	public function setPort ($port = null) {
-		if (!$port) {
-			if (!$port = $this->getDefaultPort()) {
+		if (BSString::isBlank($port)) {
+			if (BSString::isBlank($port = $this->getDefaultPort())) {
 				throw new BSNetException('ポートが未定義です。');
 			}
 		}
