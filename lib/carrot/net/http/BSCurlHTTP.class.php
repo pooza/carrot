@@ -29,17 +29,12 @@ class BSCurlHTTP extends BSHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path) {
-		if (!$this->getEngine()) {
-			return parent::sendGetRequest($path);
-		}
-
-		$this->getURL()->setAttribute('path', $path);
+	public function sendGetRequest ($path = '/') {
 		$this->setAttribute('httpget', true);
 		$this->setAttribute('post', false);
-		return $this->execute();
+		return $this->execute($path);
 	}
 
 	/**
@@ -48,39 +43,52 @@ class BSCurlHTTP extends BSHTTP {
 	 * @access public
 	 * @param string $path パス
 	 * @param string[] $params パラメータの配列
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path, $params = array()) {
-		if (!$this->getEngine()) {
-			return parent::sendPostRequest($path, $params);
-		}
+	public function sendPostRequest ($path = '/', $params = array()) {
+		$renderer = new BSWWWFormRenderer;
+		$renderer->setParameters($params);
 
-		$values = array();
-		foreach ($params as $key => $value) {
-			$values[] = $key . '=' . $value;
-		}
-
-		$this->getURL()->setAttribute('path', $path);
 		$this->setAttribute('post', true);
 		$this->setAttribute('httpget', false);
-		$this->setAttribute('postfields', implode('&', $values));
-		return $this->execute();
+		$this->setAttribute('postfields', $renderer->getContents());
+		return $this->execute($path);
 	}
 
 	/**
 	 * リクエスト実行
 	 *
-	 * @return string 実行結果
+	 * @param string $path パス
 	 * @access private
+	 * @return BSHTTPResponse レスポンス
 	 */
-	private function execute () {
-		$this->setAttribute('url', $this->getURL()->getContents());
-		$response = curl_exec($this->getEngine());
-		$response = str_replace(self::LINE_SEPARATOR, "\n", $response);
-		$response = explode("\n\n", $response);
-		$this->setHeaders($response[0]);
-		unset($response[0]);
-		return implode("\n\n", $response);
+	private function execute ($path) {
+		$url = new BSURL;
+		$url['host'] = $this->getHost();
+		$url['path'] = $path;
+		if ($this->isSSL()) {
+			$url->setAttribute('scheme', 'https');
+		} else {
+			$url->setAttribute('scheme', 'http');
+		}
+		$this->setAttribute('url', $url->getContents());
+
+		$this->response = new BSHTTPResponse;
+		$this->response->setURL($url);
+		$contents = BSString::convertLineSeparator(curl_exec($this->getEngine()), "\n");
+		if ($contents === false) {
+			throw new BSHTTPException('%sへの送信に失敗しました。', $url->getContents());
+		}
+		$this->response->setContents($contents);
+
+		if (!$this->response->validate()) {
+			throw new BSHTTPException(
+				'不正なレスポンスです。 (%d %s)',
+				$this->response->getStatus(),
+				$this->response->getError()
+			);
+		}
+		return $this->response;
 	}
 
 	/**
@@ -105,26 +113,6 @@ class BSCurlHTTP extends BSHTTP {
 			$this->setAttribute('ssl_verifypeer', false);
 		}
 		return $this->engine;
-	}
-
-	/**
-	 * 直近のURLを返す
-	 *
-	 * @access public
-	 * @return BSURL URL
-	 */
-	public function getURL () {
-		if (!$this->url) {
-			$this->url = new BSURL;
-			$this->url->setAttribute('host', $this->getHost());
-			$this->url->setAttribute('port', $this->getPort());
-			if ($this->isSSL()) {
-				$this->url->setAttribute('scheme', 'https');
-			} else {
-				$this->url->setAttribute('scheme', 'http');
-			}
-		}
-		return $this->url;
 	}
 
 	/**
@@ -184,13 +172,11 @@ class BSCurlHTTP extends BSHTTP {
 		$this->ssl = $mode;
 		if ($this->isSSL()) {
 			if (!$this->getEngine()) {
-				throw new BSNetException('SSLモードの実行にはCurlが必要です。');
+				throw new BSHTTPException('SSLモードの実行にはCurlが必要です。');
 			}
 			$this->setPort(BSNetworkService::getPort('https'));
-			$this->getURL()->setAttribute('scheme', 'https');
 		} else {
 			$this->setPort(BSNetworkService::getPort('http'));
-			$this->getURL()->setAttribute('scheme', 'http');
 		}
 	}
 }

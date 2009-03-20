@@ -12,29 +12,32 @@
  */
 class BSHTTP extends BSSocket {
 	private $headers = array();
-	protected $url;
+	private $status;
+	protected $response;
+
+	/**
+	 * 直前のレスポンスを返す
+	 *
+	 * @access public
+	 * @return BSHTTPResponse 直前のレスポンス
+	 */
+	public function getResponse () {
+		return clone $this->response;
+	}
 
 	/**
 	 * HEADリクエスト
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @return string[] ヘッダフィールドの配列
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendHeadRequest ($path) {
-		if ($this->isOpened()) {
-			throw new BSHTTPException('%sは既に開いています。', $this);
-		}
-
-		$this->getURL()->setAttribute('path', $path);
-		$this->open();
-		$this->putLine('HEAD ' . $path . ' HTTP/1.0');
-		$this->putLine('Host: ' . $this->getHost()->getName());
-		$this->putLine();
-		$this->setHeaders($this->getLines());
-		$this->close();
-
-		return $this->getHeaders();
+	public function sendHeadRequest ($path = '/') {
+		$request = new BSHTTPRequest;
+		$request->setMethod('HEAD');
+		$request->setPath($path);
+		$request->setHeader('Host', $this->getHost());
+		return $this->send($request, $path);
 	}
 
 	/**
@@ -42,11 +45,14 @@ class BSHTTP extends BSSocket {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path) {
-		$this->sendHeadRequest($path);
-		return file_get_contents($this->getURL()->getContents());
+	public function sendGetRequest ($path = '/') {
+		$request = new BSHTTPRequest;
+		$request->setMethod('GET');
+		$request->setPath($path);
+		$request->setHeader('Host', $this->getHost());
+		return $this->send($request, $path);
 	}
 
 	/**
@@ -55,97 +61,50 @@ class BSHTTP extends BSSocket {
 	 * @access public
 	 * @param string $path パス
 	 * @param string[] $params パラメータの配列
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path, $params = array()) {
+	public function sendPostRequest ($path = '/', $params = array()) {
+		$request = new BSHTTPRequest;
+		$request->setMethod('POST');
+		$request->setPath($path);
+		$request->setHeader('Host', $this->getHost());
+		$request->setHeader('User-Agent', BSController::getFullName('en'));
+		$request->setRenderer(new BSWWWFormRenderer);
+		$request->getRenderer()->setParameters($params);
+		$request->removeHeader('Content-Transfer-Encoding');
+		return $this->send($request, $path);
+	}
+
+	/**
+	 * リクエストを実行し、結果を返す。
+	 *
+	 * @access protected
+	 * @param BSHTTPRequest $request リクエスト
+	 * @param string $path 送信先パス
+	 * @return BSHTTPResponse 結果文書
+	 */
+	protected function send (BSHTTPRequest $request, $path) {
 		if ($this->isOpened()) {
 			throw new BSHTTPException('%sは既に開いています。', $this);
 		}
 
-		$values = array();
-		foreach ($params as $key => $value) {
-			$values [] = $key . '=' . urlencode($value);
+		$this->putLine($request->getContents());
+		$this->response = new BSHTTPResponse;
+		$this->response->setContents(new BSArray($this->getLines()));
+
+		$url = new BSURL;
+		$url['host'] = $this->getHost();
+		$url['path'] = $path;
+		$this->response->setURL($url);
+	
+		if (!$this->response->validate()) {
+			throw new BSHTTPException(
+				'不正なレスポンスです。 (%d %s)',
+				$this->response->getStatus(),
+				$this->response->getError()
+			);
 		}
-
-		$this->getURL()->setAttribute('path', $path);
-		$this->open();
-		$this->putLine('POST ' . $path . ' HTTP/1.0');
-		$this->putLine('Host: ' . $this->getHost()->getName());
-		$this->putLine('User-Agent: ' . BSController::getFullName('en'));
-		$this->putLine('Content-Type: application/x-www-form-urlencoded');
-		$this->putLine('Content-Length: ' . strlen($values = implode('&', $values)));
-		$this->putLine();
-		$this->putLine($values);
-		$response = implode("\n", $this->getLines());
-		$this->close();
-
-		$response = explode("\n\n", $response); //レスポンスを空行で区切る
-		$this->setHeaders($response[0]);
-		unset($response[0]);
-		return implode("\n\n", $response);
-	}
-
-	/**
-	 * 内容を返す
-	 *
-	 * sendGetRequestへのエイリアス
-	 *
-	 * @access public
-	 * @param string $path ファイルのパス
-	 * @return string 読み込んだ内容
-	 * @final
-	 */
-	final public function getContents ($path = '/') {
-		return $this->sendGetRequest($path);
-	}
-
-	/**
-	 * ヘッダを返す
-	 *
-	 * @access public
-	 * @return string[] ヘッダ
-	 */
-	public function getHeaders () {
-		return $this->headers;
-	}
-
-	/**
-	 * ヘッダを設定
-	 *
-	 * @access protected
-	 * @param mixed $headers ヘッダを含んだ文字列、又は配列
-	 */
-	protected function setHeaders ($headers) {
-		if (!BSArray::isArray($headers)) {
-			$headers = explode("\n", $headers); 
-		}
-
-		$this->headers = array();
-		foreach ($headers as $header) {
-			if (!$header) {
-				break; //空行を見つけたらパースを中断
-			} else if (preg_match('/^HTTP\/[0-9]\.[0-9] 4[0-9][0-9]/', $header)) {
-				throw new BSHTTPException('%sで、"%s"が返されました。', $this, $header);
-			} else if (preg_match("/([^:]+): (.*)$/", $header, $matches)) {
-				$this->headers[$matches[1]] = $matches[2];
-			}
-		}
-	}
-
-	/**
-	 * 直近のURLを返す
-	 *
-	 * @access public
-	 * @return BSURL URL
-	 */
-	public function getURL () {
-		if (!$this->url) {
-			$this->url = new BSURL;
-			$this->url->setAttribute('host', $this->getHost());
-			$this->url->setAttribute('port', $this->getPort());
-			$this->url->setAttribute('scheme', 'http');
-		}
-		return $this->url;
+		return $this->response;
 	}
 
 	/**
