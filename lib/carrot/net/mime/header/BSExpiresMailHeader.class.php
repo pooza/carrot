@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mail.mime
+ * @subpackage net.mime.header
  */
 
 /**
- * MIME例外
+ * Expiresメールヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMIMEException extends BSException {
+class BSExpiresMailHeader extends BSDateMailHeader {
 }
 
 /* vim:set tabstop=4: */
