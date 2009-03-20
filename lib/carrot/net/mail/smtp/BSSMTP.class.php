@@ -34,10 +34,6 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function open () {
-		if (!BS_NET_RESOLVABLE) {
-			return;
-		}
-
 		parent::open();
 		$command = 'EHLO ' . BSController::getInstance()->getHost()->getName();
 		if (!in_array($this->execute($command), array(220, 250))) {
@@ -52,9 +48,6 @@ class BSSMTP extends BSSocket {
 	 * @access public
 	 */
 	public function close () {
-		if (!BS_NET_RESOLVABLE) {
-			return;
-		}
 		if ($this->execute('QUIT') != 221) {
 			throw new BSMailException('%sから切断できません。(%s)',$this, $this->getPrevLine());
 		}
@@ -90,30 +83,26 @@ class BSSMTP extends BSSocket {
 	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($flag = null) {
-		if (!BS_NET_RESOLVABLE) {
-			return;
+		if (!$this->getMail()->validate()) {
+			throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
 		}
-
-		if ($this->getMail()->validate()) {
-			for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
-				try {
-					$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
-					foreach ($this->getRecipients($flag) as $email) {
-						$this->execute('RCPT TO:' . $email->getContents());
-					}
-					$this->execute('DATA');
-					$this->putLine($this->getMail()->getContents());
-					if ($this->execute('.') != 250) {
-						throw new BSMailException($this->getPrevLine());
-					}
-					$this->putLog($this->getSentMessage());
-					return $this->getPrevLine();
-				} catch (BSMailException $e) {
-					sleep(1);
+		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
+			try {
+				$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
+				foreach ($this->getRecipients($flag) as $email) {
+					$this->execute('RCPT TO:' . $email->getContents());
 				}
+				$this->execute('DATA');
+				$this->putLine($this->getMail()->getContents());
+				if ($this->execute('.') != 250) {
+					throw new BSMailException($this->getPrevLine());
+				}
+				$this->putLog($this->getSentMessage());
+				return $this->getPrevLine();
+			} catch (BSMailException $e) {
+				sleep(1);
 			}
 		}
-		throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
 	}
 
 	/**
