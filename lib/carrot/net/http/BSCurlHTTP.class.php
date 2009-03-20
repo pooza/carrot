@@ -84,22 +84,22 @@ class BSCurlHTTP extends BSHTTP {
 		$url['port'] = BSNetworkService::getPort($url['scheme']);
 		$this->setAttribute('url', $url->getContents());
 
-		$this->response = new BSHTTPResponse;
-		$this->response->setURL($url);
+		$response = new BSHTTPResponse;
+		$response->setURL($url);
 		$contents = BSString::convertLineSeparator(curl_exec($this->getEngine()), "\n");
 		if ($contents === false) {
 			throw new BSHTTPException('%sへの送信に失敗しました。', $url->getContents());
 		}
-		$this->response->setContents($contents);
+		$response->setContents($contents);
 
-		if (!$this->response->validate()) {
+		if (!$response->validate()) {
 			throw new BSHTTPException(
 				'不正なレスポンスです。 (%d %s)',
-				$this->response->getStatus(),
-				$this->response->getError()
+				$response->getStatus(),
+				$response->getError()
 			);
 		}
-		return $this->response;
+		return $response;
 	}
 
 	/**

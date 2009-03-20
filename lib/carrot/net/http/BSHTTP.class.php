@@ -13,17 +13,6 @@
 class BSHTTP extends BSSocket {
 	private $headers = array();
 	private $status;
-	protected $response;
-
-	/**
-	 * 直前のレスポンスを返す
-	 *
-	 * @access public
-	 * @return BSHTTPResponse 直前のレスポンス
-	 */
-	public function getResponse () {
-		return clone $this->response;
-	}
 
 	/**
 	 * HEADリクエスト
@@ -97,18 +86,18 @@ class BSHTTP extends BSSocket {
 		}
 
 		$this->putLine($request->getContents());
-		$this->response = new BSHTTPResponse;
-		$this->response->setContents(new BSArray($this->getLines()));
-		$this->response->setURL($request->getURL());
+		$response = new BSHTTPResponse;
+		$response->setContents(new BSArray($this->getLines()));
+		$response->setURL($request->getURL());
 	
-		if (!$this->response->validate()) {
+		if (!$response->validate()) {
 			throw new BSHTTPException(
 				'不正なレスポンスです。 (%d %s)',
-				$this->response->getStatus(),
-				$this->response->getError()
+				$response->getStatus(),
+				$response->getError()
 			);
 		}
-		return $this->response;
+		return $response;
 	}
 
 	/**
