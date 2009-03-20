@@ -44,7 +44,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @access public
 	 * @return string httpバージョン
 	 */
-	public function getHTTPVersion () {
+	public function getVersion () {
 		return $this->version;
 	}
 

@@ -121,7 +121,7 @@ class BSMIMEUtility {
 	/**
 	 * レンダラーのContent-Transfer-Encodingを返す
 	 *
-	 * BSContentTransferEncodingMailHeader::getContentTransferEncodingのエイリアス
+	 * BSContentTransferEncodingMIMEHeader::getContentTransferEncodingのエイリアス
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer レンダラー
@@ -129,13 +129,13 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function getContentTransferEncoding (BSRenderer $renderer) {
-		return BSContentTransferEncodingMailHeader::getContentTransferEncoding($renderer);
+		return BSContentTransferEncodingMIMEHeader::getContentTransferEncoding($renderer);
 	}
 
 	/**
 	 * レンダラーの完全なタイプを返す
 	 *
-	 * BSContentTypeMailHeader::getContentTypeのエイリアス
+	 * BSContentTypeMIMEHeader::getContentTypeのエイリアス
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer 対象レンダラー
@@ -143,7 +143,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function getContentType (BSRenderer $renderer) {
-		return BSContentTypeMailHeader::getContentType($renderer);
+		return BSContentTypeMIMEHeader::getContentType($renderer);
 	}
 }
 

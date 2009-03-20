@@ -25,10 +25,10 @@ class BSMIMEDocument implements BSRenderer {
 	 *
 	 * @access public
 	 * @param string $name 名前
-	 * @return BSMailHeader ヘッダ
+	 * @return BSMIMEHeader ヘッダ
 	 */
 	public function getHeader ($name) {
-		$header = BSMailHeader::getInstance($name);
+		$header = BSMIMEHeader::getInstance($name);
 		$name = strtolower($header->getName());
 		return $this->getHeaders()->getParameter($name);
 	}
@@ -41,7 +41,7 @@ class BSMIMEDocument implements BSRenderer {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		$header = BSMailHeader::getInstance($name);
+		$header = BSMIMEHeader::getInstance($name);
 		if ($header->isMultiple() && $this->getHeader($name)) {
 			$header = $this->getHeader($name);
 			$header->setContents($value);

@@ -5,12 +5,12 @@
  */
 
 /**
- * Expiresメールヘッダ
+ * ExpiresMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSExpiresMailHeader extends BSDateMailHeader {
+class BSExpiresMIMEHeader extends BSDateMIMEHeader {
 }
 
 /* vim:set tabstop=4: */

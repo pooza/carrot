@@ -5,12 +5,12 @@
  */
 
 /**
- * Receivedメールヘッダ
+ * ReceivedMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSReceivedMailHeader extends BSMailHeader {
+class BSReceivedMIMEHeader extends BSMIMEHeader {
 	private $servers = array();
 
 	/**

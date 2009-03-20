@@ -5,12 +5,12 @@
  */
 
 /**
- * Subjectメールヘッダ
+ * SubjectMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSSubjectMailHeader extends BSMailHeader {
+class BSSubjectMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * 内容を返す

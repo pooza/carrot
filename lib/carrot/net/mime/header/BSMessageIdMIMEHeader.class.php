@@ -5,12 +5,12 @@
  */
 
 /**
- * Message-IDメールヘッダ
+ * Message-IDMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMessageIdMailHeader extends BSMailHeader {
+class BSMessageIdMIMEHeader extends BSMIMEHeader {
 	private $id;
 
 	/**

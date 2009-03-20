@@ -5,12 +5,12 @@
  */
 
 /**
- * BCCメールヘッダ
+ * BCCMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSBccMailHeader extends BSAddressesMailHeader {
+class BSBccMIMEHeader extends BSAddressesMIMEHeader {
 
 	/**
 	 * 可視か？

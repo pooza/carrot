@@ -5,12 +5,12 @@
  */
 
 /**
- * Content-Transfer-Encodingメールヘッダ
+ * Content-Transfer-EncodingMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSContentTransferEncodingMailHeader extends BSMailHeader {
+class BSContentTransferEncodingMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * 内容を設定

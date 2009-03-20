@@ -5,12 +5,12 @@
  */
 
 /**
- * X-Priorityメールヘッダ
+ * X-PriorityMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSXPriorityMailHeader extends BSMailHeader {
+class BSXPriorityMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * 内容を設定

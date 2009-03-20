@@ -5,13 +5,13 @@
  */
 
 /**
- * Dateメールヘッダ
+ * HostMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDateMailHeader extends BSMailHeader {
-	private $date;
+class BSHostMIMEHeader extends BSMIMEHeader {
+	private $host;
 
 	/**
 	 * 実体を返す
@@ -20,7 +20,7 @@ class BSDateMailHeader extends BSMailHeader {
 	 * @return BSDate 実体
 	 */
 	public function getEntity () {
-		return $this->date;
+		return $this->host;
 	}
 
 	/**
@@ -30,8 +30,8 @@ class BSDateMailHeader extends BSMailHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		if ($contents instanceof BSDate) {
-			$contents = $contents->format('r');
+		if ($contents instanceof BSHost) {
+			$contents = $contents->getName();
 		}
 		parent::setContents($contents);
 	}
@@ -44,8 +44,8 @@ class BSDateMailHeader extends BSMailHeader {
 	protected function parseParameters () {
 		parent::parseParameters();
 		try {
-			$this->date = new BSDate($this->contents);
-		} catch (BSDateException $e) {
+			$this->host = new BSHost($this->contents);
+		} catch (BSNetException $e) {
 		}
 	}
 }

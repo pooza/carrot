@@ -5,13 +5,13 @@
  */
 
 /**
- * 基底メールヘッダ
+ * 基底MIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  * @abstract
  */
-class BSMailHeader extends BSParameterHolder {
+class BSMIMEHeader extends BSParameterHolder {
 	protected $part;
 	protected $name;
 	protected $contents;
@@ -51,7 +51,7 @@ class BSMailHeader extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $name ヘッダ名
-	 * @return BSMailHeader ヘッダ
+	 * @return BSMIMEHeader ヘッダ
 	 */
 	static public function getInstance ($name) {
 		$name = BSString::stripControlCharacters($name);
@@ -59,7 +59,7 @@ class BSMailHeader extends BSParameterHolder {
 
 		try {
 			$class = str_replace('-', '', $name);
-			$header = BSClassLoader::getInstance()->getObject($class, 'MailHeader');
+			$header = BSClassLoader::getInstance()->getObject($class, 'MIMEHeader');
 		} catch (Exception $e) {
 			$header = new self;
 		}

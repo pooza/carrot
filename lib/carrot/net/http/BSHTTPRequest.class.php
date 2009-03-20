@@ -21,7 +21,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @access public
 	 * @return string httpバージョン
 	 */
-	public function getHTTPVersion () {
+	public function getVersion () {
 		return $this->version;
 	}
 
@@ -76,8 +76,8 @@ class BSHTTPRequest extends BSMIMEDocument {
 			'%s %s HTTP/%s',
 			$this->getMethod(),
 			$this->getPath(),
-			$this->getHTTPVersion()
-		) . BSHTTP::LINE_SEPARATOR . parent::getContents();
+			$this->getVersion()
+		) . self::LINE_SEPARATOR . parent::getContents();
 	}
 
 	/**

@@ -5,13 +5,13 @@
  */
 
 /**
- * 複数のメールアドレスを格納する抽象メールヘッダ
+ * 複数のメールアドレスを格納する抽象MIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  * @abstract
  */
-abstract class BSAddressesMailHeader extends BSMailHeader {
+abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 	private $addresses;
 
 	/**

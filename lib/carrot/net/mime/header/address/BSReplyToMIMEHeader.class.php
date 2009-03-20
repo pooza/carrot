@@ -5,12 +5,12 @@
  */
 
 /**
- * Reply-Toメールヘッダ
+ * Reply-ToMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSReplyToMailHeader extends BSAddressMailHeader {
+class BSReplyToMIMEHeader extends BSAddressMIMEHeader {
 }
 
 /* vim:set tabstop=4: */

@@ -5,12 +5,12 @@
  */
 
 /**
- * X-Mailerメールヘッダ
+ * X-MailerMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSXMailerMailHeader extends BSMailHeader {
+class BSXMailerMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * 内容を設定

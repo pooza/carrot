@@ -5,12 +5,12 @@
  */
 
 /**
- * Content-Typeメールヘッダ
+ * Content-TypeMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSContentTypeMailHeader extends BSMailHeader {
+class BSContentTypeMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * 内容を設定

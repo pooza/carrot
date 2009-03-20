@@ -5,12 +5,12 @@
  */
 
 /**
- * Toメールヘッダ
+ * ToMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSToMailHeader extends BSAddressesMailHeader {
+class BSToMIMEHeader extends BSAddressesMIMEHeader {
 }
 
 /* vim:set tabstop=4: */

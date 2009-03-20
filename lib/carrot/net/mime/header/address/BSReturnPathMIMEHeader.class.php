@@ -5,12 +5,12 @@
  */
 
 /**
- * Return-Pathメールヘッダ
+ * Return-PathMIMEヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSReturnPathMailHeader extends BSAddressMailHeader {
+class BSReturnPathMIMEHeader extends BSAddressMIMEHeader {
 
 	/**
 	 * ヘッダの内容からパラメータを抜き出す
@@ -18,7 +18,7 @@ class BSReturnPathMailHeader extends BSAddressMailHeader {
 	 * @access protected
 	 */
 	protected function parseParameters () {
-		BSMailHeader::parseParameters();
+		BSMIMEHeader::parseParameters();
 		try {
 			if (preg_match('/^<?([^>]*)>?$/', $this->contents, $matches)) {
 				$this->email = new BSMailAddress($matches[1]);
