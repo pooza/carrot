@@ -34,9 +34,8 @@ class BSTinyURL extends BSCurlHTTP {
 	 */
 	public function encode (BSURL $url) {
 		$path = '/api-create.php?url=' . urlencode($url->getContents());
-		if ($result = $this->sendGetRequest($path)) {
-			return new BSURL($result);
-		}
+		$response = $this->sendGetRequest($path);
+		return new BSURL($response->getRenderer()->getContents());
 	}
 }
 

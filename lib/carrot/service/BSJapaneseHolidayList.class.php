@@ -80,7 +80,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 			$expire = BSDate::getNow()->setAttribute('month', '-1');
 			$holidays = BSController::getInstance()->getAttribute($name, $expire);
 			if (BSString::isBlank($holidays)) {
-				$holidays = $this->execute()->getParameters();
+				$holidays = $this->query()->getParameters();
 				BSController::getInstance()->setAttribute($name, $holidays);
 			}
 			$this->holidays = new BSArray($holidays);
@@ -94,15 +94,16 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	 * @access private
 	 * @return BSArray 祝日配列
 	 */
-	private function execute () {
+	private function query () {
 		try {
 			$path = sprintf(
 				'/tsrv/jp/calendar.php?y=%d&m=%d&t=h',
 				$this->getDate()->getAttribute('year'),
 				$this->getDate()->getAttribute('month')
 			);
+			$response = $this->sendGetRequest($path);
 			$xml = new BSXMLDocument;
-			$xml->setContents($this->sendGetRequest($path));
+			$xml->setContents($response->getRenderer()->getContents());
 			return $this->parse($xml);
 		} catch (Exception $e) {
 			throw new BSDateException('祝日が取得できません。');

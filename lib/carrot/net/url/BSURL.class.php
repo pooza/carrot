@@ -286,7 +286,8 @@ class BSURL implements BSHTTPRedirector, ArrayAccess, BSAssignable {
 
 		try {
 			$http = new BSCurlHTTP($this['host']);
-			return $http->sendGetRequest($this->getFullPath());
+			$response = $http->sendGetRequest($this->getFullPath());
+			return $response->getRenderer()->getContents();
 		} catch (BSException $e) {
 			throw new BSHTTPException('"%s"を取得出来ませんでした。', $this->getContents());
 		}

@@ -76,9 +76,9 @@ class BSTwitter extends BSCurlHTTP {
 	 * @return BSTwitterStatus ステータス
 	 */
 	public function getStatus () {
-		$contents = $this->sendGetRequest('/statuses/user_timeline.xml');
+		$response = $this->sendGetRequest('/statuses/user_timeline.xml');
 		$xml = new BSXMLDocument;
-		$xml->setContents($contents);
+		$xml->setContents($response->getRenderer()->getContents());
 		return new BSTwitterStatus($xml->getElement('status'));
 	}
 
@@ -97,9 +97,9 @@ class BSTwitter extends BSCurlHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path) {
+	public function sendGetRequest ($path = '/') {
 		if (!$this->getUserID()) {
 			throw new BSTwitterException('ユーザーID又はメールアドレスが未定義です。');
 		} else if (!$this->getPassword()) {
@@ -120,12 +120,12 @@ class BSTwitter extends BSCurlHTTP {
 	 * @access public
 	 * @param string $path パス
 	 * @param string[] $params パラメータの配列
-	 * @return string レスポンスの本文
+	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path, $params = array()) {
-		if (!$this->getUserID()) {
+	public function sendPostRequest ($path = '/', $params = array()) {
+		if (BSString::isBlank($this->getUserID())) {
 			throw new BSTwitterException('ユーザーID又はメールアドレスが未定義です。');
-		} else if (!$this->getPassword()) {
+		} else if (BSString::isBlank($this->getPassword())) {
 			throw new BSTwitterException('パスワードが未定義です。');
 		}
 
