@@ -25,6 +25,18 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	/**
+	 * HEADリクエスト
+	 *
+	 * @access public
+	 * @param string $path パス
+	 * @return BSHTTPResponse レスポンス
+	 */
+	public function sendHeadRequest ($path = '/') {
+		$this->setAttribute('nobody', true);
+		return $this->execute($path);
+	}
+
+	/**
 	 * GETリクエスト
 	 *
 	 * @access public
@@ -33,7 +45,6 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function sendGetRequest ($path = '/') {
 		$this->setAttribute('httpget', true);
-		$this->setAttribute('post', false);
 		return $this->execute($path);
 	}
 
@@ -50,7 +61,6 @@ class BSCurlHTTP extends BSHTTP {
 		$renderer->setParameters($params);
 
 		$this->setAttribute('post', true);
-		$this->setAttribute('httpget', false);
 		$this->setAttribute('postfields', $renderer->getContents());
 		return $this->execute($path);
 	}
@@ -67,10 +77,11 @@ class BSCurlHTTP extends BSHTTP {
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
 		if ($this->isSSL()) {
-			$url->setAttribute('scheme', 'https');
+			$url['scheme'] = 'https';
 		} else {
-			$url->setAttribute('scheme', 'http');
+			$url['scheme'] = 'http';
 		}
+		$url['port'] = BSNetworkService::getPort($url['scheme']);
 		$this->setAttribute('url', $url->getContents());
 
 		$this->response = new BSHTTPResponse;

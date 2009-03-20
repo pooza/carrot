@@ -14,6 +14,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	private $version = '1.0';
 	private $method;
 	private $path;
+	private $url;
 
 	/**
 	 * httpバージョンを返す
@@ -46,23 +47,24 @@ class BSHTTPRequest extends BSMIMEDocument {
 	}
 
 	/**
-	 * 送信先パスを返す
+	 * 送信先URLを返す
 	 *
 	 * @access public
-	 * @return string 送信先パス
+	 * @return BSURL 送信先URL
 	 */
-	public function getPath () {
-		return $this->path;
+	public function getURL () {
+		return $this->url;
 	}
 
 	/**
-	 * 送信先パスを設定
+	 * 送信先URLを設定
 	 *
 	 * @access public
-	 * @param string $path 送信先パス
+	 * @param BSURL $url 送信先URL
 	 */
-	public function setPath ($path) {
-		$this->path = $path;
+	public function setURL (BSURL $url) {
+		$this->url = $url;
+		$this->setHeader('Host', $url['host']);
 	}
 
 	/**
@@ -75,7 +77,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 		return sprintf(
 			'%s %s HTTP/%s',
 			$this->getMethod(),
-			$this->getPath(),
+			$this->getURL()->getFullPath(),
 			$this->getVersion()
 		) . self::LINE_SEPARATOR . parent::getContents();
 	}
@@ -87,7 +89,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return $this->getMethod() && $this->getPath();
+		return $this->getMethod() && $this->getURL();
 	}
 
 	/**
@@ -97,7 +99,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return 'メソッド又はパスが空欄です。';
+		return 'メソッド又は送信先URLが空欄です。';
 	}
 }
 
