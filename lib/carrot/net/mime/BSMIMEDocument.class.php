@@ -234,10 +234,15 @@ class BSMIMEDocument implements BSRenderer {
 		$this->contents = $contents;
 		try {
 			$contents = BSString::explode("\n\n", $contents);
-			$this->parseHeaders($contents[0]);
-			$contents->removeParameter(0);
-			$contents = $contents->join("\n\n");
-			$this->parseBody($contents);
+			foreach ($contents as $index => $value) {
+				if (preg_match('/^HTTP\//', $value)) {
+					$this->parseHeaders($value);
+					$contents->removeParameter($index);
+				} else {
+					break;
+				}
+			}
+			$this->parseBody($contents->join("\n\n"));
 		} catch (Exception $e) {
 			throw new BSMIMEException('MIME文書がパースできません。');
 		}
