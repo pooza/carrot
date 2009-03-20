@@ -5,7 +5,7 @@
  */
 
 /**
- * メールアドレスを格納する抽象MIMEヘッダ
+ * メールアドレスを格納する抽象ヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
