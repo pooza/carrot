@@ -83,26 +83,26 @@ class BSSMTP extends BSSocket {
 	 * @return string 送信完了時は最終のレスポンス
 	 */
 	public function send ($flag = null) {
-		if (!$this->getMail()->validate()) {
-			throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
-		}
-		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
-			try {
-				$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
-				foreach ($this->getRecipients($flag) as $email) {
-					$this->execute('RCPT TO:' . $email->getContents());
+		if ($this->getMail()->validate()) {
+			for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
+				try {
+					$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
+					foreach ($this->getRecipients($flag) as $email) {
+						$this->execute('RCPT TO:' . $email->getContents());
+					}
+					$this->execute('DATA');
+					$this->putLine($this->getMail()->getContents());
+					if ($this->execute('.') != 250) {
+						throw new BSMailException($this->getPrevLine());
+					}
+					$this->putLog($this->getSentMessage());
+					return $this->getPrevLine();
+				} catch (BSMailException $e) {
+					sleep(1);
 				}
-				$this->execute('DATA');
-				$this->putLine($this->getMail()->getContents());
-				if ($this->execute('.') != 250) {
-					throw new BSMailException($this->getPrevLine());
-				}
-				$this->putLog($this->getSentMessage());
-				return $this->getPrevLine();
-			} catch (BSMailException $e) {
-				sleep(1);
 			}
 		}
+		throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
 	}
 
 	/**
