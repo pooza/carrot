@@ -1,6 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
+ * @subpackage module
  */
 
 /**
@@ -31,7 +32,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected function __construct ($name) {
 		$this->name = $name;
 		if (!$this->getDirectory()) {
-			throw new BSFileException('%sのディレクトリが見つかりません。', $this);
+			throw new BSModuleException('%sのディレクトリが見つかりません。', $this);
 		}
 		if ($file = $this->getConfigFile('module')) {
 			$config = array();
@@ -354,9 +355,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getAction ($name) {
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory('actions')) {
-			throw new BSFileException('%sにアクションディレクトリがありません。', $this);
+			throw new BSModuleException('%sにアクションディレクトリがありません。', $this);
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
-			throw new BSFileException('%sに "%s" がありません。', $this, $class);
+			throw new BSModuleException('%sに "%s" がありません。', $this, $class);
 		}
 
 		if (!$this->actions) {

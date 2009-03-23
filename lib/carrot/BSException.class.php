@@ -30,7 +30,10 @@ class BSException extends Exception {
 		}
 
 		parent::__construct($message);
-		BSController::getInstance()->putLog($this);
+
+		if ($this->isLoggable()) {
+			BSController::getInstance()->putLog($this);
+		}
 	}
 
 	/**
@@ -41,6 +44,16 @@ class BSException extends Exception {
 	 */
 	public function getName () {
 		return get_class($this);
+	}
+
+	/**
+	 * ログを書き込むか
+	 *
+	 * @access public
+	 * @return boolean ログを書き込むならTrue
+	 */
+	public function isLoggable () {
+		return true;
 	}
 }
 

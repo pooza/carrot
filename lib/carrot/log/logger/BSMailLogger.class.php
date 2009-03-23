@@ -27,7 +27,7 @@ class BSMailLogger extends BSLogger {
 		try {
 			$this->server = new BSSmartySender;
 			return true;
-		} catch (BSNetException $e) {
+		} catch (Exception $e) {
 			return false;
 		}
 	}
