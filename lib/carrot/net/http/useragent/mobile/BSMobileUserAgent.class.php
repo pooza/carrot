@@ -92,10 +92,10 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	/**
 	 * 絵文字変換器を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return MPC_Common 絵文字変換器
 	 */
-	protected function getMPC () {
+	public function getMPC () {
 		if (!$this->mpc) {
 			$carrier = $this->getMPCCarrierCode();
 			BSUtility::includeFile('MPC/Carrier/' . strtolower($carrier) . '.php');
@@ -103,6 +103,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 			$this->mpc = new $class;
 			$this->mpc->setFromCharset(MPC_FROM_CHARSET_UTF8);
 			$this->mpc->setFrom(strtoupper($carrier));
+			$this->mpc->setTo(strtoupper($carrier));
 			$this->mpc->setStringType(MPC_FROM_OPTION_RAW);
 			$this->mpc->setImagePath('/carrotlib/images/mpc');
 		}
