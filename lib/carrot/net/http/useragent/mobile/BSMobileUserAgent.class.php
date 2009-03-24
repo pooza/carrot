@@ -102,8 +102,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 			$class = 'MPC_' . $carrier;
 			$this->mpc = new $class;
 			$this->mpc->setFromCharset(MPC_FROM_CHARSET_UTF8);
-			$this->mpc->setFrom(strtoupper($carrier));
-			$this->mpc->setTo(strtoupper($carrier));
+			$this->mpc->setFrom($carrier);
 			$this->mpc->setStringType(MPC_FROM_OPTION_RAW);
 			$this->mpc->setImagePath('/carrotlib/images/mpc');
 		}
@@ -142,6 +141,20 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	public function trimPictogram ($body) {
 		$this->getMPC()->setString($body);
 		return $this->getMPC()->except();
+	}
+
+	/**
+	 * 絵文字を返す
+	 *
+	 * @access public
+	 * @param integer $code 絵文字コード
+	 * @return string 絵文字
+	 * @abstract
+	 */
+	public function getPictogram ($code) {
+		$this->getMPC()->setTo($this->getMPCCarrierCode());
+		$this->getMPC()->setOption(MPC_TO_OPTION_RAW);
+		return $this->getMPC()->encoder((int)$code);
 	}
 
 	/**

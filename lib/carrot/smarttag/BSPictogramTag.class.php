@@ -34,12 +34,13 @@ class BSPictogramTag extends BSSmartTag {
 	 * @abstract
 	 */
 	public function execute ($body) {
-		$mpc = self::getUserAgent($this->tag[2])->getMPC();
-		$mpc->setString($raw = $mpc->encoder((int)$this->tag[1]));
+		$useragent = self::getUserAgent($this->tag[2]);
+		$raw = $useragent->getPictogram($this->tag[1]);
 		if ($this->isRawMode()) {
 			$replace = $raw;
 		} else {
-			$replace = $mpc->convert($this->tag[2], MPC_TO_OPTION_IMG);
+			$useragent->getMPC()->setString($raw);
+			$replace = $useragent->getMPC()->convert($this->tag[2], MPC_TO_OPTION_IMG);
 		}
 		return str_replace($this->contents, $replace, $body);
 	}
@@ -64,7 +65,6 @@ class BSPictogramTag extends BSSmartTag {
 				$classes[$code],
 				'UserAgent'
 			);
-			self::$agents[$code]->getMPC()->setOption(MPC_TO_OPTION_RAW);
 		}
 		return self::$agents[$code];
 	}
