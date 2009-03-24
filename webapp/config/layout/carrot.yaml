@@ -51,6 +51,9 @@ doc:
 dump:
   parent: var
 
+emoji:
+  parent: images
+
 font:
   parent: share
   suffix: .ttf
