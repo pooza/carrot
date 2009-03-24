@@ -12,11 +12,12 @@ class PingAction extends BSAction {
 		try {
 			$renderer = new BSPlainTextRenderer;
 			$renderer->setContents('OK');
-			$db = $this->database;
+			$db = BSDatabase::getInstance();
 			$this->request->setAttribute('renderer', $renderer);
 			return BSView::SUCCESS;
 		} catch (Exception $e) {
 			$renderer->setContents('NG');
+			$this->request->setAttribute('renderer', $renderer);
 			return BSView::ERROR;
 		}
 	}
