@@ -206,7 +206,7 @@ class MPC_Common
         if (gettype($data) == 'integer') {
 
             // 内部表現に変換 2009.3.24 tkoishi@b-shock.co.jp
-            if ($this->getOption() == BSMobileCarrier::CARROT_INTERNAL) {
+            if ($this->getOption() == BSMobileCarrier::MPC_SMARTTAG) {
                 return '[[pictogram:' . $data . ':' . $this->getTo() . ']]';
             }
             //

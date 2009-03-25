@@ -4,8 +4,6 @@
  * @subpackage smarttag
  */
 
-BSUtility::includeFile('mpc/MobilePictogramConverter.php');
-
 /**
  * 絵文字タグ
  *
@@ -40,7 +38,7 @@ class BSPictogramTag extends BSSmartTag {
 			$replace = $raw;
 		} else {
 			$carrier->getMPC()->setString($raw);
-			$replace = $carrier->getMPC()->convert($this->tag[2], MPC_TO_OPTION_IMG);
+			$replace = $carrier->getMPC()->convert($this->tag[2], BSMobileCarrier::MPC_IMAGE);
 		}
 		return str_replace($this->contents, $replace, $body);
 	}

@@ -33,17 +33,8 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 			'yahoo',
 			'jphone',
 			'vodafone',
+			'vf',
 		));
-	}
-
-	/**
-	 * MPC向けキャリア名を返す
-	 *
-	 * @access protected
-	 * @return string キャリア名
-	 */
-	protected function getMPCCode () {
-		return MPC_FROM_SOFTBANK;
 	}
 }
 

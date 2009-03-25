@@ -43,7 +43,7 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 	 * @return string キャリア名
 	 */
 	protected function getMPCCode () {
-		return MPC_FROM_FOMA;
+		return 'FOMA';
 	}
 }
 

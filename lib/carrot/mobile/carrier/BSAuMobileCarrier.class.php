@@ -31,6 +31,7 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	public function getAltNames () {
 		return new BSArray(array(
 			'ezweb',
+			'ez',
 			'tuka',
 		));
 	}
@@ -42,7 +43,7 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	 * @return string キャリア名
 	 */
 	protected function getMPCCode () {
-		return MPC_FROM_EZWEB;
+		return 'EZWEB';
 	}
 }
 

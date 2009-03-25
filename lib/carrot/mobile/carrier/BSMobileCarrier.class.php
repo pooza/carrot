@@ -4,8 +4,6 @@
  * @subpackage mobile.carrier
  */
 
-BSUtility::includeFile('mpc/MobilePictogramConverter.php');
-
 /**
  * 携帯電話キャリア
  *
@@ -17,7 +15,9 @@ abstract class BSMobileCarrier {
 	private $attributes;
 	private $mpc;
 	static private $instances;
-	const CARROT_INTERNAL = BS_CARROT_NAME;
+	const MPC_IMAGE = 'IMG';
+	const MPC_RAW = 'RAW';
+	const MPC_SMARTTAG = 'SMARTTAG';
 
 	/**
 	 * @access public
@@ -107,12 +107,13 @@ abstract class BSMobileCarrier {
 	 */
 	public function getMPC () {
 		if (!$this->mpc) {
+			BSUtility::includeFile('MPC/MobilePictogramConverter.php');
 			BSUtility::includeFile('MPC/Carrier/' . strtolower($this->getMPCCode()) . '.php');
 			$class = 'MPC_' . $this->getMPCCode();
 			$this->mpc = new $class;
-			$this->mpc->setFromCharset(MPC_FROM_CHARSET_UTF8);
+			$this->mpc->setFromCharset('UTF-8');
 			$this->mpc->setFrom($this->getMPCCode());
-			$this->mpc->setStringType(MPC_FROM_OPTION_RAW);
+			$this->mpc->setStringType(BSMobileCarrier::MPC_RAW);
 			$this->mpc->setImagePath('/carrotlib/images/mpc');
 		}
 		return $this->mpc;
@@ -133,21 +134,26 @@ abstract class BSMobileCarrier {
 	 *
 	 * @access protected
 	 * @return string キャリア名
-	 * @abstract
 	 */
-	abstract protected function getMPCCode ();
+	protected function getMPCCode () {
+		return strtoupper($this->getName());
+	}
 
 	/**
 	 * 絵文字を含んだ文字列を変換する
 	 *
 	 * @access public
 	 * @param string $body 対象文字列
+	 * @param string $format 出力形式
+	 *   self::MPC_RAW
+	 *   self::MPC_IMAGE
+	 *   self::MPC_SMARTTAG
 	 * @return string 変換後文字列
 	 * @abstract
 	 */
-	public function convertPictogram ($body) {
+	public function convertPictogram ($body, $format = self::MPC_SMARTTAG) {
 		$this->getMPC()->setString($body);
-		return $this->getMPC()->convert($this->getMPCCode(), self::CARROT_INTERNAL);
+		return $this->getMPC()->convert($this->getMPCCode(), $format);
 	}
 
 	/**
@@ -172,7 +178,7 @@ abstract class BSMobileCarrier {
 	 */
 	public function getPictogram ($code) {
 		$this->getMPC()->setTo($this->getMPCCode());
-		$this->getMPC()->setOption(MPC_TO_OPTION_RAW);
+		$this->getMPC()->setOption(BSMobileCarrier::MPC_RAW);
 		return $this->getMPC()->encoder((int)$code);
 	}
 
