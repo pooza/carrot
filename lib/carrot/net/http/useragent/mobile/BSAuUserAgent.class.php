@@ -23,16 +23,6 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * ドメインサフィックスを返す
-	 *
-	 * @access public
-	 * @return string ドメインサフィックス
-	 */
-	public function getDomainSuffix () {
-		return 'ezweb.ne.jp';
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
@@ -40,16 +30,6 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 */
 	public function getPattern () {
 		return '/^(UP\.Browser|KDDI)/';
-	}
-
-	/**
-	 * MPC向けキャリア名を返す
-	 *
-	 * @access protected
-	 * @return string キャリア名
-	 */
-	protected function getMPCCarrierCode () {
-		return MPC_FROM_EZWEB;
 	}
 }
 

@@ -129,7 +129,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return string ユーザーエージェント名
 	 */
 	public function getName () {
-		return $this->getAttributes()->getParameter('name');
+		return $this->attributes['name'];
 	}
 
 	/**
@@ -139,7 +139,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @param string $name ユーザーエージェント名
 	 */
 	public function setName ($name) {
-		return $this->getAttributes()->setParameter('name', $name);
+		return $this->attributes['name'];
 	}
 
 	/**
@@ -161,7 +161,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -253,7 +253,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			preg_match('/BS([a-z0-9]+)UserAgent/i', get_class($this), $matches);
+			preg_match('/^BS([a-z0-9]+)UserAgent$/i', get_class($this), $matches);
 			$this->type = $matches[1];
 		}
 		return $this->type;
@@ -266,7 +266,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return $this->getAttributes()->getParameters();
+		return $this->attributes->getParameters();
 	}
 
 	/**

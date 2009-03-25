@@ -32,16 +32,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * ドメインサフィックスを返す
-	 *
-	 * @access public
-	 * @return string ドメインサフィックス
-	 */
-	public function getDomainSuffix () {
-		return 'docomo.ne.jp';
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
@@ -49,16 +39,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function getPattern () {
 		return '/DoCoMo/';
-	}
-
-	/**
-	 * MPC向けキャリア名を返す
-	 *
-	 * @access protected
-	 * @return string キャリア名
-	 */
-	protected function getMPCCarrierCode () {
-		return MPC_FROM_FOMA;
 	}
 }
 

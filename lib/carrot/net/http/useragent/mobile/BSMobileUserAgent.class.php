@@ -4,8 +4,6 @@
  * @subpackage net.http.useragent.mobile
  */
 
-BSUtility::includeFile('mpc/MobilePictogramConverter.php');
-
 /**
  * モバイルユーザーエージェント
  *
@@ -14,8 +12,7 @@ BSUtility::includeFile('mpc/MobilePictogramConverter.php');
  * @abstract
  */
 abstract class BSMobileUserAgent extends BSUserAgent {
-	private $mpc;
-	const CARROT_INTERNAL = BS_CARROT_NAME;
+	private $carrier;
 
 	/**
 	 * @access public
@@ -71,15 +68,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * ドメインサフィックスを返す
-	 *
-	 * @access public
-	 * @return string ドメインサフィックス
-	 * @abstract
-	 */
-	abstract public function getDomainSuffix ();
-
-	/**
 	 * ケータイ環境か？
 	 *
 	 * @access public
@@ -87,74 +75,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function isMobile () {
 		return true;
-	}
-
-	/**
-	 * 絵文字変換器を返す
-	 *
-	 * @access public
-	 * @return MPC_Common 絵文字変換器
-	 */
-	public function getMPC () {
-		if (!$this->mpc) {
-			$carrier = $this->getMPCCarrierCode();
-			BSUtility::includeFile('MPC/Carrier/' . strtolower($carrier) . '.php');
-			$class = 'MPC_' . $carrier;
-			$this->mpc = new $class;
-			$this->mpc->setFromCharset(MPC_FROM_CHARSET_UTF8);
-			$this->mpc->setFrom($carrier);
-			$this->mpc->setStringType(MPC_FROM_OPTION_RAW);
-			$this->mpc->setImagePath('/carrotlib/images/mpc');
-		}
-		return $this->mpc;
-	}
-
-	/**
-	 * MPC向けキャリア名を返す
-	 *
-	 * @access protected
-	 * @return string キャリア名
-	 * @abstract
-	 */
-	abstract protected function getMPCCarrierCode ();
-
-	/**
-	 * 絵文字を含んだ文字列を変換する
-	 *
-	 * @access public
-	 * @param string $body 対象文字列
-	 * @return string 変換後文字列
-	 * @abstract
-	 */
-	public function convertPictogram ($body) {
-		$this->getMPC()->setString($body);
-		return $this->getMPC()->convert($this->getMPCCarrierCode(), self::CARROT_INTERNAL);
-	}
-
-	/**
-	 * 文字列から絵文字を削除する
-	 *
-	 * @access public
-	 * @param string $body 対象文字列
-	 * @return string 変換後文字列
-	 */
-	public function trimPictogram ($body) {
-		$this->getMPC()->setString($body);
-		return $this->getMPC()->except();
-	}
-
-	/**
-	 * 絵文字を返す
-	 *
-	 * @access public
-	 * @param integer $code 絵文字コード
-	 * @return string 絵文字
-	 * @abstract
-	 */
-	public function getPictogram ($code) {
-		$this->getMPC()->setTo($this->getMPCCarrierCode());
-		$this->getMPC()->setOption(MPC_TO_OPTION_RAW);
-		return $this->getMPC()->encoder((int)$code);
 	}
 
 	/**
@@ -171,19 +91,19 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * 全キャリアのドメインサフィックスを返す
+	 * キャリアを返す
 	 *
 	 * @access public
-	 * @return string[] ドメインサフィックスの配列
-	 * @static
+	 * @return BSMobileCarrier キャリア
 	 */
-	static public function getDomainSuffixes () {
-		$patterns = array();
-		foreach (array('Docomo', 'Au', 'SoftBank') as $carrier) {
-			$useragent = BSClassLoader::getInstance()->getObject($carrier, 'UserAgent');
-			$patterns[$useragent->getType()] = $useragent->getDomainSuffix();
+	public function getCarrier () {
+		if (!$this->carrier) {
+			$this->carrier = BSClassLoader::getInstance()->getObject(
+				$this->getType(),
+				'MobileCarrier'
+			);
 		}
-		return $patterns;
+		return $this->carrier;
 	}
 }
 

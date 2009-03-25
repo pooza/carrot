@@ -133,7 +133,7 @@ class BSMailAddress implements BSAssignable {
 	 * @return string キャリアを示す文字
 	 */
 	public function getCarrier () {
-		foreach (BSMobileUserAgent::getDomainSuffixes() as $type => $suffix) {
+		foreach (BSMobileCarrier::getDomainSuffixes() as $type => $suffix) {
 			if (strstr($this->getContents(), $suffix)) {
 				return $type;
 			}

@@ -34,39 +34,21 @@ class BSPictogramTag extends BSSmartTag {
 	 * @abstract
 	 */
 	public function execute ($body) {
-		$useragent = self::getUserAgent($this->tag[2]);
-		$raw = $useragent->getPictogram($this->tag[1]);
+		$carrier = BSMobileCarrier::getInstance($this->tag[2]);
+		$raw = $carrier->getPictogram($this->tag[1]);
 		if ($this->isRawMode()) {
 			$replace = $raw;
 		} else {
-			$useragent->getMPC()->setString($raw);
-			$replace = $useragent->getMPC()->convert($this->tag[2], MPC_TO_OPTION_IMG);
+			$carrier->getMPC()->setString($raw);
+			$replace = $carrier->getMPC()->convert($this->tag[2], MPC_TO_OPTION_IMG);
 		}
 		return str_replace($this->contents, $replace, $body);
 	}
 
 	private function isRawMode () {
-		$request = BSRequest::getInstance()->getUserAgent();
-		$current = self::getUserAgent($this->tag[2]);
-		return $request->isMobile() && ($current->getType() == $request->getType());
-	}
-
-	static private function getUserAgent ($code) {
-		if (!self::$agents) {
-			self::$agents = new BSArray;
-		}
-		if (!self::$agents[$code]) {
-			$classes = array(
-				MPC_FROM_EZWEB => 'Au',
-				MPC_FROM_FOMA => 'Docomo',
-				MPC_FROM_SOFTBANK => 'SoftBank',
-			);
-			self::$agents[$code] = BSClassLoader::getInstance()->getObject(
-				$classes[$code],
-				'UserAgent'
-			);
-		}
-		return self::$agents[$code];
+		$useragent = BSRequest::getInstance()->getUserAgent();
+		$carrier = BSMobileCarrier::getInstance($this->tag[2]);
+		return $useragent->isMobile() && ($carrier->getName() == $useragent->getType());
 	}
 }
 
