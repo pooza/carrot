@@ -14,6 +14,7 @@
 abstract class BSMobileCarrier {
 	private $attributes;
 	private $mpc;
+	private $pictogramDirectory;
 	static private $instances;
 	const MPC_IMAGE = 'IMG';
 	const MPC_RAW = 'RAW';
@@ -114,7 +115,7 @@ abstract class BSMobileCarrier {
 			$this->mpc->setFromCharset('UTF-8');
 			$this->mpc->setFrom($this->getMPCCode());
 			$this->mpc->setStringType(BSMobileCarrier::MPC_RAW);
-			$this->mpc->setImagePath('/carrotlib/images/mpc');
+			$this->mpc->setImagePath('/carrotlib/images/pictogram');
 		}
 		return $this->mpc;
 	}
@@ -140,6 +141,37 @@ abstract class BSMobileCarrier {
 	}
 
 	/**
+	 * 絵文字ディレクトリの名前を返す
+	 *
+	 * @access protected
+	 * @return string 絵文字ディレクトリの名前
+	 */
+	protected function getPictogramDirectoryName () {
+		return strtolower(substr($this->getMPCCode(), 0, 1));
+	}
+
+	/**
+	 * 絵文字ディレクトリを返す
+	 *
+	 * @access public
+	 * @return BSDirectory 絵文字ディレクトリ
+	 */
+	public function getPictogramDirectory () {
+		if (!$this->pictogramDirectory) {
+			try {
+				$dir = BSController::getInstance()->getDirectory('pictogram');
+				$this->pictogramDirectory = $dir->getEntry($this->getPictogramDirectoryName());
+				if (!$this->pictogramDirectory->isDirectory()) {
+					throw new BSMobileException('絵文字ディレクトリが見つかりません。');
+				}
+				$this->pictogramDirectory->setDefaultSuffix('.gif');
+			} catch (BSFileException $e) {
+			}
+		}
+		return $this->pictogramDirectory;
+	}
+
+	/**
 	 * 絵文字を含んだ文字列を変換する
 	 *
 	 * @access public
@@ -149,7 +181,6 @@ abstract class BSMobileCarrier {
 	 *   self::MPC_IMAGE
 	 *   self::MPC_SMARTTAG
 	 * @return string 変換後文字列
-	 * @abstract
 	 */
 	public function convertPictogram ($body, $format = self::MPC_SMARTTAG) {
 		$this->getMPC()->setString($body);
@@ -174,7 +205,6 @@ abstract class BSMobileCarrier {
 	 * @access public
 	 * @param integer $code 絵文字コード
 	 * @return string 絵文字
-	 * @abstract
 	 */
 	public function getPictogram ($code) {
 		$this->getMPC()->setTo($this->getMPCCode());

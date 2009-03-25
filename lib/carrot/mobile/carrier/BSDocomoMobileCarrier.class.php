@@ -45,6 +45,16 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 	protected function getMPCCode () {
 		return 'FOMA';
 	}
+
+	/**
+	 * 絵文字ディレクトリの名前を返す
+	 *
+	 * @access protected
+	 * @return string 絵文字ディレクトリの名前
+	 */
+	protected function getPictogramDirectoryName () {
+		return 'i';
+	}
 }
 
 /* vim:set tabstop=4: */

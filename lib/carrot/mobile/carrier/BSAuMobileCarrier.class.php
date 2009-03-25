@@ -46,6 +46,16 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	protected function getMPCCode () {
 		return 'EZWEB';
 	}
+
+	/**
+	 * 絵文字ディレクトリの名前を返す
+	 *
+	 * @access protected
+	 * @return string 絵文字ディレクトリの名前
+	 */
+	protected function getPictogramDirectoryName () {
+		return 'e';
+	}
 }
 
 /* vim:set tabstop=4: */
