@@ -32,6 +32,7 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 		return new BSArray(array(
 			'ezweb',
 			'ez',
+			'kddi',
 			'tuka',
 		));
 	}

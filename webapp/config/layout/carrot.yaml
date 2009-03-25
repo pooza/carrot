@@ -51,9 +51,6 @@ doc:
 dump:
   parent: var
 
-emoji:
-  parent: images
-
 font:
   parent: share
   suffix: .ttf
@@ -88,6 +85,9 @@ modules:
 
 mysql:
   constant: yes
+
+pictogram:
+  parent: images
 
 proctools:
   constant: yes
