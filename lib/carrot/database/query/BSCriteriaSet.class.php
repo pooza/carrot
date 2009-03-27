@@ -36,7 +36,15 @@ class BSCriteriaSet extends BSArray {
 	}
 
 	public function register ($key, $value, $operator = '=') {
-		$this[] = strtolower($key) . strtoupper($operator) . $this->quote($value);
+		if (strtoupper($operator) == 'IN') {
+			$ids = new BSArray;
+			foreach (new BSArray($value) as $item) {
+				$ids[] = $this->quote($item);
+			}
+			$this[] = strtolower($key) . ' IN (' . $ids->join(',') . ')';
+		} else {
+			$this[] = strtolower($key) . strtoupper($operator) . $this->quote($value);
+		}
 	}
 
 	public function quote ($value) {

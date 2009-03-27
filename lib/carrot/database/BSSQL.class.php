@@ -211,13 +211,15 @@ class BSSQL {
 	 * 抽出条件文字列を返す
 	 *
 	 * @access public
-	 * @param string[] $criteria 抽出条件の配列
+	 * @param mixed $criteria 抽出条件の配列
 	 * @param string $glue 結合子
 	 * @return string 抽出条件文字列
 	 * @static
 	 */
 	static public function getCriteriaString ($criteria, $glue = ' AND ') {
-		if (!is_array($criteria)) {
+		if ($criteria instanceof BSCriteriaSet) {
+			return $criteria->getContents();
+		} else if (!is_array($criteria)) {
 			return $criteria;
 		}
 		$criteriaFormed = array();
