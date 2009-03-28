@@ -142,7 +142,7 @@
 				<key>Name</key>
 				<string>literal (RegExp)</string>
 				<key>StartString</key>
-				<string>/[^/\\\n]*(?:\\.[^/\\\n]*)*/</string>
+				<string>/[^/\\\n]+(?:\\.[^/\\\n]*)*/[a-z]*</string>
 				<key>Underline</key>
 				<false/>
 			</dict>
