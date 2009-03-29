@@ -177,19 +177,6 @@ class BSView {
 	}
 
 	/**
-	 * レンダラーを返す
-	 *
-	 * getRendererのエイリアス
-	 *
-	 * @access public
-	 * @return BSRenderer レンダラー
-	 * @final
-	 */
-	final public function getEngine () {
-		return $this->getRenderer();
-	}
-
-	/**
 	 * レンダラーを設定
 	 *
 	 * @access public
@@ -200,16 +187,16 @@ class BSView {
 	}
 
 	/**
-	 * レンダラーを設定
-	 *
-	 * setRendererのエイリアス
+	 * レスポンスを設定
 	 *
 	 * @access public
-	 * @param BSRenderer $renderer レンダラー
-	 * @final
+	 * @param BSHTTPResponse $response レスポンス
 	 */
-	final public function setEngine (BSRenderer $renderer) {
-		$this->setRenderer($renderer);
+	public function setResponse (BSHTTPResponse $response) {
+		$this->setRenderer($response->getRenderer());
+		foreach ($response->getHeaders() as $header) {
+			$this->setHeader($header->getName(), $header->getContents());
+		}
 	}
 
 	/**
