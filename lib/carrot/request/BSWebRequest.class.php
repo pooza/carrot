@@ -129,7 +129,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return ($this->controller->getEnvironment('HTTP_X_PROTOTYPE_VERSION') != null);
+		return !BSString::isBlank($this->controller->getEnvironment('HTTP_X_PROTOTYPE_VERSION'));
 	}
 
 	/**
@@ -139,7 +139,8 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return ($this->controller->getEnvironment('HTTP_X_FLASH_VERSION') != null);
+		return BSString::isBlank($this->controller->getEnvironment('HTTP_X_FLASH_VERSION'))
+			|| BSString::isBlank($this->controller->getEnvironment('HTTP_X_IS_FLASH'));
 	}
 }
 
