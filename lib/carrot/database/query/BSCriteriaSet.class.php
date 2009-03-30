@@ -66,21 +66,31 @@ class BSCriteriaSet extends BSArray {
 	 * @param string $operator 演算子
 	 */
 	public function register ($key, $value, $operator = '=') {
-		$key = strtolower($key);
-		$operator = strtoupper($operator);
+		$key = trim(strtolower($key));
+		$operator = trim(strtoupper($operator));
 
-		if ($operator == 'IN') {
-			if (BSArray::isArray($value)) {
+		switch ($operator) {
+			case 'IN':
 				$values = new BSArray($value);
 				if ($values->count()) {
 					$this[] = $key . ' IN (' . $this->quote($values)->join(',') . ')';
 				}
-				return;
-			} else {
-				$operator = '=';
-			}
+				break;
+			case 'BETWEEN':
+				$values = new BSArray($value);
+				if ($values->count() != 2) {
+					throw new BSDatabaseException('BETWEEN演算子に与える引数は2個です。');
+				}
+				$this[] = $key . ' BETWEEN ' . $this->quote($values)->join(' AND ');
+				break;
+			default:
+				if ($value === null) {
+					$this[] = $key . ' IS NULL';
+				} else {
+					$this[] = $key . ' ' . $operator . ' ' . $this->quote($value);
+				}
+				break;
 		}
-		$this[] = $key . $operator . $this->quote($value);
 	}
 
 	/**
