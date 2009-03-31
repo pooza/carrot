@@ -70,12 +70,6 @@ class BSCriteriaSet extends BSArray {
 		$operator = trim(strtoupper($operator));
 
 		switch ($operator) {
-			case 'IN':
-				$values = new BSArray($value);
-				if ($values->count()) {
-					$this[] = $key . ' IN (' . $this->quote($values)->join(',') . ')';
-				}
-				break;
 			case 'BETWEEN':
 				$values = new BSArray($value);
 				if ($values->count() != 2) {
@@ -86,6 +80,13 @@ class BSCriteriaSet extends BSArray {
 			default:
 				if ($value === null) {
 					$this[] = $key . ' IS NULL';
+				} else if ($value instanceof BSArray) {
+					if ($values->count()) {
+						$values->uniquize();
+						$this[] = $key . ' IN (' . $this->quote($values)->join(',') . ')';
+					}
+				} else if ($value instanceof BSRecord) {
+					$this[] = $key . ' ' . $operator . ' ' . $this->quote($value->getID());
 				} else {
 					$this[] = $key . ' ' . $operator . ' ' . $this->quote($value);
 				}

@@ -203,6 +203,18 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * 抽出条件オブジェクトを生成して返す
+	 *
+	 * @access public
+	 * @return BSCriteriaSet 抽出条件
+	 */
+	public function createCriteriaSet () {
+		$criteria = new BSCriteriaSet;
+		$criteria->setDatabase($this);
+		return $criteria;
+	}
+
+	/**
 	 * データベースのインスタンス名を返す
 	 *
 	 * DSNにおける「データベース名」のことではなく、
