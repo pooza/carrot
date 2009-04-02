@@ -139,8 +139,8 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return BSString::isBlank($this->controller->getEnvironment('HTTP_X_FLASH_VERSION'))
-			|| BSString::isBlank($this->controller->getEnvironment('HTTP_X_IS_FLASH'));
+		return $this->controller->getEnvironment('HTTP_X_FLASH_VERSION')
+			|| $this->controller->getEnvironment('HTTP_X_IS_FLASH');
 	}
 }
 
