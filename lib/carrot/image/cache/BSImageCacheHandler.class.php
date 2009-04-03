@@ -37,7 +37,7 @@ class BSImageCacheHandler {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class BSImageCacheHandler {
 			);
 		} else {
 			if (!$module = BSModule::getInstance('User' . get_class($record))) {
-				throw new BSException('User%sモジュールが見つかりません。');
+				throw new BSModuleException('User%sモジュールが見つかりません。');
 			}
 			$url = $module->getURL();
 			$url->setActionName('Image');
