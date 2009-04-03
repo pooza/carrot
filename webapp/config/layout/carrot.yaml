@@ -62,6 +62,9 @@ googleapi:
 images:
   parent: carrotlib
 
+image_cache:
+  parent: var
+
 js:
   parent: carrotlib
   suffix: .js

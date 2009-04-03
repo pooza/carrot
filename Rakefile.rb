@@ -38,6 +38,22 @@ namespace :var do
     system 'sudo rm -R var/*/*'
   end
 
+  namespace :images do
+    namespace :cache do
+      desc 'イメージキャッシュを初期化'
+      task :init => ['www/carrotlib/images/cache']
+
+      desc 'イメージキャッシュをクリア'
+      task :clean do
+        system 'rm -R var/image_cache/*'
+      end
+
+      file 'www/carrotlib/images/cache' do
+        sh 'ln -s ../../../var/image_cache www/carrotlib/images/cache'
+      end
+    end
+  end
+
   namespace :classes do
     desc 'クラスファイルをリロード'
     task :init do
