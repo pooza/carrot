@@ -43,8 +43,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function getPlatform () {
 		if (!$this->attributes['platform']) {
-			$pattern = '/MSIE [0-9]\.[0-9]+; ([^;]+);/';
-			if (preg_match($pattern, $this->getName(), $matches)) {
+			if (preg_match($this->getPattern(), $this->getName(), $matches)) {
 				$this->attributes['platform'] = $matches[1];
 			}
 		}
@@ -58,7 +57,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE [4-9]\.[0-9]+; Windows/';
+		return '/MSIE [4-9]\.[0-9]+; ([^;]+);/';
 	}
 }
 
