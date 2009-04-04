@@ -114,10 +114,7 @@ class BSSocket {
 	 */
 	public function getLines () {
 		sleep(1);
-		if (BSString::isBlank($contents = stream_get_contents($this->handle))) {
-			return array();
-		}
-		return explode(self::LINE_SEPARATOR, $contents);
+		return explode(self::LINE_SEPARATOR, stream_get_contents($this->handle));
 	}
 
 	/**
