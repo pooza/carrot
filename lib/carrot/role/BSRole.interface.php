@@ -32,15 +32,6 @@ interface BSRole {
 	 * @static
 	 */
 	static public function getName ($language = 'ja');
-
-	/**
-	 * JabberIDを返す
-	 *
-	 * @access public
-	 * @return BSJabberID JabberID
-	 * @static
-	 */
-	static public function getJabberID ();
 }
 
 /* vim:set tabstop=4: */

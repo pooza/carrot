@@ -17,6 +17,9 @@ app:
   ver: unknown
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
+  xmpp:
+    jid: pooza291@gmail.com
+    password: LqCw+J25gdM=
 
 debug: yes
 
@@ -59,7 +62,9 @@ smtp:
   check_addresses: no
 
 xmpp:
-  host: localhost
+  host: talk.google.com
+  port: 5222
+  server: gmail.com
 
 crypt:
   salt: carrot

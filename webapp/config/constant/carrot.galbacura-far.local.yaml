@@ -10,8 +10,7 @@ debug: yes
 
 admin:
   email: admin@b-shock.co.jp
-  jid: pooza@jabber.b-shock.co.jp/carrot
-  password: LRSOV7gId+o=
+  jid: tatsuya.koishi@gmail.com
   networks:
     - 192.168.0.0/24
     - 192.168.1.0/24

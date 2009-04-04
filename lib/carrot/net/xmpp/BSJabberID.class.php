@@ -15,7 +15,7 @@ class BSJabberID implements BSAssignable {
 	private $account;
 	private $host;
 	private $resource;
-	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)\/([0-9a-z_\-]+)$/i';
+	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)(\/([0-9a-z_\-]+))?$/i';
 
 	/**
 	 * @access public
@@ -28,7 +28,9 @@ class BSJabberID implements BSAssignable {
 		}
 		$this->account = $matches[1];
 		$this->host = new BSHost($matches[2]);
-		$this->resource = $matches[4];
+		if (isset($matches[5])) {
+			$this->resource = $matches[5];
+		}
 	}
 
 	/**

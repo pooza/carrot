@@ -48,7 +48,7 @@ class BSAdministrator implements BSRole {
 	 * @static
 	 */
 	static public function getJabberID () {
-		if ($jid = BSController::getInstance()->getConstant('ADMIN_JID')) {
+		if (!BSString::isBlank($jid = BSController::getInstance()->getConstant('ADMIN_JID'))) {
 			return new BSJabberID($jid);
 		}
 	}

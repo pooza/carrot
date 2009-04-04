@@ -44,19 +44,6 @@ class BSAuthor implements BSRole {
 	}
 
 	/**
-	 * JabberIDを返す
-	 *
-	 * @access public
-	 * @return BSJabberID JabberID
-	 * @static
-	 */
-	static public function getJabberID () {
-		if ($jid = BSController::getInstance()->getConstant('AUTHOR_JID')) {
-			return new BSJabberID($jid);
-		}
-	}
-
-	/**
 	 * 発行者認証
 	 *
 	 * @access public
