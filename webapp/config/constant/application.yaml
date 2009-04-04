@@ -13,6 +13,9 @@ app:
     url: http://redmine.carrot-framework.org/projects/show/carrot
   svn:
     url: http://svn.carrot-framework.org/carrot/trunk
+  xmpp:
+    jid: pooza291@gmail.com
+    password: LqCw+J25gdM=
 
 author:
   name: 有限会社 ビーショック

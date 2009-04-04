@@ -17,9 +17,6 @@ app:
   ver: unknown
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
-  xmpp:
-    jid: pooza291@gmail.com
-    password: LqCw+J25gdM=
 
 debug: yes
 
