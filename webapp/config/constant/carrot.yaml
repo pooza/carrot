@@ -74,12 +74,19 @@ log:
   loggers:
     - file
     - mail
+    - jabber
     - system
   syslog:
     facility: LOCAL6
   mail:
     patterns:
       - BSDatabaseException
+      - BSFileException
+  jabber:
+    patterns:
+      - BSDatabaseException
+      - BSMailException
+      - BSFileException
 
 image:
   thumbnail:
