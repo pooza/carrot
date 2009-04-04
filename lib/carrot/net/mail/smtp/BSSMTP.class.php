@@ -17,11 +17,11 @@ class BSSMTP extends BSSocket {
 
 	/**
 	 * @access public
-	 * @param BSHost $path ホスト
+	 * @param mixed $path ホスト
 	 * @param integer $port ポート
 	 */
-	public function __construct (BSHost $host = null, $port = null) {
-		if (!$host) {
+	public function __construct ($host = null, $port = null) {
+		if (BSString::isBlank($host)) {
 			$host = new BSHost(BS_SMTP_HOST);
 		}
 		parent::__construct($host, $port);

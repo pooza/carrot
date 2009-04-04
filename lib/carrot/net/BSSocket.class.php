@@ -20,10 +20,10 @@ class BSSocket {
 
 	/**
 	 * @access public
-	 * @param BSHost $host ホスト
+	 * @param mixed $host ホスト
 	 * @param integer $port ポート
 	 */
-	public function __construct (BSHost $host, $port = null) {
+	public function __construct ($host, $port = null) {
 		$this->setHost($host);
 		$this->setPort($port);
 	}
@@ -114,16 +114,10 @@ class BSSocket {
 	 */
 	public function getLines () {
 		sleep(1);
-		$lines = array();
-		do {
-			$lines[] = $this->getLine();
-			$status = socket_get_status($this->handle);
-		} while ($status['unread_bytes']);
-
-		if (BSString::isBlank($lines[0]) && (count($lines) == 1)) {
+		if (BSString::isBlank($contents = stream_get_contents($this->handle))) {
 			return array();
 		}
-		return $lines;
+		return explode(self::LINE_SEPARATOR, $contents);
 	}
 
 	/**
@@ -160,9 +154,12 @@ class BSSocket {
 	 * ホストを設定
 	 *
 	 * @access public
-	 * @param BSHost $host ホスト
+	 * @param mixed $host ホスト
 	 */
-	public function setHost (BSHost $host) {
+	public function setHost ($host) {
+		if (($host instanceof BSHost) == false) {
+			$host = new BSHost($host);
+		}
 		$this->host = $host;
 	}
 

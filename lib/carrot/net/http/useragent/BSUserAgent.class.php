@@ -63,7 +63,7 @@ abstract class BSUserAgent implements BSAssignable {
 				return $type;
 			}
 		}
-		return 'Console';
+		return 'Default';
 	}
 
 	/**
