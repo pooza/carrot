@@ -24,7 +24,12 @@ class BSJabberLogger extends BSLogger {
 		if (!BS_NET_RESOLVABLE) {
 			return false; 
 		}
+
 		try {
+			$constants = BSConstantHandler::getInstance();
+			if (BSString::isBlank($constants['APP_XMPP_JID'])) {
+				return false;
+			}
 			$this->server = new BSXMPP;
 			return true;
 		} catch (Exception $e) {
