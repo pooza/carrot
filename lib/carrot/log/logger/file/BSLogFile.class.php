@@ -47,7 +47,7 @@ class BSLogFile extends BSFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('ログファイル "%s"', $this->getPath());
+		return sprintf('ログファイル "%s"', $this->getShortPath());
 	}
 }
 

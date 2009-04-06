@@ -107,7 +107,7 @@ class BSConfigFile extends BSFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('設定ファイル "%s"', $this->getPath());
+		return sprintf('設定ファイル "%s"', $this->getShortPath());
 	}
 
 	/**

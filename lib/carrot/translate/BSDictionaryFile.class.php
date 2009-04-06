@@ -78,7 +78,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('辞書ファイル "%s"', $this->getPath());
+		return sprintf('辞書ファイル "%s"', $this->getShortPath());
 	}
 }
 

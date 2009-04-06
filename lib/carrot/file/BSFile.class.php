@@ -401,7 +401,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('ファイル "%s"', $this->getPath());
+		return sprintf('ファイル "%s"', $this->getShortPath());
 	}
 
 	/**

@@ -10,6 +10,7 @@ debug: yes
 
 admin:
   email: admin@b-shock.co.jp
+  password: 7e240de74fb1ed08fa08d38063f6a6a91462a815
   jid: tatsuya.koishi@gmail.com
   networks:
     - 192.168.100.0/24

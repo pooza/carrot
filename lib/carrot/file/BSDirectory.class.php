@@ -249,7 +249,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('ディレクトリ "%s"', $this->getPath());
+		return sprintf('ディレクトリ "%s"', $this->getShortPath());
 	}
 }
 

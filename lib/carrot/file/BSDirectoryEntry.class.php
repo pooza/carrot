@@ -16,6 +16,7 @@ abstract class BSDirectoryEntry {
 	protected $path;
 	private $suffix;
 	private $basename;
+	private $shortPath;
 	protected $directory;
 
 	/**
@@ -90,6 +91,23 @@ abstract class BSDirectoryEntry {
 		$this->name = null;
 		$this->basename = null;
 		$this->suffix = null;
+	}
+
+	/**
+	 * 短いパスを返す
+	 *
+	 * @access public
+	 * @return string 短いパス
+	 */
+	public function getShortPath () {
+		if (!$this->shortPath) {
+			$this->shortPath = str_replace(
+				BSController::getInstance()->getPath('root') . '/',
+				'',
+				$this->getPath()
+			);
+		}
+		return $this->shortPath;
 	}
 
 	/**

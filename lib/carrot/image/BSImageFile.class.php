@@ -187,7 +187,7 @@ class BSImageFile extends BSFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('画像ファイル "%s"', $this->getPath());
+		return sprintf('画像ファイル "%s"', $this->getShortPath());
 	}
 }
 

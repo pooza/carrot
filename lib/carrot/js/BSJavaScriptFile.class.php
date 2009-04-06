@@ -43,7 +43,7 @@ class BSJavaScriptFile extends BSFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('JavaScriptファイル "%s"', $this->getPath());
+		return sprintf('JavaScriptファイル "%s"', $this->getShortPath());
 	}
 }
 

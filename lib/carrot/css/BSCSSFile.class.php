@@ -83,7 +83,7 @@ class BSCSSFile extends BSFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('CSSファイル "%s"', $this->getPath());
+		return sprintf('CSSファイル "%s"', $this->getShortPath());
 	}
 }
 
