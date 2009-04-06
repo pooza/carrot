@@ -32,13 +32,13 @@ class BSJabberLogger extends BSLogger {
 	public function initialize () {
 		if (!BS_NET_RESOLVABLE) {
 			return false; 
+		} else if (BS_XMPP_SSL && !extension_loaded('openssl')) {
+			return false;
+		} else if (BSString::isBlank(BS_APP_XMPP_JID)) {
+			return false;
 		}
 
 		try {
-			$constants = BSConstantHandler::getInstance();
-			if (BSString::isBlank($constants['APP_XMPP_JID'])) {
-				return false;
-			}
 			$this->server = new BSXMPP;
 			return true;
 		} catch (Exception $e) {

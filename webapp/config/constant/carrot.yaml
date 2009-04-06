@@ -17,6 +17,9 @@ app:
   ver: unknown
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
+  xmpp:
+    jid:
+    password:
 
 debug: yes
 
@@ -62,6 +65,7 @@ xmpp:
   host: talk.google.com
   port: 5222
   server: gmail.com
+  ssl: yes
 
 crypt:
   salt: carrot
