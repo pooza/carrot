@@ -54,7 +54,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	 */
 	public function translate ($label, $language) {
 		$words = $this->getWords();
-		if (!$word = $words[$label . '_' . $language]) {
+		if (BSString::isBlank($word = $words[$label . '_' . $language])) {
 			// 旧形式対応
 			if (isset($words[$label][$language])) {
 				$word = $words[$label][$language];
