@@ -15,6 +15,15 @@ class BSJabberLogger extends BSLogger {
 	private $patterns;
 
 	/**
+	 * @access public
+	 */
+	public function __destruct () {
+		if ($this->server) {
+			$this->server->disconnect();
+		}
+	}
+
+	/**
 	 * 初期化
 	 *
 	 * @access public
@@ -33,6 +42,7 @@ class BSJabberLogger extends BSLogger {
 			$this->server = new BSXMPP;
 			return true;
 		} catch (Exception $e) {
+			$this->server = null;
 			return false;
 		}
 	}
@@ -70,7 +80,13 @@ class BSJabberLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	private function send ($message, $priority) {
-		$this->server->sendMessage(sprintf('[%s] %s', $priority, $message));
+		$message = array(
+			'[' . BSController::getInstance()->getName() . ']',
+			'[' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ']', //BSRequest::getHostは使わない
+			'[' . $priority . ']',
+			$message,
+		);
+		return $this->server->sendMessage(implode(' ', $message));
 	}
 
 	/**
