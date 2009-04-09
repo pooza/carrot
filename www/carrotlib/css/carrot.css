@@ -139,6 +139,12 @@ table tr.alert td {
 	color: red;
 }
 
+.common_block {
+	margin:6px;
+	padding:3px;
+	border:solid 1px gray;
+}
+
 #Contents {
 	margin-left: 160px;
 }
