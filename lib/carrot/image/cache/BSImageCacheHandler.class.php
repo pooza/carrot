@@ -12,6 +12,7 @@
  */
 class BSImageCacheHandler {
 	static private $instance;
+	const WITHOUT_BWORSER_CACHE = 1;
 
 	/**
 	 * @access private
@@ -41,13 +42,54 @@ class BSImageCacheHandler {
 	}
 
 	/**
-	 * ディレクトリを返す
+	 * サムネイルのURLを返す
 	 *
-	 * @access private
-	 * @param BSDirectory ディレクトリ
+	 * @access public
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ
+	 * @param integer $pixel ピクセル数
+	 * @param integer $flags オプションのビット列
+	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 * @return BSURL URL
 	 */
-	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('image_cache');
+	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+		$url = new BSURL;
+		$url['path'] = sprintf(
+			'/carrotlib/images/cache/%s/%s',
+			$this->getEntryName($record, $size),
+			$this->getFile($record, $size, $pixel)->getName()
+		);
+		if ($flags & self::WITHOUT_BWORSER_CACHE) {
+			$url->setParameter('at', BSNumeric::getRandom());
+		}
+		return $url;
+	}
+
+	/**
+	 * 画像の情報を返す
+	 *
+	 * @access public
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ
+	 * @param integer $pixel ピクセル数
+	 * @param integer $flags オプションのビット列
+	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 * @return BSArray 画像の情報
+	 */
+	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+		if (!$file = $record->getImageFile($size)) {
+			return;
+		}
+
+		$image = $this->getThumbnail($record, $size, $pixel);
+		$info = new BSArray;
+		$info['is_cache'] = 1;
+		$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
+		$info['width'] = $image->getWidth();
+		$info['height'] = $image->getHeight();
+		$info['alt'] = $record->getLabel();
+		$info['type'] = $image->getType();
+		return $info;
 	}
 
 	/**
@@ -61,16 +103,17 @@ class BSImageCacheHandler {
 	 * @return BSFile サムネイルファイル
 	 */
 	public function getFile (BSImageContainer $record, $size, $pixel, $class = 'BSImageFile') {
-		$name = $this->getEntryName($record, $size);
-		if (!$dir = $this->getDirectory()->getEntry($name)) {
+		if (!$record->getImageFile($size)) {
 			return null;
 		}
-		foreach (BSImage::getSuffixes() as $suffix) {
-			$filename = sprintf('%04d', $pixel) . $suffix;
-			if ($file = $dir->getEntry($filename, $class)) {
-				return $file;
-			}
+
+		$dir = $this->getEntryDirectory($record, $size);
+		$name = sprintf('%04d', $pixel);
+		if (!$file = $dir->getEntry($name, $class)) {
+			$this->setThumbnail($record, $size, $pixel, $record->getImageFile($size));
+			$file = $dir->getEntry($name, $class);
 		}
+		return $file;
 	}
 
 	/**
@@ -83,9 +126,10 @@ class BSImageCacheHandler {
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel) {
-		if ($file = $this->getFile($record, $size, $pixel)) {
-			return $file->getEngine();
+		if (!$record->getImageFile($size)) {
+			return null;
 		}
+		return $this->getFile($record, $size, $pixel)->getEngine();
 	}
 
 	/**
@@ -99,23 +143,17 @@ class BSImageCacheHandler {
 	 * @param BSImage サムネイル
 	 */
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents) {
-		$name = $this->getEntryName($record, $size);
-		if (!$dir = $this->getDirectory()->getEntry($name)) {
-			$dir = $this->getDirectory()->createDirectory($name);
-			$dir->setMode(0777);
-		}
-
+		$dir = $this->getEntryDirectory($record, $size);
 		$image = new BSImage;
 		$image->setImage($contents);
 		$image->setType(BS_IMAGE_THUMBNAIL_TYPE);
-		if ($pixel < $image->getWidth() || $pixel < $image->getHeight()) {
+		if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
 			$image = $image->getThumbnail($pixel);
 		}
 
-		$suffixes = BSImage::getSuffixes();
-		$filename = sprintf('%04d%s', $pixel, $suffixes[$image->getType()]);
-		if (!$file = $dir->getEntry($filename, 'BSImageFile')) {
-			$file = $dir->createEntry($filename, 'BSImageFile');
+		$name = sprintf('%04d', $pixel);
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
 		}
 		$file->setEngine($image);
@@ -131,72 +169,19 @@ class BSImageCacheHandler {
 	 * @param string $size サイズ
 	 */
 	public function removeThumbnail (BSImageContainer $record, $size) {
-		$name = $this->getEntryName($record, $size);
-		if ($dir = $this->getDirectory()->getEntry($name)) {
+		if ($dir = $this->getEntryDirectory($record, $size)) {
 			$dir->delete();
 		}
 	}
 
 	/**
-	 * サムネイルのURLを返す
+	 * ディレクトリを返す
 	 *
-	 * @access public
-	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
-	 * @param integer $pixel ピクセル数
-	 * @return BSURL URL
+	 * @access private
+	 * @param BSDirectory ディレクトリ
 	 */
-	public function getURL (BSImageContainer $record, $size, $pixel = null) {
-		if ($file = $this->getFile($record, $size, $pixel)) {
-			$url = new BSURL;
-			$url['path'] = sprintf(
-				'/carrotlib/images/cache/%s/%s',
-				$this->getEntryName($record, $size),
-				$file->getName()
-			);
-		} else {
-			if (!$module = BSModule::getInstance('User' . get_class($record))) {
-				throw new BSModuleException('User%sモジュールが見つかりません。');
-			}
-			$url = $module->getURL();
-			$url->setActionName('Image');
-			$url->setRecordID($record);
-			$url->setParameter('size', $size);
-			if ($pixel) {
-				$url->setParameter('pixel', $pixel);
-			}
-		}
-		return $url;
-	}
-
-	/**
-	 * 画像の情報を返す
-	 *
-	 * @access public
-	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
-	 * @param integer $pixel ピクセル数
-	 * @return BSArray 画像の情報
-	 */
-	public function getImageInfo (BSImageContainer $record, $size, $pixel = null) {
-		$info = new BSArray;
-		if (!$file = $record->getImageFile($size)) {
-			return;
-		} else if ($pixel) {
-			if (!$image = $this->getThumbnail($record, $size, $pixel)) {
-				$image = $this->setThumbnail($record, $size, $pixel, $file->getEngine());
-			}
-			$info['is_cache'] = 1;
-		} else {
-			$image = $file->getEngine();
-		}
-
-		$info['url'] = $this->getURL($record, $size, $pixel)->getContents();
-		$info['width'] = $image->getWidth();
-		$info['height'] = $image->getHeight();
-		$info['alt'] = $record->getLabel();
-		$info['type'] = $image->getType();
-		return $info;
+	private function getDirectory () {
+		return BSController::getInstance()->getDirectory('image_cache');
 	}
 
 	/**
@@ -209,6 +194,24 @@ class BSImageCacheHandler {
 	 */
 	private function getEntryName (BSImageContainer $record, $size) {
 		return sprintf('%s_%06d_%s', get_class($record), $record->getID(), $size);
+	}
+
+	/**
+	 * サムネイルエントリーの格納ディレクトリを返す
+	 *
+	 * @access private
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ
+	 * @return string サムネイル名
+	 */
+	private function getEntryDirectory (BSImageContainer $record, $size) {
+		$name = $this->getEntryName($record, $size);
+		if (!$dir = $this->getDirectory()->getEntry($name)) {
+			$dir = $this->getDirectory()->createDirectory($name);
+			$dir->setMode(0777);
+		}
+		$dir->setDefaultSuffix(BSImage::getSuffixes()->getParameter(BS_IMAGE_THUMBNAIL_TYPE));
+		return $dir;
 	}
 }
 
