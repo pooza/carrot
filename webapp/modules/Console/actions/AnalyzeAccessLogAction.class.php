@@ -17,7 +17,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @access private
 	 * @return BSArray 設定値
 	 */
-	private function getConfig () {
+	private function getAWStatsConfig () {
 		if (!$this->config) {
 			$this->config = new BSArray;
 			$this->config['server_name'] = $this->controller->getHost()->getName();
@@ -100,7 +100,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	private function updateConfig () {
 		$smarty = new BSSmarty;
 		$smarty->setTemplate('awstats.conf');
-		$smarty->setAttribute('config', $this->getConfig());
+		$smarty->setAttribute('config', $this->getAWStatsConfig());
 		$file = $this->controller->getDirectory('tmp')->createEntry('awstats.conf');
 		$file->setContents($smarty->getContents());
 	}
