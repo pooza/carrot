@@ -12,7 +12,7 @@
  */
 class BSImageCacheHandler {
 	static private $instance;
-	const WITHOUT_BWORSER_CACHE = 1;
+	const WITHOUT_BROWSER_CACHE = 1;
 
 	/**
 	 * @access private
@@ -49,7 +49,7 @@ class BSImageCacheHandler {
 	 * @param string $size サイズ
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags オプションのビット列
-	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -59,7 +59,7 @@ class BSImageCacheHandler {
 			$this->getEntryName($record, $size),
 			$this->getFile($record, $size, $pixel)->getName()
 		);
-		if ($flags & self::WITHOUT_BWORSER_CACHE) {
+		if ($flags & self::WITHOUT_BROWSER_CACHE) {
 			$url->setParameter('at', BSNumeric::getRandom());
 		}
 		return $url;
