@@ -1,13 +1,13 @@
 <?php
 /**
- * FeedLogSuccessビュー
+ * FeedSuccessビュー
  *
  * @package org.carrot-framework
  * @subpackage AdminFeed
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class LogSuccessView extends BSView {
+class FeedSuccessView extends BSView {
 	public function initialize () {
 		parent::initialize();
 		$this->setRenderer(BSClassLoader::getInstance()->getObject(BS_FEED_CLASS));
@@ -15,11 +15,11 @@ class LogSuccessView extends BSView {
 	}
 
 	public function execute () {
-		$this->getEngine()->setTitle($this->controller->getHost()->getName());
-		$this->getEngine()->setDescription(BSController::getName() . 'の管理ログ');
-		$this->getEngine()->setLink($this->controller->getModule('AdminLog')->getURL());
+		$this->renderer->setTitle($this->controller->getHost()->getName());
+		$this->renderer->setDescription(BSController::getName() . 'の管理ログ');
+		$this->renderer->setLink($this->getModule('AdminLog')->getURL());
 		foreach ($this->request->getAttribute('entries') as $log) {
-			$entry = $this->getEngine()->createEntry();
+			$entry = $this->renderer->createEntry();
 			$entry->setTitle($log['message']);
 			$entry->setDate(new BSDate($log['date']));
 			$message = array(

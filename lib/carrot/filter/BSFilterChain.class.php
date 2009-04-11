@@ -39,10 +39,7 @@ class BSFilterChain implements IteratorAggregate {
 	 * @param BSFilter $filter フィルタ
 	 */
 	public function register (BSFilter $filter) {
-		$action = BSController::getInstance()->getAction();
-		if ($action->isRegisterableFilter($filter)) {
-			$this->chain[] = $filter;
-		}
+		$this->chain[$filter->getName()] = $filter;
 	}
 
 	/**
@@ -69,6 +66,28 @@ class BSFilterChain implements IteratorAggregate {
 	public function loadModule (BSModule $module) {
 		if ($file = $module->getConfigFile('filters')) {
 			$this->load($file);
+		}
+	}
+
+	/**
+	 * アクションフィルタをフィルタチェーンに加える
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function loadAction (BSAction $action) {
+		$this->loadModule($action->getModule());
+		foreach ((array)$action->getConfig('filters') as $row) {
+			$row = new BSArray($row);
+			if ($row['enabled']) {
+				if (!$this->chain[$row['class']]) {
+					$filter = BSClassLoader::getInstance()->getObject($row['class']);
+					$filter->initialize((array)$row['params']);
+					$this->register($filter);
+				}
+			} else {
+				$this->chain->removeParameter($row['class']);
+			}
 		}
 	}
 

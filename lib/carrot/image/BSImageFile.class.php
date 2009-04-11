@@ -138,21 +138,6 @@ class BSImageFile extends BSFile {
 	}
 
 	/**
-	 * 登録可能なファイルか？
-	 *
-	 * 非推奨、BSFileValidator,BSImageValidatorを使用すること。
-	 *
-	 * @access public
-	 * @return boolean 登録可能ならTrue
-	 */
-	public function isRegisterable () {
-		return (($this->getSize() < (self::MAX_FILE_SIZE * 1024 * 1024))
-			&& BSImage::getTypes()->isIncluded($this->getEngine()->getType())
-			&& $this->isUploaded()
-		);
-	}
-
-	/**
 	 * 保存
 	 *
 	 * @access public

@@ -46,6 +46,16 @@ abstract class BSFilter extends BSParameterHolder {
 	}
 
 	/**
+	 * フィルタ名を返す
+	 *
+	 * @access public
+	 * @return string フィルタ名
+	 */
+	public function getName () {
+		return get_class($this);
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public

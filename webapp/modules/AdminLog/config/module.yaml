@@ -12,3 +12,9 @@ module:
 actions:
   Browse:
     title: 管理ログ
+  Feed:
+    filters:
+      - class: BSBasicAuthFilter
+        enabled: on
+      - class: BSMenuFilter
+        enabled: off
