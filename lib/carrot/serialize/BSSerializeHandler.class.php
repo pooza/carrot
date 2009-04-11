@@ -142,11 +142,8 @@ class BSSerializeHandler {
 	public function getAttributeName ($name) {
 		if ($name instanceof BSFile) {
 			$file = $name;
-			$path = $file->getDirectory()->getPath() . DIRECTORY_SEPARATOR . $file->getBaseName();
-			$path = str_replace(BSController::getInstance()->getPath('root'), '', $path);
-			$path = preg_replace('/^./', '', $path);
-			$name = new BSArray(explode(DIRECTORY_SEPARATOR, $path));
-			$name->setAttribute(null, get_class($file), BSArray::POSITION_TOP);
+			$name = new BSArray(get_class($file));
+			$name->merge(explode(DIRECTORY_SEPARATOR, $file->getShortPath()));
 			return $name->join('.');
 		} else if (is_object($name)) {
 			return get_class($name);
