@@ -14,6 +14,8 @@ actions:
     title: 管理ログ
   Feed:
     filters:
+      - class: BSSecurityFilter
+        enabled: off
       - class: BSBasicAuthFilter
         enabled: on
       - class: BSMenuFilter
