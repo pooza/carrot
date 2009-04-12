@@ -81,7 +81,7 @@ class BSFilterChain implements IteratorAggregate {
 			$row = new BSArray($row);
 			if ($row['enabled']) {
 				if (!$this->chain[$row['class']]) {
-					$filter = BSClassLoader::getInstance()->getObject($row['class'], 'Filter');
+					$filter = BSClassLoader::getInstance()->getObject($row['class']);
 					$filter->initialize((array)$row['params']);
 					$this->register($filter);
 				}

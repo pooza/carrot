@@ -3,14 +3,13 @@
  * Feedアクション
  *
  * @package org.carrot-framework
- * @subpackage AdminFeed
+ * @subpackage AdminLog
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
 class FeedAction extends BSAction {
 	public function execute () {
-		$logger = BSLogManager::getInstance()->getPrimaryLogger();
-		$this->request->setAttribute('entries', $logger->getEntries($logger->getLastDate()));
+		$this->request->setAttribute('entries', $this->getModule()->getEntries());
 		return BSView::SUCCESS;
 	}
 }

@@ -8,32 +8,11 @@
  * @version $Id$
  */
 class BrowseAction extends BSAction {
-	private $logger;
-	private $date;
 	private $exception;
 
-	private function getLogger () {
-		if (!$this->logger) {
-			$this->logger = BSLogManager::getInstance()->getPrimaryLogger();
-		}
-		return $this->logger;
-	}
-
-	private function getDate () {
-		if (!$this->date) {
-			if ($this->request['date']) {
-				$this->date = new BSDate($this->request['date']);
-			} else {
-				$this->date = $this->getLogger()->getLastDate();
-				$this->request['date'] = $this->date->format('Y-m-d');
-			}
-		}
-		return $this->date;
-	}
-
 	public function execute () {
-		$this->request->setAttribute('dates', $this->getLogger()->getDates());
-		$this->request->setAttribute('entries', $this->getLogger()->getEntries($this->getDate()));
+		$this->request->setAttribute('dates', $this->getModule()->getDates());
+		$this->request->setAttribute('entries', $this->getModule()->getEntries());
 		return BSView::SUCCESS;
 	}
 
@@ -55,7 +34,7 @@ class BrowseAction extends BSAction {
 
 	public function validate () {
 		try {
-			return ($this->getDate() && $this->getLogger());
+			return ($this->getModule()->getLogger() != null);
 		} catch (BSLogException $e) {
 			$this->exception = $e;
 			return false;
