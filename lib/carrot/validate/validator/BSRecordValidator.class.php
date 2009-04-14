@@ -89,24 +89,41 @@ class BSRecordValidator extends BSValidator {
 	private function validateValues ($id) {
 		$record = $this->getRecord($id);
 		foreach ($this['valid_values'] as $fieldName => $validValue) {
-			$fieldValue = $record->getAttribute($fieldName);
-			$message = sprintf(
-				'%sが正しくありません。',
-				BSTranslateManager::getInstance()->execute($fieldName)
-			);
 			if (is_array($validValue)) {
-				if (!in_array($fieldValue, $validValue)) {
-					$this->error = $message;
-					return false;
+				if (isset($validValue['function'])) {
+					$validValues = array($this->executeModuleFunction($validValue['function']));
+				} else {
+					$validValues = $validValue;
 				}
 			} else {
-				if ($fieldValue != $validValue) {
-					$this->error = $message;
-					return false;
-				}
+				$validValues = array($validValue);
+			}
+			if (!in_array($record->getAttribute($fieldName), $validValues)) {
+				$message = sprintf(
+					'%sが正しくありません。',
+					BSTranslateManager::getInstance()->execute($fieldName)
+				);
+				$this->error = $message;
+				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * モジュールの関数を実行し、結果を返す
+	 *
+	 * @access private
+	 * @param string $function 関数名
+	 * @return mixed 関数の戻り値。BSRecordならIDを、それ以外ならそのまま返す。
+	 */
+	private function executeModuleFunction ($function) {
+		$module = $this->controller->getModule();
+		$value = $module->$function();
+		if ($value instanceof BSRecord) {
+			$value = $value->getID();
+		}
+		return $value;
 	}
 
 	/**
