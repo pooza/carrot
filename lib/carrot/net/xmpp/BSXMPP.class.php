@@ -19,16 +19,18 @@ class BSXMPP extends XMPPHP_XMPP {
 	 * @access public
 	 */
 	public function __construct () {
-		parent::__construct(
-			BS_XMPP_HOST,
-			BS_XMPP_PORT,
-			BS_APP_XMPP_JID,
-			BSCrypt::getInstance()->decrypt(BS_APP_XMPP_PASSWORD),
-			BSController::getInstance()->getName('en'),
-			BS_XMPP_SERVER
-		);
-		$this->connect();
-		$this->processUntil('session_start');
+		try {
+			parent::__construct(
+				BS_XMPP_HOST,
+				BS_XMPP_PORT,
+				BS_APP_XMPP_JID,
+				BSCrypt::getInstance()->decrypt(BS_APP_XMPP_PASSWORD),
+				BSController::getInstance()->getName('en'),
+				BS_XMPP_SERVER
+			);
+		} catch(XMPPHP_Exception $e) {
+			throw new BSXMPPException($e->getMessage());
+		}
 		$this->setTo(BSAdministrator::getJabberID());
 	}
 
@@ -66,6 +68,10 @@ class BSXMPP extends XMPPHP_XMPP {
 			throw new BSXMPPException('宛先が指定されていません。');
 		}
 		try {
+			if (!$this->authed) {
+				$this->connect();
+				$this->processUntil('session_start');
+			}
 			$this->message($this->to->getContents(), $message);
 		} catch(XMPPHP_Exception $e) {
 			throw new BSXMPPException($e->getMessage());

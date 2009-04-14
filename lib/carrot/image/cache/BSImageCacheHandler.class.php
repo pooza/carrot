@@ -46,7 +46,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags オプションのビット列
 	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
@@ -70,7 +70,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags オプションのビット列
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
@@ -97,7 +97,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param string $class クラス名
 	 * @return BSFile サムネイルファイル
@@ -121,7 +121,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @return BSImage サムネイル
 	 */
@@ -137,7 +137,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param mixed $contents サムネイルの内容
 	 * @param BSImage サムネイル
@@ -166,7 +166,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access public
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 */
 	public function removeThumbnail (BSImageContainer $record, $size) {
 		if ($dir = $this->getEntryDirectory($record, $size)) {
@@ -189,7 +189,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access private
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
 	private function getEntryName (BSImageContainer $record, $size) {
@@ -201,7 +201,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access private
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
 	private function getEntryDirectory (BSImageContainer $record, $size) {

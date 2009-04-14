@@ -16,7 +16,7 @@ interface BSImageContainer {
 	 * 画像の情報を返す
 	 *
 	 * @access public
-	 * @param string $size サイズ (s|l)
+	 * @param string $size サイズ名
 	 * @return string[] 画像の情報
 	 */
 	public function getImageInfo ($size = null);
@@ -25,8 +25,8 @@ interface BSImageContainer {
 	 * 画像ファイルを返す
 	 *
 	 * @access public
-	 * @param string $size サイズ (s|l)
-	 * @return UoImageFile 画像ファイル
+	 * @param string $size サイズ名
+	 * @return BSImageFile 画像ファイル
 	 */
 	public function getImageFile ($size = null);
 
@@ -35,7 +35,7 @@ interface BSImageContainer {
 	 *
 	 * @access public
 	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ (s|l)
+	 * @param string $size サイズ名
 	 */
 	public function setImageFile (BSImageFile $file, $size = null);
 
@@ -43,7 +43,7 @@ interface BSImageContainer {
 	 * 画像ファイルベース名を返す
 	 *
 	 * @access public
-	 * @param string $size サイズ
+	 * @param string $size サイズ名
 	 * @return string 画像ファイルベース名
 	 */
 	public function getImageFileBaseName ($size = null);
