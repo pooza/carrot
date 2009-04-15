@@ -20,7 +20,12 @@ class BSPairValidator extends BSValidator {
 	 */
 	public function initialize ($parameters = array()) {
 		$this['field'] = null;
-		$this['match_error'] = '一致しません。';
+		$this['equal'] = true;
+		$this['equal_error'] = '一致しません。';
+		$this['lesser'] = false;
+		$this['lesser_error'] = '小さすぎます。';
+		$this['greater'] = false;
+		$this['greater_error'] = '大きすぎます。';
 		return parent::initialize($parameters);
 	}
 
@@ -32,12 +37,20 @@ class BSPairValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!$name = $this['field']) {
+		if (BSString::isBlank($name = $this['field'])) {
 			return true;
 		}
 
-		if ($value != BSRequest::getInstance()->getParameter($name)) {
-			$this->error = $this['match_error'];
+		if ($this['equal'] && ($value != BSRequest::getInstance()->getParameter($name))) {
+			$this->error = $this['equal_error'];
+			return false;
+		}
+		if ($this['lesser'] && (BSRequest::getInstance()->getParameter($name) < $value)) {
+			$this->error = $this['lesser_error'];
+			return false;
+		}
+		if ($this['greater'] && ($value < BSRequest::getInstance()->getParameter($name))) {
+			$this->error = $this['greater_error'];
 			return false;
 		}
 
