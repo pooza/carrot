@@ -17,11 +17,11 @@ class BSTimeValidator extends BSValidator {
 	 *
 	 * fiedlsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $value 対象文字列
 	 * @return string 時刻
 	 */
-	private function getTime ($value) {
+	protected function getTime ($value) {
 		try {
 			$date = BSDate::getNow()->clearTime();
 			if ($fields = $this['fields']) {
@@ -29,7 +29,7 @@ class BSTimeValidator extends BSValidator {
 					$date[$key] = $this->request[$value];
 				}
 			} else {
-				$date->setDate('2001-01-01 ' . $value);
+				$date->setDate($value);
 			}
 			if ($date->validate()) {
 				return $date->format('H:i:s');
