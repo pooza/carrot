@@ -135,6 +135,10 @@ table tr.alert td {
 	background-color: #FF6633;
 }
 
+table th.holiday {
+	color: red;
+}
+
 .alert {
 	color: red;
 }
