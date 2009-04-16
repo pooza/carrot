@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSRecordValidator extends BSValidator {
+	private $table;
 
 	/**
 	 * 初期化
@@ -27,6 +28,7 @@ class BSRecordValidator extends BSValidator {
 		$this['exist_error'] = '登録されていません。';
 		$this['duplicate_error'] = '重複します。';
 		$this['valid_values'] = array();
+		$this['criteria'] = array();
 		return parent::initialize($parameters);
 	}
 
@@ -66,9 +68,8 @@ class BSRecordValidator extends BSValidator {
 	private function isExists ($id) {
 		if ($recordFound = $this->getRecord($id)) {
 			if ($this['update']) {
-				$module = $this->controller->getModule();
-				if ($record = $module->getRecord()) {
-					return ($record->getID() != $recordFound->getID());
+				if ($recordModule = $this->controller->getModule()->getRecord()) {
+					return ($recordModule->getID() != $recordFound->getID());
 				} else {
 					return false;
 				}
@@ -88,20 +89,12 @@ class BSRecordValidator extends BSValidator {
 	 */
 	private function validateValues ($id) {
 		$record = $this->getRecord($id);
-		foreach ($this['valid_values'] as $fieldName => $validValue) {
-			if (is_array($validValue)) {
-				if (isset($validValue['function'])) {
-					$validValues = array($this->executeModuleFunction($validValue['function']));
-				} else {
-					$validValues = $validValue;
-				}
-			} else {
-				$validValues = array($validValue);
-			}
-			if (!in_array($record->getAttribute($fieldName), $validValues)) {
+		foreach ($this['valid_values'] as $field => $value) {
+			$values = new BSArray($value);
+			if (!$values->isIncluded($record[$field])) {
 				$message = sprintf(
 					'%sが正しくありません。',
-					BSTranslateManager::getInstance()->execute($fieldName)
+					BSTranslateManager::getInstance()->execute($field)
 				);
 				$this->error = $message;
 				return false;
@@ -118,8 +111,7 @@ class BSRecordValidator extends BSValidator {
 	 * @return mixed 関数の戻り値。BSRecordならIDを、それ以外ならそのまま返す。
 	 */
 	private function executeModuleFunction ($function) {
-		$module = $this->controller->getModule();
-		$value = $module->$function();
+		$value = $this->controller->getModule()->$function();
 		if ($value instanceof BSRecord) {
 			$value = $value->getID();
 		}
@@ -136,6 +128,12 @@ class BSRecordValidator extends BSValidator {
 	private function getRecord ($id) {
 		try {
 			$values = array($this['field'] => $id);
+			foreach ((array)$this['criteria'] as $field => $value) {
+				if (isset($value['function'])) {
+					$value = $this->executeModuleFunction($value['function']);
+				}
+				$values[$field] = $value;
+			}
 			return $this->getTable()->getRecord($values);
 		} catch (Exception $e) {
 		}
@@ -148,10 +146,13 @@ class BSRecordValidator extends BSValidator {
 	 * @return BSTableHandler 対象テーブル
 	 */
 	private function getTable () {
-		if (!$class = $this['class']) {
-			$class = $this['table'];
+		if (!$this->table) {
+			if (BSString::isBlank($class = $this['class'])) {
+				$class = $this['table'];
+			}
+			$this->table = BSTableHandler::getInstance($class);
 		}
-		return BSTableHandler::getInstance($class);
+		return $this->table;
 	}
 }
 
