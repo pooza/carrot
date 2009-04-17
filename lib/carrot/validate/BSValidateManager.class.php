@@ -46,6 +46,20 @@ class BSValidateManager implements IteratorAggregate {
 	}
 
 	/**
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'request':
+				return BSRequest::getInstance();
+			default:
+				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
+		}
+	}
+
+	/**
 	 * 実行
 	 *
 	 * @access public
@@ -53,23 +67,23 @@ class BSValidateManager implements IteratorAggregate {
 	public function execute () {
 		foreach ($this as $name => $info) {
 			if ($info['is_file']) {
-				$value = BSRequest::getInstance()->getFile($name);
+				$value = $this->request->getFile($name);
 				$value['is_file'] = true;
 			} else {
-				$value = BSRequest::getInstance()->getParameter($name);
+				$value = $this->request[$name];
 			}
 			$enable = (!BSEmptyValidator::isEmpty($value) || $info['is_virtual']);
 
 			foreach ($info['validators'] as $validator) {
 				if ($enable || ($validator instanceof BSEmptyValidator)) {
 					if (!$validator->execute($value)) {
-						BSRequest::getInstance()->setError($name, $validator->getError());
+						$this->request->setError($name, $validator->getError());
 						break;
 					}
 				}
 			}
 		}
-		return !BSRequest::getInstance()->hasErrors();
+		return !$this->request->hasErrors();
 	}
 
 	/**

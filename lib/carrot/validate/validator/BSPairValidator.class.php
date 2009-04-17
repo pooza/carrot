@@ -41,15 +41,15 @@ class BSPairValidator extends BSValidator {
 			return true;
 		}
 
-		if ($this['equal'] && ($value != BSRequest::getInstance()->getParameter($name))) {
+		if ($this['equal'] && ($value != $this->request[$name])) {
 			$this->error = $this['equal_error'];
 			return false;
 		}
-		if ($this['lesser'] && (BSRequest::getInstance()->getParameter($name) < $value)) {
+		if ($this['lesser'] && ($this->request[$name] < $value)) {
 			$this->error = $this['lesser_error'];
 			return false;
 		}
-		if ($this['greater'] && ($value < BSRequest::getInstance()->getParameter($name))) {
+		if ($this['greater'] && ($value < $this->request[$name])) {
 			$this->error = $this['greater_error'];
 			return false;
 		}
