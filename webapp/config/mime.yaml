@@ -32,6 +32,7 @@ types:
   ttf: application/x-truetype-font
   txt: text/plain
   yaml: text/yaml
+  yml: text/yaml
   xls: application/vnd.ms-excel
   xml: application/xml
   zip: application/zip

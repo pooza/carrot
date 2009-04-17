@@ -133,10 +133,10 @@ abstract class BSMobileCarrier {
 	/**
 	 * MPC向けキャリア名を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return string キャリア名
 	 */
-	protected function getMPCCode () {
+	public function getMPCCode () {
 		return strtoupper($this->getName());
 	}
 

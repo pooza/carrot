@@ -13,6 +13,9 @@
 - class: BSLayoutConfigCompiler
   params:
     pattern: layout/
+- class: BSPictogramConfigCompiler
+  params:
+    pattern: pictogram
 - class: BSObjectRegisterConfigCompiler
   params:
     pattern: filters

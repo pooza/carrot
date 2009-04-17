@@ -1,0 +1,1310 @@
+# 絵文字辞書
+#
+# @package org.carrot-framework
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+-
+  names:
+    - 晴れ
+  pictogram:
+    Docomo: 63647
+-
+  names:
+    - 曇り
+  pictogram:
+    Docomo: 63648
+- 
+  names:
+    - 雨
+  pictogram:
+    Docomo: 63649
+- 
+  names:
+    - 雪
+  pictogram:
+    Docomo: 63650
+- 
+  names:
+    - 雷
+  pictogram:
+    Docomo: 63651
+- 
+  names:
+    - 台風
+  pictogram:
+    Docomo: 63652
+- 
+  names:
+    - 霧
+  pictogram:
+    Docomo: 63653
+- 
+  names:
+    - 小雨
+  pictogram:
+    Docomo: 63654
+- 
+  names:
+    - 牡羊座
+  pictogram:
+    Docomo: 63655
+- 
+  names:
+    - 牡牛座
+  pictogram:
+    Docomo: 63656
+- 
+  names:
+    - 双子座
+  pictogram:
+    Docomo: 63657
+- 
+  names:
+    - 蟹座
+  pictogram:
+    Docomo: 63658
+- 
+  names:
+    - 獅子座
+  pictogram:
+    Docomo: 63659
+- 
+  names:
+    - 乙女座
+  pictogram:
+    Docomo: 63660
+- 
+  names:
+    - 天秤座
+  pictogram:
+    Docomo: 63661
+- 
+  names:
+    - 蠍座
+  pictogram:
+    Docomo: 63662
+- 
+  names:
+    - 射手座
+  pictogram:
+    Docomo: 63663
+- 
+  names:
+    - 山羊座
+  pictogram:
+    Docomo: 63664
+- 
+  names:
+    - 水瓶座
+  pictogram:
+    Docomo: 63665
+- 
+  names:
+    - 魚座
+  pictogram:
+    Docomo: 63666
+- 
+  names:
+    - スポーツ
+  pictogram:
+    Docomo: 63667
+- 
+  names:
+    - 野球
+  pictogram:
+    Docomo: 63668
+- 
+  names:
+    - ゴルフ
+  pictogram:
+    Docomo: 63669
+- 
+  names:
+    - テニス
+  pictogram:
+    Docomo: 63670
+- 
+  names:
+    - サッカー
+  pictogram:
+    Docomo: 63671
+- 
+  names:
+    - スキー
+  pictogram:
+    Docomo: 63672
+- 
+  names:
+    - バスケットボール
+  pictogram:
+    Docomo: 63673
+- 
+  names:
+    - モータースポーツ
+  pictogram:
+    Docomo: 63674
+- 
+  names:
+    - ポケットベル
+  pictogram:
+    Docomo: 63675
+- 
+  names:
+    - 電車
+  pictogram:
+    Docomo: 63676
+- 
+  names:
+    - 地下鉄
+  pictogram:
+    Docomo: 63677
+- 
+  names:
+    - 新幹線
+  pictogram:
+    Docomo: 63678
+- 
+  names:
+    - 車(セダン)
+    - セダン
+  pictogram:
+    Docomo: 63679
+- 
+  names:
+    - 車(RV)
+    - RV
+  pictogram:
+    Docomo: 63680
+- 
+  names:
+    - バス
+  pictogram:
+    Docomo: 63681
+- 
+  names:
+    - 船
+  pictogram:
+    Docomo: 63682
+- 
+  names:
+    - 飛行機
+  pictogram:
+    Docomo: 63683
+- 
+  names:
+    - 家
+  pictogram:
+    Docomo: 63684
+- 
+  names:
+    - ビル
+  pictogram:
+    Docomo: 63685
+- 
+  names:
+    - 郵便局
+  pictogram:
+    Docomo: 63686
+- 
+  names:
+    - 病院
+  pictogram:
+    Docomo: 63687
+- 
+  names:
+    - 銀行
+  pictogram:
+    Docomo: 63688
+- 
+  names:
+    - ATM
+  pictogram:
+    Docomo: 63689
+- 
+  names:
+    - ホテル
+  pictogram:
+    Docomo: 63690
+- 
+  names:
+    - コンビニ
+  pictogram:
+    Docomo: 63691
+- 
+  names:
+    - ガソリンスタンド
+  pictogram:
+    Docomo: 63692
+- 
+  names:
+    - 駐車場
+  pictogram:
+    Docomo: 63693
+- 
+  names:
+    - 信号
+  pictogram:
+    Docomo: 63694
+- 
+  names:
+    - トイレ
+  pictogram:
+    Docomo: 63695
+- 
+  names:
+    - レストラン
+  pictogram:
+    Docomo: 63696
+- 
+  names:
+    - 喫茶店
+  pictogram:
+    Docomo: 63697
+- 
+  names:
+    - バー
+  pictogram:
+    Docomo: 63698
+- 
+  names:
+    - ビール
+  pictogram:
+    Docomo: 63699
+- 
+  names:
+    - ファーストフード
+  pictogram:
+    Docomo: 63700
+- 
+  names:
+    - ブティック
+  pictogram:
+    Docomo: 63701
+- 
+  names:
+    - 美容院
+  pictogram:
+    Docomo: 63702
+- 
+  names:
+    - カラオケ
+  pictogram:
+    Docomo: 63703
+- 
+  names:
+    - 映画
+  pictogram:
+    Docomo: 63704
+- 
+  names:
+    - 右斜め上
+  pictogram:
+    Docomo: 63705
+- 
+  names:
+    - 遊園地
+  pictogram:
+    Docomo: 63706
+- 
+  names:
+    - 音楽
+  pictogram:
+    Docomo: 63707
+- 
+  names:
+    - アート
+  pictogram:
+    Docomo: 63708
+- 
+  names:
+    - 演劇
+  pictogram:
+    Docomo: 63709
+- 
+  names:
+    - イベント
+  pictogram:
+    Docomo: 63710
+- 
+  names:
+    - チケット
+  pictogram:
+    Docomo: 63711
+- 
+  names:
+    - 喫煙
+  pictogram:
+    Docomo: 63712
+- 
+  names:
+    - 禁煙
+  pictogram:
+    Docomo: 63713
+- 
+  names:
+    - カメラ
+  pictogram:
+    Docomo: 63714
+- 
+  names:
+    - カバン
+  pictogram:
+    Docomo: 63715
+- 
+  names:
+    - 本
+  pictogram:
+    Docomo: 63716
+- 
+  names:
+    - リボン
+  pictogram:
+    Docomo: 63717
+- 
+  names:
+    - プレゼント
+  pictogram:
+    Docomo: 63718
+- 
+  names:
+    - バースデー
+  pictogram:
+    Docomo: 63719
+- 
+  names:
+    - 電話
+  pictogram:
+    Docomo: 63720
+- 
+  names:
+    - 携帯電話
+  pictogram:
+    Docomo: 63721
+- 
+  names:
+    - メモ
+  pictogram:
+    Docomo: 63722
+- 
+  names:
+    - TV
+  pictogram:
+    Docomo: 63723
+- 
+  names:
+    - ゲーム
+  pictogram:
+    Docomo: 63724
+- 
+  names:
+    - CD
+  pictogram:
+    Docomo: 63725
+- 
+  names:
+    - ハート
+  pictogram:
+    Docomo: 63726
+- 
+  names:
+    - スペード
+  pictogram:
+    Docomo: 63727
+- 
+  names:
+    - ダイヤ
+  pictogram:
+    Docomo: 63728
+- 
+  names:
+    - クラブ
+  pictogram:
+    Docomo: 63729
+- 
+  names:
+    - 目
+  pictogram:
+    Docomo: 63730
+- 
+  names:
+    - 耳
+  pictogram:
+    Docomo: 63731
+- 
+  names:
+    - 手(グー)
+    - グー
+  pictogram:
+    Docomo: 63732
+- 
+  names:
+    - 手(チョキ)
+    - チョキ
+  pictogram:
+    Docomo: 63733
+- 
+  names:
+    - 手(パー)
+    - パー
+  pictogram:
+    Docomo: 63734
+- 
+  names:
+    - 右斜め下
+  pictogram:
+    Docomo: 63735
+- 
+  names:
+    - 左斜め上
+  pictogram:
+    Docomo: 63736
+- 
+  names:
+    - 足
+  pictogram:
+    Docomo: 63737
+- 
+  names:
+    - くつ
+  pictogram:
+    Docomo: 63738
+- 
+  names:
+    - 眼鏡
+  pictogram:
+    Docomo: 63739
+- 
+  names:
+    - 車椅子
+  pictogram:
+    Docomo: 63740
+- 
+  names:
+    - 新月
+  pictogram:
+    Docomo: 63808
+- 
+  names:
+    - やや欠け月
+  pictogram:
+    Docomo: 63809
+- 
+  names:
+    - 半月
+  pictogram:
+    Docomo: 63810
+- 
+  names:
+    - 三日月
+  pictogram:
+    Docomo: 63811
+- 
+  names:
+    - 満月
+  pictogram:
+    Docomo: 63812
+- 
+  names:
+    - 犬
+  pictogram:
+    Docomo: 63813
+- 
+  names:
+    - 猫
+  pictogram:
+    Docomo: 63814
+- 
+  names:
+    - リゾート
+  pictogram:
+    Docomo: 63815
+- 
+  names:
+    - クリスマス
+  pictogram:
+    Docomo: 63816
+- 
+  names:
+    - 左斜め下
+  pictogram:
+    Docomo: 63817
+- 
+  names:
+    - phoneto
+  pictogram:
+    Docomo: 63858
+- 
+  names:
+    - mailto
+  pictogram:
+    Docomo: 63859
+- 
+  names:
+    - faxto
+  pictogram:
+    Docomo: 63860
+- 
+  names:
+    - iモード
+  pictogram:
+    Docomo: 63861
+- 
+  names:
+    - iモード(枠付き)
+  pictogram:
+    Docomo: 63862
+- 
+  names:
+    - メール
+  pictogram:
+    Docomo: 63863
+- 
+  names:
+    - ドコモ提供
+  pictogram:
+    Docomo: 63864
+- 
+  names:
+    - ドコモポイント
+  pictogram:
+    Docomo: 63865
+- 
+  names:
+    - 有料
+  pictogram:
+    Docomo: 63866
+- 
+  names:
+    - 無料
+  pictogram:
+    Docomo: 63867
+- 
+  names:
+    - ID
+  pictogram:
+    Docomo: 63868
+- 
+  names:
+    - パスワード
+  pictogram:
+    Docomo: 63869
+- 
+  names:
+    - 次項有
+  pictogram:
+    Docomo: 63870
+- 
+  names:
+    - クリア
+  pictogram:
+    Docomo: 63872
+- 
+  names:
+    - サーチ(調べる)
+    - サーチ
+    - 調べる
+  pictogram:
+    Docomo: 63873
+- 
+  names:
+    - NEW
+  pictogram:
+    Docomo: 63874
+- 
+  names:
+    - 位置情報
+  pictogram:
+    Docomo: 63875
+- 
+  names:
+    - フリーダイヤル
+  pictogram:
+    Docomo: 63876
+- 
+  names:
+    - シャープダイヤル
+  pictogram:
+    Docomo: 63877
+- 
+  names:
+    - モバQ
+  pictogram:
+    Docomo: 63878
+- 
+  names:
+    - 1
+  pictogram:
+    Docomo: 63879
+- 
+  names:
+    - 2
+  pictogram:
+    Docomo: 63880
+- 
+  names:
+    - 3
+  pictogram:
+    Docomo: 63881
+- 
+  names:
+    - 4
+  pictogram:
+    Docomo: 63882
+- 
+  names:
+    - 5
+  pictogram:
+    Docomo: 63883
+- 
+  names:
+    - 6
+  pictogram:
+    Docomo: 63884
+- 
+  names:
+    - 7
+  pictogram:
+    Docomo: 63885
+- 
+  names:
+    - 8
+  pictogram:
+    Docomo: 63886
+- 
+  names:
+    - 9
+  pictogram:
+    Docomo: 63887
+- 
+  names:
+    - 0
+  pictogram:
+    Docomo: 63888
+- 
+  names:
+    - 決定
+  pictogram:
+    Docomo: 63920
+- 
+  names:
+    - 黒ハート
+  pictogram:
+    Docomo: 63889
+- 
+  names:
+    - 揺れるハート
+  pictogram:
+    Docomo: 63890
+- 
+  names:
+    - 失恋
+  pictogram:
+    Docomo: 63891
+- 
+  names:
+    - ハートたち(複数ハート)
+    - ハートたち
+    - 複数ハート
+  pictogram:
+    Docomo: 63892
+- 
+  names:
+    - わーい(嬉しい顔)
+    - わーい
+    - 嬉しい顔
+  pictogram:
+    Docomo: 63893
+- 
+  names:
+    - ちっ(怒った顔)
+    - ちっ
+    - 怒った顔
+  pictogram:
+    Docomo: 63894
+- 
+  names:
+    - がく〜(落胆した顔)
+    - がく〜
+    - がくー
+    - 落胆した顔
+  pictogram:
+    Docomo: 63895
+- 
+  names:
+    - もうやだ〜(悲しい顔)
+    - もうやだ〜
+    - もうやだー
+    - 悲しい顔
+  pictogram:
+    Docomo: 63896
+- 
+  names:
+    - ふらふら
+  pictogram:
+    Docomo: 63897
+- 
+  names:
+    - グッド(上向き矢印)
+    - グッド
+    - 上向き矢印
+  pictogram:
+    Docomo: 63898
+- 
+  names:
+    - るんるん
+  pictogram:
+    Docomo: 63899
+- 
+  names:
+    - いい気分(温泉)
+    - いい気分
+    - 温泉
+  pictogram:
+    Docomo: 63900
+- 
+  names:
+    - かわいい
+  pictogram:
+    Docomo: 63901
+- 
+  names:
+    - キスマーク
+  pictogram:
+    Docomo: 63902
+- 
+  names:
+    - ぴかぴか(新しい)
+    - ぴかぴか
+    - 新しい
+  pictogram:
+    Docomo: 63903
+- 
+  names:
+    - ひらめき
+  pictogram:
+    Docomo: 63904
+- 
+  names:
+    - むかっ(怒り)
+    - むかっ
+    - 怒り
+  pictogram:
+    Docomo: 63905
+- 
+  names:
+    - パンチ
+  pictogram:
+    Docomo: 63906
+- 
+  names:
+    - 爆弾
+  pictogram:
+    Docomo: 63907
+- 
+  names:
+    - ムード
+  pictogram:
+    Docomo: 63908
+- 
+  names:
+    - バッド(下向き矢印)
+    - バッド
+    - 下向き矢印
+  pictogram:
+    Docomo: 63909
+- 
+  names:
+    - 眠い(睡眠)
+    - 眠い
+    - 睡眠
+  pictogram:
+    Docomo: 63910
+- 
+  names:
+    - exclamation
+  pictogram:
+    Docomo: 63911
+- 
+  names:
+    - exclamation&question
+  pictogram:
+    Docomo: 63912
+- 
+  names:
+    - exclamation×2
+  pictogram:
+    Docomo: 63913
+- 
+  names:
+    - どんっ(衝撃)
+    - どんっ
+    - 衝撃
+  pictogram:
+    Docomo: 63914
+- 
+  names:
+    - あせあせ(飛び散る汗)
+    - あせあせ
+    - 飛び散る汗
+  pictogram:
+    Docomo: 63915
+- 
+  names:
+    - たらーっ(汗)
+    - たらーっ
+    - あせ
+  pictogram:
+    Docomo: 63916
+- 
+  names:
+    - ダッシュ(走り出すさま)
+    - ダッシュ
+    - 走り出すさま
+  pictogram:
+    Docomo: 63917
+- 
+  names:
+    - ー(長音記号1)
+    - ー
+    - 長音記号1
+  pictogram:
+    Docomo: 63918
+- 
+  names:
+    - ー(長音記号2)
+    - 長音記号2
+  pictogram:
+    Docomo: 63919
+- 
+  names:
+    - カチンコ
+  pictogram:
+    Docomo: 63824
+- 
+  names:
+    - ふくろ
+  pictogram:
+    Docomo: 63825
+- 
+  names:
+    - ペン
+  pictogram:
+    Docomo: 63826
+- 
+  names:
+    - 人影
+  pictogram:
+    Docomo: 63829
+- 
+  names:
+    - いす
+  pictogram:
+    Docomo: 63830
+- 
+  names:
+    - 夜
+  pictogram:
+    Docomo: 63831
+- 
+  names:
+    - soon
+  pictogram:
+    Docomo: 63835
+- 
+  names:
+    - on
+  pictogram:
+    Docomo: 63836
+- 
+  names:
+    - end
+  pictogram:
+    Docomo: 63837
+- 
+  names:
+    - 時計
+  pictogram:
+    Docomo: 63838
+- 
+  names:
+    - iアプリ
+  pictogram:
+    Docomo: 63921
+- 
+  names:
+    - iアプリ(枠付き)
+  pictogram:
+    Docomo: 63922
+- 
+  names:
+    - Tシャツ(ボーダー)
+    - Tシャツ
+  pictogram:
+    Docomo: 63923
+- 
+  names:
+    - がま口財布
+  pictogram:
+    Docomo: 63924
+- 
+  names:
+    - 化粧
+  pictogram:
+    Docomo: 63925
+- 
+  names:
+    - ジーンズ
+  pictogram:
+    Docomo: 63926
+- 
+  names:
+    - スノボ
+  pictogram:
+    Docomo: 63927
+- 
+  names:
+    - チャペル
+  pictogram:
+    Docomo: 63928
+- 
+  names:
+    - ドア
+  pictogram:
+    Docomo: 63929
+- 
+  names:
+    - ドル袋
+  pictogram:
+    Docomo: 63930
+- 
+  names:
+    - パソコン
+  pictogram:
+    Docomo: 63931
+- 
+  names:
+    - ラブレター
+  pictogram:
+    Docomo: 63932
+- 
+  names:
+    - レンチ
+  pictogram:
+    Docomo: 63933
+- 
+  names:
+    - 鉛筆
+  pictogram:
+    Docomo: 63934
+- 
+  names:
+    - 王冠
+  pictogram:
+    Docomo: 63935
+- 
+  names:
+    - 指輪
+  pictogram:
+    Docomo: 63936
+- 
+  names:
+    - 砂時計
+  pictogram:
+    Docomo: 63937
+- 
+  names:
+    - 自転車
+  pictogram:
+    Docomo: 63938
+- 
+  names:
+    - 湯のみ
+  pictogram:
+    Docomo: 63939
+- 
+  names:
+    - 腕時計
+  pictogram:
+    Docomo: 63940
+- 
+  names:
+    - 考えてる顔
+  pictogram:
+    Docomo: 63941
+- 
+  names:
+    - ほっとした顔
+  pictogram:
+    Docomo: 63942
+- 
+  names:
+    - 冷や汗
+  pictogram:
+    Docomo: 63943
+- 
+  names:
+    - 冷や汗2
+  pictogram:
+    Docomo: 63944
+- 
+  names:
+    - ぷっくっくな顔
+  pictogram:
+    Docomo: 63945
+- 
+  names:
+    - ボケーっとした顔
+  pictogram:
+    Docomo: 63946
+- 
+  names:
+    - 目がハート
+  pictogram:
+    Docomo: 63947
+- 
+  names:
+    - 指でOK
+  pictogram:
+    Docomo: 63948
+- 
+  names:
+    - あっかんべー
+  pictogram:
+    Docomo: 63949
+- 
+  names:
+    - ウィンク
+  pictogram:
+    Docomo: 63950
+- 
+  names:
+    - うれしい顔
+  pictogram:
+    Docomo: 63951
+- 
+  names:
+    - がまん顔
+  pictogram:
+    Docomo: 63952
+- 
+  names:
+    - 猫2
+  pictogram:
+    Docomo: 63953
+- 
+  names:
+    - 泣き顔
+  pictogram:
+    Docomo: 63954
+- 
+  names:
+    - 涙
+  pictogram:
+    Docomo: 63955
+- 
+  names:
+    - NG
+  pictogram:
+    Docomo: 63956
+- 
+  names:
+    - クリップ
+  pictogram:
+    Docomo: 63957
+- 
+  names:
+    - コピーライト
+  pictogram:
+    Docomo: 63958
+- 
+  names:
+    - トレードマーク
+  pictogram:
+    Docomo: 63959
+- 
+  names:
+    - 走る人
+  pictogram:
+    Docomo: 63960
+- 
+  names:
+    - マル秘
+  pictogram:
+    Docomo: 63961
+- 
+  names:
+    - リサイクル
+  pictogram:
+    Docomo: 63962
+- 
+  names:
+    - レジスタードトレードマーク
+  pictogram:
+    Docomo: 63963
+- 
+  names:
+    - 危険・警告
+  pictogram:
+    Docomo: 63964
+- 
+  names:
+    - 禁止
+  pictogram:
+    Docomo: 63965
+- 
+  names:
+    - 空室・空席・空車
+  pictogram:
+    Docomo: 63966
+- 
+  names:
+    - 合格マーク
+  pictogram:
+    Docomo: 63967
+- 
+  names:
+    - 満室・満席・満車
+  pictogram:
+    Docomo: 63968
+- 
+  names:
+    - 矢印左右
+  pictogram:
+    Docomo: 63969
+- 
+  names:
+    - 矢印上下
+  pictogram:
+    Docomo: 63970
+- 
+  names:
+    - 学校
+  pictogram:
+    Docomo: 63971
+- 
+  names:
+    - 波
+  pictogram:
+    Docomo: 63972
+- 
+  names:
+    - 富士山
+  pictogram:
+    Docomo: 63973
+- 
+  names:
+    - クローバー
+  pictogram:
+    Docomo: 63974
+- 
+  names:
+    - さくらんぼ
+  pictogram:
+    Docomo: 63975
+- 
+  names:
+    - チューリップ
+  pictogram:
+    Docomo: 63976
+- 
+  names:
+    - バナナ
+  pictogram:
+    Docomo: 63977
+- 
+  names:
+    - りんご
+  pictogram:
+    Docomo: 63978
+- 
+  names:
+    - 芽
+  pictogram:
+    Docomo: 63979
+- 
+  names:
+    - もみじ
+  pictogram:
+    Docomo: 63980
+- 
+  names:
+    - 桜
+  pictogram:
+    Docomo: 63981
+- 
+  names:
+    - おにぎり
+  pictogram:
+    Docomo: 63982
+- 
+  names:
+    - ショートケーキ
+  pictogram:
+    Docomo: 63983
+- 
+  names:
+    - とっくり(おちょこ付き)
+    - とっくり
+  pictogram:
+    Docomo: 63984
+- 
+  names:
+    - どんぶり
+  pictogram:
+    Docomo: 63985
+- 
+  names:
+    - パン
+  pictogram:
+    Docomo: 63986
+- 
+  names:
+    - かたつむり
+  pictogram:
+    Docomo: 63987
+- 
+  names:
+    - ひよこ
+  pictogram:
+    Docomo: 63988
+- 
+  names:
+    - ペンギン
+  pictogram:
+    Docomo: 63989
+- 
+  names:
+    - 魚
+  pictogram:
+    Docomo: 63990
+- 
+  names:
+    - うまい!
+  pictogram:
+    Docomo: 63991
+- 
+  names:
+    - ウッシッシ
+  pictogram:
+    Docomo: 63992
+- 
+  names:
+    - ウマ
+  pictogram:
+    Docomo: 63993
+- 
+  names:
+    - ブタ
+  pictogram:
+    Docomo: 63994
+- 
+  names:
+    - ワイングラス
+  pictogram:
+    Docomo: 63995
+- 
+  names:
+    - げっそり
+  pictogram:
+    Docomo: 63996
