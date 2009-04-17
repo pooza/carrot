@@ -215,10 +215,11 @@ class MPC_Common
 
                 require(BSConfigManager::getInstance()->compile('pictogram'));
                 if (isset($config['codes'][$data])) {
-                    return '[[pictogram:' . $data . ']]';
+                    $tag = new BSPictogramTag(null);
+                    return '[[' . $tag->getTagName() . ':' . $data . ']]';
                 } else {
                     // 設定ファイルに載っていない絵文字は無視
-                    return null;
+                    return '■';
                 }
             }
             //
