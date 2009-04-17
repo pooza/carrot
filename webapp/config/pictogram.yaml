@@ -7,1304 +7,1453 @@
 -
   names:
     - 晴れ
-  pictogram:
+  pictograms:
     Docomo: 63647
+    Au: 63072
+    SoftBank: 57418
 -
   names:
     - 曇り
-  pictogram:
+  pictograms:
     Docomo: 63648
-- 
+    Au: 63077
+    SoftBank: 57417
+-
   names:
     - 雨
-  pictogram:
+  pictograms:
     Docomo: 63649
-- 
+    Au: 63076
+    SoftBank: 57419
+-
   names:
     - 雪
-  pictogram:
+  pictograms:
     Docomo: 63650
-- 
+    Au: 63069
+    SoftBank: 57416
+-
   names:
     - 雷
-  pictogram:
+  pictograms:
     Docomo: 63651
-- 
+    Au: 63071
+    SoftBank: 57661
+-
   names:
     - 台風
-  pictogram:
+  pictograms:
     Docomo: 63652
-- 
-  names:
-    - 霧
-  pictogram:
-    Docomo: 63653
-- 
+    Au: 63041
+    SoftBank: 58435
+-
   names:
     - 小雨
-  pictogram:
+  pictograms:
     Docomo: 63654
-- 
+    Au: 62396
+    SoftBank: 58428
+-
   names:
     - 牡羊座
-  pictogram:
+  pictograms:
     Docomo: 63655
-- 
+    Au: 63079
+    SoftBank: 57919
+-
   names:
     - 牡牛座
-  pictogram:
+  pictograms:
     Docomo: 63656
-- 
+    Au: 63080
+    SoftBank: 57920
+-
   names:
     - 双子座
-  pictogram:
+  pictograms:
     Docomo: 63657
-- 
+    Au: 63081
+    SoftBank: 57921
+-
   names:
     - 蟹座
-  pictogram:
+  pictograms:
     Docomo: 63658
-- 
+    Au: 63082
+    SoftBank: 57922
+-
   names:
     - 獅子座
-  pictogram:
+  pictograms:
     Docomo: 63659
-- 
+    Au: 63083
+    SoftBank: 57923
+-
   names:
     - 乙女座
-  pictogram:
+  pictograms:
     Docomo: 63660
-- 
+    Au: 63084
+    SoftBank: 57924
+-
   names:
     - 天秤座
-  pictogram:
+  pictograms:
     Docomo: 63661
-- 
+    Au: 63085
+    SoftBank: 57925
+-
   names:
     - 蠍座
-  pictogram:
+  pictograms:
     Docomo: 63662
-- 
+    Au: 63086
+    SoftBank: 57926
+-
   names:
     - 射手座
-  pictogram:
+  pictograms:
     Docomo: 63663
-- 
+    Au: 63087
+    SoftBank: 57927
+-
   names:
     - 山羊座
-  pictogram:
+  pictograms:
     Docomo: 63664
-- 
+    Au: 63088
+    SoftBank: 57928
+-
   names:
     - 水瓶座
-  pictogram:
+  pictograms:
     Docomo: 63665
-- 
+    Au: 63089
+    SoftBank: 57929
+-
   names:
     - 魚座
-  pictogram:
+  pictograms:
     Docomo: 63666
-- 
-  names:
-    - スポーツ
-  pictogram:
-    Docomo: 63667
-- 
+    Au: 63090
+    SoftBank: 57930
+-
   names:
     - 野球
-  pictogram:
+  pictograms:
     Docomo: 63668
-- 
+    Au: 63123
+    SoftBank: 57366
+-
   names:
     - ゴルフ
-  pictogram:
+  pictograms:
     Docomo: 63669
-- 
+    Au: 63414
+    SoftBank: 57364
+-
   names:
     - テニス
-  pictogram:
+  pictograms:
     Docomo: 63670
-- 
+    Au: 63120
+    SoftBank: 57365
+-
   names:
     - サッカー
-  pictogram:
+  pictograms:
     Docomo: 63671
-- 
+    Au: 63119
+    SoftBank: 57368
+-
   names:
     - スキー
-  pictogram:
+  pictograms:
     Docomo: 63672
-- 
+    Au: 62336
+    SoftBank: 57363
+-
   names:
     - バスケットボール
-  pictogram:
+  pictograms:
     Docomo: 63673
-- 
+    Au: 63415
+    SoftBank: 58410
+-
   names:
     - モータースポーツ
-  pictogram:
+  pictograms:
     Docomo: 63674
-- 
-  names:
-    - ポケットベル
-  pictogram:
-    Docomo: 63675
-- 
+    Au: 63122
+    SoftBank: 57650
+-
   names:
     - 電車
-  pictogram:
+  pictograms:
     Docomo: 63676
-- 
+    Au: 63118
+    SoftBank: 57374
+-
   names:
     - 地下鉄
-  pictogram:
+  pictograms:
     Docomo: 63677
-- 
+    Au: 63468
+    SoftBank: 58420
+-
   names:
     - 新幹線
-  pictogram:
+  pictograms:
     Docomo: 63678
-- 
+    Au: 63113
+    SoftBank: 58421
+-
   names:
     - 車(セダン)
     - セダン
-  pictogram:
+  pictograms:
     Docomo: 63679
-- 
+    Au: 63114
+    SoftBank: 57371
+-
   names:
     - 車(RV)
     - RV
-  pictogram:
+  pictograms:
     Docomo: 63680
-- 
+    Au: 63114
+    SoftBank: 58414
+-
   names:
     - バス
-  pictogram:
+  pictograms:
     Docomo: 63681
-- 
+    Au: 63112
+    SoftBank: 57689
+-
   names:
     - 船
-  pictogram:
+  pictograms:
     Docomo: 63682
-- 
+    Au: 62293
+    SoftBank: 57858
+-
   names:
     - 飛行機
-  pictogram:
+  pictograms:
     Docomo: 63683
-- 
+    Au: 63116
+    SoftBank: 57373
+-
   names:
     - 家
-  pictogram:
+  pictograms:
     Docomo: 63684
-- 
+    Au: 63108
+    SoftBank: 57398
+-
   names:
     - ビル
-  pictogram:
+  pictograms:
     Docomo: 63685
-- 
+    Au: 63110
+    SoftBank: 57400
+-
   names:
     - 郵便局
-  pictogram:
+  pictograms:
     Docomo: 63686
-- 
+    Au: 62289
+    SoftBank: 57683
+-
   names:
     - 病院
-  pictogram:
+  pictograms:
     Docomo: 63687
-- 
+    Au: 62290
+    SoftBank: 57685
+-
   names:
     - 銀行
-  pictogram:
+  pictograms:
     Docomo: 63688
-- 
+    Au: 63107
+    SoftBank: 57677
+-
   names:
     - ATM
-  pictogram:
+  pictograms:
     Docomo: 63689
-- 
+    Au: 63099
+    SoftBank: 57684
+-
   names:
     - ホテル
-  pictogram:
+  pictograms:
     Docomo: 63690
-- 
+    Au: 62292
+    SoftBank: 57688
+-
   names:
     - コンビニ
-  pictogram:
+  pictograms:
     Docomo: 63691
-- 
+    Au: 63100
+    SoftBank: 57686
+-
   names:
     - ガソリンスタンド
-  pictogram:
+  pictograms:
     Docomo: 63692
-- 
+    Au: 63374
+    SoftBank: 57402
+-
   names:
     - 駐車場
-  pictogram:
+  pictograms:
     Docomo: 63693
-- 
+    Au: 63102
+    SoftBank: 57679
+-
   names:
     - 信号
-  pictogram:
+  pictograms:
     Docomo: 63694
-- 
+    Au: 63042
+    SoftBank: 57678
+-
   names:
     - トイレ
-  pictogram:
+  pictograms:
     Docomo: 63695
-- 
+    Au: 63101
+    SoftBank: 57681
+-
   names:
     - レストラン
-  pictogram:
+  pictograms:
     Docomo: 63696
-- 
+    Au: 63109
+    SoftBank: 57411
+-
   names:
     - 喫茶店
-  pictogram:
+  pictograms:
     Docomo: 63697
-- 
+    Au: 63412
+    SoftBank: 57413
+-
   names:
     - バー
-  pictogram:
+  pictograms:
     Docomo: 63698
-- 
+    Au: 63131
+    SoftBank: 57412
+-
   names:
     - ビール
-  pictogram:
+  pictograms:
     Docomo: 63699
-- 
+    Au: 63132
+    SoftBank: 57415
+-
   names:
     - ファーストフード
-  pictogram:
+  pictograms:
     Docomo: 63700
-- 
+    Au: 63151
+    SoftBank: 57632
+-
   names:
     - ブティック
-  pictogram:
+  pictograms:
     Docomo: 63701
-- 
+    Au: 63219
+    SoftBank: 57662
+-
   names:
     - 美容院
-  pictogram:
+  pictograms:
     Docomo: 63702
-- 
+    Au: 63215
+    SoftBank: 58131
+-
   names:
     - カラオケ
-  pictogram:
+  pictograms:
     Docomo: 63703
-- 
+    Au: 63196
+    SoftBank: 57404
+-
   names:
     - 映画
-  pictogram:
+  pictograms:
     Docomo: 63704
-- 
+    Au: 63216
+    SoftBank: 57405
+-
   names:
     - 右斜め上
-  pictogram:
+  pictograms:
     Docomo: 63705
-- 
-  names:
-    - 遊園地
-  pictogram:
-    Docomo: 63706
-- 
+    Au: 63345
+    SoftBank: 57910
+-
   names:
     - 音楽
-  pictogram:
+  pictograms:
     Docomo: 63707
-- 
+    Au: 63201
+    SoftBank: 58122
+-
   names:
     - アート
-  pictogram:
+  pictograms:
     Docomo: 63708
-- 
+    Au: 63417
+    SoftBank: 58626
+-
   names:
     - 演劇
-  pictogram:
+  pictograms:
     Docomo: 63709
-- 
-  names:
-    - イベント
-  pictogram:
-    Docomo: 63710
-- 
+    Au: 62409
+    SoftBank: 58627
+-
   names:
     - チケット
-  pictogram:
+  pictograms:
     Docomo: 63711
-- 
+    Au: 63094
+    SoftBank: 57637
+-
   names:
     - 喫煙
-  pictogram:
+  pictograms:
     Docomo: 63712
-- 
+    Au: 63061
+    SoftBank: 58126
+-
   names:
     - 禁煙
-  pictogram:
+  pictograms:
     Docomo: 63713
-- 
+    Au: 63062
+    SoftBank: 57864
+-
   names:
     - カメラ
-  pictogram:
+  pictograms:
     Docomo: 63714
-- 
+    Au: 63214
+    SoftBank: 57352
+-
   names:
     - カバン
-  pictogram:
+  pictograms:
     Docomo: 63715
-- 
+    Au: 63092
+    SoftBank: 58147
+-
   names:
     - 本
-  pictogram:
+  pictograms:
     Docomo: 63716
-- 
+    Au: 63095
+    SoftBank: 57672
+-
   names:
     - リボン
-  pictogram:
+  pictograms:
     Docomo: 63717
-- 
+    Au: 63420
+    SoftBank: 58132
+-
   names:
     - プレゼント
-  pictogram:
+  pictograms:
     Docomo: 63718
-- 
+    Au: 63144
+    SoftBank: 57618
+-
   names:
     - バースデー
-  pictogram:
+  pictograms:
     Docomo: 63719
-- 
+    Au: 63421
+    SoftBank: 58187
+-
   names:
     - 電話
-  pictogram:
+  pictograms:
     Docomo: 63720
-- 
+    Au: 63411
+    SoftBank: 57353
+-
   names:
     - 携帯電話
-  pictogram:
+  pictograms:
     Docomo: 63721
-- 
+    Au: 63397
+    SoftBank: 57354
+-
   names:
     - メモ
-  pictogram:
+  pictograms:
     Docomo: 63722
-- 
+    Au: 62309
+    SoftBank: 58113
+-
   names:
     - TV
-  pictogram:
+  pictograms:
     Docomo: 63723
-- 
-  names:
-    - ゲーム
-  pictogram:
-    Docomo: 63724
-- 
+    Au: 63195
+    SoftBank: 57642
+-
   names:
     - CD
-  pictogram:
+  pictograms:
     Docomo: 63725
-- 
+    Au: 63205
+    SoftBank: 57638
+-
   names:
     - ハート
-  pictogram:
+  pictograms:
     Docomo: 63726
-- 
+    Au: 62328
+    SoftBank: 57868
+-
   names:
     - スペード
-  pictogram:
+  pictograms:
     Docomo: 63727
-- 
+    Au: 63422
+    SoftBank: 57870
+-
   names:
     - ダイヤ
-  pictogram:
+  pictograms:
     Docomo: 63728
-- 
+    Au: 63423
+    SoftBank: 57869
+-
   names:
     - クラブ
-  pictogram:
+  pictograms:
     Docomo: 63729
-- 
+    Au: 63424
+    SoftBank: 57871
+-
   names:
     - 目
-  pictogram:
+  pictograms:
     Docomo: 63730
-- 
+    Au: 63425
+    SoftBank: 58393
+-
   names:
     - 耳
-  pictogram:
+  pictograms:
     Docomo: 63731
-- 
+    Au: 63426
+    SoftBank: 58395
+-
   names:
     - 手(グー)
     - グー
-  pictogram:
+  pictograms:
     Docomo: 63732
-- 
+    Au: 62600
+    SoftBank: 57360
+-
   names:
     - 手(チョキ)
     - チョキ
-  pictogram:
+  pictograms:
     Docomo: 63733
-- 
+    Au: 63427
+    SoftBank: 57361
+-
   names:
     - 手(パー)
     - パー
-  pictogram:
+  pictograms:
     Docomo: 63734
-- 
+    Au: 63428
+    SoftBank: 57362
+-
   names:
     - 右斜め下
-  pictogram:
+  pictograms:
     Docomo: 63735
-- 
+    Au: 63337
+    SoftBank: 57912
+-
   names:
     - 左斜め上
-  pictogram:
+  pictograms:
     Docomo: 63736
-- 
+    Au: 63336
+    SoftBank: 57911
+-
   names:
     - 足
-  pictogram:
+  pictograms:
     Docomo: 63737
-- 
+    Au: 62443
+    SoftBank: 58678
+-
   names:
     - くつ
-  pictogram:
+  pictograms:
     Docomo: 63738
-- 
-  names:
-    - 眼鏡
-  pictogram:
-    Docomo: 63739
-- 
+    Au: 62444
+    SoftBank: 57351
+-
   names:
     - 車椅子
-  pictogram:
+  pictograms:
     Docomo: 63740
-- 
-  names:
-    - 新月
-  pictogram:
-    Docomo: 63808
-- 
+    Au: 63063
+    SoftBank: 57866
+-
   names:
     - やや欠け月
-  pictogram:
+  pictograms:
     Docomo: 63809
-- 
+    Au: 63430
+    SoftBank: 57420
+-
   names:
     - 半月
-  pictogram:
+  pictograms:
     Docomo: 63810
-- 
+    Au: 63431
+    SoftBank: 57420
+-
   names:
     - 三日月
-  pictogram:
+  pictograms:
     Docomo: 63811
-- 
-  names:
-    - 満月
-  pictogram:
-    Docomo: 63812
-- 
+    Au: 63070
+    SoftBank: 57420
+-
   names:
     - 犬
-  pictogram:
+  pictograms:
     Docomo: 63813
-- 
+    Au: 63162
+    SoftBank: 57426
+-
   names:
     - 猫
-  pictogram:
+  pictograms:
     Docomo: 63814
-- 
+    Au: 63156
+    SoftBank: 57423
+-
   names:
     - リゾート
-  pictogram:
+  pictograms:
     Docomo: 63815
-- 
+    Au: 63117
+    SoftBank: 57372
+-
   names:
     - クリスマス
-  pictogram:
+  pictograms:
     Docomo: 63816
-- 
+    Au: 63138
+    SoftBank: 57395
+-
   names:
     - 左斜め下
-  pictogram:
+  pictograms:
     Docomo: 63817
-- 
+    Au: 63346
+    SoftBank: 57913
+-
   names:
     - phoneto
-  pictogram:
+  pictograms:
     Docomo: 63858
-- 
+    Au: 63455
+    SoftBank: 57604
+-
   names:
     - mailto
-  pictogram:
+  pictograms:
     Docomo: 63859
-- 
+    Au: 62566
+    SoftBank: 57603
+-
   names:
     - faxto
-  pictogram:
+  pictograms:
     Docomo: 63860
-- 
-  names:
-    - iモード
-  pictogram:
-    Docomo: 63861
-- 
-  names:
-    - iモード(枠付き)
-  pictogram:
-    Docomo: 63862
-- 
+    Au: 63225
+    SoftBank: 57355
+-
   names:
     - メール
-  pictogram:
+  pictograms:
     Docomo: 63863
-- 
-  names:
-    - ドコモ提供
-  pictogram:
-    Docomo: 63864
-- 
-  names:
-    - ドコモポイント
-  pictogram:
-    Docomo: 63865
-- 
-  names:
-    - 有料
-  pictogram:
-    Docomo: 63866
-- 
-  names:
-    - 無料
-  pictogram:
-    Docomo: 63867
-- 
+    Au: 63226
+    SoftBank: 57603
+-
   names:
     - ID
-  pictogram:
+  pictograms:
     Docomo: 63868
-- 
+    Au: 62299
+    SoftBank: 57897
+-
   names:
     - パスワード
-  pictogram:
+  pictograms:
     Docomo: 63869
-- 
-  names:
-    - 次項有
-  pictogram:
-    Docomo: 63870
-- 
-  names:
-    - クリア
-  pictogram:
-    Docomo: 63872
-- 
+    Au: 63218
+    SoftBank: 57407
+-
   names:
     - サーチ(調べる)
     - サーチ
     - 調べる
-  pictogram:
+  pictograms:
     Docomo: 63873
-- 
+    Au: 63217
+    SoftBank: 57620
+-
   names:
     - NEW
-  pictogram:
+  pictograms:
     Docomo: 63874
-- 
-  names:
-    - 位置情報
-  pictogram:
-    Docomo: 63875
-- 
-  names:
-    - フリーダイヤル
-  pictogram:
-    Docomo: 63876
-- 
+    Au: 63461
+    SoftBank: 57874
+-
   names:
     - シャープダイヤル
-  pictogram:
+  pictograms:
     Docomo: 63877
-- 
-  names:
-    - モバQ
-  pictogram:
-    Docomo: 63878
-- 
+    Au: 62601
+    SoftBank: 57872
+-
   names:
     - 1
-  pictogram:
+  pictograms:
     Docomo: 63879
-- 
+    Au: 63227
+    SoftBank: 57884
+-
   names:
     - 2
-  pictogram:
+  pictograms:
     Docomo: 63880
-- 
+    Au: 63228
+    SoftBank: 57885
+-
   names:
     - 3
-  pictogram:
+  pictograms:
     Docomo: 63881
-- 
+    Au: 63296
+    SoftBank: 57886
+-
   names:
     - 4
-  pictogram:
+  pictograms:
     Docomo: 63882
-- 
+    Au: 63297
+    SoftBank: 57887
+-
   names:
     - 5
-  pictogram:
+  pictograms:
     Docomo: 63883
-- 
+    Au: 63298
+    SoftBank: 57888
+-
   names:
     - 6
-  pictogram:
+  pictograms:
     Docomo: 63884
-- 
+    Au: 63299
+    SoftBank: 57889
+-
   names:
     - 7
-  pictogram:
+  pictograms:
     Docomo: 63885
-- 
+    Au: 63300
+    SoftBank: 57890
+-
   names:
     - 8
-  pictogram:
+  pictograms:
     Docomo: 63886
-- 
+    Au: 63301
+    SoftBank: 57891
+-
   names:
     - 9
-  pictogram:
+  pictograms:
     Docomo: 63887
-- 
+    Au: 63302
+    SoftBank: 57892
+-
   names:
     - 0
-  pictogram:
+  pictograms:
     Docomo: 63888
-- 
+    Au: 63433
+    SoftBank: 57893
+-
   names:
     - 決定
-  pictogram:
+  pictograms:
     Docomo: 63920
-- 
+    Au: 63434
+    SoftBank: 57933
+-
   names:
     - 黒ハート
-  pictogram:
+  pictograms:
     Docomo: 63889
-- 
+    Au: 63410
+    SoftBank: 57378
+-
   names:
     - 揺れるハート
-  pictogram:
+  pictograms:
     Docomo: 63890
-- 
+    Au: 62585
+    SoftBank: 58151
+-
   names:
     - 失恋
-  pictogram:
+  pictograms:
     Docomo: 63891
-- 
+    Au: 63055
+    SoftBank: 57379
+-
   names:
     - ハートたち(複数ハート)
     - ハートたち
     - 複数ハート
-  pictogram:
+  pictograms:
     Docomo: 63892
-- 
+    Au: 63056
+    SoftBank: 58151
+-
   names:
     - わーい(嬉しい顔)
     - わーい
     - 嬉しい顔
-  pictogram:
+  pictograms:
     Docomo: 63893
-- 
+    Au: 63049
+    SoftBank: 57431
+-
   names:
     - ちっ(怒った顔)
     - ちっ
     - 怒った顔
-  pictogram:
+  pictograms:
     Docomo: 63894
-- 
+    Au: 63050
+    SoftBank: 57433
+-
   names:
     - がく〜(落胆した顔)
     - がく〜
     - がくー
     - 落胆した顔
-  pictogram:
+  pictograms:
     Docomo: 63895
-- 
+    Au: 62356
+    SoftBank: 57432
+-
   names:
     - もうやだ〜(悲しい顔)
-    - もうやだ〜
     - もうやだー
     - 悲しい顔
-  pictogram:
+  pictograms:
     Docomo: 63896
-- 
+    Au: 62359
+    SoftBank: 58375
+-
   names:
     - ふらふら
-  pictogram:
+  pictograms:
     Docomo: 63897
-- 
+    Au: 63435
+    SoftBank: 58374
+-
   names:
     - グッド(上向き矢印)
     - グッド
     - 上向き矢印
-  pictogram:
+    - ↑
+  pictograms:
     Docomo: 63898
-- 
+    Au: 62446
+    SoftBank: 57910
+-
   names:
     - るんるん
-  pictogram:
+  pictograms:
     Docomo: 63899
-- 
+    Au: 63470
+    SoftBank: 57406
+-
   names:
     - いい気分(温泉)
     - いい気分
     - 温泉
-  pictogram:
+  pictograms:
     Docomo: 63900
-- 
-  names:
-    - かわいい
-  pictogram:
-    Docomo: 63901
-- 
+    Au: 63125
+    SoftBank: 57635
+-
   names:
     - キスマーク
-  pictogram:
+  pictograms:
     Docomo: 63902
-- 
+    Au: 63172
+    SoftBank: 57347
+-
   names:
     - ぴかぴか(新しい)
     - ぴかぴか
     - 新しい
-  pictogram:
+  pictograms:
     Docomo: 63903
-- 
+    Au: 62334
+    SoftBank: 58158
+-
   names:
     - ひらめき
-  pictogram:
+  pictograms:
     Docomo: 63904
-- 
+    Au: 63054
+    SoftBank: 57615
+-
   names:
     - むかっ(怒り)
     - むかっ
     - 怒り
-  pictogram:
+  pictograms:
     Docomo: 63905
-- 
+    Au: 63166
+    SoftBank: 58164
+-
   names:
     - パンチ
-  pictogram:
+  pictograms:
     Docomo: 63906
-- 
+    Au: 63180
+    SoftBank: 57357
+-
   names:
     - 爆弾
-  pictogram:
+  pictograms:
     Docomo: 63907
-- 
+    Au: 63058
+    SoftBank: 58129
+-
   names:
     - ムード
-  pictogram:
+  pictograms:
     Docomo: 63908
-- 
+    Au: 63198
+    SoftBank: 58150
+-
   names:
     - バッド(下向き矢印)
     - バッド
     - 下向き矢印
-  pictogram:
+    - ↓
+  pictograms:
     Docomo: 63909
-- 
+    Au: 62447
+    SoftBank: 57912
+-
   names:
     - 眠い(睡眠)
     - 眠い
     - 睡眠
-  pictogram:
+  pictograms:
     Docomo: 63910
-- 
+    Au: 63053
+    SoftBank: 57660
+-
   names:
     - exclamation
-  pictogram:
+    - !
+  pictograms:
     Docomo: 63911
-- 
-  names:
-    - exclamation&question
-  pictogram:
-    Docomo: 63912
-- 
-  names:
-    - exclamation×2
-  pictogram:
-    Docomo: 63913
-- 
-  names:
-    - どんっ(衝撃)
-    - どんっ
-    - 衝撃
-  pictogram:
-    Docomo: 63914
-- 
+    Au: 63066
+    SoftBank: 57377
+-
   names:
     - あせあせ(飛び散る汗)
     - あせあせ
     - 飛び散る汗
-  pictogram:
+  pictograms:
     Docomo: 63915
-- 
+    Au: 63438
+    SoftBank: 58161
+-
   names:
     - たらーっ(汗)
     - たらーっ
-    - あせ
-  pictogram:
+    - 汗
+  pictograms:
     Docomo: 63916
-- 
+    Au: 63167
+    SoftBank: 58161
+-
   names:
     - ダッシュ(走り出すさま)
     - ダッシュ
     - 走り出すさま
-  pictogram:
+  pictograms:
     Docomo: 63917
-- 
-  names:
-    - ー(長音記号1)
-    - ー
-    - 長音記号1
-  pictogram:
-    Docomo: 63918
-- 
-  names:
-    - ー(長音記号2)
-    - 長音記号2
-  pictogram:
-    Docomo: 63919
-- 
+    Au: 63181
+    SoftBank: 58160
+-
   names:
     - カチンコ
-  pictogram:
+  pictograms:
     Docomo: 63824
-- 
-  names:
-    - ふくろ
-  pictogram:
-    Docomo: 63825
-- 
-  names:
-    - ペン
-  pictogram:
-    Docomo: 63826
-- 
-  names:
-    - 人影
-  pictogram:
-    Docomo: 63829
-- 
-  names:
-    - いす
-  pictogram:
-    Docomo: 63830
-- 
+    Au: 63127
+    SoftBank: 58148
+-
   names:
     - 夜
-  pictogram:
+  pictograms:
     Docomo: 63831
-- 
-  names:
-    - soon
-  pictogram:
-    Docomo: 63835
-- 
-  names:
-    - on
-  pictogram:
-    Docomo: 63836
-- 
-  names:
-    - end
-  pictogram:
-    Docomo: 63837
-- 
+    Au: 62405
+    SoftBank: 58443
+-
   names:
     - 時計
-  pictogram:
+  pictograms:
     Docomo: 63838
-- 
-  names:
-    - iアプリ
-  pictogram:
-    Docomo: 63921
-- 
-  names:
-    - iアプリ(枠付き)
-  pictogram:
-    Docomo: 63922
-- 
+    Au: 63409
+    SoftBank: 57389
+-
   names:
     - Tシャツ(ボーダー)
     - Tシャツ
-  pictogram:
+  pictograms:
     Docomo: 63923
-- 
-  names:
-    - がま口財布
-  pictogram:
-    Docomo: 63924
-- 
+    Au: 63462
+    SoftBank: 57350
+-
   names:
     - 化粧
-  pictogram:
+  pictograms:
     Docomo: 63925
-- 
-  names:
-    - ジーンズ
-  pictogram:
-    Docomo: 63926
-- 
-  names:
-    - スノボ
-  pictogram:
-    Docomo: 63927
-- 
+    Au: 63202
+    SoftBank: 58140
+-
   names:
     - チャペル
-  pictogram:
+  pictograms:
     Docomo: 63928
-- 
-  names:
-    - ドア
-  pictogram:
-    Docomo: 63929
-- 
+    Au: 63211
+    SoftBank: 58149
+-
   names:
     - ドル袋
-  pictogram:
+  pictograms:
     Docomo: 63930
-- 
+    Au: 63136
+    SoftBank: 57647
+-
   names:
     - パソコン
-  pictogram:
+  pictograms:
     Docomo: 63931
-- 
+    Au: 63464
+    SoftBank: 57356
+-
   names:
     - ラブレター
-  pictogram:
+  pictograms:
     Docomo: 63932
-- 
-  names:
-    - レンチ
-  pictogram:
-    Docomo: 63933
-- 
+    Au: 62588
+    SoftBank: 57603
+-
   names:
     - 鉛筆
-  pictogram:
+  pictograms:
     Docomo: 63934
-- 
+    Au: 63097
+    SoftBank: 58113
+-
   names:
     - 王冠
-  pictogram:
+  pictograms:
     Docomo: 63935
-- 
+    Au: 63481
+    SoftBank: 57614
+-
   names:
     - 指輪
-  pictogram:
+  pictograms:
     Docomo: 63936
-- 
-  names:
-    - 砂時計
-  pictogram:
-    Docomo: 63937
-- 
+    Au: 63213
+    SoftBank: 57396
+-
   names:
     - 自転車
-  pictogram:
+  pictograms:
     Docomo: 63938
-- 
+    Au: 63111
+    SoftBank: 57654
+-
   names:
     - 湯のみ
-  pictogram:
+  pictograms:
     Docomo: 63939
-- 
-  names:
-    - 腕時計
-  pictogram:
-    Docomo: 63940
-- 
+    Au: 62338
+    SoftBank: 58168
+-
   names:
     - 考えてる顔
-  pictogram:
+  pictograms:
     Docomo: 63941
-- 
+    Au: 62356
+    SoftBank: 58371
+-
   names:
     - ほっとした顔
-  pictogram:
+  pictograms:
     Docomo: 63942
-- 
+    Au: 62361
+    SoftBank: 58378
+-
   names:
     - 冷や汗
-  pictogram:
+  pictograms:
     Docomo: 63943
-- 
+    Au: 63049
+    SoftBank: 58389
+-
   names:
     - 冷や汗2
-  pictogram:
+  pictograms:
     Docomo: 63944
-- 
+    Au: 63478
+    SoftBank: 57608
+-
   names:
     - ぷっくっくな顔
-  pictogram:
+  pictograms:
     Docomo: 63945
-- 
+    Au: 62561
+    SoftBank: 58390
+-
   names:
     - ボケーっとした顔
-  pictogram:
+  pictograms:
     Docomo: 63946
-- 
+    Au: 62365
+    SoftBank: 58382
+-
   names:
     - 目がハート
-  pictogram:
+  pictograms:
     Docomo: 63947
-- 
+    Au: 63476
+    SoftBank: 57606
+-
   names:
     - 指でOK
-  pictogram:
+    - OK
+  pictograms:
     Docomo: 63948
-- 
+    Au: 63186
+    SoftBank: 57358
+-
   names:
     - あっかんべー
-  pictogram:
+  pictograms:
     Docomo: 63949
-- 
+    Au: 63168
+    SoftBank: 57605
+-
   names:
     - ウィンク
-  pictogram:
+  pictograms:
     Docomo: 63950
-- 
+    Au: 63475
+    SoftBank: 58373
+-
   names:
     - うれしい顔
-  pictogram:
+  pictograms:
     Docomo: 63951
-- 
+    Au: 62361
+    SoftBank: 58378
+-
   names:
     - がまん顔
-  pictogram:
+  pictograms:
     Docomo: 63952
-- 
+    Au: 62358
+    SoftBank: 58374
+-
   names:
     - 猫2
-  pictogram:
+  pictograms:
     Docomo: 63953
-- 
+    Au: 62355
+    SoftBank: 58370
+-
   names:
     - 泣き顔
-  pictogram:
+  pictograms:
     Docomo: 63954
-- 
+    Au: 63051
+    SoftBank: 58385
+-
   names:
     - 涙
-  pictogram:
+  pictograms:
     Docomo: 63955
-- 
-  names:
-    - NG
-  pictogram:
-    Docomo: 63956
-- 
-  names:
-    - クリップ
-  pictogram:
-    Docomo: 63957
-- 
+    Au: 62573
+    SoftBank: 58387
+-
   names:
     - コピーライト
-  pictogram:
+    - (C)
+  pictograms:
     Docomo: 63958
-- 
+    Au: 63348
+    SoftBank: 57934
+-
   names:
     - トレードマーク
-  pictogram:
+  pictograms:
     Docomo: 63959
-- 
+    Au: 63338
+    SoftBank: 58679
+-
   names:
     - 走る人
-  pictogram:
+  pictograms:
     Docomo: 63960
-- 
+    Au: 63043
+    SoftBank: 57621
+-
   names:
     - マル秘
-  pictogram:
+    - 秘
+  pictograms:
     Docomo: 63961
-- 
-  names:
-    - リサイクル
-  pictogram:
-    Docomo: 63962
-- 
+    Au: 63178
+    SoftBank: 58133
+-
   names:
     - レジスタードトレードマーク
-  pictogram:
+    - (R)
+  pictograms:
     Docomo: 63963
-- 
+    Au: 63349
+    SoftBank: 57935
+-
   names:
     - 危険・警告
-  pictogram:
+    - 危険
+    - 警告
+  pictograms:
     Docomo: 63964
-- 
-  names:
-    - 禁止
-  pictogram:
-    Docomo: 63965
-- 
+    Au: 63065
+    SoftBank: 57938
+-
   names:
     - 空室・空席・空車
-  pictogram:
+    - 空室
+    - 空席
+    - 空車
+  pictograms:
     Docomo: 63966
-- 
-  names:
-    - 合格マーク
-  pictogram:
-    Docomo: 63967
-- 
+    Au: 62301
+    SoftBank: 57899
+-
   names:
     - 満室・満席・満車
-  pictogram:
+    - 満室
+    - 満席
+    - 満車
+  pictograms:
     Docomo: 63968
-- 
-  names:
-    - 矢印左右
-  pictogram:
-    Docomo: 63969
-- 
-  names:
-    - 矢印上下
-  pictogram:
-    Docomo: 63970
-- 
+    Au: 62300
+    SoftBank: 57898
+-
   names:
     - 学校
-  pictogram:
+  pictograms:
     Docomo: 63971
-- 
+    Au: 62291
+    SoftBank: 57687
+-
   names:
     - 波
-  pictogram:
+  pictograms:
     Docomo: 63972
-- 
+    Au: 62593
+    SoftBank: 58430
+-
   names:
     - 富士山
-  pictogram:
+  pictograms:
     Docomo: 63973
-- 
+    Au: 63469
+    SoftBank: 57403
+-
   names:
     - クローバー
-  pictogram:
+  pictograms:
     Docomo: 63974
-- 
-  names:
-    - さくらんぼ
-  pictogram:
-    Docomo: 63975
-- 
+    Au: 63212
+    SoftBank: 57616
+-
   names:
     - チューリップ
-  pictogram:
+  pictograms:
     Docomo: 63976
-- 
-  names:
-    - バナナ
-  pictogram:
-    Docomo: 63977
-- 
+    Au: 63165
+    SoftBank: 58116
+-
   names:
     - りんご
-  pictogram:
+  pictograms:
     Docomo: 63978
-- 
+    Au: 62349
+    SoftBank: 58181
+-
   names:
     - 芽
-  pictogram:
+  pictograms:
     Docomo: 63979
-- 
+    Au: 62594
+    SoftBank: 57616
+-
   names:
     - もみじ
-  pictogram:
+  pictograms:
     Docomo: 63980
-- 
+    Au: 63143
+    SoftBank: 57624
+-
   names:
     - 桜
-  pictogram:
+  pictograms:
     Docomo: 63981
-- 
+    Au: 63139
+    SoftBank: 57392
+-
   names:
     - おにぎり
-  pictogram:
+  pictograms:
     Docomo: 63982
-- 
+    Au: 63150
+    SoftBank: 58178
+-
   names:
     - ショートケーキ
-  pictogram:
+  pictograms:
     Docomo: 63983
-- 
+    Au: 63145
+    SoftBank: 57414
+-
   names:
     - とっくり(おちょこ付き)
     - とっくり
-  pictogram:
+  pictograms:
     Docomo: 63984
-- 
+    Au: 62314
+    SoftBank: 58123
+-
   names:
     - どんぶり
-  pictogram:
+  pictograms:
     Docomo: 63985
-- 
+    Au: 63441
+    SoftBank: 58176
+-
   names:
     - パン
-  pictogram:
+  pictograms:
     Docomo: 63986
-- 
-  names:
-    - かたつむり
-  pictogram:
-    Docomo: 63987
-- 
+    Au: 62339
+    SoftBank: 58169
+-
   names:
     - ひよこ
-  pictogram:
+  pictograms:
     Docomo: 63988
-- 
+    Au: 63161
+    SoftBank: 58659
+-
   names:
     - ペンギン
-  pictogram:
+  pictograms:
     Docomo: 63989
-- 
+    Au: 63157
+    SoftBank: 57429
+-
   names:
     - 魚
-  pictogram:
+  pictograms:
     Docomo: 63990
-- 
+    Au: 63090
+    SoftBank: 57369
+-
   names:
     - うまい!
-  pictogram:
+  pictograms:
     Docomo: 63991
-- 
+    Au: 62369
+    SoftBank: 57430
+-
   names:
     - ウッシッシ
-  pictogram:
+  pictograms:
     Docomo: 63992
-- 
+    Au: 62597
+    SoftBank: 58372
+-
   names:
     - ウマ
-  pictogram:
+  pictograms:
     Docomo: 63993
-- 
+    Au: 63153
+    SoftBank: 57370
+-
   names:
     - ブタ
-  pictogram:
+  pictograms:
     Docomo: 63994
-- 
+    Au: 63159
+    SoftBank: 57611
+-
   names:
     - ワイングラス
-  pictogram:
+  pictograms:
     Docomo: 63995
-- 
+    Au: 63130
+    SoftBank: 57412
+-
   names:
     - げっそり
-  pictogram:
+  pictograms:
     Docomo: 63996
+    Au: 63477
+    SoftBank: 57607

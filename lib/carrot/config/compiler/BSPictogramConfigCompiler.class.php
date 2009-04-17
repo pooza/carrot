@@ -22,13 +22,11 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 	protected function getContents ($config) {
 		$pictograms = array();
 		foreach ((array)$config as $entry) {
-			if (!isset($entry['pictogram']['Docomo'])) {
-				continue;
-			}
-			$id = $entry['pictogram']['Docomo'];
-			if (isset($entry['names']) && is_array($entry['names'])) {
-				foreach ($entry['names'] as $name) {
-					$pictograms[$name] = $id;
+			foreach ($entry['names'] as $name) {
+				$pictograms['names'][$name] = $entry['pictograms'];
+				$code = $entry['pictograms']['Docomo'];
+				if (!isset($pictograms['codes'][$code])) {
+					$pictograms['codes'][$code] = $code;
 				}
 			}
 		}

@@ -205,9 +205,21 @@ class MPC_Common
         $data = ($to == $this->getFrom()) ? $data : $this->MapSearch($data, $this->getTo());
         if (gettype($data) == 'integer') {
 
+            // 内部表現はDocomo 2009.4.17 tkoishi@b-shock.co.jp
             // 内部表現に変換 2009.3.24 tkoishi@b-shock.co.jp
             if ($this->getOption() == BSMobileCarrier::MPC_SMARTTAG) {
-                return '[[pictogram:' . $data . ':' . $this->getTo() . ']]';
+                // 内部表現であるDocomo形式に変換
+                if ($this->getTo() != MPC_TO_FOMA) {
+                    $data = $this->mapSearch($data, MPC_TO_FOMA);
+                }
+
+                require(BSConfigManager::getInstance()->compile('pictogram'));
+                if (isset($config['codes'][$data])) {
+                    return '[[pictogram:' . $data . ']]';
+                } else {
+                    // 設定ファイルに載っていない絵文字は無視
+                    return null;
+                }
             }
             //
         
