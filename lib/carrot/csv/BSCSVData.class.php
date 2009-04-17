@@ -12,7 +12,7 @@
  * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
  * @version $Id$
  */
-class BSCSVData implements BSTextRenderer {
+class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	protected $contents;
 	protected $records;
 	protected $encoding = 'sjis-win';
@@ -235,6 +235,16 @@ class BSCSVData implements BSTextRenderer {
 	 */
 	public function getError () {
 		return $this->error;
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		return new BSIterator($this->getRecords());
 	}
 }
 
