@@ -247,7 +247,8 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			while (preg_match('/[A-Z][a-z0-9]+/u', $value, $matches)) {
+			preg_match_all('/[A-Z][a-z0-9]+/u', $value, $matchesAll, PREG_SET_ORDER);
+			foreach ($matchesAll as $matches) {
 				$word = $matches[0];
 				$value = str_replace($word, '_' . strtolower($word), $value);
 			}
