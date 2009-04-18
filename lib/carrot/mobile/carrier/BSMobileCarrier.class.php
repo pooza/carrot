@@ -213,7 +213,9 @@ abstract class BSMobileCarrier {
 	 */
 	public function getPictogram ($code) {
 		try {
-			return new BSPictogram($code);
+			if ($code = BSPictogram::getPictogramCode($code)) {
+				return new BSPictogram($code);
+			}
 		} catch (BSMobileException $e) {
 			return null;
 		}
