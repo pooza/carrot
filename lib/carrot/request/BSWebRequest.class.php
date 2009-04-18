@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
+	private $useragentReal;
 	static private $instance;
 
 	/**
@@ -113,13 +114,31 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
+	 * 実際のUserAgentを返す
+	 *
+	 * エミュレート環境でも、実際のUserAgentを返す。
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getRealUserAgent () {
+		if (!$this->useragentReal) {
+			$name = $this->controller->getEnvironment('HTTP_USER_AGENT');
+			if (!$this->useragentReal = BSUserAgent::getInstance($name)) {
+				throw new BSUserAgentException('サポートされていないUserAgentです。');
+			}
+		}
+		return $this->useragentReal;
+	}
+
+	/**
 	 * SSL環境か？
 	 *
 	 * @access public
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return ($this->controller->getEnvironment('HTTPS') != '');
+		return !BSString::isBlank($this->controller->getEnvironment('HTTPS'));
 	}
 
 	/**

@@ -339,6 +339,18 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
+	 * 実際のUserAgentを返す
+	 *
+	 * エミュレート環境でも、実際のUserAgentを返す。
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getRealUserAgent () {
+		return $this->getUserAgent();
+	}
+
+	/**
 	 * コマンドライン環境か？
 	 *
 	 * @access public
