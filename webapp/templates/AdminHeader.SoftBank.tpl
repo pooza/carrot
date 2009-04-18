@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//JPHONE//DTD XHTML Basic 1.0 Plus//EN" "xhtml-basic10-plus.dtd">
 <html>
 <head>
-<title>{const name='app_name'} {$title}</title>
+<title>{const name='app_name_ja'} {$title}</title>
 </head>
 <body>
 <hr/>

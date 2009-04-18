@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//OPENWAVE//DTD XHTML 1.0//EN" "http://www.openwave.com/DTD/xhtml-basic.dtd">
 <html>
 <head>
-<title>{const name='app_name'} {$title}</title>
+<title>{const name='app_name_ja'} {$title}</title>
 </head>
 <body>
 <hr/>

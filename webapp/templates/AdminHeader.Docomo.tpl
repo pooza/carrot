@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/1.0) 1.0//EN" "i-xhtml_4ja_10.dtd">
 <html>
 <head>
-<title>{const name='app_name'} {$title}</title>
+<title>{const name='app_name_ja'} {$title}</title>
 </head>
 <body>
 <hr/>
