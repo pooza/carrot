@@ -69,11 +69,10 @@ if (php_sapi_name() == 'cli') {
 	$_SERVER['HTTP_USER_AGENT'] = 'Console';
 	$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
 	$names[] = $_SERVER['HOST'];
-	$names[] = basename(BS_ROOT_DIR);
-	$names[] = basename(BS_ROOT_DIR) . '.' . $_SERVER['HOST'];
 } else {
 	$names[] = $_SERVER['SERVER_NAME'];
 }
+$names[] = basename(BS_ROOT_DIR);
 $names[] = 'localhost';
 
 $constants = BSConstantHandler::getInstance();
