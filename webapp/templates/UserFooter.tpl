@@ -6,8 +6,8 @@
 @version $Id$
 *}
 <div id="Footer">
-<a href="{'app_bts_url'|translate}" target="_blank">{'app_name'|translate:null:'en'}</a> {'app_ver'|translate}
-(Powered by <a href="{'carrot_bts_url'|translate}" target="_blank">{'carrot_name'|translate}</a> {'carrot_ver'|translate})
+<a href="{const name='app_bts_url'}" target="_blank">{const name='app_name_en'}</a> {const name='app_ver'}
+(Powered by <a href="{const name='carrot_bts_url'}" target="_blank">{const name='carrot_name'}</a> {const name='carrot_ver'})
 </div>
 </div>
 </body>

@@ -5,7 +5,7 @@
 @author 小石達也 <tkoishi@b-shock.co.jp>
 @version $Id$
 *}
-{'app_name'|translate} {'app_ver'|translate}
-{'author_name'|translate} <{'author_email'|translate}>
+{const name='app_name'} {const name='app_ver'}
+{const name='author_name'} <{const name='author_email'}>
 
 {* vim: set tabstop=4: *}

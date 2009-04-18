@@ -7,7 +7,7 @@
 *}
 <hr/>
 <div>
-{'app_name'|translate:null:'en'} {'app_ver'|translate}
+{const name='app_name_en'} {const name='app_ver'}
 </div>
 </body>
 </html>

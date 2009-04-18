@@ -5,7 +5,7 @@
 @author 小石達也 <tkoishi@b-shock.co.jp>
 @version $Id$
 *}
-Subject: [{'app_name'|translate}] {$priority}
+Subject: [{const name='app_name'}] {$priority}
 
 {$priority}:
 {$message}

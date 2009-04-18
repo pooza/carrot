@@ -9,7 +9,7 @@
 {include file='AdminHeader'}
 
 <form method="post" id="LoginForm" action="/{$module.name}/{$action.name}">
-	<h1>{'app_name'|translate}</h1>
+	<h1>{const name='app_name'}</h1>
 
 	{include file='ErrorMessages' hide_error_code=true}
 
