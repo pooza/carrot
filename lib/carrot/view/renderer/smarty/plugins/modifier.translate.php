@@ -13,15 +13,10 @@
 function smarty_modifier_translate ($value, $dictionary = null, $language = null) {
 	if (is_array($value)) {
 		return $value;
-	} else if ($value instanceof BSArray) {
+	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
-	} else if ($value != '') {
-		try {
-			return BSTranslateManager::getInstance()->execute($value, $dictionary, $language);
-		} catch (Exception $e) {
-			// Smartyプラグインの中なので、例外は即エラー。
-			trigger_error($e->getMessage(), E_USER_ERROR);
-		}
+	} else if (!BSString::isBlank($value)) {
+		return BSTranslateManager::getInstance()->execute($value, $dictionary, $language);
 	}
 }
 

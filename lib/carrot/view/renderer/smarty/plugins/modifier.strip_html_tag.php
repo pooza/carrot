@@ -13,9 +13,9 @@
 function smarty_modifier_strip_html_tag ($value) {
 	if (is_array($value)) {
 		return $value;
-	} else if ($value instanceof BSArray) {
+	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
-	} else if ($value != '') {
+	} else if (!BSString::isBlank($value)) {
 		return BSString::stripHTMLTags($value);
 	}
 }

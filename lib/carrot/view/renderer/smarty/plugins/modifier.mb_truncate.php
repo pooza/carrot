@@ -13,9 +13,9 @@
 function smarty_modifier_mb_truncate ($value, $length = 80, $suffix = '...') {
 	if (is_array($value)) {
 		return $value;
-	} else if ($value instanceof BSArray) {
+	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
-	} else if ($value != '') {
+	} else if (!BSString::isBlank($value)) {
 		return BSString::truncate($value, $length, $suffix);
 	}
 	return $value;

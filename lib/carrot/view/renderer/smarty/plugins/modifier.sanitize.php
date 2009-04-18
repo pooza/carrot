@@ -13,9 +13,9 @@
 function smarty_modifier_sanitize ($value) {
 	if (is_array($value)) {
 		return $value;
-	} else if ($value instanceof BSArray) {
+	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
-	} else if ($value != '') {
+	} else if (!BSString::isBlank($value)) {
 		$value = BSString::unsanitize($value);
 		return BSString::sanitize($value);
 	}
