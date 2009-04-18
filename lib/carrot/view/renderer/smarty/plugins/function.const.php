@@ -11,9 +11,6 @@
  * @version $Id$
  */
 function smarty_function_const ($params, &$smarty) {
-	if (!isset($params['name'])) {
-		throw new BSViewException('const関数には、name引数が必要です。');
-	}
 	return BSConstantHandler::getInstance()->getParameter($params['name']);
 }
 

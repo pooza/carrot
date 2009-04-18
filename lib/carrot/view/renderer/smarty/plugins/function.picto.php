@@ -11,9 +11,6 @@
  * @version $Id$
  */
 function smarty_function_picto ($params, &$smarty) {
-	if (!isset($params['name'])) {
-		throw new BSViewException('picto関数には、name引数が必要です。');
-	}
 	$pictogram = new BSPictogram($params['name']);
 	return $pictogram->getContents();
 }
