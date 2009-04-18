@@ -214,9 +214,9 @@ class MPC_Common
                     $data = $this->mapSearch($data, MPC_TO_FOMA);
                 }
 
-                if ($name = BSMobileCarrier::getInstance('Docomo')->getPictogramName($data)) {
+                if ($pictogram = BSMobileCarrier::getInstance()->getPictogram($data)) {
                     $tag = new BSPictogramTag(null);
-                    return '[[' . $tag->getTagName() . ':' . $name . ']]';
+                    return '[[' . $tag->getTagName() . ':' . $pictogram->getName() . ']]';
                 } else {
                     return '■';
                 }

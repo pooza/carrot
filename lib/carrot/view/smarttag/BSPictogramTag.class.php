@@ -32,34 +32,12 @@ class BSPictogramTag extends BSSmartTag {
 	 */
 	public function execute ($body) {
 		try {
-			if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
-				$replace = $this->getNumericReference();
-			} else {
-				$replace = $this->getImgTag();
-			}
+			$pictogram = new BSPictogram($this->tag[1]);
+			$replace = $pictogram->getContents();
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());
 		}
 		return str_replace($this->getContents(), $replace, $body);
-	}
-
-	private function getImgTag () {
-		$tag = BSMobileCarrier::getInstance('Docomo')->convertPictogram(
-			$this->tag[1],
-			BSMobileCarrier::MPC_IMAGE
-		);
-		if (BSString::isBlank($tag)) {
-			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
-		}
-		return $tag;
-	}
-
-	private function getNumericReference () {
-		$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier();
-		if (BSString::isBlank($code = $carrier->getPictogramCode($this->tag[1]))) {
-			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
-		}
-		return '&#' . $code . ';';
 	}
 }
 

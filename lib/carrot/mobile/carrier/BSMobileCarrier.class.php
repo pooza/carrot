@@ -19,6 +19,7 @@ abstract class BSMobileCarrier {
 	const MPC_IMAGE = 'IMG';
 	const MPC_RAW = 'RAW';
 	const MPC_SMARTTAG = 'SMARTTAG';
+	const DEFAULT_CARRIER = 'Docomo';
 
 	/**
 	 * @access public
@@ -47,7 +48,7 @@ abstract class BSMobileCarrier {
 	 * @return BSMobileCarrier インスタンス
 	 * @static
 	 */
-	static public function getInstance ($carrier) {
+	static public function getInstance ($carrier = self::DEFAULT_CARRIER) {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 			foreach (self::getNames() as $name) {
@@ -183,8 +184,9 @@ abstract class BSMobileCarrier {
 	 * @return string 変換後文字列
 	 */
 	public function convertPictogram ($body, $format = self::MPC_SMARTTAG) {
-		if ($code = $this->getPictogramCode($body)) {
-			$body = $this->getPictogram($code);
+		if ($pictogram = $this->getPictogram($body)) {
+			$body = $pictogram->getRaw();
+		} else {
 		}
 		$this->getMPC()->setString($body);
 		return $this->getMPC()->convert($this->getMPCCode(), $format);
@@ -207,47 +209,13 @@ abstract class BSMobileCarrier {
 	 *
 	 * @access public
 	 * @param integer $code 絵文字コード
-	 * @return string 絵文字
+	 * @return BSPictogram 絵文字
 	 */
 	public function getPictogram ($code) {
-		$this->getMPC()->setTo($this->getMPCCode());
-		$this->getMPC()->setOption(BSMobileCarrier::MPC_RAW);
-		return $this->getMPC()->encoder((int)$code);
-	}
-
-	/**
-	 * 絵文字コードを返す
-	 *
-	 * @access public
-	 * @param mixed $name 絵文字名、又は絵文字コード
-	 * @return integer 絵文字コード
-	 */
-	public function getPictogramCode ($name) {
-		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
-			return $name;
-		} else if (isset($config['names'][$name])) {
-			if (isset($config['names'][$name][$this->getName()])) {
-				$code = $config['names'][$name][$this->getName()];
-			} else {
-				$code = $config['names'][$name]['Docomo'];
-			}
-		}
-	}
-
-	/**
-	 * 絵文字名を返す
-	 *
-	 * @access public
-	 * @param mixed $name 絵文字名、又は絵文字コード
-	 * @return integer 絵文字名
-	 */
-	public function getPictogramName ($name) {
-		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
-			return $config['codes'][$name];
-		} else if (isset($config['names'][$name])) {
-			return $name;;
+		try {
+			return new BSPictogram($code);
+		} catch (BSMobileException $e) {
+			return null;
 		}
 	}
 
