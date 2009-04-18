@@ -26,7 +26,7 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 				$pictograms['names'][$name] = $entry['pictograms'];
 				$code = $entry['pictograms']['Docomo'];
 				if (!isset($pictograms['codes'][$code])) {
-					$pictograms['codes'][$code] = $code;
+					$pictograms['codes'][$code] = $name;
 				}
 			}
 		}

@@ -38,7 +38,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 * 一致するか
 	 *
 	 * @access public
-	 * @return string 完全なタグ
+	 * @return boolean 一致するならTrue
 	 */
 	public function isMatched () {
 		return isset($this->tag[0]) && ($this->tag[0] == $this->getTagName());

@@ -175,7 +175,7 @@ abstract class BSMobileCarrier {
 	 * 絵文字を含んだ文字列を変換する
 	 *
 	 * @access public
-	 * @param string $body 対象文字列
+	 * @param mixed $body 対象文字列, 絵文字コード, 絵文字名のいずれか
 	 * @param string $format 出力形式
 	 *   self::MPC_RAW
 	 *   self::MPC_IMAGE
@@ -183,6 +183,9 @@ abstract class BSMobileCarrier {
 	 * @return string 変換後文字列
 	 */
 	public function convertPictogram ($body, $format = self::MPC_SMARTTAG) {
+		if ($code = $this->getPictogramCode($body)) {
+			$body = $this->getPictogram($code);
+		}
 		$this->getMPC()->setString($body);
 		return $this->getMPC()->convert($this->getMPCCode(), $format);
 	}
@@ -210,6 +213,42 @@ abstract class BSMobileCarrier {
 		$this->getMPC()->setTo($this->getMPCCode());
 		$this->getMPC()->setOption(BSMobileCarrier::MPC_RAW);
 		return $this->getMPC()->encoder((int)$code);
+	}
+
+	/**
+	 * 絵文字コードを返す
+	 *
+	 * @access public
+	 * @param mixed $name 絵文字名、又は絵文字コード
+	 * @return integer 絵文字コード
+	 */
+	public function getPictogramCode ($name) {
+		require(BSConfigManager::getInstance()->compile('pictogram'));
+		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
+			return $name;
+		} else if (isset($config['names'][$name])) {
+			if (isset($config['names'][$name][$this->getName()])) {
+				$code = $config['names'][$name][$this->getName()];
+			} else {
+				$code = $config['names'][$name]['Docomo'];
+			}
+		}
+	}
+
+	/**
+	 * 絵文字名を返す
+	 *
+	 * @access public
+	 * @param mixed $name 絵文字名、又は絵文字コード
+	 * @return integer 絵文字名
+	 */
+	public function getPictogramName ($name) {
+		require(BSConfigManager::getInstance()->compile('pictogram'));
+		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
+			return $config['codes'][$name];
+		} else if (isset($config['names'][$name])) {
+			return $name;;
+		}
 	}
 
 	/**

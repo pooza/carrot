@@ -411,6 +411,7 @@
 -
   names:
     - バースデー
+    - 誕生日
   pictograms:
     Docomo: 63719
     SoftBank: 58187
@@ -423,6 +424,7 @@
 -
   names:
     - 携帯電話
+    - ケータイ
   pictograms:
     Docomo: 63721
     SoftBank: 57354
@@ -435,6 +437,7 @@
 -
   names:
     - TV
+    - テレビ
   pictograms:
     Docomo: 63723
     SoftBank: 57642
@@ -755,6 +758,7 @@
 -
   names:
     - もうやだ〜(悲しい顔)
+    - もうやだ〜
     - もうやだー
     - 悲しい顔
   pictograms:
@@ -1069,6 +1073,7 @@
 -
   names:
     - トレードマーク
+    - TM
   pictograms:
     Docomo: 63959
     SoftBank: 58679

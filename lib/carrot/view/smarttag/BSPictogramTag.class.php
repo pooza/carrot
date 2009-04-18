@@ -19,7 +19,7 @@ class BSPictogramTag extends BSSmartTag {
 	 * @return string タグ名
 	 */
 	public function getTagName () {
-		return 'pictogram';
+		return 'picto';
 	}
 
 	/**
@@ -32,14 +32,10 @@ class BSPictogramTag extends BSSmartTag {
 	 */
 	public function execute ($body) {
 		try {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-			if ($useragent->isMobile()) {
-				$replace = $this->getPictogramEntity();
+			if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
+				$replace = $this->getNumericReference();
 			} else {
-				$replace = BSMobileCarrier::getInstance('Docomo')->convertPictogram(
-					$this->getRawPictogram(),
-					BSMobileCarrier::MPC_IMAGE
-				);
+				$replace = $this->getImgTag();
 			}
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());
@@ -47,32 +43,20 @@ class BSPictogramTag extends BSSmartTag {
 		return str_replace($this->getContents(), $replace, $body);
 	}
 
-	private function getRawPictogram () {
-		$name = $this->tag[1];
-		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
-			$code = $name;
-		} else if (isset($config['names'][$name]['Docomo'])) {
-			$code = $config['names'][$name]['Docomo'];
-		} else {
+	private function getImgTag () {
+		$tag = BSMobileCarrier::getInstance('Docomo')->convertPictogram(
+			$this->tag[1],
+			BSMobileCarrier::MPC_IMAGE
+		);
+		if (BSString::isBlank($tag)) {
 			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
 		}
-		return BSMobileCarrier::getInstance('Docomo')->getPictogram($code);
+		return $tag;
 	}
 
-	private function getPictogramEntity () {
-		$name = $this->tag[1];
+	private function getNumericReference () {
 		$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier();
-		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
-			$code = $name;
-		} else if (isset($config['names'][$name])) {
-			if (isset($config['names'][$name][$carrier->getName()])) {
-				$code = $config['names'][$name][$carrier->getName()];
-			} else {
-				$code = $config['names'][$name]['Docomo'];
-			}
-		} else {
+		if (BSString::isBlank($code = $carrier->getPictogramCode($this->tag[1]))) {
 			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
 		}
 		return '&#' . $code . ';';
