@@ -58,7 +58,7 @@ class BSMIMEUtility {
 	 */
 	static public function decode ($str) {
 		$pattern = '/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i';
-		preg_match_all($pattern, $value, $matchesAll, PREG_SET_ORDER);
+		preg_match_all($pattern, $str, $matchesAll, PREG_SET_ORDER);
 		foreach ($matchesAll as $matches) {
 			switch (strtolower($matches[2])) {
 				case 'b':
