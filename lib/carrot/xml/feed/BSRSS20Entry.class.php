@@ -24,13 +24,13 @@ class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	 * リンクを設定
 	 *
 	 * @access public
-	 * @param BSURL $url URL
+	 * @param BSHTTPRedirector $link リンク
 	 */
-	public function setLink (BSURL $url) {
+	public function setLink (BSHTTPRedirector $link) {
 		if (!$element = $this->getElement('link')) {
 			$element = $this->createElement('link');
 		}
-		$element->setBody($url->getContents());
+		$element->setBody($link->getURL()->getContents());
 	}
 
 	/**

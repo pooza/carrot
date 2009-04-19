@@ -80,13 +80,13 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	 * リンクを設定
 	 *
 	 * @access public
-	 * @param BSURL $link リンク
+	 * @param BSHTTPRedirector $link リンク
 	 */
-	public function setLink (BSURL $link) {
+	public function setLink (BSHTTPRedirector $link) {
 		if (!$element = $this->getChannel()->getElement('link')) {
 			$element = $this->getChannel()->createElement('link');
 		}
-		$element->setBody($link->getContents());
+		$element->setBody($link->getURL()->getContents());
 	}
 
 	/**

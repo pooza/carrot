@@ -32,9 +32,9 @@ interface BSFeedDocument {
 	 * リンクを設定
 	 *
 	 * @access public
-	 * @param BSURL $url URL
+	 * @param BSHTTPRedirector $link リンク
 	 */
-	public function setLink (BSURL $url);
+	public function setLink (BSHTTPRedirector $link);
 
 	/**
 	 * オーサーを設定

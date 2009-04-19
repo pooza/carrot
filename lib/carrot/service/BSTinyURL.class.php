@@ -29,11 +29,11 @@ class BSTinyURL extends BSCurlHTTP {
 	 * URLをエンコードする
 	 *
 	 * @access public
-	 * @param BSURL $url エンコード対象URL
+	 * @param BSHTTPRedirector $link エンコード対象URL、又はそれを含んだリダイレクタ
 	 * @return BSURL エンコードされたURL
 	 */
-	public function encode (BSURL $url) {
-		$path = '/api-create.php?url=' . urlencode($url->getContents());
+	public function encode (BSHTTPRedirector $link) {
+		$path = '/api-create.php?url=' . urlencode($link->getURL()->getContents());
 		$response = $this->sendGetRequest($path);
 		return new BSURL($response->getRenderer()->getContents());
 	}

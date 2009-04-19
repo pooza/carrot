@@ -17,7 +17,7 @@ class FeedSuccessView extends BSView {
 	public function execute () {
 		$this->renderer->setTitle($this->controller->getHost()->getName());
 		$this->renderer->setDescription(BSController::getName() . 'の管理ログ');
-		$this->renderer->setLink($this->getModule('AdminLog')->getURL());
+		$this->renderer->setLink($this->getModule('AdminLog'));
 		foreach ($this->request->getAttribute('entries') as $log) {
 			$entry = $this->renderer->createEntry();
 			$entry->setTitle($log['message']);

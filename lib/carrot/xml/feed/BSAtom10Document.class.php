@@ -79,18 +79,18 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * リンクを設定
 	 *
 	 * @access public
-	 * @param BSURL $url URL
+	 * @param BSHTTPRedirector $link リンク
 	 */
-	public function setLink (BSURL $url) {
+	public function setLink (BSHTTPRedirector $link) {
 		if (!$element = $this->getElement('id')) {
 			$element = $this->createElement('id');
 		}
-		$element->setBody(BSAtom10Entry::getID($url));
+		$element->setBody(BSAtom10Entry::getID($link->getURL()));
 
 		if (!$element = $this->getElement('link')) {
 			$element = $this->createElement('link');
 		}
-		$element->setBody($url->getContents());
+		$element->setBody($link->getURL()->getContents());
 	}
 
 	/**
