@@ -11,7 +11,7 @@
  * @version $Id$
  */
 function smarty_function_picto ($params, &$smarty) {
-	$pictogram = new BSPictogram($params['name']);
+	$pictogram = BSPictogram::getInstance($params['name']);
 	return $pictogram->getContents();
 }
 

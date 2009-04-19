@@ -18,18 +18,39 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private $imagefile;
 	private $imageinfo;
 	private $element;
+	static private $instances;
 
 	/**
-	 * @access public
+	 * @access private
+	 * @name integer $id 絵文字コード
 	 */
-	public function __construct ($name) {
-		if (BSString::isBlank($this->id = self::getPictogramCode($name))) {
-			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
-		}
-
+	private function __construct ($id) {
+		$this->id = $id;
 		require(BSConfigManager::getInstance()->compile('pictogram'));
 		$this->name = $config['codes'][$this->id];
 		$this->codes = new BSArray($config['names'][$this->name]);
+	}
+
+	/**
+	 * フライウェイトインスタンスを返す
+	 *
+	 * @access public
+	 * @name string $name 絵文字コード又は絵文字名
+	 * @return BSPictogram 絵文字
+	 * @static
+	 */
+	static public function getInstance ($name) {
+		if (!self::$instances) {
+			self::$instances = new BSArray;
+		}
+
+		if (BSString::isBlank($id = self::getPictogramCode($name))) {
+			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
+		}
+		if (!self::$instances[$id]) {
+			self::$instances[$id] = new self($id);
+		}
+		return self::$instances[$id];
 	}
 
 	/**

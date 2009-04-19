@@ -184,9 +184,8 @@ abstract class BSMobileCarrier {
 	 * @return string 変換後文字列
 	 */
 	public function convertPictogram ($body, $format = self::MPC_SMARTTAG) {
-		if ($pictogram = $this->getPictogram($body)) {
-			$body = $pictogram->getRaw();
-		} else {
+		if ($code = BSPictogram::getPictogramCode($body)) {
+			$body = BSPictogram::getInstance($code)->getRaw();
 		}
 		$this->getMPC()->setString($body);
 		return $this->getMPC()->convert($this->getMPCCode(), $format);
@@ -202,23 +201,6 @@ abstract class BSMobileCarrier {
 	public function trimPictogram ($body) {
 		$this->getMPC()->setString($body);
 		return $this->getMPC()->except();
-	}
-
-	/**
-	 * 絵文字を返す
-	 *
-	 * @access public
-	 * @param integer $code 絵文字コード
-	 * @return BSPictogram 絵文字
-	 */
-	public function getPictogram ($code) {
-		try {
-			if ($code = BSPictogram::getPictogramCode($code)) {
-				return new BSPictogram($code);
-			}
-		} catch (BSMobileException $e) {
-			return null;
-		}
 	}
 
 	/**

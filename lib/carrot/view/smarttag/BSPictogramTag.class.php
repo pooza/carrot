@@ -32,7 +32,7 @@ class BSPictogramTag extends BSSmartTag {
 	 */
 	public function execute ($body) {
 		try {
-			$pictogram = new BSPictogram($this->tag[1]);
+			$pictogram = BSPictogram::getInstance($this->tag[1]);
 			$replace = $pictogram->getContents();
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());

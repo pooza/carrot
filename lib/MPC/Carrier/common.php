@@ -205,8 +205,7 @@ class MPC_Common
         $data = ($to == $this->getFrom()) ? $data : $this->MapSearch($data, $this->getTo());
         if (gettype($data) == 'integer') {
 
-            // リファクタリング 2009.4.18 tkoishi@b-shock.co.jp
-            // 内部表現はDoCoMo 2009.4.17 tkoishi@b-shock.co.jp
+            // リファクタリング 2009.4.19 tkoishi@b-shock.co.jp
             // 内部表現に変換 2009.3.24 tkoishi@b-shock.co.jp
             if ($this->getOption() == BSMobileCarrier::MPC_SMARTTAG) {
                 // 内部表現であるDocomo形式に変換
@@ -214,7 +213,8 @@ class MPC_Common
                     $data = $this->mapSearch($data, MPC_TO_FOMA);
                 }
 
-                if ($pictogram = BSMobileCarrier::getInstance()->getPictogram($data)) {
+                if ($code = BSPictogram::getPictogramCode($data)) {
+                    $pictogram = BSPictogram::getInstance($code);
                     $tag = new BSPictogramTag(null);
                     return '[[' . $tag->getTagName() . ':' . $pictogram->getName() . ']]';
                 } else {
