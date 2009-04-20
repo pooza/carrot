@@ -282,6 +282,22 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 			return $config['names'][$name][BSMobileCarrier::DEFAULT_CARRIER];
 		}
 	}
+
+	/**
+	 * 絵文字コードを全て返す
+	 *
+	 * @access public
+	 * @return BSArray 絵文字コード
+	 * @static
+	 */
+	static public function getPictograms () {
+		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$codes = new BSArray;
+		foreach ($config['names'] as $name => $entry) {
+			$codes[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
+		}
+		return $codes;
+	}
 }
 
 /* vim:set tabstop=4: */

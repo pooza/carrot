@@ -20,6 +20,14 @@ function confirmDelete (m, a, recordType, id) {
   }
 }
 
+function openPictogramPallet (id) {
+  window.open(
+    '/UserPictogram/Choice?field=' + id,
+    'pictogram',
+    'width=240,height=300,scrollbars=yes'
+  );
+}
+
 var actions = {};
 actions['onload'] = [];
 
