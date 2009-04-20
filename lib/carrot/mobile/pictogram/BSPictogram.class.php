@@ -27,8 +27,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private function __construct ($id) {
 		$this->id = $id;
 		require(BSConfigManager::getInstance()->compile('pictogram'));
-		$this->name = $config['codes'][$this->id];
-		$this->codes = new BSArray($config['names'][$this->name]);
+		$this->codes = new BSArray($config['codes'][$this->getName()]);
 	}
 
 	/**
@@ -62,7 +61,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return string 名前
 	 */
 	public function getName () {
-		return $this->name;
+		return $this->getNames()->getParameter(0);
 	}
 
 	/**
@@ -75,11 +74,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		if (!$this->names) {
 			$this->names = new BSArray;
 			require(BSConfigManager::getInstance()->compile('pictogram'));
-			foreach ($config['names'] as $name => $id) {
-				if ($id[BSMobileCarrier::DEFAULT_CARRIER] == $this->getID()) {
-					$this->names[] = $name;
-				}
-			}
+			$this->names->merge($config['names'][$this->getID()]);
 		}
 		return $this->names;
 	}
@@ -276,10 +271,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	static public function getPictogramCode ($name) {
 		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['codes'][$name])) {
+		if (preg_match('/^[0-9]+$/', $name) && isset($config['names'][$name])) {
 			return $name;
-		} else if (isset($config['names'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
-			return $config['names'][$name][BSMobileCarrier::DEFAULT_CARRIER];
+		} else if (isset($config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
+			return $config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER];
 		}
 	}
 
@@ -293,7 +288,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	static public function getPictograms () {
 		require(BSConfigManager::getInstance()->compile('pictogram'));
 		$codes = new BSArray;
-		foreach ($config['names'] as $name => $entry) {
+		foreach ($config['codes'] as $name => $entry) {
 			$codes[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
 		}
 		return $codes;

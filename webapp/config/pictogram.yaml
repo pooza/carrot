@@ -1,7 +1,5 @@
 # ケータイ絵文字辞書
 #
-# Au端末はDocomo絵文字をエミュレートするので、省略。 
-#
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
