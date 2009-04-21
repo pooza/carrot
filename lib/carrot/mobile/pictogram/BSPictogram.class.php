@@ -279,19 +279,32 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	}
 
 	/**
-	 * 絵文字コードを全て返す
+	 * 絵文字を全て返す
 	 *
 	 * @access public
-	 * @return BSArray 絵文字コード
+	 * @return BSArray 絵文字
 	 * @static
 	 */
 	static public function getPictograms () {
 		require(BSConfigManager::getInstance()->compile('pictogram'));
-		$codes = new BSArray;
+		$pictograms = new BSArray;
 		foreach ($config['codes'] as $name => $entry) {
-			$codes[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
+			$pictograms[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
 		}
-		return $codes;
+		return $pictograms;
+	}
+
+	/**
+	 * 絵文字名を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 絵文字名
+	 * @static
+	 */
+	static public function getPictogramNames () {
+		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$codes = new BSArray($config['codes']);
+		return $codes->getKeys(BSArray::WITHOUT_KEY);
 	}
 }
 

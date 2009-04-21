@@ -37,9 +37,9 @@ function putTag (name) {ldelim}
 
 {foreach from=$pictograms item='pictogram'}
 		<tr>
-			<td width="15" align="center"><img src="{$pictogram.image.url}" width="{$pictogram.image.width}" height="{$pictogram.image.height}" alt="{$pictogram.image.alt}" /></td>
+			<td width="15" align="center">{picto name=$pictogram}</td>
 			<td width="180">
-				<a href="javascript:void(putTag('{$pictogram.name}'))">{$pictogram.name}</a>
+				<a href="javascript:void(putTag('{$pictogram}'))">{$pictogram}</a>
 			</td>
 		</tr>
 {/foreach}

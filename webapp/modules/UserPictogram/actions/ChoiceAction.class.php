@@ -9,16 +9,7 @@
  */
 class ChoiceAction extends BSAction {
 	public function execute () {
-		$pictograms = new BSArray;
-		foreach (BSPictogram::getPictograms() as $name => $pictogram) {
-			$values = new BSArray(array(
-				'name' => $name,
-				'id' => $pictogram->getID(),
-				'image' => $pictogram->getImageInfo(),
-			));
-			$pictograms[$name] = $values;
-		}
-		$this->request->setAttribute('pictograms', $pictograms);
+		$this->request->setAttribute('pictograms', BSPictogram::getPictogramNames());
 		return BSView::INPUT;
 	}
 }
