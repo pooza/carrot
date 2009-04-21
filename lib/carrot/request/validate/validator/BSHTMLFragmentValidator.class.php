@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSHTMLFragmentValidator extends BSValidator {
-	private $allowedTags = array();
+	private $allowedTags;
 	private $invalidNode;
 
 	/**
@@ -36,7 +36,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-			$body = preg_replace('/&(#[0-9]+|[a-z]+);/i', '', $value); //実体参照を無視
+			$body = str_replace('&', '', $value); //実体参照を無視
 			$body = '<div>' . $body . '</div>';
 			$element = new BSXMLElement;
 			$element->setContents($body);
@@ -65,7 +65,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 				}
 			}
 		} else {
-			if (!in_array($element->getName(), $this->getAllowedTags())) {
+			if (!$this->getAllowedTags()->isIncluded($element->getName())) {
 				$this->invalidNode = $element->getName() . '要素';
 				return false;
 			}
@@ -85,20 +85,21 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * 許可された要素名を配列で帰す
 	 *
 	 * @access private
-	 * @return string[] 許可された要素名の配列
+	 * @return BSArray 許可された要素名の配列
 	 */
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
+			$this->allowedTags = new BSArray;
 			$this->allowedTags[] = 'div';
+			$this->allowedTags[] = 'span';
+
 			$tags = $this['allowed_tags'];
 			if (!is_array($tags)) {
-				$tags = explode(',', $tags);
+				$tags = BSString::explode(',', $tags);
 			}
-			foreach ($tags as $tag) {
-				if ($tag) {
-					$this->allowedTags[] = strtolower($tag);
-				}
-			}
+			$this->allowedTags->merge($tags);
+			$this->allowedTags->trim();
+			$this->allowedTags->uniquize();
 		}
 		return $this->allowedTags;
 	}
