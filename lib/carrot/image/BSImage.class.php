@@ -88,7 +88,7 @@ class BSImage implements BSImageRenderer {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		if (!self::getTypes()->isIncluded($type)) {
+		if (!self::getTypes()->isContain($type)) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}
 		$this->type = $type;

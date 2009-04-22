@@ -60,7 +60,7 @@ abstract class BSTableProfile implements BSAssignable {
 	 * @return boolean 存在するならTrue
 	 */
 	public function isExists () {
-		return $this->getDatabase()->getTableNames()->isIncluded($this->getName());
+		return $this->getDatabase()->getTableNames()->isContain($this->getName());
 	}
 
 	/**

@@ -38,7 +38,7 @@ class BSChoiceValidator extends BSValidator {
 			$value = array($value);
 		}
 		foreach ($value as $item) {
-			if (!$this->getChoices()->isIncluded($item)) {
+			if (!$this->getChoices()->isContain($item)) {
 				$this->error = $this['choices_error'];
 				return false;
 			}

@@ -64,7 +64,7 @@ abstract class BSMobileCarrier {
 			$names[] = strtolower($instance->getMPCCode());
 			$names->merge($instance->getAltNames());
 			$names->uniquize();
-			if ($names->isIncluded($carrier)) {
+			if ($names->isContain($carrier)) {
 				return $instance;
 			}
 		}

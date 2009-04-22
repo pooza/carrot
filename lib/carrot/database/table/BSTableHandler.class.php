@@ -218,7 +218,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return boolean 存在するならTrue
 	 */
 	public function isExists () {
-		return $this->getDatabase()->getTableNames()->isIncluded($this->getName());
+		return $this->getDatabase()->getTableNames()->isContain($this->getName());
 	}
 
 	/**

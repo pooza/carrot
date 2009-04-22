@@ -65,7 +65,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 				}
 			}
 		} else {
-			if (!$this->getAllowedTags()->isIncluded($element->getName())) {
+			if (!$this->getAllowedTags()->isContain($element->getName())) {
 				$this->invalidNode = $element->getName() . '要素';
 				return false;
 			}

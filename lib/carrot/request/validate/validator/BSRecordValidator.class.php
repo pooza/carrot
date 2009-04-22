@@ -91,7 +91,7 @@ class BSRecordValidator extends BSValidator {
 		$record = $this->getRecord($id);
 		foreach ($this['valid_values'] as $field => $value) {
 			$values = new BSArray($value);
-			if (!$values->isIncluded($record[$field])) {
+			if (!$values->isContain($record[$field])) {
 				$message = sprintf(
 					'%sが正しくありません。',
 					BSTranslateManager::getInstance()->execute($field)

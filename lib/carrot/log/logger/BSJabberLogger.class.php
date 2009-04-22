@@ -66,7 +66,7 @@ class BSJabberLogger extends BSLogger {
 				}
 			}
 		} else {
-			if ($this->getPatterns()->isIncluded($priority)) {
+			if ($this->getPatterns()->isContain($priority)) {
 				return $this->send($message, $priority);
 			}
 		}

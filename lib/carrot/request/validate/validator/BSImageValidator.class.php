@@ -79,7 +79,7 @@ class BSImageValidator extends BSValidator {
 			return false;
 		}
 
-		if (!$this->getAllowedTypes()->isIncluded($image->getType())) {
+		if (!$this->getAllowedTypes()->isContain($image->getType())) {
 			$this->error = $this['types_error'];
 		} else if ($this['min_width'] && ($image->getWidth() < $this['min_width'])) {
 			$this->error = $this['min_width_error'];

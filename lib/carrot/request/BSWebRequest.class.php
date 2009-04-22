@@ -83,7 +83,7 @@ class BSWebRequest extends BSRequest {
 	 * @param integer $method メソッド
 	 */
 	public function setMethod ($method) {
-		if (!self::getMethodNames()->isIncluded($method)) {
+		if (!self::getMethodNames()->isContain($method)) {
 			throw new BSHTTPException('"%s" はサポートされていないメソッドです。', $method);
 		}
 

@@ -135,7 +135,7 @@ class BSCrypt {
 			$targets[] = self::getMD5($challenge);
 		}
 
-		return $targets->isIncluded($password);
+		return $targets->isContain($password);
 	}
 
 	/**
