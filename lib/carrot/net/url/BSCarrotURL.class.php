@@ -23,7 +23,7 @@ class BSCarrotURL extends BSURL {
 	 */
 	public function getModuleName () {
 		if (!$this->module) {
-			$this->module = BS_DEFAULT_MODULE;
+			$this->module = BS_MODULE_DEFAULT_MODULE;
 		}
 		return $this->module;
 	}
