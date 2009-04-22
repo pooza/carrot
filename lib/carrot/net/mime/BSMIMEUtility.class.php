@@ -39,7 +39,7 @@ class BSMIMEUtility {
 		}
 
 		$str = BSString::convertKana($str, 'KV');
-		preg_match_all('/[^[:print:]]+/u', $value, $matchesAll, PREG_SET_ORDER);
+		preg_match_all('/[^[:print:]]+/u', $str, $matchesAll, PREG_SET_ORDER);
 		foreach ($matchesAll as $matches) {
 			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
 			$encoded = self::ENCODE_PREFIX . self::encodeBase64($word) . self::ENCODE_SUFFIX;
