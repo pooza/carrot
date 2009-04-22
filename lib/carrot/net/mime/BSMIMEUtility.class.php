@@ -83,7 +83,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function decodeQuotedPrintable ($str) {
-		preg_match_all('/=([a-f0-9]{2})/i', $value, $matchesAll, PREG_SET_ORDER);
+		preg_match_all('/=([a-f0-9]{2})/i', $str, $matchesAll, PREG_SET_ORDER);
 		foreach ($matchesAll as $matches) {
 			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
