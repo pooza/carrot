@@ -18,7 +18,6 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
-		$this->attributes['query']['guid'] = 'ON';
 		$this->attributes['is_3gc'] = $this->is3GC();
 	}
 
@@ -61,7 +60,10 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	public function getDisplayInfo () {
 		$controller = BSController::getInstance();
 		if (BSString::isBlank($info = $controller->getEnvironment('X-JPHONE-DISPLAY'))) {
-			return new BSArray;
+			return new BSArray(array(
+				'width' => self::DEFAULT_DISPLAY_WIDTH,
+				'height' => self::DEFAULT_DISPLAY_HEIGHT,
+			));
 		}
 		$info = BSString::explode('*', $info);
 
@@ -69,30 +71,6 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 			'width' => (int)$info[0],
 			'height' => (int)$info[1],
 		));
-	}
-
-	/**
-	 * 画像を変換
-	 *
-	 * @access public
-	 * @param BSImage $image 対象画像
-	 * @param integer $flags フラグ
-	 * @return BSImage 変換後の画像
-	 */
-	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {
-		$dest = clone $image;
-		if (!$this->is3GC()) {
-			if ($image->getType() == 'image/gif') {
-				$dest->setType('image/png');
-			}
-		}
-		if ($flags & self::IMAGE_FULL_SCREEN) {
-			$dest->resize(
-				$this->attributes['display']['width'],
-				$this->attributes['display']['height']
-			);
-		}
-		return $dest;
 	}
 
 	/**

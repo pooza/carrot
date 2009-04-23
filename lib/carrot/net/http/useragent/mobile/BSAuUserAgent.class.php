@@ -60,7 +60,10 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	public function getDisplayInfo () {
 		$controller = BSController::getInstance();
 		if (BSString::isBlank($info = $controller->getEnvironment('X-UP-DEVCAP-SCREENPIXELS'))) {
-			return new BSArray;
+			return new BSArray(array(
+				'width' => self::DEFAULT_DISPLAY_WIDTH,
+				'height' => self::DEFAULT_DISPLAY_HEIGHT,
+			));
 		}
 		$info = BSString::explode(',', $info);
 
@@ -68,30 +71,6 @@ class BSAuUserAgent extends BSMobileUserAgent {
 			'width' => (int)$info[0],
 			'height' => (int)$info[1],
 		));
-	}
-
-	/**
-	 * 画像を変換
-	 *
-	 * @access public
-	 * @param BSImage $image 対象画像
-	 * @param integer $flags フラグ
-	 * @return BSImage 変換後の画像
-	 */
-	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {
-		$dest = clone $image;
-		if (!$this->isWAP2()) {
-			if ($image->getType() == 'image/jpeg') {
-				$dest->setType('image/png');
-			}
-		}
-		if ($flags & self::IMAGE_FULL_SCREEN) {
-			$dest->resize(
-				$this->attributes['display']['width'],
-				$this->attributes['display']['height']
-			);
-		}
-		return $dest;
 	}
 
 	/**

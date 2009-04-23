@@ -12,8 +12,6 @@
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
 	const LIST_FILE_NAME = 'docomo_agents.xml';
-	const DEFAULT_DISPLAY_WIDTH = 320;
-	const DEFAULT_DISPLAY_HEIGHT = 240;
 	static private $displayInfo;
 
 	/**
