@@ -21,6 +21,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['query']['guid'] = 'ON';
+		$this->attributes['is_foma'] = $this->isFOMA();
 	}
 
 	/**
@@ -41,6 +42,26 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function getPattern () {
 		return '/DoCoMo/';
+	}
+
+	/**
+	 * FOMA端末か？
+	 *
+	 * @access public
+	 * @return boolean FOMA端末ならばTrue
+	 */
+	public function isFOMA () {
+		return !preg_match('/DoCoMo\/1\.0/', $this->getName());
+	}
+
+	/**
+	 * 旧機種か？
+	 *
+	 * @access public
+	 * @return boolean 旧機種ならばTrue
+	 */
+	public function isLegacy () {
+		return !$this->isFOMA();
 	}
 
 	/**

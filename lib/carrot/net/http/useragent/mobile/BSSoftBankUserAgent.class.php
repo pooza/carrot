@@ -13,6 +13,16 @@
 class BSSoftBankUserAgent extends BSMobileUserAgent {
 
 	/**
+	 * @access public
+	 * @param string $name ユーザーエージェント名
+	 */
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['query']['guid'] = 'ON';
+		$this->attributes['is_3gc'] = $this->is3GC();
+	}
+
+	/**
 	 * 端末IDを返す
 	 *
 	 * @access public
@@ -20,6 +30,26 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 */
 	public function getID () {
 		return BSController::getInstance()->getEnvironment('X-JPHONE-UID');
+	}
+
+	/**
+	 * 3GC端末か？
+	 *
+	 * @access public
+	 * @return boolean 3GC端末ならばTrue
+	 */
+	public function is3GC () {
+		return !preg_match('/^J-PHONE/', $this->getName());
+	}
+
+	/**
+	 * 旧機種か？
+	 *
+	 * @access public
+	 * @return boolean 旧機種ならばTrue
+	 */
+	public function isLegacy () {
+		return !$this->is3GC();
 	}
 
 	/**

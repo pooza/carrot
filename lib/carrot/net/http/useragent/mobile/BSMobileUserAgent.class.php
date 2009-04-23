@@ -22,6 +22,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		parent::__construct($name);
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['id'] = $this->getID();
+		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['query'] = new BSArray;
 	}
@@ -106,6 +107,15 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		}
 		return $this->carrier;
 	}
+
+	/**
+	 * 旧機種か？
+	 *
+	 * @access public
+	 * @return boolean 旧機種ならばTrue
+	 * @abstract
+	 */
+	abstract public function isLegacy ();
 
 	/**
 	 * 画面情報を返す

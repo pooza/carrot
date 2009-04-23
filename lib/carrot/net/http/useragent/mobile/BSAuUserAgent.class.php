@@ -13,6 +13,15 @@
 class BSAuUserAgent extends BSMobileUserAgent {
 
 	/**
+	 * @access public
+	 * @param string $name ユーザーエージェント名
+	 */
+	public function __construct ($name = null) {
+		parent::__construct($name);
+		$this->attributes['is_wap2'] = $this->isWAP2();
+	}
+
+	/**
 	 * 端末IDを返す
 	 *
 	 * @access public
@@ -20,6 +29,26 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 */
 	public function getID () {
 		return BSController::getInstance()->getEnvironment('X-UP-SUBNO');
+	}
+
+	/**
+	 * WAP2.0端末か？
+	 *
+	 * @access public
+	 * @return boolean WAP2.0端末ならばTrue
+	 */
+	public function isWAP2 () {
+		return preg_match('/^KDDI/', $this->getName());
+	}
+
+	/**
+	 * 旧機種か？
+	 *
+	 * @access public
+	 * @return boolean 旧機種ならばTrue
+	 */
+	public function isLegacy () {
+		return !$this->isWAP2();
 	}
 
 	/**
