@@ -11,6 +11,8 @@
  * @version $Id$
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
+	const LIST_FILE_NAME = 'docomo_agents.xml';
+	static private $displayInfo;
 
 	/**
 	 * @access public
@@ -19,6 +21,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['query']['guid'] = 'ON';
+		$this->attributes['display'] = $this->getDisplayInfo();
 	}
 
 	/**
@@ -39,6 +42,42 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function getPattern () {
 		return '/DoCoMo/';
+	}
+
+	public function getDisplayInfo () {
+		foreach (self::getDisplayInfos() as $pattern => $values) {
+			$position = stripos($this->getName(), $pattern);
+			if ($position !== false) {
+				return new BSArray($values);
+			}
+		}
+		return new BSArray;
+	}
+
+	static private function getDisplayInfos () {
+		if (!self::$displayInfo) {
+			$dir = BSController::getInstance()->getDirectory('config');
+			$file = $dir->getEntry(self::LIST_FILE_NAME);
+
+			$controller = BSController::getInstance();
+			if (!$agents = $controller->getAttribute($file, $file->getUpdateDate())) {
+				$agents = new BSArray;
+				$contents = $file->getContents();
+
+				//libxml2がパースエラーを起こす
+				$contents = preg_replace('/[+&]/', '', $contents);
+
+				$xml = new BSXMLDocument;
+				$xml->setContents($contents);
+				foreach ($xml->getElements() as $element) {
+					$agents[$element->getName()] = $element->getAttributes();
+				}
+				$agents->sort(BSArray::SORT_KEY_DESC);
+				$controller->setAttribute($file, $agents->getParameters());
+			}
+			self::$displayInfo = new BSArray($agents);
+		}
+		return self::$displayInfo;
 	}
 }
 

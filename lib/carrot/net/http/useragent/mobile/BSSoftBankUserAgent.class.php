@@ -23,6 +23,25 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 */
+	public function getDisplayInfo () {
+		$controller = BSController::getInstance();
+		if (BSString::isBlank($info = $controller->getEnvironment('HTTP_X_JPHONE_DISPLAY'))) {
+			return new BSArray;
+		}
+		$info = BSString::explode('*', $info);
+
+		return new BSArray(array(
+			'width' => (int)$info[0],
+			'height' => (int)$info[1],
+		));
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

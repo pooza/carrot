@@ -22,6 +22,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		parent::__construct($name);
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['id'] = $this->getID();
+		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['query'] = new BSArray;
 	}
 
@@ -105,6 +106,15 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		}
 		return $this->carrier;
 	}
+
+	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 * @abstract
+	 */
+	abstract public function getDisplayInfo ();
 }
 
 /* vim:set tabstop=4: */
