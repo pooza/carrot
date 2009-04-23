@@ -71,6 +71,30 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
+	 * 画像を変換
+	 *
+	 * @access public
+	 * @param BSImage $image 対象画像
+	 * @param integer $flags フラグ
+	 * @return BSImage 変換後の画像
+	 */
+	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {
+		$dest = clone $image;
+		if (!$this->isWAP2()) {
+			if ($image->getType() == 'image/jpeg') {
+				$dest->setType('image/png');
+			}
+		}
+		if ($flags & self::IMAGE_FULL_SCREEN) {
+			$dest->resize(
+				$this->attributes['display']['width'],
+				$this->attributes['display']['height']
+			);
+		}
+		return $dest;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

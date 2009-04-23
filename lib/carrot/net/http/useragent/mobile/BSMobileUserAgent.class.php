@@ -13,6 +13,7 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent {
 	private $carrier;
+	const IMAGE_FULL_SCREEN = 1;
 
 	/**
 	 * @access public
@@ -116,6 +117,17 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @abstract
 	 */
 	abstract public function isLegacy ();
+
+	/**
+	 * 画像を変換
+	 *
+	 * @access public
+	 * @param BSImage $image 対象画像
+	 * @param integer $flags フラグ
+	 * @return BSImage 変換後の画像
+	 * @abstract
+	 */
+	abstract public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN);
 
 	/**
 	 * 画面情報を返す
