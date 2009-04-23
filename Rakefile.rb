@@ -85,6 +85,18 @@ namespace :var do
       system 'sudo rm var/serialized/*'
     end
 
+    namespace :docomo_agents do
+      desc 'DoCoMoの端末リストを取得'
+      task :fetch do
+        sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
+      end
+
+      desc 'DoCoMoの端末リストを更新'
+      task :update do
+        sh 'svn update webapp/config/docomo_atents.xml'
+      end
+    end
+
     def keep_types
       types = []
       ['carrot', 'application'].each do |name|
