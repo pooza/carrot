@@ -21,7 +21,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['query']['guid'] = 'ON';
-		$this->attributes['display'] = $this->getDisplayInfo();
 	}
 
 	/**
@@ -31,7 +30,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		return BSController::getInstance()->getEnvironment('HTTP_X_DCMGUID');
+		return BSController::getInstance()->getEnvironment('X-DCMGUID');
 	}
 
 	/**
@@ -44,6 +43,12 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		return '/DoCoMo/';
 	}
 
+	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 */
 	public function getDisplayInfo () {
 		foreach (self::getDisplayInfos() as $pattern => $values) {
 			$position = stripos($this->getName(), $pattern);

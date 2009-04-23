@@ -110,7 +110,7 @@ class BSWebRequest extends BSRequest {
 		if (BS_DEBUG && ($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
 			return $name;
 		}
-		return $this->controller->getEnvironment('HTTP_USER_AGENT');
+		return $this->controller->getEnvironment('USER-AGENT');
 	}
 
 	/**
@@ -123,7 +123,7 @@ class BSWebRequest extends BSRequest {
 	 */
 	public function getRealUserAgent () {
 		if (!$this->useragentReal) {
-			$name = $this->controller->getEnvironment('HTTP_USER_AGENT');
+			$name = $this->controller->getEnvironment('USER-AGENT');
 			if (!$this->useragentReal = BSUserAgent::getInstance($name)) {
 				throw new BSUserAgentException('サポートされていないUserAgentです。');
 			}
@@ -148,7 +148,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return !BSString::isBlank($this->controller->getEnvironment('HTTP_X_PROTOTYPE_VERSION'));
+		return !BSString::isBlank($this->controller->getEnvironment('X-PROTOTYPE-VERSION'));
 	}
 
 	/**
@@ -158,8 +158,8 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return $this->controller->getEnvironment('HTTP_X_FLASH_VERSION')
-			|| $this->controller->getEnvironment('HTTP_X_IS_FLASH');
+		return $this->controller->getEnvironment('X-FLASH-VERSION')
+			|| $this->controller->getEnvironment('X-IS-FLASH');
 	}
 }
 

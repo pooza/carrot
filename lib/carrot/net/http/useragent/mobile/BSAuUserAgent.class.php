@@ -19,7 +19,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		return BSController::getInstance()->getEnvironment('HTTP_X_UP_SUBNO');
+		return BSController::getInstance()->getEnvironment('X-UP-SUBNO');
 	}
 
 	/**
