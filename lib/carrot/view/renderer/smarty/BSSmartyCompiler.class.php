@@ -73,10 +73,10 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	}
 
 	/**
-	 * テンプレートを返す
+	 * テンプレートファイルを返す
 	 *
 	 * @access public
-	 * @return string テンプレートファイル名
+	 * @return BSTemplateFile テンプレートファイル
 	 */
 	public function getTemplate () {
 		return $this->template;

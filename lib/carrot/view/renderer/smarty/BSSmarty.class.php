@@ -30,8 +30,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	public function __construct() {
 		$controller = BSController::getInstance();
 		$this->compile_dir = $controller->getPath('compile');
-		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/renderer/smarty/plugins';
+		$this->plugins_dir = array();
 		$this->plugins_dir[] = $controller->getPath('local_lib') . '/smarty';
+		$this->plugins_dir[] = $controller->getPath('carrot') . '/view/renderer/smarty/plugins';
+		$this->plugins_dir[] = $controller->getPath('lib') . '/Smarty/plugins';
 		$this->force_compile = BS_DEBUG;
 		$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
@@ -130,7 +132,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return $this->fetch($this->getTemplate()->getPath());
+		return $this->getTemplate()->compile();
 	}
 
 	/**
@@ -258,10 +260,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * テンプレートを返す
+	 * テンプレートファイルを返す
 	 *
 	 * @access public
-	 * @return BSFile テンプレートファイル
+	 * @return BSTemplateFile テンプレートファイル
 	 */
 	public function getTemplate () {
 		return $this->template;
@@ -278,6 +280,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
 		}
 		$this->template = $file;
+		$this->template->setEngine($this);
 	}
 
 	/**
@@ -314,7 +317,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		}
 		if ($value instanceof BSAssignable) {
 			$this->assign($name, $value->getAssignValue());
-		} else if ($value != '') {
+		} else if (!BSString::isBlank($value)) {
 			$this->assign($name, $value);
 		}
 	}
@@ -336,33 +339,32 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 *
 	 * @access public
 	 * @param string $name ファイル名
-	 * @return BSFile 実テンプレートファイル
+	 * @return BSTemplateFile 実テンプレートファイル
 	 */
 	public function searchTemplate ($name) {
 		if ($name instanceof BSFile) {
-			return $name;
+			return new BSTemplateFile($name->getPath());
 		} else if (BSUtility::isPathAbsolute($name)) {
-			$file = new BSFile($name);
+			$file = new BSTemplateFile($name);
 			if ($file->isReadable()) {
 				return $file;
 			}
 		} else {
 			$name = preg_replace('/\.tpl$/i', '', $name);
-			$dirs = array(
-				$this->getTemplatesDirectory(),
-				BSController::getInstance()->getDirectory('templates'),
-			);
-			$names = array($name);
+			$directories = new BSArray;
+			$directories[] = $this->getTemplatesDirectory();
+			$directories[] = BSController::getInstance()->getDirectory('templates');
+			$names = new BSArray($name);
 			if ($this->getUserAgent()) {
 				if ($this->getUserAgent()->isMobile()) {
 					$names[] = $name . '.mobile';
 				}
 				$names[] = $name . '.' . $this->getUserAgent()->getType();
-				rsort($names);
+				$names->sort(BSArray::SORT_KEY_DESC);
 			}
-			foreach ($dirs as $dir) {
+			foreach ($directories as $directory) {
 				foreach ($names as $name) {
-					if ($file = $dir->getEntry($name)) {
+					if ($file = $directory->getEntry($name, 'BSTemplateFile')) {
 						return $file;
 					}
 				}
@@ -394,22 +396,23 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param string $resource リソース名
 	 * @param string $source ソース文字列
 	 * @param string $compiled コンパイル済み文字列
+	 * @param string $path コンパイル済みテンプレートへのパス
 	 * @return boolean 成功ならTrue
 	 */
-	public function _compile_source ($resource, &$source, &$compiled, $cache_include_path = null) {
+	public function _compile_source ($resource, &$source, &$compiled, $path = null) {
 		$compiler = $this->getCompiler();
 
-		if (isset($cache_include_path) && isset($this->_cache_serials[$cache_include_path])) {
-			$compiler->setAttribute('_cache_serial', $this->_cache_serials[$cache_include_path]);
+		if (isset($path) && isset($this->_cache_serials[$path])) {
+			$compiler->setAttribute('_cache_serial', $this->_cache_serials[$path]);
 		}
-		$this->getCompiler()->setAttribute('_cache_include', $cache_include_path);
+		$this->getCompiler()->setAttribute('_cache_include', $path);
 		$result = $compiler->_compile_file($resource, $source, $compiled);
 
 		if ($this->getCompiler()->_cache_serial) {
 			$this->_cache_include_info = array(
 				'cache_serial' => $compiler->getAttribute('_cache_serial'),
 				'plugins_code' => $compiler->getAttribute('_plugins_code'),
-				'include_file_path' => $cache_include_path,
+				'include_file_path' => $path,
 			);
 		} else {
 			$this->_cache_include_info = null;
