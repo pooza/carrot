@@ -21,6 +21,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	private $useragent;
 	private $headers;
 	private $storage;
+	private $compiler;
+	public $compiler_class = 'BSSmartyCompiler';
 
 	/**
 	 * @access public
@@ -128,7 +130,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return $this->fetch($this->getTemplate());
+		return $this->fetch($this->getTemplate()->getPath());
 	}
 
 	/**
@@ -259,7 +261,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * テンプレートを返す
 	 *
 	 * @access public
-	 * @return string テンプレートファイル名
+	 * @return BSFile テンプレートファイル
 	 */
 	public function getTemplate () {
 		return $this->template;
@@ -269,13 +271,13 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * テンプレートを設定
 	 *
 	 * @access public
-	 * @param string $template テンプレートファイル名
+	 * @param mixied $template テンプレートファイル名、又はテンプレートファイル
 	 */
 	public function setTemplate ($template) {
 		if (!$file = $this->getTemplateFile($template)) {
 			throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
 		}
-		$this->template = $file->getPath();
+		$this->template = $file;
 	}
 
 	/**
@@ -366,6 +368,53 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * コンパイラを返す
+	 *
+	 * @return BSSmartyCompiler コンパイラ
+	 */
+	public function getCompiler () {
+		if (!$this->compiler) {
+			$this->compiler = new $this->compiler_class;
+			if (!$this->compiler->initialize($this)) {
+				throw new BSInitializationException(
+					'%sが初期化出来ません。',
+					$this->compiler_class
+				);
+			}
+		}
+		return $this->compiler;
+	}
+
+	/**
+	 * リソースを指定してコンパイル
+	 *
+	 * @param string $resource リソース名
+	 * @param string $source ソース文字列
+	 * @param string $compiled コンパイル済み文字列
+	 * @return boolean 成功ならTrue
+	 */
+	public function _compile_source ($resource, &$source, &$compiled, $cache_include_path = null) {
+		$compiler = $this->getCompiler();
+
+		if (isset($cache_include_path) && isset($this->_cache_serials[$cache_include_path])) {
+			$compiler->setAttribute('_cache_serial', $this->_cache_serials[$cache_include_path]);
+		}
+		$this->getCompiler()->setAttribute('_cache_include', $cache_include_path);
+		$result = $compiler->_compile_file($resource, $source, $compiled);
+
+		if ($this->getCompiler()->_cache_serial) {
+			$this->_cache_include_info = array(
+				'cache_serial' => $compiler->getAttribute('_cache_serial'),
+				'plugins_code' => $compiler->getAttribute('_plugins_code'),
+				'include_file_path' => $cache_include_path,
+			);
+		} else {
+			$this->_cache_include_info = null;
+		}
+		return $result;
 	}
 
 	/**
