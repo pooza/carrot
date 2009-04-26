@@ -17,7 +17,7 @@ class BSConsoleController extends BSController {
 	 * @access private
 	 */
 	private function __construct () {
-		if (!$this->request[self::MODULE_ACCESSOR]) {
+		if (BSString::isBlank($this->request[self::MODULE_ACCESSOR])) {
 			$this->request[self::MODULE_ACCESSOR] = 'Console';
 		}
 	}
