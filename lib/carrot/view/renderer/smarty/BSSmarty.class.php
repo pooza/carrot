@@ -405,10 +405,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		if (isset($path) && isset($this->_cache_serials[$path])) {
 			$compiler->setAttribute('_cache_serial', $this->_cache_serials[$path]);
 		}
-		$this->getCompiler()->setAttribute('_cache_include', $path);
+		$compiler->setAttribute('_cache_include', $path);
 		$result = $compiler->_compile_file($resource, $source, $compiled);
 
-		if ($this->getCompiler()->_cache_serial) {
+		if ($compiler->_cache_serial) {
 			$this->_cache_include_info = array(
 				'cache_serial' => $compiler->getAttribute('_cache_serial'),
 				'plugins_code' => $compiler->getAttribute('_plugins_code'),
