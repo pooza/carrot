@@ -19,7 +19,7 @@ class BSImageValidator extends BSValidator {
 	 * @return BSArray 許可されるメディアタイプ
 	 */
 	private function getAllowedTypes () {
-		if ($this['types']) {
+		if (!BSString::isBlank($this['types'])) {
 			if (BSArray::isArray($this['types'])) {
 				$types = new BSArray($this['types']);
 			} else {
@@ -73,7 +73,7 @@ class BSImageValidator extends BSValidator {
 				throw new BSImageException('ファイルが存在しない、又は正しくありません。');
 			}
 			$file = new BSImageFile($name);
-			$image = $file->getEngine();
+			$image = $file->getRenderer();
 		} catch (BSException $e) {
 			$this->error = $this['types_error'];
 			return false;
