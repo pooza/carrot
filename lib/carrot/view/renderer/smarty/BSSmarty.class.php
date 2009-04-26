@@ -458,7 +458,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	public function _get_auto_filename ($base, $source = null, $id = null) {
 		// ソーステンプレート名をフルパス表記に修正
 		if (!BSUtility::isPathAbsolute($source)) {
-			$pattern = '/' . preg_quote(DIRECTORY_SEPARATOR, '/') . '*/';
+			$pattern = '/' . preg_quote(DIRECTORY_SEPARATOR, '/') . '*$/';
 			$source = preg_replace($pattern, DIRECTORY_SEPARATOR, $base) . $source;
 		}
 		return parent::_get_auto_filename($base, $source, $id);
