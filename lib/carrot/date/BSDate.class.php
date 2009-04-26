@@ -19,8 +19,8 @@ class BSDate implements ArrayAccess, BSAssignable {
 	const SAT = 6;
 	const SUN = 7;
 	private $attributes;
-	static private $gengos;
 	const GMT = 'gmt';
+	static private $gengos;
 
 	/**
 	 * @access public
@@ -482,9 +482,12 @@ class BSDate implements ArrayAccess, BSAssignable {
 	/**
 	 * 書式化した日付を返す
 	 *
+	 * strftime関数とdate関数で処理。
+	 *
 	 * @access public
 	 * @param string $format 書式
 	 * @param integer $flag フラグのビット列
+	 *   self::GMT GMT時刻で返す。
 	 * @return string 書式化された日付文字列
 	 */
 	public function format ($format = 'Y/m/d H:i:s', $flag = null) {
@@ -492,23 +495,27 @@ class BSDate implements ArrayAccess, BSAssignable {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-		$format = str_replace('ww', $this->getWeekdayName(), $format);
+		$date = clone $this;
+		if ($flag & self::GMT) {
+			$date->setDate(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
+		}
 
-		if (preg_match('/JY/', $format)) {
-			$year = $this->getGengo();
+		if (strpos($format, '%') !== false) {
+			$format = strftime($format, $date->getTimestamp());
+		}
+		if (strpos($format, 'ww') !== false) {
+			$format = str_replace('ww', $date->getWeekdayName(), $format);
+		}
+		if (strpos($format, 'JY') !== false) {
+			$year = $date->getGengo();
 			if ($this->getJapaneseYear() == 1) {
 				$year .= '元';
 			} else {
-				$year .= $this->getJapaneseYear();
+				$year .= $date->getJapaneseYear();
 			}
 			$format = str_replace('JY', $year, $format);
 		}
-
-		if ($flag & self::GMT) {
-			return gmdate($format, $this->getTimestamp());
-		} else {
-			return date($format, $this->getTimestamp());
-		}
+		return date($format, $date->getTimestamp());
 	}
 
 	/**

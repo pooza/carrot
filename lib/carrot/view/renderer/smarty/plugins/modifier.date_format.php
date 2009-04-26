@@ -7,8 +7,8 @@
 /**
  * 日付書式化修飾子
  *
- * Smarty標準のdate_format修飾子と非互換。
- * strftime関数ではなく、date関数で処理する。
+ * Smarty標準のdate_format修飾子と互換。
+ * strftime関数に加え、date関数でも処理する。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
