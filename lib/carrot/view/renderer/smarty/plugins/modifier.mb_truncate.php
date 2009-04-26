@@ -7,18 +7,20 @@
 /**
  * マルチバイト対応truncate修飾子
  *
+ * 非推奨。truncate修飾子を使うべき。
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
 function smarty_modifier_mb_truncate ($value, $length = 80, $suffix = '...') {
-	if (is_array($value)) {
-		return $value;
-	} else if ($value instanceof BSParameterHolder) {
-		return $value->getParameters();
-	} else if (!BSString::isBlank($value)) {
-		return BSString::truncate($value, $length, $suffix);
+	static $alert;
+	if (!$alert) {
+		BSLogManager::getInstance()->put('mb_truncate修飾子が呼ばれました。');
+		$alert = true;
 	}
-	return $value;
+
+	require_once('modifier.truncate.php');
+	return smarty_modifier_truncate($value, $format);
 }
 
 /* vim:set tabstop=4: */
