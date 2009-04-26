@@ -13,7 +13,6 @@
 class BSImageFile extends BSFile {
 	protected $renderer;
 	protected $rendererClass;
-	const MAX_FILE_SIZE = 2; //MB単位で
 	const DEFAULT_ENGINE_CLASS = 'BSImage';
 
 	/**
