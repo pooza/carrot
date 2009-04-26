@@ -10,12 +10,9 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSView {
+class BSView extends BSHTTPResponse {
 	protected $nameSuffix;
-	protected $renderer;
 	protected $action;
-	private $headers = array();
-	private $filename;
 	const ALERT = 'Alert';
 	const ERROR = 'Error';
 	const INPUT = 'Input';
@@ -132,7 +129,6 @@ class BSView {
 			throw new BSViewException($message);
 		}
 
-		$this->setHeader('Content-Type', BSMIMEUtility::getContentType($this->renderer));
 		$this->setHeader('Content-Length', $this->renderer->getSize());
 		if ($this->useragent->hasBug('cache-control')) {
 			$this->setHeader('Cache-Control', null);
@@ -167,26 +163,6 @@ class BSView {
 	}
 
 	/**
-	 * レンダラーを返す
-	 *
-	 * @access public
-	 * @return BSRenderer レンダラー
-	 */
-	public function getRenderer () {
-		return $this->renderer;
-	}
-
-	/**
-	 * レンダラーを設定
-	 *
-	 * @access public
-	 * @param BSRenderer $renderer レンダラー
-	 */
-	public function setRenderer (BSRenderer $renderer) {
-		$this->renderer = $renderer;
-	}
-
-	/**
 	 * レスポンスを設定
 	 *
 	 * @access public
@@ -200,64 +176,27 @@ class BSView {
 	}
 
 	/**
-	 * レスポンスヘッダを返す
-	 *
-	 * BSController::getHeaders()のエイリアス。
-	 *
-	 * @access public
-	 * @return BSArray レスポンスヘッダの配列
-	 * @final
-	 */
-	final public function getHeaders () {
-		return $this->controller->getHeaders();
-	}
-
-	/**
-	 * レスポンスヘッダを設定
-	 *
-	 * BSController::setHeader()のエイリアス。
-	 *
-	 * @access public
-	 * @param string $name フィールド名
-	 * @param string $value フィールド値
-	 * @final
-	 */
-	final public function setHeader ($name, $value) {
-		$this->controller->setHeader($name, $value);
-	}
-
-	/**
 	 * レスポンスヘッダを送信
 	 *
-	 * BSController::putHeaders()のエイリアス。
-	 *
 	 * @access public
-	 * @final
 	 */
-	final public function putHeaders () {
+	public function putHeaders () {
+		foreach ($this->getHeaders() as $header) {
+			$this->controller->setHeader($header->getName(), $header->getContents());
+		}
 		$this->controller->putHeaders();
-	}	
-
-	/**
-	 * ファイル名を返す
-	 *
-	 * @access public
-	 * @return string ファイル名
-	 */
-	public function getFileName () {
-		return $this->filename;
 	}
 
 	/**
 	 * ファイル名を設定
 	 *
 	 * @access public
-	 * @param string $name ファイル名
+	 * @param string $filename ファイル名
+	 * @param string $mode モード
 	 */
 	public function setFileName ($name, $mode = BSMIMEUtility::ATTACHMENT) {
+		parent::setFileName($this->useragent->encodeFileName($name), $mode);
 		$this->filename = $name;
-		$name = $this->useragent->encodeFileName($name);
-		$this->setHeader('Content-Disposition', sprintf('%s; filename="%s"', $mode, $name));
 	}
 
 	/**
