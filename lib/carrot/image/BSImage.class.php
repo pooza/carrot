@@ -437,11 +437,7 @@ class BSImage implements BSImageRenderer {
 	 * @return BSArray 拡張子
 	 */
 	static public function getSuffixes () {
-		$suffixes = new BSArray;
-		foreach (self::getTypes() as $suffix => $type) {
-			$suffixes[$type] = $suffix;
-		}
-		return $suffixes;
+		return self::getTypes()->getKeys();
 	}
 
 	/**

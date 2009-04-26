@@ -18,7 +18,7 @@ class BSColor extends BSParameterHolder {
 	 * @param string $color HTML形式の色コード
 	 */
 	public function __construct ($color = null) {
-		if (!$color) {
+		if (BSString::isBlank($color)) {
 			$color = self::DEFAULT_COLOR;
 		}
 		$this->setColor($color);
