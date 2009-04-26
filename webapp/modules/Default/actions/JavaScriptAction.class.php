@@ -16,7 +16,7 @@ class JavaScriptAction extends BSAction {
 	 * @return BSJavaScriptSet JavaScriptセット
 	 */
 	private function getJavaScriptSet () {
-		if (!$this->request['jsset']) {
+		if (BSString::isBlank($this->request['jsset'])) {
 			$this->request['jsset'] = 'carrot';
 		}
 		return BSJavaScriptSet::getInstance($this->request['jsset']);

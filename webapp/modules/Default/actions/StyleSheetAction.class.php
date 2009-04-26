@@ -16,7 +16,7 @@ class StyleSheetAction extends BSAction {
 	 * @return BSStyleSet スタイルセット
 	 */
 	private function getStyleSet () {
-		if (!$this->request['styleset']) {
+		if (BSString::isBlank($this->request['styleset'])) {
 			$this->request['styleset'] = 'carrot';
 		}
 		return BSStyleSet::getInstance($this->request['styleset']);

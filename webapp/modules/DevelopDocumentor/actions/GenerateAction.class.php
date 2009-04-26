@@ -29,7 +29,7 @@ class GenerateAction extends BSAction {
 	}
 
 	public function getDefaultView () {
-		if (!$this->request['directories']) {
+		if (BSString::isBlank($this->request['directories'])) {
 			$this->request['directories'] = array(
 				$this->controller->getPath('carrot'),
 				$this->controller->getPath('local_lib'),
