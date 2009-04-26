@@ -274,7 +274,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param mixied $template テンプレートファイル名、又はテンプレートファイル
 	 */
 	public function setTemplate ($template) {
-		if (!$file = $this->getTemplateFile($template)) {
+		if (!$file = $this->searchTemplate($template)) {
 			throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
 		}
 		$this->template = $file;
@@ -338,7 +338,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param string $name ファイル名
 	 * @return BSFile 実テンプレートファイル
 	 */
-	public function getTemplateFile ($name) {
+	public function searchTemplate ($name) {
 		if ($name instanceof BSFile) {
 			return $name;
 		} else if (BSUtility::isPathAbsolute($name)) {
@@ -425,7 +425,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function _smarty_include ($params) {
 		$template =& $params['smarty_include_tpl_file'];
-		if ($file = $this->getTemplateFile($template)) {
+		if ($file = $this->searchTemplate($template)) {
 			$template = $file->getPath();
 			return parent::_smarty_include($params);
 		}

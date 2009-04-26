@@ -77,7 +77,7 @@ class BSSmartyView extends BSView {
 			$this->getAction()->getName(),
 		);
 		foreach ($names as $name) {
-			if ($file = $this->renderer->getTemplateFile($name)) {
+			if ($file = $this->renderer->searchTemplate($name)) {
 				return $file;
 			}
 		}

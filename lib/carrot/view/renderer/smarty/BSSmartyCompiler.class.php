@@ -50,10 +50,24 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		return true;
 	}
 
+	/**
+	 * 属性を返す
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @return mixed 属性
+	 */
 	public function getAttribute ($name) {
 		return $this->$name;
 	}
 
+	/**
+	 * 属性を設定
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 * @param mixed $value 属性値
+	 */
 	public function setAttribute ($name, $value) {
 		$this->$name = $value;
 	}
