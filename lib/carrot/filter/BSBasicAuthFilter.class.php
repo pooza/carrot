@@ -19,7 +19,7 @@ class BSBasicAuthFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function isAuthenticated () {
-		if (!$password = $this->controller->getEnvironment('PHP_AUTH_PW')) {
+		if (BSString::isBlank($password = $this->controller->getEnvironment('PHP_AUTH_PW'))) {
 			return false;
 		}
 
@@ -44,6 +44,7 @@ class BSBasicAuthFilter extends BSFilter {
 
 	public function execute () {
 		if (!$this->isAuthenticated()) {
+			// アクションとビューを実行せず、ここで終了。
 			$this->controller->setHeader(
 				'WWW-Authenticate',
 				sprintf('Basic realm=\'%s\'', $this['realm'])

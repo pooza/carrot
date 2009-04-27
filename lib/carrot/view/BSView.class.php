@@ -136,10 +136,8 @@ class BSView extends BSHTTPResponse {
 		}
 		$this->putHeaders();
 
-		if ($this->request->getMethod() != BSRequest::HEAD) {
-			mb_http_output('pass');
-			print $this->renderer->getContents();
-		}
+		mb_http_output('pass');
+		print $this->renderer->getContents();
 	}
 
 	/**

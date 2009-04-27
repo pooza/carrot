@@ -74,7 +74,6 @@ class BSWebController extends BSController {
 		$url->setParameters($this->request->getUserAgent()->getAttribute('query'));
 
 		$this->setHeader('Location', $url->getContents());
-		$this->putHeaders();
 		return BSView::NONE;
 	}
 
