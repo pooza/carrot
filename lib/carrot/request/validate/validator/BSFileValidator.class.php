@@ -11,6 +11,26 @@
  * @version $Id$
  */
 class BSFileValidator extends BSValidator {
+	const ATTACHABLE = 'ATTACHABLE';
+
+	/**
+	 * 許可される拡張子を返す
+	 *
+	 * @access private
+	 * @return BSArray 許可される拡張子、全てを許可する場合は空配列
+	 */
+	private function getAllowedSuffixes () {
+		if (BSArray::isArray($this['suffixes'])) {
+			$suffixes = new BSArray($this['suffixes']);
+		} else if (strtoupper($this['suffixes']) == self::ATTACHABLE) {
+			$suffixes = BSMIMEType::getAttachableTypes()->getKeys(BSArray::WITHOUT_KEY);
+		} else {
+			$suffixes = BSString::explode(',', $this['suffixes']);
+		}
+		$suffixes->uniquize();
+		$suffixes->trim();
+		return $suffixes;
+	}
 
 	/**
 	 * 初期化
@@ -22,6 +42,8 @@ class BSFileValidator extends BSValidator {
 		$this['size'] = 2;
 		$this['size_error'] = 'ファイルサイズが大きすぎます。';
 		$this['invalid_error'] = '正しいファイルではありません。';
+		$this['suffixes'] = null;
+		$this['suffix_error'] = 'ファイル形式が正しくありません。';
 		return parent::initialize($parameters);
 	}
 
@@ -36,9 +58,14 @@ class BSFileValidator extends BSValidator {
 		if (!BSArray::isArray($value)) {
 			$this->error = $this['invalid_error'];
 			return false;
-		} else if ($value['name']) {
+		} else if (!BSString::isBlank($value['name'])) {
+			$suffix = BSMIMEUtility::getFileNameSuffix($value['name']);
+			$suffixes = $this->getAllowedSuffixes();
 			if (($this['size'] * 1024 * 1024) < $value['size']) {
 				$this->error = $this['size_error'];
+				return false;
+			} else if ($suffixes->count() && !$suffixes->isContain($suffix)) {
+				$this->error = $this['suffix_error'];
 				return false;
 			} else if ($value['error'] == 2) {
 				$this->error = $this['size_error'];

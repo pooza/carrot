@@ -18,6 +18,7 @@ class BSMIMEUtility {
 	const WITH_SPLIT = 1;
 	const WITHOUT_HEADER = 0;
 	const WITH_HEADER = 1;
+	const IGNORE_INVALID_TYPE = 1;
 
 	/**
 	 * @access private
@@ -146,6 +147,46 @@ class BSMIMEUtility {
 	 */
 	static public function getContentType (BSRenderer $renderer) {
 		return BSContentTypeMIMEHeader::getContentType($renderer);
+	}
+
+	/**
+	 * アップロード可能なメディアタイプを返す
+	 *
+	 * BSMIMEType::getAttachableTypesのエイリアス
+	 *
+	 * @access public
+	 * @return BSArray メディアタイプの配列
+	 * @static
+	 */
+	static public function getAttachableTypes () {
+		return BSMIMEType::getAttachableTypes();
+	}
+
+	/**
+	 * 規定のメディアタイプを返す
+	 *
+	 * BSMIMEType::getTypeのエイリアス
+	 *
+	 * @access public
+	 * @param string $suffix サフィックス
+	 * @return string メディアタイプ
+	 * @static
+	 */
+	static public function getType ($suffix) {
+		return BSMIMEType::getType($suffix);
+	}
+
+	/**
+	 * ファイル名から拡張子を返す
+	 *
+	 * @access public
+	 * @param string $filename 又はファイル名
+	 * @return string 拡張子
+	 * @static
+	 */
+	static public function getFileNameSuffix ($filename) {
+		$parts = explode('.', $filename);
+		return '.' . array_pop($parts);
 	}
 }
 

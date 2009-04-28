@@ -95,10 +95,10 @@ class BSMIMEType extends BSParameterHolder {
 
 		require(BSConfigManager::getInstance()->compile($this->getConfigFile()));
 		foreach ($config['types'] as $key => $value) {
-			if ($value) {
-				$this[strtolower($key)] = $value;
-			} else {
+			if (BSString::isBlank($value)) {
 				$this->removeParameter($key);
+			} else {
+				$this[strtolower($key)] = $value;
 			}
 		}
 	}
@@ -124,15 +124,37 @@ class BSMIMEType extends BSParameterHolder {
 	}
 
 	/**
+	 * アップロード可能なメディアタイプを返す
+	 *
+	 * @access public
+	 * @return BSArray メディアタイプの配列
+	 * @static
+	 */
+	static public function getAttachableTypes () {
+		$types = new BSArray;
+		require(BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile()));
+		foreach ($config['types'] as $key => $value) {
+			if (!BSString::isBlank($value)) {
+				$types['.' . $key] = $value;
+			}
+		}
+		return $types;
+	}
+
+	/**
 	 * 規定のメディアタイプを返す
 	 *
 	 * @access public
-	 * @param string $suffix サフィックス
+	 * @param string $suffix サフィックス、又はファイル名
+	 * @param integer $option オプションのビット列
+	 *   BSMIMEUtility::IGNORE_INVALID_TYPE タイプが不正ならapplication/octet-streamを返す
 	 * @return string メディアタイプ
 	 * @static
 	 */
-	static public function getType ($suffix) {
-		if (!$type = self::getInstance()->getParameter($suffix)) {
+	static public function getType ($suffix, $option = BSMIMEUtility::IGNORE_INVALID_TYPE) {
+		$types = self::getInstance();
+		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])
+			&& ($option & BSMIMEUtility::IGNORE_INVALID_TYPE)) {
 			$type = 'application/octet-stream';
 		}
 		return $type;
