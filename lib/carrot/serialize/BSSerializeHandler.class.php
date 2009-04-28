@@ -144,6 +144,7 @@ class BSSerializeHandler {
 			$file = $name;
 			$name = new BSArray(get_class($file));
 			$name->merge(explode(DIRECTORY_SEPARATOR, $file->getShortPath()));
+			$name->trim();
 			return $name->join('.');
 		} else if (is_object($name)) {
 			return get_class($name);
