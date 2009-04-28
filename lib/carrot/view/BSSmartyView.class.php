@@ -69,7 +69,7 @@ class BSSmartyView extends BSView {
 	 * 規定のテンプレートを返す
 	 *
 	 * @access public
-	 * @param BSFile テンプレートファイル
+	 * @param BSTemplateFile テンプレートファイル
 	 */
 	public function getDefaultTemplateFile () {
 		$names = array(
