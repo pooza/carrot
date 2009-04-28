@@ -7,6 +7,8 @@
 /**
  * バイナリサイズ修飾子
  *
+ * ファイルサイズ等に利用。
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
