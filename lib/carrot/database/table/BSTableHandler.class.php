@@ -635,6 +635,19 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * ディレクトリを返す
+	 *
+	 * @access public
+	 * @return BSDirectory ディレクトリ
+	 */
+	public function getDirectory () {
+		try {
+			return BSController::getInstance()->getDirectory($this->getName());
+		} catch (BSFileException $e) {
+		}
+	}
+
+	/**
 	 * 翻訳して返す
 	 *
 	 * @access public
