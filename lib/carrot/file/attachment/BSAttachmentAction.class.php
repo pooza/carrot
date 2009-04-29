@@ -24,6 +24,10 @@ abstract class BSAttachmentAction extends BSRecordAction {
 		return BSView::SUCCESS;
 	}
 
+	public function handleError () {
+		return $this->controller->getNotFoundAction()->forward();
+	}
+
 	public function validate () {
 		return parent::validate()
 			&& ($this->getRecord() instanceof BSAttachmentContainer)

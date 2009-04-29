@@ -26,7 +26,9 @@ abstract class BSImageCacheAction extends BSRecordAction {
 	}
 
 	public function validate () {
-		return ($this->getRecord()->getImageFile($this->request['size']) != null);
+		return parent::validate()
+			&& ($this->getRecord() instanceof BSImageContainer)
+			&& $this->getRecord()->getImageFile($this->request['size']);
 	}
 }
 
