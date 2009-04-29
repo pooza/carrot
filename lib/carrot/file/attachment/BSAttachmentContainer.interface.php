@@ -48,6 +48,15 @@ interface BSAttachmentContainer {
 	 * @return string 添付ファイルベース名
 	 */
 	public function getAttachmentBaseName ($name = null);
+
+	/**
+	 * 添付ファイルのダウンロード時の名を返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return string 添付ファイルベース名
+	 */
+	public function getAttachmentFileName ($name = null);
 }
 
 /* vim:set tabstop=4: */
