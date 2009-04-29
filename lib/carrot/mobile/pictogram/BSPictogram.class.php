@@ -271,7 +271,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	static public function getPictogramCode ($name) {
 		require(BSConfigManager::getInstance()->compile('pictogram'));
-		if (preg_match('/^[0-9]+$/', $name) && isset($config['names'][$name])) {
+		if (is_numeric($name) && isset($config['names'][$name])) {
 			return $name;
 		} else if (isset($config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
 			return $config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER];

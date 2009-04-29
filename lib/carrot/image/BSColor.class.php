@@ -20,6 +20,8 @@ class BSColor extends BSParameterHolder {
 	public function __construct ($color = null) {
 		if (BSString::isBlank($color)) {
 			$color = self::DEFAULT_COLOR;
+		} else if (is_numeric($color)) {
+			$color = sprintf('%06x', $color);
 		}
 		$this->setColor($color);
 	}

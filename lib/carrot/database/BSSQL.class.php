@@ -153,7 +153,7 @@ class BSSQL {
 	 */
 	static public function getCreateTableQueryString ($table, $fields) {
 		foreach ($fields as $key => $field) {
-			if (preg_match('/^[0-9]+$/', $key)) {
+			if (is_numeric($key)) {
 				$fields[$key] = $field;
 			} else {
 				$fields[$key] = $key . ' ' . $field;
