@@ -179,8 +179,11 @@ class BSMIMEUtility {
 	/**
 	 * ファイル名から拡張子を返す
 	 *
+	 * 拡張子自体が引数になる場合は、ドットをつけて返す。
+	 * BSFileの拡張子を調べる場合は、BSFile::getSuffixを使うべき。
+	 *
 	 * @access public
-	 * @param string $filename 又はファイル名
+	 * @param string $filename 拡張子又はファイル名
 	 * @return string 拡張子
 	 * @static
 	 */

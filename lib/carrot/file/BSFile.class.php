@@ -329,20 +329,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
-	 * 書式化されたファイルサイズを文字列で返す
-	 *
-	 * getBinarySizeのエイリアス
-	 *
-	 * @access public
-	 * @param string $suffix サフィックス、デフォルトはバイトの略で"B"
-	 * @return string 書式化されたファイルサイズ
-	 * @final
-	 */
-	final public function getFormattedSize ($suffix = 'B') {
-		return $this->getBinarySize($suffix);
-	}
-
-	/**
 	 * アップロードされたファイルか？
 	 *
 	 * @access public
