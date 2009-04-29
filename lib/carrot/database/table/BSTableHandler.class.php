@@ -102,10 +102,8 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $criteria 配列または文字列による抽出条件
 	 */
 	public function setCriteria ($criteria) {
-		if ($criteria) {
-			$this->criteria = BSSQL::getCriteriaString($criteria);
-			$this->setExecuted(false);
-		}
+		$this->criteria = BSSQL::getCriteriaString($criteria);
+		$this->setExecuted(false);
 	}
 
 	/**
@@ -154,10 +152,8 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $order 配列または文字列によるソート順
 	 */
 	public function setOrder ($order) {
-		if ($order) {
-			$this->order = BSSQL::getOrderString($order);
-			$this->setExecuted(false);
-		}
+		$this->order = BSSQL::getOrderString($order);
+		$this->setExecuted(false);
 	}
 
 	/**
@@ -235,18 +231,18 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * レコードを返す
 	 *
 	 * @access public
-	 * @param mixed[] $primaryKey 検索条件
+	 * @param mixed[] $key 検索条件
 	 * @return BSRecord レコード
 	 */
-	public function getRecord ($primaryKey) {
-		if (!BSArray::isArray($primaryKey)) {
-			$primaryKey = array($this->getKeyField() => $primaryKey);
+	public function getRecord ($key) {
+		if (!BSArray::isArray($key)) {
+			$key = array($this->getKeyField() => $key);
 		}
 
 		if ($this->isExecuted()) {
 			foreach ($this->getResult() as $record) {
 				$match = true;
-				foreach ($primaryKey as $field => $value) {
+				foreach ($key as $field => $value) {
 					if ($record[$field] != $value) {
 						$match = false;
 					}
@@ -258,12 +254,14 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			}
 		} else {
 			$table = clone $this;
-			$criteria = array();
-			foreach ($primaryKey as $field => $value) {
-				$criteria[] = $field . '=' . $this->getDatabase()->quote($value);
+			$criteria = $this->getDatabase()->createCriteriaSet();
+			$criteria->merge($this->getCriteria());
+			foreach ($key as $field => $value) {
+				$criteria->register($field, $value);
 			}
 			$table->setCriteria($criteria);
 			if ($table->count() == 1) {
+				$table->query();
 				$class = $this->getRecordClassName();
 				return new $class($this, $table->result[0]);
 			}
