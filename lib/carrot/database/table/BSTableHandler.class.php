@@ -448,6 +448,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return integer レコード数
 	 */
 	public function count () {
+		if (!$this->getPage()) {
+			return $this->countAll();
+		}
 		return count($this->getResult());
 	}
 
