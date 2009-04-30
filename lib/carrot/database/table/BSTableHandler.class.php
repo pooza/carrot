@@ -102,6 +102,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $criteria 配列または文字列による抽出条件
 	 */
 	public function setCriteria ($criteria) {
+		if (!$criteria) {
+			return;
+		}
 		$this->criteria = BSSQL::getCriteriaString($criteria);
 		$this->setExecuted(false);
 	}
@@ -152,6 +155,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $order 配列または文字列によるソート順
 	 */
 	public function setOrder ($order) {
+		if (!$order) {
+			return;
+		}
 		$this->order = BSSQL::getOrderString($order);
 		$this->setExecuted(false);
 	}
