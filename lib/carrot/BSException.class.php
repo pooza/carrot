@@ -23,12 +23,9 @@ class BSException extends Exception {
 				$message = $args[0];
 				break;
 			default:
-				foreach ($args as &$arg) {
-					$arg = '\'' . str_replace('\'', '\\\'', $arg) . '\'';
-				}
-				eval('$message = sprintf(' . join(',', $args) . ');');
+				$message = call_user_func_array('sprintf', $args);
+				break;
 		}
-
 		parent::__construct($message);
 
 		if ($this->isLoggable()) {

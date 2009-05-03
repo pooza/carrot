@@ -9,7 +9,6 @@ carrot:
   ver: 2.1.71
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
-
 app:
   name:
     ja: unknown
@@ -20,57 +19,26 @@ app:
   xmpp:
     jid:
     password:
-
 debug: yes
 
-languages:
-  - ja
-
-home:
-  href: /index.html
-
-date:
-  timezone: Asia/Tokyo
-
-types:
-  file: /etc/httpd/mime.types
-
-serialize:
-  storage: default
-  serializer: JSON
-  keep:
-    - BSCounter.*
-
-session:
-  storage: default
-
-smarty:
-  cache:
-    storage: default
-    life_time: 300
-
-memcache:
-  daemon_name: memcached
-  host: unix:///tmp/memcached.sock
-  port: 0
-
-net:
-  resolvable: yes
-
-smtp:
-  host: localhost
-  check_addresses: no
-
-xmpp:
-  host: talk.google.com
-  port: 5222
-  server: gmail.com
-  ssl: yes
-
+awstats:
+  daily: yes
+  server_name_aliases:
 crypt:
   salt: carrot
   engine: blowfish
-
+date:
+  timezone: Asia/Tokyo
+feed:
+  class: BSRSS20Document
+home:
+  href: /index.html
+image:
+  thumbnail:
+    bgcolor: black
+    type: image/png
+languages:
+  - ja
 log:
   loggers:
     - file
@@ -88,43 +56,10 @@ log:
       - BSDatabaseException
       - BSMailException
       - BSFileException
-
-image:
-  thumbnail:
-    bgcolor: black
-    type: image/png
-
-pdo:
-  query_log_enable: no
-  default:
-    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
-    loggable: yes
-  log:
-    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
-  session:
-    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
-  serialize:
-    dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
-
-mysql:
-  dir: /usr/local
-
-pgsql:
-  dir: /usr/local
-
-sqlite3:
-  dir: /usr/local
-
-proctools:
-  dir: /usr/local
-
-feed:
-  class: BSRSS20Document
-
-awstats:
-  daily: yes
-  server_name_aliases:
-
+memcache:
+  daemon_name: memcached
+  host: unix:///tmp/memcached.sock
+  port: 0
 module:
   prefixes:
     - Admin
@@ -139,4 +74,45 @@ module:
   secure:
     module: Default
     action: NotFound
-
+mysql:
+  dir: /usr/local
+net:
+  resolvable: yes
+pdo:
+  query_log_enable: no
+  default:
+    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+    loggable: yes
+  log:
+    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
+  session:
+    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
+  serialize:
+    dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
+pgsql:
+  dir: /usr/local
+proctools:
+  dir: /usr/local
+serialize:
+  storage: default
+  serializer: JSON
+  keep:
+    - BSCounter.*
+session:
+  storage: default
+smarty:
+  cache:
+    storage: default
+    life_time: 300
+smtp:
+  host: localhost
+  check_addresses: no
+sqlite3:
+  dir: /usr/local
+types:
+  file: /etc/httpd/mime.types
+xmpp:
+  host: talk.google.com
+  port: 5222
+  server: gmail.com
+  ssl: yes

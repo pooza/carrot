@@ -66,13 +66,7 @@ class BSView extends BSHTTPResponse {
 		if (!method_exists($this->renderer, $method)) {
 			throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
 		}
-
-		// 処理をエンジンに委譲
-		$args = array();
-		for ($i = 0 ; $i < count($values) ; $i ++) {
-			$args[] = '$values[' . $i . ']';
-		}
-		eval(sprintf('return $this->renderer->%s(%s);', $method, implode(', ', $args)));
+		return call_user_func_array(array($this->renderer, $method), $values);
 	}
 
 	/**
