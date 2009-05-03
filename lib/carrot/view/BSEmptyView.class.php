@@ -34,6 +34,15 @@ class BSEmptyView extends BSView {
 	public function render () {
 		$this->putHeaders();
 	}
+
+	/**
+	 * レスポンスヘッダを送信
+	 *
+	 * @access public
+	 */
+	public function putHeaders () {
+		$this->controller->putHeaders();
+	}
 }
 
 /* vim:set tabstop=4: */
