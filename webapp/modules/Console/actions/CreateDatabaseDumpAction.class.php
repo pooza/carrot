@@ -15,13 +15,15 @@ class CreateDatabaseDumpAction extends BSAction {
 	}
 
 	public function execute () {
-		if (!$db = $this->request['d']) {
-			$db = 'default';
+		if (BSString::isBlank($name = $this->request['d'])) {
+			$name = 'default';
 		}
-		$db = BSDatabase::getInstance($db);
-
+		$db = BSDatabase::getInstance($name);
 		$db->createDumpFile();
-		$this->controller->putLog(sprintf('%sのダンプを作成しました。', $db), get_class($db));
+
+		$message = new BSStringFormat('%sのダンプを作成しました。');
+		$message[] = $db;
+		$this->controller->putLog($message, $db);
 		return BSView::NONE;
 	}
 }

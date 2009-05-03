@@ -301,8 +301,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 
 		$this->setExecuted(false);
 		if ($flag & BSDatabase::WITH_LOGGING) {
-			$name = BSTranslateManager::getInstance()->execute($this->getName());
-			$this->getDatabase()->putLog(sprintf('%s(%s)を作成しました。', $name, $id));
+			$message = new BSStringFormat('%s(%d)を作成しました。');
+			$message[] = BSTranslateManager::getInstance()->execute($this->getName());
+			$message[] = $id;
+			$this->getDatabase()->putLog($message);
 		}
 
 		return $id;

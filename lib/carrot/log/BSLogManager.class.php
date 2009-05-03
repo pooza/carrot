@@ -75,6 +75,12 @@ class BSLogManager implements IteratorAggregate {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
+		if ($message instanceof BSStringFormat) {
+			$message = $message->getContents();
+		}
+		if (is_object($priority)) {
+			$priority = get_class($priority);
+		}
 		foreach ($this as $logger) {
 			$logger->put($message, $priority);
 		}

@@ -41,13 +41,11 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 			throw new BSNetException('%sの初期化中にエラーが発生しました。', $this);
 		}
 
-		$message = sprintf(
-			'%s（ポート:%d, PID:%d）を開始しました。',
-			$this,
-			$this->getAttribute('port'),
-			$this->getAttribute('pid')
-		);
-		BSController::getInstance()->putLog($message, get_class($this));
+		$message = new BSStringFormat('%s（ポート:%d, PID:%d）を開始しました。');
+		$message[] = $this;
+		$message[] = $this->getAttribute('port');
+		$message[] = $this->getAttribute('pid');
+		BSController::getInstance()->putLog($message, $this);
 		Nanoserv::Run();
 	}
 
@@ -104,7 +102,7 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	public function on_Read_Line ($line) {
 		$line = trim($line);
 		if (BS_DEBUG) {
-			BSController::getInstance()->putLog('request: ' . $line, get_class($this));
+			BSController::getInstance()->putLog('request: ' . $line, $this);
 		}
 		$this->onGetLine($line);
 	}

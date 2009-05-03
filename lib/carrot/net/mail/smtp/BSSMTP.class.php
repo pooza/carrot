@@ -95,7 +95,7 @@ class BSSMTP extends BSSocket {
 					if ($this->execute('.') != 250) {
 						throw new BSMailException($this->getPrevLine());
 					}
-					$this->putLog($this->getSentMessage());
+					BSController::getInstance()->putLog($this->getSentMessage(), $this);
 					return $this->getPrevLine();
 				} catch (BSMailException $e) {
 					sleep(1);
@@ -144,12 +144,13 @@ class BSSMTP extends BSSocket {
 		foreach ($this->getRecipients() as $email) {
 			$recipients[] = $email->getContents();
 		}
-		return sprintf(
-			'%sから%s宛に、%sを送信しました。',
-			$this->getFrom()->getContents(),
-			$recipients->join(','),
-			$this->getMail()
-		);
+
+		$message = new BSStringFormat('%sから%s宛に、%sを送信しました。 (%s)');
+		$message[] = $this->getFrom()->getContents();
+		$message[] = $recipients->join(',');
+		$message[] = $this->getMail();
+		$message[] = $this->getPrevLine();
+		return $message;
 	}
 
 	/**
@@ -254,17 +255,6 @@ class BSSMTP extends BSSocket {
 			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
 		}
 		return $result;
-	}
-
-	/**
-	 * ログを出力する
-	 *
-	 * @access protected
-	 * @param string $message メッセージ
-	 */
-	protected function putLog ($message) {
-		$message = sprintf('%s (%s)', $message, $this->getPrevLine());
-		BSController::getInstance()->putLog($message, get_class($this));
 	}
 
 	/**

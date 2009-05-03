@@ -101,10 +101,10 @@ class BSPOP3Mail extends BSMIMEDocument {
 	public function delete () {
 		if (!$this->executed['DELE']) {
 			$this->server->execute('DELE ' . $this->getID());
-			BSController::getInstance()->putLog(
-				sprintf('%sをサーバから削除しました。', $this),
-				get_class($this)
-			);
+			$message = new BSStringFormat('%sを%sから削除しました。');
+			$message[] = $this;
+			$message[] = $this->server;
+			BSController::getInstance()->putLog($message, $this);
 			$this->executed['DELE'] = true;
 		}
 	}

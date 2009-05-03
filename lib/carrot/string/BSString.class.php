@@ -1,6 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
+ * @subpackage string
  */
 
 /**

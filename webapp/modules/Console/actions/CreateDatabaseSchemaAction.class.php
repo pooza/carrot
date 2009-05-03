@@ -15,15 +15,15 @@ class CreateDatabaseSchemaAction extends BSAction {
 	}
 
 	public function execute () {
-		if (!$database = $this->request['d']) {
-			$database = 'default';
+		if (BSString::isBlank($name = $this->request['d'])) {
+			$name = 'default';
 		}
+		$db = BSDatabase::getInstance($name);
+		$db->createSchemaFile();
 
-		BSDatabase::getInstance($database)->createSchemaFile();
-		$this->controller->putLog(
-			sprintf('%sのスキーマを作成しました。', $this->database),
-			get_class($this->database)
-		);
+		$message = new BSStringFormat('%sのスキーマを作成しました。');
+		$message[] = $db;
+		$this->controller->putLog($message, $db);
 		return BSView::NONE;
 	}
 }

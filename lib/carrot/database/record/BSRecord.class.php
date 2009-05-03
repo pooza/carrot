@@ -128,7 +128,9 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		$this->getTable()->getDatabase()->exec($query);
 
 		if ($flag & BSDatabase::WITH_LOGGING) {
-			$this->getTable()->getDatabase()->putLog($this . 'を更新しました。');
+			$message = new BSStringFormat('%sを更新しました。');
+			$message[] = $this;
+			$this->getTable()->getDatabase()->putLog($message);
 		}
 
 		$this->setAttributes($values);
@@ -170,7 +172,9 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		$this->getTable()->getDatabase()->exec($query);
 
 		if ($flag & BSDatabase::WITH_LOGGING) {
-			$this->getTable()->getDatabase()->putLog($this . 'を削除しました。');
+			$message = new BSStringFormat('%sを削除しました。');
+			$message[] = $this;
+			$this->getTable()->getDatabase()->putLog($message);
 		}
 	}
 

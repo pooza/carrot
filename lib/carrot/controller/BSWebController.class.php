@@ -84,7 +84,7 @@ class BSWebController extends BSController {
 	 */
 	public function putHeaders () {
 		if (headers_sent()) {
-			$this->putLog('レスポンスヘッダを送信出来ませんでした。', get_class($this));
+			$this->putLog('レスポンスヘッダを送信出来ませんでした。', $this);
 		}
 
 		if ($status = $this->getHeaders()->getParameter('Status')) {

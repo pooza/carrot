@@ -44,10 +44,10 @@ class BackupDatabaseAction extends BSAction {
 
 		$file->setMode(0666);
 		$file->compress();
-		$this->controller->putLog(
-			sprintf('%sをバックアップしました。', $this->getDatabase()),
-			get_class($this->getDatabase())
-		);
+
+		$message = new BSStringFormat('%sをバックアップしました。');
+		$message[] = $this->getDatabase();
+		$this->controller->putLog($message, $this->getDatabase());
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BackupDatabaseAction extends BSAction {
 			$this->handleError();
 		}
 
-		$this->controller->putLog('実行しました。', get_class($this));
+		$this->controller->putLog('実行しました。', $this);
 		return BSView::NONE;
 	}
 

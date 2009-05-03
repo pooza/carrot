@@ -114,12 +114,10 @@ class BSSerializeHandler {
 	 */
 	public function setAttribute ($name, $value) {
 		$serialized = $this->getStorage()->setAttribute($this->getAttributeName($name), $value);
-		$message = sprintf(
-			'%sのシリアライズを格納しました。 (%sB)',
-			$name,
-			BSNumeric::getBinarySize(strlen($serialized))
-		);
-		BSController::getInstance()->putLog($message, get_class($this->getStorage()));
+		$message = new BSStringFormat('%sのシリアライズを格納しました。 (%sB)');
+		$message[] = $name;
+		$message[] = BSNumeric::getBinarySize(strlen($serialized));
+		BSController::getInstance()->putLog($message, $this->getStorage());
 	}
 
 	/**

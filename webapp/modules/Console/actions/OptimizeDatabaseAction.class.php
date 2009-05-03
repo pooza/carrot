@@ -15,13 +15,15 @@ class OptimizeDatabaseAction extends BSAction {
 	}
 
 	public function execute () {
-		if (!$db = $this->request['d']) {
-			$db = 'default';
+		if (BSString::isBlank($name = $this->request['d'])) {
+			$name = 'default';
 		}
-		$db = BSDatabase::getInstance($db);
-
+		$db = BSDatabase::getInstance($name);
 		$db->optimize();
-		$this->controller->putLog(sprintf('%sを最適化しました。', $db), get_class($db));
+
+		$message = new BSStringFormat('%sを最適化しました。');
+		$message[] = $db;
+		$this->controller->putLog($message, $db);
 		return BSView::NONE;
 	}
 }
