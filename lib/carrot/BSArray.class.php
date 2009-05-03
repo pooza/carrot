@@ -209,21 +209,6 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 		return $this;
 	}
 
-	/**
-	 * トリミング
-	 *
-	 * @access public
-	 * @return BSArray 自分自身
-	 */
-	public function trim ($value = null) {
-		foreach ($this as $key => $value) {
-			if (BSString::isBlank($value)) {
-				$this->removeParameter($key);
-			}
-		}
-		return $this;
-	}
-
 	static private function getFlatContents ($prefix, $arg) {
 		$contents = array();
 		if (BSArray::isArray($arg)) {
@@ -237,6 +222,21 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 			$contents[$prefix] = $arg;
 		}
 		return $contents;
+	}
+
+	/**
+	 * トリミング
+	 *
+	 * @access public
+	 * @return BSArray 自分自身
+	 */
+	public function trim () {
+		foreach ($this as $key => $value) {
+			if (BSString::isBlank($value)) {
+				$this->removeParameter($key);
+			}
+		}
+		return $this;
 	}
 
 	/**
