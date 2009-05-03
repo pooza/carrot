@@ -137,7 +137,7 @@ class BSSMTP extends BSSocket {
 	 * 送信成功時のメッセージを返す
 	 *
 	 * @access protected
-	 * @return string メッセージ
+	 * @return BSStringFormat メッセージ
 	 */
 	protected function getSentMessage () {
 		$recipients = new BSArray;

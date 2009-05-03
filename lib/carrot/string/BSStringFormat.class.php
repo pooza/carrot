@@ -1,11 +1,13 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage database.query
+ * @subpackage string
  */
 
 /**
- * 抽出条件の集合
+ * フォーマット化文字列
+ *
+ * sprintfのラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$

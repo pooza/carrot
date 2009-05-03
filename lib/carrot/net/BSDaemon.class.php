@@ -102,7 +102,9 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	public function on_Read_Line ($line) {
 		$line = trim($line);
 		if (BS_DEBUG) {
-			BSController::getInstance()->putLog('request: ' . $line, $this);
+			$message = new BSStringFormat('request: %s');
+			$message[] = $line;
+			BSController::getInstance()->putLog($message, $this);
 		}
 		$this->onGetLine($line);
 	}

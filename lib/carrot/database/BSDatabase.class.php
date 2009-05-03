@@ -257,7 +257,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * クエリーログを書き込む
 	 *
 	 * @access protected
-	 * @param mixed $log ログメッセージ、またはその配列
+	 * @param mixed $log ログメッセージの文字列、又はBSStringFormat
 	 */
 	protected function putLog ($log) {
 		if ($this->isLoggable()) {

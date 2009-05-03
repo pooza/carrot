@@ -100,7 +100,7 @@ abstract class BSController {
 	 *
 	 * @access public
 	 * @param mixed $message ログメッセージの文字列、又はBSStringFormat
-	 * @param string $priority 優先順位
+	 * @param mixed $priority 優先順位
 	 */
 	public function putLog ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
 		BSLogManager::getInstance()->put($message, $priority);
