@@ -190,7 +190,11 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	 * @return BSArray 自分自身
 	 */
 	public function uniquize () {
-		$this->parameters = array_unique($this->parameters);
+		if (version_compare(PHP_VERSION, '5.2.9', '<')) {
+			$this->parameters = array_unique($this->parameters);
+		} else {
+			$this->parameters = array_unique($this->parameters, SORT_STRING);
+		}
 		return $this;
 	}
 
