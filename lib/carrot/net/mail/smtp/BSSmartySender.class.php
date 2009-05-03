@@ -44,10 +44,7 @@ class BSSmartySender extends BSSMTP {
 	 * @param mixed[] $values 引数
 	 */
 	public function __call ($method, $values) {
-		if (!method_exists($this->getRenderer(), $method)) {
-			throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
-		}
-		return call_user_func_array(array($this->getRenderer(), $method), $values);
+		return BSUtility::executeMethod($this->getRenderer(), $method, $values);
 	}
 
 	/**

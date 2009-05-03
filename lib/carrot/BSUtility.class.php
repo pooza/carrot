@@ -80,6 +80,27 @@ class BSUtility {
 			ini_set('display_errors', 1);
 		}
 	}
+
+	/**
+	 * オブジェクトメソッドを実行
+	 *
+	 * @access public
+	 * @param object $object オブジェクト
+	 * @param string $methid 関数名
+	 * @param mixed[] $values 引数
+	 * @return mixed メソッドの返値
+	 * @static
+	 */
+	static public function executeMethod ($object, $method, $values) {
+		if (!method_exists($object, $method)) {
+			throw new BSMagicMethodException(
+				'クラス"%s"のメソッド"%s"が未定義です。',
+				get_class($object),
+				$method
+			);
+		}
+		return call_user_func_array(array($object, $method), $values);
+	}
 }
 
 /* vim:set tabstop=4: */
