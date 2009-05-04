@@ -17,7 +17,7 @@ end
 
 namespace :development do
   desc '開発環境の構築'
-  task :init => ['var:init', 'database:init', 'local:init']
+  task :init => ['var:init', 'database:init', 'local:init', 'phpdoc:init']
 end
 
 namespace :database do
@@ -111,11 +111,17 @@ namespace :var do
 end
 
 namespace :phpdoc do
-  desc 'PHPDocumentorを初期化'
-  task :init => ['www/doc']
+  desc 'PHPDocumentorを有効に'
+  task :init => ['www/man']
 
-  file 'www/doc' do
-    sh 'ln -s ../var/doc www/doc'
+  file 'www/man' do
+    sh 'ln -s ../share/man www/man'
+  end
+
+  desc 'PHPDocumentorを実行'
+  task :build do
+    system 'rm -R share/man/*'
+    sh 'phpdoc -d lib/carrot,webapp/lib -t share/man -o HTML:Smarty:HandS'
   end
 end
 

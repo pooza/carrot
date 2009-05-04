@@ -8,7 +8,9 @@
 - module: AdminLog
 - module: AdminMemcache
 - module: DevelopTableReport
-- module: DevelopDocumentor
+- title: APIドキュメント
+  href: /man
+  target: _blank
 - title: アクセスログ解析
   href: /awstats/awstats.pl
   target: _blank

@@ -7,136 +7,96 @@
 awstats:
   parent: lib
   name: AWStats
-
 awstats_data:
   parent: var
-
 awstats_log:
   constant: yes
-
 bin:
   constant: yes
-
 cache:
   parent: var
   suffix: .cache.php
-
 carrot:
   parent: lib
-
 carrotlib:
   parent: www
-
 config:
   parent: webapp
-
 compile:
   parent: var
-
 css:
   parent: carrotlib
   suffix: .css
-
 db:
   parent: var
   suffix: .sqlite3
-
 dictionaries:
   parent: webapp
   class: BSDictionaryDirectory
-
-doc:
-  parent: var
-
 dump:
   parent: var
-
 font:
   parent: share
   suffix: .ttf
-
 googleapi:
   parent: lib
   suffix: .wsdl
-
 images:
   parent: carrotlib
-
 image_cache:
   parent: var
-
 js:
   parent: carrotlib
   suffix: .js
-
 lib:
   constant: yes
-
 local_lib:
   parent: webapp
   name: lib
-
 log:
   parent: var
   class: BSLogDirectory
-
+man:
+  parent: share
 menu:
   parent: config
-
 modules:
   parent: webapp
-
 mysql:
   constant: yes
-
 pictogram:
   parent: images
-
 proctools:
   constant: yes
-
 pgsql:
   constant: yes
-
 request:
   parent: var
   suffix: .txt
-
 root:
   constant: yes
-
 serialized:
   parent: var
-
 share:
   constant: yes
-
 sql:
   parent: share
   suffix: .sql
-
 sqlite3:
   constant: yes
-
 styleset:
   parent: config
-
 templates:
   parent: webapp
   suffix: .tpl
-
 tmp:
   parent: var
-
 var:
   constant: yes
-
 webapp:
   constant: yes
-
 www:
   constant: yes
-
 zipcode:
   parent: var
   suffix: .json
