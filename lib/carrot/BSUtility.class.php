@@ -86,7 +86,7 @@ class BSUtility {
 	 *
 	 * @access public
 	 * @param object $object オブジェクト
-	 * @param string $methid 関数名
+	 * @param string $method 関数名
 	 * @param mixed[] $values 引数
 	 * @return mixed メソッドの返値
 	 * @static
