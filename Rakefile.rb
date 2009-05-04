@@ -142,9 +142,24 @@ end
 
 namespace :ajaxzip2 do
   desc 'ajaxzip2を初期化'
-  task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data'] do
-    system 'svn pset svn:executable ON lib/ajaxzip2/csv2jsonzip.pl'
-    sh 'cd lib/ajaxzip2; rake all'
+  task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data', :json, :clear_temp]
+
+  desc '郵便番号辞書の更新'
+  task :refresh => [:clear, :json, :clear_temp]
+
+  desc '郵便番号辞書をクリア'
+  task :clear => [:clear_temp, :clear_json]
+
+  task :json => ['lib/ajaxzip2/data/ken_all.csv'] do
+    sh 'cd lib/ajaxzip2; ./csv2jsonzip.pl data/ken_all.csv'
+  end
+
+  task :clear_temp do
+    system 'rm lib/ajaxzip2/data/ken_all.*'
+  end
+
+  task :clear_json do
+    system 'rm lib/ajaxzip2/data/*.json'
   end
 
   file 'www/carrotlib/js/ajaxzip2/data' do
@@ -153,6 +168,14 @@ namespace :ajaxzip2 do
 
   file 'lib/ajaxzip2/data' do
     sh 'ln -s ../../var/zipcode lib/ajaxzip2/data'
+  end
+
+  file 'lib/ajaxzip2/data/ken_all.csv' => ['lib/ajaxzip2/data/ken_all.lzh'] do
+    sh 'cd lib/ajaxzip2/data; lha x ken_all.lzh'
+  end
+
+  file 'lib/ajaxzip2/data/ken_all.lzh' do
+    sh 'cd lib/ajaxzip2/data; wget http://www.post.japanpost.jp/zipcode/dl/kogaki/lzh/ken_all.lzh'
   end
 end
 
