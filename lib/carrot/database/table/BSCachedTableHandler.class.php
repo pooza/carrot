@@ -15,8 +15,8 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 
 	/**
 	 * @access public
-	 * @param string $criteria 抽出条件
-	 * @param string $order ソート順
+	 * @param mixed $criteria 抽出条件
+	 * @param mixed $order ソート順
 	 */
 	public function __construct ($criteria = null, $order = null) {
 		$this->getContents();

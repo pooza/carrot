@@ -120,7 +120,7 @@ namespace :phpdoc do
 
   desc 'PHPDocumentorを実行'
   task :build do
-    system 'rm -R share/man/*'
+    system 'rm `find share/man -name\'*.html\'`'
     sh 'phpdoc -d lib/carrot,webapp/lib -t share/man -o HTML:Smarty:HandS'
   end
 end
@@ -170,6 +170,8 @@ namespace :distribution do
     end
     system 'svn pset svn:executable ON bin/*'
     system 'svn pset svn:executable ON lib/*/*.pl'
+    system 'svn pset svn:eol-style LF `find share -name \'*.as\'`'
+    system 'svn pset keywords Date `find share/doc -name \'*.html\'`'
   end
 
   desc '配布アーカイブを作成'

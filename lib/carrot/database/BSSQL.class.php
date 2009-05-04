@@ -40,8 +40,8 @@ class BSSQL {
 	 * @access public
 	 * @param string[] $fields フィールド
 	 * @param string[] $tables テーブル名の配列
-	 * @param string[] $criteria 抽出条件
-	 * @param string $order ソート順
+	 * @param mixed $criteria 抽出条件
+	 * @param mixed $order ソート順
 	 * @param string $group グループ化
 	 * @param integer $page ページ
 	 * @param integer $pagesize ページサイズ
