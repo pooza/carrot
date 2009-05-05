@@ -120,7 +120,6 @@ namespace :phpdoc do
 
   desc 'PHPDocumentorを実行'
   task :build do
-    system 'rm `find share/man -name\'*.html\'`'
     sh 'phpdoc -d lib/carrot,webapp/lib -t share/man -o HTML:Smarty:HandS'
   end
 end
