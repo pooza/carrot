@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage translate
+ * @subpackage string.translate
  */
 
 /**
