@@ -578,8 +578,16 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	public function getIDs () {
 		if (!$this->ids) {
 			$this->ids = new BSArray;
-			foreach ($this as $record) {
-				$this->ids[] = $record->getID();
+			$sql = BSSQL::getSelectQueryString(
+				$this->getKeyField(),
+				$this->getName(),
+				$this->getCriteria(),
+				null,
+				$this->getKeyField()
+			);
+			foreach ($this->getDatabase()->query($sql) as $row) {
+				$id = $row[$this->getKeyField()];
+				$this->ids[$id] = $id;
 			}
 		}
 		return $this->ids;
