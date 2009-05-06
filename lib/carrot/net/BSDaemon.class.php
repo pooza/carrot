@@ -4,17 +4,25 @@
  * @subpackage net
  */
 
-BSUtility::includeFile('nanoserv/nanoserv.php');
-BSUtility::includeFile('nanoserv/handlers/NS_Line_Input_Connection_Handler.php');
-
 /**
  * デーモン
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDaemon extends NS_Line_Input_Connection_Handler {
-	private $attributes;
+class BSDaemon {
+	protected $attributes;
+	protected $server;
+	protected $client;
+	const LINE_BUFFER = 4096;
+	const RETRY_LIMIT = 10;
+
+	/**
+	 * @access public
+	 */
+	public function __construct () {
+		$this->attributes = new BSArray(BSController::getInstance()->getAttribute($this));
+	}
 
 	/**
 	 * 開始
@@ -22,41 +30,113 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @access public
 	 */
 	public function start () {
-		Nanoserv::New_Timer($this->getIdleTimeSeconds(), array($this, 'on_Idle'));
-		do {
-			BSController::getInstance()->removeAttribute($this);
-			$status = array(
-				'port' => BSNumeric::getRandom(48557, 49150),
-				'pid' => BSProcess::getCurrentID(),
-			);
-			BSController::getInstance()->setAttribute($this, $status);
-
-			$listener = Nanoserv::New_Listener(
-				'tcp://0.0.0.0:' . $this->getAttribute('port'),
-				get_class($this)
-			);
-		} while (!$listener->activate());
-
-		if (!$this->initialize()) {
-			throw new BSNetException('%sの初期化中にエラーが発生しました。', $this);
+		if (!BSRequest::getInstance()->isCLI()) {
+			$message = new BSStringFormat('%sを開始できません。');
+			$message[] = get_class($this);
+			throw new BSConsoleException($message);
 		}
 
-		$message = new BSStringFormat('%s（ポート:%d, PID:%d）を開始しました。');
-		$message[] = $this;
+		$params = new BSArray;
+		$params['port'] = $this->open();
+		$params['pid'] = BSProcess::getCurrentID();
+		BSController::getInstance()->setAttribute($this, $params->getParameters());
+		$this->attributes = $params;
+
+		$message = new BSStringFormat('開始しました。（ポート:%d, PID:%d）');
 		$message[] = $this->getAttribute('port');
 		$message[] = $this->getAttribute('pid');
 		BSController::getInstance()->putLog($message, $this);
-		Nanoserv::Run();
+
+		$this->executeLoop();
 	}
 
 	/**
-	 * 初期化
+	 * 停止
 	 *
-	 * @access protected
-	 * @return boolean 正常終了ならばTrue
+	 * @access public
 	 */
-	protected function initialize () {
-		return true;
+	public function stop () {
+		if (!$this->isActive()) {
+			return;
+		}
+
+		$this->close();
+
+		$message = new BSStringFormat('終了しました。（ポート:%d, PID:%d）');
+		$message[] = $this->getAttribute('port');
+		$message[] = $this->getAttribute('pid');
+		BSController::getInstance()->putLog($message, $this);
+
+		BSController::getInstance()->removeAttribute($this);
+	}
+
+	/**
+	 * 再起動
+	 *
+	 * @access public
+	 */
+	public function restart () {
+		$this->stop();
+		$this->start();
+	}
+
+	/**
+	 * サーバソケットを開く
+	 *
+	 * @access private
+	 * @return integer ポート番号
+	 */
+	private function open () {
+		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
+			$port = BSNumeric::getRandom(48557, 49150);
+			if ($this->server = stream_socket_server('tcp://0.0.0.0:' . $port)) {
+				stream_set_blocking($this->server, true);
+				return $port;
+			}
+		}
+
+		$message = new BSStringFormat('%sのサーバソケット作成に失敗しました。');
+		$message[] = get_class($this);
+		throw new BSNetException($message);
+	}
+
+	/**
+	 * サーバソケットを閉じる
+	 *
+	 * @access private
+	 */
+	private function close () {
+		if (is_resource($this->server)) {
+			fclose($this->server);
+			$this->server = null;
+		}
+	}
+
+	/**
+	 * イベントループを実行
+	 *
+	 * @access private
+	 */
+	private function executeLoop () {
+		set_time_limit(0);
+		while ($this->server) {
+			$this->client = stream_socket_accept($this->server);
+			while ($this->client && ($line = fread($this->client, self::LINE_BUFFER))) {
+				$this->onRead(rtrim($line));
+			}
+		}
+	}
+
+	/**
+	 * クライアントを切断する
+	 *
+	 * @access private
+	 */
+	private function disconnectClient () {
+		if (is_resource($this->client)) {
+			fclose($this->client);
+			$this->client = null;
+		}
 	}
 
 	/**
@@ -66,9 +146,6 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @return BSArray 属性
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray(BSController::getInstance()->getAttribute($this));
-		}
 		return $this->attributes;
 	}
 
@@ -80,7 +157,7 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -90,7 +167,7 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @return boolean 動作中ならTrue
 	 */
 	public function isActive () {
-		return BSProcess::isExists($this->getAttribute('pid'));
+		return is_resource($this->server) || BSProcess::isExists($this->getAttribute('pid'));
 	}
 
 	/**
@@ -99,64 +176,19 @@ class BSDaemon extends NS_Line_Input_Connection_Handler {
 	 * @access public
 	 * @param string $line 受信文字列
 	 */
-	public function on_Read_Line ($line) {
-		$line = trim($line);
-		if (BS_DEBUG) {
-			$message = new BSStringFormat('request: %s');
-			$message[] = $line;
-			BSController::getInstance()->putLog($message, $this);
+	public function onRead ($line) {
+		switch (strtoupper($line)) {
+			case 'QUIT':
+			case 'EXIT':
+				return $this->disconnectClient();
+			case 'RESTART':
+				$this->disconnectClient();
+				return $this->restart();
+			case 'STOP':
+			case 'SHUTDOWN':
+				$this->disconnectClient();
+				return $this->stop();
 		}
-		$this->onGetLine($line);
-	}
-
-	/**
-	 * アイドル時処理
-	 *
-	 * @access public
-	 */
-	public function on_Idle () {
-		if (BSNumeric::isZero($seconds = $this->getIdleTimeSeconds())) {
-			return;
-		}
-		$this->onIdle();
-		Nanoserv::New_Timer($seconds, array($this, 'on_Idle'));
-	}
-
-	/**
-	 * 受信時
-	 *
-	 * @access public
-	 * @param string $line 受信文字列
-	 */
-	public function onGetLine ($line) {
-		switch ($line) {
-			case null;
-				break;
-			case '/QUIT':
-			case '/EXIT':
-				$this->disconnect();
-				exit;
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * アイドル時
-	 *
-	 * @access public
-	 */
-	public function onIdle () {
-	}
-
-	/**
-	 * アイドル処理の周期を返す
-	 *
-	 * @access public
-	 * @return integer アイドル処理の周期を秒単位で（何もしないなら0を返す）
-	 */
-	public function getIdleTimeSeconds () {
-		return 0;
 	}
 
 	/**

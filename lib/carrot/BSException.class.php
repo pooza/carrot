@@ -20,7 +20,11 @@ class BSException extends Exception {
 				$message = $this->getName() . 'が発生しました。';
 				break;
 			case 1:
-				$message = $args[0];
+				if ($args[0] instanceof BSStringFormat) {
+					$message = $args[0]->getContents();
+				} else {
+					$message = $args[0];
+				}
 				break;
 			default:
 				$message = call_user_func_array('sprintf', $args);

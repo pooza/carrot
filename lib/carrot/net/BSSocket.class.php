@@ -92,7 +92,7 @@ class BSSocket {
 		} else if ($this->isEof()) {
 			return '';
 		}
-		$this->line = rtrim(fgets($this->handle, $length));
+		$this->line = rtrim(fread($this->handle, $length));
 		return $this->line;
 	}
 

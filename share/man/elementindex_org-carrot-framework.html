@@ -1228,6 +1228,8 @@
 							<dt><b>__construct</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#method__construct">BSSocket::__construct()</a></dd>
 							<dt><b>__construct</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#method__construct">BSDaemon::__construct()</a></dd>
+							<dt><b>__construct</b></dt>
 				<dd>in file BSNetwork.class.php, method <a href="org-carrot-framework/net/BSNetwork.html#method__construct">BSNetwork::__construct()</a></dd>
 							<dt><b>__construct</b></dt>
 				<dd>in file BSHost.class.php, method <a href="org-carrot-framework/net/BSHost.html#method__construct">BSHost::__construct()</a></dd>
@@ -1238,9 +1240,9 @@
 							<dt><b>__toString</b></dt>
 				<dd>in file BSNetwork.class.php, method <a href="org-carrot-framework/net/BSNetwork.html#method__toString">BSNetwork::__toString()</a></dd>
 							<dt><b>__toString</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#method__toString">BSDaemon::__toString()</a></dd>
-							<dt><b>__toString</b></dt>
 				<dd>in file BSHost.class.php, method <a href="org-carrot-framework/net/BSHost.html#method__toString">BSHost::__toString()</a></dd>
+							<dt><b>__toString</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#method__toString">BSDaemon::__toString()</a></dd>
 							<dt><b>__destruct</b></dt>
 				<dd>in file BSCurlHTTP.class.php, method <a href="org-carrot-framework/net-http/BSCurlHTTP.html#method__destruct">BSCurlHTTP::__destruct()</a></dd>
 							<dt><b>__toString</b></dt>
@@ -1418,6 +1420,8 @@
 				<dd>in file BSCSVExporter.class.php, method <a href="org-carrot-framework/export/BSCSVExporter.html#methodaddRecord">BSCSVExporter::addRecord()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;レコードを追加</dd>
 							<dt><b>$address</b></dt>
 				<dd>in file BSHost.class.php, variable <a href="org-carrot-framework/net/BSHost.html#var$address">BSHost::$address</a></dd>
+							<dt><b>$attributes</b></dt>
+				<dd>in file BSDaemon.class.php, variable <a href="org-carrot-framework/net/BSDaemon.html#var$attributes">BSDaemon::$attributes</a></dd>
 							<dt><b>$attributes</b></dt>
 				<dd>in file BSUserAgent.class.php, variable <a href="org-carrot-framework/net-http-useragent/BSUserAgent.html#var$attributes">BSUserAgent::$attributes</a></dd>
 							<dt><b>auth</b></dt>
@@ -2832,6 +2836,8 @@
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodclearParameterCache">BSModule::clearParameterCache()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;検索条件キャッシュをクリア</dd>
 							<dt><b>clearRecordID</b></dt>
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodclearRecordID">BSModule::clearRecordID()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;カレントレコードIDをクリア</dd>
+							<dt><b>$client</b></dt>
+				<dd>in file BSDaemon.class.php, variable <a href="org-carrot-framework/net/BSDaemon.html#var$client">BSDaemon::$client</a></dd>
 							<dt><b>close</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodclose">BSSocket::close()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ストリームを閉じる</dd>
 							<dt><b>convertImage</b></dt>
@@ -4221,17 +4227,15 @@
 							<dt><b>getAttribute</b></dt>
 				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodgetAttribute">BSDaemon::getAttribute()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;属性値を返す</dd>
 							<dt><b>getAttributes</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodgetAttributes">BSDaemon::getAttributes()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;属性を全て返す</dd>
-							<dt><b>getAttributes</b></dt>
 				<dd>in file BSHost.class.php, method <a href="org-carrot-framework/net/BSHost.html#methodgetAttributes">BSHost::getAttributes()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;全ての属性を返す</dd>
+							<dt><b>getAttributes</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodgetAttributes">BSDaemon::getAttributes()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;属性を全て返す</dd>
 							<dt><b>getCIDR</b></dt>
 				<dd>in file BSNetwork.class.php, method <a href="org-carrot-framework/net/BSNetwork.html#methodgetCIDR">BSNetwork::getCIDR()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;CIDR形式IPアドレスを返す</dd>
 							<dt><b>getDefaultPort</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodgetDefaultPort">BSSocket::getDefaultPort()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;規定のポート番号を返す</dd>
 							<dt><b>getHost</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodgetHost">BSSocket::getHost()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ホストを返す</dd>
-							<dt><b>getIdleTimeSeconds</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodgetIdleTimeSeconds">BSDaemon::getIdleTimeSeconds()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;アイドル処理の周期を返す</dd>
 							<dt><b>getLine</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodgetLine">BSSocket::getLine()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ストリームから1行読み込む</dd>
 							<dt><b>getLines</b></dt>
@@ -5064,8 +5068,6 @@
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodisAdminModule">BSModule::isAdminModule()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;管理者向けモジュールか？</dd>
 							<dt><b>isLoggable</b></dt>
 				<dd>in file BSModuleException.class.php, method <a href="org-carrot-framework/module/BSModuleException.html#methodisLoggable">BSModuleException::isLoggable()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ログを書き込むか</dd>
-							<dt><b>initialize</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodinitialize">BSDaemon::initialize()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;初期化</dd>
 							<dt><b>isActive</b></dt>
 				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodisActive">BSDaemon::isActive()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;動作中か？</dd>
 							<dt><b>isEof</b></dt>
@@ -5301,6 +5303,8 @@
 				<dd>in file BSFilterChain.class.php, method <a href="org-carrot-framework/filter/BSFilterChain.html#methodloadGlobal">BSFilterChain::loadGlobal()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;グローバルフィルタをフィルタチェーンに加える</dd>
 							<dt><b>loadModule</b></dt>
 				<dd>in file BSFilterChain.class.php, method <a href="org-carrot-framework/filter/BSFilterChain.html#methodloadModule">BSFilterChain::loadModule()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;モジュールフィルタをフィルタチェーンに加える</dd>
+							<dt><b>LINE_BUFFER</b></dt>
+				<dd>in file BSDaemon.class.php, class constant <a href="org-carrot-framework/net/BSDaemon.html#constLINE_BUFFER">BSDaemon::LINE_BUFFER</a></dd>
 							<dt><b>LINE_SEPARATOR</b></dt>
 				<dd>in file BSSocket.class.php, class constant <a href="org-carrot-framework/net/BSSocket.html#constLINE_SEPARATOR">BSSocket::LINE_SEPARATOR</a></dd>
 							<dt><b>LIST_FILE_NAME</b></dt>
@@ -5462,14 +5466,8 @@
 				<dd>in file BSMemcache.class.php, method <a href="org-carrot-framework/memcache/BSMemcache.html#methodoffsetSet">BSMemcache::offsetSet()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;要素を設定</dd>
 							<dt><b>offsetUnset</b></dt>
 				<dd>in file BSMemcache.class.php, method <a href="org-carrot-framework/memcache/BSMemcache.html#methodoffsetUnset">BSMemcache::offsetUnset()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;要素を削除</dd>
-							<dt><b>onGetLine</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodonGetLine">BSDaemon::onGetLine()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;受信時</dd>
-							<dt><b>onIdle</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodonIdle">BSDaemon::onIdle()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;アイドル時</dd>
-							<dt><b>on_Idle</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodon_Idle">BSDaemon::on_Idle()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;アイドル時処理</dd>
-							<dt><b>on_Read_Line</b></dt>
-				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodon_Read_Line">BSDaemon::on_Read_Line()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;受信時処理</dd>
+							<dt><b>onRead</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodonRead">BSDaemon::onRead()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;受信時処理</dd>
 							<dt><b>open</b></dt>
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodopen">BSSocket::open()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ストリームを開く</dd>
 							<dt><b>open</b></dt>
@@ -5749,8 +5747,12 @@
 				<dd>in file BSLogManager.class.php, method <a href="org-carrot-framework/log/BSLogManager.html#methodregister">BSLogManager::register()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ロガーを登録</dd>
 							<dt><b>redirect</b></dt>
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodredirect">BSModule::redirect()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;リダイレクト</dd>
+							<dt><b>restart</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodrestart">BSDaemon::restart()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;再起動</dd>
 							<dt><b>RETRY_LIMIT</b></dt>
 				<dd>in file BSSocket.class.php, class constant <a href="org-carrot-framework/net/BSSocket.html#constRETRY_LIMIT">BSSocket::RETRY_LIMIT</a></dd>
+							<dt><b>RETRY_LIMIT</b></dt>
+				<dd>in file BSDaemon.class.php, class constant <a href="org-carrot-framework/net/BSDaemon.html#constRETRY_LIMIT">BSDaemon::RETRY_LIMIT</a></dd>
 							<dt><b>redirect</b></dt>
 				<dd>in file BSHTTPRedirector.interface.php, method <a href="org-carrot-framework/net-http/BSHTTPRedirector.html#methodredirect">BSHTTPRedirector::redirect()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;リダイレクト</dd>
 							<dt><b>$renderer</b></dt>
@@ -6010,6 +6012,8 @@
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodsetParameterCache">BSModule::setParameterCache()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;検索条件キャッシュを設定</dd>
 							<dt><b>setRecordID</b></dt>
 				<dd>in file BSModule.class.php, method <a href="org-carrot-framework/module/BSModule.html#methodsetRecordID">BSModule::setRecordID()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;カレントレコードIDを設定</dd>
+							<dt><b>$server</b></dt>
+				<dd>in file BSDaemon.class.php, variable <a href="org-carrot-framework/net/BSDaemon.html#var$server">BSDaemon::$server</a></dd>
 							<dt><b>setAddress</b></dt>
 				<dd>in file BSHost.class.php, method <a href="org-carrot-framework/net/BSHost.html#methodsetAddress">BSHost::setAddress()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;IPアドレスを設定</dd>
 							<dt><b>setAttribute</b></dt>
@@ -6024,6 +6028,8 @@
 				<dd>in file BSSocket.class.php, method <a href="org-carrot-framework/net/BSSocket.html#methodsetPort">BSSocket::setPort()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;ポート番号を設定</dd>
 							<dt><b>start</b></dt>
 				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodstart">BSDaemon::start()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;開始</dd>
+							<dt><b>stop</b></dt>
+				<dd>in file BSDaemon.class.php, method <a href="org-carrot-framework/net/BSDaemon.html#methodstop">BSDaemon::stop()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;停止</dd>
 							<dt><b>send</b></dt>
 				<dd>in file BSHTTP.class.php, method <a href="org-carrot-framework/net-http/BSHTTP.html#methodsend">BSHTTP::send()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;リクエストを実行し、結果を返す。</dd>
 							<dt><b>sendGetRequest</b></dt>

@@ -1028,8 +1028,10 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 	<div class="nav-bar">
 					<span class="disabled">Class Overview</span>
 						
-													| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
-								</div>
+											| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
+														| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+														| <a href="#sec-const-summary">Constants Summary</a> | <a href="#sec-consts">Constants Detail</a>
+						</div>
 	<div class="info-box-body">
 		<table width="100%" border="0">
 		<tr><td valign="top" width="60%" class="class-overview">
@@ -1038,13 +1040,11 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 </strong></p>
 
 		<p class="notes">
-			Located in <a class="field" href="_net---BSDaemon.class.php.html">/net/BSDaemon.class.php</a> [<span class="field">line 16</span>]
+			Located in <a class="field" href="_net---BSDaemon.class.php.html">/net/BSDaemon.class.php</a> [<span class="field">line 13</span>]
 		</p>
 
 		
-		<pre>NS_Line_Input_Connection_Handler
-   |
-   --BSDaemon</pre>
+		<pre></pre>
 
 		
 				<strong>Author(s):</strong>
@@ -1059,20 +1059,26 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 	</table>
 		</td>
 
+				<td valign="top" width="20%" class="class-overview">
+		<p align="center" class="short-description"><strong><a href="#sec_vars">Properties</a></strong></p>
+		<ul>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#var$attributes">$attributes</a></li>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#var$client">$client</a></li>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#var$server">$server</a></li>
+		  		</ul>
+		</td>
 		
 				<td valign="top" width="20%" class="class-overview">
 		<p align="center" class="short-description"><strong><a href="#sec_methods">Methods</a></strong></p>
 		<ul>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#method__construct">__construct</a></li>
 		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodgetAttribute">getAttribute</a></li>
 		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodgetAttributes">getAttributes</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodgetIdleTimeSeconds">getIdleTimeSeconds</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodinitialize">initialize</a></li>
 		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodisActive">isActive</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodonGetLine">onGetLine</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodonIdle">onIdle</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodon_Idle">on_Idle</a></li>
-		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodon_Read_Line">on_Read_Line</a></li>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodonRead">onRead</a></li>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodrestart">restart</a></li>
 		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodstart">start</a></li>
+		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#methodstop">stop</a></li>
 		  		  <li><a href="../../org-carrot-framework/net/BSDaemon.html#method__toString">__toString</a></li>
 		  		</ul>
 		</td>
@@ -1084,19 +1090,85 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 
 
 
+	<a name="sec-const-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Constant Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a>
+									| <span class="disabled">Constants Summary</span> | <a href="#sec-consts">Constants Detail</a>
+												| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
+																			| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+									</div>
+		<div class="info-box-body">
+			<div class="const-summary">
+			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
+							<div class="var-title">
+					<tr>
+					<td class="var-title"><a href="#constLINE_BUFFER" title="details" class="const-name-summary">LINE_BUFFER</a>&nbsp;&nbsp;</td>
+					<td class="const-summary-description"></td></tr>
+				</div>
+								<div class="var-title">
+					<tr>
+					<td class="var-title"><a href="#constRETRY_LIMIT" title="details" class="const-name-summary">RETRY_LIMIT</a>&nbsp;&nbsp;</td>
+					<td class="const-summary-description"></td></tr>
+				</div>
+								</table>
+			</div>
+			<br /><div class="top">[ <a href="#top">Top</a> ]</div>
+		</div>
+	</div>
 
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Property Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a>
+									| <span class="disabled">Property Summary</span> | <a href="#sec-vars">Properties Detail</a>
+												| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+							    		    			    				| <a href="#sec-const-summary">Constants Summary</a> | <a href="#sec-consts">Constants Detail</a>
+    			    				</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
+																															<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$attributes" title="details" class="var-name-summary">$attributes</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$client" title="details" class="var-name-summary">$client</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$server" title="details" class="var-name-summary">$server</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+										</table>
+			</div>
+			<br /><div class="top">[ <a href="#top">Top</a> ]</div>
+		</div>
+	</div>
 
 	<a name="sec-method-summary"></a>
 	<div class="info-box">
 		<div class="info-box-title">Method Summary</span></div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
-									    					| <span class="disabled">Method Summary</span> | <a href="#sec-methods">Methods Detail</a>
+																		| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
+							    		    			    				| <a href="#sec-const-summary">Constants Summary</a> | <a href="#sec-consts">Constants Detail</a>
+    			    					| <span class="disabled">Method Summary</span> | <a href="#sec-methods">Methods Detail</a>
 		</div>
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																																																																																								<div class="method-definition">
+																																																																																								<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">BSDaemon</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#__construct" title="details" class="method-name">__construct</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition"></td></tr>
+				</div>
+																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">mixed</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#getAttribute" title="details" class="method-name">getAttribute</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">属性値を返す</td></tr>
@@ -1107,44 +1179,29 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 					<td class="method-definition">属性を全て返す</td></tr>
 				</div>
 																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">integer</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#getIdleTimeSeconds" title="details" class="method-name">getIdleTimeSeconds</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">アイドル処理の周期を返す</td></tr>
-				</div>
-																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">boolean</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#initialize" title="details" class="method-name">initialize</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">初期化</td></tr>
-				</div>
-																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">boolean</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#isActive" title="details" class="method-name">isActive</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">動作中か？</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#onGetLine" title="details" class="method-name">onGetLine</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">受信時</td></tr>
-				</div>
-																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#onIdle" title="details" class="method-name">onIdle</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">アイドル時</td></tr>
-				</div>
-																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#on_Idle" title="details" class="method-name">on_Idle</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">アイドル時処理</td></tr>
-				</div>
-																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#on_Read_Line" title="details" class="method-name">on_Read_Line</a>()&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#onRead" title="details" class="method-name">onRead</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">受信時処理</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#restart" title="details" class="method-name">restart</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">再起動</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#start" title="details" class="method-name">start</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">開始</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#stop" title="details" class="method-name">stop</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">停止</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
@@ -1157,22 +1214,139 @@ Source Location: /net/BSDaemon.class.php<br /><br />
 		</div>
 	</div>
 
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Properties</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a>
+													| <a href="#sec-var-summary">Property Summary</a> | <span class="disabled">Properties Detail</span>
+															| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+																			| <a href="#sec-const-summary">Constants Summary</a> | <a href="#sec-consts">Constants Detail</a>
+									</div>
+		<div class="info-box-body">
+			<a name="var$attributes" id="$attributes"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$attributes</span>
+						<span class="smalllinenumber">[line 14]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$client" id="$client"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$client</span>
+						<span class="smalllinenumber">[line 16]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$server" id="$server"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$server</span>
+						<span class="smalllinenumber">[line 15]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+		</div>
+	</div>
 
 	<a name="sec-methods"></a>
 	<div class="info-box">
 		<div class="info-box-title">Methods</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
-																			| <a href="#sec-method-summary">Method Summary</a> | <span class="disabled">Methods Detail</span>
+																		| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
+																			| <a href="#sec-const-summary">Constants Summary</a> | <a href="#sec-consts">Constants Detail</a>
+														| <a href="#sec-method-summary">Method Summary</a> | <span class="disabled">Methods Detail</span>
 					</div>
 		<div class="info-box-body">
 			<a name='method_detail'></a>
 
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 23]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>BSDaemon __construct(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
 <a name="methodgetAttribute" id="getAttribute"><!-- --></a>
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">getAttribute</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 82]</span>
+	<span class="method-title">getAttribute</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 159]</span>
 </div>
 <br />
 
@@ -1220,7 +1394,7 @@ $name&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">getAttributes</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 68]</span>
+	<span class="method-title">getAttributes</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 148]</span>
 </div>
 <br />
 
@@ -1252,83 +1426,11 @@ $name&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="methodgetIdleTimeSeconds" id="getIdleTimeSeconds"><!-- --></a>
-<div class="evenrow">
-
-<div class="method-header">
-	<span class="method-title">getIdleTimeSeconds</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 158]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>integer getIdleTimeSeconds(
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>アイドル処理の周期を返す
-</strong></p>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>アイドル処理の周期を秒単位で（何もしないなら0を返す）</td>
-  </tr>
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="methodinitialize" id="initialize"><!-- --></a>
-<div class="oddrow">
-
-<div class="method-header">
-	<span class="method-title">initialize</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 58]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>boolean initialize(
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>初期化
-</strong></p>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>正常終了ならばTrue</td>
-  </tr>
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>protected</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
 <a name="methodisActive" id="isActive"><!-- --></a>
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">isActive</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 92]</span>
+	<span class="method-title">isActive</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 169]</span>
 </div>
 <br />
 
@@ -1360,129 +1462,18 @@ $name&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="methodonGetLine" id="onGetLine"><!-- --></a>
+<a name="methodonRead" id="onRead"><!-- --></a>
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">onGetLine</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 131]</span>
+	<span class="method-title">onRead</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 179]</span>
 </div>
 <br />
 
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>void onGetLine(
-string
-$line&nbsp;
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>受信時
-</strong></p>
-
-			<strong>Parameters:</strong><br />
-			<table border="0" cellspacing="0" cellpadding="0">
-					<tr><td class="indent">
-				<span class="var-type">string</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$line:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> 受信文字列</span>			</td></tr>
-				</table>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="methodonIdle" id="onIdle"><!-- --></a>
-<div class="evenrow">
-
-<div class="method-header">
-	<span class="method-title">onIdle</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 149]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>void onIdle(
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>アイドル時
-</strong></p>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="methodon_Idle" id="on_Idle"><!-- --></a>
-<div class="oddrow">
-
-<div class="method-header">
-	<span class="method-title">on_Idle</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 117]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>void on_Idle(
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>アイドル時処理
-</strong></p>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="methodon_Read_Line" id="on_Read_Line"><!-- --></a>
-<div class="evenrow">
-
-<div class="method-header">
-	<span class="method-title">on_Read_Line</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 102]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>void on_Read_Line(
+		<code>void onRead(
 string
 $line&nbsp;
 )</code>
@@ -1516,11 +1507,44 @@ $line&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
+<a name="methodrestart" id="restart"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">restart</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 78]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>void restart(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>再起動
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
 <a name="methodstart" id="start"><!-- --></a>
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">start</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 24]</span>
+	<span class="method-title">start</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 32]</span>
 </div>
 <br />
 
@@ -1549,11 +1573,44 @@ $line&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="method__toString" id="__toString"><!-- --></a>
+<a name="methodstop" id="stop"><!-- --></a>
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">__toString</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 166]</span>
+	<span class="method-title">stop</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 58]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>void stop(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>停止
+</strong></p>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">__toString</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 198]</span>
 </div>
 <br />
 
@@ -1586,6 +1643,49 @@ $line&nbsp;
 		</div>
 	</div>
 
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a>
+										| <a href="#sec-const-summary">Constants Summary</a> | <span class="disabled">Constants Detail</span>
+																		| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+									</div>
+		<div class="info-box-body">
+			<a name="constLINE_BUFFER" id="LINE_BUFFER"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-name">LINE_BUFFER</span>
+			 = <span class="var-default"> 4096</span>
+			<span class="smalllinenumber">[line 17]</span>
+		</span>
+	</div>
+
+		
+
+	<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="constRETRY_LIMIT" id="RETRY_LIMIT"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-name">RETRY_LIMIT</span>
+			 = <span class="var-default"> 10</span>
+			<span class="smalllinenumber">[line 18]</span>
+		</span>
+	</div>
+
+		
+
+	<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+		</div>
+	</div>
 
         <div class="credit">
 		    <hr class="separator" />
