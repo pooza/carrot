@@ -195,6 +195,7 @@ class BSSocketServer {
 	 *
 	 * @access public
 	 * @param string $line 受信文字列
+	 * @return クライアントとの通信を継続するならTrue
 	 */
 	public function onRead ($line) {
 		switch (strtoupper($line)) {
