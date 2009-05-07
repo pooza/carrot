@@ -8,7 +8,6 @@
  * 簡易デーモン
  *
  * onReadを適宜オーバライドして使用すること。
- * 複数のクライアントを処理することは出来ない。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -16,7 +15,7 @@
 class BSDaemon {
 	protected $attributes;
 	protected $server;
-	protected $client;
+	private $streams;
 	const LINE_BUFFER = 4096;
 	const RETRY_LIMIT = 10;
 
@@ -50,7 +49,7 @@ class BSDaemon {
 		$message[] = $this->getAttribute('pid');
 		BSController::getInstance()->putLog($message, $this);
 
-		$this->executeLoop();
+		$this->execute();
 	}
 
 	/**
@@ -93,7 +92,6 @@ class BSDaemon {
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			$port = BSNumeric::getRandom(48557, 49150);
 			if ($this->server = stream_socket_server('tcp://0.0.0.0:' . $port)) {
-				stream_set_blocking($this->server, true);
 				return $port;
 			}
 		}
@@ -110,7 +108,9 @@ class BSDaemon {
 	 */
 	private function close () {
 		if (is_resource($this->server)) {
-			fclose($this->server);
+			foreach ($this->getStreams() as $stream) {
+				fclose($stream);
+			}
 			$this->server = null;
 		}
 	}
@@ -120,26 +120,43 @@ class BSDaemon {
 	 *
 	 * @access private
 	 */
-	private function executeLoop () {
+	private function execute () {
 		set_time_limit(0);
+		$dummy = array(); //stream_selectに渡すダミー配列
 		while ($this->server) {
-			$this->client = stream_socket_accept($this->server);
-			while ($this->client && ($line = fread($this->client, self::LINE_BUFFER))) {
-				$this->onRead(rtrim($line));
+			$streams = $this->getStreams();
+			stream_select($streams, $dummy, $dummy, 500000);
+			foreach ($streams as $stream) {
+				if ($stream === $this->server) {
+					$this->streams[] = stream_socket_accept($this->server);
+					continue;
+				}
+				if (!$this->onRead(rtrim(fread($stream, self::LINE_BUFFER)))) {
+					fclose($stream);
+				}
 			}
 		}
 	}
 
 	/**
-	 * クライアントを切断する
+	 * ストリームの配列を返す
+	 *
+	 * stream_selectに渡す為の配列。
+	 * 最初の要素はサーバソケット、以降はクライアントソケット。
 	 *
 	 * @access private
+	 * @return resource[] ストリームの配列
 	 */
-	private function disconnectClient () {
-		if (is_resource($this->client)) {
-			fclose($this->client);
-			$this->client = null;
+	private function getStreams () {
+		if (!$this->streams) {
+			$this->streams = array($this->server);
 		}
+		foreach ($this->streams as $index => $stream) {
+			if (!is_resource($stream)) {
+				unset($this->streams[$index]);
+			}
+		}
+		return $this->streams;
 	}
 
 	/**
@@ -183,15 +200,16 @@ class BSDaemon {
 		switch (strtoupper($line)) {
 			case 'QUIT':
 			case 'EXIT':
-				return $this->disconnectClient();
+				return false;
 			case 'RESTART':
-				$this->disconnectClient();
-				return $this->restart();
+				$this->restart();
+				return false;
 			case 'STOP':
 			case 'SHUTDOWN':
-				$this->disconnectClient();
-				return $this->stop();
+				$this->stop();
+				return false;
 		}
+		return true;
 	}
 
 	/**
