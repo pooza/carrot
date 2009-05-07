@@ -13,12 +13,19 @@
  */
 abstract class BSImageCacheAction extends BSRecordAction {
 	public function execute () {
-		$url = BSImageCacheHandler::getInstance()->getURL(
-			$this->getRecord(),
-			$this->request['size'],
-			$this->request['pixel']
-		);
-		return $url->redirect();
+		$useragent = $this->request->getUserAgent();
+		if ($useragent->isMobile()) {
+			$image = $this->getRecord()->getImageFile($this->request['size'])->getEngine();
+			$this->request->setAttribute('renderer', $useragent->convertImage($image));
+			return BSView::SUCCESS;
+		} else {
+			$url = BSImageCacheHandler::getInstance()->getURL(
+				$this->getRecord(),
+				$this->request['size'],
+				$this->request['pixel']
+			);
+			return $url->redirect();
+		}
 	}
 
 	public function handleError () {
