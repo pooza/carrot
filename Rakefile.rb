@@ -193,7 +193,6 @@ namespace :distribution do
     system 'svn pset svn:executable ON bin/*'
     system 'svn pset svn:executable ON lib/*/*.pl'
     system 'cd share; svn pset svn:eol-style LF `find . -name \'*.as\'`'
-    system 'cd share/man; svn pset svn:keywords Date `find . -name \'*.html\'`'
   end
 
   desc '配布アーカイブを作成'
