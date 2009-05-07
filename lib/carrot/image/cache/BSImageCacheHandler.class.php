@@ -81,6 +81,7 @@ class BSImageCacheHandler {
 		$url->setModuleName('User' . get_class($record));
 		$url->setActionName('Image');
 		$url->setRecordID($record);
+		$url->setParameter('size', $size);
 		if ($pixel) {
 			$url->setParameter('pixel', $pixel);
 		}
