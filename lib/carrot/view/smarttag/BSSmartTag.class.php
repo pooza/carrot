@@ -11,6 +11,7 @@
  * @version $Id$
  */
 abstract class BSSmartTag extends BSParameterHolder {
+	private $useragent;
 	protected $tag;
 	protected $contents;
 	private $params;
@@ -22,6 +23,29 @@ abstract class BSSmartTag extends BSParameterHolder {
 	public function __construct ($contents) {
 		$this->contents = '[[' . $contents . ']]';
 		$this->tag = BSString::explode(':', $contents);
+	}
+
+	/**
+	 * 対象UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent 対象UserAgent
+	 */
+	public function getUserAgent () {
+		if (!$this->useragent) {
+			$this->useragent = BSRequest::getInstance()->getUserAgent();
+		}
+		return $this->useragent;
+	}
+
+	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		$this->useragent = $useragent;
 	}
 
 	/**

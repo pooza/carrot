@@ -11,6 +11,8 @@
  * @version $Id$
  */
 class BSImageCacheHandler {
+	private $useragent;
+	private $type;
 	static private $instance;
 	const WITHOUT_BROWSER_CACHE = 1;
 
@@ -39,6 +41,42 @@ class BSImageCacheHandler {
 	 */
 	public function __clone () {
 		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+	}
+
+	/**
+	 * 対象UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent 対象UserAgent
+	 */
+	public function getUserAgent () {
+		if (!$this->useragent) {
+			$this->useragent = BSRequest::getInstance()->getUserAgent();
+		}
+		return $this->useragent;
+	}
+
+	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		$this->useragent = $useragent;
+	}
+
+	/**
+	 * 画像のタイプを返す
+	 *
+	 * @access public
+	 * @return string タイプ
+	 */
+	public function getType () {
+		if ($this->getUserAgent()->isMobile()) {
+			return $this->getUserAgent()->getDefaultImageType();
+		}
+		return BS_IMAGE_THUMBNAIL_TYPE;
 	}
 
 	/**
@@ -88,10 +126,8 @@ class BSImageCacheHandler {
 		if ($flags & self::WITHOUT_BROWSER_CACHE) {
 			$url->setParameter('at', BSNumeric::getRandom());
 		}
-
-		$useragent = BSRequest::getInstance()->getUserAgent();
-		if ($useragent->isMobile()) {
-			$url->setParameters($useragent->getAttribute('query'));
+		if ($this->getUserAgent()->isMobile()) {
+			$url->setParameters($this->getUserAgent()->getAttribute('query'));
 		}
 		return $url;
 	}
@@ -178,7 +214,7 @@ class BSImageCacheHandler {
 		$dir = $this->getEntryDirectory($record, $size);
 		$image = new BSImage;
 		$image->setImage($contents);
-		$image->setType(BS_IMAGE_THUMBNAIL_TYPE);
+		$image->setType($this->getType());
 		if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
 			$image = $image->getThumbnail($pixel);
 		}
@@ -242,7 +278,9 @@ class BSImageCacheHandler {
 			$dir = $this->getDirectory()->createDirectory($name);
 			$dir->setMode(0777);
 		}
-		$dir->setDefaultSuffix(BSImage::getSuffixes()->getParameter(BS_IMAGE_THUMBNAIL_TYPE));
+
+		$suffixes = BSImage::getSuffixes();
+		$dir->setDefaultSuffix($suffixes[$this->getType()]);
 		return $dir;
 	}
 }

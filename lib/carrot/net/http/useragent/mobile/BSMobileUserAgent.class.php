@@ -48,6 +48,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	public function initializeSmarty (BSSmarty $smarty) {
 		$smarty->setAttribute('useragent', $this->getAttributes());
 		$smarty->setEncoding('sjis-win');
+		$smarty->addModifier('pictogram');
 		$smarty->addOutputFilter('mobile');
 		$smarty->addOutputFilter('encoding');
 		$smarty->addOutputFilter('trim');
@@ -121,6 +122,16 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	abstract public function isLegacy ();
 
 	/**
+	 * 規定の画像形式を返す
+	 *
+	 * @access public
+	 * @return string 規定の画像形式
+	 */
+	public function getDefaultImageType () {
+		return 'image/png';
+	}
+
+	/**
 	 * 画像を変換
 	 *
 	 * @access public
@@ -130,7 +141,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {
 		$dest = clone $image;
-		$dest->setType('image/png');
+		$dest->setType($this->getDefaultImageType());
 		if ($flags & self::IMAGE_FULL_SCREEN) {
 			$dest->resize(
 				$this->attributes['display']['width'],
