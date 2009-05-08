@@ -104,35 +104,6 @@ class BSImageCacheHandler {
 	}
 
 	/**
-	 * サムネイルラッパーのURLを返す
-	 *
-	 * @access public
-	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ名
-	 * @param integer $pixel ピクセル数
-	 * @param integer $flags オプションのビット列
-	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
-	 * @return BSURL URL
-	 */
-	public function getWrapperURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
-		$url = new BSCarrotURL;
-		$url->setModuleName('User' . get_class($record));
-		$url->setActionName('Image');
-		$url->setRecordID($record);
-		$url->setParameter('size', $size);
-		if ($pixel) {
-			$url->setParameter('pixel', $pixel);
-		}
-		if ($flags & self::WITHOUT_BROWSER_CACHE) {
-			$url->setParameter('at', BSNumeric::getRandom());
-		}
-		if ($this->getUserAgent()->isMobile()) {
-			$url->setParameters($this->getUserAgent()->getAttribute('query'));
-		}
-		return $url;
-	}
-
-	/**
 	 * 画像の情報を返す
 	 *
 	 * @access public
@@ -152,7 +123,6 @@ class BSImageCacheHandler {
 		$info = new BSArray;
 		$info['is_cache'] = 1;
 		$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
-		$info['wrapper_url'] = $this->getWrapperURL($record, $size, $pixel)->getContents();
 		$info['width'] = $image->getWidth();
 		$info['height'] = $image->getHeight();
 		$info['alt'] = $record->getLabel();
@@ -175,8 +145,14 @@ class BSImageCacheHandler {
 			return null;
 		}
 
+		if (!$pixel && $this->getUserAgent()->isMobile()) {
+			$info = $this->getUserAgent()->getDisplayInfo();
+			$name = sprintf('%04d%04d', $info['width'], $info['height']);
+		} else {
+			$name = sprintf('%04d', $pixel);
+		}
+
 		$dir = $this->getEntryDirectory($record, $size);
-		$name = sprintf('%04d', $pixel);
 		if (!$file = $dir->getEntry($name, $class)) {
 			$this->setThumbnail($record, $size, $pixel, $record->getImageFile($size));
 			$file = $dir->getEntry($name, $class);
@@ -215,11 +191,18 @@ class BSImageCacheHandler {
 		$image = new BSImage;
 		$image->setImage($contents);
 		$image->setType($this->getType());
-		if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
-			$image = $image->getThumbnail($pixel);
+
+		if (!$pixel && $this->getUserAgent()->isMobile()) {
+			$info = $this->getUserAgent()->getDisplayInfo();
+			$name = sprintf('%04d%04d', $info['width'], $info['height']);
+			$image = $this->getUserAgent()->convertImage($image);
+		} else {
+			if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
+				$image = $image->getThumbnail($pixel);
+			}
+			$name = sprintf('%04d', $pixel);
 		}
 
-		$name = sprintf('%04d', $pixel);
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
