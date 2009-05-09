@@ -181,6 +181,7 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function setSSL ($mode) {
 		$this->ssl = $mode;
+		$this->name = null;
 		if ($this->isSSL()) {
 			if (!$this->getEngine()) {
 				throw new BSHTTPException('SSLモードの実行にはCurlが必要です。');

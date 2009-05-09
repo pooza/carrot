@@ -22,7 +22,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	static protected function connect ($name) {
 		$constants = BSConstantHandler::getInstance();
-		$db = new BSPostgreSQLDatabase($constants['PDO_' . $name . '_DSN']);
+		$db = new self($constants['PDO_' . $name . '_DSN']);
 		$db->setName($name);
 		return $db;
 	}
@@ -34,7 +34,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		$this->attributes['port'] = self::getDefaultPort();
+		$this->attributes['port'] = $this->getDefaultPort();
 
 		preg_match('/^pgsql:(.+)$/', $this['dsn'], $matches);
 		foreach (preg_split('/ +/', $matches[1]) as $config) {
@@ -172,14 +172,9 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 *
 	 * @access public
 	 * @return integer port
-	 * @static
 	 */
-	static public function getDefaultPort () {
-		foreach (array('postgresql', 'postgres', 'pgsql') as $service) {
-			if ($port = BSNetworkService::getPort($service)) {
-				return $port;
-			}
-		}
+	public function getDefaultPort () {
+		return 5432;
 	}
 }
 

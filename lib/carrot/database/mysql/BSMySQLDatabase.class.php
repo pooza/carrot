@@ -31,7 +31,7 @@ class BSMySQLDatabase extends BSDatabase {
 		$password = $constants['PDO_' . $name . '_PASSWORD'];
 		foreach (array(BSCrypt::getInstance()->decrypt($password), $password) as $password) {
 			try {
-				$db = new BSMySQLDatabase(
+				$db = new self(
 					$constants['PDO_' . $name . '_DSN'],
 					$constants['PDO_' . $name . '_UID'],
 					$password,
@@ -76,7 +76,7 @@ class BSMySQLDatabase extends BSDatabase {
 		parent::parseDSN();
 		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this['dsn'], $matches);
 		$this->attributes['host'] = new BSHost($matches[1]);
-		$this->attributes['port'] = self::getDefaultPort();
+		$this->attributes['port'] = $this->getDefaultPort();
 		$this->attributes['database_name'] = $matches[2];
 		$this->attributes['encoding_name'] = $this->getEncodingName();
 		$this->attributes['config_file'] = self::getConfigFile();
@@ -279,10 +279,9 @@ class BSMySQLDatabase extends BSDatabase {
 	 *
 	 * @access public
 	 * @return integer port
-	 * @static
 	 */
-	static public function getDefaultPort () {
-		return BSNetworkService::getPort('mysql');
+	public function getDefaultPort () {
+		return 3306;
 	}
 }
 

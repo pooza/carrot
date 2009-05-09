@@ -14,8 +14,8 @@ class BSSocket {
 	protected $host;
 	protected $port;
 	protected $protocol;
+	protected $name;
 	private $client;
-	private $name;
 	private $line;
 	const LINE_BUFFER = 4096;
 	const RETRY_LIMIT = 10;
