@@ -85,9 +85,12 @@ class BSImage implements BSImageRenderer {
 	 * メディアタイプを設定
 	 *
 	 * @access public
-	 * @param string $type メディアタイプ
+	 * @param string $type メディアタイプ又は拡張子
 	 */
 	public function setType ($type) {
+		if (!BSString::isBlank($suggested = BSMIMEType::getType($type, null))) {
+			$type = $suggested;
+		}
 		if (!self::getTypes()->isContain($type)) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}

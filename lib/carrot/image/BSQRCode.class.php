@@ -78,9 +78,12 @@ class BSQRCode implements BSImageRenderer {
 	 * メディアタイプを設定
 	 *
 	 * @access public
-	 * @param string $type メディアタイプ
+	 * @param string $type メディアタイプ又は拡張子
 	 */
 	public function setType ($type) {
+		if (!BSString::isBlank($suggested = BSMIMEType::getType($type, null))) {
+			$type = $suggested;
+		}
 		switch ($this->type = $type) {
 			case 'image/jpeg':
 				$this->engine->setFormat(QR_FMT_JPEG);

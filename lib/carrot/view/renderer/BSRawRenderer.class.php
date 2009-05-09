@@ -57,9 +57,12 @@ class BSRawRenderer implements BSRenderer {
 	 * メディアタイプを設定
 	 *
 	 * @access public
-	 * @param string $type メディアタイプ
+	 * @param string $type メディアタイプ又は拡張子
 	 */
 	public function setType ($type) {
+		if (!BSString::isBlank($suggested = BSMIMEType::getType($type, null))) {
+			$type = $suggested;
+		}
 		$this->type = $type;
 	}
 

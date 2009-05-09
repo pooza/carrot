@@ -104,10 +104,13 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 * メディアタイプを設定
 	 *
 	 * @access public
-	 * @param string $type メディアタイプ
+	 * @param string $type メディアタイプ又は拡張子
 	 */
 	public function setType ($type) {
-		if (!$suffix = BSImage::getSuffixes()->getParameter($type)) {
+		if (!BSString::isBlank($suggested = BSMIMEType::getType($type, null))) {
+			$type = $suggested;
+		}
+		if (BSString::isBlank($suffix = BSImage::getSuffixes()->getParameter($type))) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}
 		$this->setFileFormat(str_replace('.', '', $suffix));
