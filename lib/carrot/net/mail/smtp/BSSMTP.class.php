@@ -262,11 +262,7 @@ class BSSMTP extends BSSocket {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'SMTPサーバ "%s:%d"',
-			$this->getHost()->getName(),
-			$this->getPort()
-		);
+		return sprintf('SMTPソケット "%s"', $this->getName());
 	}
 
 	/**
@@ -274,9 +270,8 @@ class BSSMTP extends BSSocket {
 	 *
 	 * @access public
 	 * @return integer port
-	 * @static
 	 */
-	static public function getDefaultPort () {
+	public function getDefaultPort () {
 		return BSNetworkService::getPort('smtp');
 	}
 }

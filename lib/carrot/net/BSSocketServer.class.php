@@ -15,6 +15,7 @@
 class BSSocketServer {
 	protected $attributes;
 	protected $server;
+	private $name;
 	private $streams;
 	const LINE_BUFFER = 4096;
 	const RETRY_LIMIT = 10;
@@ -24,6 +25,19 @@ class BSSocketServer {
 	 */
 	public function __construct () {
 		$this->attributes = new BSArray(BSController::getInstance()->getAttribute($this));
+	}
+
+	/**
+	 * 名前を返す
+	 *
+	 * @access public
+	 * @return string 名前
+	 */
+	public function getName () {
+		if (!$this->name && !BSString::isBlank($port = $this->getAttribute('port'))) {
+			$this->name = 'tcp://0.0.0.0:' . $port;
+		}
+		return $this->name;
 	}
 
 	/**
@@ -91,7 +105,8 @@ class BSSocketServer {
 	private function open () {
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			$port = BSNumeric::getRandom(48557, 49150);
-			if ($this->server = stream_socket_server('tcp://0.0.0.0:' . $port)) {
+			$this->name = 'tcp://0.0.0.0:' . $port;
+			if ($this->server = stream_socket_server($this->getName())) {
 				return $port;
 			}
 		}
@@ -218,7 +233,10 @@ class BSSocketServer {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('デーモン "%s"', get_class($this));
+		if (BSString::isBlank($this->getName())) {
+			return get_class($this);
+		}
+		return sprintf('%s "%s"', get_class($this), $this->getName());
 	}
 }
 

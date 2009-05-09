@@ -105,11 +105,7 @@ class BSHTTP extends BSSocket {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'HTTPサーバ "%s:%d"',
-			$this->getHost()->getName(),
-			$this->getPort()
-		);
+		return sprintf('HTTPソケット "%s"', $this->getName());
 	}
 
 	/**
@@ -117,9 +113,8 @@ class BSHTTP extends BSSocket {
 	 *
 	 * @access public
 	 * @return integer port
-	 * @static
 	 */
-	static public function getDefaultPort () {
+	public function getDefaultPort () {
 		return BSNetworkService::getPort('http');
 	}
 }

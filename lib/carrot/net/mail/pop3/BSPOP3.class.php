@@ -132,11 +132,7 @@ class BSPOP3 extends BSSocket {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'POP3サーバ "%s:%d"',
-			$this->getHost()->getName(),
-			$this->getPort()
-		);
+		return sprintf('POP3ソケット "%s"', $this->getName());
 	}
 
 	/**
@@ -144,9 +140,8 @@ class BSPOP3 extends BSSocket {
 	 *
 	 * @access public
 	 * @return integer port
-	 * @static
 	 */
-	static public function getDefaultPort () {
+	public function getDefaultPort () {
 		return BSNetworkService::getPort('pop3');
 	}
 }
