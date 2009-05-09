@@ -42,6 +42,8 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 *
 	 * @access public
 	 * @param BSArray $record レコード
+	 * @param integer $flags フラグのビット列
+	 *   self::WITHOUT_LF フィールド値に改行を含まない
 	 */
 	public function addRecord (BSArray $record, $flags = null) {
 		$values = new BSArray;

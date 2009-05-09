@@ -137,13 +137,13 @@ class BSMIMEDocument implements BSRenderer {
 	 *
 	 * @access public
 	 * @param BSRenderer $renderer レンダラー
-	 * @param integer $flag フラグ
+	 * @param integer $flags フラグのビット列
 	 *   BSMIMEUtility::WITHOUT_HEADER ヘッダを修正しない
 	 *   BSMIMEUtility::WITH_HEADER ヘッダも修正
 	 */
-	public function setRenderer (BSRenderer $renderer, $flag = BSMIMEUtility::WITH_HEADER) {
+	public function setRenderer (BSRenderer $renderer, $flags = BSMIMEUtility::WITH_HEADER) {
 		$this->renderer = $renderer;
-		if ($flag & BSMIMEUtility::WITH_HEADER) {
+		if ($flags & BSMIMEUtility::WITH_HEADER) {
 			$this->setHeader('Content-Type', $renderer);
 			$this->setHeader('Content-Transfer-Encoding', $renderer);
 		}

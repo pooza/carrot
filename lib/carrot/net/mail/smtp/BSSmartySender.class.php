@@ -90,16 +90,16 @@ class BSSmartySender extends BSSMTP {
 	 * 送信
 	 *
 	 * @access public
-	 * @param boolean $flag フラグ
+	 * @param integer $flags フラグのビット列
 	 *   self::TEST テスト送信
 	 * @return string 送信完了時は最終のレスポンス
 	 */
-	public function send ($flag = null) {
+	public function send ($flags = null) {
 		$this->render();
 		foreach ($this->getRenderer()->getHeaders() as $key => $value) {
 			$this->getMail()->setHeader($key, $value);
 		}
-		return parent::send($flag);
+		return parent::send($flags);
 	}
 }
 

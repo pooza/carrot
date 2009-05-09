@@ -20,11 +20,12 @@ abstract class BSSortableRecord extends BSRecord {
 	 *
 	 * @access public
 	 * @param string[] $values 更新する値
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 */
-	public function update ($values, $flag = BSDatabase::WITH_LOGGING) {
+	public function update ($values, $flags = BSDatabase::WITH_LOGGING) {
 		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
-		parent::update($values, $flag);
+		parent::update($values, $flags);
 	}
 
 	/**

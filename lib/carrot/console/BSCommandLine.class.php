@@ -59,10 +59,11 @@ class BSCommandLine extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $value 値
-	 * @param string $flag フラグのビット列、現状はself::WITH_QUOTEのみ。
+	 * @param integer $flags フラグのビット列
+	 *   self::WITH_QUOTE クォートする
 	 */
-	public function addValue ($value, $flag = self::WITH_QUOTE) {
-		if ($flag & self::WITH_QUOTE) {
+	public function addValue ($value, $flags = self::WITH_QUOTE) {
+		if ($flags & self::WITH_QUOTE) {
 			$value =  self::quote($value);
 		}
 		$this->parameters[] = $value;

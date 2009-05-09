@@ -146,15 +146,15 @@ class BSMIMEType extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $suffix サフィックス、又はファイル名
-	 * @param integer $option オプションのビット列
+	 * @param integer $flags フラグのビット列
 	 *   BSMIMEUtility::IGNORE_INVALID_TYPE タイプが不正ならapplication/octet-streamを返す
 	 * @return string メディアタイプ
 	 * @static
 	 */
-	static public function getType ($suffix, $option = BSMIMEUtility::IGNORE_INVALID_TYPE) {
+	static public function getType ($suffix, $flags = BSMIMEUtility::IGNORE_INVALID_TYPE) {
 		$types = self::getInstance();
 		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])
-			&& ($option & BSMIMEUtility::IGNORE_INVALID_TYPE)) {
+			&& ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE)) {
 			$type = 'application/octet-stream';
 		}
 		return $type;

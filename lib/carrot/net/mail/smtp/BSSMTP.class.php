@@ -78,16 +78,16 @@ class BSSMTP extends BSSocket {
 	 * 送信
 	 *
 	 * @access public
-	 * @param boolean $flag フラグ
+	 * @param integer $flags フラグのビット列
 	 *   self::TEST テスト送信
 	 * @return string 送信完了時は最終のレスポンス
 	 */
-	public function send ($flag = null) {
+	public function send ($flags = null) {
 		if ($this->getMail()->validate()) {
 			for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 				try {
 					$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
-					foreach ($this->getRecipients($flag) as $email) {
+					foreach ($this->getRecipients($flags) as $email) {
 						$this->execute('RCPT TO:' . $email->getContents());
 					}
 					$this->execute('DATA');
@@ -119,12 +119,12 @@ class BSSMTP extends BSSocket {
 	 * 受信者を返す
 	 *
 	 * @access protected
-	 * @param boolean $flag フラグ
+	 * @param integer $flags フラグのビット列
 	 *   self::TEST テスト送信
 	 * @return BSArray 受信者の配列
 	 */
-	protected function getRecipients ($flag = null) {
-		if (BS_DEBUG || ($flag & self::TEST)) {
+	protected function getRecipients ($flags = null) {
+		if (BS_DEBUG || ($flags & self::TEST)) {
 			$recipients = new BSArray;
 			$recipients[] = BSAdministrator::getMailAddress();
 			return $recipients;

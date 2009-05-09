@@ -72,12 +72,13 @@ class BSCrypt {
 	 *
 	 * @access public
 	 * @param string $value 対象文字列
-	 * @param integer $option オプションのビット列、現状self::WITH_BASE64のみ。
+	 * @param integer $flags フラグのビット列
+	 *   self::WITH_BASE64 暗号化した後、更にBASE64でエンコード。
 	 * @return string 暗号化された文字列
 	 */
-	public function encrypt ($value, $option = self::WITH_BASE64) {
+	public function encrypt ($value, $flags = self::WITH_BASE64) {
 		$value = $this->getEngine()->encrypt($value);
-		if ($option & self::WITH_BASE64) {
+		if ($flags & self::WITH_BASE64) {
 			$value = BSMIMEUtility::encodeBase64($value);
 		}
 		return $value;
@@ -88,11 +89,12 @@ class BSCrypt {
 	 *
 	 * @access public
 	 * @param string $value 対象文字列
-	 * @param integer $option オプションのビット列、現状self::WITH_BASE64のみ。
+	 * @param integer $flags フラグのビット列
+	 *   self::WITH_BASE64 暗号化する前に、BASE64デコード。
 	 * @return string 複号化された文字列
 	 */
-	public function decrypt ($value, $option = self::WITH_BASE64) {
-		if ($option & self::WITH_BASE64) {
+	public function decrypt ($value, $flags = self::WITH_BASE64) {
+		if ($flags & self::WITH_BASE64) {
 			$value = BSMIMEUtility::decodeBase64($value);
 		}
 		$value = $this->getEngine()->decrypt($value);

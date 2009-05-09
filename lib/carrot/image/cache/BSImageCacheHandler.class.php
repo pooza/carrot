@@ -86,7 +86,7 @@ class BSImageCacheHandler {
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
-	 * @param integer $flags オプションのビット列
+	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 * @return BSURL URL
 	 */
@@ -110,7 +110,7 @@ class BSImageCacheHandler {
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
-	 * @param integer $flags オプションのビット列
+	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 * @return BSArray 画像の情報
 	 */

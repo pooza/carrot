@@ -284,16 +284,17 @@ class BSImage implements BSImageRenderer {
 	 * @access public
 	 * @param BSArray $coords 座標の配列
 	 * @param BSColor $color 描画色
-	 * @param integer $flag 各種フラグ、現状はself::FILLEDのみ。
+	 * @param integer $flags フラグのビット列
+	 *   self::FILLED 塗りつぶす
 	 */
-	public function drawPolygon (BSArray $coords, BSColor $color, $flag = null) {
+	public function drawPolygon (BSArray $coords, BSColor $color, $flags = null) {
 		$polygon = array();
 		foreach ($coords as $coord) {
 			$polygon[] = $coord->getX();
 			$polygon[] = $coord->getY();
 		}
 
-		if ($flag & self::FILLED) {
+		if ($flags & self::FILLED) {
 			$function = 'imagefilledpolygon';
 		} else {
 			$function = 'imagepolygon';

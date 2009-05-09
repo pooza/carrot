@@ -486,17 +486,17 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 *
 	 * @access public
 	 * @param string $format 書式
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
 	 *   self::GMT GMT時刻で返す。
 	 * @return string 書式化された日付文字列
 	 */
-	public function format ($format = 'Y/m/d H:i:s', $flag = null) {
+	public function format ($format = 'Y/m/d H:i:s', $flags = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
 		$date = clone $this;
-		if ($flag & self::GMT) {
+		if ($flags & self::GMT) {
 			$date->setDate(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
 		}
 

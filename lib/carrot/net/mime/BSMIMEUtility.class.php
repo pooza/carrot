@@ -108,14 +108,14 @@ class BSMIMEUtility {
 	 *
 	 * @access public
 	 * @param string $str 対象文字列
-	 * @param integer $flag フラグ
+	 * @param integer $flags フラグのビット列
 	 *   self::WITH_SPLIT
 	 * @return string エンコードされた文字列
 	 * @static
 	 */
-	static public function encodeBase64 ($str, $flag = null) {
+	static public function encodeBase64 ($str, $flags = null) {
 		$str = base64_encode($str);
-		if ($flag & self::WITH_SPLIT) {
+		if ($flags & self::WITH_SPLIT) {
 			$str = chunk_split($str);
 		}
 		return $str;

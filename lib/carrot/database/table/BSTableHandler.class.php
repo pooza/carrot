@@ -279,10 +279,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values, $flag = BSDatabase::WITH_LOGGING) {
+	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isInsertable()) {
 			throw new BSDatabaseException('%sへのレコード挿入は許可されていません。', $this);
 		}
@@ -300,7 +301,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		}
 
 		$this->setExecuted(false);
-		if ($flag & BSDatabase::WITH_LOGGING) {
+		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%s(%d)を作成しました。');
 			$message[] = BSTranslateManager::getInstance()->execute($this->getName());
 			$message[] = $id;
@@ -317,12 +318,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 *
 	 * @access public
 	 * @param mixed[] $values 値
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 * @final
 	 */
-	final public function insertRecord ($values, $flag = BSDatabase::WITH_LOGGING) {
-		return $this->createRecord($values, $flag);
+	final public function insertRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
+		return $this->createRecord($values, $flags);
 	}
 
 	/**

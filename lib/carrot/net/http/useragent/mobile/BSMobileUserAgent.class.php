@@ -136,7 +136,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 *
 	 * @access public
 	 * @param BSImage $image 対象画像
-	 * @param integer $flags フラグ
+	 * @param integer $flags フラグのビット列
 	 * @return BSImage 変換後の画像
 	 */
 	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {

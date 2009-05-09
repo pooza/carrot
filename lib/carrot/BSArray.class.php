@@ -315,12 +315,12 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	 * 添字の配列を返す
 	 *
 	 * @access public
-	 * @param string $option オプションのビット列
+	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_KEY:キーを含まない
 	 * @return BSArray 添字の配列
 	 */
-	public function getKeys ($option = null) {
-		if ($option & self::WITHOUT_KEY) {
+	public function getKeys ($flags = null) {
+		if ($flags & self::WITHOUT_KEY) {
 			$keys = array_keys($this->getParameters());
 		} else {
 			$keys = array_flip($this->getParameters());

@@ -112,9 +112,10 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 *
 	 * @access public
 	 * @param string[] $values 更新する値
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 */
-	public function update ($values, $flag = BSDatabase::WITH_LOGGING) {
+	public function update ($values, $flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isUpdatable()) {
 			throw new BSDatabaseException('%sを更新することは出来ません。', $this);
 		}
@@ -127,7 +128,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		);
 		$this->getTable()->getDatabase()->exec($query);
 
-		if ($flag & BSDatabase::WITH_LOGGING) {
+		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを更新しました。');
 			$message[] = $this;
 			$this->getTable()->getDatabase()->putLog($message);
@@ -161,9 +162,10 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * 削除
 	 *
 	 * @access public
-	 * @param integer $flag フラグのビット列
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 */
-	public function delete ($flag = BSDatabase::WITH_LOGGING) {
+	public function delete ($flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isDeletable()) {
 			throw new BSDatabaseException('%sを削除することは出来ません。', $this);
 		}
@@ -171,7 +173,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		$query = BSSQL::getDeleteQueryString($this->getTable()->getName(), $this->getCriteria());
 		$this->getTable()->getDatabase()->exec($query);
 
-		if ($flag & BSDatabase::WITH_LOGGING) {
+		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを削除しました。');
 			$message[] = $this;
 			$this->getTable()->getDatabase()->putLog($message);
