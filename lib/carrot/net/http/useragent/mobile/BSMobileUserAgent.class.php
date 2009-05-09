@@ -143,10 +143,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		$dest = clone $image;
 		$dest->setType($this->getDefaultImageType());
 		if ($flags & self::IMAGE_FULL_SCREEN) {
-			$dest->resize(
-				$this->attributes['display']['width'],
-				$this->attributes['display']['height']
-			);
+			$dest->resize($this->attributes['display']['width'], null);
 		}
 		return $dest;
 	}
