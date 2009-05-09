@@ -13,6 +13,7 @@
 class BSMIMEType extends BSParameterHolder {
 	static private $instance;
 	private $file;
+	const DEFAULT_TYPE = 'application/octet-stream'
 
 	/**
 	 * @access private
@@ -155,7 +156,7 @@ class BSMIMEType extends BSParameterHolder {
 		$types = self::getInstance();
 		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])
 			&& ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE)) {
-			$type = 'application/octet-stream';
+			$type = self::DEFAULT_TYPE;
 		}
 		return $type;
 	}

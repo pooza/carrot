@@ -127,7 +127,7 @@ class BSImageFile extends BSFile {
 		}
 
 		$types = new BSArray;
-		$types[] = 'application/octet-stream';
+		$types[] = BSMIMEType::DEFAULT_TYPE;
 		$types[] = $this->getRenderer()->getType();
 		if (!$types->isContain($this->getType())) {
 			throw new BSImageException('%sのメディアタイプがレンダラーと一致しません。', $this);

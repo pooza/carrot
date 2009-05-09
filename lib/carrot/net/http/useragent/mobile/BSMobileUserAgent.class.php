@@ -128,7 +128,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return string 規定の画像形式
 	 */
 	public function getDefaultImageType () {
-		return 'image/png';
+		return BSMIMEType::getType('png');
 	}
 
 	/**

@@ -46,8 +46,8 @@ class BSSmartyView extends BSView {
 		parent::initialize();
 		$this->renderer->addModifier('sanitize');
 		$this->renderer->setUserAgent($this->useragent);
-		$this->setHeader('Content-Script-Type', 'text/javascript');
-		$this->setHeader('Content-Style-Type', 'text/css');
+		$this->setHeader('Content-Script-Type', BSMIMEType::getType('js'));
+		$this->setHeader('Content-Style-Type', BSMIMEType::getType('css'));
 		$this->setAttributes($this->request->getAttributes());
 		$this->setAttribute('module', $this->controller->getModule());
 		$this->setAttribute('action', $this->controller->getAction());

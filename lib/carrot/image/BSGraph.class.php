@@ -35,7 +35,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	public function __construct ($width = 600, $height = 400) {
 		$this->width = $width;
 		$this->height = $height;
-		$this->setType('image/gif');
+		$this->setType(BSMIMEType::getType('gif'));
 		parent::PHPlot($width, $height);
 		$this->setTTFPath(BSController::getInstance()->getPath('font'));
 		$this->setDefaultTTFont(BSFontManager::DEFAULT_FONT);
@@ -107,16 +107,10 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		$formats = array(
-			'image/jpeg' => 'jpg',
-			'image/gif' => 'gif',
-			'image/png' => 'png',
-		);
-
-		if (!$format = $formats[$type]) {
+		if (!$suffix = BSImage::getSuffixes()->getParameter($type)) {
 			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
 		}
-		$this->setFileFormat($format);
+		$this->setFileFormat(str_replace('.', '', $suffix));
 		$this->type = $type;
 	}
 

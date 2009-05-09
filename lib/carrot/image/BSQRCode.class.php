@@ -26,7 +26,7 @@ class BSQRCode implements BSImageRenderer {
 		}
 		$this->engine = new QRCode;
 		$this->engine->setMagnify(3);
-		$this->setType('image/gif');
+		$this->setType(BSMIMEType::getType('gif'));
 	}
 
 	/**

@@ -12,7 +12,7 @@
  */
 class BSRawRenderer implements BSRenderer {
 	private $contents;
-	private $type = 'application/octet-stream';
+	private $type = BSMIMEType::DEFAULT_TYPE;
 
 	/**
 	 * 出力内容を返す

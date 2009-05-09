@@ -91,9 +91,9 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function getDefaultImageType () {
 		if ($this->isLegacy()) {
-			return 'image/gif';
+			return BSMIMEType::getType('gif');
 		}
-		return 'image/jpeg';
+		return BSMIMEType::getType('jpg');
 	}
 
 	static private function getDisplayInfos () {

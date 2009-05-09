@@ -21,7 +21,7 @@ class BSSmartySender extends BSSMTP {
 		parent::__construct($host, $port);
 
 		$renderer = new BSSmarty;
-		$renderer->setType('text/plain');
+		$renderer->setType(BSMIMEType::getType('txt'));
 		$renderer->setEncoding('iso-2022-jp');
 		$renderer->addOutputFilter('mail');
 
