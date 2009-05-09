@@ -17,14 +17,17 @@ class BSSMTP extends BSSocket {
 
 	/**
 	 * @access public
-	 * @param mixed $path ホスト
+	 * @param mixed $host ホスト
 	 * @param integer $port ポート
+	 * @param string $protocol プロトコル
+	 *   BSNetworkService::TCP
+	 *   BSNetworkService::UDP
 	 */
-	public function __construct ($host = null, $port = null) {
+	public function __construct ($host = null, $port = null, $protocol = BSNetworkService::TCP) {
 		if (BSString::isBlank($host)) {
 			$host = new BSHost(BS_SMTP_HOST);
 		}
-		parent::__construct($host, $port);
+		parent::__construct($host, $port, $protocol);
 		$this->setMail(new BSMail);
 	}
 

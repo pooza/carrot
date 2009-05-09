@@ -185,9 +185,9 @@ class BSCurlHTTP extends BSHTTP {
 			if (!$this->getEngine()) {
 				throw new BSHTTPException('SSLモードの実行にはCurlが必要です。');
 			}
-			$this->setPort(BSNetworkService::getPort('https'));
+			$this->port = BSNetworkService::getPort('https');
 		} else {
-			$this->setPort(BSNetworkService::getPort('http'));
+			$this->port = BSNetworkService::getPort('http');
 		}
 	}
 }

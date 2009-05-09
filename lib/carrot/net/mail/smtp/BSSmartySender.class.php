@@ -14,11 +14,14 @@ class BSSmartySender extends BSSMTP {
 
 	/**
 	 * @access public
-	 * @param BSHost $path ホスト
+	 * @param mixed $host ホスト
 	 * @param integer $port ポート
+	 * @param string $protocol プロトコル
+	 *   BSNetworkService::TCP
+	 *   BSNetworkService::UDP
 	 */
-	public function __construct (BSHost $host = null, $port = null) {
-		parent::__construct($host, $port);
+	public function __construct ($host = null, $port = null, $protocol = BSNetworkService::TCP) {
+		parent::__construct($host, $port, $protocol);
 
 		$renderer = new BSSmarty;
 		$renderer->setType(BSMIMEType::getType('txt'));
@@ -34,7 +37,6 @@ class BSSmartySender extends BSSMTP {
 		$renderer->setAttribute('date', BSDate::getNow());
 		$renderer->setAttribute('client_host', BSRequest::getInstance()->getHost());
 		$renderer->setAttribute('useragent', BSRequest::getInstance()->getUserAgent());
-
 		$this->getMail()->setRenderer($renderer);
 	}
 

@@ -11,10 +11,11 @@
  * @version $Id$
  */
 class BSSocket {
+	protected $host;
+	protected $port;
+	protected $protocol;
 	private $client;
 	private $name;
-	private $host;
-	private $port;
 	private $line;
 	const LINE_BUFFER = 4096;
 	const RETRY_LIMIT = 10;
@@ -24,10 +25,22 @@ class BSSocket {
 	 * @access public
 	 * @param mixed $host ホスト
 	 * @param integer $port ポート
+	 * @param string $protocol プロトコル
+	 *   BSNetworkService::TCP
+	 *   BSNetworkService::UDP
 	 */
-	public function __construct ($host, $port = null) {
-		$this->setHost($host);
-		$this->setPort($port);
+	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
+		if (($host instanceof BSHost) == false) {
+			$host = new BSHost($host);
+		}
+		$this->host = $host;
+
+		if (BSString::isBlank($port) && BSString::isBlank($port = $this->getDefaultPort())) {
+			throw new BSNetException('ポートが未定義です。');
+		}
+		$this->port = $port;
+
+		$this->protocol = $protocol;
 	}
 
 	/**
@@ -48,7 +61,7 @@ class BSSocket {
 	public function getName () {
 		if (!$this->name) {
 			$host = new BSStringFormat('%s://%s:%s');
-			$host[] = BSNetworkService::TCP;
+			$host[] = $this->getProtocol();
 			$host[] = $this->getHost()->getAddress();
 			$host[] = $this->getPort();
 			$this->name = $host->getContents();
@@ -168,20 +181,6 @@ class BSSocket {
 	}
 
 	/**
-	 * ホストを設定
-	 *
-	 * @access public
-	 * @param mixed $host ホスト
-	 */
-	public function setHost ($host) {
-		if (($host instanceof BSHost) == false) {
-			$host = new BSHost($host);
-		}
-		$this->host = $host;
-		$this->name = null;
-	}
-
-	/**
 	 * ポート番号を返す
 	 *
 	 * @access public
@@ -192,19 +191,13 @@ class BSSocket {
 	}
 
 	/**
-	 * ポート番号を設定
+	 * プロトコル名を返す
 	 *
 	 * @access public
-	 * @param integer $port port
+	 * @return string プロトコル名
 	 */
-	public function setPort ($port = null) {
-		if (BSString::isBlank($port)) {
-			if (BSString::isBlank($port = $this->getDefaultPort())) {
-				throw new BSNetException('ポートが未定義です。');
-			}
-		}
-		$this->port = $port;
-		$this->name = null;
+	public function getProtocol () {
+		return $this->protocol;
 	}
 
 	/**
