@@ -13,7 +13,7 @@
 class BSMIMEType extends BSParameterHolder {
 	static private $instance;
 	private $file;
-	const DEFAULT_TYPE = 'application/octet-stream'
+	const DEFAULT_TYPE = 'application/octet-stream';
 
 	/**
 	 * @access private

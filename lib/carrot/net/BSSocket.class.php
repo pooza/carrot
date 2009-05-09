@@ -43,15 +43,21 @@ class BSSocket {
 	 * @access public
 	 */
 	public function open () {
+		$host = new BSStringFormat('%s://%s:%s');
+		$host[] = BSNetworkService::TCP;
+		$host[] = $this->getHost()->getAddress();
+		$host[] = $this->getPort();
+		$error = null;
+		$message = null;
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
-			if ($this->handle = fsockopen($this->getHost()->getAddress(), $this->getPort())) {
+			if ($this->handle = stream_socket_client($host->getContents(), $error, $message)) {
 				stream_set_timeout($this->handle, 10);
 				return;
 			}
 			$this->handle = null;
 			sleep(1);
 		}
-		throw new BSNetException('%sに接続出来ません。', $this);
+		throw new BSNetException('%sに接続出来ません。(%s)', $this, $message);
 	}
 
 	/**
@@ -76,7 +82,7 @@ class BSSocket {
 		if (!$this->isOpened()) {
 			$this->open();
 		}
-		fputs($this->handle, $str . self::LINE_SEPARATOR);
+		fwrite($this->handle, $str . self::LINE_SEPARATOR);
 	}
 
 	/**
@@ -113,7 +119,6 @@ class BSSocket {
 	 * @return string[] 読み込んだ内容
 	 */
 	public function getLines () {
-		sleep(1);
 		return explode(self::LINE_SEPARATOR, stream_get_contents($this->handle));
 	}
 

@@ -176,7 +176,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		}
 
 		flock($this->handle, LOCK_EX);
-		fputs($this->handle, $str . $separator);
+		fwrite($this->handle, $str . $separator);
 		flock($this->handle, LOCK_UN);
 		$this->lines = null;
 	}
@@ -200,7 +200,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if ($this->isEof()) {
 			return '';
 		}
-		$line = fgets($this->handle, $length);
+		$line = fread($this->handle, $length);
 		$line = rtrim($line);
 		return $line;
 	}
