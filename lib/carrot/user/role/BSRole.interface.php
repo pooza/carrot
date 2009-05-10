@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage role
+ * @subpackage user.role
  */
 
 /**

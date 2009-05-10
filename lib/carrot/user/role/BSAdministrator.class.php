@@ -1,11 +1,11 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage role
+ * @subpackage user.role
  */
 
 /**
- * 管理者に関するユーティリティ
+ * 管理者ロール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
