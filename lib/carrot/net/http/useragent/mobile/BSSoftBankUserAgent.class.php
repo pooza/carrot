@@ -28,7 +28,10 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		return BSController::getInstance()->getEnvironment('X-JPHONE-UID');
+		if ($id = BSController::getInstance()->getEnvironment('X-JPHONE-UID')) {
+			return $id;
+		}
+		return parent::getID();
 	}
 
 	/**

@@ -31,7 +31,10 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		return BSController::getInstance()->getEnvironment('X-DCMGUID');
+		if ($id = BSController::getInstance()->getEnvironment('X-DCMGUID')) {
+			return $id;
+		}
+		return parent::getID();
 	}
 
 	/**
