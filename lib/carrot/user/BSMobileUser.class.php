@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSMobileUser extends BSUser {
-	private $id;
 	static private $instance;
 
 	/**
@@ -29,19 +28,18 @@ class BSMobileUser extends BSUser {
 	}
 
 	/**
-	 * ユーザーIDを返す
+	 * ログイン
 	 *
 	 * @access public
-	 * @return string ユーザーID
+	 * @param BSUserIdentifier $id ユーザーIDを含んだオブジェクト
+	 * @param string $password パスワード
+	 * @return boolean 成功ならTrue
 	 */
-	public function getID () {
-		if (BSString::isBlank($this->id)) {
-			$this->id = BSRequest::getInstance()->getUserAgent()->getID();
-			if (BSString::isBlank($this->id) && BS_DEBUG) {
-				$this->id = $this->getSession()->getID();
-			}
+	public function login (BSUserIdentifier $identifier = null, $password = null) {
+		if (!$identifier) {
+			$identifier = BSRequest::getInstance()->getUserAgent();
 		}
-		return $this->id;
+		parent::login($identifier, $password);
 	}
 }
 

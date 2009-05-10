@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSMobileUserAgent extends BSUserAgent {
+abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
 	const IMAGE_FULL_SCREEN = 1;
 	const DEFAULT_DISPLAY_WIDTH = 240;
@@ -29,15 +29,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['query'] = new BSArray;
 	}
-
-	/**
-	 * 端末IDを返す
-	 *
-	 * @access public
-	 * @return string 端末ID
-	 * @abstract
-	 */
-	abstract public function getID ();
 
 	/**
 	 * Smartyを初期化する
@@ -156,6 +147,31 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @abstract
 	 */
 	abstract public function getDisplayInfo ();
+
+	/**
+	 * 端末IDを返す
+	 *
+	 * @access public
+	 * @return string 端末ID
+	 */
+	public function getID () {
+		if (BS_DEBUG) {
+			return BSRequest::getInstance()->getSession()->getID();
+		}
+	}
+
+	/**
+	 * 端末認証
+	 *
+	 * パスワードを用いず、端末個体認証を行う。
+	 *
+	 * @access public
+	 * @params string $password パスワード
+	 * @return boolean 正しいユーザーならTrue
+	 */
+	public function auth ($password = null) {
+		return $this->getID() && ($this === BSRequest::getInstance()->getUserAgent());
+	}
 }
 
 /* vim:set tabstop=4: */

@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSSessionHandler {
+class BSSessionHandler implements BSUserIdentifier {
 	private $storage;
 
 	/**
@@ -97,6 +97,19 @@ class BSSessionHandler {
 		if (isset($_SESSION[$key])) {
 			unset($_SESSION[$key]);
 		}
+	}
+
+	/**
+	 * 認証
+	 *
+	 * セッションが成立している時点で認証は困難、或いは不要と思われる。
+	 *
+	 * @access public
+	 * @params string $password パスワード
+	 * @return boolean 正しいユーザーならTrue
+	 */
+	public function auth ($password = null) {
+		return true;
 	}
 }
 

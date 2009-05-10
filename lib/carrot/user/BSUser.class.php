@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSUser extends BSParameterHolder {
+	protected $id;
 	private $attributes;
 	private $credentials;
 	static private $instance;
@@ -19,15 +20,14 @@ class BSUser extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->attributes = new BSArray($_COOKIE);
-		if ($values = $this->getSession()->read('attributes')) {
-			$this->attributes->setParameters($values);
-		}
+		$this->attributes = new BSArray;
+		$this->attributes->setParameters($_COOKIE);
+		$this->attributes->setParameters($this->getSession()->read('attributes'));
 
 		$this->credentials = new BSArray;
-		if ($values = $this->getSession()->read('credentials')) {
-			$this->credentials->setParameters($values);
-		}
+		$this->credentials->setParameters($this->getSession()->read('credentials'));
+
+		$this->id = $this->getSession()->read(__CLASS__);
 	}
 
 	/**
@@ -166,6 +166,48 @@ class BSUser extends BSParameterHolder {
 	 */
 	protected function getSession () {
 		return BSRequest::getInstance()->getSession();
+	}
+
+	/**
+	 * ユーザーIDを返す
+	 *
+	 * @access public
+	 * @return string ユーザーID
+	 */
+	public function getID () {
+		return $this->id;
+	}
+
+	/**
+	 * ログイン
+	 *
+	 * @access public
+	 * @param BSUserIdentifier $id ユーザーIDを含んだオブジェクト
+	 * @param string $password パスワード
+	 * @return boolean 成功ならTrue
+	 */
+	public function login (BSUserIdentifier $identifier = null, $password = null) {
+		if ((!$identifier || BSString::isBlank($identifier->getID())) && BS_DEBUG) {
+			$identifier = $this->getSession();
+		}
+
+		if (!$identifier || !$identifier->auth($password)) {
+			return false;
+		}
+
+		$this->id = $identifier->getID();
+		$this->getSession()->write(__CLASS__, $this->id);
+		return true;
+	}
+
+	/**
+	 * ログアウト
+	 *
+	 * @access public
+	 */
+	public function logout () {
+		$this->id = null;
+		$this->getSession()->write(__CLASS__, null);
 	}
 
 	/**
