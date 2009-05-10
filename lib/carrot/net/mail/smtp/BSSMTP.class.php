@@ -129,7 +129,7 @@ class BSSMTP extends BSSocket {
 	protected function getRecipients ($flags = null) {
 		if (BS_DEBUG || ($flags & self::TEST)) {
 			$recipients = new BSArray;
-			$recipients[] = BSAdministrator::getMailAddress();
+			$recipients[] = BSAdministratorRole::getInstance()->getMailAddress();
 			return $recipients;
 		} else {
 			return clone $this->getMail()->getRecipients();

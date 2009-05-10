@@ -1,0 +1,22 @@
+# ログイン画面バリデーション設定ファイル
+#
+# @package org.carrot-framework
+# @subpackage Default
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+methods:
+  post:
+    - email
+    - password
+
+names:
+  email:
+    required: yes
+    validators:
+      - email
+  password:
+    required: yes
+
+email:
+  class: BSMailAddressValidator

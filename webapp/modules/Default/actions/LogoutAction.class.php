@@ -12,6 +12,7 @@ class LogoutAction extends BSAction {
 		$this->request->clearAttributes();
 		$this->user->clearAttributes();
 		$this->user->clearCredentials();
+		$this->user->logout();
 		return $this->getModule()->getAction('Login')->redirect();
 	}
 }

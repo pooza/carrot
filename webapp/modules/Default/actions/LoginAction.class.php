@@ -31,7 +31,11 @@ class LoginAction extends BSAction {
 	}
 
 	public function validate () {
-		if (!BSAdministrator::auth($this->request['email'], $this->request['password'])) {
+		$role = BSAdministratorRole::getInstance();
+		$email = new BSMailAddress($this->request['email']);
+		if ($email->getContents() != $role->getMailAddress()->getContents()) {
+			$this->request->setError('email', 'ユーザー又はパスワードが違います。');
+		} else if (!$this->user->login($role, $this->request['password'])) {
 			$this->request->setError('password', 'ユーザー又はパスワードが違います。');
 		}
 		return !$this->request->hasErrors();

@@ -27,7 +27,7 @@ class BSHostSecurityFilter extends BSFilter {
 	 * @return 許可されたネットワーク内ならTrue
 	 */
 	private function isAuthenticated () {
-		if (!$networks = BSAdministrator::getAllowedNetworks()) {
+		if (!$networks = BSAdministratorRole::getInstance()->getAllowedNetworks()) {
 			return true;
 		}
 

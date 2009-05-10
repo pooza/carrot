@@ -33,8 +33,8 @@ class BSMail extends BSMIMEDocument {
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', null);
 		$this->setHeader('X-Priority', 3);
-		$this->setHeader('From', BSAuthor::getMailAddress());
-		$this->setHeader('To', BSAdministrator::getMailAddress());
+		$this->setHeader('From', BSAuthorRole::getInstance()->getMailAddress());
+		$this->setHeader('To', BSAdministratorRole::getInstance()->getMailAddress());
 
 		if (BS_DEBUG) {
 			$this->setHeader('X-Carrot-Debug-Mode', 'yes');

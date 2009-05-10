@@ -31,7 +31,7 @@ class BSXMPP extends XMPPHP_XMPP {
 		} catch(XMPPHP_Exception $e) {
 			throw new BSXMPPException($e->getMessage());
 		}
-		$this->setTo(BSAdministrator::getJabberID());
+		$this->setTo(BSAdministratorRole::getInstance()->getJabberID());
 	}
 
 	/**

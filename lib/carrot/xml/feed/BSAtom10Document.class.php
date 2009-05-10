@@ -19,8 +19,10 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 		$this->setName('feed');
 		$this->setNamespace('http://www.w3.org/2005/Atom');
 		$this->setDate(BSDate::getNow());
-		$this->setAuthor(BSAuthor::getName('ja'), BSAuthor::getMailAddress('ja'));
 		$this->createElement('generator', BSController::getFullName('ja'));
+
+		$author = BSAuthorRole::getInstance();
+		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}
 
 	/**

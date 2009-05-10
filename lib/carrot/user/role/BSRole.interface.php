@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-interface BSRole {
+interface BSRole extends BSUserIdentifier {
 
 	/**
 	 * メールアドレスを返す
@@ -19,9 +19,8 @@ interface BSRole {
 	 * @access public
 	 * @param string $language 言語
 	 * @return BSMailAddress メールアドレス
-	 * @static
 	 */
-	static public function getMailAddress ($language = 'ja');
+	public function getMailAddress ($language = 'ja');
 
 	/**
 	 * 名前を返す
@@ -29,9 +28,8 @@ interface BSRole {
 	 * @access public
 	 * @param string $language 言語
 	 * @return string 名前
-	 * @static
 	 */
-	static public function getName ($language = 'ja');
+	public function getName ($language = 'ja');
 }
 
 /* vim:set tabstop=4: */

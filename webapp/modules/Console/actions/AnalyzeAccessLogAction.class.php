@@ -26,7 +26,7 @@ class AnalyzeAccessLogAction extends BSAction {
 			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
 
 			$networks = new BSArray;
-			foreach (BSAdministrator::getAllowedNetworks() as $network) {
+			foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
 				$networks[] = sprintf(
 					'%s-%s',
 					$network->getAttribute('network'),

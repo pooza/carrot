@@ -9,6 +9,12 @@ carrot:
   ver: 2.1.76
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
+
+admin:
+  email:
+  password:
+  jid:
+  networks:
 app:
   name:
     ja: unknown
@@ -19,8 +25,10 @@ app:
   xmpp:
     jid:
     password:
-debug: yes
-
+author:
+  name:
+  email:
+  password:
 awstats:
   daily: yes
   server_name_aliases:
@@ -29,6 +37,7 @@ crypt:
   engine: blowfish
 date:
   timezone: Asia/Tokyo
+debug: yes
 feed:
   class: BSRSS20Document
 home:
