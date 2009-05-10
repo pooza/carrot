@@ -13,7 +13,6 @@ class BSUser extends BSParameterHolder {
 	private $attributes;
 	private $credentials;
 	static private $instance;
-	static private $testCookieName;
 
 	/**
 	 * @access private
@@ -210,20 +209,6 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function hasCredential ($name) {
 		return (!$name || $this->credentials[$name]);
-	}
-
-	/**
-	 * テスト用Cookieの名前を返す
-	 *
-	 * @access public
-	 * @return string テスト用Cookieの名前
-	 * @static
-	 */
-	static public function getTestCookieName () {
-		if (!self::$testCookieName) {
-			self::$testCookieName = BSCrypt::getSHA1(BSController::getInstance()->getName('en'));
-		}
-		return self::$testCookieName;
 	}
 }
 
