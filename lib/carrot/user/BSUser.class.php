@@ -1,6 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
+ * @subpackage user
  */
 
 /**
@@ -15,9 +16,9 @@ class BSUser extends BSParameterHolder {
 	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->attributes = new BSArray($_COOKIE);
 		if ($values = $this->getSession()->read('attributes')) {
 			$this->attributes->setParameters($values);
@@ -40,11 +41,17 @@ class BSUser extends BSParameterHolder {
 	/**
 	 * シングルトンインスタンスを返す
 	 *
+	 * ケータイからのリクエストの場合は、BSMobileUserを返す。
+	 *
 	 * @access public
 	 * @return BSUser インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
+		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
+			return BSMobileUser::getInstance();
+		}
+
 		if (!self::$instance) {
 			self::$instance = new self;
 		}
@@ -154,10 +161,10 @@ class BSUser extends BSParameterHolder {
 	/**
 	 * セッションを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @return BSSession セッション
 	 */
-	private function getSession () {
+	protected function getSession () {
 		return BSRequest::getInstance()->getSession();
 	}
 
@@ -208,7 +215,7 @@ class BSUser extends BSParameterHolder {
 	 * @return boolean 持っていればTrue
 	 */
 	public function hasCredential ($name) {
-		return (!$name || $this->credentials[$name]);
+		return BSString::isBlank($name) || $this->credentials[$name];
 	}
 }
 
