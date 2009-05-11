@@ -217,21 +217,6 @@ abstract class BSMobileCarrier {
 			'SoftBank',
 		));
 	}
-
-	/**
-	 * 全キャリアのドメインサフィックスを返す
-	 *
-	 * @access public
-	 * @return BSArray ドメインサフィックスの配列
-	 * @static
-	 */
-	static public function getDomainSuffixes () {
-		$suffiexes = new BSArray;
-		foreach (self::getNames() as $name) {
-			$suffiexes[$name] = self::getInstance($name)->getDomainSuffix();
-		}
-		return $suffiexes;
-	}
 }
 
 /* vim:set tabstop=4: */

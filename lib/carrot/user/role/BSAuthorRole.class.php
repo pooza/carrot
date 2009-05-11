@@ -58,7 +58,7 @@ class BSAuthorRole implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 */
 	public function getMailAddress ($language = 'ja') {
-		return new BSMailAddress(BS_AUTHOR_EMAIL, self::getName($language));
+		return BSMailAddress::getInstance(BS_AUTHOR_EMAIL, self::getName($language));
 	}
 
 	/**

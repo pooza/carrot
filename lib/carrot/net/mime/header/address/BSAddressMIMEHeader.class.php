@@ -57,10 +57,7 @@ abstract class BSAddressMIMEHeader extends BSMIMEHeader {
 	 */
 	protected function parseParameters () {
 		parent::parseParameters();
-		try {
-			$this->email = new BSMailAddress($this->contents);
-		} catch (BSMailException $e) {
-		}
+		$this->email = BSMailAddress::getInstance($this->contents);
 	}
 }
 

@@ -19,23 +19,35 @@ class BSMailAddress implements BSAssignable {
 	const PATTERN = '/^([0-9a-z_\.\+\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
 
 	/**
-	 * @access public
+	 * @access private
 	 * @param string $contents メールアドレス
 	 * @param string $name 名前
 	 */
-	public function __construct ($contents, $name = null) {
+	private function __construct ($contents, $name = null) {
 		if (BSString::isBlank($name) && preg_match('/^(.+) <(.+)>$/i', $contents, $matches)) {
 			$name = $matches[1];
 			$contents = $matches[2];
 		}
-		$this->contents = $contents;
-
-		if (!preg_match(self::PATTERN, $this->contents, $matches)) {
-			throw new BSMailException('%sはパターンにマッチしません。', $this);
+		if (preg_match(self::PATTERN, $contents, $matches)) {
+			$this->contents = $contents;
+			$this->name = $name;
+			$this->account = $matches[1];
+			$this->domain = $matches[2];
 		}
-		$this->name = $name;
-		$this->account = $matches[1];
-		$this->domain = $matches[2];
+	}
+
+	/**
+	 * ファクトリインスタンスを返す
+	 *
+	 * @access public
+	 * @return BSMailAddress インスタンス
+	 * @static
+	 */
+	static public function getInstance ($contents, $name = null) {
+		$email = new self($contents, $name);
+		if (!BSString::isBlank($email->getContents())) {
+			return $email;
+		}
 	}
 
 	/**
@@ -45,20 +57,22 @@ class BSMailAddress implements BSAssignable {
 	 *
 	 * @access public
 	 * @return string メールアドレス
-	 * @final
 	 */
 	final public function getContents () {
-		return $this->getAddress();
+		return $this->contents;
 	}
 
 	/**
 	 * メールアドレスを返す
 	 *
+	 * getContentsのエイリアス
+	 *
 	 * @access public
 	 * @return string メールアドレス
+	 * @final
 	 */
-	public function getAddress () {
-		return $this->contents;
+	final public function getAddress () {
+		return $this->getContents();
 	}
 
 	/**
@@ -84,12 +98,13 @@ class BSMailAddress implements BSAssignable {
 	/**
 	 * ドメイン名に対応するMXレコードを返す
 	 *
-	 * @access public
-	 * @return string[] MXレコードの配列
+	 * @access private
+	 * @return BSArray MXレコードの配列
 	 */
-	public function getMXRecords () {
+	private function getMXRecords () {
 		if (!$this->mx) {
 			getmxrr($this->getDomainName(), $this->mx);
+			$this->mx = new BSArray($this->mx);
 		}
 		return $this->mx;
 	}
@@ -119,10 +134,10 @@ class BSMailAddress implements BSAssignable {
 	 * @return string 書式化されたメールアドレス
 	 */
 	public function format () {
-		if ($this->name) {
-			return $this->name . ' <' . $this->contents . '>';
+		if (BSString::isBlank($this->getName())) {
+			return $this->getContents();
 		} else {
-			return $this->contents;
+			return $this->getName() . ' <' . $this->getContents() . '>';
 		}
 	}
 
@@ -130,12 +145,13 @@ class BSMailAddress implements BSAssignable {
 	 * キャリアを返す
 	 *
 	 * @access public
-	 * @return string キャリアを示す文字
+	 * @return BSMobileCarrier キャリア
 	 */
 	public function getCarrier () {
-		foreach (BSMobileCarrier::getDomainSuffixes() as $type => $suffix) {
-			if (strstr($this->getContents(), $suffix)) {
-				return $type;
+		foreach (BSMobileCarrier::getNames() as $name) {
+			$carrier = BSClassLoader::getInstance()->getObject($name, 'MobileCarrier');
+			if (strstr($this->getContents(), $carrier->getDomainSuffix()) !== false) {
+				return $carrier;
 			}
 		}
 	}
