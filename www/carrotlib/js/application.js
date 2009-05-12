@@ -1,7 +1,7 @@
 /**
  * アプリケーション ユーティリティ関数
  *
- * @package org.carrot-framework
+ * @package __PACKAGE__
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */

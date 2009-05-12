@@ -4,6 +4,7 @@ create_date,作成日
 data,データ
 date,日付
 directories,ディレクトリ
+email,メールアドレス
 format,形式
 hide,非表示
 id,ID
@@ -11,6 +12,7 @@ log,ログ
 log_entry,ログエントリー
 message,メッセージ
 name,名前
+password,パスワード
 priority,優先順位
 rank,順位
 remote_host,リモートホスト

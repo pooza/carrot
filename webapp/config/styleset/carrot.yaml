@@ -9,6 +9,7 @@ carrot:
     - carrot
     - protocalendar
     - prototabs
+    - application
 
 carrot.Detail:
   files:
@@ -16,8 +17,10 @@ carrot.Detail:
     - carrot.Detail
     - protocalendar
     - prototabs
+    - application
 
 carrot.LoginForm:
   files:
     - carrot
     - carrot.LoginForm
+    - application
