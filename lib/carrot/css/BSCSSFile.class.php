@@ -21,7 +21,8 @@ class BSCSSFile extends BSFile {
 	 */
 	public function getOptimizedContents () {
 		$expire = $this->getUpdateDate();
-		if (!$contents = BSController::getInstance()->getAttribute($this, $expire)) {
+		$contents = BSController::getInstance()->getAttribute($this, $expire);
+		if ($contents === null) {
 			$error = $this->getParser()->parseFile($this->getPath(), false);
 			if ($error instanceof PEAR_Error) {
 				throw new BSCSSException($error->getMessage());
