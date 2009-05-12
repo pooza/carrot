@@ -15,9 +15,6 @@ admin:
   networks:
     - 192.168.100.0/24
 
-crypt:
-  salt: carrot
-
 types:
   #file: %BS_WEBAPP_DIR%/config/mime/mime.types
 
@@ -34,6 +31,3 @@ smtp:
 awstats:
   log_dir: /var/log/httpd/www.example.com
   server_name_aliases: 
-
-google:
-  key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I

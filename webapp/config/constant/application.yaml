@@ -20,3 +20,9 @@ app:
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
+
+crypt:
+  salt: carrot
+
+google:
+  key: 0vnLqpBQFHLy7J9p/YO40u6wOrTlaV2I
