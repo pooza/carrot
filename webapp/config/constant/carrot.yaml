@@ -109,6 +109,8 @@ serialize:
     - BSCounter.*
 session:
   storage: default
+  mobile:
+    dirty: no
 smarty:
   cache:
     storage: default

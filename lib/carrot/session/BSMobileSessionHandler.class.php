@@ -22,6 +22,10 @@ class BSMobileSessionHandler extends BSSessionHandler {
 		}
 		ini_set('session.use_only_cookies', 0);
 		session_start();
+
+		if (!BS_SESSION_MOBILE_DIRTY) {
+			session_regenerate_id(true);
+		}
 	}
 
 	/**
@@ -31,10 +35,13 @@ class BSMobileSessionHandler extends BSSessionHandler {
 	 * @return integer セッションID
 	 */
 	public function getID () {
-		if ($id = BSRequest::getInstance()->getParameter($this->getName())) {
-			session_id($id);
+		if (BS_SESSION_MOBILE_DIRTY) {
+			$request = BSRequest::getInstance();
+			if (!BSString::isBlank($id = $request[$this->getName()])) {
+				session_id($id);
+			}
 		}
-		return session_id();
+		return parent::getID();
 	}
 }
 

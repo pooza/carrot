@@ -156,7 +156,9 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 */
 	public function getID () {
 		if (BS_DEBUG) {
-			return BSRequest::getInstance()->getSession()->getID();
+			return BSCrypt::getSHA1(
+				BSRequest::getInstance()->getHost()->getName() . BS_CRYPT_SALT
+			);
 		}
 	}
 
