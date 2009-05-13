@@ -73,7 +73,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	/**
 	 * レコードをトリミング
 	 *
-	 * @access public
+	 * @access protected
 	 * @param BSArray $record レコード
 	 * @return BSArray トリミングされたレコード
 	 */
