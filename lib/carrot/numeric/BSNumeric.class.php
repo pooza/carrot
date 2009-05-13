@@ -1,6 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
+ * @subpackage numeric
  */
 
 /**
@@ -38,9 +39,11 @@ class BSNumeric {
 	 * @return string カンマ区切りされた数値
 	 * @static
 	 */
-	static public function getString ($num, $digits = 2) {
-		if (!$num) {
-			return '';
+	static public function format ($num, $digits = 2) {
+		if (BSString::isBlank($num)) {
+			return null;
+		} else if (self::isZero($num)) {
+			return '0';
 		} else if ($num != floor($num)) {
 			return number_format($num, $digits);
 		} else {
