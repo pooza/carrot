@@ -328,6 +328,16 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * レコード追加可能か？
+	 *
+	 * @access protected
+	 * @return boolean レコード追加可能ならTrue
+	 */
+	protected function isInsertable () {
+		return false;
+	}
+
+	/**
 	 * 最終レコードを返す
 	 *
 	 * @access public
@@ -348,12 +358,24 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * レコード追加可能か？
+	 * 全消去
+	 *
+	 * @access public
+	 */
+	public function clear () {
+		if (!$this->isClearable()) {
+			throw new BSDatabaseException('%sのレコード全消去は許可されていません。', $this);
+		}
+		$this->getDatabase()->exec('DELETE FROM ' . $this->getName());
+	}
+
+	/**
+	 * レコードの全消去が可能か？
 	 *
 	 * @access protected
 	 * @return boolean レコード追加可能ならTrue
 	 */
-	protected function isInsertable () {
+	protected function isClearable () {
 		return false;
 	}
 
