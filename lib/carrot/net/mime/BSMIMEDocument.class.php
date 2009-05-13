@@ -296,6 +296,8 @@ class BSMIMEDocument implements BSRenderer {
 					if ($encoding = $header['charset']) {
 						$renderer->setEncoding($encoding);
 						$body = BSString::convertEncoding($body, 'utf-8', $encoding);
+					} else {
+						$body = BSString::convertEncoding($body);
 					}
 					$this->setRenderer($renderer, BSMIMEUtility::WITHOUT_HEADER);
 				}
