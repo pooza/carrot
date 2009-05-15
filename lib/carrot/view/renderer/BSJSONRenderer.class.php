@@ -12,6 +12,8 @@
  */
 class BSJSONRenderer implements BSRenderer {
 	private $serializer;
+	private $contents;
+	private $result;
 
 	/**
 	 * シリアライザーを返す
@@ -44,9 +46,22 @@ class BSJSONRenderer implements BSRenderer {
 	public function setContents ($contents) {
 		if (BSArray::isArray($contents)) {
 			$contents = new BSArray($contents);
+			$this->result = $contents->getParameters();
 			$contents = $this->getSerializer()->encode($contents->getParameters());
 		}
 		$this->contents = $contents;
+	}
+
+	/**
+	 * パース結果を返す
+	 *
+	 * @access public
+	 */
+	public function getResult () {
+		if (!$this->result) {
+			$this->result = $this->getSerializer()->decode($this->getContents());
+		}
+		return $this->result;
 	}
 
 	/**
