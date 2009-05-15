@@ -61,7 +61,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 * @param mixed $result 結果配列
 	 */
 	public function setResult ($result) {
-		if ($yaml instanceof BSArray) {
+		if ($result instanceof BSArray) {
 			$this->result = $result->getParameters();
 			$this->contents = null;
 		} else {
