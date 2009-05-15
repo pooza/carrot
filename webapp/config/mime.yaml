@@ -19,7 +19,7 @@ types:
   jpg: image/jpeg
   jpeg: image/jpeg
   js: text/javascript
-  json: application/json
+  json: text/javascript
   mime: message/rfc822
   odp: application/vnd.oasis.opendocument.presentation
   ods: application/vnd.oasis.opendocument.spreadsheet
