@@ -31,7 +31,7 @@ class AdminLogModule extends BSModule {
 	 */
 	public function getDate () {
 		if ($this->request['date']) {
-			return new BSDate($this->request['date']);
+			return BSDate::getInstance($this->request['date']);
 		} else {
 			return $this->getLogger()->getLastDate();
 		}

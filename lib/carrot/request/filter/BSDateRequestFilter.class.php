@@ -22,10 +22,8 @@ class BSDateRequestFilter extends BSRequestFilter {
 	 */
 	protected function convert ($key, $value) {
 		if ($value && !BSArray::isArray($value) && preg_match('/(day|date)$/', $key)) {
-			try {
-				$date = new BSDate($value);
+			if ($date = BSDate::getInstance($value)) {
 				$value = $date->format('Y-m-d');
-			} catch (BSDateException $e) {
 			}
 		}
 		return $value;

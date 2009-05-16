@@ -9,7 +9,7 @@
  *
  * //当時100円のドクターペッパーが、1989/4/1より103円になったことを確認。
  * $tax = BSConsumptionTaxHandler::getInstance();
- * $price = $tax->includeTax(100, new BSDate(19890401));
+ * $price = $tax->includeTax(100, BSDate::getInstance(19890401));
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -25,7 +25,7 @@ class BSConsumptionTaxHandler {
 		require(BSConfigManager::getInstance()->compile('consumption_tax'));
 		$this->rates = new BSArray;
 		foreach ($config['rates'] as $row) {
-			$date = new BSDate($row['start_date']);
+			$date = BSDate::getInstance($row['start_date']);
 			$this->rates[$date->format('Y-m-d')] = new BSArray(array(
 				'start_date' => $date,
 				'rate' => (float)$row['rate'],

@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.1.81
+  ver: 2.1.82
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -109,8 +109,6 @@ serialize:
     - BSCounter.*
 session:
   storage: default
-  mobile:
-    dirty: no
 smarty:
   cache:
     storage: default

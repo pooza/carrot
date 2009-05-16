@@ -22,19 +22,16 @@ class BSDateValidator extends BSValidator {
 	 * @return BSDate 日付
 	 */
 	private function getDate ($value) {
-		try {
-			$date = new BSDate;
-			if ($fields = $this['fields']) {
-				foreach ($fields as $key => $value) {
-					$date[$key] = $this->request[$value];
-				}
-			} else {
-				$date->setDate($value);
+		$date = BSDate::getInstance(null, BSDate::NO_INITIALIZE);
+		if ($fields = $this['fields']) {
+			foreach ($fields as $key => $value) {
+				$date[$key] = $this->request[$value];
 			}
-			if ($date->validate()) {
-				return $date;
-			}
-		} catch (BSDateException $e) {
+		} else {
+			$date->setDate($value);
+		}
+		if ($date->validate()) {
+			return $date;
 		}
 	}
 

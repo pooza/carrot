@@ -217,7 +217,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate () {
-		return new BSDate($this->getAttribute('update_date'));
+		return BSDate::getInstance($this->getAttribute('update_date'));
 	}
 
 	/**
@@ -227,7 +227,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 作成日
 	 */
 	public function getCreateDate () {
-		return new BSDate($this->getAttribute('create_date'));
+		return BSDate::getInstance($this->getAttribute('create_date'));
 	}
 
 	/**

@@ -84,9 +84,7 @@ class BSFileLogger extends BSLogger {
 		if (!$this->dates) {
 			$this->dates = new BSArray;
 			foreach ($this->getDirectory() as $file) {
-				try {
-					$date = new BSDate($file->getBaseName());
-				} catch (BSDateException $e) {
+				if (!$date = BSDate::getInstance($file->getBaseName())) {
 					continue;
 				}
 				$month = $date->format('Y-m');

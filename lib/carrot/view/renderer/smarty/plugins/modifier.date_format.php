@@ -19,10 +19,9 @@ function smarty_modifier_date_format ($value, $format = 'Y/m/d H:i:s') {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		try {
-			$date = new BSDate($value);
+		if ($date = BSDate::getInstance($value)) {
 			return $date->format($format);
-		} catch (BSDateException $e) {
+		} else {
 			return $value;
 		}
 	}

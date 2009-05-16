@@ -68,8 +68,10 @@ class BSSessionEntryHandler extends BSTableHandler {
 	 * @return boolean 処理の成否
 	 */
 	public function clean ($lifetime) {
-		$expire = new BSDate;
-		$expire->setTimestamp(BSDate::getNow()->getTimestamp() - $lifetime);
+		$expire = BSDate::getInstance(
+			BSDate::getNow()->getTimestamp() - $lifetime,
+			BSDate::TIMESTAMP
+		);
 
 		foreach ($this as $record) {
 			if ($record->getUpdateDate()->isPast($expire)) {

@@ -194,9 +194,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		clearstatcache();
-		$date = new BSDate;
-		$date->setTimestamp(filectime($this->getPath()));
-		return $date;
+		return BSDate::getInstance(filectime($this->getPath()), BSDate::TIMESTAMP);
 	}
 
 	/**
@@ -211,9 +209,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		clearstatcache();
-		$date = new BSDate;
-		$date->setTimestamp(filemtime($this->getPath()));
-		return $date;
+		return BSDate::getInstance(filemtime($this->getPath()), BSDate::TIMESTAMP);
 	}
 
 	/**

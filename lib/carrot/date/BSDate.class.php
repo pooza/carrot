@@ -19,19 +19,48 @@ class BSDate implements ArrayAccess, BSAssignable {
 	const SAT = 6;
 	const SUN = 7;
 	private $attributes;
-	const GMT = 'gmt';
+	const GMT = 'GMT';
+	const TIMESTAMP = 1;
+	const NO_INITIALIZE = 2;
 	static private $gengos;
 
 	/**
-	 * @access public
+	 * @access private
 	 * @param string $date 日付文字列
+	 * @param integer $flags フラグのビット列
+	 *   self::NO_INITIALIZE 初期化しない
+	 *   self::TIMESTAMP タイムスタンプ形式
 	 */
-	public function __construct ($date = null) {
+	private function __construct ($date, $flags) {
 		$this->attributes = new BSArray;
 		$this->attributes['timestamp'] = null;
 		$this->attributes['has_time'] = false;
-		if ($date) {
+
+		if ($flags & self::NO_INITIALIZE){
+			// 何もしない
+		} else if (BSString::isBlank($date)) {
+			$this->setNow();
+		} else if ($flags & self::TIMESTAMP){
+			$this->setTimestamp($date);
+		} else {
 			$this->setDate($date);
+		}
+	}
+
+	/**
+	 * ファクトリインスタンスを返す
+	 *
+	 * @param string $date 日付文字列
+	 * @return BSDate インスタンス
+	 * @param integer $flags フラグのビット列
+	 *   self::NO_INITIALIZE 初期化しない
+	 *   self::TIMESTAMP タイムスタンプ形式
+	 * @static
+	 */
+	static public function getInstance ($date = null, $flags = null) {
+		$date = new self($date, $flags);
+		if (($flags & self::NO_INITIALIZE) || $date->validate()) {
+			return $date;
 		}
 	}
 
@@ -332,7 +361,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		return new BSDate($this->format('Ymt'));
+		return BSDate::getInstance($this->format('Ymt'));
 	}
 
 	/**
@@ -588,13 +617,11 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function getNow ($format = null) {
-		$date = new BSDate;
-		$date->setNow();
-
-		if ($format) {
-			return $date->format($format);
-		} else {
+		$date = self::getInstance();
+		if (BSString::isBlank($format)) {
 			return $date;
+		} else {
+			return $date->format($format);
 		}
 	}
 
@@ -660,9 +687,8 @@ class BSDate implements ArrayAccess, BSAssignable {
 			}
 			foreach ($config['gengo'] as $gengo) {
 				$gengo = new BSArray($gengo);
-				try {
-					$gengo['start_date'] = new BSDate($gengo['start_date']);
-				} catch (BSDateException $e) {
+				$gengo['start_date'] = BSDate::getInstance($gengo['start_date']);
+				if (!$gengo['start_date']) {
 					continue;
 				}
 				self::$gengos[$gengo['name']] = $gengo;

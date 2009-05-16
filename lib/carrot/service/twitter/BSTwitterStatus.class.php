@@ -52,7 +52,7 @@ class BSTwitterStatus {
 	 */
 	public function getDate () {
 		if (!$this->date && $this->source) {
-			$this->date = new BSDate($this->getAttribute('created_at'));
+			$this->date = BSDate::getInstance($this->getAttribute('created_at'));
 		}
 		return $this->date;
 	}
