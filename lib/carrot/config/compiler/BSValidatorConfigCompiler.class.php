@@ -13,6 +13,8 @@
 class BSValidatorConfigCompiler extends BSConfigCompiler {
 	private $fields;
 	private $validators;
+	const EMPTY_VALIDATOR = '__empty';
+	const FILE_VALIDATOR = '__file';
 
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
@@ -26,6 +28,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		foreach (BSWebRequest::getMethodNames() as $method) {
 			$this->putMethod($method);
 		}
+
 		return $this->getBody();
 	}
 
@@ -34,14 +37,9 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		foreach ($methods as $method => $fields) {
 			$method = strtoupper($method);
 			$this->fields[$method] = new BSArray;
-			if (!BSArray::isArray($fields)) {
-				$fields = BSString::explode(',', $fields);
-			}
 			foreach ($fields as $field) {
-				if ($field) {
-					$this->fields[$method][$field] = new BSArray;
-					$this->fields[$method][$field]['validators'] = new BSArray;
-				}
+				$this->fields[$method][$field] = new BSArray;
+				$this->fields[$method][$field]['validators'] = new BSArray;
 			}
 		}
 	}
@@ -50,30 +48,12 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators = new BSArray;
 		foreach (BSWebRequest::getMethodNames() as $method) {
 			foreach ($names as $name => $value) {
-				if (BSArray::isArray($value)) {
-					if ($this->fields[$method][$name]) {
-						$this->fields[$method][$name]->setParameters($value);
-					}
-					if ($validators = $this->fields[$method][$name]['validators']) {
-						foreach ($validators as $validator) {
-							$this->validators[$validator] = new BSArray;
-							$this->validators[$validator]['params'] = new BSArray;
-						}
-					}
-				} else {
-					$name = BSString::explode('.', $name);
-					$field = $name[0];
-					$param = $name[1];
-					if ($this->fields[$method][$field]) {
-						if ($param == 'validators') {
-							foreach (explode(',', $value) as $validator) {
-								$this->fields[$method][$field]['validators'][] = $validator;
-								$this->validators[$validator] = new BSArray;
-								$this->validators[$validator]['params'] = new BSArray;
-							}
-						} else if ($param) {
-							$this->fields[$method][$field][$param] = $value;
-						}
+				if ($this->fields[$method][$name]) {
+					$this->fields[$method][$name]->setParameters($value);
+				}
+				if ($validators = $this->fields[$method][$name]['validators']) {
+					foreach ($validators as $validator) {
+						$this->validators[$validator] = new BSArray;
 					}
 				}
 			}
@@ -81,15 +61,20 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function setValidators ($config) {
-		foreach ($this->validators as $validator => $values) {
-			foreach ($config[$validator] as $param => $value) {
-				$this->validators[$validator][$param] = $value;
+		foreach ($this->validators as $name => $values) {
+			if (!isset($config)) {
+				throw new BSConfigException('バリデータ "%s" が未定義です。', $name);
 			}
+			$this->validators[$name] = new BSArray($config[$name]);
 		}
+		$this->validators[self::EMPTY_VALIDATOR] = new BSArray;
+		$this->validators[self::EMPTY_VALIDATOR]['class'] = 'BSEmptyValidator';
+		$this->validators[self::FILE_VALIDATOR] = new BSArray;
+		$this->validators[self::FILE_VALIDATOR]['class'] = 'BSFileValidator';
 	}
 
 	private function putMethod ($method) {
-		if (!isset($this->fields[$method]) || !$this->fields[$method]) {
+		if (!$this->fields[$method]) {
 			return;
 		}
 
@@ -97,50 +82,25 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 			sprintf('if (BSRequest::getInstance()->getMethod() == BSRequest::%s) {', $method)
 		);
 		foreach ($this->fields[$method] as $name => $field) {
-			$this->putField($name, $field);
+			$field = new BSArray($field);
+			if ($field['required']) {
+				$this->putValidator($name, self::EMPTY_VALIDATOR);
+			}
+			if ($field['file']) {
+				$this->putValidator($name, self::FILE_VALIDATOR);
+			}
+			foreach ($field['validators'] as $info) {
+				$this->putValidator($name, $info);
+			}
 		}
 		$this->putLine('}');
 	}
 
-	private function putField ($name, $field) {
-		$options = new BSArray;
-		foreach (array('required', 'file', 'virtual') as $option) {
-			if (isset($field[$option]) && $field[$option]) {
-				$options[] = 'BSValidateManager::VALIDATE_' . strtoupper($option);
-			}
-		}
-		if (!$options = $options->join(' | ')) {
-			$options = 'null';
-		}
-
-		$line = sprintf(
-			'  $manager->register(%s, %s, %s);',
-			self::quote($name),
-			$options,
-			self::quote($field['required_msg'])
-		);
-		$this->putLine($line);
-		if (BSArray::isArray($field['validators'])) {
-			$field['validators'] = new BSArray($field['validators']);
-		}
-		foreach ($field['validators'] as $validator) {
-			$this->putValidator($name, $validator);
-		}
-	}
-
 	private function putValidator ($name, $validator) {
-		$line = sprintf('  $validator = new %s;', $this->validators[$validator]['class']);
-		$this->putLine($line);
-
-		if (count($this->validators[$validator]['params'])) {
-			$params = self::parseParameters($this->validators[$validator]['params'], null);
-		} else {
-			$params = self::parseParameters($this->validators[$validator]);
-		}
-		$line = sprintf('  $validator->initialize(%s);', $params);
-		$this->putLine($line);
-
-		$line = sprintf('  $manager->registerValidator(%s, $validator);', self::quote($name));
+		$line = new BSStringFormat('  $manager->register(%s, new %s(%s));');
+		$line[] = self::quote($name);
+		$line[] = $this->validators[$validator]['class'];
+		$line[] = self::parseParameters($this->validators[$validator]['params']);
 		$this->putLine($line);
 	}
 }

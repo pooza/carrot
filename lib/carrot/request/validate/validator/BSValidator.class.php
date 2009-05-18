@@ -35,6 +35,16 @@ abstract class BSValidator extends BSParameterHolder {
 	}
 
 	/**
+	 * 名前を返す
+	 *
+	 * @access public
+	 * @return string 名前
+	 */
+	public function getName () {
+		return get_class($this);
+	}
+
+	/**
 	 * 初期化
 	 *
 	 * @access public

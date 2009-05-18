@@ -13,9 +13,6 @@
 class BSValidateManager implements IteratorAggregate {
 	private $fields;
 	static private $instance;
-	const VALIDATE_REQUIRED = 1;
-	const VALIDATE_FILE = 2;
-	const VALIDATE_VIRTUAL = 4;
 
 	/**
 	 * @access private
@@ -65,19 +62,19 @@ class BSValidateManager implements IteratorAggregate {
 	 * @access public
 	 */
 	public function execute () {
-		foreach ($this as $name => $info) {
-			if ($info['is_file']) {
-				$value = $this->request->getFile($name);
+		foreach ($this as $field => $validators) {
+			if ($validators['BSFileValidator']) {
+				$value = $this->request->getFile($field);
 				$value['is_file'] = true;
 			} else {
-				$value = $this->request[$name];
+				$value = $this->request[$field];
 			}
-			$enable = (!BSEmptyValidator::isEmpty($value) || $info['is_virtual']);
+			$empty = (!BSEmptyValidator::isEmpty($value) || $info['is_virtual']);
 
-			foreach ($info['validators'] as $validator) {
-				if ($enable || ($validator instanceof BSEmptyValidator)) {
+			foreach ($validators as $validator) {
+				if (!$empty || ($validator instanceof BSEmptyValidator)) {
 					if (!$validator->execute($value)) {
-						$this->request->setError($name, $validator->getError());
+						$this->request->setError($field, $validator->getError());
 						break;
 					}
 				}
@@ -87,53 +84,31 @@ class BSValidateManager implements IteratorAggregate {
 	}
 
 	/**
-	 * フィールドを登録
-	 *
-	 * @access public
-	 * @param string $name フィールド名
-	 * @param integer $flags フラグのビット列
-	 *   VALIDATE_REQUIRED 必須項目
-	 *   VALIDATE_FILE     アップロードファイル項目
-	 *   VALIDATE_VIRTUAL  仮想項目（パラメータに含まれない項目）
-	 * @param string $message 空欄時エラーメッセージ
-	 */
-	public function register ($name, $flags = null, $message = null) {
-		$values = array(
-			'name' => $name,
-			'is_file' => ($flags & self::VALIDATE_FILE),
-			'is_virtual' => ($flags & self::VALIDATE_VIRTUAL),
-			'validators' => new BSArray,
-		);
-		$this->fields[$name] = new BSArray($values);
-
-		if ($flags & self::VALIDATE_REQUIRED) {
-			$validator = new BSEmptyValidator;
-			$params = array();
-			if ($message) {
-				$params['required_msg'] = $message;
-			}
-			$validator->initialize($params);
-			$this->registerValidator($name, $validator);
-		}
-		if ($flags & self::VALIDATE_FILE) {
-			$validator = new BSFileValidator;
-			$validator->initialize();
-			$this->registerValidator($name, $validator);
-		}
-	}
-
-	/**
 	 * フィールドにバリデータを登録
 	 *
 	 * @access public
 	 * @param string $name フィールド名
 	 * @param BSValidator $validator バリデータ
 	 */
-	public function registerValidator ($name, BSValidator $validator) {
-		if (!$this->fields->hasParameter($name)) {
-			throw new BSValidateException('フィールド "%s" は登録されていません。', $name);
+	public function register ($name, BSValidator $validator) {
+		if (!$this->fields[$name]) {
+			$this->fields[$name] = new BSArray;
 		}
-		$this->fields[$name]['validators'][] = $validator;
+		$this->fields[$name][$validator->getName()] = $validator;
+	}
+
+	/**
+	 * フィールドにバリデータを登録
+	 *
+	 * registerのエイリアス
+	 *
+	 * @access public
+	 * @param string $name フィールド名
+	 * @param BSValidator $validator バリデータ
+	 * @final
+	 */
+	final public function registerValidator ($name, BSValidator $validator) {
+		$this->register($name, $validator);
 	}
 
 	/**

@@ -15,6 +15,14 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 
 	/**
 	 * @access public
+	 * @param string[] $parameters パラメータ
+	 */
+	public function __construct ($parameters = array()) {
+		$this->initialize($parameters);
+	}
+
+	/**
+	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト
 	 */
@@ -81,6 +89,9 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @param string $line phpステートメント
 	 */
 	protected function putLine ($line) {
+		if ($line instanceof BSStringFormat) {
+			$line = $line->getContents();
+		}
 		$this->body[] = $line;
 	}
 
@@ -149,25 +160,14 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $values パラメータ配列
-	 * @param string $prefix パラメータ名プリフィックス
 	 * @return string PHPスクリプト
 	 * @static
 	 */
-	static public function parseParameters ($values, $prefix = 'param') {
+	static public function parseParameters ($values) {
 		$body = new BSArray;
-		$pattern = '/^' . preg_quote($prefix, '/') . '\.([0-9a-z_]+)/i';
-
-		foreach ($values as $key => $value) {
-			if (!$prefix) {
-				$name = $key;
-			} else if (preg_match($pattern, $key, $matches)) {
-				$name = $matches[1];
-			} else {
-				continue;
-			}
-			$body[] = sprintf('%s => %s', self::quote($name), self::quote($value));
+		foreach ((array)$values as $key => $value) {
+			$body[] = sprintf('%s => %s', self::quote($key), self::quote($value));
 		}
-
 		if (0 < $body->count()) {
 			return sprintf('array(%s)', $body->join(', '));
 		}
