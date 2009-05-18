@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSRegexValidator extends BSStringValidator {
+class BSRegexValidator extends BSValidator {
 
 	/**
 	 * 初期化
@@ -38,19 +38,11 @@ class BSRegexValidator extends BSStringValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!parent::execute($value)) {
-			return false;
-		}
-
-		$match = $this['match'];
-		$pattern = $this['pattern'];
-		if (($match && !preg_match($pattern, $value))
-			|| (!$match && preg_match($pattern, $value)))
-		{
+		$matched = (boolean)preg_match($this['pattern'], $value);
+		if (($this['match'] && !$matched) || (!$this['match'] && $matched)) {
 			$this->error = $this['match_error'];
 			return false;
 		}
-
 		return true;
 	}
 }

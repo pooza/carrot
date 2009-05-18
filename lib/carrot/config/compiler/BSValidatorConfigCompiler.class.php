@@ -15,6 +15,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	private $validators;
 	const EMPTY_VALIDATOR = '__empty';
 	const FILE_VALIDATOR = '__file';
+	const STRING_VALIDATOR = '__string';
 
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
@@ -71,6 +72,8 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators[self::EMPTY_VALIDATOR]['class'] = 'BSEmptyValidator';
 		$this->validators[self::FILE_VALIDATOR] = new BSArray;
 		$this->validators[self::FILE_VALIDATOR]['class'] = 'BSFileValidator';
+		$this->validators[self::STRING_VALIDATOR] = new BSArray;
+		$this->validators[self::STRING_VALIDATOR]['class'] = 'BSStringValidator';
 	}
 
 	private function putMethod ($method) {
@@ -83,6 +86,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		);
 		foreach ($this->fields[$method] as $name => $field) {
 			$field = new BSArray($field);
+			$this->putValidator($name, self::STRING_VALIDATOR);
 			if ($field['required']) {
 				$this->putValidator($name, self::EMPTY_VALIDATOR);
 			}

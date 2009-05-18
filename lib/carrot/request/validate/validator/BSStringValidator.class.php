@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSStringValidator extends BSValidator {
+	const MAX_SIZE = 1024;
 
 	/**
 	 * 初期化
@@ -19,7 +20,7 @@ class BSStringValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this['max'] = 1024;
+		$this['max'] = self::MAX_SIZE;
 		$this['max_error'] = '長すぎます。';
 		$this['min'] = null;
 		$this['min_error'] = '短すぎます。';
@@ -34,18 +35,18 @@ class BSStringValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$min = $this['min'];
-		if (($min != null) && (BSString::getWidth($value) < $min)) {
+		if (BSString::isArray($value)) {
+			return true;
+		}
+
+		if (!BSString::isBlank($min = $this['min']) && (BSString::getWidth($value) < $min)) {
 			$this->error = $this['min_error'];
 			return false;
 		}
-
-		$max = $this['max'];
-		if (($max != null) && ($max < BSString::getWidth($value))) {
+		if (!BSString::isBlank($max = $this['max']) && ($max < BSString::getWidth($value))) {
 			$this->error = $this['max_error'];
 			return false;
 		}
-
 		return true;
 	}
 }
