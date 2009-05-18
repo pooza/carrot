@@ -25,7 +25,10 @@ class BSSessionHandler implements BSUserIdentifier {
 			$this->storage->initialize();
 		}
 		session_start();
-		session_regenerate_id(true);
+
+		if (BS_SESSION_REGENERATE_ID) {
+			session_regenerate_id(true);
+		}
 	}
 
 	/**
