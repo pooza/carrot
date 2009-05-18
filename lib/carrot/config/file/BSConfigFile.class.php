@@ -131,8 +131,8 @@ class BSConfigFile extends BSFile {
 	 */
 	static public function getParserNames () {
 		$names = new BSArray;
-		$names['.ini'] = 'BSIniConfigParser';
 		$names['.yaml'] = 'BSYAMLConfigParser';
+		$names['.ini'] = 'BSIniConfigParser';
 		return $names;
 	}
 
