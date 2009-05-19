@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.1.84
+  ver: 2.1.85
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -46,6 +46,11 @@ image:
   thumbnail:
     bgcolor: black
     type: image/png
+  mobile:
+    type:
+      docomo: image/jpeg
+      au: image/png
+      softbank: image/png
 languages:
   - ja
 log:

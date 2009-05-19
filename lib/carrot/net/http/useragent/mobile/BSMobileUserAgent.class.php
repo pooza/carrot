@@ -119,7 +119,8 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return string 規定の画像形式
 	 */
 	public function getDefaultImageType () {
-		return BSMIMEType::getType('png');
+		$constants = BSConstantHandler::getInstance();
+		return $constants['IMAGE_MOBILE_TYPE_' . $this->getCarrier()->getName()];
 	}
 
 	/**
