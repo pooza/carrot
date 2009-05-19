@@ -86,12 +86,13 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		);
 		foreach ($this->fields[$method] as $name => $field) {
 			$field = new BSArray($field);
-			$this->putValidator($name, self::STRING_VALIDATOR);
-			if ($field['required']) {
-				$this->putValidator($name, self::EMPTY_VALIDATOR);
-			}
 			if ($field['file']) {
 				$this->putValidator($name, self::FILE_VALIDATOR);
+			} else {
+				$this->putValidator($name, self::STRING_VALIDATOR);
+			}
+			if ($field['required']) {
+				$this->putValidator($name, self::EMPTY_VALIDATOR);
 			}
 			foreach ($field['validators'] as $info) {
 				$this->putValidator($name, $info);
