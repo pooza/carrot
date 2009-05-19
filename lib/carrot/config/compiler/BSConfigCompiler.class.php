@@ -154,24 +154,6 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 		$value = str_replace('##PERCENT##', '%', $value);
 		return $value;
 	}
-
-	/**
-	 * パラメータ配列をPHPスクリプトにパース
-	 *
-	 * @access public
-	 * @param string $values パラメータ配列
-	 * @return string PHPスクリプト
-	 * @static
-	 */
-	static public function parseParameters ($values) {
-		$body = new BSArray;
-		foreach ((array)$values as $key => $value) {
-			$body[] = sprintf('%s => %s', self::quote($key), self::quote($value));
-		}
-		if (0 < $body->count()) {
-			return sprintf('array(%s)', $body->join(', '));
-		}
-	}
 }
 
 /* vim:set tabstop=4: */

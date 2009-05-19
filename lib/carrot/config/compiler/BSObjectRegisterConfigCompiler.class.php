@@ -19,12 +19,14 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 				throw new BSConfigException('%sで、クラス名が指定されていません。', $file);
 			}
 
-			$this->putLine(sprintf('$object = new %s;', $values['class']));
-			$line = sprintf(
-				'$object->initialize(%s);',
-				self::parseParameters((array)$values['params'], null)
-			);
+			$line = new BSStringFormat('$object = new %s;');
+			$line[] = $values['class'];
 			$this->putLine($line);
+
+			$line = new BSStringFormat('$object->initialize(%s);');
+			$line[] = self::quote((array)$values['params']);
+			$this->putLine($line);
+
 			$this->putLine('$objects[] = $object;');
 		}
 		return $this->getBody();
