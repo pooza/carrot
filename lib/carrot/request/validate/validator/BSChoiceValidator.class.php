@@ -47,11 +47,12 @@ class BSChoiceValidator extends BSValidator {
 	}
 
 	private function getChoices () {
-		if ($choices = $this['choices']) {
-			if (is_array($choices)) {
-				$choices = new BSArray($choices);
+		$choices = new BSArray;
+		if ($config = $this['choices']) {
+			if (is_array($config)) {
+				$choices->setParameters($config);
 			} else {
-				$choices = BSString::explode(',', $choices);
+				$choices = BSString::explode(',', $config);
 			}
 		} else if ($this['class']) {
 			$classes = BSClassLoader::getInstance();
@@ -60,7 +61,6 @@ class BSChoiceValidator extends BSValidator {
 			} catch (Exception $e) {
 				$class = $classes->getClassName($this['class']);
 			}
-			$choices = new BSArray;
 			$choices->setParameters(call_user_func(array($class, $this['function'])));
 			$choices = $choices->getKeys(BSArray::WITHOUT_KEY);
 		}

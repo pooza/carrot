@@ -248,6 +248,8 @@ class BSImageCacheHandler {
 		$name[] = get_class($record);
 		$name[] = $record->getID();
 		$name[] = $size;
+		$name = $name->getContents();
+
 		if (!BS_DEBUG) {
 			$name = BSCrypt::getSHA1($name . BS_CRYPT_SALT);
 		}

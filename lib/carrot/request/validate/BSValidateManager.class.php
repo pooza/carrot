@@ -69,7 +69,7 @@ class BSValidateManager implements IteratorAggregate {
 			} else {
 				$value = $this->request[$field];
 			}
-			$empty = (!BSEmptyValidator::isEmpty($value) || $info['is_virtual']);
+			$empty = (BSEmptyValidator::isEmpty($value) || $value['is_virtual']);
 
 			foreach ($validators as $validator) {
 				if (!$empty || ($validator instanceof BSEmptyValidator)) {
