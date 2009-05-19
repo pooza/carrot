@@ -21,10 +21,7 @@ class BSConfigManager {
 		$objects = array();
 		require_once(self::getConfigFile('config_compilers', 'BSRootConfigFile')->compile());
 		$this->compilers = new BSArray($objects);
-
-		$compiler = new BSDefaultConfigCompiler;
-		$compiler->initialize(array('pattern' => '.'));
-		$this->compilers[] = $compiler;
+		$this->compilers[] = new BSDefaultConfigCompiler(array('pattern' => '.'));;
 	}
 
 	/**

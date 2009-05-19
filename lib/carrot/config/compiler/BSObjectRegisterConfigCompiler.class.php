@@ -13,21 +13,17 @@
 class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
+		$this->putLine('$objects = array();');
 		foreach ($file->getResult() as $values) {
 			$values = new BSArray($values);
-			if (!$values['class']) {
+			if (BSString::isBlank($values['class'])) {
 				throw new BSConfigException('%sで、クラス名が指定されていません。', $file);
 			}
 
-			$line = new BSStringFormat('$object = new %s;');
+			$line = new BSStringFormat('$objects[] = new %s(%s);');
 			$line[] = $values['class'];
-			$this->putLine($line);
-
-			$line = new BSStringFormat('$object->initialize(%s);');
 			$line[] = self::quote((array)$values['params']);
 			$this->putLine($line);
-
-			$this->putLine('$objects[] = $object;');
 		}
 		return $this->getBody();
 	}
