@@ -4,8 +4,7 @@
  * @subpackage config.parser
  */
 
-//BSUtility::includeFileではインクルードできない
-require_once(BS_LIB_DIR . '/spyc.php5');
+BSUtility::includeFile('spyc.php');
 
 /**
  * YAML設定パーサー
