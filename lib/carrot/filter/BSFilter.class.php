@@ -15,6 +15,14 @@ abstract class BSFilter extends BSParameterHolder {
 
 	/**
 	 * @access public
+	 * @param string[] $parameters パラメータ配列
+	 */
+	public function __construct ($parameters = array()) {
+		$this->initialize($parameters);
+	}
+
+	/**
+	 * @access public
 	 * @param string $name プロパティ名
 	 * @return mixed 各種オブジェクト
 	 */

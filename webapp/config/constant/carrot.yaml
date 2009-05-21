@@ -124,6 +124,9 @@ smtp:
   check_addresses: no
 sqlite3:
   dir: /usr/local
+string:
+  mobile:
+    force_convert: no
 types:
   file: /etc/httpd/mime.types
 xmpp:

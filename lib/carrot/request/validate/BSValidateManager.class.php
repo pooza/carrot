@@ -69,10 +69,12 @@ class BSValidateManager implements IteratorAggregate {
 			} else {
 				$value = $this->request[$field];
 			}
-			$empty = (BSEmptyValidator::isEmpty($value) || $value['is_virtual']);
 
 			foreach ($validators as $validator) {
-				if (!$empty || ($validator instanceof BSEmptyValidator)) {
+				if (!BSEmptyValidator::isEmpty($value)
+					|| ($validator['fields'])
+					|| ($validator instanceof BSEmptyValidator)) {
+
 					if (!$validator->execute($value)) {
 						$this->request->setError($field, $validator->getError());
 						break;
@@ -109,6 +111,30 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	final public function registerValidator ($name, BSValidator $validator) {
 		$this->register($name, $validator);
+	}
+
+	/**
+	 * フィールド名を返す
+	 *
+	 * @access public
+	 * @return BSArray フィールド名
+	 */
+	public function getFieldNames () {
+		return $this->fields->getKeys(BSArray::WITHOUT_KEY);
+	}
+
+	/**
+	 * フィールド値を返す
+	 *
+	 * @access public
+	 * @return BSArray フィールド値
+	 */
+	public function getFieldValues () {
+		$values = new BSArray;
+		foreach ($this->getFieldNames() as $name) {
+			$values[$name] = $this->request[$name];
+		}
+		return $values;
 	}
 
 	/**

@@ -15,8 +15,8 @@ actions:
   Feed:
     filters:
       - class: BSSecurityFilter
-        enabled: off
+        enabled: no
       - class: BSBasicAuthFilter
-        enabled: on
+        enabled: yes
       - class: BSMenuFilter
-        enabled: off
+        enabled: no

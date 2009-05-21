@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSString {
-	const DETECT_ORDER = 'ascii,jis,utf-8,eucjp-win,sjis-win';
+	const DETECT_ORDER = 'ascii,jis,utf-8,eucjp-win,euc-jp,sjis-win,sjis';
 
 	/**
 	 * @access private

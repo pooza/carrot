@@ -11,4 +11,4 @@ methods:
 
 names:
   t:
-    required: true
+    required: yes
