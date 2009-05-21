@@ -38,22 +38,22 @@ class BSPairValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (BSString::isBlank($name = $this['field'])) {
-			return true;
+			throw new BSConfigException('%sの対象フィールドが未定義です。', get_class($this));
 		}
-
 		if ($this['equal'] && ($value != $this->request[$name])) {
 			$this->error = $this['equal_error'];
 			return false;
 		}
-		if ($this['lesser'] && ($this->request[$name] < $value)) {
-			$this->error = $this['lesser_error'];
-			return false;
+		if (!BSString::isBlank($this->request[$name])) {
+			if ($this['lesser'] && ($this->request[$name] < $value)) {
+				$this->error = $this['lesser_error'];
+				return false;
+			}
+			if ($this['greater'] && ($value < $this->request[$name])) {
+				$this->error = $this['greater_error'];
+				return false;
+			}
 		}
-		if ($this['greater'] && ($value < $this->request[$name])) {
-			$this->error = $this['greater_error'];
-			return false;
-		}
-
 		return true;
 	}
 }
