@@ -114,6 +114,7 @@
   <N-03A color="1" depth="262144" height="320" width="240" />
   <N-04A color="1" depth="262144" height="320" width="240" />
   <N-05A color="1" depth="262144" height="320" width="240" />
+  <N-06A color="1" depth="262144" height="640" width="480" />
   <N2001 color="1" depth="4096" height="128" width="118" />
   <N2002 color="1" depth="65536" height="128" width="118" />
   <N2051 color="1" depth="65536" height="198" width="176" />
@@ -183,6 +184,7 @@
   <P-04A color="1" depth="262144" height="350" width="240" />
   <P-05A color="1" depth="262144" height="350" width="240" />
   <P-06A color="1" depth="262144" height="350" width="240" />
+  <P-07A color="1" depth="262144" height="662" width="480" />
   <P2002 color="1" depth="65536" height="128" width="118" />
   <P209I color="" depth="4" height="87" width="96" />
   <P209IS color="1" depth="256" height="87" width="96" />
