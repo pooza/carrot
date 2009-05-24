@@ -427,7 +427,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = new BSCarrotURL;
+		$url = BSURL::getInstance(null, 'BSCarrotURL');
 		$url->setModuleName($this);
 		return $url;
 	}

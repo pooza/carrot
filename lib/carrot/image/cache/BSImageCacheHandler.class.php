@@ -91,7 +91,7 @@ class BSImageCacheHandler {
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
-		$url = new BSHTTPURL;
+		$url = BSURL::getInstance();
 		$url['path'] = sprintf(
 			'/carrotlib/images/cache/%s/%s',
 			$this->getEntryName($record, $size),

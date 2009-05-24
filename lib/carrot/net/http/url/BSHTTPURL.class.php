@@ -17,13 +17,13 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	const PATTERN = '/^[a-z]+:(\/\/)?[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
-	 * @access public
-	 * @param string $url URL
+	 * @access protected
+	 * @param mixed $contents URL
 	 */
-	public function __construct ($url = null) {
+	protected function __construct ($contents) {
 		$this->attributes = new BSArray;
 		$this->query = new BSWWWFormRenderer;
-		if (BSString::isBlank($url)) {
+		if (BSString::isBlank($contents)) {
 			if (BSRequest::getInstance()->isSSL()) {
 				$this['scheme'] = 'https';
 			} else {
@@ -31,7 +31,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 			}
 			$this['host'] = BSController::getInstance()->getHost();
 		} else {
-			$this->setContents($url);
+			$this->setContents($contents);
 		}
 	}
 

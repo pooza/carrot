@@ -350,7 +350,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = new BSCarrotURL;
+		$url = BSURL::getInstance(null, 'BSCarrotURL');
 		$url->setActionName($this);
 		return $url;
 	}

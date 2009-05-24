@@ -57,7 +57,7 @@ class BSTwitterAccount {
 	 */
 	public function getURL () {
 		if (!$this->url && $this->getAttribute('url')) {
-			$this->url = new BSHTTPURL($this->getAttribute('url'));
+			$this->url = BSURL::getInstance($this->getAttribute('url'));
 		}
 		return $this->url;
 	}
@@ -71,7 +71,7 @@ class BSTwitterAccount {
 	public function getIcon () {
 		if (!$this->icon && $this->getAttribute('profile_image_url')) {
 			try {
-				$url = new BSHTTPURL($this->getAttribute('profile_image_url'));
+				$url = BSURL::getInstance($this->getAttribute('profile_image_url'));
 				$this->icon = new BSImage;
 				$this->icon->setImage($url->fetch());
 			} catch (BSException $e) {

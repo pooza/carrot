@@ -147,7 +147,7 @@ class BSGoogleSearch {
 		$this->result = array();
 		foreach ($result->resultElements as $element) {
 			try {
-				$url = new BSHTTPURL($element->URL);
+				$url = BSURL::getInstance($element->URL);
 			} catch (BSNetException $e) {
 				continue; //URLのホスト名が逆引きできない可能性がある
 			}

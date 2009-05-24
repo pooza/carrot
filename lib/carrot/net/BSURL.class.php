@@ -16,12 +16,39 @@ class BSURL implements ArrayAccess, BSAssignable {
 	const PATTERN = '/^[a-z]+:(\/\/)?[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
-	 * @access public
-	 * @param string $url URL
+	 * @access protected
+	 * @param mixed $contents URL
 	 */
-	public function __construct ($url = null) {
+	protected function __construct ($contents) {
 		$this->attributes = new BSArray;
-		$this->setContents($url);
+		$this->setContents($contents);
+	}
+
+	/**
+	 * ファクトリインスタンスを返す
+	 *
+	 * @access public
+	 * @param $contents URL文字列
+	 * @return BSURL
+	 * @static
+	 */
+	static public function getInstance ($contents = null, $class = 'BSHTTPURL') {
+		if (BSString::isBlank($contents)) {
+			return new $class;
+		}
+
+		$attributes = new BSArray(parse_url($contents));
+		switch ($attributes['scheme']) {
+			case 'http':
+			case 'https':
+				return new BSHTTPURL($attributes);
+			case 'mailto':
+			case 'xmpp':
+			case 'tel':
+				return new BSMailToURL($attributes);
+			default:
+				return new BSURL($attributes);
+		}
 	}
 
 	/**
@@ -44,15 +71,19 @@ class BSURL implements ArrayAccess, BSAssignable {
 	 * URLを設定
 	 *
 	 * @access public
-	 * @param string $url URL
+	 * @param mixed $contents URL
 	 */
-	public function setContents ($url) {
+	public function setContents ($contents) {
 		$this->attributes->clear();
-		if (!preg_match(self::PATTERN, $url)) {
-			return false;
+		if (!BSArray::isArray($contents)) {
+			if (!preg_match(self::PATTERN, $contents)) {
+				return false;
+			}
+			$contents = parse_url($contents);
 		}
-		foreach (parse_url($url) as $name => $value) {
-			$this[$name] = $value;
+
+		foreach ($contents as $key => $value) {
+			$this[$key] = $value;
 		}
 	}
 
