@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.url
+ * @subpackage net.http.url
  */
 
 /**
