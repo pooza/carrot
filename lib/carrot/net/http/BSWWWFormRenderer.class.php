@@ -28,11 +28,15 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	/**
 	 * 出力内容を設定
 	 *
-	 * @param string $contents 出力内容
+	 * @param mixed $contents 出力内容
 	 * @access public
 	 */
 	public function setContents ($contents) {
-		parse_str($contents, $this->parameters);
+		if (BSArray::isArray($contents)) {
+			$this->setParameters($contents);
+		} else {
+			parse_str($contents, $this->parameters);
+		}
 	}
 
 	/**

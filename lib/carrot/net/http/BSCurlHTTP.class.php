@@ -73,7 +73,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	private function execute ($path) {
-		$url = new BSURL;
+		$url = new BSHTTPURL;
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
 		if ($this->isSSL()) {

@@ -22,7 +22,7 @@ class BSMovableTypeBlog {
 			if (!$url = $constants['BLOG_' . $type . '_URL']) {
 				throw new BSConfigException('URLが指定されていません。');
 			}
-			$this->urls[$type] = new BSURL($url);
+			$this->urls[$type] = new BSHTTPURL($url);
 		}
 		return $this->urls[$type];
 	}

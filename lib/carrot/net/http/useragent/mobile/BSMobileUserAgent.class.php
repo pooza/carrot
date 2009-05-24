@@ -54,7 +54,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	public function setSession (BSSessionHandler $session) {
 		parent::setSession($session);
 
-		$url = new BSURL;
+		$url = new BSHTTPURL;
 		$url->setParameters($this->attributes['query']);
 		$url->setParameter($session->getName(), $session->getID());
 		if (BS_DEBUG) {

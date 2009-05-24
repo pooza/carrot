@@ -15,6 +15,7 @@ class BSMailAddress implements BSAssignable {
 	private $name;
 	private $account;
 	private $domain;
+	private $url;
 	private $mx = array();
 	const PATTERN = '/^([0-9a-z_\.\+\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
 
@@ -93,6 +94,19 @@ class BSMailAddress implements BSAssignable {
 	 */
 	public function getDomainName () {
 		return $this->domain;
+	}
+
+	/**
+	 * URLを返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		if (!$this->url) {
+			$this->url = new BSURL('mailto:' . $this->getContents());
+		}
+		return $this->url;
 	}
 
 	/**

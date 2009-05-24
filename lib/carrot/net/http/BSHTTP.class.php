@@ -22,7 +22,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendHeadRequest ($path = '/') {
-		$url = new BSURL;
+		$url = new BSHTTPURL;
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
 
@@ -40,7 +40,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGetRequest ($path = '/') {
-		$url = new BSURL;
+		$url = new BSHTTPURL;
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
 
@@ -59,7 +59,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPostRequest ($path = '/', $params = array()) {
-		$url = new BSURL;
+		$url = new BSHTTPURL;
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
 

@@ -14,7 +14,7 @@ class LoginAction extends BSAction {
 			$this->user->addCredential('Develop');
 		}
 
-		$url = new BSURL($this->controller->getConstant('ROOT_URL_HTTPS'));
+		$url = new BSHTTPURL($this->controller->getConstant('ROOT_URL_HTTPS'));
 		$url['path'] = '/AdminLog/';
 		return $url->redirect();
 	}
