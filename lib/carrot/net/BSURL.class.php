@@ -94,7 +94,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 	 * @return string 前半
 	 */
 	protected function getHeadString () {
-		if (BSString::isBlank($this['scheme']) || BSString::isBlank($this['host'])) {
+		if (BSString::isBlank($this['scheme']) || !$this['host']) {
 			return null;
 		}
 
