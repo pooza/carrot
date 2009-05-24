@@ -73,17 +73,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 		if (is_array($name) || is_object($name)) {
 			return false;
 		}
-		return isset($this->parameters[$name]);
-	}
-
-	/**
-	 * 全てのパラメータ名を返す
-	 *
-	 * @access public
-	 * @return string[] 全てのパラメータ名
-	 */
-	public function getParameterNames () {
-		return array_keys($this->getParameters());
+		return array_key_exists($name, $this->parameters);
 	}
 
 	/**

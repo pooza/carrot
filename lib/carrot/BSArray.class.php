@@ -69,12 +69,10 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	public function merge ($values) {
 		if ($values instanceof BSParameterHolder) {
 			$values = $values->getParameters();
-		} else if (BSNumeric::isZero($values)) {
-			$values = array(0);
-		} else if (!$values) {
+		} else if (!is_array($values)) {
 			return;
 		}
-		foreach ((array)$values as $value) {
+		foreach ($values as $value) {
 			$this->parameters[] = $value;
 		}
 	}
@@ -93,9 +91,9 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 		}
 		if ($name === null) {
 			if ($position == self::POSITION_TOP) {
-				array_unshift($this->parameters, $value);
+				$this->unshift($value);
 			} else {
-				$this->parameters[] = $value;
+				$this->push($value);
 			}
 		} else {
 			if ($position == self::POSITION_TOP) {
@@ -147,6 +145,50 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	}
 
 	/**
+	 * 先頭要素を削除し、返す
+	 *
+	 * @access public
+	 * @return mixed 削除された先頭要素
+	 */
+	public function shift () {
+		return array_shift($this->parameters);
+	}
+
+	/**
+	 * 先頭に要素を加える
+	 *
+	 * @access public
+	 * @param mixed $value 要素
+	 * @return BSArray 自分自身
+	 */
+	public function unshift ($value) {
+		array_unshift($this->parameters, $value);
+		return $this;
+	}
+
+	/**
+	 * 末尾要素を削除し、返す
+	 *
+	 * @access public
+	 * @return mixed 削除された末尾要素
+	 */
+	public function pop () {
+		return array_pop($this->parameters);
+	}
+
+	/**
+	 * 末尾に要素を加える
+	 *
+	 * @access public
+	 * @param mixed $value 要素
+	 * @return BSArray 自分自身
+	 */
+	public function push ($value) {
+		$this->parameters[] = $value;
+		return $this;
+	}
+
+	/**
 	 * ソート
 	 *
 	 * @access public
@@ -160,10 +202,10 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 		$funcs[self::SORT_VALUE_ASC] = 'asort';
 		$funcs[self::SORT_VALUE_DESC] = 'arsort';
 
-		if ($func = $funcs[$order]) {
-			$func($this->parameters);
+		if (BSString::isBlank($func = $funcs[$order])) {
+			throw new BSException('BSArray::sortの引数が正しくありません。');
 		}
-
+		$func($this->parameters);
 		return $this;
 	}
 
@@ -202,21 +244,21 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	 * 要素をフラット化
 	 *
 	 * @access public
+	 * @param string $glue 接続子
 	 * @return BSArray 自分自身
 	 */
-	public function flatten () {
-		$this->parameters = self::getFlatContents(null, $this->parameters);
+	public function flatten ($glue = '_') {
+		$this->parameters = self::getFlatContents(null, $this->parameters, $glue);
 		return $this;
 	}
-
-	static private function getFlatContents ($prefix, $arg) {
+	static private function getFlatContents ($prefix, $arg, $glue) {
 		$contents = array();
 		if (BSArray::isArray($arg)) {
 			foreach ($arg as $key => $value) {
 				if (!BSString::isBlank($prefix)) {
-					$key = $prefix . '_' . $key;
+					$key = $prefix . $glue . $key;
 				}
-				$contents += self::getFlatContents($key, $value);
+				$contents += self::getFlatContents($key, $value, $glue);
 			}
 		} else {
 			$contents[$prefix] = $arg;
@@ -240,75 +282,28 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 	}
 
 	/**
-	 * 順位を書き込む
-	 *
-	 * この配列が、降順でソート済みでなければならない。
-	 *
-	 * @access public
-	 * @param string $compareField 順位の基準となるフィールド
-	 * @param string $resultField 順位を書き込むフィールド
-	 * @return BSArray 自身
-	 */
-	public function setRanking ($compareField, $resultField = 'rank') {
-		$counter = 0;
-		$rank = 0;
-		foreach ($this as $index => $record) {
-			$counter ++;
-			if (!isset($prev) || ($record[$compareField] < $prev)) {
-				$rank = $counter;
-			}
-			$record[$resultField] = $rank;
-			$prev = $record[$compareField];
-			$this[$index] = $record;
-		}
-		return $this;
-	}
-
-	/**
-	 * 構成比を書き込む
-	 *
-	 * @access public
-	 * @param string $compareField 構成比の基準となるフィールド
-	 * @param string $resultField 順位を書き込むフィールド
-	 * @return BSArray 自身
-	 */
-	public function setPercentage ($compareField, $resultField = 'percentage') {
-		$total = 0;
-		foreach ($this as $record) {
-			$total += $record[$compareField];
-		}
-
-		foreach ($this as $index => $record) {
-			$record[$resultField] = $record[$compareField] / $total * 100;
-			$this[$index] = $record;
-		}
-
-		return $this;
-	}
-
-	/**
 	 * セパレータで結合した文字列を返す
 	 *
 	 * @access public
 	 * @param string $separator セパレータ
 	 * @return string 結果文字列
 	 */
-	public function implode ($separator = null) {
+	public function join ($separator = null) {
 		return implode($separator, $this->getParameters());
 	}
 
 	/**
 	 * セパレータで結合した文字列を返す
 	 *
-	 * implodeのエイリアス
+	 * joinのエイリアス
 	 *
 	 * @access public
 	 * @param string $separator セパレータ
 	 * @return string 結果文字列
 	 * @final
 	 */
-	final public function join ($separator = null) {
-		return $this->implode($separator);
+	final public function implode ($separator = null) {
+		return $this->join($separator);
 	}
 
 	/**
