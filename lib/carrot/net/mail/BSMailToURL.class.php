@@ -12,7 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMailURL extends BSURL {
+class BSMailToURL extends BSURL {
 
 	/**
 	 * 内容を返す
