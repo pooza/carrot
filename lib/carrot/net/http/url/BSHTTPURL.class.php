@@ -44,6 +44,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	 */
 	public function getAttribute ($name) {
 		if (($name == 'path') && BSString::isBlank($this->attributes['path'])) {
+			// RFC1738の仕様とは異なるが、この方が都合がよいので。
 			$this->attributes['path'] = '/';
 		}
 		return $this->attributes[$name];

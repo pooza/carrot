@@ -104,7 +104,7 @@ class BSMailAddress implements BSAssignable {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = new BSURL('mailto:' . $this->getContents());
+			$this->url = new BSMailURL('mailto:' . $this->getContents());
 		}
 		return $this->url;
 	}
