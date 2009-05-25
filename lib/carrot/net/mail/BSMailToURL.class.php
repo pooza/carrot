@@ -22,7 +22,7 @@ class BSMailToURL extends BSURL {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			$this->contents = $this['schema'] . ':' . $this['path'];
+			$this->contents = $this['scheme'] . ':' . $this['path'];
 		}
 		return $this->contents;
 	}
