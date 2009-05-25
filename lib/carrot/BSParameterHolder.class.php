@@ -10,7 +10,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
+abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Countable {
 	protected $parameters = array();
 
 	/**
@@ -119,6 +119,16 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess {
 	 */
 	public function getIterator () {
 		return new BSIterator($this->getParameters());
+	}
+
+	/**
+	 * 要素数を返す
+	 *
+	 * @access public
+	 * @return integer 要素数
+	 */
+	public function count () {
+		return count($this->getParameters());
 	}
 
 	/**

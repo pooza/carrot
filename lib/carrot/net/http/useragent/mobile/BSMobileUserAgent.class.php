@@ -13,6 +13,7 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
+	private $smarty;
 	const IMAGE_FULL_SCREEN = 1;
 	const DEFAULT_DISPLAY_WIDTH = 240;
 	const DEFAULT_DISPLAY_HEIGHT = 320;
@@ -43,6 +44,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$smarty->addOutputFilter('mobile');
 		$smarty->addOutputFilter('encoding');
 		$smarty->addOutputFilter('trim');
+		$this->smarty = $smarty;
 	}
 
 	/**
@@ -63,6 +65,9 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 
 		$this->attributes['query'] = $params->getParameters();
 		$this->attributes['query_params'] = $params->getContents();
+		if ($this->smarty) {
+			$this->smarty->setAttribute('useragent', $this->getAttributes());
+		}
 	}
 
 	/**

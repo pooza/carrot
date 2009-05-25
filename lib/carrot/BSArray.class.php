@@ -9,7 +9,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSArray extends BSParameterHolder implements Countable, BSAssignable {
+class BSArray extends BSParameterHolder implements BSAssignable {
 	const POSITION_TOP = true;
 	const POSITION_BOTTOM = false;
 	const SORT_KEY_ASC = 'KEY_ASC';
@@ -334,16 +334,6 @@ class BSArray extends BSParameterHolder implements Countable, BSAssignable {
 			BSNumeric::getRandom(0, $this->count() - 1)
 		);
 		return $this[$key];
-	}
-
-	/**
-	 * 要素数を返す
-	 *
-	 * @access public
-	 * @return integer 要素数
-	 */
-	public function count () {
-		return count($this->getParameters());
 	}
 
 	/**

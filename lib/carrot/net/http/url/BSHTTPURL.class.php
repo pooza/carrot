@@ -46,13 +46,12 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 		$this->fullpath = null;
 		switch ($name) {
 			case 'path':
-				foreach (parse_url($value) as $name => $attribute) {
-					$this->attributes[$name] = $attribute;
-				}
-				$this->query->setContents($this['query']);
+				$values = new BSArray(parse_url($value));
+				$this->attributes['path'] = $values['path'];
+				$this->attributes['fragment'] = $values['fragment'];
+				$this['query'] = $values['query'];
 				return $this;
 			case 'query':
-				$this->attributes['query'] = $value;
 				$this->query->setContents($value);
 				return $this;
 			case 'fragment':
@@ -75,8 +74,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 			} else {
 				$this->fullpath = $this['path'];
 			}
-			if (!BSString::isBlank($this['query'])) {
-				$this->fullpath .= '?' . $this['query'];
+			if ($this->query->count()) {
+				$this->fullpath .= '?' . $this->query->getContents();
 			}
 			if (!BSString::isBlank($this['fragment'])) {
 				$this->fullpath .= '#' . $this['fragment'];
@@ -109,9 +108,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 		} else if (BSString::isBlank($value)) {
 			return;
 		}
-
 		$this->query[$name] = $value;
-		$this->attributes['query'] = $this->query->getContents();
 	}
 
 	/**
