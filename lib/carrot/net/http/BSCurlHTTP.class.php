@@ -81,7 +81,6 @@ class BSCurlHTTP extends BSHTTP {
 		} else {
 			$url['scheme'] = 'http';
 		}
-		$url['port'] = BSNetworkService::getPort($url['scheme']);
 		$this->setAttribute('url', $url->getContents());
 
 		$response = new BSHTTPResponse;

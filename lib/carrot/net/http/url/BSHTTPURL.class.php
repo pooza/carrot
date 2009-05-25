@@ -14,13 +14,12 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	private $fullpath;
 	private $query;
 	private $tinyurl;
-	const PATTERN = '/^[a-z]+:(\/\/)?[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
 
 	/**
 	 * @access protected
 	 * @param mixed $contents URL
 	 */
-	protected function __construct ($contents) {
+	protected function __construct ($contents = null) {
 		$this->attributes = new BSArray;
 		$this->query = new BSWWWFormRenderer;
 		if (BSString::isBlank($contents)) {
@@ -36,21 +35,6 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	}
 
 	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @return string 属性
-	 */
-	public function getAttribute ($name) {
-		if (($name == 'path') && BSString::isBlank($this->attributes['path'])) {
-			// RFC1738の仕様とは異なるが、この方が都合がよいので。
-			$this->attributes['path'] = '/';
-		}
-		return $this->attributes[$name];
-	}
-
-	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -62,7 +46,6 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 		$this->fullpath = null;
 		switch ($name) {
 			case 'path':
-				$value = preg_replace('/^\/*/', '/', $value);
 				foreach (parse_url($value) as $name => $attribute) {
 					$this->attributes[$name] = $attribute;
 				}
@@ -87,7 +70,11 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	 */
 	public function getFullPath () {
 		if (!$this->fullpath) {
-			$this->fullpath = $this['path'];
+			if (BSString::isBlank($this->attributes['path'])) {
+				$this->fullpath = '/';
+			} else {
+				$this->fullpath = $this['path'];
+			}
 			if (!BSString::isBlank($this['query'])) {
 				$this->fullpath .= '?' . $this['query'];
 			}

@@ -65,7 +65,6 @@ class BSHTTP extends BSSocket {
 
 		$request = new BSHTTPRequest;
 		$request->setMethod('POST');
-		$request->setHeader('User-Agent', BSController::getFullName('en'));
 		$request->setRenderer(new BSWWWFormRenderer);
 		$request->getRenderer()->setParameters($params);
 		$request->removeHeader('Content-Transfer-Encoding');
@@ -85,7 +84,9 @@ class BSHTTP extends BSSocket {
 			throw new BSHTTPException('%sは既に開いています。', $this);
 		}
 
+		$request->setHeader('User-Agent', BSController::getFullName('en'));
 		$this->putLine($request->getContents());
+
 		$response = new BSHTTPResponse;
 		$response->setContents(new BSArray($this->getLines()));
 		$response->setURL($request->getURL());
