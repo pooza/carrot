@@ -128,7 +128,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	 * @param mixed $parameters パラメータ文字列、又は配列
 	 */
 	public function setParameters ($parameters) {
-		$this->query->setContents($parameters);
+		if (!BSArray::isArray($parameters)) {
+			$parameters = (array)parse_str($parameters, $parameters);
+		}
+		$this->query->setParameters($parameters);
 	}
 
 	/**

@@ -32,8 +32,8 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	 * @access public
 	 */
 	public function setContents ($contents) {
+		$this->clear();
 		if (BSArray::isArray($contents)) {
-			$this->clear();
 			$this->setParameters($contents);
 		} else {
 			parse_str($contents, $this->parameters);

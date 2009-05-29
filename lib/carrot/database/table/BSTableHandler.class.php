@@ -606,12 +606,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 				$this->getKeyField(),
 				$this->getName(),
 				$this->getCriteria(),
-				null,
+				$this->getOrder(),
 				$this->getKeyField()
 			);
 			foreach ($this->getDatabase()->query($sql) as $row) {
-				$id = $row[$this->getKeyField()];
-				$this->ids[$id] = $id;
+				$this->ids[] = $row[$this->getKeyField()];
 			}
 		}
 		return $this->ids;
