@@ -43,4 +43,5 @@ types:
   xls: application/vnd.ms-excel
   xlsx: application/vnd.openxmlformats-officedocument.wordprocessingml.document
   xml: application/xml
+  vcf: text/x-vcard
   zip: application/zip
