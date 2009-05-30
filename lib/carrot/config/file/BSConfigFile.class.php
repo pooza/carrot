@@ -23,10 +23,10 @@ class BSConfigFile extends BSFile {
 	 */
 	public function getParser () {
 		if (!$this->parser) {
-			if (!$name = self::getParserNames()->getParameter($this->getSuffix())) {
-				throw new BSConfigException('%sはサポートされていないフォーマットです。', $this);
-			}
-			$this->parser = new $name;
+			$this->parser = BSClassLoader::getInstance()->getObject(
+				preg_replace('/^\./', '', $this->getSuffix()),
+				'ConfigParser'
+			);
 			$this->parser->setContents($this->getContents());
 		}
 		return $this->parser;
@@ -56,21 +56,6 @@ class BSConfigFile extends BSFile {
 	}
 
 	/**
-	 * 設定値を返す
-	 *
-	 * @access public
-	 * @param string $name キー名
-	 * @param string $section セクション名
-	 * @return string 設定値
-	 */
-	public function getConfig ($name, $section = '') {
-		$config = $this->getResult();
-		if (isset($config[$section][$name])) {
-			return $config[$section][$name];
-		}
-	}
-
-	/**
 	 * コンパイル
 	 *
 	 * @access public
@@ -78,9 +63,8 @@ class BSConfigFile extends BSFile {
 	 */
 	public function compile () {
 		$cache = $this->getCacheFile();
-		$compiler = $this->getCompiler();
 		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
-			$cache->setContents($compiler->execute($this));
+			$cache->setContents($this->getCompiler()->execute($this));
 		}
 		return $cache->getPath();
 	}
@@ -107,43 +91,6 @@ class BSConfigFile extends BSFile {
 	 */
 	public function __toString () {
 		return sprintf('設定ファイル "%s"', $this->getShortPath());
-	}
-
-	/**
-	 * ログメッセージを返す
-	 *
-	 * @access private
-	 * @return string ログメッセージ
-	 */
-	private function getLogMessage () {
-		return sprintf(
-			'%sをコンパイルしました。 (%sB)',
-			$this->getCacheFile()->getName(),
-			BSNumeric::getBinarySize($this->getCacheFile()->getSize())
-		);
-	}
-
-	/**
-	 * 利用可能な設定パーサーの名前を返す
-	 *
-	 * @access public
-	 * @return BSArray 設定パーサーの名前
-	 */
-	static public function getParserNames () {
-		$names = new BSArray;
-		$names['.yaml'] = 'BSYAMLConfigParser';
-		$names['.ini'] = 'BSIniConfigParser';
-		return $names;
-	}
-
-	/**
-	 * 利用可能な拡張子を返す
-	 *
-	 * @access public
-	 * @return BSArray 拡張子
-	 */
-	static public function getSuffixes () {
-		return self::getParserNames()->getKeys();
 	}
 }
 

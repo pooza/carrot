@@ -91,7 +91,7 @@ class BSConfigManager {
 		if (!BSUtility::isPathAbsolute($name)) {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}
-		foreach (BSConfigFile::getSuffixes() as $suffix) {
+		foreach (array('.yaml', '.ini') as $suffix) {
 			$class = BSClassLoader::getInstance()->getClassName($class);
 			$file = new $class($name . $suffix);
 			if ($file->isExists()) {
