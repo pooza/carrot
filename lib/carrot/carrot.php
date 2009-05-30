@@ -14,10 +14,10 @@
 function __autoload ($name) {
 	require_once(BS_LIB_DIR . '/carrot/BSClassLoader.class.php');
 	$classes = BSClassLoader::getInstance()->getClasses();
-	if (!isset($classes[$name])) {
+	if (!isset($classes[strtolower($name)])) {
 		throw new RuntimeException($name . 'がロードできません。');
 	}
-	require_once($classes[$name]);
+	require_once($classes[strtolower($name)]);
 }
 
 /**

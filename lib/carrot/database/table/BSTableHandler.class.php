@@ -13,7 +13,6 @@
  */
 abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssignable {
 	private $fields = '*';
-	private $key = 'id';
 	private $criteria;
 	private $order;
 	private $page;
@@ -72,17 +71,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return string 主キーフィールド名
 	 */
 	public function getKeyField () {
-		return $this->key;
-	}
-
-	/**
-	 * 主キーフィールドを設定
-	 *
-	 * @access public
-	 * @param string $key 主キーフィールド
-	 */
-	public function setKeyField ($key) {
-		$this->key = $key;
+		return 'id';
 	}
 
 	/**
@@ -367,6 +356,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			throw new BSDatabaseException('%sのレコード全消去は許可されていません。', $this);
 		}
 		$this->getDatabase()->exec('DELETE FROM ' . $this->getName());
+
+		if ($dir = $this->getDirectory()) {
+			$dir->clear();
+		}
 	}
 
 	/**

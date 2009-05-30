@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSString {
-	const DETECT_ORDER = 'ascii,jis,utf-8,eucjp-win,euc-jp,sjis-win,sjis';
 
 	/**
 	 * @access private
@@ -25,7 +24,7 @@ class BSString {
 	 * @access public
 	 * @param mixed $value 変換対象の文字列又は配列
 	 * @param string $encodingTo 変換後エンコード
-	 * @param string $encodingFrom 変換前エンコード
+	 * @param mixed $encodingFrom 変換前エンコード、又はその配列
 	 * @return mixed 変換後
 	 * @static
 	 */
@@ -35,11 +34,11 @@ class BSString {
 				$value[$key] = self::convertEncoding($item, $encodingTo, $encodingFrom);
 			}
 		} else {
-			if (!$encodingTo) {
+			if (self::isBlank($encodingTo)) {
 				$encodingTo = 'utf-8';
 			}
-			if (!$encodingFrom) {
-				$encodingFrom = self::DETECT_ORDER;
+			if (self::isBlank($encodingFrom)) {
+				$encodingFrom = self::getEncodings()->getParameters();
 			}
 			if ($encodingFrom != $encodingTo) {
 				$value = mb_convert_encoding($value, $encodingTo, $encodingFrom);
@@ -57,7 +56,7 @@ class BSString {
 	 * @static
 	 */
 	static public function getEncoding ($str) {
-		return strtolower(mb_detect_encoding($str, self::DETECT_ORDER));
+		return strtolower(mb_detect_encoding($str, self::getEncodings()->getParameters()));
 	}
 
 	/**
@@ -407,10 +406,11 @@ class BSString {
 	 */
 	static public function getEncodings () {
 		return new BSArray(array(
+			'ascii',
+			'iso-2022-jp',
 			'utf-8',
 			'eucjp-win',
-			'sjis-win',
-			'iso-2022-jp',
+			'sjis-win'
 		));
 	}
 }

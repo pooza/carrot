@@ -84,12 +84,10 @@ class BSClassLoader {
 		$basename = self::stripControlCharacters($matches[2]);
 
 		$classes = $this->getClasses();
-		foreach (array($basename, BSString::pascalize($basename)) as $basename) {
-			foreach (array(null, self::PREFIX) as $prefix) {
-				$name = $prefix . $basename . $suffix;
-				if (class_exists($name, false) || isset($classes[$name])) {
-					return $name;
-				}
+		foreach (array(null, self::PREFIX) as $prefix) {
+			$name = strtolower($prefix . $basename . $suffix);
+			if (class_exists($name, false) || isset($classes[$name])) {
+				return $name;
 			}
 		}
 		throw new RuntimeException($class . 'がロードできません。');
@@ -195,7 +193,7 @@ class BSClassLoader {
 			$filename = basename($filename);
 		}
 		if (preg_match('/(.*?)\.(class|interface)\.php/', $filename, $matches)) {
-			return $matches[1];
+			return strtolower($matches[1]);
 		}
 	}
 
