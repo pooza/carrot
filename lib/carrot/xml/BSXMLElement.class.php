@@ -221,7 +221,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSXMLElement 最初にマッチした要素
 	 */
 	public function query ($path) {
-		$path = preg_replace('/^\//', '', $path);
+		$path = ltrim($path, '/');
 		if (!$steps = explode('/', $path)) {
 			return;
 		} else if ($steps[0] != $this->getName()) {

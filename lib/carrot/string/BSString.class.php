@@ -252,7 +252,7 @@ class BSString {
 				$word = $matches[0];
 				$value = str_replace($word, '_' . strtolower($word), $value);
 			}
-			$value = preg_replace('/^_/u', '', $value);
+			$value = ltrim($value, '_');
 			$value = strtolower($value);
 		}
 		return $value;

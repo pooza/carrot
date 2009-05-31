@@ -33,7 +33,7 @@ class BSColor extends BSParameterHolder {
 	 * @param string $color HTML形式の色コード
 	 */
 	public function setColor ($color) {
-		$color = preg_replace('/^#/', '', $color);
+		$color = ltrim($color, '#');
 		if (preg_match('/^[0-9a-f]{6}$/i', $color)) {
 			$this['red'] = hexdec(substr($color, 0, 2));
 			$this['green'] = hexdec(substr($color, 2, 2));

@@ -55,8 +55,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @param string $suffix 
 	 */
 	public function setDefaultSuffix ($suffix) {
-		$suffix = preg_replace('/^\**/', '', $suffix);
-		$this->defaultSuffix = $suffix;
+		$this->defaultSuffix = ltrim($suffix, '*');
 		$this->entries = array();
 	}
 

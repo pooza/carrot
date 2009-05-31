@@ -112,8 +112,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		$name = preg_replace('/^\./', '', $name);
-		return parent::getParameter($name);
+		return parent::getParameter(ltrim($name, '.'));
 	}
 
 	/**

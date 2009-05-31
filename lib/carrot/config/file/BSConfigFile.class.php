@@ -24,7 +24,7 @@ class BSConfigFile extends BSFile {
 	public function getParser () {
 		if (!$this->parser) {
 			$this->parser = BSClassLoader::getInstance()->getObject(
-				preg_replace('/^\./', '', $this->getSuffix()),
+				ltrim($this->getSuffix(), '.'),
 				'ConfigParser'
 			);
 			$this->parser->setContents($this->getContents());
