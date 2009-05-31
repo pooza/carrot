@@ -34,8 +34,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @param string $path パス
 	 */
 	public function setPath ($path) {
-		$path = preg_replace('/\/$/', '', $path);
-		parent::setPath($path);
+		parent::setPath(rtrim($path, '/'));
 	}
 
 	/**
