@@ -80,7 +80,7 @@ $initialized = false;
 foreach ($names as $servername) {
 	if ($file = BSConfigManager::getConfigFile('constant/' . $servername)) {
 		require(BSConfigManager::getInstance()->compile($file));
-		if (!$_SERVER['SERVER_NAME'] = $constants['SERVER_NAME']) {
+		if (BSString::isBlank($_SERVER['SERVER_NAME'] = $constants['SERVER_NAME'])) {
 			$_SERVER['SERVER_NAME'] = $servername;
 		}
 		$initialized = !BSString::isBlank($_SERVER['SERVER_NAME']);
@@ -88,7 +88,7 @@ foreach ($names as $servername) {
 	}
 }
 if (!$initialized) {
-	throw new Exception('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
+	throw new RuntimeException('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
 }
 
 require(BSConfigManager::getInstance()->compile('constant/application'));
