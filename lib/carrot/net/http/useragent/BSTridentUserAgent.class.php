@@ -20,7 +20,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
-		$this->bugs['cache-control'] = BSRequest::getInstance()->isSSL();
+		$this->bugs['cache-control'] = true;
 	}
 
 	/**
