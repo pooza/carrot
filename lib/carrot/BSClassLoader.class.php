@@ -85,8 +85,8 @@ class BSClassLoader {
 
 		$classes = $this->getClasses();
 		foreach (array(null, self::PREFIX) as $prefix) {
-			$name = strtolower($prefix . $basename . $suffix);
-			if (class_exists($name, false) || isset($classes[$name])) {
+			$name = $prefix . $basename . $suffix;
+			if (class_exists($name, false) || isset($classes[strtolower($name)])) {
 				return $name;
 			}
 		}
@@ -137,7 +137,7 @@ class BSClassLoader {
 			} else if ($iterator->isDir()) {
 				$entries += $this->loadPath($entry->getPathname());
 			} else if ($key = self::extractClassName($entry->getfilename())) {
-				$entries[$key] = $entry->getPathname();
+				$entries[strtolower($key)] = $entry->getPathname();
 			}
 		}
 		return $entries;
@@ -193,7 +193,7 @@ class BSClassLoader {
 			$filename = basename($filename);
 		}
 		if (preg_match('/(.*?)\.(class|interface)\.php/', $filename, $matches)) {
-			return strtolower($matches[1]);
+			return $matches[1];
 		}
 	}
 
