@@ -115,19 +115,24 @@ class BSImageCacheHandler {
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
-		if (!$file = $record->getImageFile($size)) {
-			return;
+		try {
+			if (!$file = $record->getImageFile($size)) {
+				$message = new BSStringFormat('画像ファイルが見つかりません。 (%s, size:%s)');
+				$message[] = $record;
+				$message[] = $size;
+				throw new BSImageException($message);
+			}
+			$image = $this->getThumbnail($record, $size, $pixel);
+			$info = new BSArray;
+			$info['is_cache'] = 1;
+			$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
+			$info['width'] = $image->getWidth();
+			$info['height'] = $image->getHeight();
+			$info['alt'] = $record->getLabel();
+			$info['type'] = $image->getType();
+			return $info;
+		} catch (BSImageException $e) {
 		}
-
-		$image = $this->getThumbnail($record, $size, $pixel);
-		$info = new BSArray;
-		$info['is_cache'] = 1;
-		$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
-		$info['width'] = $image->getWidth();
-		$info['height'] = $image->getHeight();
-		$info['alt'] = $record->getLabel();
-		$info['type'] = $image->getType();
-		return $info;
 	}
 
 	/**
