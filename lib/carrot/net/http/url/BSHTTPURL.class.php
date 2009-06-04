@@ -129,7 +129,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	 */
 	public function setParameters ($parameters) {
 		if (!BSArray::isArray($parameters)) {
-			$parameters = (array)parse_str($parameters, $parameters);
+			parse_str($parameters, $parsed);
+			$parameters = (array)$parsed;
 		}
 		$this->query->setParameters($parameters);
 	}
