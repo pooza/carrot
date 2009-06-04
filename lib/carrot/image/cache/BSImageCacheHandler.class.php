@@ -117,10 +117,7 @@ class BSImageCacheHandler {
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
 		try {
 			if (!$file = $record->getImageFile($size)) {
-				$message = new BSStringFormat('画像ファイルが見つかりません。 (%s, size:%s)');
-				$message[] = $record;
-				$message[] = $size;
-				throw new BSImageException($message);
+				return;
 			}
 			$image = $this->getThumbnail($record, $size, $pixel);
 			$info = new BSArray;
