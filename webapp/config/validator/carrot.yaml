@@ -14,6 +14,9 @@ english:
   class: BSEnglishValidator
 file:
   class: BSFileValidator
+  params:
+    size: 2
+    suffixes: attachable
 flag:
   class: BSChoiceValidator
   params:
@@ -52,6 +55,11 @@ html:
       - img
 image:
   class: BSImageValidator
+  params:
+    types:
+      - image/gif
+      - image/jpeg
+      - image/png
 kana:
   class: BSKanaValidator
 longtext:
