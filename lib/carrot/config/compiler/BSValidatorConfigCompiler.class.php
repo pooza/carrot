@@ -37,12 +37,21 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators->setParameters($config);
 
 		$config = new BSArray($file->getResult());
-		$this->parseMethods($config['methods']);
-		$this->parseNames($config['names']);
-		$this->parseValidators($config);
+		$this->parseMethods(new BSArray($config['methods']));
+		$this->parseNames(new BSArray($config['names']));
+
+		if ($validators = $config['validators']) {
+			$this->parseValidators(new BSArray($validators));
+		} else {
+			//旧形式対応
+			$message = new BSStringFormat('%sにvalidatorsエントリーがありません。');
+			$message[] = $file;
+			BSController::getInstance()->putLog($message);
+			$this->parseValidators($config);
+		}
 	}
 
-	private function parseMethods ($methods) {
+	private function parseMethods (BSArray $methods) {
 		foreach ($methods as $method => $fields) {
 			$method = strtoupper($method);
 			if (!BSRequest::getMethodNames()->isContain($method)) {
@@ -56,7 +65,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		}
 	}
 
-	private function parseNames ($names) {
+	private function parseNames (BSArray $names) {
 		foreach (BSWebRequest::getMethodNames() as $method) {
 			foreach ($names as $name => $value) {
 				if ($this->fields[$method][$name]) {
@@ -73,13 +82,12 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		}
 	}
 
-	private function parseValidators ($config) {
+	private function parseValidators (BSArray $config) {
 		foreach ($this->validators as $name => $values) {
 			if ($values === null) {
-				if (!isset($config[$name])) {
+				if (!$values = $config[$name]) {
 					throw new BSConfigException('バリデータ "%s" が未定義です。', $name);
 				}
-				$values = $config[$name];
 			}
 			$this->validators[$name] = new BSArray($values);
 		}

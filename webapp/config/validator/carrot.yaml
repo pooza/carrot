@@ -77,6 +77,13 @@ string:
     max: 1024
 tel:
   class: BSPhoneNumberValidator
+tel_separated:
+  class: BSPhoneNumberValidator
+  params:
+    fields:
+      - tel1
+      - tel2
+      - tel3
 tinytext:
   class: BSStringValidator
   params:
@@ -89,4 +96,10 @@ year:
     min: 1912
 zipcode:
   class: BSZipcodeValidator
+zipcode_separated:
+  class: BSZipcodeValidator
+  params:
+    fields:
+      - zipcode1
+      - zipcode2
 
