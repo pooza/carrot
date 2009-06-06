@@ -139,12 +139,12 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	/**
 	 * 定数で置換
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $value 置換対象
 	 * @return string 置換結果
 	 * @static
 	 */
-	static public function replaceConstants ($value) {
+	static protected function replaceConstants ($value) {
 		$value = str_replace('%%', '##PERCENT##', $value);
 		$constants = BSConstantHandler::getInstance();
 		preg_match_all('/%([A-Z0-9_]+)%/', $value, $matchesAll, PREG_SET_ORDER);
