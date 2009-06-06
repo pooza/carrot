@@ -17,6 +17,3 @@ names:
       - email
   password:
     required: yes
-
-email:
-  class: BSMailAddressValidator
