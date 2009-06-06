@@ -121,7 +121,7 @@ class BSImageCacheHandler {
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
 		try {
 			if (!$image = $this->getThumbnail($record, $size, $pixel)) {
-				return;
+				return null;
 			}
 			$info = new BSArray;
 			$info['is_cache'] = 1;
@@ -146,7 +146,7 @@ class BSImageCacheHandler {
 	 * @return BSFile サムネイルファイル
 	 */
 	public function getFile (BSImageContainer $record, $size, $pixel, $class = 'BSImageFile') {
-		if (!$record->getImageFile($size)) {
+		if (!$source = $record->getImageFile($size)) {
 			return null;
 		}
 
@@ -159,7 +159,7 @@ class BSImageCacheHandler {
 
 		$dir = $this->getEntryDirectory($record, $size);
 		if (!$file = $dir->getEntry($name, $class)) {
-			$this->setThumbnail($record, $size, $pixel, $record->getImageFile($size));
+			$this->setThumbnail($record, $size, $pixel, $source);
 			$file = $dir->getEntry($name, $class);
 		}
 		return $file;
@@ -175,10 +175,10 @@ class BSImageCacheHandler {
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel) {
-		if (!$record->getImageFile($size)) {
+		if (!$file = $record->getImageFile($size)) {
 			return null;
 		}
-		return $this->getFile($record, $size, $pixel)->getEngine();
+		return $file->getEngine();
 	}
 
 	/**
@@ -192,12 +192,11 @@ class BSImageCacheHandler {
 	 * @param BSImage サムネイル
 	 */
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents) {
-		$dir = $this->getEntryDirectory($record, $size);
 		$image = new BSImage;
 		$image->setImage($contents);
 		$image->setType($this->getType());
 
-		if (!$pixel && $this->getUserAgent()->isMobile()) {
+		if (!$pixel && $this->getUserAgent() && $this->getUserAgent()->isMobile()) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$name = sprintf('%04d%04d', $info['width'], $info['height']);
 			$image = $this->getUserAgent()->convertImage($image);
@@ -208,6 +207,7 @@ class BSImageCacheHandler {
 			$name = sprintf('%04d', $pixel);
 		}
 
+		$dir = $this->getEntryDirectory($record, $size);
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
