@@ -47,17 +47,8 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 
 		$config = new BSArray($file->getResult());
 		$this->parseMethods(new BSArray($config['methods']));
-
-		if (!$fields = $config['fields']) {
-			$fields = $config['names']; //旧形式対応
-		}
-		$this->parseFields(new BSArray($fields));
-
-		if ($validators = $config['validators']) {
-			$this->parseValidators(new BSArray($validators));
-		} else {
-			$this->parseValidators($config); //旧形式対応
-		}
+		$this->parseFields(new BSArray($config['fields']));
+		$this->parseValidators(new BSArray($config['validators']));
 	}
 
 	private function parseMethods (BSArray $config) {
@@ -67,10 +58,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		}
 
 		$this->methods = new BSArray;
-		foreach ($config as $key => $value) {
-			if (BSArray::isArray($method = $value)) {
-				$method = $key; //旧形式対応
-			}
+		foreach ($config as $method) {
 			$method = strtoupper($method);
 			if (!BSRequest::getMethods()->isContain($method)) {
 				throw new BSConfigException('"%s"は正しくないメソッドです。', $method);
