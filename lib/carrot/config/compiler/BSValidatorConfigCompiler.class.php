@@ -18,23 +18,23 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
 		$this->parse($file);
+
 		$this->putLine('$manager = BSValidateManager::getInstance();');
 		$this->putLine('$request = BSRequest::getInstance();');
-		foreach ($this->methods as $method) {
-			$line = new BSStringFormat('if ($request->getMethod() == BSRequest::%s) {');
-			$line[] = $method;
-			$this->putLine($line);
-			foreach ($this->fields as $name => $validators) {
-				foreach ($validators as $validator) {
-					$line = new BSStringFormat('  $manager->register(%s, new %s(%s));');
-					$line[] = self::quote($name);
-					$line[] = $this->validators[$validator]['class'];
-					$line[] = self::quote((array)$this->validators[$validator]['params']);
-					$this->putLine($line);
-				}
+		$line = new BSStringFormat('if (in_array($request->getMethod(), %s)) {');
+		$line[] = self::quote($this->methods->getParameters());
+		$this->putLine($line);
+		foreach ($this->fields as $name => $validators) {
+			foreach ($validators as $validator) {
+				$line = new BSStringFormat('  $manager->register(%s, new %s(%s));');
+				$line[] = self::quote($name);
+				$line[] = $this->validators[$validator]['class'];
+				$line[] = self::quote((array)$this->validators[$validator]['params']);
+				$this->putLine($line);
 			}
-			$this->putLine('}');
 		}
+		$this->putLine('}');
+
 		return $this->getBody();
 	}
 
@@ -71,16 +71,18 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->fields = new BSArray;
 		foreach ($config as $name => $field) {
 			$field = new BSArray($field);
-			$this->fields[$name] = new BSArray($field['validators']);
 
+			$this->fields[$name] = new BSArray;
 			if ($field['file']) {
-				$this->fields[$name]->unshift('file');
+				$this->fields[$name][] = 'file';
 			} else {
-				$this->fields[$name]->unshift('string');
+				$this->fields[$name][] = 'string';
 			}
 			if ($field['required']) {
-				$this->fields[$name]->unshift('empty');
+				$this->fields[$name][] = 'empty';
 			}
+			$this->fields[$name]->merge($field['validators']);
+			$this->fields[$name]->uniquize();
 
 			foreach ($this->fields[$name] as $validator) {
 				if (!$this->validators[$validator]) {
