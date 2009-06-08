@@ -296,20 +296,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * 指定日付よりも過去か？
-	 *
-	 * isPastのエイリアス
-	 *
-	 * @access public
-	 * @param BSDate $now 比較対象の日付
-	 * @return boolean 過去日付ならtrue
-	 * @final
-	 */
-	final public function isAgo (BSDate $now = null) {
-		return $this->isPast($now);
-	}
-
-	/**
 	 * 今日か？
 	 *
 	 * @access public

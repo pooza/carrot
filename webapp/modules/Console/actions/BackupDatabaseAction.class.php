@@ -62,7 +62,7 @@ class BackupDatabaseAction extends BSAction {
 			if ($entry->isDirectory()) {
 				continue;
 			}
-			if ($entry->getUpdateDate()->isAgo($expire)) {
+			if ($entry->getUpdateDate()->isPast($expire)) {
 				$entry->delete();
 			}
 		}

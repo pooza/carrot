@@ -70,7 +70,7 @@ class BSConsumptionTaxHandler {
 
 		$rate = 0;
 		foreach ($this->rates as $row) {
-			if ($date->isAgo($row['start_date'])) {
+			if ($date->isPast($row['start_date'])) {
 				break;
 			}
 			$rate = $row['rate'];

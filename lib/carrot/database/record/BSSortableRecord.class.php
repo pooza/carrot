@@ -59,19 +59,6 @@ abstract class BSSortableRecord extends BSRecord {
 	}
 
 	/**
-	 * 表示して良いか？
-	 *
-	 * isVisibleのエイリアス
-	 *
-	 * @access public
-	 * @return boolean 表示して良いならTrue
-	 * @final
-	 */
-	final public function isShowable () {
-		return $this->isVisible();
-	}
-
-	/**
 	 * 同種のレコードを返す
 	 *
 	 * @access public

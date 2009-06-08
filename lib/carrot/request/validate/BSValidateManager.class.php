@@ -100,20 +100,6 @@ class BSValidateManager implements IteratorAggregate {
 	}
 
 	/**
-	 * フィールドにバリデータを登録
-	 *
-	 * registerのエイリアス
-	 *
-	 * @access public
-	 * @param string $name フィールド名
-	 * @param BSValidator $validator バリデータ
-	 * @final
-	 */
-	final public function registerValidator ($name, BSValidator $validator) {
-		$this->register($name, $validator);
-	}
-
-	/**
 	 * フィールド名を返す
 	 *
 	 * @access public

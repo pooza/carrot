@@ -54,26 +54,11 @@ class BSMailAddress implements BSAssignable {
 	/**
 	 * 内容を返す
 	 *
-	 * getAddressのエイリアス
-	 *
 	 * @access public
 	 * @return string メールアドレス
 	 */
-	final public function getContents () {
+	public function getContents () {
 		return $this->contents;
-	}
-
-	/**
-	 * メールアドレスを返す
-	 *
-	 * getContentsのエイリアス
-	 *
-	 * @access public
-	 * @return string メールアドレス
-	 * @final
-	 */
-	final public function getAddress () {
-		return $this->getContents();
 	}
 
 	/**

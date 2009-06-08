@@ -89,19 +89,6 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
-	 * 非対応のUserAgentか？
-	 *
-	 * isDeniedのエイリアス
-	 *
-	 * @access public
-	 * @return boolean 非対応のUserAgentならTrue
-	 * @final
-	 */
-	final public function isUnsupported () {
-		return $this->isDenied();
-	}
-
-	/**
 	 * Smartyを初期化する
 	 *
 	 * @access public
@@ -220,20 +207,6 @@ abstract class BSUserAgent implements BSAssignable {
 	public function encodeFileName ($name) {
 		$name = BSMIMEUtility::encode($name);
 		return BSString::sanitize($name);
-	}
-
-	/**
-	 * ダウンロード用にエンコードされたファイル名を返す
-	 *
-	 * getEncodedFileNameのエイリアス
-	 *
-	 * @access public
-	 * @param string $name ファイル名
-	 * @return string エンコード済みファイル名
-	 * @final
-	 */
-	final public function getEncodedFileName ($name) {
-		return $this->encodeFileName($name);
 	}
 
 	/**

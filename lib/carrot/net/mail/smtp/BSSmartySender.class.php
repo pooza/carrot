@@ -60,19 +60,6 @@ class BSSmartySender extends BSSMTP {
 	}
 
 	/**
-	 * レンダラーを返す
-	 *
-	 * getRendererのエイリアス
-	 *
-	 * @access public
-	 * @return BSSmarty レンダラー
-	 * @final
-	 */
-	final public function getEngine () {
-		return $this->getRenderer();
-	}
-
-	/**
 	 * テンプレートを設定
 	 *
 	 * @access public
