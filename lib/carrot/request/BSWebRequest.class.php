@@ -56,16 +56,6 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
-	 * アップロードファイルの情報を返す
-	 *
-	 * @access public
-	 * @return mixed[][] アップロードファイルの情報
-	 */
-	public function getFiles () {
-		return $_FILES;
-	}
-
-	/**
 	 * アップロードされたか？
 	 *
 	 * @access public
@@ -73,7 +63,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean アップロードされたファイルがあればTrue
 	 */
 	public function hasFile ($name) {
-		return (isset($_FILES[$name]) && ($_FILES[$name]['name'] != ''));
+		return isset($_FILES[$name]) && !BSString::isBlank($_FILES[$name]['name']);
 	}
 
 	/**
@@ -83,12 +73,12 @@ class BSWebRequest extends BSRequest {
 	 * @param integer $method メソッド
 	 */
 	public function setMethod ($method) {
-		$method = strtoupper($method);
-		if (!self::getMethods()->isContain($method)) {
-			throw new BSHTTPException('"%s" はサポートされていないメソッドです。', $method);
+		$this->method = strtoupper($method);
+		if (!self::getMethods()->isContain($this->method)) {
+			throw new BSHTTPException('"%s" は正しくないメソッドです。', $this->method);
 		}
 
-		switch ($this->method = $method) {
+		switch ($this->method) {
 			case 'GET':
 			case 'HEAD':
 				$this->setParameters($_GET);
@@ -125,7 +115,7 @@ class BSWebRequest extends BSRequest {
 		if (!$this->useragentReal) {
 			$name = $this->controller->getEnvironment('USER-AGENT');
 			if (!$this->useragentReal = BSUserAgent::getInstance($name)) {
-				throw new BSUserAgentException('サポートされていないUserAgentです。');
+				throw new BSUserAgentException('正しくないUserAgentです。');
 			}
 		}
 		return $this->useragentReal;

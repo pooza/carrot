@@ -316,7 +316,7 @@ abstract class BSRequest extends BSParameterHolder {
 	public function getUserAgent () {
 		if (!$this->useragent) {
 			if (!$this->useragent = BSUserAgent::getInstance($this->getUserAgentName())) {
-				throw new BSUserAgentException('サポートされていないUserAgentです。');
+				throw new BSUserAgentException('正しくないUserAgentです。');
 			}
 		}
 		return $this->useragent;
