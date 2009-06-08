@@ -175,7 +175,7 @@ class BSImageCacheHandler {
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel) {
-		if (!$file = $record->getImageFile($size)) {
+		if (!$file = $this->getFile($record, $size, $pixel)) {
 			return null;
 		}
 		return $file->getEngine();
