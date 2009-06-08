@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSValidatorConfigCompiler extends BSConfigCompiler {
+	private $methods;
 	private $fields;
 	private $validators;
 
@@ -19,12 +20,12 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->parse($file);
 		$this->putLine('$manager = BSValidateManager::getInstance();');
 		$this->putLine('$request = BSRequest::getInstance();');
-		foreach ($this->fields->getKeys(BSArray::WITHOUT_KEY) as $method) {
+		foreach ($this->methods as $method) {
 			$line = new BSStringFormat('if ($request->getMethod() == BSRequest::%s) {');
 			$line[] = $method;
 			$this->putLine($line);
-			foreach ($this->fields[$method] as $name => $field) {
-				foreach ($field['validators'] as $validator) {
+			foreach ($this->fields as $name => $validators) {
+				foreach ($validators as $validator) {
 					$line = new BSStringFormat('  $manager->register(%s, new %s(%s));');
 					$line[] = self::quote($name);
 					$line[] = $this->validators[$validator]['class'];
@@ -38,9 +39,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function parse (BSConfigFile $file) {
-		$this->fields = new BSArray;
 		$this->validators = new BSArray;
-
 		require(BSConfigManager::getInstance()->compile('validator/carrot'));
 		$this->validators->setParameters($config);
 		require(BSConfigManager::getInstance()->compile('validator/application'));
@@ -48,50 +47,56 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 
 		$config = new BSArray($file->getResult());
 		$this->parseMethods(new BSArray($config['methods']));
-		$this->parseNames(new BSArray($config['names']));
+
+		if (!$fields = $config['fields']) {
+			$fields = $config['names']; //旧形式対応
+		}
+		$this->parseFields(new BSArray($fields));
 
 		if ($validators = $config['validators']) {
 			$this->parseValidators(new BSArray($validators));
 		} else {
-			//旧形式対応
-			$message = new BSStringFormat('%sにvalidatorsエントリーがありません。');
-			$message[] = $file;
-			BSController::getInstance()->putLog($message);
-			$this->parseValidators($config);
+			$this->parseValidators($config); //旧形式対応
 		}
 	}
 
 	private function parseMethods (BSArray $config) {
-		foreach ($config as $method => $fields) {
+		if (!$config->count()) {
+			$config[] = 'GET';
+			$config[] = 'POST';
+		}
+
+		$this->methods = new BSArray;
+		foreach ($config as $key => $value) {
+			if (BSArray::isArray($method = $value)) {
+				$method = $key; //旧形式対応
+			}
 			$method = strtoupper($method);
 			if (!BSRequest::getMethodNames()->isContain($method)) {
 				throw new BSConfigException('"%s"は正しくないメソッドです。', $method);
 			}
-			$this->fields[$method] = new BSArray;
-			foreach ($fields as $field) {
-				$this->fields[$method][$field] = new BSArray;
-			}
+			$this->methods[] = $method;
 		}
 	}
 
-	private function parseNames (BSArray $config) {
-		foreach ($this->fields as $method => $fields) {
-			foreach ($fields as $name => $field) {
-				$field->setParameters($config[$name]);
+	private function parseFields (BSArray $config) {
+		$this->fields = new BSArray;
+		foreach ($config as $name => $field) {
+			$field = new BSArray($field);
+			$this->fields[$name] = new BSArray($field['validators']);
 
-				$field['validators'] = new BSArray($field['validators']);
-				if ($field['file']) {
-					$field['validators']->unshift('file');
-				} else {
-					$field['validators']->unshift('string');
-				}
-				if ($field['required']) {
-					$field['validators']->unshift('empty');
-				}
-				foreach ($field['validators'] as $validator) {
-					if (!$this->validators[$validator]) {
-						$this->validators[$validator] = null;
-					}
+			if ($field['file']) {
+				$this->fields[$name]->unshift('file');
+			} else {
+				$this->fields[$name]->unshift('string');
+			}
+			if ($field['required']) {
+				$this->fields[$name]->unshift('empty');
+			}
+
+			foreach ($this->fields[$name] as $validator) {
+				if (!$this->validators[$validator]) {
+					$this->validators[$validator] = null;
 				}
 			}
 		}

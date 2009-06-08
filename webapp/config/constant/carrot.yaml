@@ -107,6 +107,9 @@ pgsql:
   dir: /usr/local
 proctools:
   dir: /usr/local
+request:
+  validate:
+    strict: no
 serialize:
   storage: default
   serializer: JSON

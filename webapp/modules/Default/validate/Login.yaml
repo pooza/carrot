@@ -6,11 +6,9 @@
 # @version $Id$
 
 methods:
-  post:
-    - email
-    - password
+  - POST
 
-names:
+fields:
   email:
     required: yes
     validators:
