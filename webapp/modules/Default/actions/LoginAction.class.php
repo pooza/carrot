@@ -40,10 +40,6 @@ class LoginAction extends BSAction {
 		}
 		return !$this->request->hasErrors();
 	}
-
-	public function getRequestMethods () {
-		return BSRequest::POST;
-	}
 }
 
 /* vim:set tabstop=4: */

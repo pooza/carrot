@@ -20,7 +20,7 @@ class BSHTTPSFilter extends BSFilter {
 		if (!BS_DEBUG
 			&& !$this->request->isCLI()
 			&& !$this->request->isSSL()
-			&& ($this->request->getMethod() == BSRequest::GET)) {
+			&& ($this->request->getMethod() == 'GET')) {
 
 			$url = BSURL::getInstance($this['base_url']);
 			$url['path'] = $this->controller->getEnvironment('REQUEST_URI');

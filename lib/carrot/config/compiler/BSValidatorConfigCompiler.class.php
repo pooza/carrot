@@ -72,7 +72,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 				$method = $key; //旧形式対応
 			}
 			$method = strtoupper($method);
-			if (!BSRequest::getMethodNames()->isContain($method)) {
+			if (!BSRequest::getMethods()->isContain($method)) {
 				throw new BSConfigException('"%s"は正しくないメソッドです。', $method);
 			}
 			$this->methods[] = $method;

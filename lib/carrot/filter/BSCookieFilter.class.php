@@ -25,8 +25,8 @@ class BSCookieFilter extends BSFilter {
 			&& !$this->request->getUserAgent()->isMobile()) {
 
 			$methods = new BSArray;
-			$methods[] = BSRequest::HEAD;
-			$methods[] = BSRequest::GET;
+			$methods[] = 'HEAD';
+			$methods[] = 'GET';
 
 			if ($methods->isContain($this->request->getMethod())) {
 				$expire = BSDate::getNow()->setAttribute('hour', '+1');

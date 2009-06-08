@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.1.92
+  ver: 2.2.0
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -107,6 +107,9 @@ pgsql:
   dir: /usr/local
 proctools:
   dir: /usr/local
+request:
+  validate:
+    strict: no
 serialize:
   storage: default
   serializer: JSON

@@ -16,6 +16,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	protected $title;
 	private $config;
 	private $module;
+	private $methods;
 
 	/**
 	 * @access public
@@ -69,10 +70,10 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return boolean executeメソッドを実行可能ならTrue
 	 */
 	public function isExecutable () {
-		if (!$method = $this->request->getMethod()) {
-			$method = BSRequest::GET;
+		if (BSString::isBlank($method = $this->request->getMethod()) || ($method == 'HEAD')) {
+			$method = 'GET';
 		}
-		return ($this->getRequestMethods() & $method);
+		return $this->getRequestMethods()->isContain($method);
 	}
 
 	/**
@@ -325,10 +326,20 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * 適宜オーバライド。
 	 *
 	 * @access public
-	 * @return integer メソッドのビット列
+	 * @return BSArray 許可されたメソッドの配列
 	 */
 	public function getRequestMethods () {
-		return BSRequest::GET | BSRequest::POST | BSRequest::PUT | BSRequest::DELETE;
+		if (!$this->methods) {
+			$this->methods = new BSArray;
+			if ($file = $this->getValidationFile()) {
+				$config = $file->getResult();
+				$this->methods->merge($config['methods']);
+			} else {
+				$this->methods[] = 'GET';
+				$this->methods[] = 'POST';
+			}
+		}
+		return $this->methods;
 	}
 
 	/**
@@ -420,4 +431,3 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 }
 
 /* vim:set tabstop=4: */
-
