@@ -43,30 +43,6 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
-	 * アップロードファイルの情報を返す
-	 *
-	 * @access public
-	 * @param string $name フィールド名
-	 * @return BSArray アップロードファイルの情報
-	 */
-	public function getFile ($name) {
-		if ($this->hasFile($name)) {
-			return new BSArray($_FILES[$name]);
-		}
-	}
-
-	/**
-	 * アップロードされたか？
-	 *
-	 * @access public
-	 * @param string $name フィールド名
-	 * @return boolean アップロードされたファイルがあればTrue
-	 */
-	public function hasFile ($name) {
-		return isset($_FILES[$name]) && !BSString::isBlank($_FILES[$name]['name']);
-	}
-
-	/**
 	 * メソッドを設定
 	 *
 	 * @access public
@@ -86,6 +62,12 @@ class BSWebRequest extends BSRequest {
 			default:
 				$this->setParameters($_GET);
 				$this->setParameters($_POST);
+				foreach ($_FILES as $key => $info) {
+					if (!BSString::isBlank($info['name'])) {
+						$info['is_file'] = true;
+						$this[$key] = new BSArray($info);
+					}
+				}
 				break;
 		}
 	}
@@ -154,4 +136,3 @@ class BSWebRequest extends BSRequest {
 }
 
 /* vim:set tabstop=4: */
-

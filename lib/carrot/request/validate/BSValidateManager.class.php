@@ -63,19 +63,12 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	public function execute () {
 		foreach ($this as $field => $validators) {
-			if ($validators['BSFileValidator']) {
-				$value = $this->request->getFile($field);
-				$value['is_file'] = true;
-			} else {
-				$value = $this->request[$field];
-			}
-
 			foreach ($validators as $validator) {
-				if (!BSEmptyValidator::isEmpty($value)
+				if (!BSEmptyValidator::isEmpty($this->request[$field])
 					|| ($validator['fields'])
 					|| ($validator instanceof BSEmptyValidator)) {
 
-					if (!$validator->execute($value)) {
+					if (!$validator->execute($this->request[$field])) {
 						$this->request->setError($field, $validator->getError());
 						break;
 					}
