@@ -65,7 +65,7 @@ class BSWebRequest extends BSRequest {
 				foreach ($_FILES as $key => $info) {
 					if (!BSString::isBlank($info['name'])) {
 						$info['is_file'] = true;
-						$this[$key] = new BSArray($info);
+						$this[$key] = $info;
 					}
 				}
 				break;

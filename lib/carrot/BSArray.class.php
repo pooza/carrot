@@ -347,14 +347,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	}
 
 	/**
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return $this->join("\n");
-	}
-
-	/**
 	 * 配列か？
 	 *
 	 * @access public

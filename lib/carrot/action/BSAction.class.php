@@ -332,12 +332,14 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 		if (!$this->methods) {
 			$this->methods = new BSArray;
 			if ($file = $this->getValidationFile()) {
-				$config = $file->getResult();
-				$this->methods->merge($config['methods']);
-			} else {
-				$this->methods[] = 'GET';
-				$this->methods[] = 'POST';
+				$config = new BSArray($file->getResult());
+				if ($methods = $config['methods']) {
+					$this->methods->merge($config['methods']);
+					return $this->methods;
+				}
 			}
+			$this->methods[] = 'GET';
+			$this->methods[] = 'POST';
 		}
 		return $this->methods;
 	}
