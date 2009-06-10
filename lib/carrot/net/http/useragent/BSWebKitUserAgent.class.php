@@ -23,20 +23,6 @@ class BSWebKitUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * ダウンロード用にエンコードされたファイル名を返す
-	 *
-	 * 漢字を "?" に変える。そのほうが少しだけマシなので。
-	 *
-	 * @access public
-	 * @param string $name ファイル名
-	 * @return string エンコード済みファイル名
-	 */
-	public function encodeFileName ($name) {
-		$name = BSString::convertEncoding($name, 'iso-8859-1');
-		return BSString::sanitize($name);
-	}
-
-	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public
