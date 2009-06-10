@@ -39,7 +39,7 @@ class BSMobileUser extends BSUser {
 		if (!$identifier) {
 			$identifier = BSRequest::getInstance()->getUserAgent();
 		}
-		parent::login($identifier, $password);
+		return parent::login($identifier, $password);
 	}
 }
 

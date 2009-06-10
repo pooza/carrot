@@ -21,6 +21,7 @@ flag:
   class: BSChoiceValidator
   params:
     choices:
+      - 0
       - 1
 html:
   class: BSHTMLFragmentValidator
