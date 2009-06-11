@@ -23,7 +23,7 @@ class BSAuthorRole implements BSRole {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSWebRequest インスタンス
+	 * @return BSAuthorRole インスタンス
 	 * @static
 	 */
 	static public function getInstance () {

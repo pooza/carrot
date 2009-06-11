@@ -24,7 +24,7 @@ class BSAdministratorRole implements BSRole {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSWebRequest インスタンス
+	 * @return BSAdministratorRole インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
