@@ -173,8 +173,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function clear () {
 		foreach ($this->getAllEntryNames() as $name) {
-			$entry = $this->getEntry($name);
-			$entry->delete();
+			$this->getEntry($name)->delete();
 		}
 	}
 
