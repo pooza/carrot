@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage image
+ * @subpackage image.renderer
  */
 
 /**
@@ -163,7 +163,7 @@ class BSQRCode implements BSImageRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		if (!$this->getData()) {
+		if (BSString::isBlank($this->getData())) {
 			$this->error = 'データが未定義です。';
 			return false;
 		}

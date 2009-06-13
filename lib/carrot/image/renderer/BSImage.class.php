@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage image
+ * @subpackage image.renderer
  */
 
 /**
@@ -267,7 +267,7 @@ class BSImage implements BSImageRenderer {
 	 * @param BSColor $color 色
 	 */
 	public function drawText ($text, BSCoordinate $coord, BSColor $color = null) {
-		if (!$color) {
+		if (BSString::isBlank($color)) {
 			$color = new BSColor('black');
 		}
 		imagettftext(

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage image
+ * @subpackage image.renderer
  */
 
 BSUtility::includeFile('phplot/phplot.php');
