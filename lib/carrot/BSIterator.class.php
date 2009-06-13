@@ -19,7 +19,7 @@ class BSIterator implements Iterator {
 	 * @param $array 対象配列
 	 */
 	public function __construct ($array) {
-		if ($array instanceof BSArray) {
+		if ($array instanceof BSParameterHolder) {
 			$this->values = $array->getParameters();
 		} else if (is_array($array)) {
 			$this->values = $array;

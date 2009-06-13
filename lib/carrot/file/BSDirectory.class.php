@@ -11,8 +11,8 @@
  * @version $Id$
  */
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
-	private $defaultSuffix = '';
-	private $entries = array();
+	private $suffix;
+	private $entries;
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
 
@@ -44,7 +44,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return string サフィックス
 	 */
 	public function getDefaultSuffix () {
-		return $this->defaultSuffix;
+		return $this->suffix;
 	}
 
 	/**
@@ -54,32 +54,50 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @param string $suffix 
 	 */
 	public function setDefaultSuffix ($suffix) {
-		$this->defaultSuffix = ltrim($suffix, '*');
-		$this->entries = array();
+		$this->suffix = ltrim($suffix, '*');
+		$this->entries = null;
+	}
+
+	/**
+	 * エントリーの名前を返す
+	 *
+	 * 拡張子による抽出を行い、かつ拡張子を削除する。
+	 *
+	 * @access public
+	 * @return BSArray 抽出されたエントリー名
+	 */
+	public function getEntryNames () {
+		$names = new BSArray;
+		foreach ($this->getAllEntryNames() as $name) {
+			if (fnmatch('*' . $this->getDefaultSuffix(), $name)) {
+				$names[] = basename($name, $this->getDefaultSuffix());
+			}
+		}
+		return $names;
 	}
 
 	/**
 	 * 全エントリーの名前を返す
 	 *
+	 * 拡張子に関わらず全てのエントリーを返す。
+	 *
 	 * @access public
-	 * @return string[] 全エントリー
+	 * @return BSArray 全エントリー名
 	 */
-	public function getEntryNames () {
+	public function getAllEntryNames () {
 		if (!$this->entries) {
+			$this->entries = new BSArray;
 			$dir = dir($this->getPath());
-			while ($entry = $dir->read()) {
-				if (preg_match("/^\.+$/", $entry)) {
-					continue;
-				} else if (!fnmatch('*' . $this->getDefaultSuffix(), $entry)) {
-					continue;
+			while ($name = $dir->read()) {
+				if (!preg_match("/^\.+$/", $name)) {
+					$this->entries[] = $name;
 				}
-				$this->entries[] = basename($entry, $this->getDefaultSuffix());
 			}
 			$dir->close();
 			if ($this->getSortOrder() == self::SORT_DESC) {
-				rsort($this->entries);
+				$this->entries->sort(BSArray::SORT_VALUE_DESC);
 			} else {
-				sort($this->entries);
+				$this->entries->sort(BSArray::SORT_VALUE_ASC);
 			}
 		}
 		return $this->entries;
@@ -98,7 +116,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$name = BSString::stripControlCharacters($name);
 		$name = str_replace('..' . DIRECTORY_SEPARATOR, '', $name);
 
-		if (!$class) {
+		if (BSString::isBlank($class)) {
 			$class = $this->getDefaultEntryClassName();
 		}
 		$class = BSClassLoader::getInstance()->getClassName($class);
@@ -122,7 +140,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSFile ファイル
 	 */
 	public function createEntry ($name, $class = null) {
-		if (!$class) {
+		if (BSString::isBlank($class)) {
 			$class = $this->getDefaultEntryClassName();
 		}
 
@@ -132,7 +150,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$class = BSClassLoader::getInstance()->getClassName($class);
 		$file = new $class($path);
 		$file->setContents(null);
-		$this->entries = array();
+		$this->entries = null;
 		return $file;
 	}
 
@@ -142,12 +160,20 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @access public
 	 */
 	public function delete () {
-		foreach ($this as $entry) {
-			$entry->delete();
-		}
-		usleep(100);
+		$this->clear();
 		if (!rmdir($this->getPath())) {
 			throw new BSFileException('%sを削除できませんでした。', $this);
+		}
+	}
+
+	/**
+	 * クリア
+	 *
+	 * @access public
+	 */
+	public function clear () {
+		foreach ($this as $entry) {
+			$entry->delete();
 		}
 	}
 
@@ -156,9 +182,10 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $name ディレクトリの名前
+	 * $param string $class クラス名
 	 * @return BSDirectory 作成されたディレクトリ
 	 */
-	public function createDirectory ($name) {
+	public function createDirectory ($name, $class = 'BSDirectory') {
 		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
 		if (file_exists($path)) {
 			if (!is_dir($path)) {
@@ -167,7 +194,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		} else {
 			mkdir($path);
 		}
-		return new BSDirectory($path);
+		return new $class($path);
 	}
 
 	/**

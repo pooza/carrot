@@ -93,7 +93,7 @@ class BSSmartyView extends BSView {
 	 * @static
 	 */
 	static public function columnize ($array, $columns = 3) {
-		if ($array instanceof BSArray) {
+		if ($array instanceof BSParameterHolder) {
 			$array = $array->getParameters();
 		}
 
