@@ -145,6 +145,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		foreach ($this as $entry) {
 			$entry->delete();
 		}
+		usleep(100);
 		if (!rmdir($this->getPath())) {
 			throw new BSFileException('%sを削除できませんでした。', $this);
 		}

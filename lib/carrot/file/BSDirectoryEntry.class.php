@@ -68,6 +68,14 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
+	 * 削除
+	 *
+	 * @access public
+	 * @abstract
+	 */
+	abstract public function delete ();
+
+	/**
 	 * パスを返す
 	 *
 	 * @access public
