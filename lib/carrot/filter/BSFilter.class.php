@@ -67,6 +67,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 * 実行
 	 *
 	 * @access public
+	 * @return boolean 終了ならばTrue
 	 */
 	abstract public function execute ();
 }

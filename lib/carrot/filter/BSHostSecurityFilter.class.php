@@ -13,10 +13,9 @@
 class BSHostSecurityFilter extends BSFilter {
 	public function execute () {
 		if (!$this->isAuthenticated()) {
-			$e = new BSNetException('リモートアクセス禁止のホストです。');
-			$e->sendAlert();
+			new BSNetException('リモートアクセス禁止のホストです。');
 			$this->controller->getSecureAction()->forward();
-			exit;
+			return true;
 		}
 	}
 
@@ -27,11 +26,7 @@ class BSHostSecurityFilter extends BSFilter {
 	 * @return 許可されたネットワーク内ならTrue
 	 */
 	private function isAuthenticated () {
-		if (!$networks = BSAdministratorRole::getInstance()->getAllowedNetworks()) {
-			return true;
-		}
-
-		foreach ($networks as $network) {
+		foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
 			if ($this->request->getHost()->isInNetwork($network)) {
 				return true;
 			}

@@ -22,16 +22,13 @@ class BSBasicAuthFilter extends BSFilter {
 		if (BSString::isBlank($password = $this->controller->getEnvironment('PHP_AUTH_PW'))) {
 			return false;
 		}
-
 		if (!BSCrypt::getInstance()->auth($this['password'], $password)) {
 			return false;
 		}
 
-		$id = $this->controller->getEnvironment('PHP_AUTH_USER');
-		if ($this['user_id'] && ($id != $this['user_id'])) {
-			return false;
+		if (!BSString::isBlank($this['user_id'])) {
+			return ($this['user_id'] == $this->controller->getEnvironment('PHP_AUTH_USER'));
 		}
-
 		return true;
 	}
 
@@ -44,14 +41,13 @@ class BSBasicAuthFilter extends BSFilter {
 
 	public function execute () {
 		if (!$this->isAuthenticated()) {
-			// アクションとビューを実行せず、ここで終了。
 			$this->controller->setHeader(
 				'WWW-Authenticate',
 				sprintf('Basic realm=\'%s\'', $this['realm'])
 			);
 			$this->controller->setHeader('Status', '401 Unauthorized');
 			$this->controller->putHeaders();
-			exit;
+			return true;
 		}
 	}
 }

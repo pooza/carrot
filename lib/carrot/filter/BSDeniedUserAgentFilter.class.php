@@ -20,11 +20,12 @@ class BSDeniedUserAgentFilter extends BSFilter {
 	public function execute () {
 		if ($this->request->getUserAgent()->isDenied()) {
 			try {
-				$action = $this->controller->getModule($this['module'])->getAction($this['action']);
+				$module = $this->controller->getModule($this['module']);
+				$action = $module->getAction($this['action']);
 			} catch (BSException $e) {
 				$action = $this->controller->getNotFoundAction();
 			}
-			$this->controller->registerAction($action);
+			$action->forward();
 		}
 	}
 }

@@ -25,7 +25,7 @@ class BSHTTPSFilter extends BSFilter {
 			$url = BSURL::getInstance($this['base_url']);
 			$url['path'] = $this->controller->getEnvironment('REQUEST_URI');
 			$url->redirect();
-			exit;
+			return true;
 		}
 	}
 }
