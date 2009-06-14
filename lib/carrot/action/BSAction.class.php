@@ -216,7 +216,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return BSView ビュー
 	 */
 	public function getView ($name) {
-		if (BSString::isBlank($name) || !$this->request->getMethod()) {
+		if (BSString::isBlank($name) || ($this->request->getMethod() == 'HEAD')) {
 			return new BSEmptyView($this, null);
 		}
 

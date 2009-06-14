@@ -98,12 +98,9 @@ class BSFilterChain implements IteratorAggregate {
 	 * @param mixed $file 設定ファイル名、又はBSFileオブジェクト
 	 */
 	private function load ($file) {
-		$objects = array();
 		require(BSConfigManager::getInstance()->compile($file));
-		if ($objects) {
-			foreach ($objects as $filter) {
-				$this->register($filter);
-			}
+		foreach ((array)$objects as $filter) {
+			$this->register($filter);
 		}
 	}
 
