@@ -29,7 +29,7 @@ class BSFilterChain implements IteratorAggregate {
 	public function execute () {
 		foreach ($this as $filter) {
 			if ($filter->execute()) {
-				break;
+				exit;
 			}
 		}
 	}
