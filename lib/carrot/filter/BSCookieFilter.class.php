@@ -19,22 +19,24 @@ class BSCookieFilter extends BSFilter {
 	}
 
 	public function execute () {
-		if (!$this->request->isCLI()
-			&& !$this->request->isAjax()
-			&& !$this->request->isFlash()
-			&& !$this->request->getUserAgent()->isMobile()) {
+		if ($this->request->isCLI()
+			|| $this->request->isAjax()
+			|| $this->request->isFlash()
+			|| $this->request->getUserAgent()->isMobile()) {
 
-			$methods = new BSArray;
-			$methods[] = 'HEAD';
-			$methods[] = 'GET';
+			return;
+		}
 
-			if ($methods->isContain($this->request->getMethod())) {
-				$expire = BSDate::getNow()->setAttribute('hour', '+1');
-				$this->user->setAttribute($this->getCookieName(), true, $expire);
-			} else {
-				if (!$this->user->getAttribute($this->getCookieName())) {
-					$this->request->setError('cookie', $this['cookie_error']);
-				}
+		$methods = new BSArray;
+		$methods[] = 'HEAD';
+		$methods[] = 'GET';
+
+		if ($methods->isContain($this->request->getMethod())) {
+			$expire = BSDate::getNow()->setAttribute('hour', '+1');
+			$this->user->setAttribute($this->getCookieName(), true, $expire);
+		} else {
+			if (BSString::isBlank($this->user->getAttribute($this->getCookieName()))) {
+				$this->request->setError('cookie', $this['cookie_error']);
 			}
 		}
 	}
