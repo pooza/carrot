@@ -645,60 +645,70 @@
 -
   names:
     - 1
+    - 1キー
   pictograms:
     Docomo: 63879
     SoftBank: 57884
 -
   names:
     - 2
+    - 2キー
   pictograms:
     Docomo: 63880
     SoftBank: 57885
 -
   names:
     - 3
+    - 3キー
   pictograms:
     Docomo: 63881
     SoftBank: 57886
 -
   names:
     - 4
+    - 4キー
   pictograms:
     Docomo: 63882
     SoftBank: 57887
 -
   names:
     - 5
+    - 5キー
   pictograms:
     Docomo: 63883
     SoftBank: 57888
 -
   names:
     - 6
+    - 6キー
   pictograms:
     Docomo: 63884
     SoftBank: 57889
 -
   names:
     - 7
+    - 7キー
   pictograms:
     Docomo: 63885
     SoftBank: 57890
 -
   names:
     - 8
+    - 8キー
   pictograms:
     Docomo: 63886
     SoftBank: 57891
 -
   names:
     - 9
+    - 9キー
   pictograms:
     Docomo: 63887
     SoftBank: 57892
 -
   names:
     - 0
+    - 0キー
   pictograms:
     Docomo: 63888
     SoftBank: 57893
@@ -739,6 +749,7 @@
     - わーい(嬉しい顔)
     - わーい
     - 嬉しい顔
+    - 嬉しい
   pictograms:
     Docomo: 63893
     SoftBank: 57431
@@ -1049,12 +1060,16 @@
 -
   names:
     - うれしい顔
+    - うれしい
+    - 嬉しい顔2
+    - 嬉しい2
   pictograms:
     Docomo: 63951
     SoftBank: 58378
 -
   names:
     - がまん顔
+    - がまん
   pictograms:
     Docomo: 63952
     SoftBank: 58374
@@ -1067,6 +1082,7 @@
 -
   names:
     - 泣き顔
+    - 泣き
   pictograms:
     Docomo: 63954
     SoftBank: 58385

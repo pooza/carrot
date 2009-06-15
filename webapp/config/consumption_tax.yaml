@@ -5,7 +5,7 @@
 # @version $Id$
 
 rates:
-  - rate: 0.03
-    start_date: 1989-04-01
   - rate: 0.05
     start_date: 1997-04-01
+  - rate: 0.03
+    start_date: 1989-04-01
