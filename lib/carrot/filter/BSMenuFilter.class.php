@@ -25,32 +25,48 @@ class BSMenuFilter extends BSFilter {
 	 */
 	private function getMenu () {
 		if (!$this->menu) {
-			$prevItemIsSeparator = true;
-			$config = array();
+			$separator = true; //次の仕切りを無視するか？
 			require(BSConfigManager::getInstance()->compile($this->getMenuFile()));
-			foreach ($config as $menuitem) {
-				$menuitem = new BSArray($menuitem);
-				if (!BSString::isBlank($menuitem['separator'])) {
-					if ($prevItemIsSeparator) {
-						continue;
+			foreach ($config as $values) {
+				if ($menuitem = $this->getMenuItem($values)) {
+					if (BSString::isBlank($menuitem['separator'])) {
+						$separator = false;
+					} else {
+						if ($separator) {
+							continue;
+						}
+						$separator = true;
 					}
-					$prevItemIsSeparator = true;
-				} else {
-					$prevItemIsSeparator = false;
+					$this->menu[] = $menuitem;
 				}
-				if (!BSString::isBlank($menuitem['module'])) {
-					$module = $this->controller->getModule($menuitem['module']);
-					if (!$this->user->hasCredential($module->getCredential())) {
-						continue;
-					}
-					if (BSString::isBlank($menuitem['title'])) {
-						$menuitem['title'] = $module->getMenuTitle();
-					}
-				}
-				$this->menu[] = $menuitem;
 			}
 		}
 		return $this->menu;
+	}
+
+	/**
+	 * メニュー項目を整形して返す
+	 *
+	 * @access private
+	 * @param string[] $values メニュー項目
+	 * @return BSArray メニュー項目
+	 */
+	private function getMenuItem ($values) {
+		$values = new BSArray($values);
+		if (!BSString::isBlank($values['module'])) {
+			if (!$module = $this->controller->getModule($values['module'])) {
+				throw new BSConfigException('モジュール "%s" がありません。', $values['module']);
+			}
+			if (BSString::isBlank($values['title'])) {
+				$values['title'] = $module->getMenuTitle();
+			}
+			if (BSString::isBlank($values['credential'])) {
+				$values['credential'] = $module->getCredential();
+			}
+		}
+		if ($this->user->hasCredential($values['credential'])) {
+			return $values;
+		}
 	}
 
 	/**
@@ -70,7 +86,7 @@ class BSMenuFilter extends BSFilter {
 				return $file;
 			}
 		}
-		throw new BSConfigException('メニュー(%s)が見つかりません。', $names->join('|'));
+		throw new BSConfigException('メニュー (%s)が見つかりません。', $names->join('|'));
 	}
 
 	/**
