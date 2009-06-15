@@ -13,6 +13,7 @@
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	private $suffix;
 	private $entries;
+	private $zip;
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
 
@@ -87,13 +88,12 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	public function getAllEntryNames () {
 		if (!$this->entries) {
 			$this->entries = new BSArray;
-			$dir = dir($this->getPath());
-			while ($name = $dir->read()) {
-				if (!preg_match("/^\.+$/", $name)) {
-					$this->entries[] = $name;
+			$iterator = new DirectoryIterator($this->getPath());
+			foreach ($iterator as $entry) {
+				if (!$entry->isDot()) {
+					$this->entries[] = $entry->getFilename();
 				}
 			}
-			$dir->close();
 			if ($this->getSortOrder() == self::SORT_DESC) {
 				$this->entries->sort(BSArray::SORT_VALUE_DESC);
 			} else {
@@ -186,6 +186,28 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			mkdir($path);
 		}
 		return new $class($path);
+	}
+
+	/**
+	 * ZIPアーカイブを返す
+	 *
+	 * @access public
+	 * @param integer $flags フラグのビット列
+	 *   BSZipArchive::WITHOUT_DOTED ドットファイルを除く
+	 * @return BSZipArchive ZIPアーカイブ
+	 */
+	public function getArchive ($flags = BSZipArchive::WITHOUT_DOTED) {
+		if (!extension_loaded('zip')) {
+			throw new BSException('zipエクステンションがロードされていません。');
+		}
+		if (!$this->zip) {
+			$this->zip = new BSZipArchive;
+			foreach ($this as $entry) {
+				$this->zip->register($entry, null, $flags);
+			}
+			$this->zip->close();
+		}
+		return $this->zip;
 	}
 
 	/**

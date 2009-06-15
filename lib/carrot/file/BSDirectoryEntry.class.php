@@ -110,7 +110,7 @@ abstract class BSDirectoryEntry {
 	public function getShortPath () {
 		if (!$this->shortPath) {
 			$this->shortPath = str_replace(
-				BSController::getInstance()->getPath('root') . '/',
+				BSController::getInstance()->getPath('root') . DIRECTORY_SEPARATOR,
 				'',
 				$this->getPath()
 			);
@@ -257,7 +257,7 @@ abstract class BSDirectoryEntry {
 	 * @param integer $mode ファイルモード
 	 */
 	public function setMode ($mode) {
-		if (!$this->isExists() || !chmod($this->getPath(), $mode)) {
+		if (!$this->isWritable() || !chmod($this->getPath(), $mode)) {
 			throw new BSFileException('%sのファイルモードの変更に失敗しました。', $this);
 		}
 	}
