@@ -202,6 +202,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		}
 		if (!$this->zip) {
 			$this->zip = new BSZipArchive;
+			$this->zip->open(null, BSZipArchive::OVERWRITE);
 			foreach ($this as $entry) {
 				$this->zip->register($entry, null, $flags);
 			}

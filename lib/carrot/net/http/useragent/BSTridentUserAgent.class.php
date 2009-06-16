@@ -31,7 +31,12 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string エンコード済みファイル名
 	 */
 	public function encodeFileName ($name) {
-		$name = BSString::convertEncoding($name, 'sjis-win');
+		if (7 < $this->getVersion()) {
+			// IE8のバグ対応。当面、マルチバイト文字を ? に置き換えておく。
+			$name = BSString::convertEncoding($name, 'iso-8859-1');
+		} else {
+			$name = BSString::convertEncoding($name, 'sjis-win');
+		}
 		return BSString::sanitize($name);
 	}
 
@@ -44,10 +49,25 @@ class BSTridentUserAgent extends BSUserAgent {
 	public function getPlatform () {
 		if (!$this->attributes['platform']) {
 			if (preg_match($this->getPattern(), $this->getName(), $matches)) {
-				$this->attributes['platform'] = $matches[1];
+				$this->attributes['platform'] = $matches[2];
 			}
 		}
 		return $this->attributes['platform'];
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		if (!$this->attributes['version']) {
+			if (preg_match($this->getPattern(), $this->getName(), $matches)) {
+				$this->attributes['version'] = $matches[1];
+			}
+		}
+		return $this->attributes['version'];
 	}
 
 	/**
@@ -57,7 +77,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE [4-9]\.[0-9]+; ([^;]+);/';
+		return '/MSIE ([4-9]\.[0-9]+); ([^;]+);/';
 	}
 }
 

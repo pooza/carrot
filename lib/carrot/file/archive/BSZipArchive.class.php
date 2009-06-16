@@ -12,26 +12,60 @@
  */
 class BSZipArchive extends ZipArchive implements BSrenderer {
 	private $file;
+	private $temporaryFile;
+	private $opened = false;
 	const WITHOUT_DOTED = 1;
 
 	/**
 	 * @access public
 	 */
-	public function __construct () {
-		$this->open($this->getFile()->getPath(), self::OVERWRITE);
+	public function __destruct () {
+		if ($this->opened) {
+			$this->close();
+		}
+		if ($this->getFile() && $this->temporaryFile) {
+			$file->getFile()->delete();
+		}
 	}
 
 	/**
+	 * 開く
+	 *
 	 * @access public
+	 * @param mixed $file ファイル、又はそのパス。nullの場合は、一時ファイルを使用。
+	 * @param integer $flags フラグのビット列
+	 *   self::OVERWRITE
+	 *   self::CREATE
+	 *   self::EXCL
+	 *   self::CHECKCONS
+	 * @return mixed 正常終了時はtrue、それ以外はエラーコード。
 	 */
-	public function __destruct () {
-		$this->getFile()->delete();
+	public function open ($path = null, $flags = null) {
+		if ($this->opened) {
+			throw new BSFileException('%sが開かれています。', $this->getFile());
+		}
+		$this->setFile($path);
+		$this->opened = true;
+		return parent::open($this->getFile()->getPath(), self::OVERWRITE);
+	}
+
+	/**
+	 * 閉じる
+	 *
+	 * @access public
+	 * @return mixed 正常終了時はtrue、それ以外はエラーコード。
+	 */
+	public function close () {
+		if ($this->opened) {
+			$this->opened = false;
+			return parent::close();
+		}
 	}
 
 	/**
 	 * エントリーを登録
 	 *
-	 * @access private
+	 * @access public
 	 * @param BSDirectoryEntry $entry エントリー
 	 * @param string $prefix エントリー名のプレフィックス
 	 * @param integer $flags フラグのビット列
@@ -60,14 +94,37 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	/**
 	 * ファイルを返す
 	 *
-	 * @access private
+	 * @access public
 	 * @return BSFile ファイル
 	 */
-	private function getFile () {
+	public function getFile () {
 		if (!$this->file) {
 			$this->file = BSFile::getTemporaryFile('.zip');
 		}
 		return $this->file;
+	}
+
+	/**
+	 * ファイルを設定
+	 *
+	 * @access public
+	 * @param mixed $file ファイル
+	 */
+	public function setFile ($file) {
+		if ($this->opened) {
+			throw new BSFileException('%sが開かれています。', $this->getFile());
+		}
+		if (BSString::isBlank($file)) {
+			$file = null;
+		} else if (($file instanceof BSFile) == false) {
+			$path = $file;
+			if (!BSUtility::isPathAbsolute($path)) {
+				$controller = BSController::getInstance();
+				$path = $controller->getPath('tmp') . DIRECTORY_SEPARATOR . $path;
+			}
+			$file = new BSFile($path);
+		}
+		$this->file = $file;
 	}
 
 	/**
@@ -76,6 +133,7 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	 * @access public
 	 */
 	public function getContents () {
+		$this->close();
 		return $this->getFile()->getContents();
 	}
 
