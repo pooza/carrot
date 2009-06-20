@@ -67,6 +67,10 @@ longtext:
   class: BSStringValidator
   params:
     max: 65536
+number:
+  class: BSNumberValidator
+password:
+  class: BSPasswordValidator
 pixel:
   class: BSNumberValidator
   params:
