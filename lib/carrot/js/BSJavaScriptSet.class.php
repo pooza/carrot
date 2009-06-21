@@ -22,8 +22,8 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 */
 	private function __construct ($name = 'carrot') {
 		$this->name = $name;
-		foreach ((array)self::$instances[$name]['files'] as $name) {
-			$this->register($name);
+		foreach ((array)self::$instances[$name]['files'] as $file) {
+			$this->register($file);
 		}
 	}
 
