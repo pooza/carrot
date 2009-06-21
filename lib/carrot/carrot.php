@@ -64,7 +64,7 @@ ini_set('realpath_cache_size', '128K');
 set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
 
 $names = array();
-if (php_sapi_name() == 'cli') {
+if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 	$_SERVER['HTTP_USER_AGENT'] = 'Console';
 	$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));

@@ -43,7 +43,7 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getInstance () {
-		if (php_sapi_name() == 'cli') {
+		if (PHP_SAPI == 'cli') {
 			return BSConsoleController::getInstance();
 		} else {
 			return BSWebController::getInstance();
