@@ -112,7 +112,7 @@ class BSString {
 				$value[$key] = self::convertKana($item, $format);
 			}
 		} else {
-			$value = mb_convert_kana($value, $format, 'utf-8');
+			$value = mb_convert_kana($value, $format, self::getEncoding($value));
 		}
 		return $value;
 	}

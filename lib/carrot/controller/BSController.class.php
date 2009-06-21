@@ -56,15 +56,16 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function dispatch () {
-		if (!$module = $this->request[self::MODULE_ACCESSOR]) {
+		if (BSString::isBlank($module = $this->request[self::MODULE_ACCESSOR])) {
 			$module = BS_MODULE_DEFAULT_MODULE;
 		}
-		if (!$action = $this->request[self::ACTION_ACCESSOR]) {
+		if (BSString::isBlank($action = $this->request[self::ACTION_ACCESSOR])) {
 			$action = BS_MODULE_DEFAULT_ACTION;
 		}
 
 		try {
-			$action = BSModule::getInstance($module)->getAction($action);
+			$module = BSModule::getInstance($module);
+			$action = $module->getAction($action);
 		} catch (Exception $e) {
 			$action = $this->getNotFoundAction();
 		}
