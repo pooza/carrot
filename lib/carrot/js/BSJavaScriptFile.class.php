@@ -19,8 +19,7 @@ class BSJavaScriptFile extends BSFile {
 	 * @return string 最適化された内容
 	 */
 	public function getOptimizedContents () {
-		$expire = $this->getUpdateDate();
-		$contents = BSController::getInstance()->getAttribute($this, $expire);
+		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
 			BSUtility::includeFile('jsmin.php');
 			$contents = JSMin::minify($this->getContents());

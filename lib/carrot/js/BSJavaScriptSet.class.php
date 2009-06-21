@@ -12,6 +12,7 @@
  */
 class BSJavaScriptSet implements BSTextRenderer {
 	private $name;
+	private $error;
 	private $files = array();
 	static private $instances;
 
@@ -21,10 +22,8 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 */
 	private function __construct ($name = 'carrot') {
 		$this->name = $name;
-		if ($files = self::$instances[$name]['files']) {
-			foreach ($files as $name) {
-				$this->register($name);
-			}
+		foreach ((array)self::$instances[$name]['files'] as $name) {
+			$this->register($name);
 		}
 	}
 
@@ -108,7 +107,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return true;
+		return BSString::isBlank($this->error);
 	}
 
 	/**
@@ -118,7 +117,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return null;
+		return $this->error;
 	}
 
 	/**
@@ -132,13 +131,20 @@ class BSJavaScriptSet implements BSTextRenderer {
 			return;
 		}
 
-		$dir = BSController::getInstance()->getDirectory('js');
-		$file = $dir->getEntry($name, 'BSJavaScriptFile');
-		if (!$file->isReadable()) {
-			throw new BSJavaScriptException('%sが読み込めません。', $file);
+		$name = preg_replace('/\.js$/i', '', $name) . '.js';
+		$dirs = new BSArray;
+		$dirs[] = BSController::getInstance()->getDirectory('js');
+		$dirs[] = BSController::getInstance()->getDirectory('www');
+		foreach ($dirs as $dir) {
+			if ($file = $dir->getEntry($name, 'BSJavaScriptFile')) {
+				if ($file->isReadable()) {
+					$this->files[$name] = $file->getOptimizedContents();
+				} else {
+					$this->error = $file . 'が読み込めません。';
+				}
+				return;
+			}
 		}
-
-		$this->files[$name] = $file->getOptimizedContents();
 	}
 }
 

@@ -20,8 +20,7 @@ class BSCSSFile extends BSFile {
 	 * @return string 最適化された内容
 	 */
 	public function getOptimizedContents () {
-		$expire = $this->getUpdateDate();
-		$contents = BSController::getInstance()->getAttribute($this, $expire);
+		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
 			$error = $this->getParser()->parseFile($this->getPath(), false);
 			if ($error instanceof PEAR_Error) {

@@ -26,14 +26,12 @@ class BSStyleSet implements BSTextRenderer {
 		$this->name = $name;
 		$this->files = new BSArray;
 
-		$dir = BSController::getInstance()->getDirectory('css');
 		if (isset(self::$instances[$name]['files'])) {
-			$files = self::$instances[$name]['files'];
-			foreach ($files as $file) {
-				$this->register($dir->getEntry($file, 'BSCSSFile'));
+			foreach ((array)self::$instances[$name]['files'] as $file) {
+				$this->register($file);
 			}
-		} else if ($file = $dir->getEntry($name, 'BSCSSFile')) {
-			$this->register($file);
+		} else {
+			$this->register($name);
 		}
 	}
 
@@ -88,13 +86,23 @@ class BSStyleSet implements BSTextRenderer {
 	 * 登録
 	 *
 	 * @access public
-	 * @param BSCSSFile $file ファイル
+	 * @param string $name ファイル名
 	 */
-	public function register (BSCSSFile $file) {
-		if (!$file->validate()) {
-			$this->error = $file->getError();
+	public function register ($name) {
+		$name = preg_replace('/\.css$/i', '', $name) . '.css';
+		$dirs = new BSArray;
+		$dirs[] = BSController::getInstance()->getDirectory('css');
+		$dirs[] = BSController::getInstance()->getDirectory('www');
+		foreach ($dirs as $dir) {
+			if ($file = $dir->getEntry($name, 'BSCSSFile')) {
+				if ($file->validate()) {
+					$this->files[] = $file;
+				} else {
+					$this->error = $file->getError();
+				}
+				return;
+			}
 		}
-		$this->files[] = $file;
 	}
 
 	/**

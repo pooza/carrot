@@ -7,7 +7,7 @@
  */
 
 function redirect (m, a, id) {
-  url = '/' + m + '/' + a;
+  var url = '/' + m + '/' + a;
   if (id) {
     url += '/' + id;
   }
