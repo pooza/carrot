@@ -96,7 +96,7 @@ class BSStyleSet implements BSTextRenderer {
 		foreach ($dirs as $dir) {
 			if ($file = $dir->getEntry($name, 'BSCSSFile')) {
 				if ($file->validate()) {
-					$this->files[] = $file;
+					$this->files[$name] = $file;
 				} else {
 					$this->error = $file->getError();
 				}
@@ -158,7 +158,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return !BSString::isBlank($this->getContents());
+		return BSString::isBlank($this->error);
 	}
 
 	/**
