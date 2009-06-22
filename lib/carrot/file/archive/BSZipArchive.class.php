@@ -120,7 +120,6 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 		} else if (($file instanceof BSFile) == false) {
 			$path = $file;
 			if (!BSUtility::isPathAbsolute($path)) {
-			$this->temporaryFile = false;
 				$controller = BSController::getInstance();
 				$path = $controller->getPath('tmp') . DIRECTORY_SEPARATOR . $path;
 			}
