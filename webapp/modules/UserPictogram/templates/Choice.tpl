@@ -12,22 +12,6 @@
 <head>
 <title>{const name='app_name_ja'} {$title}</title>
 <script type="text/javascript" src="/JavaScript{if $jsset}?jsset={$jsset}{/if}" charset="utf-8"></script>
-<script type="text/javascript">
-function putTag (name) {ldelim}
-  var tag = '[[picto:' + name + ']]';
-  var field = window.opener.$('{$params.field|default:'body'}');
-  if (field.selectionStart) {ldelim}
-    var position = field.selectionStart;
-    field.value = field.value.substr(0, position)
-      + tag
-      + field.value.substr(position, field.value.length);
-    field.selectionStart = position;
-    field.selectionEnd = position;
-  {rdelim} else {ldelim}
-    field.value += tag;
-  {rdelim}
-{rdelim}
-</script>
 <link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
 </head>
 <body>
@@ -39,7 +23,7 @@ function putTag (name) {ldelim}
 		<tr>
 			<td width="15" align="center">{picto name=$pictogram}</td>
 			<td width="180">
-				<a href="javascript:void(putTag('{$pictogram}'))">{$pictogram}</a>
+				<a href="javascript:void(putSmartTag('picto','{$pictogram}',window.opener.$('{$params.field|default:'body'}')))">{$pictogram}</a>
 			</td>
 		</tr>
 {/foreach}

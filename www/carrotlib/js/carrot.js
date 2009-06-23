@@ -28,6 +28,25 @@ function openPictogramPallet (id) {
   );
 }
 
+function putSmartTag (tag, name, field) {
+  if (name) {
+    var tag = '[[' + tag + ':' + name + ']]';
+  } else {
+    var tag = '[[' + tag + ']]';
+  }
+  if (field.selectionStart) {
+    var position = field.selectionStart;
+    field.value = field.value.substr(0, position)
+      + tag
+      + field.value.substr(position, field.value.length);
+    field.selectionStart = position;
+    field.selectionEnd = position;
+  } else {
+    field.value += tag;
+  }
+}
+
+
 var actions = {};
 actions['onload'] = [];
 
