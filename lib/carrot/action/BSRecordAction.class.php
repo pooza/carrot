@@ -98,7 +98,7 @@ abstract class BSRecordAction extends BSAction {
 	 * @return boolean レコードを登録する為のアクションならTrue
 	 */
 	protected function isCreateAction () {
-		return $this->getName() == 'Create';
+		return preg_match('/^Create/', $this->getName());
 	}
 
 	/**
