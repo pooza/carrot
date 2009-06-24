@@ -36,6 +36,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	 * @param BSArray $lines 
 	 */
 	public function setLines (BSArray $lines) {
+		$this->records = new BSArray;
 		foreach ($lines as $line) {
 			if (isset($record) && $record) {
 				$record .= "\n" . $line;
