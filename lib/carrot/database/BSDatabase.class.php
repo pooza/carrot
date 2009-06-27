@@ -370,10 +370,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	/**
 	 * エンコードを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return string PHPのエンコード
 	 */
-	protected function getEncoding () {
+	public function getEncoding () {
 		return 'utf-8';
 	}
 

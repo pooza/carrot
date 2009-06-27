@@ -229,10 +229,10 @@ class BSMySQLDatabase extends BSDatabase {
 	/**
 	 * データベースのエンコードを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return string PHPのエンコード名
 	 */
-	protected function getEncoding () {
+	public function getEncoding () {
 		if ($this->isLegacy()) {
 			$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
 			$result = PDO::query($query)->fetch();

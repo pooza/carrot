@@ -20,6 +20,16 @@ abstract class BSDirectoryEntry {
 	protected $directory;
 
 	/**
+	 * inodeを返す
+	 *
+	 * @access public
+	 * @return integer ID
+	 */
+	public function getID () {
+		return fileinode($this->getPath());
+	}
+
+	/**
 	 * 名前を返す
 	 *
 	 * @access public

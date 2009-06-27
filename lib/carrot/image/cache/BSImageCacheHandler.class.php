@@ -150,7 +150,7 @@ class BSImageCacheHandler {
 			return null;
 		}
 
-		if (!$pixel && $this->getUserAgent()->isMobile()) {
+		if ($this->isFullScreen($record, $pixel)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$name = sprintf('%04d%04d', $info['width'], $info['height']);
 		} else {
@@ -196,7 +196,7 @@ class BSImageCacheHandler {
 		$image->setImage($contents);
 		$image->setType($this->getType());
 
-		if (!$pixel && $this->getUserAgent() && $this->getUserAgent()->isMobile()) {
+		if ($this->isFullScreen($record, $pixel)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$name = sprintf('%04d%04d', $info['width'], $info['height']);
 			$image = $this->getUserAgent()->convertImage($image);
@@ -215,6 +215,21 @@ class BSImageCacheHandler {
 		$file->setEngine($image);
 		$file->save();
 		return $file->getEngine();
+	}
+
+	/**
+	 * 全画面表示にすべきか
+	 *
+	 * @access private
+	 * @param BSImageContainer $record 対象レコード
+	 * @param integer $pixel ピクセル数
+	 * @return boolean 全画面表示にすべきならTrue
+	 */
+	private function isFullScreen (BSImageContainer $record, $pixel) {
+		return ($pixel == 0)
+			&& !preg_match('/_icon/', $record->getName())
+			&& $this->getUserAgent()
+			&& $this->getUserAgent()->isMobile();
 	}
 
 	/**

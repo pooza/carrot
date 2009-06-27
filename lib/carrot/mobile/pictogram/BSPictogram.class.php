@@ -252,6 +252,17 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	}
 
 	/**
+	 * ラベルを返す
+	 *
+	 * @access public
+	 * @param string $language 言語
+	 * @return string ラベル
+	 */
+	public function getLabel ($language = 'ja') {
+		return $this->getName();
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public

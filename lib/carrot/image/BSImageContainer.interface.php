@@ -47,6 +47,34 @@ interface BSImageContainer {
 	 * @return string 画像ファイルベース名
 	 */
 	public function getImageFileBaseName ($size = null);
+
+	/**
+	 * コンテナのIDを返す
+	 *
+	 * コンテナを一意に識別する値。
+	 * ファイルならinode、DBレコードなら主キー。
+	 *
+	 * @access public
+	 * @return integer ID
+	 */
+	public function getID ();
+
+	/**
+	 * コンテナの名前を返す
+	 *
+	 * @access public
+	 * @return string 名前
+	 */
+	public function getName ();
+
+	/**
+	 * コンテナのラベルを返す
+	 *
+	 * @access public
+	 * @param string $language 言語
+	 * @return string ラベル
+	 */
+	public function getLabel ($language = 'ja');
 }
 
 /* vim:set tabstop=4: */
