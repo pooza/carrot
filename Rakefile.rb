@@ -27,7 +27,7 @@ end
 
 namespace :var do
   desc 'varディレクトリを初期化'
-  task :init => [:chmod, :clean]
+  task :init => [:chmod, :clean, 'images:cache:init']
 
   task :chmod do
     system 'chmod 777 var/*'
