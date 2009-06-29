@@ -23,7 +23,7 @@
 		<tr>
 			<td width="15" align="center">{picto name=$pictogram}</td>
 			<td width="180">
-				<a href="javascript:void(putSmartTag('picto','{$pictogram}',window.opener.$('{$params.field|default:'body'}')))">{$pictogram}</a>
+				<a href="javascript:void(putSmartTag('picto',window.opener.$('{$params.field|default:'body'}'),'{$pictogram}'))">{$pictogram}</a>
 			</td>
 		</tr>
 {/foreach}

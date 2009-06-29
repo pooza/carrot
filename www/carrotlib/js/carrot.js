@@ -28,12 +28,23 @@ function openPictogramPallet (id) {
   );
 }
 
-function putSmartTag (tag, name, field) {
+function putSmartTag (tag, field, name, params) {
+  var tag = '[[' + tag;
   if (name) {
-    var tag = '[[' + tag + ':' + name + ']]';
-  } else {
-    var tag = '[[' + tag + ']]';
+    tag += ':' + name;
+    if (params) {
+      var encoded = [];
+      for(var key in params) {
+        if (params[key] != null) {
+          encoded.push(key + '=' + encodeURI(params[key]));
+        }
+      }
+      if (0 < encoded.length) {
+        tag += ':' + encoded.join(';');
+      }
+    }
   }
+  tag += ']]';
   if (field.selectionStart) {
     var position = field.selectionStart;
     field.value = field.value.substr(0, position)
