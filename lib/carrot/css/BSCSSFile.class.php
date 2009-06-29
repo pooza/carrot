@@ -55,7 +55,7 @@ class BSCSSFile extends BSFile {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return ($this->getOptimizedContents() && !$this->getParser()->isError());
+		return !$this->getContents() || !$this->getParser()->isError();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class BSCSSFile extends BSFile {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return $this->getParser()->_lastError;
+		return 'パースエラーです。';
 	}
 
 	/**
