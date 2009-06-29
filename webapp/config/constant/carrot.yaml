@@ -103,6 +103,7 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
   serialize:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
+pictogram:
 pgsql:
   dir: /usr/local
 proctools:
