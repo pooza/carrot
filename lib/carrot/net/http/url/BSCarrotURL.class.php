@@ -16,6 +16,26 @@ class BSCarrotURL extends BSHTTPURL {
 	private $id;
 
 	/**
+	 * 属性を設定
+	 *
+	 * @access public
+	 * @param string $name 属性の名前
+	 * @param mixed $value 値
+	 * @return BSCarrotURL 自分自身
+	 */
+	public function setAttribute ($name, $value) {
+		switch ($name) {
+			case 'module':
+				return $this->setModuleName($value);
+			case 'action':
+				return $this->setActionName($value);
+			case 'record':
+				return $this->setRecordID($value);
+		}
+		return parent::setAttribute($name, $value);
+	}
+
+	/**
 	 * モジュール名を返す
 	 *
 	 * @access public
@@ -33,6 +53,7 @@ class BSCarrotURL extends BSHTTPURL {
 	 *
 	 * @access public
 	 * @param mixed $module モジュール又はその名前
+	 * @return BSCarrotURL 自分自身
 	 */
 	public function setModuleName ($module) {
 		if ($module instanceof BSModule) {
@@ -41,6 +62,7 @@ class BSCarrotURL extends BSHTTPURL {
 			$this->module = $module;
 		}
 		$this->parsePath();
+		return $this;
 	}
 
 	/**
@@ -61,6 +83,7 @@ class BSCarrotURL extends BSHTTPURL {
 	 *
 	 * @access public
 	 * @param mixed $action アクション又はその名前
+	 * @return BSCarrotURL 自分自身
 	 */
 	public function setActionName ($action) {
 		if ($action instanceof BSAction) {
@@ -70,6 +93,7 @@ class BSCarrotURL extends BSHTTPURL {
 			$this->action = $action;
 		}
 		$this->parsePath();
+		return $this;
 	}
 
 	/**
@@ -87,6 +111,7 @@ class BSCarrotURL extends BSHTTPURL {
 	 *
 	 * @access public
 	 * @param mixed $id レコード又はそのID
+	 * @return BSCarrotURL 自分自身
 	 */
 	public function setRecordID ($id) {
 		if ($id instanceof BSRecord) {
@@ -95,6 +120,7 @@ class BSCarrotURL extends BSHTTPURL {
 			$this->id = $id;
 		}
 		$this->parsePath();
+		return $this;
 	}
 
 	/**
@@ -110,6 +136,8 @@ class BSCarrotURL extends BSHTTPURL {
 		if ($id = $this->getRecordID()) {
 			$path[] = $id;
 		}
+
+		// path属性をsetAttributeすると、queryやflagmentが初期化されてしまう。
 		$this->attributes['path'] = $path->join('/');
 	}
 }

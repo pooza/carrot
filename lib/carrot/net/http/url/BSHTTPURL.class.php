@@ -40,7 +40,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 	 * @access public
 	 * @param string $name 属性の名前
 	 * @param mixed $value 値
-	 * @return BSURL 自分自身
+	 * @return BSHTTPURL 自分自身
 	 */
 	public function setAttribute ($name, $value) {
 		$this->fullpath = null;
