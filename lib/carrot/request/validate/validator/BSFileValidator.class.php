@@ -59,8 +59,8 @@ class BSFileValidator extends BSValidator {
 			$this->error = $this['invalid_error'];
 			return false;
 		} else if (!BSString::isBlank($value['name'])) {
-			$suffix = BSMIMEUtility::getFileNameSuffix($value['name']);
-			$suffixes = strtolower($this->getAllowedSuffixes());
+			$suffix = strtolower(BSMIMEUtility::getFileNameSuffix($value['name']));
+			$suffixes = $this->getAllowedSuffixes();
 			if (($this['size'] * 1024 * 1024) < $value['size']) {
 				$this->error = $this['size_error'];
 				return false;
