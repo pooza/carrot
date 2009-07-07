@@ -189,7 +189,7 @@ class BSMIMEUtility {
 	 */
 	static public function getFileNameSuffix ($filename) {
 		$parts = explode('.', $filename);
-		return '.' . strtolower(array_pop($parts));
+		return '.' . array_pop($parts);
 	}
 }
 
