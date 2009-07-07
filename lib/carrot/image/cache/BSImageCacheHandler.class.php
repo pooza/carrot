@@ -15,6 +15,8 @@ class BSImageCacheHandler {
 	private $type;
 	static private $instance;
 	const WITHOUT_BROWSER_CACHE = 1;
+	const WIDTH_FIXED = 2;
+	const HEIGHT_FIXED = 4;
 
 	/**
 	 * @access private
@@ -91,7 +93,7 @@ class BSImageCacheHandler {
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
-		if (!$file = $this->getFile($record, $size, $pixel)) {
+		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
 		}
 
@@ -108,6 +110,63 @@ class BSImageCacheHandler {
 	}
 
 	/**
+	 * サムネイルを返す
+	 *
+	 * @access public
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセル数
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 * @return BSImage サムネイル
+	 */
+	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
+		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
+			return null;
+		}
+		return $file->getEngine();
+	}
+
+	/**
+	 * サムネイルを設定する
+	 *
+	 * @access public
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセル数
+	 * @param mixed $contents サムネイルの内容
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 * @param BSImage サムネイル
+	 */
+	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
+		$dir = $this->getEntryDirectory($record, $size);
+		$name = $this->getFileName($record, $pixel, $flags);
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			$file = $dir->createEntry($name, 'BSImageFile');
+			$file->setMode(0666);
+		}
+		$file->setEngine($this->convertImage($record, $pixel, $contents, $flags));
+		$file->save();
+		return $file->getEngine();
+	}
+
+	/**
+	 * サムネイルを削除する
+	 *
+	 * @access public
+	 * @param BSImageContainer $record 対象レコード
+	 * @param string $size サイズ名
+	 */
+	public function removeThumbnail (BSImageContainer $record, $size) {
+		if ($dir = $this->getEntryDirectory($record, $size)) {
+			$dir->delete();
+		}
+	}
+
+	/**
 	 * 画像の情報を返す
 	 *
 	 * @access public
@@ -116,11 +175,13 @@ class BSImageCacheHandler {
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
 		try {
-			if (!$image = $this->getThumbnail($record, $size, $pixel)) {
+			if (!$image = $this->getThumbnail($record, $size, $pixel, $flags)) {
 				return null;
 			}
 			$info = new BSArray;
@@ -138,83 +199,27 @@ class BSImageCacheHandler {
 	/**
 	 * サムネイルファイルを返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
-	 * @param string $class クラス名
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
 	 * @return BSFile サムネイルファイル
 	 */
-	public function getFile (BSImageContainer $record, $size, $pixel, $class = 'BSImageFile') {
+	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
 		if (!$source = $record->getImageFile($size)) {
 			return null;
 		}
 
-		if ($this->isFullScreen($record, $pixel)) {
-			$info = $this->getUserAgent()->getDisplayInfo();
-			$name = sprintf('%04d%04d', $info['width'], $info['height']);
-		} else {
-			$name = sprintf('%04d', $pixel);
-		}
-
 		$dir = $this->getEntryDirectory($record, $size);
-		if (!$file = $dir->getEntry($name, $class)) {
-			$this->setThumbnail($record, $size, $pixel, $source);
-			$file = $dir->getEntry($name, $class);
+		$name = $this->getFileName($record, $pixel, $flags);
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			$this->setThumbnail($record, $size, $pixel, $source, $flags);
+			$file = $dir->getEntry($name, 'BSImageFile');
 		}
 		return $file;
-	}
-
-	/**
-	 * サムネイルを返す
-	 *
-	 * @access public
-	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ名
-	 * @param integer $pixel ピクセル数
-	 * @return BSImage サムネイル
-	 */
-	public function getThumbnail (BSImageContainer $record, $size, $pixel) {
-		if (!$file = $this->getFile($record, $size, $pixel)) {
-			return null;
-		}
-		return $file->getEngine();
-	}
-
-	/**
-	 * サムネイルを設定する
-	 *
-	 * @access public
-	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ名
-	 * @param integer $pixel ピクセル数
-	 * @param mixed $contents サムネイルの内容
-	 * @param BSImage サムネイル
-	 */
-	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents) {
-		$image = new BSImage;
-		$image->setImage($contents);
-		$image->setType($this->getType());
-
-		if ($this->isFullScreen($record, $pixel)) {
-			$info = $this->getUserAgent()->getDisplayInfo();
-			$name = sprintf('%04d%04d', $info['width'], $info['height']);
-			$image = $this->getUserAgent()->convertImage($image);
-		} else {
-			if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
-				$image = $image->getThumbnail($pixel);
-			}
-			$name = sprintf('%04d', $pixel);
-		}
-
-		$dir = $this->getEntryDirectory($record, $size);
-		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			$file = $dir->createEntry($name, 'BSImageFile');
-			$file->setMode(0666);
-		}
-		$file->setEngine($image);
-		$file->save();
-		return $file->getEngine();
 	}
 
 	/**
@@ -233,26 +238,61 @@ class BSImageCacheHandler {
 	}
 
 	/**
-	 * サムネイルを削除する
+	 * サムネイルファイルのファイル名を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param BSImageContainer $record 対象レコード
-	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセル数
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 * @return BSFile サムネイルファイル
 	 */
-	public function removeThumbnail (BSImageContainer $record, $size) {
-		if ($dir = $this->getEntryDirectory($record, $size)) {
-			$dir->delete();
+	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
+		if ($this->isFullScreen($record, $pixel)) {
+			$info = $this->getUserAgent()->getDisplayInfo();
+			$pixel = $info['width'];
+			$flags |= self::WIDTH_FIXED;
 		}
+
+		$name = '';
+		if ($flags & self::WIDTH_FIXED) {
+			$name .= 'w';
+		} else if ($flags & self::HEIGHT_FIXED) {
+			$name .= 'h';
+		}
+
+		$name .= sprintf('%04d', $pixel);
+		return $name;
 	}
 
 	/**
-	 * ディレクトリを返す
+	 * 画像を変換して返す
 	 *
 	 * @access private
-	 * @param BSDirectory ディレクトリ
+	 * @param BSImageContainer $record 対象レコード
+	 * @param integer $pixel ピクセル数
+	 * @param mixed $contents サムネイルの内容
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 * @param BSImage サムネイル
 	 */
-	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('image_cache');
+	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
+		$image = new BSImage;
+		$image->setImage($contents);
+		$image->setType($this->getType());
+
+		if ($this->isFullScreen($record, $pixel)) {
+			$image = $this->getUserAgent()->convertImage($image);
+		} else if ($flags & self::WIDTH_FIXED) {
+			$image->resize($pixel, 0);
+		} else if ($flags & self::HEIGHT_FIXED) {
+			$image->resize(0, $pixel);
+		} else if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
+			$image = $image->getThumbnail($pixel);
+		}
+		return $image;
 	}
 
 	/**
@@ -276,6 +316,7 @@ class BSImageCacheHandler {
 		return $name;
 	}
 
+
 	/**
 	 * サムネイルエントリーの格納ディレクトリを返す
 	 *
@@ -294,6 +335,16 @@ class BSImageCacheHandler {
 		$suffixes = BSImage::getSuffixes();
 		$dir->setDefaultSuffix($suffixes[$this->getType()]);
 		return $dir;
+	}
+
+	/**
+	 * ディレクトリを返す
+	 *
+	 * @access private
+	 * @param BSDirectory ディレクトリ
+	 */
+	private function getDirectory () {
+		return BSController::getInstance()->getDirectory('image_cache');
 	}
 }
 
