@@ -6,8 +6,7 @@
  * @version $Id$
  */
 
-function Elevator (id, x, yMin, yMargin) {
-  var element = $(id);
+function Elevator (element, x, yMin, yMargin) {
   new PeriodicalExecuter(move, 0.1);
 
   function move () {
