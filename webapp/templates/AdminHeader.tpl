@@ -30,7 +30,7 @@
 	</ul>
 </div>
 <script type="text/javascript">
-actions['onload'].push(function () {ldelim}
+actions.onload.push(function () {ldelim}
   new Elevator($('Menu'), 10, 10, 10);
 {rdelim});
 </script>
