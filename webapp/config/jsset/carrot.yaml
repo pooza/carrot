@@ -6,13 +6,13 @@
 
 carrot:
   files:
-    - elevator
     - prototype
     - scriptaculous/effects
     - ajaxzip2/ajaxzip2
     - prototabs
     - protocalendar/protocalendar
     - protocalendar/lang_ja
-    - ObjTree
+    - usermenu
+    - elevator
     - carrot
     - application

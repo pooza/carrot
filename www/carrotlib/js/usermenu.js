@@ -1,6 +1,32 @@
 /**
  * ユーザーメニュー
  *
+ * 設置例:
+ * <div id="usermenu">
+ *   <dl id="usermenu_1000">
+ *     <dt>
+ *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="1000" />
+ *     </dt>
+ *     <dd>
+ *       <ul>
+ *         <li><a href="http://www.yahoo.co.jp/">Yahoo!</a></li>
+ *         <li><a href="http://www.google.co.jp/">Google</a></li>
+ *       </ul>
+ *     </dd>
+ *   </dl>
+ *   <dl id="usermenu_2000">
+ *     <dt>
+ *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="2000" />
+ *     </dt>
+ *   </dl>
+ * </div>
+ * <script type="text/javascript">
+ * actions.onload.push(function () {
+ *   new UserMenu('1000'); //#usermenu_1000に対応
+ *   new UserMenu('2000'); //#usermenu_2000に対応
+ * });
+ * </script>
+ *
  * @package org.carrot-framework
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -9,13 +35,15 @@
 
 function UserMenu (id) {
   var imagePath = '/carrotlib/images/usermenu/';
+  var selectorPrefix = 'usermenu';
   var speed = 10;
   var timer = 15;
   var opacity = 0.9;
 
-  var tab = $('menu_tab_' + id);
-  var items = $('menu_items_' + id);
-  var tabImage = $('menu_tab_image_' + id);
+  var selector = '#' + selectorPrefix + '_' + id;
+  var tab = $$(selector + ' dt')[0];
+  var items = $$(selector + ' dd')[0];
+  var tabImage = $$(selector + ' dt img')[0];
 
   if (items) {
     tab.onmouseover = function () {setMenuStatus(true)};
@@ -26,7 +54,7 @@ function UserMenu (id) {
     tab.onmouseover = function () {setTabStatus(true)};
     tab.onmouseout = function () {setTabStatus(false)};
   }
-
+  setMenuStatus(false);
 
   function setTabStatus (flag) {
     if (flag) {
