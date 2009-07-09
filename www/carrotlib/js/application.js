@@ -6,8 +6,6 @@
  * @version $Id$
  */
 
-actions['onload'].push(
-  function () {
-    //alert('追加分の処理');
-  }
-);
+actions.onload.push(function () {
+  //alert('追加分の処理');
+});
