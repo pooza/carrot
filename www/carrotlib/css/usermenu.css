@@ -1,0 +1,60 @@
+/**
+ * ユーザーメニュー用スタイルシート
+ *
+ * @package __PACKAGE__
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id$
+ */
+
+#usermenu {
+	clear: both;
+}
+
+.menu {
+	float:left;
+	padding-right:4px;
+	margin:0;
+}
+.menu dt {
+	width:125px;
+	height:38px;
+	margin:0;
+}
+.menu dd {
+	position:absolute;
+	overflow:hidden;
+	width:252px;
+	display:none;
+	background:#fff;
+	z-index:200;
+	opacity:0;
+	padding:0;
+	margin:0;
+}
+.menu ul {
+	width:250px;
+	border:1px solid #9ac1c9;
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+.menu li {
+	display:inline;
+	padding:0;
+	margin:0;
+	font-weight:bold;
+}
+.menu li a {
+	display:block;
+	color:#333;
+	text-decoration:none;
+	background:#eaf0f2;
+	padding:5px;
+	margin:0;
+	_text-align:left;
+}
+.menu li a:hover {
+	background:#d9e1e4;
+	color:#000
+	_text-decoration:none;
+}
