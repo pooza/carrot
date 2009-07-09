@@ -78,7 +78,7 @@ function UserMenu (id) {
         items.style.height = '0px';
       }
       items.timer = setInterval(function(){slide(true)}, timer);
-    }else{
+    } else {
       tab.timer = setTimeout(collapse, 50);
     }
   }
