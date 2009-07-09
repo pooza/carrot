@@ -285,12 +285,12 @@ class BSImageCacheHandler {
 
 		if ($this->isFullScreen($record, $pixel)) {
 			$image = $this->getUserAgent()->convertImage($image);
-		} else if ($pixel && ($pixel < $image->getWidth() || $pixel < $image->getHeight())) {
-			if ($flags & self::WIDTH_FIXED) {
+		} else if ($pixel) {
+			if (($flags & self::WIDTH_FIXED) && ($pixel < $image->getWidth())) {
 				$image->resize($pixel, 0);
-			} else if ($flags & self::HEIGHT_FIXED) {
+			} else if (($flags & self::HEIGHT_FIXED) && ($pixel < $image->getHeight())) {
 				$image->resize(0, $pixel);
-			} else {
+			} else if (($pixel < $image->getWidth()) || ($pixel < $image->getHeight())) {
 				$image->resize($pixel, $pixel);
 			}
 		}

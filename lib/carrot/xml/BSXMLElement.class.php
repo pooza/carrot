@@ -13,6 +13,7 @@
 class BSXMLElement implements IteratorAggregate {
 	protected $reader;
 	private $contents;
+	private $raw = false;
 	private $body;
 	private $name;
 	private $attributes = array();
@@ -281,7 +282,11 @@ class BSXMLElement implements IteratorAggregate {
 				$this->contents .= $element->getContents();
 			}
 
-			$this->contents .= BSString::sanitize($this->getBody());
+			if ($this->raw) {
+				$this->contents .= $this->getBody();
+			} else {
+				$this->contents .= BSString::sanitize($this->getBody());
+			}
 			$this->contents .= sprintf('</%s>', $this->getName());
 		}
 		return $this->contents;
@@ -333,6 +338,30 @@ class BSXMLElement implements IteratorAggregate {
 			}
 		}
 		$this->reader = null;
+	}
+
+	/**
+	 * RAWモードを返す
+	 *
+	 * @access public
+	 * @return boolean RAWモード
+	 */
+	public function getRawMode () {
+		return $this->raw;
+	}
+
+	/**
+	 * RAWモードを設定
+	 *
+	 * RAWモード時は、本文のHTMLエスケープを行わない
+	 *
+	 * @access public
+	 * @param boolean $mode RAWモード
+	 */
+	public function setRawMode ($mode) {
+		$this->raw = $mode;
+		$this->body = null;
+		$this->contents = null;
 	}
 
 	/**
