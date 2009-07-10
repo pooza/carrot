@@ -3,9 +3,9 @@
  *
  * 設置例:
  * <div id="usermenu">
- *   <dl id="usermenu_1000">
+ *   <dl id="usermenu_sample1">
  *     <dt>
- *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="1000" />
+ *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="sample1" />
  *     </dt>
  *     <dd>
  *       <ul>
@@ -14,16 +14,16 @@
  *       </ul>
  *     </dd>
  *   </dl>
- *   <dl id="usermenu_2000">
+ *   <dl id="usermenu_sample2">
  *     <dt>
- *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="2000" />
+ *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="sample2" />
  *     </dt>
  *   </dl>
  * </div>
  * <script type="text/javascript">
  * actions.onload.push(function () {
- *   new UserMenu('1000'); //#usermenu_1000に対応
- *   new UserMenu('2000'); //#usermenu_2000に対応
+ *   new UserMenu('sample1'); //#usermenu_sample1に対応
+ *   new UserMenu('sample2'); //#usermenu_sample2に対応
  * });
  * </script>
  *
