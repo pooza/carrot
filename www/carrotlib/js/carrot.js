@@ -49,7 +49,7 @@ function putSmartTag (tag, field, name, params) {
     var position = field.selectionStart;
     field.value = field.value.substr(0, position)
       + tag
-      + field.value.substr(position, field.value.length);
+      + field.value.substr(field.selectionEnd, field.value.length);
     field.selectionStart = position + tag.length;
     field.selectionEnd = field.selectionStart;
   } else {

@@ -54,7 +54,7 @@ function UserMenu (id) {
     tab.onmouseover = function () {setTabStatus(true)};
     tab.onmouseout = function () {setTabStatus(false)};
   }
-  setMenuStatus(false);
+  setTimeout(function() {setMenuStatus(false)}, 100);
 
   function setTabStatus (flag) {
     if (flag) {
@@ -68,7 +68,6 @@ function UserMenu (id) {
     setTabStatus(flag);
     clearInterval(items.timer);
     if (flag) {
-      clearTimeout(tab.timer);
       if (items.maxHeight && items.maxHeight <= items.offsetHeight) {
         return;
       } else if (!items.maxHeight) {
@@ -77,19 +76,12 @@ function UserMenu (id) {
         items.maxHeight = items.offsetHeight;
         items.style.height = '0px';
       }
-      items.timer = setInterval(function(){slide(true)}, timer);
-    } else {
-      tab.timer = setTimeout(collapse, 50);
     }
-  }
-
-  function collapse () {
-    items.timer = setInterval(function(){slide(false)}, timer);
+    items.timer = setInterval(function(){slide(flag)}, timer);
   }
 
   function cancelHide () {
     setTabStatus(true);
-    clearTimeout(tab.timer);
     clearInterval(items.timer);
     if (items.offsetHeight < items.maxHeight) {
       items.timer = setInterval(function(){slide(true)}, timer);
