@@ -5,7 +5,7 @@
  * <div id="usermenu">
  *   <dl id="usermenu_sample1">
  *     <dt>
- *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="sample1" />
+ *       <img src="/carrotlib/images/spacer.gif" width="60" height="25" alt="HOME" />
  *     </dt>
  *     <dd>
  *       <ul>
@@ -16,7 +16,7 @@
  *   </dl>
  *   <dl id="usermenu_sample2">
  *     <dt>
- *       <img src="/carrotlib/images/spacer.gif" width="125" height="38" alt="sample2" />
+ *       <img src="/carrotlib/images/spacer.gif" width="60" height="25" alt="DIARY" />
  *     </dt>
  *   </dl>
  * </div>
