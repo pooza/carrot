@@ -63,7 +63,7 @@ var actions = {
 };
 
 window.onload = function () {
-  for (var i = 0 ; i < actions['onload'].length ; i ++) {
+  for (var i = 0 ; i < actions.onload.length ; i ++) {
     actions.onload[i]();
   }
 }
