@@ -50,10 +50,11 @@ function putSmartTag (tag, field, name, params) {
     field.value = field.value.substr(0, position)
       + tag
       + field.value.substr(position, field.value.length);
-    field.selectionStart = position;
-    field.selectionEnd = position;
+    field.selectionStart = position + tag.length;
+    field.selectionEnd = field.selectionStart;
   } else {
-    field.value += tag;
+    field.focus();
+    field.document.selection.createRange().text = tag;
   }
 }
 
