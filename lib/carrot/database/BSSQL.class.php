@@ -76,7 +76,7 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $table テーブル名
-	 * @param mixed[] $values フィールドの値
+	 * @param mixed $values フィールドの値
 	 * @param BSDatabase $db 対象データベース
 	 * @return string クエリー文字列
 	 * @static
@@ -85,19 +85,22 @@ class BSSQL {
 		if (!$db) {
 			$db = BSDatabase::getInstance();
 		}
+		if (is_array($values)) {
+			$values = new BSArray($values);
+		} else if ($values instanceof BSParameterHolder) {
+			$values = new BSArray($values->getParameters())
+		}
 
-		$fields = array();
-		$valuesQuoted = array();
-		foreach ($values as $key => $value) {
-			$fields[] = $key;
-			$valuesQuoted[] = $db->quote($value);
+		$quoted = new BSArray;
+		foreach ($values as $value) {
+			$quoted[] = $db->quote($value);
 		}
 
 		return sprintf(
 			'INSERT INTO %s (%s) VALUES (%s)',
 			$table,
-			implode(', ', $fields),
-			implode(', ', $valuesQuoted)
+			$values->getKeys(BSArray::WITHOUT_KEY)->join(', '),
+			$quoted->join(', '),
 		);
 	}
 
@@ -106,7 +109,7 @@ class BSSQL {
 	 *
 	 * @access public
 	 * @param string $table テーブル名
-	 * @param mixed[] $values フィールドの値
+	 * @param mixed $values フィールドの値
 	 * @param mixed $criteria 抽出条件
 	 * @param BSDatabase $db 対象データベース
 	 * @return string クエリー文字列
@@ -116,8 +119,13 @@ class BSSQL {
 		if (!$db) {
 			$db = BSDatabase::getInstance();
 		}
+		if (is_array($values)) {
+			$values = new BSArray($values);
+		} else if ($values instanceof BSParameterHolder) {
+			$values = new BSArray($values->getParameters())
+		}
 
-		$fields = array();
+		$fields = new BSArray;
 		foreach ($values as $key => $value) {
 			$fields[] = sprintf('%s=%s', $key, $db->quote($value));
 		}
@@ -125,7 +133,7 @@ class BSSQL {
 		return sprintf(
 			'UPDATE %s SET %s WHERE %s',
 			$table,
-			implode(', ', $fields),
+			$fields->join(', '),
 			self::getCriteriaString($criteria)
 		);
 	}

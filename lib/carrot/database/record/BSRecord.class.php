@@ -26,7 +26,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		$this->table = $table;
 		$this->attributes = new BSArray;
 		$this->records = new BSArray;
-		$this->setAttributes($attributes);
+		$this->attributes->setParameters($attributes);
 	}
 
 	/**
@@ -64,7 +64,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSArray 全属性値
 	 */
 	public function getAttributes () {
-		return $this->attributes;
+		return clone $this->attributes;
 	}
 
 	/**
@@ -78,16 +78,6 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 */
 	final public function getContents () {
 		return $this->getAttributes();
-	}
-
-	/**
-	 * 属性をまとめて設定
-	 *
-	 * @access public
-	 * @param string[] $attributes 属性の連想配列
-	 */
-	public function setAttributes ($attributes) {
-		$this->attributes->setAttributes($attributes);
 	}
 
 	/**
@@ -111,7 +101,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * 更新
 	 *
 	 * @access public
-	 * @param string[] $values 更新する値
+	 * @param mixed $values 更新する値
 	 * @param integer $flags フラグのビット列
 	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 */
@@ -127,14 +117,13 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 			$this->getTable()->getDatabase()
 		);
 		$this->getTable()->getDatabase()->exec($query);
+		$this->attributes->setParameters($values);
 
 		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを更新しました。');
 			$message[] = $this;
 			$this->getTable()->getDatabase()->putLog($message);
 		}
-
-		$this->setAttributes($values);
 	}
 
 	/**

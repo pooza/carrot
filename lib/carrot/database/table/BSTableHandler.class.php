@@ -267,7 +267,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * レコード追加
 	 *
 	 * @access public
-	 * @param mixed[] $values 値
+	 * @param mixed $values 値
 	 * @param integer $flags フラグのビット列
 	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 * @return string レコードの主キー
