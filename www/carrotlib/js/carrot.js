@@ -45,7 +45,7 @@ function putSmartTag (tag, field, name, params) {
     }
   }
   tag += ']]';
-  if (field.selectionStart) {
+  if (field.selectionStart != null) {
     var position = field.selectionStart;
     field.value = field.value.substr(0, position)
       + tag
