@@ -38,9 +38,6 @@ dump:
 font:
   parent: share
   suffix: .ttf
-googleapi:
-  parent: lib
-  suffix: .wsdl
 images:
   parent: carrotlib
 image_cache:
