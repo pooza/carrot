@@ -363,6 +363,12 @@
     SoftBank: 58627
 -
   names:
+    - イベント
+  pictograms:
+    Docomo: 63710
+    SoftBank: 57667
+-
+  names:
     - チケット
   pictograms:
     Docomo: 63711

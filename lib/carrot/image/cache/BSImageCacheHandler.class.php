@@ -17,6 +17,7 @@ class BSImageCacheHandler {
 	const WITHOUT_BROWSER_CACHE = 1;
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
+	const NO_RESIZE = 8;
 
 	/**
 	 * @access private
@@ -177,6 +178,7 @@ class BSImageCacheHandler {
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -228,10 +230,13 @@ class BSImageCacheHandler {
 	 * @access private
 	 * @param BSImageContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
+	 * @param integer $flags フラグのビット列
+	 *   self::NO_RESIZE リサイズしない
 	 * @return boolean 全画面表示にすべきならTrue
 	 */
-	private function isFullScreen (BSImageContainer $record, $pixel) {
+	private function isFullScreen (BSImageContainer $record, $pixel, $flags = null) {
 		return ($pixel == 0)
+			&& !($flags & self::NO_RESIZE)
 			&& !preg_match('/_icon/', $record->getName())
 			&& $this->getUserAgent()
 			&& $this->getUserAgent()->isMobile();
@@ -246,10 +251,11 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
-		if ($this->isFullScreen($record, $pixel)) {
+		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$pixel = $info['width'];
 			$flags |= self::WIDTH_FIXED;
@@ -276,6 +282,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @param BSImage サムネイル
 	 */
 	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
@@ -283,7 +290,7 @@ class BSImageCacheHandler {
 		$image->setImage($contents);
 		$image->setType($this->getType());
 
-		if ($this->isFullScreen($record, $pixel)) {
+		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$image = $this->getUserAgent()->convertImage($image);
 		} else if ($pixel) {
 			if (($flags & self::WIDTH_FIXED) && ($pixel < $image->getWidth())) {
