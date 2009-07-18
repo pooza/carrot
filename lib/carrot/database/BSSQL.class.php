@@ -88,7 +88,7 @@ class BSSQL {
 		if (is_array($values)) {
 			$values = new BSArray($values);
 		} else if ($values instanceof BSParameterHolder) {
-			$values = new BSArray($values->getParameters())
+			$values = new BSArray($values->getParameters());
 		}
 
 		$quoted = new BSArray;
@@ -100,7 +100,7 @@ class BSSQL {
 			'INSERT INTO %s (%s) VALUES (%s)',
 			$table,
 			$values->getKeys(BSArray::WITHOUT_KEY)->join(', '),
-			$quoted->join(', '),
+			$quoted->join(', ')
 		);
 	}
 
@@ -122,7 +122,7 @@ class BSSQL {
 		if (is_array($values)) {
 			$values = new BSArray($values);
 		} else if ($values instanceof BSParameterHolder) {
-			$values = new BSArray($values->getParameters())
+			$values = new BSArray($values->getParameters());
 		}
 
 		$fields = new BSArray;
