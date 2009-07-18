@@ -92,7 +92,7 @@ class BSString {
 				$value[$key] = self::unsanitize($item);
 			}
 		} else {
-			$value = htmlspecialchars_decode($value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars_decode($value, ENT_QUOTES);
 		}
 		return $value;
 	}
