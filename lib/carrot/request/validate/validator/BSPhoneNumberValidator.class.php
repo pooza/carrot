@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSPhoneNumberValidator extends BSValidator {
-	const PATTERN = '/^[0-9]{2,4}\-[0-9]{2,4}\-[0-9]{4}$/';
+	const PATTERN = '/^[0-9]{2,4}\-[0-9]{2,4}\-[0-9]{3,4}$/';
 
 	/**
 	 * 対象文字列から電話番号を返す

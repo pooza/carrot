@@ -31,7 +31,7 @@ class BSEncodingValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!mb_preferred_mime_name($value)) {
+		if (BSString::isBlank(mb_preferred_mime_name($value))) {
 			$this->error = $this['match_error'];
 			return false;
 		}
