@@ -93,13 +93,14 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function parseValidators (BSArray $config) {
+		$this->validators->setParameters($config);
+		$this->validators->sort();
 		foreach ($this->validators as $name => $values) {
-			if (!$values && (!$values = $config[$name])) {
+			if (!$values) {
 				throw new BSConfigException('バリデータ "%s" が未定義です。', $name);
 			}
 			$this->validators[$name] = new BSArray($values);
 		}
-		$this->validators->sort();
 	}
 }
 
