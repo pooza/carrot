@@ -73,7 +73,7 @@ class BSString {
 				$value[$key] = self::sanitize($item);
 			}
 		} else {
-			$value = htmlspecialchars($value, ENT_QUOTES);
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -92,7 +92,7 @@ class BSString {
 				$value[$key] = self::unsanitize($item);
 			}
 		} else {
-			$value = htmlspecialchars_decode($value, ENT_QUOTES);
+			$value = htmlspecialchars_decode($value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
