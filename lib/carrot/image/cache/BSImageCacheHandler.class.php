@@ -266,7 +266,7 @@ class BSImageCacheHandler {
 		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$pixel = $info['width'];
-			$prefix = 'mw'
+			$prefix = 'mw';
 		} else if ($flags & self::WIDTH_FIXED) {
 			$prefix = 'w';
 		} else if ($flags & self::HEIGHT_FIXED) {
