@@ -91,6 +91,9 @@ class BSImageCacheHandler {
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -120,6 +123,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -140,6 +144,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @param BSImage サムネイル
 	 */
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
@@ -208,6 +213,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -225,7 +231,7 @@ class BSImageCacheHandler {
 	}
 
 	/**
-	 * 全画面表示にすべきか
+	 * ケータイ向けに全画面表示にすべきか
 	 *
 	 * @access private
 	 * @param BSImageContainer $record 対象レコード
@@ -235,11 +241,12 @@ class BSImageCacheHandler {
 	 * @return boolean 全画面表示にすべきならTrue
 	 */
 	private function isFullScreen (BSImageContainer $record, $pixel, $flags = null) {
-		return ($pixel == 0)
+		return (($pixel == 0)
 			&& !($flags & self::NO_RESIZE)
 			&& !preg_match('/_icon/', $record->getName())
 			&& $this->getUserAgent()
-			&& $this->getUserAgent()->isMobile();
+			&& $this->getUserAgent()->isMobile()
+		);
 	}
 
 	/**
@@ -255,21 +262,17 @@ class BSImageCacheHandler {
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
+		$prefix = '';
 		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
 			$pixel = $info['width'];
-			$flags |= self::WIDTH_FIXED;
-		}
-
-		$name = '';
-		if ($flags & self::WIDTH_FIXED) {
-			$name .= 'w';
+			$prefix = 'mw'
+		} else if ($flags & self::WIDTH_FIXED) {
+			$prefix = 'w';
 		} else if ($flags & self::HEIGHT_FIXED) {
-			$name .= 'h';
+			$prefix = 'h';
 		}
-
-		$name .= sprintf('%04d', $pixel);
-		return $name;
+		return $prefix . sprintf('%04d', $pixel);
 	}
 
 	/**
@@ -324,7 +327,6 @@ class BSImageCacheHandler {
 		}
 		return $name;
 	}
-
 
 	/**
 	 * サムネイルエントリーの格納ディレクトリを返す
