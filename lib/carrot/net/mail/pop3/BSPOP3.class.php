@@ -45,15 +45,15 @@ class BSPOP3 extends BSSocket {
 	 * 最終行のドットは削除
 	 *
 	 * @access public
-	 * @return string[] 読み込んだ内容
+	 * @return BSArray 読み込んだ内容
 	 */
 	public function getLines () {
-		$lines = array();
+		$lines = new BSArray;
 		do {
 			$line = $this->getLine();
 			$lines[] = $line;
 		} while ($line != '.');
-		array_pop($lines);
+		$lines->pop();
 		return $lines;
 	}
 

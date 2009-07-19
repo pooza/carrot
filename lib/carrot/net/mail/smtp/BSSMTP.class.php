@@ -254,7 +254,7 @@ class BSSMTP extends BSSocket {
 		}
 		$result = $matches[1];
 
-		if (preg_match('/^[45]$/', $result)) {
+		if (400 <= $result) {
 			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
 		}
 		return $result;

@@ -195,8 +195,8 @@ class BSString {
 				$value[$key] = self::camelize($item);
 			}
 		} else {
-			if ($parts = preg_split('/[_ ]/u', $value)) {
-				$dest = strtolower(array_shift($parts));
+			if ($parts = new BSArray(preg_split('/[_ ]/u', $value))) {
+				$dest = strtolower($parts->shift());
 				foreach ($parts as $part) {
 					$dest .= self::capitalize($part);
 				}

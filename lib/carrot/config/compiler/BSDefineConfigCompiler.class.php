@@ -30,20 +30,16 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 
 	private function getConstants ($arg, $prefix = BSConstantHandler::PREFIX) {
 		if (BSArray::isArray($arg)) {
-			if (isset($arg[0])) { //配列であっても、連想配列でなければノードと見なす
+			if (isset($arg[0])) {
 				return array(strtoupper($prefix) => implode(',', $arg));
-			} else { //連想配列だけがブランチを持つ
+			} else {
 				$constants = array();
 				foreach ($arg as $key => $value) {
-					if (preg_match('/^\./', $key)) { //"."で始まるキーはプリフィックスに含まない
-						$constants += $this->getConstants($value, $prefix);
-					} else {
-						$constants += $this->getConstants($value, $prefix . '_' . $key);
-					}
+					$constants += $this->getConstants($value, $prefix . '_' . $key);
 				}
 				return $constants;
 			}
-		} else { //$argが配列でない場合は、無条件にノードと見なす
+		} else {
 			return array(strtoupper($prefix) => $arg);
 		}
 	}

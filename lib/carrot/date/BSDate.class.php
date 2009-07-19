@@ -83,12 +83,12 @@ class BSDate implements ArrayAccess, BSAssignable {
 			$this->setTimestamp($time);
 		} else {
 			$date = preg_replace('/[^0-9]+/', '', $date);
-			$this['year'] = substr($date, 0, 4);
-			$this['month'] = substr($date, 4, 2);
-			$this['day'] = substr($date, 6, 2);
-			$this['hour'] = substr($date, 8, 2);
-			$this['minute'] = substr($date, 10, 2);
-			$this['second'] = substr($date, 12, 2);
+			$this['year'] = (int)substr($date, 0, 4);
+			$this['month'] = (int)substr($date, 4, 2);
+			$this['day'] = (int)substr($date, 6, 2);
+			$this['hour'] = (int)substr($date, 8, 2);
+			$this['minute'] = (int)substr($date, 10, 2);
+			$this['second'] = (int)substr($date, 12, 2);
 		}
 
 		if ($this->validate()) {
@@ -219,7 +219,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		$this->getGengo();
 		$this->getJapaneseYear();
 
-		return $this->attributes;
+		return clone $this->attributes;
 	}
 
 	/**
@@ -248,7 +248,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 				throw new BSDateException('属性名"%s"は正しくありません。', $name);
 		}
 
-		if (preg_match('/^[\-+]/', $value)) {
+		if (($value[0] == '+') || ($value[0] == '-')) {
 			foreach (array('hour', 'minute', 'second', 'month', 'day', 'year') as $item) {
 				$$item = $this->getAttribute($item);
 				if ($item == $name) {

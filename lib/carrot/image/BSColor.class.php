@@ -35,9 +35,9 @@ class BSColor extends BSParameterHolder {
 	public function setColor ($color) {
 		$color = ltrim($color, '#');
 		if (preg_match('/^[0-9a-f]{6}$/i', $color)) {
-			$this['red'] = hexdec(substr($color, 0, 2));
-			$this['green'] = hexdec(substr($color, 2, 2));
-			$this['blue'] = hexdec(substr($color, 4, 2));
+			$this['red'] = hexdec($color[0] . $color[1]);
+			$this['green'] = hexdec($color[2] . $color[3]);
+			$this['blue'] = hexdec($color[4] . $color[5]);
 		} else if (preg_match('/^[0-9a-f]{3}$/i', $color)) {
 			$this['red'] = hexdec($color[0] . $color[0]);
 			$this['green'] = hexdec($color[1] . $color[1]);

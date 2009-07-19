@@ -148,7 +148,8 @@ abstract class BSMobileCarrier {
 	 * @return string 絵文字ディレクトリの名前
 	 */
 	protected function getPictogramDirectoryName () {
-		return strtolower(substr($this->getMPCCode(), 0, 1));
+		$code = $this->getMPCCode();
+		return strtolower($code[0]);
 	}
 
 	/**

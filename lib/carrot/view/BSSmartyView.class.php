@@ -99,10 +99,10 @@ class BSSmartyView extends BSView {
 			$array = $array->getParameters();
 		}
 
-		$array = array_chunk($array, $columns);
-		$last = array_pop($array);
+		$array = new BSArray(array_chunk($array, $columns));
+		$last = new BSArray($array->pop());
 
-		for ($i = count($last) ; $i < $columns ; $i ++) {
+		for ($i = $last->count() ; $i < $columns ; $i ++) {
 			$last[] = null;
 		}
 		$array[] = $last;
