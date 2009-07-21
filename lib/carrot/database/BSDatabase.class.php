@@ -465,7 +465,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 		foreach (BSConstantHandler::getInstance()->getParameters() as $key => $value) {
 			$pattern = '/^' . BSConstantHandler::PREFIX . '_PDO_([A-Z]+)_DSN$/';
 			if (preg_match($pattern, $key, $matches)) {
-				$name = strtolower($matches[1]);
+				$name = BSString::toLower($matches[1]);
 				try {
 					$databases[$name] = self::getInstance($name)->getAttributes();
 				} catch (BSDatabaseException $e) {

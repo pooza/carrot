@@ -56,7 +56,7 @@ class BSString {
 	 * @static
 	 */
 	static public function getEncoding ($str) {
-		return strtolower(mb_detect_encoding($str, self::getEncodings()->getParameters()));
+		return self::toLower(mb_detect_encoding($str, self::getEncodings()->getParameters()));
 	}
 
 	/**
@@ -195,13 +195,8 @@ class BSString {
 				$value[$key] = self::camelize($item);
 			}
 		} else {
-			if ($parts = new BSArray(preg_split('/[_ ]/u', $value))) {
-				$dest = strtolower($parts->shift());
-				foreach ($parts as $part) {
-					$dest .= self::capitalize($part);
-				}
-				$value = $dest;
-			}
+			$value = self::pascalize($value);
+			$value[0] = self::toLower($value[0]);
 		}
 		return $value;
 	}
@@ -220,11 +215,9 @@ class BSString {
 				$value[$key] = self::pascalize($item);
 			}
 		} else {
-			$dest = '';
-			foreach (preg_split('/[_ ]/u', $value) as $part) {
-				$dest .= self::capitalize($part);
-			}
-			$value = $dest;
+			$value = str_replace('_', ' ', $value);
+			$value = ucwords($value);
+			$value = str_replace(' ', '', $value);
 		}
 		return $value;
 	}
@@ -243,13 +236,50 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			preg_match_all('/[A-Z][a-z0-9]+/u', $value, $matchesAll, PREG_SET_ORDER);
+			preg_match_all('/[A-Z]+/u', $value, $matchesAll, PREG_SET_ORDER);
 			foreach ($matchesAll as $matches) {
-				$word = $matches[0];
-				$value = str_replace($word, '_' . strtolower($word), $value);
+				$value = str_replace($matches[0], '_' . $matches[0], $value);
 			}
 			$value = ltrim($value, '_');
-			$value = strtolower($value);
+			$value = self::toLower($value);
+		}
+		return $value;
+	}
+
+	/**
+	 * 全て大文字にして返す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function toUpper ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::toUpper($item);
+			}
+		} else {
+			$value = mb_strtoupper($value);
+		}
+		return $value;
+	}
+
+	/**
+	 * 全て小文字にして返す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function toLower ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::toLower($item);
+			}
+		} else {
+			$value = mb_strtolower($value);
 		}
 		return $value;
 	}

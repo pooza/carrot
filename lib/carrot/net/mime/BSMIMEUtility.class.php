@@ -61,7 +61,7 @@ class BSMIMEUtility {
 		$pattern = '/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i';
 		preg_match_all($pattern, $str, $matchesAll, PREG_SET_ORDER);
 		foreach ($matchesAll as $matches) {
-			switch (strtolower($matches[2])) {
+			switch (BSString::toLower($matches[2])) {
 				case 'b':
 					$decoded = self::decodeBase64($matches[3]);
 					break;

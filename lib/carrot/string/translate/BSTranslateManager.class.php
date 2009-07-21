@@ -166,7 +166,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @param string $language 言語コード
 	 */
 	public function setLanguage ($language) {
-		$language = strtolower($language);
+		$language = BSString::toLower($language);
 		if (!self::getLanguageNames()->isContain($language)) {
 			throw new BSTranslateException('言語コード"%s"が正しくありません。', $language);
 		}

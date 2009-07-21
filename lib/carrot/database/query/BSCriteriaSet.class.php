@@ -31,7 +31,7 @@ class BSCriteriaSet extends BSArray {
 	 * @param string $glue 接続子
 	 */
 	public function setGlue ($glue) {
-		$this->glue = strtoupper($glue);
+		$this->glue = BSString::toUpper($glue);
 	}
 
 	/**
@@ -66,8 +66,8 @@ class BSCriteriaSet extends BSArray {
 	 * @param string $operator 演算子
 	 */
 	public function register ($key, $value, $operator = '=') {
-		$key = trim(strtolower($key));
-		$operator = trim(strtoupper($operator));
+		$key = trim(BSString::toLower($key));
+		$operator = trim(BSString::toUpper($operator));
 
 		switch ($operator) {
 			case 'BETWEEN':

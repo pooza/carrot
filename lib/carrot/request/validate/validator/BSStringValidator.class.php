@@ -24,6 +24,7 @@ class BSStringValidator extends BSValidator {
 		$this['max_error'] = '長すぎます。';
 		$this['min'] = null;
 		$this['min_error'] = '短すぎます。';
+		$this['invalid_error'] = '正しくありません。';
 		return parent::initialize($parameters);
 	}
 
@@ -36,18 +37,21 @@ class BSStringValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (BSArray::isArray($value)) {
-			return true;
+			foreach ($value as $entry) {
+				$this->execute($entry);
+			}
+		} else {
+			if (!mb_check_encoding($value)) {
+				$this->error = $this['invalid_error'];
+			}
+			if (!BSString::isBlank($this['min']) && (BSString::getWidth($value) < $this['min'])) {
+				$this->error = $this['min_error'];
+			}
+			if (!BSString::isBlank($this['max']) && ($this['max'] < BSString::getWidth($value))) {
+				$this->error = $this['max_error'];
+			}
 		}
-
-		if (!BSString::isBlank($min = $this['min']) && (BSString::getWidth($value) < $min)) {
-			$this->error = $this['min_error'];
-			return false;
-		}
-		if (!BSString::isBlank($max = $this['max']) && ($max < BSString::getWidth($value))) {
-			$this->error = $this['max_error'];
-			return false;
-		}
-		return true;
+		return BSString::isBlank($this->error);
 	}
 }
 

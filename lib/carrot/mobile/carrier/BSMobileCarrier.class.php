@@ -57,11 +57,11 @@ abstract class BSMobileCarrier {
 			}
 		}
 
-		$carrier = preg_replace('/[^a-z]/i', null, strtolower($carrier));
+		$carrier = preg_replace('/[^a-z]/i', null, BSString::toLower($carrier));
 		foreach (self::$instances as $instance) {
 			$names = new BSArray;
-			$names[] = strtolower($instance->getName());
-			$names[] = strtolower($instance->getMPCCode());
+			$names[] = BSString::toLower($instance->getName());
+			$names[] = BSString::toLower($instance->getMPCCode());
 			$names->merge($instance->getAltNames());
 			$names->uniquize();
 			if ($names->isContain($carrier)) {
@@ -110,7 +110,7 @@ abstract class BSMobileCarrier {
 	public function getMPC () {
 		if (!$this->mpc) {
 			BSUtility::includeFile('MPC/MobilePictogramConverter.php');
-			BSUtility::includeFile('MPC/Carrier/' . strtolower($this->getMPCCode()) . '.php');
+			BSUtility::includeFile('MPC/Carrier/' . BSString::toLower($this->getMPCCode()) . '.php');
 			$class = 'MPC_' . $this->getMPCCode();
 			$this->mpc = new $class;
 			$this->mpc->setFromCharset('UTF-8');
@@ -138,7 +138,7 @@ abstract class BSMobileCarrier {
 	 * @return string キャリア名
 	 */
 	public function getMPCCode () {
-		return strtoupper($this->getName());
+		return BSString::toUpper($this->getName());
 	}
 
 	/**
@@ -149,7 +149,7 @@ abstract class BSMobileCarrier {
 	 */
 	protected function getPictogramDirectoryName () {
 		$code = $this->getMPCCode();
-		return strtolower($code[0]);
+		return BSString::toLower($code[0]);
 	}
 
 	/**

@@ -22,7 +22,7 @@ class BSFileValidator extends BSValidator {
 	private function getAllowedSuffixes () {
 		if (BSArray::isArray($this['suffixes'])) {
 			$suffixes = new BSArray($this['suffixes']);
-		} else if (strtoupper($this['suffixes']) == self::ATTACHABLE) {
+		} else if (BSString::toUpper($this['suffixes']) == self::ATTACHABLE) {
 			$suffixes = BSMIMEType::getAttachableTypes()->getKeys(BSArray::WITHOUT_KEY);
 		} else {
 			$suffixes = BSString::explode(',', $this['suffixes']);
@@ -59,7 +59,7 @@ class BSFileValidator extends BSValidator {
 			$this->error = $this['invalid_error'];
 			return false;
 		} else if (!BSString::isBlank($value['name'])) {
-			$suffix = strtolower(BSMIMEUtility::getFileNameSuffix($value['name']));
+			$suffix = BSString::toLower(BSMIMEUtility::getFileNameSuffix($value['name']));
 			$suffixes = $this->getAllowedSuffixes();
 			if (($this['size'] * 1024 * 1024) < $value['size']) {
 				$this->error = $this['size_error'];

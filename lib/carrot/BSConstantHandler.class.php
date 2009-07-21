@@ -49,7 +49,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function getParameter ($name) {
 		foreach (array(null, self::PREFIX . '_') as $prefix) {
-			$fullname = strtoupper($prefix . $name);
+			$fullname = BSString::toUpper($prefix . $name);
 			if (defined($fullname)) {
 				return constant($fullname);
 			}
@@ -66,7 +66,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	public function setParameter ($name, $value) {
 		if (is_array($name) || is_object($name)) {
 			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		} else if (defined($name = strtoupper($name))) {
+		} else if (defined($name = BSString::toUpper($name))) {
 			throw new BSRegisterException('定数 "%s" は定義済みです。', $name);
 		}
 		define($name, $value);
@@ -95,7 +95,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 			return false;
 		}
 		foreach (array(null, self::PREFIX . '_') as $prefix) {
-			$fullname = strtoupper($prefix . $name);
+			$fullname = BSString::toUpper($prefix . $name);
 			if (defined($fullname)) {
 				return true;
 			}

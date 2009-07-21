@@ -231,7 +231,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return BSDate 適用後の自分自身
 	 */
 	public function setAttribute ($name, $value) {
-		$name = strtolower($name);
+		$name = BSString::toLower($name);
 		switch ($name) {
 			case 'year':
 			case 'month':

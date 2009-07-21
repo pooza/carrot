@@ -114,8 +114,8 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @param integer $hs 
 	 */
 	public function setFont ($family, $style = null, $size = 12, $hs = 100) {
-		if (!isset($this->CoreFonts[strtolower($family)])
-			&& !isset($this->fonts[strtolower($family)])) {
+		if (!isset($this->CoreFonts[BSString::toLower($family)])
+			&& !isset($this->fonts[BSString::toLower($family)])) {
 			$this->addMBFont($family, 'SJIS');
 		}
 		parent::setFont($family, $style, $size, $hs);

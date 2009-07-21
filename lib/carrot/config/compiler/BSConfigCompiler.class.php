@@ -112,7 +112,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 			return sprintf('array(%s)', $body->join(', '));
 		} else {
 			$value = trim($value);
-			switch (strtolower($value)) {
+			switch (BSString::toLower($value)) {
 				case null:
 					return 'null';
 				case 'on':

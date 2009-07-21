@@ -31,7 +31,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 	private function getConstants ($arg, $prefix = BSConstantHandler::PREFIX) {
 		if (BSArray::isArray($arg)) {
 			if (isset($arg[0])) {
-				return array(strtoupper($prefix) => implode(',', $arg));
+				return array(BSString::toUpper($prefix) => implode(',', $arg));
 			} else {
 				$constants = array();
 				foreach ($arg as $key => $value) {
@@ -40,7 +40,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 				return $constants;
 			}
 		} else {
-			return array(strtoupper($prefix) => $arg);
+			return array(BSString::toUpper($prefix) => $arg);
 		}
 	}
 }

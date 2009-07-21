@@ -54,7 +54,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->attributes[strtolower($name)];
+		return $this->attributes[BSString::toLower($name)];
 	}
 
 	/**

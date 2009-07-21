@@ -29,7 +29,7 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function getHeader ($name) {
 		$header = BSMIMEHeader::getInstance($name);
-		$name = strtolower($header->getName());
+		$name = BSString::toLower($header->getName());
 		return $this->getHeaders()->getParameter($name);
 	}
 
@@ -48,7 +48,7 @@ class BSMIMEDocument implements BSRenderer {
 		} else {
 			$header->setPart($this);
 			$header->setContents($value);
-			$this->getHeaders()->setParameter(strtolower($header->getName()), $header);
+			$this->getHeaders()->setParameter(BSString::toLower($header->getName()), $header);
 		}
 		$this->contents = null;
 	}
@@ -77,7 +77,7 @@ class BSMIMEDocument implements BSRenderer {
 	 */
 	public function removeHeader ($name) {
 		if ($header = $this->getHeader($name)) {
-			$this->getHeaders()->removeParameter(strtolower($header->getName()));
+			$this->getHeaders()->removeParameter(BSString::toLower($header->getName()));
 			$this->contents = null;
 		}
 	}

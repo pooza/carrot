@@ -25,7 +25,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 			foreach ($this->getDatabase()->query($query) as $row) {
 				$fields[$row['name']] = array(
 					'column_name' => $row['name'],
-					'data_type' => strtolower($row['type']),
+					'data_type' => BSString::toLower($row['type']),
 					'is_nullable' => $row['notnull'],
 					'column_default' => $row['dflt_value'],
 				);

@@ -90,7 +90,7 @@ class BSMIMEType extends BSParameterHolder {
 			$line = preg_replace('/#.*$/', '', $line);
 			$line = preg_split('/[ \t]+/', $line);
 			for ($i = 1 ; $i < count($line) ; $i ++) {
-				$this[strtolower($line[$i])] = $line[0];
+				$this[BSString::toLower($line[$i])] = $line[0];
 			}
 		}
 
@@ -99,7 +99,7 @@ class BSMIMEType extends BSParameterHolder {
 			if (BSString::isBlank($value)) {
 				$this->removeParameter($key);
 			} else {
-				$this[strtolower($key)] = $value;
+				$this[BSString::toLower($key)] = $value;
 			}
 		}
 	}

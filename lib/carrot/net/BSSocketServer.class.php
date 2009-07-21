@@ -213,7 +213,7 @@ class BSSocketServer {
 	 * @return クライアントとの通信を継続するならTrue
 	 */
 	public function onRead ($line) {
-		switch (strtoupper($line)) {
+		switch (BSString::toUpper($line)) {
 			case 'QUIT':
 			case 'EXIT':
 				return false;

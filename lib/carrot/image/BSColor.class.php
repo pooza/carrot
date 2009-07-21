@@ -43,7 +43,7 @@ class BSColor extends BSParameterHolder {
 			$this['green'] = hexdec($color[1] . $color[1]);
 			$this['blue'] = hexdec($color[2] . $color[2]);
 		} else {
-			$color = strtolower($color);
+			$color = BSString::toLower($color);
 			$config = array();
 			require(BSConfigManager::getInstance()->compile('color'));
 			$colors = $config;

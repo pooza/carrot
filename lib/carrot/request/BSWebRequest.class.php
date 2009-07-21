@@ -49,7 +49,7 @@ class BSWebRequest extends BSRequest {
 	 * @param integer $method メソッド
 	 */
 	public function setMethod ($method) {
-		$this->method = strtoupper($method);
+		$this->method = BSString::toUpper($method);
 		if (!self::getMethods()->isContain($this->method)) {
 			throw new BSHTTPException('"%s" は正しくないメソッドです。', $this->method);
 		}

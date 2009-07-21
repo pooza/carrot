@@ -22,7 +22,7 @@ class BSContentTransferEncodingMIMEHeader extends BSMIMEHeader {
 		if ($contents instanceof BSRenderer) {
 			$this->contents = self::getContentTransferEncoding($contents);
 		} else {
-			$this->contents = strtolower($contents);
+			$this->contents = BSString::toLower($contents);
 		}
 	}
 
@@ -36,7 +36,7 @@ class BSContentTransferEncodingMIMEHeader extends BSMIMEHeader {
 	 */
 	static public function getContentTransferEncoding (BSRenderer $renderer) {
 		if ($renderer instanceof BSTextRenderer) {
-			if (strtolower($renderer->getEncoding()) == 'iso-2022-jp') {
+			if (BSString::toLower($renderer->getEncoding()) == 'iso-2022-jp') {
 				return '7bit';
 			}
 			return '8bit';
