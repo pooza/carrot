@@ -76,6 +76,16 @@ class BSAuthorRole implements BSRole {
 	}
 
 	/**
+	 * ユーザーIDを返す
+	 *
+	 * @access public
+	 * @return string ユーザーID
+	 */
+	public function getUserID () {
+		return $this->getMailAddress()->getContents();
+	}
+
+	/**
 	 * 認証
 	 *
 	 * @access public

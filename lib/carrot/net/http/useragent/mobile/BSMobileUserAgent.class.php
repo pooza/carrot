@@ -170,6 +170,16 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * ユーザーIDを返す
+	 *
+	 * @access public
+	 * @return string ユーザーID
+	 */
+	public function getUserID () {
+		return $this->getID();
+	}
+
+	/**
 	 * 端末認証
 	 *
 	 * パスワードを用いず、端末個体認証を行う。
@@ -179,7 +189,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return $this->getID() && ($this === BSRequest::getInstance()->getUserAgent());
+		return $this->getUserID() && ($this === BSRequest::getInstance()->getUserAgent());
 	}
 }
 

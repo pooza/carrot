@@ -18,7 +18,7 @@ interface BSUserIdentifier {
 	 * @access public
 	 * @return string ユーザーID
 	 */
-	public function getID ();
+	public function getUserID ();
 
 	/**
 	 * 認証

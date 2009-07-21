@@ -104,6 +104,16 @@ class BSSessionHandler implements BSUserIdentifier {
 	}
 
 	/**
+	 * ユーザーIDを返す
+	 *
+	 * @access public
+	 * @return string ユーザーID
+	 */
+	public function getUserID () {
+		return $this->getID();
+	}
+
+	/**
 	 * 認証
 	 *
 	 * セッションが成立している時点で認証は困難、或いは不要と思われる。
