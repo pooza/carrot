@@ -236,10 +236,11 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			preg_match_all('/[A-Z]+/u', $value, $matchesAll, PREG_SET_ORDER);
+			preg_match_all('/[- _]*[A-Z]+[^A-Z]*/u', $value, $matchesAll, PREG_SET_ORDER);
 			foreach ($matchesAll as $matches) {
 				$value = str_replace($matches[0], '_' . $matches[0], $value);
 			}
+			$value = preg_replace('/_{2,}/', '_', $value);
 			$value = ltrim($value, '_');
 			$value = self::toLower($value);
 		}
