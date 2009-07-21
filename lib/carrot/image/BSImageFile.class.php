@@ -165,10 +165,14 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	 * @access public
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセルサイズ
+	 * @param integer $flags フラグのビット列
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null, $pixel = null) {
-		return BSImageCacheHandler::getInstance()->getImageInfo($this, $size, $pixel);
+	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
+		return BSImageCacheHandler::getInstance()->getImageInfo($this, $size, $pixel, $flags);
 	}
 
 	/**
