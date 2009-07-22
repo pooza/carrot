@@ -301,12 +301,18 @@ class BSImageCacheHandler {
 		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$image = $this->getUserAgent()->convertImage($image);
 		} else if ($pixel) {
-			if (($flags & self::WIDTH_FIXED) && ($pixel <= $image->getWidth())) {
-				$image->resize($pixel, 0);
-			} else if (($flags & self::HEIGHT_FIXED) && ($pixel <= $image->getHeight())) {
-				$image->resize(0, $pixel);
-			} else if (($pixel <= $image->getWidth()) || ($pixel <= $image->getHeight())) {
-				$image->resize($pixel, $pixel);
+			if ($flags & self::WIDTH_FIXED) {
+				if ($pixel <= $image->getWidth()) {
+					$image->resize($pixel, 0);
+				}
+			} else if ($flags & self::HEIGHT_FIXED) {
+				if ($pixel <= $image->getHeight()) {
+					$image->resize(0, $pixel);
+				}
+			} else {
+				if (($pixel <= $image->getWidth()) || ($pixel <= $image->getHeight())) {
+					$image->resize($pixel, $pixel);
+				}
 			}
 		}
 		return $image;
