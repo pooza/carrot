@@ -130,7 +130,12 @@ class BSImageCacheHandler {
 		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
 		}
-		return $file->getEngine();
+		try {
+			return $file->getEngine();
+		} catch (BSImageException $e) {
+			$file->delete();
+			BSController::getInstance()->putLog($file . 'を削除しました。');
+		}
 	}
 
 	/**
