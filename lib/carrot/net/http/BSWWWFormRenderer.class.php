@@ -18,11 +18,7 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	 * @access public
 	 */
 	public function getContents () {
-		$values = new BSArray;
-		foreach ($this as $key => $value) {
-			$values[] = $key . '=' . urlencode($value);
-		}
-		return $values->join('&');
+		return http_build_query($this->getParameters());
 	}
 
 	/**

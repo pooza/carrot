@@ -21,6 +21,29 @@ function __autoload ($name) {
 }
 
 /**
+ * スーパーグローバル配列の保護
+ *
+ * @access public
+ * @param mixed[] $values 保護の対象
+ * @return mixed[] サニタイズ後の配列
+ * @see http://www.peak.ne.jp/support/phpcyber/ 参考
+ */
+function protector ($values) {
+	if (is_array($values)) {
+		foreach (array('_SESSION', '_COOKIE', '_SERVER', '_ENV', '_FILES', 'GLOBALS') as $name) {
+			if (isset($values[$name])) {
+				throw new RuntimeException('失敗しました。');
+			}
+		}
+		foreach ($values as &$value) {
+			$value = protector($value);
+		}
+		return $values;
+	}
+	return str_replace("\0", '', $values);
+}
+
+/**
  * デバッグ出力
  *
  * @access public
@@ -44,8 +67,6 @@ function p ($var) {
  * ここから処理開始
  */
 
-require_once(BS_ROOT_DIR . '/lib/protector.php');
-
 define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
 define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
 define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
@@ -53,42 +74,44 @@ define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
 define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
 define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
 
-// php.iniの上書き - ここに書いても無意味なものも含まれてますが。
-ini_set('arg_separator.output', '&amp;');
-ini_set('unserialize_callback_func', '__autoload');
-ini_set('soap.wsdl_cache_dir', BS_VAR_DIR . '/tmp');
+// リクエストの初期化
+// @see http://www.peak.ne.jp/support/phpcyber/ 参考
+$_GET = protector($_GET);
+$_POST = protector($_POST);
+$_COOKIE = protector($_COOKIE);
+foreach (array('PHP_SELF', 'PATH_INFO') as $name) {
+	if (!isset($_SERVER[$name])) {
+		continue;
+	}
+	$_SERVER[$name] = str_replace(
+		array('<', '>', "'", '"', "\r", "\n", "\0"),
+		array('%3C', '%3E', '%27', '%22', '', '', ''),
+		$_SERVER[$name]
+	);
+}
+
+// php.iniの上書き
+// ここに書いても無意味な場合も多いですが。
 ini_set('register_globals', 0);
 ini_set('magic_quotes_gpc', 0);
 ini_set('magic_quotes_runtime', 0);
 ini_set('realpath_cache_size', '128K');
 set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
 
-$names = array();
 if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 	$_SERVER['HTTP_USER_AGENT'] = 'Console';
-	$_SERVER['HOST'] = trim(shell_exec('/bin/hostname'));
-	$names[] = $_SERVER['HOST'];
-} else {
-	$names[] = $_SERVER['SERVER_NAME'];
 }
-$names[] = basename(BS_ROOT_DIR);
-$names[] = 'localhost';
 
-$constants = BSConstantHandler::getInstance();
-$initialized = false;
-foreach ($names as $servername) {
-	if ($file = BSConfigManager::getConfigFile('constant/' . $servername)) {
-		require(BSConfigManager::getInstance()->compile($file));
-		if (BSString::isBlank($_SERVER['SERVER_NAME'] = $constants['SERVER_NAME'])) {
-			$_SERVER['SERVER_NAME'] = $servername;
-		}
-		$initialized = !BSString::isBlank($_SERVER['SERVER_NAME']);
-		break;
-	}
+$servername = basename(BS_ROOT_DIR);
+if (!$file = BSConfigManager::getConfigFile('constant/' . $servername)) {
+	throw new RuntimeException('サーバ定義 "' . $servername . '" が見つかりません。');
 }
-if (!$initialized) {
-	throw new RuntimeException('サーバ定義 (' . implode('|', $names) . ') が見つかりません。');
+require(BSConfigManager::getInstance()->compile($file));
+if (defined('BS_SERVER_NAME')) {
+	$_SERVER['SERVER_NAME'] = BS_SERVER_NAME;
+} else {
+	$_SERVER['SERVER_NAME'] = $servername;
 }
 
 require(BSConfigManager::getInstance()->compile('constant/application'));
