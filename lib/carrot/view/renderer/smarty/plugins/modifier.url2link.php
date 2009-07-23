@@ -17,7 +17,7 @@ function smarty_modifier_url2link ($value) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
 		return preg_replace(
-			'/https?:\/\/[[:print:]]+/',
+			'/https?:\/\/[a-zA-Z0-9_~.,:;\/?&=+$%#!\-]+/',
 			'<a href="\\0" target="_blank">\\0</a>',
 			$value
 		);
