@@ -45,8 +45,12 @@ a:hover {
 	color: white;
 	background-color: #0000d2;
 }
-a img {
+
+img {
 	border: 0;
+}
+img.bordered {
+	border: 1px solid black;
 }
 
 del {
