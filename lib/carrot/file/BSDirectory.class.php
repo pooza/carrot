@@ -160,11 +160,24 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @access public
 	 */
 	public function delete () {
-		foreach ($this->getAllEntryNames() as $name) {
-			$this->getEntry($name)->delete();
-		}
+		$this->clear();
 		if (!rmdir($this->getPath())) {
 			throw new BSFileException('%sを削除できませんでした。', $this);
+		}
+	}
+
+	/**
+	 * 全てのエントリを削除
+	 *
+	 * @access public
+	 */
+	public function clear () {
+		$iterator = new DirectoryIterator($this->getPath());
+		foreach ($iterator as $entry) {
+			if ($entry->isDot() || !$entry->isWritable()) {
+				continue;
+			}
+			$this->getEntry($entry)->delete();
 		}
 	}
 
