@@ -345,6 +345,16 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
+	 * ケータイ環境か？
+	 *
+	 * @access public
+	 * @return boolean ケータイ環境ならTrue
+	 */
+	public function isMobile () {
+		return $this->getUserAgent()->isMobile();
+	}
+
+	/**
 	 * コマンドライン環境か？
 	 *
 	 * @access public
