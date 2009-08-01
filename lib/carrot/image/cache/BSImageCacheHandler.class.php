@@ -368,6 +368,37 @@ class BSImageCacheHandler {
 	private function getDirectory () {
 		return BSController::getInstance()->getDirectory('image_cache');
 	}
+
+	/**
+	 * 文字列、又は配列のフラグをビット列に変換
+	 *
+	 * @access private
+	 * @param mixed $values カンマ区切り文字列、又は配列
+	 * @return $flags フラグのビット列
+	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
+	 *   self::WIDTH_FIXED 幅固定
+	 *   self::HEIGHT_FIXED 高さ固定
+	 *   self::NO_RESIZE リサイズしない
+	 */
+	static public function convertFlags ($values) {
+		if (!BSArray::isArray($values)) {
+			if (BSString::isBlank($values)) {
+				return 0;
+			}
+			$values = BSString::explode(',', $values);
+		}
+		$values = BSString::toUpper($values);
+
+		$constants = BSConstantHandler::getInstance();
+		$flags = 0;
+		foreach ($values as $value) {
+			if (BSString::isBlank($flag = $constants['BSImageCacheHandler::' . $value])) {
+				throw new BSImageException('BSImageCacheHandler::%sが未定義です。', $value);
+			}
+			$flags += $flag;
+		}
+		return $flags;
+	}
 }
 
 /* vim:set tabstop=4: */

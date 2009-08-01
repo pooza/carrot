@@ -48,10 +48,9 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		foreach (array(null, self::PREFIX . '_') as $prefix) {
-			$fullname = BSString::toUpper($prefix . $name);
-			if (defined($fullname)) {
-				return constant($fullname);
+		foreach ($this->getSuggestedNames($name) as $name) {
+			if (defined($name)) {
+				return constant($name);
 			}
 		}
 	}
@@ -94,13 +93,29 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		if (is_array($name) || is_object($name)) {
 			return false;
 		}
-		foreach (array(null, self::PREFIX . '_') as $prefix) {
-			$fullname = BSString::toUpper($prefix . $name);
-			if (defined($fullname)) {
+		foreach ($this->getSuggestedNames($name) as $name) {
+			if (defined($name)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 定数名の候補を返す
+	 *
+	 * @access private
+	 * @param string $name 定数名
+	 * @return BSArray 定数名の候補
+	 */
+	private function getSuggestedNames ($name) {
+		$names = new BSArray;
+		$names[] = $name;
+		if (strpos($name, '::') === false) {
+			$names[] = self::PREFIX . '_' . $name;
+			$names = BSString::toUpper($names);
+		}
+		return $names;
 	}
 
 	/**
@@ -123,7 +138,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function translate ($label, $language) {
 		foreach (array(null, '_' . $language) as $suffix) {
-			if ($value = $this->getParameter($label . $suffix)) {
+			if ($value = $this[$label . $suffix]) {
 				return $value;
 			}
 		}
