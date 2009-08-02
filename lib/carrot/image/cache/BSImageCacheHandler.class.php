@@ -203,6 +203,7 @@ class BSImageCacheHandler {
 			$info['height'] = $image->getHeight();
 			$info['alt'] = $record->getLabel();
 			$info['type'] = $image->getType();
+			$info['pixel_size'] = $info['width'] . '×' . $string[] = $info['height'];
 			return $info;
 		} catch (BSImageException $e) {
 		}
@@ -248,7 +249,6 @@ class BSImageCacheHandler {
 	private function isFullScreen (BSImageContainer $record, $pixel, $flags = null) {
 		return (($pixel == 0)
 			&& !($flags & self::NO_RESIZE)
-			&& !preg_match('/_icon/', $record->getName())
 			&& $this->getUserAgent()
 			&& $this->getUserAgent()->isMobile()
 		);
@@ -370,6 +370,56 @@ class BSImageCacheHandler {
 	}
 
 	/**
+	 * 画像情報から、HTMLのimg要素を返す
+	 *
+	 * @access public
+	 * @param BSArray $info getImageInfoで取得した画像情報
+	 * @return BSXMLElement img要素
+	 */
+	public function getImageElement (BSArray $info) {
+		$element = new BSXMLElement('img');
+		$element->setAttribute('src', $info['url']);
+		$element->setAttribute('width', $info['width']);
+		$element->setAttribute('height', $info['height']);
+		if (!$this->getUserAgent()->isMobile()) {
+			$element->setAttribute('alt', $info['alt']);
+		}
+		return $element;
+	}
+
+	/**
+	 * パラメータ配列から画像コンテナを返す
+	 *
+	 * @access private
+	 * @param BSArray $params パラメータ配列
+	 * @return BSImageContainer 画像コンテナ
+	 */
+	public function getContainer (BSArray $params) {
+		if (!BSString::isBlank($params['src'])) {
+			foreach (array('images', 'www', 'root') as $name) {
+				$dir = BSController::getInstance()->getDirectory($name);
+				if ($entry = $dir->getEntry($params['src'], 'BSImageFile')) {
+					return $entry;
+				}
+			}
+		}
+
+		if (BSString::isBlank($params['class'])) {
+			$module = BSController::getInstance()->getModule();
+			$params['class'] = $module->getRecordClassName();
+			if (BSString::isBlank($params['id']) && ($record = $module->getRecord())) {
+				$params['id'] = $record->getID();
+			}
+		}
+		if (BSString::isBlank($params['size'])) {
+			$params['size'] = 'thumbnail';
+		}
+		if ($table = BSTableHandler::getInstance($params['class'])) {
+			return $table->getRecord($params['id']);
+		}
+	}
+
+	/**
 	 * 文字列、又は配列のフラグをビット列に変換
 	 *
 	 * @access private
@@ -380,7 +430,7 @@ class BSImageCacheHandler {
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::NO_RESIZE リサイズしない
 	 */
-	static public function convertFlags ($values) {
+	public function convertFlags ($values) {
 		if (!BSArray::isArray($values)) {
 			if (BSString::isBlank($values)) {
 				return 0;

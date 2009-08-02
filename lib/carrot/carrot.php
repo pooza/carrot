@@ -28,7 +28,7 @@ function __autoload ($name) {
  * @return mixed[] サニタイズ後の配列
  * @see http://www.peak.ne.jp/support/phpcyber/ 参考
  */
-function protector ($values) {
+function protect ($values) {
 	if (is_array($values)) {
 		foreach (array('_SESSION', '_COOKIE', '_SERVER', '_ENV', '_FILES', 'GLOBALS') as $name) {
 			if (isset($values[$name])) {
@@ -36,7 +36,7 @@ function protector ($values) {
 			}
 		}
 		foreach ($values as &$value) {
-			$value = protector($value);
+			$value = protect($value);
 		}
 		return $values;
 	}
@@ -67,18 +67,10 @@ function p ($var) {
  * ここから処理開始
  */
 
-define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
-define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
-define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
-define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
-define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
-define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
-
-// リクエストの初期化
 // @see http://www.peak.ne.jp/support/phpcyber/ 参考
-$_GET = protector($_GET);
-$_POST = protector($_POST);
-$_COOKIE = protector($_COOKIE);
+$_GET = protect($_GET);
+$_POST = protect($_POST);
+$_COOKIE = protect($_COOKIE);
 foreach (array('PHP_SELF', 'PATH_INFO') as $name) {
 	if (!isset($_SERVER[$name])) {
 		continue;
@@ -90,33 +82,27 @@ foreach (array('PHP_SELF', 'PATH_INFO') as $name) {
 	);
 }
 
-// php.iniの上書き
-// ここに書いても無意味な場合も多いですが。
-ini_set('register_globals', 0);
-ini_set('magic_quotes_gpc', 0);
-ini_set('magic_quotes_runtime', 0);
-ini_set('realpath_cache_size', '128K');
+define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
+define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
+define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
+define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
+define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
+define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
 set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
 
 if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 	$_SERVER['HTTP_USER_AGENT'] = 'Console';
 }
-
-$servername = basename(BS_ROOT_DIR);
-if (!$file = BSConfigManager::getConfigFile('constant/' . $servername)) {
-	throw new RuntimeException('サーバ定義 "' . $servername . '" が見つかりません。');
+$_SERVER['SERVER_NAME'] = basename(BS_ROOT_DIR);
+if (!$file = BSConfigManager::getConfigFile('constant/' . $_SERVER['SERVER_NAME'])) {
+	throw new RuntimeException('サーバ定義(' . $_SERVER['SERVER_NAME'] . ') が見つかりません。');
 }
 require(BSConfigManager::getInstance()->compile($file));
-if (defined('BS_SERVER_NAME')) {
-	$_SERVER['SERVER_NAME'] = BS_SERVER_NAME;
-} else {
-	$_SERVER['SERVER_NAME'] = $servername;
-}
-
 require(BSConfigManager::getInstance()->compile('constant/application'));
 require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
+ini_set('realpath_cache_size', '128K');
 date_default_timezone_set(BS_DATE_TIMEZONE);
 
 if (BS_DEBUG) {
