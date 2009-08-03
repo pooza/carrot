@@ -31,15 +31,6 @@ interface BSImageContainer {
 	public function getImageFile ($size = null);
 
 	/**
-	 * 画像ファイルを設定
-	 *
-	 * @access public
-	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
-	 */
-	public function setImageFile (BSImageFile $file, $size = null);
-
-	/**
 	 * 画像ファイルベース名を返す
 	 *
 	 * @access public

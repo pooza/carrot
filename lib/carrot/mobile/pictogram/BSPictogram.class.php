@@ -186,8 +186,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * 画像の情報を返す
 	 *
 	 * @access public
-	 * @param string $size サイズ名
-	 * @return string[] 画像の情報
+	 * @param string $size ダミー
+	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = null) {
 		if (!$this->imageinfo) {

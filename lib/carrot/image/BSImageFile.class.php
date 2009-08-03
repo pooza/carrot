@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSImageFile extends BSFile implements BSImageContainer {
+class BSImageFile extends BSFile implements BSImageCacheContainer {
 	protected $renderer;
 	protected $rendererClass;
 	const DEFAULT_ENGINE_CLASS = 'BSImage';
@@ -166,9 +166,6 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセルサイズ
 	 * @param integer $flags フラグのビット列
-	 *   self::WIDTH_FIXED 幅固定
-	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = null, $pixel = null, $flags = null) {

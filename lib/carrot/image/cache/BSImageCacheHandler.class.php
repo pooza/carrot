@@ -86,7 +86,7 @@ class BSImageCacheHandler {
 	 * サムネイルのURLを返す
 	 *
 	 * @access public
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
@@ -96,7 +96,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @return BSURL URL
 	 */
-	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	public function getURL (BSImageCacheContainer $record, $size, $pixel = null, $flags = null) {
 		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
 		}
@@ -117,7 +117,7 @@ class BSImageCacheHandler {
 	 * サムネイルを返す
 	 *
 	 * @access public
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
@@ -126,7 +126,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @return BSImage サムネイル
 	 */
-	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
+	public function getThumbnail (BSImageCacheContainer $record, $size, $pixel, $flags = null) {
 		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
 		}
@@ -142,7 +142,7 @@ class BSImageCacheHandler {
 	 * サムネイルを設定する
 	 *
 	 * @access public
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param mixed $contents サムネイルの内容
@@ -152,7 +152,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @param BSImage サムネイル
 	 */
-	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
+	public function setThumbnail (BSImageCacheContainer $record, $size, $pixel, $contents, $flags = null) {
 		$dir = $this->getEntryDirectory($record, $size);
 		$name = $this->getFileName($record, $pixel, $flags);
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
@@ -168,10 +168,10 @@ class BSImageCacheHandler {
 	 * サムネイルを削除する
 	 *
 	 * @access public
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 */
-	public function removeThumbnail (BSImageContainer $record, $size) {
+	public function removeThumbnail (BSImageCacheContainer $record, $size) {
 		if ($dir = $this->getEntryDirectory($record, $size)) {
 			$dir->delete();
 		}
@@ -181,7 +181,7 @@ class BSImageCacheHandler {
 	 * 画像の情報を返す
 	 *
 	 * @access public
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
@@ -191,7 +191,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	public function getImageInfo (BSImageCacheContainer $record, $size, $pixel = null, $flags = null) {
 		try {
 			if (!$image = $this->getThumbnail($record, $size, $pixel, $flags)) {
 				return null;
@@ -213,7 +213,7 @@ class BSImageCacheHandler {
 	 * サムネイルファイルを返す
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
@@ -222,7 +222,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @return BSFile サムネイルファイル
 	 */
-	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
+	private function getFile (BSImageCacheContainer $record, $size, $pixel, $flags = null) {
 		if (!$source = $record->getImageFile($size)) {
 			return null;
 		}
@@ -240,13 +240,13 @@ class BSImageCacheHandler {
 	 * ケータイ向けに全画面表示にすべきか
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
 	 *   self::NO_RESIZE リサイズしない
 	 * @return boolean 全画面表示にすべきならTrue
 	 */
-	private function isFullScreen (BSImageContainer $record, $pixel, $flags = null) {
+	private function isFullScreen (BSImageCacheContainer $record, $pixel, $flags = null) {
 		return (($pixel == 0)
 			&& !($flags & self::NO_RESIZE)
 			&& $this->getUserAgent()
@@ -258,7 +258,7 @@ class BSImageCacheHandler {
 	 * サムネイルファイルのファイル名を返す
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
@@ -266,7 +266,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @return BSFile サムネイルファイル
 	 */
-	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
+	private function getFileName (BSImageCacheContainer $record, $pixel, $flags = null) {
 		$prefix = '';
 		if ($this->isFullScreen($record, $pixel, $flags)) {
 			$info = $this->getUserAgent()->getDisplayInfo();
@@ -284,7 +284,7 @@ class BSImageCacheHandler {
 	 * 画像を変換して返す
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
 	 * @param mixed $contents サムネイルの内容
 	 * @param integer $flags フラグのビット列
@@ -293,7 +293,7 @@ class BSImageCacheHandler {
 	 *   self::NO_RESIZE リサイズしない
 	 * @param BSImage サムネイル
 	 */
-	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
+	private function convertImage (BSImageCacheContainer $record, $pixel, $contents, $flags = null) {
 		$image = new BSImage;
 		$image->setImage($contents);
 		$image->setType($this->getType());
@@ -322,11 +322,11 @@ class BSImageCacheHandler {
 	 * サムネイル名を生成して返す
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
-	private function getEntryName (BSImageContainer $record, $size) {
+	private function getEntryName (BSImageCacheContainer $record, $size) {
 		$name = new BSStringFormat('%s_%06d_%s');
 		$name[] = get_class($record);
 		$name[] = $record->getID();
@@ -343,11 +343,11 @@ class BSImageCacheHandler {
 	 * サムネイルエントリーの格納ディレクトリを返す
 	 *
 	 * @access private
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageCacheContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
-	private function getEntryDirectory (BSImageContainer $record, $size) {
+	private function getEntryDirectory (BSImageCacheContainer $record, $size) {
 		$name = $this->getEntryName($record, $size);
 		if (!$dir = $this->getDirectory()->getEntry($name)) {
 			$dir = $this->getDirectory()->createDirectory($name);
@@ -392,7 +392,7 @@ class BSImageCacheHandler {
 	 *
 	 * @access private
 	 * @param BSArray $params パラメータ配列
-	 * @return BSImageContainer 画像コンテナ
+	 * @return BSImageCacheContainer 画像キャッシュコンテナ
 	 */
 	public function getContainer (BSArray $params) {
 		if (!BSString::isBlank($params['src'])) {
