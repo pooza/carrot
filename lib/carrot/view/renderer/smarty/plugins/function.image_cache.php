@@ -21,7 +21,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 	}
 
 	$flags = $caches->convertFlags($params['flags']);
-	if (!$info = $caches->getImageInfo($container, $params['size'], $params['pixel'], $flags)) {
+	if (!$info = $container->getImageInfo($params['size'], $params['pixel'], $flags)) {
 		return null;
 	}
 

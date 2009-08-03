@@ -120,7 +120,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		if ($useragent->isMobile()) {
 			return $this->getNumericReference();
 		} else {
-			return $this->getXHTMLElement()->getContents();
+			$caches = BSImageCacheHandler::getInstance();
+			return $caches->getImageElement($this->getImageInfo())->getContents();
 		}
 	}
 
@@ -148,24 +149,6 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	}
 
 	/**
-	 * HTMLのimg要素を返す
-	 *
-	 * @access private
-	 * @return BSXMLElement img要素
-	 */
-	private function getXHTMLElement () {
-		if (!$this->element) {
-			$info = $this->getImageInfo();
-			$this->element = new BSXMLElement('img');
-			$this->element->setAttribute('src', $info['url']);
-			$this->element->setAttribute('width', $info['width']);
-			$this->element->setAttribute('height', $info['height']);
-			$this->element->setAttribute('alt', $info['alt']);
-		}
-		return $this->element;
-	}
-
-	/**
 	 * 数値文字参照を返す
 	 *
 	 * @access private
@@ -187,9 +170,11 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 *
 	 * @access public
 	 * @param string $size ダミー
+	 * @param integer $pixel ダミー
+	 * @param integer $flags ダミー
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null) {
+	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
 		if (!$this->imageinfo) {
 			$this->imageinfo = new BSArray;
 			$image = $this->getImageFile()->getEngine();

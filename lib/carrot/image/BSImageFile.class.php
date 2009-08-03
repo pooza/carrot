@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSImageFile extends BSFile implements BSImageCacheContainer {
+class BSImageFile extends BSFile implements BSImageContainer {
 	protected $renderer;
 	protected $rendererClass;
 	const DEFAULT_ENGINE_CLASS = 'BSImage';

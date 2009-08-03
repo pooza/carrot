@@ -17,9 +17,11 @@ interface BSImageContainer {
 	 *
 	 * @access public
 	 * @param string $size サイズ名
-	 * @return string[] 画像の情報
+	 * @param integer $pixel ピクセルサイズ
+	 * @param integer $flags フラグのビット列
+	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null);
+	public function getImageInfo ($size = null, $pixel = null, $flags = null);
 
 	/**
 	 * 画像ファイルを返す
