@@ -253,11 +253,7 @@ class BSImageCacheHandler {
 		if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
 			$prefix = 'w';
 		} else if ($flags & self::WITHOUT_SQUARE) {
-			if ($image->getAspect() < 1) {
-				$prefix = 'h';
-			} else {
-				$prefix = 'w';
-			}
+			$prefix = 's';
 		} else if ($flags & self::WIDTH_FIXED) {
 			$prefix = 'w';
 		} else if ($flags & self::HEIGHT_FIXED) {

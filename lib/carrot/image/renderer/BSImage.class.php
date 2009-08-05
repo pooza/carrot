@@ -385,7 +385,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	public function resizeWidth ($width) {
-		if ($image->getWidth() < $width) {
+		if ($this->getWidth() < $width) {
 			return;
 		}
 		$height = BSNumeric::round($this->getHeight() * ($width / $this->getWidth()));
@@ -393,7 +393,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	public function resizeHeight ($height) {
-		if ($image->getHeight() < $height) {
+		if ($this->getHeight() < $height) {
 			return;
 		}
 		$width = BSNumeric::round($this->getWidth() * ($height / $this->getHeight()));
@@ -401,7 +401,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	public function resizeSquare ($pixel) {
-		if (($image->getWidth() < $pixel) && ($image->getHeight() < $pixel)) {
+		if (($this->getWidth() < $pixel) && ($this->getHeight() < $pixel)) {
 			return;
 		}
 		$this->resize($pixel, $pixel);

@@ -15,17 +15,16 @@
 function smarty_function_image_cache ($params, &$smarty) {
 	$caches = BSImageCacheHandler::getInstance();
 	$params = new BSArray($params);
+	$flags = $caches->convertFlags($params['flags']);
+	$mode = BSString::toLower($params['mode']);
 
 	if (!$container = $caches->getContainer($params)) {
 		return null;
-	}
-
-	$flags = $caches->convertFlags($params['flags']);
-	if (!$info = $container->getImageInfo($params['size'], $params['pixel'], $flags)) {
+	} else if (!$info = $container->getImageInfo($params['size'], $params['pixel'], $flags)) {
 		return null;
 	}
 
-	if (BSString::toLower($params['mode']) == 'size') {
+	if ($mode == 'size') {
 		return $info['pixel_size'];
 	}
 
@@ -33,6 +32,21 @@ function smarty_function_image_cache ($params, &$smarty) {
 	if (($class = $params['style_class']) && !$smarty->getUserAgent()->isMobile()) {
 		$element->setAttribute('class', $class);
 	}
+
+	if ($mode == 'lightbox') {
+		$url = $caches->getURL(
+			$container,
+			$params['size'],
+			$params['pixel_full'],
+			$caches->convertFlags($params['flags_full'])
+		);
+		$parent = new BSXMLElement('a');
+		$parent->addElement($element);
+		$element = $parent;
+		$element->setAttribute('rel', 'lightbox');
+		$element->setAttribute('href', $url->getContents());
+	}
+
 	return $element->getContents();
 }
 
