@@ -215,17 +215,6 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	}
 
 	/**
-	 * 画像ファイルを設定
-	 *
-	 * @access public
-	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
-	 */
-	public function setImageFile (BSImageFile $file, $size = null) {
-		throw new BSImageException('絵文字の画像を設定することは出来ません。');
-	}
-
-	/**
 	 * 画像ファイルベース名を返す
 	 *
 	 * @access public

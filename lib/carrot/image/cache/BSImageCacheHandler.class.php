@@ -17,7 +17,7 @@ class BSImageCacheHandler {
 	const WITHOUT_BROWSER_CACHE = 1;
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
-	const NO_RESIZE = 8;
+	const WITHOUT_SQUARE = 8;
 
 	/**
 	 * @access private
@@ -93,7 +93,7 @@ class BSImageCacheHandler {
 	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -123,7 +123,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -149,7 +149,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @param BSImage サムネイル
 	 */
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
@@ -188,7 +188,7 @@ class BSImageCacheHandler {
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -219,7 +219,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -237,24 +237,6 @@ class BSImageCacheHandler {
 	}
 
 	/**
-	 * ケータイ向けに全画面表示にすべきか
-	 *
-	 * @access private
-	 * @param BSImageContainer $record 対象レコード
-	 * @param integer $pixel ピクセル数
-	 * @param integer $flags フラグのビット列
-	 *   self::NO_RESIZE リサイズしない
-	 * @return boolean 全画面表示にすべきならTrue
-	 */
-	private function isFullScreen (BSImageContainer $record, $pixel, $flags = null) {
-		return (($pixel == 0)
-			&& !($flags & self::NO_RESIZE)
-			&& $this->getUserAgent()
-			&& $this->getUserAgent()->isMobile()
-		);
-	}
-
-	/**
 	 * サムネイルファイルのファイル名を返す
 	 *
 	 * @access private
@@ -263,15 +245,19 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
 		$prefix = '';
-		if ($this->isFullScreen($record, $pixel, $flags)) {
-			$info = $this->getUserAgent()->getDisplayInfo();
-			$pixel = $info['width'];
-			$prefix = 'mw';
+		if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
+			$prefix = 'w';
+		} else if ($flags & self::WITHOUT_SQUARE) {
+			if ($image->getAspect() < 1) {
+				$prefix = 'h';
+			} else {
+				$prefix = 'w';
+			}
 		} else if ($flags & self::WIDTH_FIXED) {
 			$prefix = 'w';
 		} else if ($flags & self::HEIGHT_FIXED) {
@@ -290,7 +276,7 @@ class BSImageCacheHandler {
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @param BSImage サムネイル
 	 */
 	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
@@ -298,22 +284,23 @@ class BSImageCacheHandler {
 		$image->setImage($contents);
 		$image->setType($this->getType());
 
-		if ($this->isFullScreen($record, $pixel, $flags)) {
-			$image = $this->getUserAgent()->convertImage($image);
-		} else if ($pixel) {
-			if ($flags & self::WIDTH_FIXED) {
-				if ($pixel <= $image->getWidth()) {
-					$image->resize($pixel, 0);
+		if ($pixel) {
+			if ($flags & self::WITHOUT_SQUARE) {
+				if ($image->getAspect() < 1) {
+					$image->resizeHeight($pixel);
+				} else {
+					$image->resizeWidth($pixel);
 				}
+			} else if ($flags & self::WIDTH_FIXED) {
+				$image->resizeWidth($pixel);
 			} else if ($flags & self::HEIGHT_FIXED) {
-				if ($pixel <= $image->getHeight()) {
-					$image->resize(0, $pixel);
-				}
+				$image->resizeHeight($pixel);
 			} else {
-				if (($pixel <= $image->getWidth()) || ($pixel <= $image->getHeight())) {
-					$image->resize($pixel, $pixel);
-				}
+				$image->resizeSquare($pixel);
 			}
+		} else if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
+			$info = $useragent->getDisplayInfo();
+			$image->resizeWidth($info['width']);
 		}
 		return $image;
 	}
@@ -428,7 +415,7 @@ class BSImageCacheHandler {
 	 *   self::WITHOUT_BWORSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
-	 *   self::NO_RESIZE リサイズしない
+	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 */
 	public function convertFlags ($values) {
 		if (!BSArray::isArray($values)) {

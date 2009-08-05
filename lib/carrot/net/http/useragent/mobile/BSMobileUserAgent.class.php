@@ -14,7 +14,6 @@
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
 	private $smarty;
-	const IMAGE_FULL_SCREEN = 1;
 	const DEFAULT_DISPLAY_WIDTH = 240;
 	const DEFAULT_DISPLAY_HEIGHT = 320;
 
@@ -127,23 +126,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	public function getDefaultImageType () {
 		$constants = BSConstantHandler::getInstance();
 		return $constants['IMAGE_MOBILE_TYPE_' . $this->getCarrier()->getName()];
-	}
-
-	/**
-	 * 画像を変換
-	 *
-	 * @access public
-	 * @param BSImage $image 対象画像
-	 * @param integer $flags フラグのビット列
-	 * @return BSImage 変換後の画像
-	 */
-	public function convertImage (BSImage $image, $flags = self::IMAGE_FULL_SCREEN) {
-		$dest = clone $image;
-		$dest->setType($this->getDefaultImageType());
-		if ($flags & self::IMAGE_FULL_SCREEN) {
-			$dest->resize($this->attributes['display']['width'], null);
-		}
-		return $dest;
 	}
 
 	/**

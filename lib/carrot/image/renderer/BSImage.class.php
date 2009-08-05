@@ -128,19 +128,6 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * サムネイルを返す
-	 *
-	 * @access public
-	 * @param integer $pixel サイズ
-	 * @return BSImage サムネイル
-	 */
-	public function getThumbnail ($pixel) {
-		$image = clone $this;
-		$image->resize($pixel, $pixel);
-		return $image;
-	}
-
-	/**
 	 * アンチエイリアス状態を返す
 	 *
 	 * @access public
@@ -373,12 +360,6 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		if (!$height) {
-			$height = BSNumeric::round($this->getHeight() * ($width / $this->getWidth()));
-		}
-		if (!$width) {
-			$width = BSNumeric::round($this->getWidth() * ($height / $this->getHeight()));
-		}
 		$dest = new BSImage($width, $height);
 		$dest->fill($this->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
 
@@ -401,6 +382,29 @@ class BSImage implements BSImageRenderer {
 			$this->getWidth(), $this->getHeight() //コピー元サイズ
 		);
 		$this->setImage($dest->getImage());
+	}
+
+	public function resizeWidth ($width) {
+		if ($image->getWidth() < $width) {
+			return;
+		}
+		$height = BSNumeric::round($this->getHeight() * ($width / $this->getWidth()));
+		$this->resize($width, $height);
+	}
+
+	public function resizeHeight ($height) {
+		if ($image->getHeight() < $height) {
+			return;
+		}
+		$width = BSNumeric::round($this->getWidth() * ($height / $this->getHeight()));
+		$this->resize($width, $height);
+	}
+
+	public function resizeSquare ($pixel) {
+		if (($image->getWidth() < $pixel) && ($image->getHeight() < $pixel)) {
+			return;
+		}
+		$this->resize($pixel, $pixel);
 	}
 
 	/**
