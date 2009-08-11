@@ -73,7 +73,7 @@ class PHPlot {
     var $y_precision = 1;
     var $x_precision = 1;
 
-    var $data_units_text = '';              // Units text for 'data' labels (i.e: '¤', '$', etc.)
+    var $data_units_text = '';              // Units text for 'data' labels (i.e: 'ï¿½', '$', etc.)
 
 // Titles
     var $title_txt = '';
@@ -940,8 +940,8 @@ class PHPlot {
         // Fixed fonts:
         else {
             // Split the text by its lines, and count them
-            $which_text = ereg_replace("\r", "", $which_text);
-            $str = split("\n", $which_text);
+            $which_text = mb_ereg_replace("\r", "", $which_text);
+            $str = mb_split("\n", $which_text);
             $nlines = count($str);
             $spacing = $this->line_spacing * ($nlines - 1);
 
@@ -1312,12 +1312,12 @@ class PHPlot {
     {
         $asked = trim($which_opt);
 
-        // FIXME: this for backward compatibility, as eregi() fails with empty strings.
+        // FIXME: this for backward compatibility, as mb_eregi() fails with empty strings.
         if ($asked == '')
             return '';
 
         $asked = strtolower($asked);
-        if (@ eregi($asked, $which_acc)) {
+        if (@ mb_eregi($asked, $which_acc)) {
             return $asked;
         } else {
             $this->DrawError("$which_func(): '$which_opt' not in available choices: '$which_acc'.");
@@ -1479,7 +1479,7 @@ class PHPlot {
             return TRUE;
         }
 
-        $str = split("\n", $which_title);
+        $str = mb_split("\n", $which_title);
         $lines = count($str);
         $spacing = $this->line_spacing * ($lines - 1);
 
@@ -1504,7 +1504,7 @@ class PHPlot {
 
         $this->x_title_txt = $which_xtitle;
 
-        $str = split("\n", $which_xtitle);
+        $str = mb_split("\n", $which_xtitle);
         $lines = count($str);
         $spacing = $this->line_spacing * ($lines - 1);
 
@@ -1531,7 +1531,7 @@ class PHPlot {
 
         $this->y_title_txt = $which_ytitle;
 
-        $str = split("\n", $which_ytitle);
+        $str = mb_split("\n", $which_ytitle);
         $lines = count($str);
         $spacing = $this->line_spacing * ($lines - 1);
 

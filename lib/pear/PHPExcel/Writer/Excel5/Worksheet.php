@@ -1358,7 +1358,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		// parameters accordingly.
 		// Split the dir name and sheet name (if it exists)
 		/*if (preg_match("/\#/", $url)) {
-			list($dir_long, $sheet) = split("\#", $url);
+			list($dir_long, $sheet) = mb_split("\#", $url);
 		} else {
 			$dir_long = $url;
 		}
@@ -1366,7 +1366,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		if (isset($sheet)) {
 			$link_type |= 0x08;
 			$sheet_len  = pack("V", strlen($sheet) + 0x01);
-			$sheet	  = join("\0", split('', $sheet));
+			$sheet	  = join("\0", mb_split('', $sheet));
 			$sheet	 .= "\0\0\0";
 		} else {
 			$sheet_len   = '';
@@ -1390,7 +1390,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		$dir_short   = preg_replace("/\.\.\\\/", '', $dir_long) . "\0";
 
 		// Store the long dir name as a wchar string (non-null terminated)
-		//$dir_long	   = join("\0", split('', $dir_long));
+		//$dir_long	   = join("\0", mb_split('', $dir_long));
 		$dir_long	   = $dir_long . "\0";
 
 		// Pack the lengths of the dir strings

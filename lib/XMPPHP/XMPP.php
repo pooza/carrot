@@ -27,8 +27,8 @@
  */
 
 /** XMPPHP_XMLStream */
-require_once "XMLStream.php";
-require_once "Roster.php";
+require_once dirname(__FILE__) . "/XMLStream.php";
+require_once dirname(__FILE__) . "/Roster.php";
 
 /**
  * XMPPHP Main Class
@@ -45,12 +45,12 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 	/**
 	 * @var string
 	 */
-	protected $server;
+	public $server;
 
 	/**
 	 * @var string
 	 */
-	protected $user;
+	public $user;
 	
 	/**
 	 * @var string
@@ -171,7 +171,7 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 		$body	= htmlspecialchars($body);
 		$subject = htmlspecialchars($subject);
 		
-		$out = "<message from='{$this->fulljid}' to='$to' type='$type'>";
+		$out = "<message from=\"{$this->fulljid}\" to=\"$to\" type='$type'>";
 		if($subject) $out .= "<subject>$subject</subject>";
 		$out .= "<body>$body</body>";
 		if($payload) $out .= $payload;
@@ -187,14 +187,14 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 	 * @param string $show
 	 * @param string $to
 	 */
-	public function presence($status = null, $show = 'available', $to = null, $type='available') {
+	public function presence($status = null, $show = 'available', $to = null, $type='available', $priority=0) {
 		if($type == 'available') $type = '';
 		$to	 = htmlspecialchars($to);
 		$status = htmlspecialchars($status);
 		if($show == 'unavailable') $type = 'unavailable';
 		
 		$out = "<presence";
-		if($to) $out .= " to='$to'";
+		if($to) $out .= " to=\"$to\"";
 		if($type) $out .= " type='$type'";
 		if($show == 'available' and !$status) {
 			$out .= "/>";
@@ -202,10 +202,20 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 			$out .= ">";
 			if($show != 'available') $out .= "<show>$show</show>";
 			if($status) $out .= "<status>$status</status>";
+			if($priority) $out .= "<priority>$priority</priority>";
 			$out .= "</presence>";
 		}
 		
 		$this->send($out);
+	}
+	/**
+	 * Send Auth request
+	 *
+	 * @param string $jid
+	 */
+	public function subscribe($jid) {
+		$this->send("<presence type='subscribe' to='{$jid}' from='{$this->fulljid}' />");
+		#$this->send("<presence type='subscribed' to='{$jid}' from='{$this->fulljid}' />");
 	}
 
 	/**
@@ -221,6 +231,7 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 		}
 		$payload['from'] = $xml->attrs['from'];
 		$payload['body'] = $xml->sub('body')->data;
+		$payload['xml'] = $xml;
 		$this->log->log("Message: {$xml->sub('body')->data}", XMPPHP_Log::LEVEL_DEBUG);
 		$this->event('message', $payload);
 	}
@@ -236,6 +247,7 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 		$payload['from'] = $xml->attrs['from'];
 		$payload['status'] = (isset($xml->sub('status')->data)) ? $xml->sub('status')->data : '';
 		$payload['priority'] = (isset($xml->sub('priority')->data)) ? intval($xml->sub('priority')->data) : 0;
+		$payload['xml'] = $xml;
 		if($this->track_presence) {
 			$this->roster->setPresence($payload['from'], $payload['priority'], $payload['show'], $payload['status']);
 		}
@@ -379,5 +391,42 @@ class XMPPHP_XMPP extends XMPPHP_XMLStream {
 		$this->log->log("Starting TLS encryption");
 		stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_SSLv23_CLIENT);
 		$this->reset();
+	}
+
+	/**
+	* Retrieves the vcard
+	*
+	*/
+	public function getVCard($jid = Null) {
+		$id = $this->getID();
+		$this->addIdHandler($id, 'vcard_get_handler');
+		if($jid) {
+			$this->send("<iq type='get' id='$id' to='$jid'><vCard xmlns='vcard-temp' /></iq>");
+		} else {
+			$this->send("<iq type='get' id='$id'><vCard xmlns='vcard-temp' /></iq>");
+		}
+	}
+
+	/**
+	* VCard retrieval handler
+	*
+	* @param XML Object $xml
+	*/
+	protected function vcard_get_handler($xml) {
+		$vcard_array = array();
+		$vcard = $xml->sub('vcard');
+		// go through all of the sub elements and add them to the vcard array
+		foreach ($vcard->subs as $sub) {
+			if ($sub->subs) {
+				$vcard_array[$sub->name] = array();
+				foreach ($sub->subs as $sub_child) {
+					$vcard_array[$sub->name][$sub_child->name] = $sub_child->data;
+				}
+			} else {
+				$vcard_array[$sub->name] = $sub->data;
+			}
+		}
+		$vcard_array['from'] = $xml->attrs['from'];
+		$this->event('vcard', $vcard_array);
 	}
 }

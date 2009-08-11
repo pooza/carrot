@@ -99,7 +99,7 @@ function setSendMailParam( $param )	{
  *	@param	string	チェックするメールアドレス。
  */
 function checkEmail($address)	{
-	if( ! eregi ("^([a-z0-9_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]+$", $address) )	{
+	if( ! mb_eregi ("^([a-z0-9_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]+$", $address) )	{
 		$this->errorMessage = "アドレス“$address”は正しくないメールアドレスです。";
 		return false;
 	} else {
@@ -287,8 +287,8 @@ function insertToTemplate($ar)	{
 		$this->tmpContents = str_replace( "@@$counter@@", $aItem, $this->tmpContents );
 		$counter += 1;
 	}
-	if ( ! ereg( '@@[0-9]*@@', $tmpContents ) )	{
-		$this->body = ereg_replace('@@[0-9]*@@', '', $this->tmpContents);
+	if ( ! mb_ereg( '@@[0-9]*@@', $tmpContents ) )	{
+		$this->body = mb_ereg_replace('@@[0-9]*@@', '', $this->tmpContents);
 		$this->errorMessage = '差し込みテンプレートに余分が置き換え文字列（@@数字@@）がありましたが、削除しました。';
 		return false;
 	}
@@ -309,7 +309,7 @@ function setBodyWidth($bytes)	{
  *	@return boolean 含まれていたらTRUEを返す
  */
 function checkControlCodeNothing( $str )	{
-	return ereg('[[:cntrl:]]', $str);
+	return mb_ereg('[[:cntrl:]]', $str);
 }
 
 /**	メールを送信する。
