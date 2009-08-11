@@ -22,8 +22,20 @@
  * @package    PHPExcel_Cell
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.6.5, 2009-01-05
+ * @version    1.7.0, 2009-08-10
  */
+
+
+/** PHPExcel root directory */
+if (!defined('PHPEXCEL_ROOT')) {
+	/**
+	 * @ignore
+	 */
+	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+}
+
+/** PHPExcel_Cell_DefaultValueBinder */
+require_once PHPEXCEL_ROOT . 'PHPExcel/Cell/DefaultValueBinder.php';
 
 
 /**
@@ -52,29 +64,22 @@ class PHPExcel_Cell_DataType
 	private static $_errorCodes	= array('#NULL!' => 0, '#DIV/0!' => 1, '#VALUE!' => 2, '#REF!' => 3, '#NAME?' => 4, '#NUM!' => 5, '#N/A' => 6);
 
 	/**
+	 * Get list of error codes
+	 *
+	 * @return array
+	 */
+	public static function getErrorCodes() {
+		return self::$_errorCodes;
+	}
+	
+	/**
 	 * DataType for value
 	 *
+	 * @deprecated Replaced by PHPExcel_Cell_IValueBinder infrastructure
 	 * @param	mixed 	$pValue
 	 * @return 	int
 	 */
 	public static function dataTypeForValue($pValue = null) {
-		// Match the value against a few data types
-		if (is_null($pValue)) {
-			return PHPExcel_Cell_DataType::TYPE_NULL;
-		} elseif ($pValue === '') {
-			return PHPExcel_Cell_DataType::TYPE_STRING;
-		} elseif ($pValue instanceof PHPExcel_RichText) {
-			return PHPExcel_Cell_DataType::TYPE_STRING;
-		} elseif ($pValue{0} === '=') {
-			return PHPExcel_Cell_DataType::TYPE_FORMULA;
-		} elseif (is_bool($pValue)) {
-			return PHPExcel_Cell_DataType::TYPE_BOOL;
-		} elseif (preg_match('/^\-?[0-9]*\.?[0-9]*$/', $pValue)) {
-			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
-		} elseif (array_key_exists($pValue, self::$_errorCodes)) {
-			return PHPExcel_Cell_DataType::TYPE_ERROR;
-		} else {
-			return PHPExcel_Cell_DataType::TYPE_STRING;
-		}
+		return PHPExcel_Cell_DefaultValueBinder::dataTypeForValue($pValue);
 	}
 }

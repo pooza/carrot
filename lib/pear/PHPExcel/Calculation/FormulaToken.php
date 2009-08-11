@@ -22,7 +22,7 @@
  * @package    PHPExcel_Calculation
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.6.5, 2009-01-05
+ * @version    1.7.0, 2009-08-10
  */
 
 
@@ -174,5 +174,3 @@ class PHPExcel_Calculation_FormulaToken {
     	$this->_tokenSubType = $value;
     }
 }
-
-?>

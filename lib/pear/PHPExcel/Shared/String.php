@@ -22,7 +22,7 @@
  * @package    PHPExcel_Shared
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.6.5, 2009-01-05
+ * @version    1.7.0, 2009-08-10
  */
 
 
@@ -43,6 +43,20 @@ class PHPExcel_Shared_String
 	private static $_controlCharacters = array();
 
 	/**
+	 * Is mbstring extension avalable?
+	 *
+	 * @var boolean
+	 */
+	private static $_isMbstringEnabled;
+
+	/**
+	 * Is iconv extension avalable?
+	 *
+	 * @var boolean
+	 */
+	private static $_isIconvEnabled;
+
+	/**
 	 * Build control characters array
 	 */
 	private static function _buildControlCharacters() {
@@ -53,6 +67,40 @@ class PHPExcel_Shared_String
 				self::$_controlCharacters[$find] = $replace;
 			}
 		}
+	}
+
+	/**
+	 * Get whether mbstring extension is available
+	 *
+	 * @return boolean
+	 */
+	public static function getIsMbstringEnabled()
+	{
+		if (isset(self::$_isMbstringEnabled)) {
+			return self::$_isMbstringEnabled;
+		}
+
+		self::$_isMbstringEnabled = function_exists('mb_convert_encoding') ?
+			true : false;
+
+		return self::$_isMbstringEnabled;
+	}
+
+	/**
+	 * Get whether iconv extension is available
+	 *
+	 * @return boolean
+	 */
+	public static function getIsIconvEnabled()
+	{
+		if (isset(self::$_isIconvEnabled)) {
+			return self::$_isIconvEnabled;
+		}
+
+		self::$_isIconvEnabled = function_exists('iconv') ?
+			true : false;
+
+		return self::$_isIconvEnabled;
 	}
 
 	/**
@@ -100,6 +148,28 @@ class PHPExcel_Shared_String
 	}
 
 	/**
+	 * Try to sanitize UTF8, stripping invalid byte sequences. Not perfect. Does not surrogate characters.
+	 *
+	 * @param string $value
+	 * @return string
+	 */
+	public static function SanitizeUTF8($value)
+	{
+		if (self::getIsIconvEnabled()) {
+			$value = @iconv('UTF-8', 'UTF-8', $value);
+			return $value;
+		}
+
+		if (self::getIsMbstringEnabled()) {
+			$value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+			return $value;
+		}
+
+		// else, no conversion
+		return $value;
+	}
+	
+	/**
 	 * Check if a string contains UTF8 data
 	 *
 	 * @param string $value
@@ -110,13 +180,17 @@ class PHPExcel_Shared_String
 	}
 
 	/**
-	 * Formats a numeric value as a string for output in various output writers
+	 * Formats a numeric value as a string for output in various output writers forcing
+	 * point as decimal separator in case locale is other than English.
 	 *
 	 * @param mixed $value
 	 * @return string
 	 */
 	public static function FormatNumber($value) {
-		return number_format($value, 2, '.', '');
+		if (is_float($value)) {
+			return str_replace(',', '.', $value);
+		}
+		return (string) $value;
 	}
 
 	/**
@@ -131,25 +205,15 @@ class PHPExcel_Shared_String
 	 */
 	public static function UTF8toBIFF8UnicodeShort($value)
 	{
-		if (function_exists('mb_strlen') and function_exists('mb_convert_encoding')) {
-			// character count
-			$ln = mb_strlen($value, 'UTF-8');
+		// character count
+		$ln = self::CountCharacters($value, 'UTF-8');
 
-			// option flags
-			$opt = 0x0001;
+		// option flags
+		$opt = (self::getIsIconvEnabled() || self::getIsMbstringEnabled()) ? 
+			0x0001 : 0x0000;
 
-			// characters
-			$chars = mb_convert_encoding($value, 'UTF-16LE', 'UTF-8');
-		} else {
-			// character count
-			$ln = strlen($value);
-
-			// option flags
-			$opt = 0x0000;
-
-			// characters
-			$chars = $value;
-		}
+		// characters
+		$chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
 
 		$data = pack('CC', $ln, $opt) . $chars;
 		return $data;
@@ -167,28 +231,91 @@ class PHPExcel_Shared_String
 	 */
 	public static function UTF8toBIFF8UnicodeLong($value)
 	{
-		if (function_exists('mb_strlen') and function_exists('mb_convert_encoding')) {
-			// character count
-			$ln = mb_strlen($value, 'UTF-8');
+		// character count
+		$ln = self::CountCharacters($value, 'UTF-8');
 
-			// option flags
-			$opt = 0x0001;
+		// option flags
+		$opt = (self::getIsIconvEnabled() || self::getIsMbstringEnabled()) ? 
+			0x0001 : 0x0000;
 
-			// characters
-			$chars = mb_convert_encoding($value, 'UTF-16LE', 'UTF-8');
-		} else {
-			// character count
-			$ln = strlen($value);
-
-			// option flags
-			$opt = 0x0000;
-
-			// characters
-			$chars = $value;
-		}
+		// characters
+		$chars = self::ConvertEncoding($value, 'UTF-16LE', 'UTF-8');
 
 		$data = pack('vC', $ln, $opt) . $chars;
 		return $data;
+	}
+
+	/**
+	 * Convert string from one encoding to another. First try mbstring, then iconv, or no convertion
+	 *
+	 * @param string $value
+	 * @param string $to Encoding to convert to, e.g. 'UTF-8'
+	 * @param string $from Encoding to convert from, e.g. 'UTF-16LE'
+	 * @return string
+	 */
+	public static function ConvertEncoding($value, $to, $from)
+	{
+		if (self::getIsIconvEnabled()) {
+			$value = iconv($from, $to, $value);
+			return $value;
+		}
+
+		if (self::getIsMbstringEnabled()) {
+			$value = mb_convert_encoding($value, $to, $from);
+			return $value;
+		}
+
+		// else, no conversion
+		return $value;
+	}
+	
+	/**
+	 * Get character count. First try mbstring, then iconv, finally strlen
+	 *
+	 * @param string $value
+	 * @param string $enc Encoding
+	 * @return int Character count
+	 */
+	public static function CountCharacters($value, $enc = 'UTF-8')
+	{
+		if (self::getIsIconvEnabled()) {
+			$count = iconv_strlen($value, $enc);
+			return $count;
+		}
+
+		if (self::getIsMbstringEnabled()) {
+			$count = mb_strlen($value, $enc);
+			return $count;
+		}
+
+		// else strlen
+		$count = strlen($value);
+		return $count;
+	}
+
+	/**
+	 * Get a substring of a UTF-8 encoded string
+	 *
+	 * @param string $pValue UTF-8 encoded string
+	 * @param int $start Start offset
+	 * @param int $length Maximum number of characters in substring
+	 * @return string
+	 */
+	public static function Substring($pValue = '', $pStart = 0, $pLength = 0)
+	{
+		if (self::getIsIconvEnabled()) {
+			$string = iconv_substr($pValue, $pStart, $pLength, 'UTF-8');
+			return $string;
+		}
+
+		if (self::getIsMbstringEnabled()) {
+			$string = mb_substr($pValue, $pStart, $pLength, 'UTF-8');
+			return $string;
+		}
+
+		// else substr
+		$string = substr($pValue, $pStart, $pLength);
+		return $string;
 	}
 
 }

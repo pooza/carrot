@@ -23,15 +23,23 @@
  * @package	PHPExcel_Shared
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version	1.6.5, 2009-01-05
+ * @version	1.7.0, 2009-08-10
  */
 
 
+/** PHPExcel root directory */
+if (!defined('PHPEXCEL_ROOT')) {
+	/**
+	 * @ignore
+	 */
+	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+}
+
 /** PHPExcel_Cell */
-require_once 'PHPExcel/Cell.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Cell.php';
 
 /** PHPExcel_Style_NumberFormat */
-require_once 'PHPExcel/Style/NumberFormat.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Style/NumberFormat.php';
 
 
 /**
@@ -222,7 +230,7 @@ class PHPExcel_Shared_Date
 	}	//	function isDateTimeFormat()
 
 
-	private static	$possibleCharacters = array('y', 'm', 'd', 'H', 'i', 's');
+	private static	$possibleDateFormatCharacters = 'ymdHis';
 
 	/**
 	 * Is a given number format code a date/time?
@@ -234,6 +242,7 @@ class PHPExcel_Shared_Date
 		// Switch on formatcode
 		switch ($pFormatCode) {
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2:
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY:
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_DMYSLASH:
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_DMYMINUS:
@@ -249,14 +258,17 @@ class PHPExcel_Shared_Date
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME7:
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME8:
 			case PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDDSLASH:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX14:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX15:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX16:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX17:
+			case PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX22:
 				return true;
 		}
 
-		// Try checking all possible characters
-		foreach (self::$possibleCharacters as $possibleCharacter) {
-			if ((stripos($pFormatCode,$possibleCharacter) !== false) && (strpos($pFormatCode, '[') === false) && (strpos($pFormatCode, ']') === false)) {
-				return true;
-			}
+		// Try checking for any of the date formatting characters that don't appear within square braces
+		if (preg_match('/(^|\])[^\[]*['.self::$possibleDateFormatCharacters.']/i',$pFormatCode)) {
+			return true;
 		}
 
 		// No date...

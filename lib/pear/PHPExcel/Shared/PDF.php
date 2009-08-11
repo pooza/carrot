@@ -22,10 +22,18 @@
  * @package    PHPExcel_Shared
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.6.5, 2009-01-05
+ * @version    1.7.0, 2009-08-10
  */
 
 
+/** PHPExcel root directory */
+if (!defined('PHPEXCEL_ROOT')) {
+	/**
+	 * @ignore
+	 */
+	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
+}
+
 /** Require FPDF library */
-define('FPDF_FONTPATH', dirname(__FILE__) . '/PDF/font/');
-require_once 'PHPExcel/Shared/PDF/fpdf.php';
+$k_path_url = dirname(__FILE__) . '/PDF';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/PDF/tcpdf.php';

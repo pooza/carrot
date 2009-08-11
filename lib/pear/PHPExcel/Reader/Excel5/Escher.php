@@ -14,7 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of tshhe GNU Lesser General Public
+ * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
@@ -22,32 +22,40 @@
  * @package    PHPExcel_Reader_Excel5
  * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    1.6.5, 2009-01-05
+ * @version    1.7.0, 2009-08-10
  */
 
+/** PHPExcel root directory */
+if (!defined('PHPEXCEL_ROOT')) {
+	/**
+	 * @ignore
+	 */
+	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../../');
+}
+
 /** PHPExcel_Cell */
-require_once 'PHPExcel/Cell.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Cell.php';
 
 /** PHPExcel_Shared_Escher_DggContainer */
-require_once 'PHPExcel/Shared/Escher/DggContainer.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DggContainer.php';
 
 /** PHPExcel_Shared_Escher_DggContainer_BstoreContainer */
-require_once 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer.php';
 
 /** PHPExcel_Shared_Escher_DggContainer_BstoreContainer_BSE */
-require_once 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE.php';
 
 /** PHPExcel_Shared_Escher_DggContainer_BstoreContainer_BSE_Blip */
-require_once 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE/Blip.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DggContainer/BstoreContainer/BSE/Blip.php';
 
 /** PHPExcel_Shared_Escher_DgContainer */
-require_once 'PHPExcel/Shared/Escher/DgContainer.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DgContainer.php';
 
 /** PHPExcel_Shared_Escher_DgContainer_SpgrContainer */
-require_once 'PHPExcel/Shared/Escher/DgContainer/SpgrContainer.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DgContainer/SpgrContainer.php';
 
 /** PHPExcel_Shared_Escher_DgContainer_SpgrContainer_SpContainer */
-require_once 'PHPExcel/Shared/Escher/DgContainer/SpgrContainer/SpContainer.php';
+require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/Escher/DgContainer/SpgrContainer/SpContainer.php';
 
 /**
  * PHPExcel_Reader_Excel5_Escher
@@ -462,6 +470,8 @@ class PHPExcel_Reader_Excel5_Escher
 	 */
 	private function _readSpgrContainer()
 	{
+		// context is either context DgContainer or SpgrContainer
+
 		$length = $this->_GetInt4d($this->_data, $this->_pos + 4);
 		$recordData = substr($this->_data, $this->_pos + 8, $length);
 
@@ -470,7 +480,15 @@ class PHPExcel_Reader_Excel5_Escher
 
 		// record is a container, read contents
 		$spgrContainer = new PHPExcel_Shared_Escher_DgContainer_SpgrContainer();
-		$this->_object->setSpgrContainer($spgrContainer);
+
+		if ($this->_object instanceof PHPExcel_Shared_Escher_DgContainer) {
+			// DgContainer
+			$this->_object->setSpgrContainer($spgrContainer);
+		} else {
+			// SpgrContainer
+			$this->_object->addChild($spgrContainer);
+		}
+
 		$reader = new PHPExcel_Reader_Excel5_Escher($spgrContainer);
 		$escher = $reader->load($recordData);
 	}
@@ -483,9 +501,9 @@ class PHPExcel_Reader_Excel5_Escher
 		$length = $this->_GetInt4d($this->_data, $this->_pos + 4);
 		$recordData = substr($this->_data, $this->_pos + 8, $length);
 
-		// add BSE to BstoreContainer
+		// add spContainer to spgrContainer
 		$spContainer = new PHPExcel_Shared_Escher_DgContainer_SpgrContainer_SpContainer();
-		$this->_object->addSpContainer($spContainer);
+		$this->_object->addChild($spContainer);
 
 		// move stream pointer to next record
 		$this->_pos += 8 + $length;
@@ -555,11 +573,44 @@ class PHPExcel_Reader_Excel5_Escher
 		// offset: 2; size: 2; upper-left corner column index (0-based)
 		$c1 = $this->_GetInt2d($recordData, 2);
 
+		// offset: 4; size: 2; upper-left corner horizontal offset in 1/1024 of column width
+		$startOffsetX = $this->_GetInt2d($recordData, 4);
+
 		// offset: 6; size: 2; upper-left corner row index (0-based)
 		$r1 = $this->_GetInt2d($recordData, 6);
 
+		// offset: 8; size: 2; upper-left corner vertical offset in 1/256 of row height
+		$startOffsetY = $this->_GetInt2d($recordData, 8);
+
+		// offset: 10; size: 2; bottom-right corner column index (0-based)
+		$c2 = $this->_GetInt2d($recordData, 10);
+
+		// offset: 12; size: 2; bottom-right corner horizontal offset in 1/1024 of column width
+		$endOffsetX = $this->_GetInt2d($recordData, 12);
+
+		// offset: 14; size: 2; bottom-right corner row index (0-based)
+		$r2 = $this->_GetInt2d($recordData, 14);
+
+		// offset: 16; size: 2; bottom-right corner vertical offset in 1/256 of row height
+		$endOffsetY = $this->_GetInt2d($recordData, 16);
+
 		// set the start coordinates
 		$this->_object->setStartCoordinates(PHPExcel_Cell::stringFromColumnIndex($c1) . ($r1 + 1));
+
+		// set the start offsetX
+		$this->_object->setStartOffsetX($startOffsetX);
+
+		// set the start offsetY
+		$this->_object->setStartOffsetY($startOffsetY);
+
+		// set the end coordinates
+		$this->_object->setEndCoordinates(PHPExcel_Cell::stringFromColumnIndex($c2) . ($r2 + 1));
+
+		// set the end offsetX
+		$this->_object->setEndOffsetX($endOffsetX);
+
+		// set the end offsetY
+		$this->_object->setEndOffsetY($endOffsetY);
 	}
 
 	/**
@@ -608,9 +659,11 @@ class PHPExcel_Reader_Excel5_Escher
 				$complexData = substr($splicedComplexData, 0, $op);
 				$splicedComplexData = substr($splicedComplexData, $op);
 
+				// we store string value with complex data
 				$value = $complexData;
 			} else {
-				$value = dechex($op);
+				// we store integer value
+				$value = $op;
 			}
 
 			$this->_object->setOPT($opidOpid, $value);
