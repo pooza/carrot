@@ -13,9 +13,8 @@
 function smarty_function_carrot_url ($params, &$smarty) {
 	$params = new BSArray($params);
 
-	if ($params['contents']) {
-		$url = BSURL::getInstance($params['contents']);
-	} else {
+	if (BSString::isBlank($params['contents'])) {
+		$params->removeParameter('contents');
 		$url = BSURL::getInstance(null, 'BSCarrotURL');
 		foreach ($params as $key => $value) {
 			$url[$key] = $value;
@@ -23,6 +22,8 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		if (BSString::isBlank($params['module'])) {
 			$url['module'] = BSController::getInstance()->getModule();
 		}
+	} else {
+		$url = BSURL::getInstance($params['contents']);
 	}
 
 	if (($useragent = $smarty->getUserAgent()) && $useragent->isMobile()) {
