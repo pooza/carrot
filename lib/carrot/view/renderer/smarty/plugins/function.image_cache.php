@@ -24,8 +24,13 @@ function smarty_function_image_cache ($params, &$smarty) {
 		return null;
 	}
 
-	if ($mode == 'size') {
-		return $info['pixel_size'];
+	switch ($mode) {
+		case 'size':
+			return $info['pixel_size'];
+		case 'width':
+			return $info['width'];
+		case 'height':
+			return $info['height'];
 	}
 
 	$element = $caches->getImageElement($info);
