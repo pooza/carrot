@@ -41,32 +41,8 @@ class BSJavaScriptUtility {
 	 * @static
 	 */
 	static public function quote ($value) {
-		if (BSArray::isArray($value)) {
-			$body =  new BSArray;
-			foreach ($value as $key => $item) {
-				$body[] = sprintf('%s:%s', $key, self::quote($item));
-			}
-			return '{' . $body->join(', ') . '}';
-		} else {
-			$value = trim($value);
-			switch (BSString::toLower($value)) {
-				case null:
-				case 'null':
-					return 'null';
-				case 'true':
-					return 'true';
-				case 'false':
-					return 'false';
-				default:
-					if (is_numeric($value)) {
-						return $value;
-					} else {
-						$value = str_replace("\\", "\\\\", $value);
-						$value = str_replace("'", "\\'", $value);
-						return "'" . $value . "'";
-					}
-			}
-		}
+		$serializer = new BSJSONSerializer;
+		return $serializer->encode($value);
 	}
 }
 
