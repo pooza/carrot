@@ -69,7 +69,7 @@ class BSImageValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-			if (!$name = $value['tmp_name']) {
+			if (BSString::isBlank($name = $value['tmp_name'])) {
 				throw new BSImageException('ファイルが存在しない、又は正しくありません。');
 			}
 			$file = new BSImageFile($name);

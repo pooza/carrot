@@ -299,6 +299,30 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
+	 * パラメータ配列からレコードを返す
+	 *
+	 * パラメータが不足していたら、モジュールの情報で補い、検索する。
+	 *
+	 * @access public
+	 * @param BSArray パラメータ配列
+	 * @return BSRecord レコード
+	 */
+	public function searchRecord (BSArray $params) {
+		if (BSString::isBlank($params['class'])) {
+			$params['class'] = $this->getRecordClassName();
+
+			if (BSString::isBlank($params['id'])) {
+				$params['id'] = $this->getRecord()->getID();
+				return $this->getRecord();
+			} 
+		}
+
+		if ($table = BSTableHandler::getInstance($params['class'])) {
+			return $table->getRecord($params['id']);
+		}
+	}
+
+	/**
 	 * 設定ファイルを返す
 	 *
 	 * @access public
@@ -480,6 +504,14 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	}
 
 	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('モジュール "%s"', $this->getName());
+	}
+
+	/**
 	 * 全てのモジュール名プレフィックスを配列で返す
 	 *
 	 * @access public
@@ -491,14 +523,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			self::$prefixes = BSString::explode(',', BS_MODULE_PREFIXES);
 		}
 		return self::$prefixes;
-	}
-
-	/**
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return sprintf('モジュール "%s"', $this->getName());
 	}
 }
 

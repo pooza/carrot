@@ -40,6 +40,11 @@ date:
 debug: yes
 feed:
   class: BSRSS20Document
+flash:
+  href_prefix: /
+  player_ver: 8.0.0
+  installer_path: /carrotlib/swf/expressInstall.swf
+  loader_path: /carrotlib/js/swfobject.js
 home:
   href: /index.html
 image:

@@ -201,7 +201,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 	 * @return boolean 要素が存在すればTrue
 	 */
 	public function offsetExists ($key) {
-		return $this->attribute->hasParameter($key);
+		return $this->attributes->hasParameter($key);
 	}
 
 	/**

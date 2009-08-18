@@ -23,6 +23,8 @@ flag:
     choices:
       - 0
       - 1
+flash:
+  class: BSFlashValidator
 html:
   class: BSHTMLFragmentValidator
   params:

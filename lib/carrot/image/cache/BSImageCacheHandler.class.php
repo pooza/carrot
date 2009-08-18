@@ -386,20 +386,11 @@ class BSImageCacheHandler {
 				}
 			}
 		}
-
-		if (BSString::isBlank($params['class'])) {
-			$module = BSController::getInstance()->getModule();
-			$params['class'] = $module->getRecordClassName();
-			if (BSString::isBlank($params['id']) && ($record = $module->getRecord())) {
-				$params['id'] = $record->getID();
-			}
-		}
 		if (BSString::isBlank($params['size'])) {
 			$params['size'] = 'thumbnail';
 		}
-		if ($table = BSTableHandler::getInstance($params['class'])) {
-			return $table->getRecord($params['id']);
-		}
+
+		return BSController::getInstance()->getModule()->searchRecord($params);
 	}
 
 	/**
