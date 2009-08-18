@@ -53,10 +53,8 @@ class BSJavaScriptUtility {
 				case null:
 				case 'null':
 					return 'null';
-				case true:
 				case 'true':
 					return 'true';
-				case false:
 				case 'false':
 					return 'false';
 				default:
