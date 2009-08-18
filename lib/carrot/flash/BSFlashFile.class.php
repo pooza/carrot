@@ -62,35 +62,31 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	public function getImageElement (BSArray $params) {
-		$element = new BSXMLElement('div');
-		$constants = BSConstantHandler::getInstance();
-
 		foreach (array('href_prefix', 'player_ver', 'installer_path', 'loader_path') as $key) {
 			if (BSString::isBlank($params[$key])) {
-				$params[$key] = $constants['flash_' . $key];
+				$params[$key] = BSController::getInstance()->getConstant('flash_' . $key);
 			}
 		}
 
+		$root = new BSXMLElement('div');
 		if (BSString::isBlank($params['container_id'])) {
-			$container = $element->createElement('div');
+			$container = $root->createElement('div');
 			$params['container_id'] = $this->getContainerID();
 			$container->setAttribute('id', $params['container_id']);
 
 			$style = new BSStringFormat('width:%dpx; height:%dpx;');
 			$style[] = $this['width'];
 			$style[] = $this['height'];
-			$element->setAttribute('style', $style->getContents());
-			$element->setAttribute('class', $params['style_class']);
+			$root->setAttribute('style', $style->getContents());
+			$root->setAttribute('class', $params['style_class']);
 		}
-
 		if (BSRequest::getInstance()->getUserAgent()->getAttribute('is_trident')) {
-			$script = $element->createElement('script');
+			$script = $root->createElement('script');
 			$script->setAttribute('type', 'text/javascript');
 			$script->setAttribute('src', $params['loader_path']);
 		}
-
-		$element->addElement($this->getScriptElement($params));
-		return $element;
+		$root->addElement($this->getScriptElement($params));
+		return $root;
 	}
 
 	/**
@@ -111,18 +107,16 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	private function getScriptElement (BSArray $params) {
-		$element = new BSXMLElement('script');
-		$element->setAttribute('type', 'text/javascript');
-		$element->setRawMode(true);
+		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = '\'' . $params['href_prefix'] . $this->getName() . '\'';
-		$body[] = '\'' . $params['container_id'] . '\'';
+		$body[] = BSJavaScriptUtility::quote($params['href_prefix'] . $this->getName());
+		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
-		$body[] = '\'' . $params['player_ver'] . '\'';
-		$body[] = '\'' . $params['installer_path'] . '\'';
-		$body[] = 'null';
-		$body[] = '{wmode:\'transparent\'}';
+		$body[] = BSJavaScriptUtility::quote($params['player_ver']);
+		$body[] = BSJavaScriptUtility::quote($params['installer_path']);
+		$body[] = BSJavaScriptUtility::quote(null);
+		$body[] = BSJavaScriptUtility::quote(array('wmode' => 'transparent'));
 		$element->setBody($body->getContents());
 		return $element;
 	}
