@@ -73,11 +73,6 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			$container = $root->createElement('div');
 			$params['container_id'] = $this->getContainerID();
 			$container->setAttribute('id', $params['container_id']);
-
-			$style = new BSStringFormat('width:%dpx; height:%dpx;');
-			$style[] = $this['width'];
-			$style[] = $this['height'];
-			$root->setAttribute('style', $style->getContents());
 			$root->setAttribute('class', $params['style_class']);
 		}
 		if (BSRequest::getInstance()->getUserAgent()->getAttribute('is_trident')) {
