@@ -32,6 +32,9 @@ class BSFlashUtility {
 		}
 		if (BSArray::isArray($file)) {
 			$params = new BSArray($file);
+			if ($params['src']) {
+				return self::getFile($params['src']);
+			}
 			$module = BSController::getInstance()->getModule();
 			if ($record = $module->searchRecord($params)) {
 				if ($file = $record->getAttachment($params['size'])) {

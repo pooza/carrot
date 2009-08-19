@@ -37,6 +37,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			if (!$info || ($info['mime'] != $this->getType())) {
 				throw new BSFlashException('%sはFlashムービーではありません。', $this);
 			}
+			$this->attributes['path'] = $this->getPath();
 			$this->attributes['width'] = $info[0];
 			$this->attributes['height'] = $info[1];
 			$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
