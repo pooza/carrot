@@ -7,6 +7,8 @@
 /**
  * テンプレート上で、変数のアサインを行う
  *
+ * 配列への代入が出来る様に拡張。
+ *
  * 記述例 {assign var='array.var1' value='hoge'}
  *     → $this->_tpl_vars['array']['var1'] = 'hoge';
  *
