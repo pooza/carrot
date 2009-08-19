@@ -7,6 +7,9 @@
 /**
  * テンプレート上で、変数のアサインを行う
  *
+ * 記述例 {assign var='array.var1' value='hoge'}
+ *     → $this->_tpl_vars['array']['var1'] = 'hoge';
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
