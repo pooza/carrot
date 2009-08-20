@@ -70,18 +70,17 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 		}
 
 		$root = new BSXMLElement('div');
-		if (BSString::isBlank($params['container_id'])) {
-			$container = $root->createElement('div');
-			$params['container_id'] = $this->getContainerID();
-			$container->setAttribute('id', $params['container_id']);
-			$root->setAttribute('class', $params['style_class']);
+		$root->setAttribute('class', $params['style_class']);
+		if ($params['mode'] == 'noscript') {
+			$root->addElement($this->getObjectElement($params));
+		} else {
+			if (BSString::isBlank($params['container_id'])) {
+				$params['container_id'] = $this->getContainerID();
+				$container = $root->createElement('div');
+				$container->setAttribute('id', $params['container_id']);
+			}
+			$root->addElement($this->getScriptElement($params));
 		}
-		if (BSRequest::getInstance()->getUserAgent()->getAttribute('is_trident')) {
-			$script = $root->createElement('script');
-			$script->setAttribute('type', 'text/javascript');
-			$script->setAttribute('src', $params['loader_path']);
-		}
-		$root->addElement($this->getScriptElement($params));
 		return $root;
 	}
 
@@ -114,6 +113,27 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 		$body[] = BSJavaScriptUtility::quote(null);
 		$body[] = BSJavaScriptUtility::quote(array('wmode' => 'transparent'));
 		$element->setBody($body->getContents());
+		return $element;
+	}
+
+	/**
+	 * object要素を返す
+	 *
+	 * @access private
+	 * @param BSArray $params パラメータ配列
+	 * @return BSXMLElement 要素
+	 */
+	private function getObjectElement (BSArray $params) {
+		$element = new BSXMLElement('object');
+		$element->setAttribute('width', $this['width']);
+		$element->setAttribute('height', $this['height']);
+		$element->setAttribute('type', $this->getType());
+		$param = $element->createElement('param');
+		$param->setAttribute('name', 'movie');
+		$param->setAttribute('value', $params['href_prefix'] . $this->getName());
+		$param = $element->createElement('param');
+		$param->setAttribute('name', 'wmode');
+		$param->setAttribute('value', 'transparent');
 		return $element;
 	}
 
