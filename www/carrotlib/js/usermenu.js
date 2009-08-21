@@ -54,9 +54,12 @@ function UserMenu (id) {
     tab.onmouseover = function () {setTabStatus(true)};
     tab.onmouseout = function () {setTabStatus(false)};
   }
-  setTimeout(function() {setMenuStatus(false)}, 100);
+  setMenuStatus(false);
 
   function setTabStatus (flag) {
+    if (!tabImage) {
+      return;
+    }
     if (flag) {
       tabImage.src = imagePath + id + '_on.gif';
     } else {
@@ -66,6 +69,9 @@ function UserMenu (id) {
 
   function setMenuStatus (flag) {
     setTabStatus(flag);
+    if (!items) {
+      return;
+    }
     clearInterval(items.timer);
     if (flag) {
       if (items.maxHeight && items.maxHeight <= items.offsetHeight) {
@@ -82,6 +88,9 @@ function UserMenu (id) {
 
   function cancelHide () {
     setTabStatus(true);
+    if (!items) {
+      return;
+    }
     clearInterval(items.timer);
     if (items.offsetHeight < items.maxHeight) {
       items.timer = setInterval(function(){slide(true)}, timer);
@@ -89,6 +98,9 @@ function UserMenu (id) {
   }
 
   function slide (flag) {
+    if (!items) {
+      return;
+    }
     var y = items.offsetHeight;
     if (flag) {
       items.style.height = y + Math.max(1, Math.round((items.maxHeight - y) / speed)) + 'px';
