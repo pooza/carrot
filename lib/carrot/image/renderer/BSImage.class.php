@@ -378,7 +378,7 @@ class BSImage implements BSImageRenderer {
 			$this->getImage(), //コピー元
 			$coord->getX(), $coord->getY(),
 			$this->getOrigin()->getX(), $this->getOrigin()->getY(),
-			$dest->getWidth(), $dest->getHeight(), //コピー先サイズ
+			BSNumeric::round($width), BSNumeric::round($height), //コピー先サイズ
 			$this->getWidth(), $this->getHeight() //コピー元サイズ
 		);
 		$this->setImage($dest->getImage());
