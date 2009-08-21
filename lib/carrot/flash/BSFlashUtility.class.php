@@ -32,8 +32,8 @@ class BSFlashUtility {
 		}
 		if (BSArray::isArray($file)) {
 			$params = new BSArray($file);
-			if ($params['src']) {
-				return self::getFile($params['src']);
+			if ($path = $params['src']) {
+				return self::getFile($path);
 			}
 			$module = BSController::getInstance()->getModule();
 			if ($record = $module->searchRecord($params)) {
@@ -43,7 +43,17 @@ class BSFlashUtility {
 			}
 			return null;
 		} 
-		return new BSFlashFile($file);
+
+		if (BSUtility::isPathAbsolute($path = $file)) {
+			return new BSFlashFile($path);
+		} else {
+			foreach (array('carrotlib', 'www', 'root') as $dir) {
+				$dir = BSController::getInstance()->getDirectory($dir);
+				if ($entry = $dir->getEntry($path, 'BSFlashFile')) {
+					return $entry;
+				}
+			}
+		}
 	}
 }
 

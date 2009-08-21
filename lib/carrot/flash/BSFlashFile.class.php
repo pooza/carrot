@@ -104,7 +104,9 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	private function getScriptElement (BSArray $params) {
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = BSJavaScriptUtility::quote($params['href_prefix'] . $this->getName());
+		$body[] = BSJavaScriptUtility::quote(
+			$params['href_prefix'] . $this->getName() . $params['href_suffix']
+		);
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
@@ -130,7 +132,10 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 		$element->setAttribute('type', $this->getType());
 		$param = $element->createElement('param');
 		$param->setAttribute('name', 'movie');
-		$param->setAttribute('value', $params['href_prefix'] . $this->getName());
+		$param->setAttribute(
+			'value',
+			$params['href_prefix'] . $this->getName() . $params['href_suffix']
+		);
 		$param = $element->createElement('param');
 		$param->setAttribute('name', 'wmode');
 		$param->setAttribute('value', 'transparent');
