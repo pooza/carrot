@@ -29,7 +29,7 @@ function smarty_function_flash ($params, &$smarty) {
 			if (BSString::isBlank($params['href_prefix'])) {
 				if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
 					$dir = $record->getTable()->getDirectory();
-					$params['href_prefix'] = '/' . $dir->getName() . '/';
+					$params['href_prefix'] = BS_FLASH_HREF_PREFIX . $dir->getName() . '/';
 				}
 			}
 			return $file->getImageElement($params)->getContents();
