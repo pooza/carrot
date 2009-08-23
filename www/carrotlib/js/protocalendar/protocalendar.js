@@ -1,5 +1,5 @@
 /*  protocalendar.js
- *  (c) 2008 Spookies
+ *  (c) 2009 Spookies
  * 
  *  License : MIT-style license.
  *  Web site: http://labs.spookies.jp/product/protocalendar
@@ -10,7 +10,7 @@
 /*--------------------------------------------------------------------------*/
 
 var ProtoCalendar = Class.create();
-ProtoCalendar.Version = "1.1.8.1";
+ProtoCalendar.Version = "1.1.8.2";
 
 ProtoCalendar.LangFile = new Object();
 ProtoCalendar.LangFile['en'] = {
@@ -31,9 +31,6 @@ ProtoCalendar.LangFile['en'] = {
 ProtoCalendar.LangFile.defaultLang = 'en';
 ProtoCalendar.LangFile.defaultLangFile = function() { return ProtoCalendar.LangFile[defaultLang]; };
 
-/**
- * for http://d.hatena.ne.jp/kusakari/20080731/1217487308
- */
 ProtoCalendar.newDate = function() {
   var d = new Date();
   d.setDate(1);
@@ -576,8 +573,8 @@ Object.extend(
 
     rerender: function(calendar) {
       this.getBody().innerHTML = this.evaluateWithOptions(this.renderBody(calendar));
-      selectOption(this.getMonthSelect(), calendar.getMonth());
-      selectOption(this.getYearSelect(), calendar.getYear());
+      SelectCalendar.selectOption(this.getMonthSelect(), calendar.getMonth());
+      SelectCalendar.selectOption(this.getYearSelect(), calendar.getYear());
       if (this.container.visible()) this.setPosition();
     },
 
@@ -1190,7 +1187,7 @@ ProtoCalendar.DateFormat.prototype =  {
       case 'l':       handlers.push(function(date, lf) { return ProtoCalendar.DateFormat.zeroize(date.getMilliseconds(), 3); }); break;
       case 'tt':      handlers.push(function(date, lf) { return date.getHours() < 12 ? 'am' : 'pm'; }); break;
       case 'TT':      handlers.push(function(date, lf) { return date.getHours() < 12 ? 'AM' : 'PM'; }); break;
-      default:        handlers.push(createIdentity(matches[i]));
+      default:        handlers.push(ProtoCalendar.createIdentity(matches[i]));
       }
     };
     this.formatHandlers = handlers;
@@ -1310,16 +1307,18 @@ ProtoCalendar.DateFormat.prototype =  {
   }
 };
 
-function createIdentity(v) {
+ProtoCalendar.createIdentity = function(v) {
   return function() { return v; }
 }
 
-function selectTimeOption(select, value) {
+var SelectCalendar = Class.create();
+SelectCalendar.selectTimeOption = function(select, value) {
   var newValue = value - 0;
   newValue = newValue < 10 ? "0" + newValue : newValue;
-  selectOption(select, newValue);
+  SelectCalendar.selectOption(select, newValue);
 }
-function selectOption(select, value) {
+
+SelectCalendar.selectOption = function(select, value) {
   var selectEl = $(select);
   var options = selectEl.options;
   for (var i = 0; i < options.length; i++) {
@@ -1330,7 +1329,6 @@ function selectOption(select, value) {
   }
 }
 
-var SelectCalendar = Class.create();
 SelectCalendar.createOnLoaded = function(select, options) {
   BaseCalendar.bindOnLoad(function() { new SelectCalendar(select, options); });
 };
@@ -1390,14 +1388,14 @@ Object.extend(
     changeSelectValue: function() {
       var date = this.calendarController.getSelectedDate();
       if (date) {
-        selectOption(this.yearSelect, date.getFullYear());
-        selectOption(this.monthSelect, date.getMonth() + 1);
-        selectOption(this.daySelect, date.getDate());
+        SelectCalendar.selectOption(this.yearSelect, date.getFullYear());
+        SelectCalendar.selectOption(this.monthSelect, date.getMonth() + 1);
+        SelectCalendar.selectOption(this.daySelect, date.getDate());
         if (this.options.enableHourMinute) {
-          selectTimeOption(this.hourSelect, date.getHours());
-          selectTimeOption(this.minuteSelect, date.getMinutes());
+          SelectCalendar.selectTimeOption(this.hourSelect, date.getHours());
+          SelectCalendar.selectTimeOption(this.minuteSelect, date.getMinutes());
           if (this.options.enableSecond) {
-            selectTimeOption(this.secondSelect, date.getSeconds());
+            SelectCalendar.selectTimeOption(this.secondSelect, date.getSeconds());
           }
         }
       }

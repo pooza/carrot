@@ -103,22 +103,26 @@
            holidays[day] = '天皇誕生日';
          }
        }
-       var hasHoliday = year > 1973 || year == 1973 && month > 4;
-       var curRule = hasHoliday && (year < 2008 || year == 2008 && month < 5);
-       var newRule = hasHoliday && (year > 2008 || year == 2008 && month >= 5) 
+       var hasHoliday = year > 1973 || year == 1973 && month > ProtoCalendar.APR;
+       var hasKokuminHoliday = year >= 1988;
+       var oldRule = hasHoliday && year < 2006;
+       var curRule = hasHoliday && year >= 2006;
        for(var day = 1; day <= lastDay; day++) {
          var dayOfWeek = new Date(year, month, day).getDay();
-         if (dayOfWeek == ProtoCalendar.SUNDAY && holidays[day]) {
-           var next = day + 1;
-           if (curRule) {
-             for (; holidays[next]; next += 1) { }
-           } else if (newRule) {
-             if (holidays[next]) continue;
+         if (hasHoliday) {
+           if (dayOfWeek == ProtoCalendar.SUNDAY && holidays[day]) {
+             var next = day + 1;
+             if (oldRule) {
+                if (holidays[next]) continue;
+             } else if (curRule) {
+               for (; holidays[next]; next += 1) { }
+             }
+             holidays[next] = '振替休日';
+           
+           } else if (hasKokuminHoliday && holidays[day - 1] && holidays[day + 1] && !holidays[day]) {
+             holidays[day] = '国民の休日';
            }
-           holidays[next] = '振替休日';
-         } else if (holidays[day - 1] && holidays[day + 1] && !holidays[day]) {
-           holidays[day] = '休日';
-         }
+          }
        }
        calendar.holidays = holidays;
      }
