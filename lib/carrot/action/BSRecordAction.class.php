@@ -102,6 +102,20 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
+	 * レコードを更新
+	 *
+	 * @access protected
+	 */
+	protected function updateRecord () {
+		if ($this->isCreateAction()) {
+			$id = $this->getTable()->createRecord($this->getRecordValues());
+			$this->setRecordID($id);
+		} else {
+			$this->getRecord()->update($this->getRecordValues());
+		}
+	}
+
+	/**
 	 * 論理バリデーション
 	 *
 	 * レコードが存在するか、最低限チェックする。
