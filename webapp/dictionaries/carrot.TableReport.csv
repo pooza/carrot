@@ -1,6 +1,7 @@
 label,ja
 config_file,設定ファイル
 connection_name,接続名
+database,データベース
 database_name,データベース名
 dbms,DBMS
 dsn,DSN

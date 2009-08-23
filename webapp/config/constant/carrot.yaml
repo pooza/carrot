@@ -61,7 +61,6 @@ log:
   loggers:
     - file
     - mail
-    - jabber
     - system
   syslog:
     facility: LOCAL6
