@@ -23,7 +23,11 @@ class BSDateRequestFilter extends BSRequestFilter {
 	protected function convert ($key, $value) {
 		if ($value && !BSArray::isArray($value) && preg_match('/(day|date)$/', $key)) {
 			if ($date = BSDate::getInstance($value)) {
-				$value = $date->format('Y-m-d');
+				if ($date['has_time']) {
+					$value = $date->format('Y-m-d H:i:s');
+				} else {
+					$value = $date->format('Y-m-d');
+				}
 			}
 		}
 		return $value;
