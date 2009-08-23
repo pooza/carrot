@@ -83,16 +83,15 @@ table.cal-table {
   color: #A2A19F;
   font-size: 75%;
   text-align: center;
+  background-color: #fff;
 }
 
 .cal-label-row .cal-sunday {
-  background-color: #fff;
   color: #F78E73;
   text-align: center;
 }
 
 .cal-label-row .cal-saturday {
-  background-color: #fff;
   color: #73A2DE;
   text-align: center;
 }
