@@ -126,19 +126,20 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	private function getObjectElement (BSArray $params) {
+		$href = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+
 		$element = new BSXMLElement('object');
 		$element->setAttribute('width', $this['width']);
 		$element->setAttribute('height', $this['height']);
 		$element->setAttribute('type', $this->getType());
+		$element->setAttribute('data', $href);
 		$param = $element->createElement('param');
 		$param->setAttribute('name', 'movie');
-		$param->setAttribute(
-			'value',
-			$params['href_prefix'] . $this->getName() . $params['href_suffix']
-		);
+		$param->setAttribute('value', $href);
 		$param = $element->createElement('param');
 		$param->setAttribute('name', 'wmode');
 		$param->setAttribute('value', 'transparent');
+		$element->createElement('p', 'Flash Player ' . BS_FLASH_PLAYER_VER . ' 以上が必要です。');
 		return $element;
 	}
 
