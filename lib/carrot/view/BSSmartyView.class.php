@@ -31,19 +31,9 @@ class BSSmartyView extends BSView {
 			$renderer = new BSSmarty;
 		}
 		$this->setRenderer($renderer);
-	}
 
-	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @return boolean 初期化が成功すればTrue
-	 */
-	public function initialize () {
-		parent::initialize();
 		$this->setHeader('Content-Script-Type', BSMIMEType::getType('js'));
 		$this->setHeader('Content-Style-Type', BSMIMEType::getType('css'));
-		return true;
 	}
 
 	/**
@@ -62,10 +52,10 @@ class BSSmartyView extends BSView {
 		}
 
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
-			$this->getRenderer()->setTemplatesDirectory($dir);
+			$this->renderer->setTemplatesDirectory($dir);
 		}
 		if ($file = $this->getDefaultTemplateFile()) {
-			$this->getRenderer()->setTemplate($file);
+			$this->renderer->setTemplate($file);
 		}
 	}
 
