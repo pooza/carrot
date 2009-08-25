@@ -31,19 +31,20 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
-	 * Smartyを初期化する
+	 * ビューを初期化
 	 *
 	 * @access public
-	 * @param BSSmarty
+	 * @param BSSmartyView 対象ビュー
+	 * @return boolean 成功時にTrue
 	 */
-	public function initializeSmarty (BSSmarty $smarty) {
-		$smarty->setAttribute('useragent', $this->getAttributes());
-		$smarty->setEncoding('sjis-win');
-		$smarty->addModifier('pictogram');
-		$smarty->addOutputFilter('mobile');
-		$smarty->addOutputFilter('encoding');
-		$smarty->addOutputFilter('trim');
-		$this->smarty = $smarty;
+	public function initializeView (BSSmartyView $view) {
+		parent::initializeView($view);
+		$view->getRenderer()->setEncoding('sjis-win');
+		$view->getRenderer()->addModifier('pictogram');
+		$view->getRenderer()->addOutputFilter('mobile');
+		$view->getRenderer()->addOutputFilter('encoding');
+		$this->smarty = $view->getRenderer();
+		return true;
 	}
 
 	/**

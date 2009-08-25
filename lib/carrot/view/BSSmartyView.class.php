@@ -25,10 +25,7 @@ class BSSmartyView extends BSView {
 
 		if ($renderer) {
 			if (($renderer instanceof BSSmarty) == false) {
-				throw new BSViewException(
-					'BSSmartyViewに%sをセット出来ません。',
-					get_class($renderer)
-				);
+				throw new BSViewException('%sをセット出来ません。', get_class($renderer));
 			}
 		} else {
 			$renderer = new BSSmarty;
@@ -40,31 +37,36 @@ class BSSmartyView extends BSView {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param boolean 初期化が成功すればTrue
+	 * @return boolean 初期化が成功すればTrue
 	 */
 	public function initialize () {
 		parent::initialize();
-		$this->renderer->addModifier('sanitize');
-		$this->renderer->setUserAgent($this->useragent);
 		$this->setHeader('Content-Script-Type', BSMIMEType::getType('js'));
 		$this->setHeader('Content-Style-Type', BSMIMEType::getType('css'));
-		$this->setAttributes($this->request->getAttributes());
-		$this->setAttribute('module', $this->controller->getModule());
-		$this->setAttribute('action', $this->controller->getAction());
-		$this->setAttribute('errors', $this->request->getErrors());
-		$this->setAttribute('params', $this->request->getParameters());
-		$this->setAttribute('credentials', $this->user->getCredentials());
-		$this->setAttribute('client_host', $this->request->getHost());
-		$this->setAttribute('server_host', $this->controller->getHost());
-		$this->setAttribute('is_debug', BS_DEBUG);
-		$this->setAttribute('is_ssl', $this->request->isSSL());
+		return true;
+	}
+
+	/**
+	 * レンダラーを設定
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @param integer $flags フラグのビット列
+	 *   BSMIMEUtility::WITHOUT_HEADER ヘッダを修正しない
+	 *   BSMIMEUtility::WITH_HEADER ヘッダも修正
+	 */
+	public function setRenderer (BSRenderer $renderer, $flags = BSMIMEUtility::WITH_HEADER) {
+		parent::setRenderer($renderer, $flags);
+		if (!$this->useragent->initializeView($this)) {
+			throw new BSViewException('ビューを初期化できませんでした。');
+		}
+
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
-			$this->renderer->setTemplatesDirectory($dir);
+			$this->getRenderer()->setTemplatesDirectory($dir);
 		}
 		if ($file = $this->getDefaultTemplateFile()) {
-			$this->setTemplate($file);
+			$this->getRenderer()->setTemplate($file);
 		}
-		return true;
 	}
 
 	/**

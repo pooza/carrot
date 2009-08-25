@@ -13,13 +13,22 @@
 class BSConsoleUserAgent extends BSUserAgent {
 
 	/**
-	 * Smartyを初期化する
+	 * ビューを初期化
 	 *
 	 * @access public
-	 * @param BSSmarty
+	 * @param BSSmartyView 対象ビュー
+	 * @return boolean 成功時にTrue
 	 */
-	public function initializeSmarty (BSSmarty $smarty) {
-		$smarty->setAttribute('useragent', $this->getAttributes());
+	public function initializeView (BSSmartyView $view) {
+		$view->getRenderer()->setUserAgent($this);
+		$view->setAttributes(BSRequest::getInstance()->getAttributes());
+		$view->setAttribute('module', BSContoller::getInstance()->getModule());
+		$view->setAttribute('action', BSContoller::getInstance()->getAction());
+		$view->setAttribute('errors', BSRequest::getInstance()->getErrors());
+		$view->setAttribute('params', BSRequest::getInstance()->getParameters());
+		$view->setAttribute('credentials', BSUser::getInstance()->getCredentials());
+		$view->setAttribute('is_debug', BS_DEBUG);
+		return true;
 	}
 
 	/**

@@ -88,14 +88,27 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
-	 * Smartyを初期化する
+	 * ビューを初期化
 	 *
 	 * @access public
-	 * @param BSSmarty
+	 * @param BSSmartyView 対象ビュー
+	 * @return boolean 成功時にTrue
 	 */
-	public function initializeSmarty (BSSmarty $smarty) {
-		$smarty->setAttribute('useragent', $this);
-		$smarty->addOutputFilter('trim');
+	public function initializeView (BSSmartyView $view) {
+		$view->getRenderer()->setUserAgent($this);
+		$view->getRenderer()->addModifier('sanitize');
+		$view->getRenderer()->addOutputFilter('trim');
+		$view->setAttributes(BSRequest::getInstance()->getAttributes());
+		$view->setAttribute('module', $view->getModule());
+		$view->setAttribute('action', $view->getAction());
+		$view->setAttribute('errors', BSRequest::getInstance()->getErrors());
+		$view->setAttribute('params', BSRequest::getInstance()->getParameters());
+		$view->setAttribute('credentials', BSUser::getInstance()->getCredentials());
+		$view->setAttribute('client_host', BSRequest::getInstance()->getHost());
+		$view->setAttribute('server_host', BSController::getInstance()->getHost());
+		$view->setAttribute('is_ssl', BSRequest::getInstance()->isSSL());
+		$view->setAttribute('is_debug', BS_DEBUG);
+		return true;
 	}
 
 	/**
