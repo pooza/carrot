@@ -15,7 +15,6 @@ abstract class BSUserAgent implements BSAssignable {
 	private $type;
 	protected $attributes;
 	protected $bugs;
-	protected $session;
 	static private $denied;
 
 	/**
@@ -100,13 +99,13 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
-	 * セッションハンドラを設定
+	 * セッションハンドラを生成して返す
 	 *
 	 * @access public
-	 * @param BSSessionHandler
+	 * @return BSSessionHandler
 	 */
-	public function setSession (BSSessionHandler $session) {
-		$this->session = $session;
+	public function createSession () {
+		return new BSSessionHandler;
 	}
 
 	/**
@@ -230,6 +229,16 @@ abstract class BSUserAgent implements BSAssignable {
 			$this->type = $matches[1];
 		}
 		return $this->type;
+	}
+
+	/**
+	 * 規定の画像形式を返す
+	 *
+	 * @access public
+	 * @return string 規定の画像形式
+	 */
+	public function getDefaultImageType () {
+		return BS_IMAGE_THUMBNAIL_TYPE;
 	}
 
 	/**

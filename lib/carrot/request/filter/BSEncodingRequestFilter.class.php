@@ -21,7 +21,7 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if ($this->request->getUserAgent()->isMobile() && BS_STRING_MOBILE_FORCE_CONVERT) {
+		if ($this->request->isMobile() && BS_STRING_MOBILE_FORCE_CONVERT) {
 			return BSString::convertEncoding($value, 'utf-8', 'sjis-win');
 		} else {
 			return BSString::convertEncoding($value);

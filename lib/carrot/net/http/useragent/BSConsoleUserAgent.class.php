@@ -33,6 +33,26 @@ class BSConsoleUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * 規定の画像形式を返す
+	 *
+	 * @access public
+	 * @return string 規定の画像形式
+	 */
+	public function getDefaultImageType () {
+		return null;
+	}
+
+	/**
+	 * セッションハンドラを生成して返す
+	 *
+	 * @access public
+	 * @return BSSessionHandler
+	 */
+	public function createSession () {
+		return new BSConsoleSessionHandler;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

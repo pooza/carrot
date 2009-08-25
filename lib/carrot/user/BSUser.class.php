@@ -48,7 +48,7 @@ class BSUser extends BSParameterHolder {
 	 * @static
 	 */
 	static public function getInstance () {
-		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
+		if (BSRequest::getInstance()->isMobile()) {
 			return BSMobileUser::getInstance();
 		}
 

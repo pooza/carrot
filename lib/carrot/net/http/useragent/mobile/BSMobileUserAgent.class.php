@@ -47,13 +47,13 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
-	 * セッションハンドラを設定
+	 * セッションハンドラを生成して返す
 	 *
 	 * @access public
-	 * @param BSSessionHandler
+	 * @return BSSessionHandler
 	 */
-	public function setSession (BSSessionHandler $session) {
-		parent::setSession($session);
+	public function createSession () {
+		$session = new BSMobileSessionHandler;
 
 		$params = new BSWWWFormRenderer;
 		$params->setParameters($this->attributes['query']);
@@ -65,8 +65,10 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$this->attributes['query'] = $params->getParameters();
 		$this->attributes['query_params'] = $params->getContents();
 		if ($this->smarty) {
-			$this->smarty->setAttribute('useragent', $this->getAttributes());
+			$this->smarty->setAttribute('useragent', $this);
 		}
+
+		return $session;
 	}
 
 	/**

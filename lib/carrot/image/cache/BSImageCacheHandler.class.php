@@ -76,10 +76,7 @@ class BSImageCacheHandler {
 	 * @return string タイプ
 	 */
 	public function getType () {
-		if ($this->getUserAgent()->isMobile()) {
-			return $this->getUserAgent()->getDefaultImageType();
-		}
-		return BS_IMAGE_THUMBNAIL_TYPE;
+		return $this->getUserAgent()->getDefaultImageType();
 	}
 
 	/**

@@ -22,7 +22,7 @@ class BSCookieFilter extends BSFilter {
 		if ($this->request->isCLI()
 			|| $this->request->isAjax()
 			|| $this->request->isFlash()
-			|| $this->request->getUserAgent()->isMobile()) {
+			|| $this->request->isMobile()) {
 
 			return;
 		}

@@ -156,7 +156,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	private function getNumericReference () {
 		$carrier = $this->getCarrier()->getName();
-		if (BSRequest::getInstance()->getUserAgent()->isMobile()) {
+		if (BSRequest::getInstance()->isMobile()) {
 			$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier()->getName();
 		}
 		if (BSString::isBlank($code = $this->codes[$carrier])) {

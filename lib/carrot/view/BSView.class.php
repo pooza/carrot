@@ -166,6 +166,7 @@ class BSView extends BSHTTPResponse {
 	public function putHeaders () {
 		$this->setHeader('Content-Type', BSMIMEUtility::getContentType($this->renderer));
 		$this->setHeader('Content-Length', $this->renderer->getSize());
+
 		if ($this->useragent->hasBug('cache-control')
 			&& ($this->request->isSSL() || $this->renderer->getType() != 'text/html')) {
 			$this->setHeader('Cache-Control', null);

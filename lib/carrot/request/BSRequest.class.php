@@ -282,14 +282,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 */
 	public function getSession () {
 		if (!$this->session) {
-			if ($this->isCLI()) {
-				$this->session = new BSConsoleSessionHandler;
-			} else if ($this->getUserAgent()->isMobile()) {
-				$this->session = new BSMobileSessionHandler;
-			} else {
-				$this->session = new BSSessionHandler;
-			}
-			$this->getUserAgent()->setSession($this->session);
+			$this->session = $this->getUserAgent()->createSession();
 		}
 		return $this->session;
 	}
