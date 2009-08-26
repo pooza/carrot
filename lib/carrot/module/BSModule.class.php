@@ -304,10 +304,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * パラメータが不足していたら、モジュールの情報で補い、検索する。
 	 *
 	 * @access public
-	 * @param BSArray パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSRecord レコード
 	 */
-	public function searchRecord (BSArray $params) {
+	public function searchRecord (BSParameterHolder $params) {
 		if (BSString::isBlank($params['class'])) {
 			$params['class'] = $this->getRecordClassName();
 

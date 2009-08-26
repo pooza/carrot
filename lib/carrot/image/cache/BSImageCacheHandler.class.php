@@ -371,10 +371,10 @@ class BSImageCacheHandler {
 	 * パラメータ配列から画像コンテナを返す
 	 *
 	 * @access private
-	 * @param BSArray $params パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSImageContainer 画像コンテナ
 	 */
-	public function getContainer (BSArray $params) {
+	public function getContainer (BSParameterHolder $params) {
 		if (!BSString::isBlank($params['src'])) {
 			foreach (array('images', 'www', 'root') as $name) {
 				$dir = BSController::getInstance()->getDirectory($name);

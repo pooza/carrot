@@ -59,10 +59,10 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * ムービー表示用のXHTML要素を返す
 	 *
 	 * @access public
-	 * @param BSArray $params パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	public function getImageElement (BSArray $params) {
+	public function getImageElement (BSParameterHolder $params) {
 		foreach (array('href_prefix', 'player_ver', 'installer_path', 'loader_path') as $key) {
 			if (BSString::isBlank($params[$key])) {
 				$params[$key] = BSController::getInstance()->getConstant('flash_' . $key);
@@ -98,10 +98,10 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * script要素を返す
 	 *
 	 * @access private
-	 * @param BSArray $params パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	private function getScriptElement (BSArray $params) {
+	private function getScriptElement (BSParameterHolder $params) {
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
 		$body[] = BSJavaScriptUtility::quote(
@@ -122,10 +122,10 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * object要素を返す
 	 *
 	 * @access private
-	 * @param BSArray $params パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	private function getObjectElement (BSArray $params) {
+	private function getObjectElement (BSParameterHolder $params) {
 		$href = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
 
 		$element = new BSXMLElement('object');
