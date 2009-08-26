@@ -95,6 +95,9 @@ mysql:
   dir: /usr/local
 net:
   resolvable: yes
+package:
+  name:
+  ver:
 pdo:
   query_log_enable: no
   default:
