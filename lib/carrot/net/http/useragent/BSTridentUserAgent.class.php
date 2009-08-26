@@ -33,8 +33,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function encodeFileName ($name) {
 		if (7 < $this->getVersion()) {
-			// IE8のバグ対応。当面、マルチバイト文字を ? に置き換えておく。
-			$name = BSString::convertEncoding($name, 'iso-8859-1');
+			$name = urlencode($name);
 		} else {
 			$name = BSString::convertEncoding($name, 'sjis-win');
 		}
