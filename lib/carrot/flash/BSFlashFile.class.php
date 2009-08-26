@@ -52,7 +52,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMIMEType::getType('.swf');
+		return BSMIMEType::getType('swf');
 	}
 
 	/**
@@ -70,7 +70,9 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 		}
 
 		$root = new BSXMLElement('div');
-		$root->setAttribute('class', $params['style_class']);
+		if (!BSString::isBlank($params['style_class'])) {
+			$root->setAttribute('class', $params['style_class']);
+		}
 		if ($params['mode'] == 'noscript') {
 			$root->addElement($this->getObjectElement($params));
 		} else {
