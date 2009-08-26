@@ -138,8 +138,12 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function translate ($label, $language) {
 		foreach (array(null, '_' . $language) as $suffix) {
-			if ($value = $this[$label . $suffix]) {
-				return $value;
+			if ($this->hasParameter($label . $suffix)) {
+				if (BSString::isBlank($value = $this[$label . $suffix])) {
+					return '';
+				} else {
+					return $value;
+				}
 			}
 		}
 	}
