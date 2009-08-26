@@ -60,11 +60,11 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * 送信先URLを設定
 	 *
 	 * @access public
-	 * @param BSURL $url 送信先URL
+	 * @param BSHTTPRedirector $link 送信先URL
 	 */
-	public function setURL (BSURL $url) {
-		$this->url = $url;
-		$this->setHeader('Host', $url['host']);
+	public function setURL (BSHTTPRedirector $link) {
+		$this->url = $url->getURL();
+		$this->setHeader('Host', $this->url['host']);
 	}
 
 	/**

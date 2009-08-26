@@ -96,10 +96,10 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * リクエストされたURLを設定
 	 *
 	 * @access public
-	 * @param BSURL $url リクエストされたURL
+	 * @param BSHTTPRedirector $link リクエストされたURL
 	 */
-	public function setURL (BSURL $url) {
-		$this->url = $url;
+	public function setURL (BSHTTPRedirector $link) {
+		$this->url = $url->getURL();
 	}
 
 	/**

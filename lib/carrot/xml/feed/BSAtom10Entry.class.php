@@ -82,11 +82,12 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	 * パーマリンクからIDを生成
 	 *
 	 * @access public
-	 * @param BSURL $url パーマリンク
+	 * @param BSHTTPRedirector $link パーマリンク
 	 * @return string ID
 	 * @link http://diveintomark.org/archives/2004/05/28/howto-atom-id 参考
 	 */
-	static public function getID (BSURL $url) {
+	static public function getID (BSHTTPRedirector $link) {
+		$url = $link->getURL();
 		$id = $url->getContents();
 		$id = str_replace($url['scheme'] . '://', '', $id);
 

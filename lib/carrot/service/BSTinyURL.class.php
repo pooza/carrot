@@ -33,7 +33,7 @@ class BSTinyURL extends BSCurlHTTP {
 	 * @return BSURL エンコードされたURL
 	 */
 	public function encode (BSHTTPRedirector $link) {
-		$path = '/api-create.php?url=' . urlencode($link->getURL()->getContents());
+		$path = '/api-create.php?url=' . BSURL::encode($link->getURL()->getContents());
 		$response = $this->sendGetRequest($path);
 		return BSURL::getInstance($response->getRenderer()->getContents());
 	}

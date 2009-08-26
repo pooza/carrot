@@ -253,6 +253,18 @@ class BSURL implements ArrayAccess, BSAssignable {
 	public function __toString () {
 		return sprintf('URL "%s"', $this->getContents());
 	}
+
+	/**
+	 * 文字列をURLエンコード
+	 *
+	 * @access public
+	 * @param string $value 対象文字列
+	 * @return string URLエンコードされた文字列
+	 * @static
+	 */
+	static public function encode ($str) {
+		return urlencode($str);
+	}
 }
 
 /* vim:set tabstop=4: */
