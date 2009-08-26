@@ -1,0 +1,9 @@
+# アプリケーション定数設定ファイル - パッケージ分
+#
+# @package org.carrot-framework
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+package:
+  name:
+  ver:

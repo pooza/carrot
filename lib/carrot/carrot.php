@@ -100,6 +100,7 @@ if (!$file = BSConfigManager::getConfigFile('constant/' . $_SERVER['SERVER_NAME'
 }
 require(BSConfigManager::getInstance()->compile($file));
 require(BSConfigManager::getInstance()->compile('constant/application'));
+require(BSConfigManager::getInstance()->compile('constant/package'));
 require(BSConfigManager::getInstance()->compile('constant/carrot'));
 
 ini_set('realpath_cache_size', '128K');

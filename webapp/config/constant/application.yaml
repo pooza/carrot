@@ -17,10 +17,6 @@ app:
     jid: pooza291@gmail.com
     password: LqCw+J25gdM=
 
-package:
-  name: minc
-  ver: 1.0.0
-
 author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
