@@ -99,7 +99,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @param BSHTTPRedirector $link リクエストされたURL
 	 */
 	public function setURL (BSHTTPRedirector $link) {
-		$this->url = $url->getURL();
+		$this->url = $link->getURL();
 	}
 
 	/**
