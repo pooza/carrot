@@ -64,7 +64,7 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @access public
 	 */
 	public function clearAttributes () {
-		$this->getAttributes()->clearParameters();
+		$this->getAttributes()->clear();
 	}
 
 	/**
@@ -89,16 +89,6 @@ abstract class BSRequest extends BSParameterHolder {
 			$this->attributes = new BSArray;
 		}
 		return $this->attributes;
-	}
-
-	/**
-	 * 全ての属性名を返す
-	 *
-	 * @access public
-	 * @return BSArray 全ての属性名
-	 */
-	public function getAttributeNames () {
-		return $this->getAttributes()->getKeys();
 	}
 
 	/**
@@ -127,16 +117,6 @@ abstract class BSRequest extends BSParameterHolder {
 	 */
 	public function getError ($name) {
 		return $this->getErrors()->getParameter($name);
-	}
-
-	/**
-	 * 全てのエラー名を返す
-	 *
-	 * @access public
-	 * @return BSArray 全てのエラー名
-	 */
-	public function getErrorNames () {
-		return $this->getErrors()->getKeys();
 	}
 
 	/**

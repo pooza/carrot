@@ -260,7 +260,7 @@ class BSMIMEDocument implements BSRenderer {
 	 * @param string $headers ヘッダ部
 	 */
 	protected function parseHeaders ($headers) {
-		$this->getHeaders()->clearParameters();
+		$this->getHeaders()->clear();
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (preg_match('/^([a-z0-9\\-]+): *(.*)$/i', $line, $matches)) {
 				$key = $matches[1];

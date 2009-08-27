@@ -47,7 +47,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @param string $headers ヘッダ部
 	 */
 	protected function parseHeaders ($headers) {
-		$this->getHeaders()->clearParameters();
+		$this->getHeaders()->clear();
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (preg_match('/^HTTP\/([0-9]+\.[0-9]+) ([0-9]{3}) (.*)$/', $line, $matches)) {
 				$this->version = $matches[1];

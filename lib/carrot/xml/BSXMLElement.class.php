@@ -53,16 +53,6 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
-	 * 属性の名前を全て返す
-	 *
-	 * @access public
-	 * @return string[] 属性の名前
-	 */
-	public function getAttributeNames () {
-		return array_keys($this->getAttributes());
-	}
-
-	/**
 	 * 属性を設定
 	 *
 	 * @access public

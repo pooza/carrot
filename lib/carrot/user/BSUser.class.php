@@ -71,7 +71,7 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function clearAttributes () {
-		$this->attributes->clearParameters();
+		$this->attributes->clear();
 	}
 
 	/**
@@ -146,16 +146,6 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function setAttributes ($attributes) {
 		$this->attributes->setParameters($attributes);
-	}
-
-	/**
-	 * 属性値の名前を返す
-	 *
-	 * @access public
-	 * @return string[] 属性値の名前
-	 */
-	public function getAttributeNames () {
-		return $this->attributes->getKeys();
 	}
 
 	/**
@@ -246,7 +236,7 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function clearCredentials () {
-		$this->credentials->clearParameters();
+		$this->credentials->clear();
 	}
 
 	/**
