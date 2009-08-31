@@ -57,6 +57,11 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	static private function getConfigFile () {
 		if (!self::$configFile) {
+			$constants = BSConstantHandler::getInstance();
+			if (BSString::isBlank($constants['MYSQL_ATTR_READ_DEFAULT_FILE'])) {
+				return;
+			}
+
 			$dir = BSController::getInstance()->getDirectory('config');
 			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
 				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
