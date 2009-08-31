@@ -81,7 +81,7 @@ class BSClassLoader {
 		if (!preg_match($pattern, $class, $matches)) {
 			throw new RuntimeException($class . 'がロードできません。');
 		}
-		$basename = self::stripControlCharacters($matches[2]);
+		$basename = self::stripControlCharacters(str_replace('_', '', $matches[2]));
 
 		$classes = $this->getClasses();
 		foreach (array(null, self::PREFIX) as $prefix) {
