@@ -85,7 +85,7 @@ class BSSocket {
 			$this->client = null;
 			sleep(1);
 		}
-		throw new BSNetException('%sに接続出来ません。(%s)', $this, $message);
+		throw new BSNetException('%sに接続できません。(%s)', $this, $message);
 	}
 
 	/**

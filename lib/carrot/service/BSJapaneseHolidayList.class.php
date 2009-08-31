@@ -164,7 +164,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	 * @param mixed 要素
 	 */
 	public function offsetSet ($key, $value) {
-		throw new BSDateException('%sは更新出来ません。', get_class($this));
+		throw new BSDateException('%sは更新できません。', get_class($this));
 	}
 
 	/**
@@ -174,7 +174,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	 * @param string $key 添え字
 	 */
 	public function offsetUnset ($key) {
-		throw new BSDateException('%sは更新出来ません。', get_class($this));
+		throw new BSDateException('%sは更新できません。', get_class($this));
 	}
 }
 

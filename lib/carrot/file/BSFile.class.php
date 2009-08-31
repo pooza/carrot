@@ -63,7 +63,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if ($this->isUploaded()) {
 			$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
 			if (!move_uploaded_file($this->getPath(), $path)) {
-				throw new BSFileException('アップロードされた%sをリネーム出来ません。', $this);
+				throw new BSFileException('アップロードされた%sをリネームできません。', $this);
 			}
 			$this->setPath($path);
 		} else {
@@ -84,7 +84,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if ($this->isUploaded()) {
 			$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 			if (!move_uploaded_file($this->getPath(), $path)) {
-				throw new BSFileException('アップロードされた%sを移動出来ません。', $this);
+				throw new BSFileException('アップロードされた%sを移動できません。', $this);
 			}
 			$this->setPath($path);
 		} else {
@@ -103,7 +103,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	public function copyTo (BSDirectory $dir, $class = 'BSFile') {
 		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 		if (!copy($this->getPath(), $path)) {
-			throw new BSFileException('%sをコピー出来ません。', $this);
+			throw new BSFileException('%sをコピーできません。', $this);
 		}
 		$class = BSClassLoader::getInstance()->getClassName($class);
 		return new $class($path);
@@ -116,12 +116,12 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function delete () {
 		if (!$this->isWritable($this->getPath())) {
-			throw new BSFileException('%sを削除出来ません。', $this);
+			throw new BSFileException('%sを削除できません。', $this);
 		} else if ($this->isOpened()) {
 			throw new BSFileException('%sは既に開かれています。', $this);
 		}
 		if (!unlink($this->getPath())) {
-			throw new BSFileException('%sを削除出来ません。', $this);
+			throw new BSFileException('%sを削除できません。', $this);
 		}
 	}
 
@@ -145,7 +145,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if (!$this->handle = fopen($this->getPath(), $mode)) {
 			$this->handle = null;
 			$this->mode = null;
-			throw new BSFileException('%sを%sモードで開くことが出来ません。', $this, $mode);
+			throw new BSFileException('%sを%sモードで開くことができません。', $this, $mode);
 		}
 
 		$this->mode = $mode;
@@ -260,7 +260,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function compress () {
 		if ($this->isCompressed()) {
-			throw new BSFileException('%sをgzip圧縮することは出来ません。', $this);
+			throw new BSFileException('%sをgzip圧縮することはできません。', $this);
 		}
 		$contents = gzencode($this->getContents(), 9);
 		$this->setContents($contents);

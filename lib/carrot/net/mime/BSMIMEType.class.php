@@ -50,7 +50,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class BSMIMEType extends BSParameterHolder {
 		if (!$this->file) {
 			$this->file = new BSFile(BS_TYPES_FILE);
 			if (!$this->file->isReadable()) {
-				throw new BSConfigException('%sを開くことが出来ません。', $file);
+				throw new BSConfigException('%sを開くことができません。', $file);
 			}
 		}
 		return $this->file;

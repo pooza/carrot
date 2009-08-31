@@ -196,7 +196,7 @@ class BSView extends BSHTTPResponse {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('%s のビュー "%s"', $this->getModule(), $this->getName());
+		return sprintf('%sのビュー "%s"', $this->getModule(), $this->getName());
 	}
 
 	/**

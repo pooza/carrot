@@ -49,7 +49,7 @@ class BSFontManager {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
 	}
 
 	/**

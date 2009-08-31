@@ -144,7 +144,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 */
 	public function set ($name, $value, $flag = null, $expire = null) {
 		if (is_object($value)) {
-			throw new BSMemcacheException('オブジェクトを登録出来ません。');
+			throw new BSMemcacheException('オブジェクトを登録できません。');
 		}
 		return parent::set($this->getAttributeName($name), $value, $flag, $expire);
 	}

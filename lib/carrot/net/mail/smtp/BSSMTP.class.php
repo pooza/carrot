@@ -40,7 +40,7 @@ class BSSMTP extends BSSocket {
 		parent::open();
 		$command = 'EHLO ' . BSController::getInstance()->getHost()->getName();
 		if (!in_array($this->execute($command), array(220, 250))) {
-			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
+			throw new BSMailException('%sに接続できません。 (%s)', $this, $this->getPrevLine());
 		}
 		$this->keywords = new BSArray($this->getLines());
 	}
@@ -105,7 +105,7 @@ class BSSMTP extends BSSocket {
 				}
 			}
 		}
-		throw new BSMailException('%sの送信に失敗しました。', $this->getMail());
+		throw new BSMailException('%sを送信できません。', $this->getMail());
 	}
 
 	/**

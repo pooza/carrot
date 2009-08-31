@@ -87,7 +87,7 @@ class BSCurlHTTP extends BSHTTP {
 		$response->setURL($url);
 		$contents = BSString::convertLineSeparator(curl_exec($this->getEngine()), "\n");
 		if ($contents === false) {
-			throw new BSHTTPException('%sへの送信に失敗しました。', $url->getContents());
+			throw new BSHTTPException('%sへ送信できません。', $url->getContents());
 		}
 		$response->setContents($contents);
 

@@ -69,7 +69,7 @@ class BSUtility {
 			$file = new BSFile($file);
 		}
 		if (!$file->isReadable()) {
-			throw new BSFileException('"%s"はインクルード出来ません。', $file);
+			throw new BSFileException('"%s"はインクルードできません。', $file);
 		}
 
 		if ($config = ini_get('display_errors')) {

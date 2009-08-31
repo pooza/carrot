@@ -40,13 +40,13 @@ class BSNetwork extends BSHost {
 	 */
 	public function setCIDR ($address) {
 		if (!preg_match("/^([0-9\.]+)\/([0-9]+)$/", $address, $matches)) {
-			throw new BSNetException('"%s"のパースに失敗しました。', $address);
+			throw new BSNetException('"%s"をパースできません。', $address);
 		}
 
 		$this->setAddress($matches[1]);
 		$net = $this->address->parseAddress($address);
 		if ($net instanceof PEAR_Error) {
-			throw new BSNetException('%sのパースに失敗しました。(%s)', $this, $net->message);
+			throw new BSNetException('%sをパースできません。(%s)', $this, $net->message);
 		}
 
 		foreach (array('bitmask', 'netmask', 'network', 'broadcast', 'long') as $var) {

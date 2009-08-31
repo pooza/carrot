@@ -31,7 +31,7 @@ class BSWebController extends BSController {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class BSWebController extends BSController {
 	 */
 	public function putHeaders () {
 		if (headers_sent()) {
-			$this->putLog('レスポンスヘッダを送信出来ませんでした。', $this);
+			$this->putLog('レスポンスヘッダを送信できません。', $this);
 		}
 
 		if ($status = $this->getHeaders()->getParameter('Status')) {

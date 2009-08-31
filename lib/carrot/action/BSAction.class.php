@@ -428,7 +428,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('%s のアクション "%s"', $this->getModule(), $this->getName());
+		return sprintf('%sのアクション"%s"', $this->getModule(), $this->getName());
 	}
 }
 

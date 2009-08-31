@@ -65,14 +65,14 @@ abstract class BSDirectoryEntry {
 		if (!$this->isExists()) {
 			throw new BSFileException('%sが存在しません。', $this);
 		} else if (!$this->isWritable($this->getPath())) {
-			throw new BSFileException('%sをリネーム出来ません。', $this);
+			throw new BSFileException('%sをリネームできません。', $this);
 		} else if (strpos($name, DIRECTORY_SEPARATOR) !== false) {
-			throw new BSFileException('%sをリネーム出来ません。', $this);
+			throw new BSFileException('%sをリネームできません。', $this);
 		}
 
 		$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
 		if (!@rename($this->getPath(), $path)) {
-			throw new BSFileException('%sをリネーム出来ません。', $this);
+			throw new BSFileException('%sをリネームできません。', $this);
 		}
 		$this->setPath($path);
 	}
@@ -138,12 +138,12 @@ abstract class BSDirectoryEntry {
 		if (!$this->isExists()) {
 			throw new BSFileException('%sが存在しません。', $this);
 		} else if (!$this->isWritable() || !$dir->isWritable()) {
-			throw new BSFileException('%sを移動出来ません。', $this);
+			throw new BSFileException('%sを移動できません。', $this);
 		}
 
 		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 		if (!@rename($this->getPath(), $path)) {
-			throw new BSFileException('%sを移動出来ません。', $this);
+			throw new BSFileException('%sを移動できません。', $this);
 		}
 		$this->setPath($path);
 	}
@@ -268,7 +268,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function setMode ($mode) {
 		if (!$this->isWritable() || !chmod($this->getPath(), $mode)) {
-			throw new BSFileException('%sのファイルモードの変更に失敗しました。', $this);
+			throw new BSFileException('%sのファイルモードを変更できません。', $this);
 		}
 	}
 

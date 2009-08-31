@@ -274,17 +274,14 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isInsertable()) {
-			throw new BSDatabaseException('%sへのレコード挿入は許可されていません。', $this);
+			throw new BSDatabaseException('%sへのレコード挿入はできません。', $this);
 		}
 
-		$query = BSSQL::getInsertQueryString($this->getName(), $values, $this->getDatabase());
-		$this->getDatabase()->exec($query);
+		$db = $this->getDatabase();
+		$query = BSSQL::getInsertQueryString($this->getName(), $values, $db);
+		$db->exec($query);
 		if ($this->isAutoIncrement()) {
-			$sequence = $this->getDatabase()->getSequenceName(
-				$this->getName(),
-				$this->getKeyField()
-			);
-			$id = $this->getDatabase()->lastInsertId($sequence);
+			$id = $db->lastInsertId($db->getSequenceName($this->getName(), $this->getKeyField()));
 		} else {
 			$id = $values[$this->getKeyField()];
 		}
@@ -294,7 +291,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			$message = new BSStringFormat('%s(%d)を作成しました。');
 			$message[] = BSTranslateManager::getInstance()->execute($this->getName());
 			$message[] = $id;
-			$this->getDatabase()->putLog($message);
+			$db->putLog($message);
 		}
 
 		return $id;
@@ -353,7 +350,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function clear () {
 		if (!$this->isClearable()) {
-			throw new BSDatabaseException('%sのレコード全消去は許可されていません。', $this);
+			throw new BSDatabaseException('%sのレコード全消去はできません。', $this);
 		}
 		$this->getDatabase()->exec('DELETE FROM ' . $this->getName());
 

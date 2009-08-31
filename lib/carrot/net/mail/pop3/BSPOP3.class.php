@@ -21,7 +21,7 @@ class BSPOP3 extends BSSocket {
 	public function open () {
 		parent::open();
 		if (!$this->isSuccess()) {
-			throw new BSMailException('%sに接続出来ません。 (%s)', $this, $this->getPrevLine());
+			throw new BSMailException('%sに接続できません。 (%s)', $this, $this->getPrevLine());
 		}
 		try {
 			$this->execute('UIDL');

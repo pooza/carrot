@@ -123,7 +123,7 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	 */
 	public function save () {
 		if ($this->isExists() && !$this->isWritable()) {
-			throw new BSFileException('%sに書き込むことが出来ません。', $this);
+			throw new BSFileException('%sに書き込むことができません。', $this);
 		}
 
 		$types = new BSArray;

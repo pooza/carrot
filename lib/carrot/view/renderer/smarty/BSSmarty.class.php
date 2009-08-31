@@ -382,7 +382,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			$this->compiler = new $this->compiler_class;
 			if (!$this->compiler->initialize($this)) {
 				throw new BSInitializationException(
-					'%sが初期化出来ません。',
+					'%sが初期化できません。',
 					$this->compiler_class
 				);
 			}

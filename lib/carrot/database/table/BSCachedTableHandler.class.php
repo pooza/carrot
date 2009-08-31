@@ -30,7 +30,7 @@ abstract class BSCachedTableHandler extends BSTableHandler {
 	 */
 	public function setFields ($fields) {
 		if ($fields) {
-			throw new BSDatabaseException('変更出来ません。');
+			throw new BSDatabaseException('変更できません。');
 		}
 	}
 

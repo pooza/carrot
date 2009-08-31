@@ -29,7 +29,7 @@ abstract class BSTableProfile implements BSAssignable {
 		$this->name = $table;
 
 		if (!$this->isExists()) {
-			throw new BSDatabaseException('%sが取得出来ません。', $this);
+			throw new BSDatabaseException('%sが取得できません。', $this);
 		}
 	}
 

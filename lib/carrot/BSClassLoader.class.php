@@ -41,7 +41,7 @@ class BSClassLoader {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new Exception('"' . __CLASS__ . '"はコピー出来ません。');
+		throw new Exception('"' . __CLASS__ . '"はコピーできません。');
 	}
 
 	/**

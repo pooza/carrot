@@ -111,7 +111,7 @@ class BSSocketServer {
 			}
 		}
 
-		$message = new BSStringFormat('%sのサーバソケット作成に失敗しました。');
+		$message = new BSStringFormat('%sのサーバソケットを作成できません。');
 		$message[] = get_class($this);
 		throw new BSNetException($message);
 	}

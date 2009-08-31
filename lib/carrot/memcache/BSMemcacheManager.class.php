@@ -40,7 +40,7 @@ class BSMemcacheManager {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピー出来ません。', __CLASS__);
+		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class BSMemcacheManager {
 	 */
 	public function getServer () {
 		if (!$this->isEnabled()) {
-			throw new BSMemcacheException('memcachedに接続出来ません。');
+			throw new BSMemcacheException('memcachedに接続できません。');
 		}
 		if (!$this->server) {
 			$server = new BSMemcache;
