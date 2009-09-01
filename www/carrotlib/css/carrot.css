@@ -147,6 +147,17 @@ table th.holiday {
 	color: red;
 }
 
+.smarty_preformatted {
+	font-family: monospace;
+	color: #333333;
+}
+
+.smarty_preformatted em {
+	font-family: monospace;
+	font-style: normal;
+	color: navy;
+}
+
 .common_block {
 	margin:6px;
 	padding:3px;

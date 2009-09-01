@@ -134,9 +134,7 @@ class BSMIMEType extends BSParameterHolder {
 		$types = new BSArray;
 		require(BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile()));
 		foreach ($config['types'] as $key => $value) {
-			if (!BSString::isBlank($value)) {
-				$types['.' . $key] = $value;
-			}
+			$types['.' . $key] = $value;
 		}
 		return $types;
 	}
