@@ -23,7 +23,7 @@
 class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	private $date;
 	private $holidays;
-	const DEFAULT_HOST = 'refits.cgk.affrc.go.jp';
+	const DEFAULT_HOST = 'www.finds.jp';
 
 	/**
 	 * @access public
@@ -97,7 +97,7 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	private function query () {
 		try {
 			$path = sprintf(
-				'/tsrv/jp/calendar.php?y=%d&m=%d&t=h',
+				'/ws/calendar.php?y=%d&m=%d&t=h',
 				$this->getDate()->getAttribute('year'),
 				$this->getDate()->getAttribute('month')
 			);
