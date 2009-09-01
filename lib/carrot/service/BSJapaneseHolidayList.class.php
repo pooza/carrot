@@ -5,7 +5,7 @@
  */
 
 /**
- * ReFITS Lab 「曜日・祝日計算サービス」クライアント
+ * Finds.jp 「曜日・祝日計算サービス」クライアント
  *
  * 同サービスの祝日機能のみを実装。
  * 曜日を知りたい場合は、BSDate::getWeekday等を利用すること。
@@ -13,17 +13,18 @@
  * サンプルコード
  * $holidays = new BSJapaneseHolidayList;
  * $holidays->setDate(BSDate::getNow());
- * p($holidays[5]);  //当月5日の祝日の名前を表示
- * p($holidays[10]); //当月10日
+ * p($holidays[5]); //当月5日の祝日の名前
+ * p($holidays->getHolidays()); //当月のすべての祝日を配列で
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @link http://refits.cgk.affrc.go.jp/tsrv/jp/calendar.html
+ * @link http://www.finds.jp/wsdocs/calendar/
  */
 class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	private $date;
 	private $holidays;
 	const DEFAULT_HOST = 'www.finds.jp';
+	const PATH = '/ws/calendar.php';
 
 	/**
 	 * @access public
@@ -96,12 +97,13 @@ class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
 	 */
 	private function query () {
 		try {
-			$path = sprintf(
-				'/ws/calendar.php?y=%d&m=%d&t=h',
-				$this->getDate()->getAttribute('year'),
-				$this->getDate()->getAttribute('month')
-			);
-			$response = $this->sendGetRequest($path);
+			$url = BSURL::getInstance();
+			$url['host'] = $this->getHost();
+			$url['path'] = self::PATH;
+			$url->setParameter('y', $this->getDate()->getAttribute('year'));
+			$url->setParameter('m', $this->getDate()->getAttribute('month'));
+			$url->setParameter('t', 'h');
+			$response = $this->sendGetRequest($url->getFullPath());
 			$xml = new BSXMLDocument;
 			$xml->setContents($response->getRenderer()->getContents());
 			return $this->parse($xml);
