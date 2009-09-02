@@ -132,7 +132,7 @@ class BSClassLoader {
 		$iterator = new RecursiveDirectoryIterator($path);
 		$entries = array();
 		foreach ($iterator as $entry) {
-			if ($entry->getFilename() == '.svn') {
+			if (in_array($entry->getFilename(), array('.', '..', '.svn'))) {
 				continue;
 			} else if ($iterator->isDir()) {
 				$entries += $this->loadPath($entry->getPathname());
