@@ -20,7 +20,11 @@ function smarty_function_carrot_url ($params, &$smarty) {
 			$url[$key] = $value;
 		}
 		if (BSString::isBlank($params['module'])) {
-			$url['module'] = BSController::getInstance()->getModule();
+			if (BSString::isBlank($params['action'])) {
+				$url['action'] = BSController::getInstance()->getAction();
+			} else {
+				$url['module'] = BSController::getInstance()->getModule();
+			}
 		}
 	} else {
 		$url = BSURL::getInstance($params['contents']);
