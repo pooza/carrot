@@ -126,7 +126,7 @@ abstract class BSRecordAction extends BSAction {
 	public function validate () {
 		if (!$this->isCreateAction() && !$this->getRecord()) {
 			$this->request->setError($this->getTable()->getKeyField(), '未登録です。');
-			$this->controller->setHeader('Status', '404 Not Found');
+			$this->controller->setHeader('Status', BSHTTP::getStatus(404));
 			return false;
 		}
 		return parent::validate();

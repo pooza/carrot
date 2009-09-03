@@ -9,7 +9,7 @@
  */
 class PingErrorView extends BSSmartyView {
 	public function execute () {
-		$this->setHeader('Status', '500 Internal Server Error');
+		$this->setStatus(500);
 		$this->setRenderer(new BSPlainTextRenderer);
 		$this->renderer->setContents($this->request->getErrors()->join("\n"));
 	}

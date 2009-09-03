@@ -118,6 +118,33 @@ class BSHTTP extends BSSocket {
 	public function getDefaultPort () {
 		return BSNetworkService::getPort('http');
 	}
+
+	/**
+	 * 全てのステータスを返す
+	 *
+	 * @access public
+	 * @return BSArray 全てのステータス
+	 * @static
+	 */
+	static public function getAllStatus () {
+		require(BSConfigManager::getInstance()->compile('http_status'));
+		return new BSArray($config);
+	}
+
+	/**
+	 * ステータスを返す
+	 *
+	 * @access public
+	 * @param integer $code ステータスコード
+	 * @return string ステータス文字列
+	 * @static
+	 */
+	static public function getStatus ($code) {
+		if ($status = self::getAllStatus()->getParameter($code)) {
+			return $code . ' ' . $status['status'];
+		}
+		throw new BSHTTPException('%dは正しくないステータスコードです。', $code);
+	}
 }
 
 /* vim:set tabstop=4: */

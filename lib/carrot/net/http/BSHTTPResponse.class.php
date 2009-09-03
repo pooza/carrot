@@ -83,6 +83,19 @@ class BSHTTPResponse extends BSMIMEDocument {
 	}
 
 	/**
+	 * ステータスコードを設定
+	 *
+	 * @access public
+	 * @param integer $code ステータスコード
+	 */
+	public function setStatus ($code) {
+		if ($status = BSHTTP::getStatus($code)) {
+			$this->status = $code;
+			$this->setHeader('Status', $status);
+		}
+	}
+
+	/**
 	 * リクエストされたURLを返す
 	 *
 	 * @access public
