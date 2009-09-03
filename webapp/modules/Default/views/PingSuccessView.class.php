@@ -9,6 +9,7 @@
  */
 class PingSuccessView extends BSView {
 	public function execute () {
+		$this->setStatus(200);
 		$this->setRenderer(new BSPlainTextRenderer);
 		$this->renderer->setContents('OK');
 	}
