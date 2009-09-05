@@ -10,7 +10,7 @@
 {assign var='body.id' value='LoginFormContainer'}
 {include file='AdminHeader'}
 
-<form method="post" id="LoginForm" action="/{$module.name}/{$action.name}">
+{form id="LoginForm"}
 	<h1>{const name='app_name_ja'}</h1>
 
 	{include file='ErrorMessages' hide_error_code=true}
@@ -34,7 +34,7 @@
 			</td>
 		</tr>
 	</table>
-</form>
+{/form}
 
 {include file='AdminFooter'}
 

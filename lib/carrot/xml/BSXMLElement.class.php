@@ -70,6 +70,34 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
+	 * 属性を削除
+	 *
+	 * @access public
+	 * @param string $name 属性名
+	 */
+	public function removeAttribute ($name) {
+		if (is_array($name) || is_object($name)) {
+			throw new BSRegisterException('属性名が文字列ではありません。');
+		}
+		if (isset($this->attributes[$name])) {
+			unset($this->attributes[$name]);
+			$this->contents = null;
+		}
+	}
+
+	/**
+	 * 属性をまとめて設定
+	 *
+	 * @access public
+	 * @param string[] $values 属性の配列
+	 */
+	public function setAttributes ($values) {
+		foreach ($values as $key => $value) {
+			$this->setAttribute($key, $value);
+		}
+	}
+
+	/**
 	 * 属性を全て削除
 	 *
 	 * @access public
