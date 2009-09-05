@@ -236,11 +236,10 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			preg_match_all('/[- _]*[A-Z]+[^A-Z]*/u', $value, $matchesAll, PREG_SET_ORDER);
-			foreach ($matchesAll as $matches) {
+			foreach (self::eregMatchAll('[- _]*[A-Z]+[^A-Z]*', $value) as $matches) {
 				$value = str_replace($matches[0], '_' . $matches[0], $value);
 			}
-			$value = preg_replace('/_{2,}/', '_', $value);
+			$value = mb_ereg_replace('_{2,}', '_', $value);
 			$value = ltrim($value, '_');
 			$value = self::toLower($value);
 		}
@@ -397,9 +396,27 @@ class BSString {
 				$value[$key] = self::stripControlCharacters($item);
 			}
 		} else {
-			$value = preg_replace('/[[:cntrl:]]/u', '', $value);
+			$value = mb_ereg_replace('[[:cntrl:]]', '', $value);
 		}
 		return $value;
+	}
+
+	/**
+	 * 繰返し正規表現検索を行う
+	 *
+	 * @access public
+	 * @param string $pattern 検索パターン
+	 * @param string $subject 入力文字列
+	 * @return BSArray マッチした箇所の配列
+	 * @static
+	 */
+	static public function eregMatchAll ($pattern, $subject) {
+		$matches = new BSArray;
+		mb_ereg_search_init($subject, $pattern);
+		while ($regs = mb_ereg_search_regs()) {
+			$matches[] = new BSArray($regs);
+		}
+		return $matches;
 	}
 
 	/**
