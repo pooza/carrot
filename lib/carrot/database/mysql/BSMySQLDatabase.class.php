@@ -38,7 +38,7 @@ class BSMySQLDatabase extends BSDatabase {
 					$params
 				);
 				$db->setName($name);
-				if (!self::getConfigFile() && !$db->isLegacy()) {
+				if (!$params) {
 					$db->exec('SET NAMES ' . $db->getEncodingName());
 				}
 				return $db;
