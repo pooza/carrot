@@ -7,7 +7,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class PingErrorView extends BSSmartyView {
+class PingErrorView extends BSView {
 	public function execute () {
 		$this->setStatus(500);
 		$this->setRenderer(new BSPlainTextRenderer);

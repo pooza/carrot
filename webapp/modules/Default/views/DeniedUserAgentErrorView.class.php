@@ -9,7 +9,6 @@
  */
 class DeniedUserAgentErrorView extends BSSmartyView {
 	public function execute () {
-		$this->setTemplate('DeniedUserAgent');
 		$this->setStatus(400);
 	}
 }

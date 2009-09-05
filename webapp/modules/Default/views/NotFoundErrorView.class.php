@@ -9,12 +9,6 @@
  */
 class NotFoundErrorView extends BSSmartyView {
 	public function execute () {
-		try {
-			$this->setTemplate('NotFound');
-		} catch (BSSmartyException $e) {
-			$this->setTemplate('DefaultMessage');
-			$this->setAttribute('message', 'ファイルが見つかりません。');
-		}
 		$this->setStatus(404);
 	}
 }
