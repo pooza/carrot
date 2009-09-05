@@ -37,8 +37,6 @@ class BSCBCCryptor extends Crypt_CBC implements BSCryptor {
 	/**
 	 * ソルトを設定
 	 *
-	 * setKeyのエイリアス
-	 *
 	 * @access public
 	 * @param string $salt ソルト
 	 */
