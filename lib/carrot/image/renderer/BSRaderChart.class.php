@@ -86,7 +86,6 @@ class BSRaderChart extends BSImage {
 	 * @return BSColor 色
 	 */
 	private function getColor ($name) {
-		$config = array();
 		require(BSConfigManager::getInstance()->compile('rader_chart'));
 		$config = new BSArray($config);
 		if (!$config->hasParameter($name)) {
