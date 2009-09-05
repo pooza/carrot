@@ -19,7 +19,7 @@ function smarty_block_form ($params, $contents, &$smarty) {
 		$params['method'] = 'POST';
 	}
 	$form->setMethod($params['method']);
-	$form->setAttachable((bool)$params['attachable']);
+	$form->setAttachable(!!$params['attachable']);
 	$form->setAction($params);
 
 	$params->removeParameter('method');

@@ -28,7 +28,7 @@ class JavaScriptAction extends BSAction {
 	}
 
 	public function validate () {
-		return ($this->getJavaScriptSet() != null);
+		return !!$this->getJavaScriptSet();
 	}
 
 	public function handleError () {

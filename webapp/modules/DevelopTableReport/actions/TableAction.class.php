@@ -46,7 +46,7 @@ class TableAction extends BSAction {
 	}
 
 	public function validate () {
-		return ($this->getTableProfile() != null);
+		return !!$this->getTableProfile();
 	}
 }
 

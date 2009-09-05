@@ -415,7 +415,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return boolean 日曜日か祭日ならTrue
 	 */
 	public function isHoliday ($country = 'ja') {
-		return ($this->getWeekday() == self::SUN) || ($this->getHolidayName($country) != null);
+		return (($this->getWeekday() == self::SUN) || !!$this->getHolidayName($country));
 	}
 
 	/**

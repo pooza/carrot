@@ -38,7 +38,7 @@ class BSRegexValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$matched = (boolean)preg_match($this['pattern'], $value);
+		$matched = !!preg_match($this['pattern'], $value);
 		if (($this['match'] && !$matched) || (!$this['match'] && $matched)) {
 			$this->error = $this['match_error'];
 			return false;

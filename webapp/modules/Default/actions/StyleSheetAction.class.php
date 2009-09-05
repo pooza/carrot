@@ -28,7 +28,7 @@ class StyleSheetAction extends BSAction {
 	}
 
 	public function validate () {
-		return ($this->getStyleSet() != null);
+		return !!$this->getStyleSet();
 	}
 
 	public function handleError () {

@@ -91,7 +91,7 @@ class BSIniConfigParser implements BSConfigParser {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return ($this->getResult() != null);
+		return !!$this->getResult();
 	}
 
 	/**

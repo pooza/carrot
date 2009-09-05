@@ -37,7 +37,7 @@ class DatabaseAction extends BSAction {
 	}
 
 	public function validate () {
-		return ($this->getDatabase() != null);
+		return !!$this->getDatabase();
 	}
 }
 

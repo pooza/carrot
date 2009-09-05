@@ -34,7 +34,7 @@ class BrowseAction extends BSAction {
 
 	public function validate () {
 		try {
-			return ($this->getModule()->getLogger() != null);
+			return !!$this->getModule()->getLogger();
 		} catch (BSLogException $e) {
 			$this->exception = $e;
 			return false;

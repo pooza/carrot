@@ -41,13 +41,13 @@ class BSNumberValidator extends BSValidator {
 		}
 
 		$min = $this['min'];
-		if (($min != null) && ($value < $min)) {
+		if (!!$min && ($value < $min)) {
 			$this->error = $this['min_error'];
 			return false;
 		}
 
 		$max = $this['max'];
-		if (($max != null) && ($max < $value)) {
+		if (!!$max && ($max < $value)) {
 			$this->error = $this['max_error'];
 			return false;
 		}
