@@ -534,6 +534,7 @@
 -
   names:
     - くつ
+    - 靴
   pictograms:
     Docomo: 63738
     SoftBank: 57351
@@ -1102,6 +1103,7 @@
   names:
     - コピーライト
     - (C)
+    - (c)
   pictograms:
     Docomo: 63958
     SoftBank: 57934
@@ -1129,6 +1131,7 @@
   names:
     - レジスタードトレードマーク
     - (R)
+    - (r)
   pictograms:
     Docomo: 63963
     SoftBank: 57935
@@ -1264,6 +1267,7 @@
 -
   names:
     - うまい!
+    - うまい
   pictograms:
     Docomo: 63991
     SoftBank: 57430
