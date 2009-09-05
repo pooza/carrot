@@ -98,7 +98,7 @@ class BSFormElement extends BSXMLElement {
 				}
 				return $this->setAction($url);
 			}
-			$this->setAttribute($params['path']);
+			$this->setAction($action['path']);
 		} else {
 			$this->setAttribute('action', $action);
 		}

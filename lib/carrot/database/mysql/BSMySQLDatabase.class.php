@@ -22,14 +22,14 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @static
 	 */
 	static protected function connect ($name) {
+		$constants = BSConstantHandler::getInstance();
+
 		$params = array();
-		if ($file = self::getConfigFile()) {
-			$params[self::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
+		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = self::getConfigFile())) {
+			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
 		}
 
-		$constants = BSConstantHandler::getInstance();
-		$password = $constants['PDO_' . $name . '_PASSWORD'];
-		foreach (array(BSCrypt::getInstance()->decrypt($password), $password) as $password) {
+		foreach (self::getPasswords($name) as $password) {
 			try {
 				$db = new self(
 					$constants['PDO_' . $name . '_DSN'],
@@ -48,6 +48,18 @@ class BSMySQLDatabase extends BSDatabase {
 		throw new BSDatabaseException('データベース "%s" に接続できません。', $name);
 	}
 
+	static private function getPasswords ($name) {
+		$constants = BSConstantHandler::getInstance();
+		$passwords = new BSArray;
+		$password = $constants['PDO_' . $name . '_PASSWORD'];
+		$passwords[] = $password;
+
+		if (!BSString::isBlank($password)) {
+			$passwords[] = BSCrypt::getInstance()->decrypt($password);
+		}
+		return $passwords;
+	}
+
 	/**
 	 * 設定ファイルを返す
 	 *
@@ -57,11 +69,6 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	static private function getConfigFile () {
 		if (!self::$configFile) {
-			$constants = BSConstantHandler::getInstance();
-			if (BSString::isBlank($constants['MYSQL_ATTR_READ_DEFAULT_FILE'])) {
-				return;
-			}
-
 			$dir = BSController::getInstance()->getDirectory('config');
 			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
 				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
