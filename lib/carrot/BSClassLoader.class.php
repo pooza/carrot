@@ -205,7 +205,7 @@ class BSClassLoader {
 		if (class_exists('BSString', false)) {
 			return BSString::stripControlCharacters($value);
 		}
-		return ereg_replace('[[:cntrl:]]', '', $value);
+		return mb_ereg_replace('[[:cntrl:]]', '', $value);
 	}
 
 	/**
