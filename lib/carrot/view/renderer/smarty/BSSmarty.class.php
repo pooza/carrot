@@ -345,12 +345,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		if ($name instanceof BSFile) {
 			return new BSTemplateFile($name->getPath());
 		} else if (BSUtility::isPathAbsolute($name)) {
-			$file = new BSTemplateFile($name);
-			if ($file->isReadable()) {
-				return $file;
-			}
+			return new BSTemplateFile($name);
 		} else {
-			$name = preg_replace('/\.tpl$/i', '', $name);
+			$name = mb_eregi_replace('\.tpl$', '', $name);
 			$directories = new BSArray;
 			$directories[] = $this->getTemplatesDirectory();
 			$directories[] = BSController::getInstance()->getDirectory('templates');
@@ -458,8 +455,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	public function _get_auto_filename ($base, $source = null, $id = null) {
 		// ソーステンプレート名をフルパス表記に修正
 		if (!BSUtility::isPathAbsolute($source)) {
-			$pattern = '/' . preg_quote(DIRECTORY_SEPARATOR, '/') . '*$/';
-			$source = preg_replace($pattern, DIRECTORY_SEPARATOR, $base) . $source;
+			$pattern = preg_quote(DIRECTORY_SEPARATOR) . '*$';
+			$source = mb_ereg_replace($pattern, DIRECTORY_SEPARATOR, $base) . $source;
 		}
 		return parent::_get_auto_filename($base, $source, $id);
 	}
