@@ -29,7 +29,7 @@ class BSNetwork extends BSHost {
 	 * @return string CIDR形式ネットワークアドレス
 	 */
 	public function getCIDR () {
-		return sprintf('%s/%s', $this->getAddress(), $this->getAttribute('bitmask'));
+		return $this->getAddress() . '/' . $this->getAttribute('bitmask');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class BSNetwork extends BSHost {
 	 * @param string $address CIDR形式ネットワークアドレス
 	 */
 	public function setCIDR ($address) {
-		if (!preg_match("/^([0-9\.]+)\/([0-9]+)$/", $address, $matches)) {
+		if (!mb_ereg('^([0-9\\.]+)\\/([0-9]+)$', $address, $matches)) {
 			throw new BSNetException('"%s"をパースできません。', $address);
 		}
 

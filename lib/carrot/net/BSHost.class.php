@@ -13,7 +13,6 @@
 class BSHost implements BSAssignable {
 	protected $address;
 	protected $name;
-	const DEFAULT_SOCKET_CLASS = 'BSSocket';
 
 	/**
 	 * @access public
@@ -23,7 +22,7 @@ class BSHost implements BSAssignable {
 		require_once('Net/IPv4.php');
 		$this->address = new Net_IPv4;
 
-		if (preg_match("/^[0-9\.]+$/", $address)) {
+		if (mb_ereg('^[0-9\\.]+$', $address)) {
 			$this->setAddress($address);
 		} else {
 			$this->setName($address);
@@ -130,19 +129,6 @@ class BSHost implements BSAssignable {
 		$values = get_object_vars($this->address);
 		$values['name'] = $this->getName();
 		return $values;
-	}
-
-	/**
-	 * ソケットを返す
-	 *
-	 * @access public
-	 * @param integer $port ポート
-	 * @param string $class クラス名
-	 * @return BSSocket ソケット
-	 */
-	public function getSocket ($port, $class = self::DEFAULT_SOCKET_CLASS) {
-		$class = BSClassLoader::getInstance()->getClassName($class);
-		return new $class($this, $port);
 	}
 
 	/**
