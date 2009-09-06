@@ -76,7 +76,7 @@ abstract class BSLogger {
 	 * @return boolean 例外ならTrue
 	 */
 	protected function isException ($priority) {
-		return preg_match('/Exception$/', $priority);
+		return mb_ereg('Exception$', $priority);
 	}
 }
 

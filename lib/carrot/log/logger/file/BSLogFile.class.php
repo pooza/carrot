@@ -26,15 +26,15 @@ class BSLogFile extends BSFile {
 			}
 
 			foreach ($this->getLines() as $line) {
-				$pattern = '/\[([^]]*)\] \[([^]]*)\] \[([^]]*)\] (.*)/';
-				if (!preg_match($pattern, $line, $matches)) {
+				$pattern = '\[([^]]*)\] \[([^]]*)\] \[([^]]*)\] (.*)';
+				if (!mb_ereg($pattern, $line, $matches)) {
 					continue;
 				}
 				$this->entries[] = array(
 					'date' => $matches[1],
 					'remote_host' => $matches[2],
 					'priority' => $matches[3],
-					'exception' => preg_match('/Exception$/', $matches[3]),
+					'exception' => mb_ereg('Exception$', $matches[3]),
 					'message' => $matches[4],
 				);
 			}

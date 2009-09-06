@@ -19,6 +19,6 @@ class BSLogEntry extends BSRecord {
 	 * @return boolean 例外ならTrue
 	 */
 	public function isException () {
-		return preg_match('/Exception$/', $this->getAttribute('priority'));
+		return mb_ereg('Exception$', $this->getAttribute('priority'));
 	}
 }
