@@ -127,7 +127,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * @param string $name JavaScriptファイルの名前
 	 */
 	public function register ($name) {
-		$name = preg_replace('/\.js$/i', '', $name) . '.js';
+		$name = mb_eregi('\.js$', '', $name) . '.js';
 		$dirs = new BSArray;
 		$dirs[] = BSController::getInstance()->getDirectory('js');
 		$dirs[] = BSController::getInstance()->getDirectory('www');

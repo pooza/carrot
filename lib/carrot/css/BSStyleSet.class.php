@@ -89,7 +89,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @param string $name ファイル名
 	 */
 	public function register ($name) {
-		$name = preg_replace('/\.css$/i', '', $name) . '.css';
+		$name = mb_eregi('\.css$', '', $name) . '.css';
 		$dirs = new BSArray;
 		$dirs[] = BSController::getInstance()->getDirectory('css');
 		$dirs[] = BSController::getInstance()->getDirectory('www');
