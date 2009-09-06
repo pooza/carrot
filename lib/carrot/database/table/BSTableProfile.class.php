@@ -129,15 +129,12 @@ abstract class BSTableProfile implements BSAssignable {
 			'constraints' => $this->getConstraints(),
 		);
 
-		$pattern = sprintf(
-			'/^(%s)_id$/',
-			$this->getDatabase()->getTableNames()->join('|')
-		);
+		$pattern = '^(' . $this->getDatabase()->getTableNames()->join('|') . ')_id$';
 		foreach ($this->getFields() as $field) {
 			if (isset($field['is_nullable'])) {
 				$field['is_nullable'] = ($field['is_nullable'] == 'YES');
 			}
-			if (preg_match($pattern, $field['column_name'], $matches)) {
+			if (mb_ereg($pattern, $field['column_name'], $matches)) {
 				$field['extrenal_table'] = $matches[1];
 			}
 			$values['fields'][] = $field;

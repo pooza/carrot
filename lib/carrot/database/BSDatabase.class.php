@@ -31,8 +31,8 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			self::$instances = new BSArray;
 		}
 		if (!self::$instances[$name]) {
-			$dsn = BSController::getInstance()->getConstant('PDO_' . $name . '_DSN');
-			if (preg_match('/^([a-z0-9]+):/', $dsn, $matches)) {
+			$constants = BSConstantHandler::getInstance();
+			if (mb_ereg('^([a-z0-9]+):', $constants['PDO_' . $name . '_DSN'], $matches)) {
 				switch ($matches[1]) {
 					case 'mysql':
 						return self::$instances[$name] = BSMySQLDatabase::connect($name);
@@ -44,9 +44,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 						return self::$instances[$name] = BSODBCDatabase::connect($name);
 				}
 			}
-			if (!self::$instances[$name]) {
-				throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
-			}
+			throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
 		}
 		return self::$instances[$name];
 	}
@@ -380,7 +378,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return string DBMS
 	 */
 	private function getDBMS () {
-		if (!preg_match('/^BS([A-Za-z]+)Database$/', get_class($this), $matches)) {
+		if (!mb_ereg('^BS([A-Za-z]+)Database$', get_class($this), $matches)) {
 			throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
 		}
 		return $matches[1];
@@ -482,8 +480,8 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	static public function getDatabases () {
 		$databases = new BSArray;
 		foreach (BSConstantHandler::getInstance()->getParameters() as $key => $value) {
-			$pattern = '/^' . BSConstantHandler::PREFIX . '_PDO_([A-Z]+)_DSN$/';
-			if (preg_match($pattern, $key, $matches)) {
+			$pattern = '^' . BSConstantHandler::PREFIX . '_PDO_([A-Z]+)_DSN$';
+			if (mb_ereg($pattern, $key, $matches)) {
 				$name = BSString::toLower($matches[1]);
 				try {
 					$databases[$name] = self::getInstance($name)->getAttributes();

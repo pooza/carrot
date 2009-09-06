@@ -73,7 +73,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^mysql:host=([^;]+);dbname=([^;]+)$/', $this['dsn'], $matches);
+		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+)$', $this['dsn'], $matches);
 		$this->attributes['host'] = new BSHost($matches[1]);
 		$this->attributes['port'] = $this->getDefaultPort();
 		$this->attributes['database_name'] = $matches[2];

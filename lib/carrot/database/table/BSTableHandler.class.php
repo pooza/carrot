@@ -643,13 +643,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	protected function getRecordClassName () {
 		if (!$this->recordClassName) {
-			$pattern = '/^([A-Za-z]+)' . self::CLASS_SUFFIX . '$/';
-			if (preg_match($pattern, get_class($this), $matches)) {
+			$class = get_class($this);
+			if (mb_ereg('^([A-Za-z]+)' . self::CLASS_SUFFIX . '$', $class, $matches)) {
 				$this->recordClassName = BSClassLoader::getInstance()->getClassName($matches[1]);
 			} else {
-				throw new BSDatabaseException(
-					'"%s"のクラス名が正しくありません。', get_class($this)
-				);
+				throw new BSDatabaseException('"%s"のクラス名が正しくありません。', $class);
 			}
 		}
 		return $this->recordClassName;

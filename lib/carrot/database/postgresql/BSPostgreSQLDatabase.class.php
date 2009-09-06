@@ -36,8 +36,8 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		parent::parseDSN();
 		$this->attributes['port'] = $this->getDefaultPort();
 
-		preg_match('/^pgsql:(.+)$/', $this['dsn'], $matches);
-		foreach (preg_split('/ +/', $matches[1]) as $config) {
+		mb_ereg('^pgsql:(.+)$', $this['dsn'], $matches);
+		foreach (mb_split(' +', $matches[1]) as $config) {
 			$config = BSString::explode('=', $config);
 			switch ($config[0]) {
 				case 'host':

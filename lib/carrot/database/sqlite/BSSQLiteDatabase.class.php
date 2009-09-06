@@ -34,7 +34,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		preg_match('/^sqlite:(.+)$/', $this['dsn'], $matches);
+		mb_ereg('^sqlite:(.+)$', $this['dsn'], $matches);
 		$this->attributes['file'] = new BSFile($matches[1]);
 	}
 
