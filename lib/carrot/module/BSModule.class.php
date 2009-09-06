@@ -128,7 +128,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 					$title = $this->getName();
 				}
 			}
-			$this->title = preg_replace('/モジュール$/u', '', $title) . 'モジュール';
+			$this->title = mb_ereg('モジュール$', '', $title) . 'モジュール';
 		}
 		return $this->title;
 	}
@@ -423,8 +423,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getPrefix () {
 		if (!$this->prefix) {
-			$pattern = sprintf('/^(%s)/', self::getPrefixes()->join('|'));
-			if (preg_match($pattern, $this->getName(), $matches)) {
+			$pattern = '^(' . self::getPrefixes()->join('|') . ')';
+			if (mb_ereg($pattern, $this->getName(), $matches)) {
 				$this->prefix = $matches[1];
 			}
 		}
@@ -475,8 +475,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getRecordClassName ($lang = null) {
 		if (!$this->recordClassName) {
 			if (BSString::isBlank($name = $this->getConfig('record_class'))) {
-				$pattern = '/^' . $this->getPrefix() . '([A-Z][A-Za-z]+)$/';
-				if (preg_match($pattern, $this->getName(), $matches)) {
+				$pattern = '^' . $this->getPrefix() . '([A-Z][A-Za-z]+)$';
+				if (mb_ereg($pattern, $this->getName(), $matches)) {
 					$name = $matches[1];
 				}
 			}

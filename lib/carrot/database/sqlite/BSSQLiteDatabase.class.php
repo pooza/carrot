@@ -135,7 +135,12 @@ class BSSQLiteDatabase extends BSDatabase {
 	 * @return float バージョン
 	 */
 	protected function getVersion () {
-		return '3.x'; //取得方法不明
+		if (version_compare(PHP_VERSION, '5.3', '>=')) {
+			$ver = SQLite3::version();
+			return $ver['versionString'];
+		} else {
+			return '3.x';
+		}
 	}
 }
 

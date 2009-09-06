@@ -23,7 +23,6 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	static protected function connect ($name) {
 		$constants = BSConstantHandler::getInstance();
-
 		$params = array();
 		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = self::getConfigFile())) {
 			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
@@ -46,18 +45,6 @@ class BSMySQLDatabase extends BSDatabase {
 			}
 		}
 		throw new BSDatabaseException('データベース "%s" に接続できません。', $name);
-	}
-
-	static private function getPasswords ($name) {
-		$constants = BSConstantHandler::getInstance();
-		$passwords = new BSArray;
-		$password = $constants['PDO_' . $name . '_PASSWORD'];
-		$passwords[] = $password;
-
-		if (!BSString::isBlank($password)) {
-			$passwords[] = BSCrypt::getInstance()->decrypt($password);
-		}
-		return $passwords;
 	}
 
 	/**
@@ -268,7 +255,8 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return string MySQLのエンコード名
 	 */
 	private function getEncodingName () {
-		return self::getEncodings()->getKeys()->getParameter($this['encoding']);
+		$names = self::getEncodings()->getKeys();
+		return $names[$this['encoding']];
 	}
 
 	/**

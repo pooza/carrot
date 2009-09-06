@@ -59,6 +59,25 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * パスワードの候補を配列で返す
+	 *
+	 * @access protected
+	 * @name string $name データベース名
+	 * @return BSArray パスワードの候補
+	 */
+	static protected function getPasswords ($name) {
+		$constants = BSConstantHandler::getInstance();
+		$passwords = new BSArray;
+		$password = $constants['PDO_' . $name . '_PASSWORD'];
+		$passwords[] = $password;
+
+		if (!BSString::isBlank($password)) {
+			$passwords[] = BSCrypt::getInstance()->decrypt($password);
+		}
+		return $passwords;
+	}
+
+	/**
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public

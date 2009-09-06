@@ -161,7 +161,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getName () {
 		if (BSString::isBlank($this->name)) {
-			if (!preg_match('/^(.+)Action$/', get_class($this), $matches)) {
+			if (!mb_ereg('^(.+)Action$', get_class($this), $matches)) {
 				throw new BSModuleException(
 					'アクションの名前が正しくありません。(%s)',
 					get_class($this)
