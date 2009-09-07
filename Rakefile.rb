@@ -27,7 +27,7 @@ end
 
 namespace :var do
   desc 'varディレクトリを初期化'
-  task :init => [:chmod, :clean, 'images:cache:init']
+  task :init => [:chmod, :clean, 'images:cache:init', 'images:favicon:init']
 
   task :chmod do
     system 'chmod 777 var/*'
@@ -50,6 +50,15 @@ namespace :var do
 
       file 'www/carrotlib/images/cache' do
         sh 'ln -s ../../../var/image_cache www/carrotlib/images/cache'
+      end
+    end
+
+    namespace :favicon do
+      desc 'faviconを初期化'
+      task :init => ['www/carrotlib/images/favicon']
+
+      file 'www/carrotlib/images/favicon' do
+        sh 'ln -s ../../../var/favicon www/carrotlib/images/favicon'
       end
     end
   end

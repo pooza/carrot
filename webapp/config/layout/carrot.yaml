@@ -35,6 +35,9 @@ dictionaries:
   class: BSDictionaryDirectory
 dump:
   parent: var
+favicon:
+  parent: var
+  suffix: .png
 font:
   parent: share
   suffix: .ttf

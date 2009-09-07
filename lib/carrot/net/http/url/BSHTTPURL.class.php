@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSHTTPURL extends BSURL implements BSHTTPRedirector {
+class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	private $fullpath;
 	private $query;
 	private $tinyurl;
@@ -150,6 +150,130 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector {
 		} catch (BSException $e) {
 			throw new BSHTTPException('"%s"を取得できません。', $this->getContents());
 		}
+	}
+
+	/**
+	 * favicon画像を返す
+	 *
+	 * @access public
+	 * @return BSImage favicon画像
+	 */
+	public function getFavicon () {
+		try {
+			$url = clone $this;
+			$url['path'] = '/favicon.ico';
+
+			BSUtility::includeFile('class.ico.php');
+			$ico = new Ico($url->getContents());
+			$image = new BSImage;
+			$image->setImage($ico->getIcon(0));
+			$image->setType(BSMIMEType::getType('png'));
+
+			return $image;
+		} catch (BSHTTPException $e) {
+			return null;
+		} catch (BSImageException $e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 画像の情報を返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセルサイズ
+	 * @param integer $flags フラグのビット列
+	 * @return BSArray 画像の情報
+	 */
+	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
+		if ($file = $this->getImageFile()) {
+			$url = BSURL::getInstance();
+			$url['path'] = '/carrotlib/images/favicon/' . $file->getName();
+			return new BSArray(array(
+				'width' => $file->getEngine()->getWidth(),
+				'height' => $file->getEngine()->getHeight(),
+				'type' => $file->getEngine()->getType(),
+				'url' => $url->getContents(),
+				'alt' => $this->getID(),
+			));
+		}
+	}
+
+	/**
+	 * 画像ファイルを返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @return BSImageFile 画像ファイル
+	 */
+	public function getImageFile ($size = 'favicon') {
+		$dir = BSController::getInstance()->getDirectory('favicon');
+		$name = $this->getImageFileBaseName();
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			$file = BSFile::getTemporaryFile('.png', 'BSImageFile');
+			$file->setEngine($this->getFavicon());
+			$file->save();
+			$file->setName($name);
+			$file->moveTo($dir);
+		}
+		return $file;
+	}
+
+	/**
+	 * 画像ファイルを設定する
+	 *
+	 * @access public
+	 * @param BSImageFile $file 画像ファイル
+	 * @param string $size サイズ名
+	 */
+	public function setImageFile (BSImageFile $file, $size = 'favicon') {
+		throw new BSImageException('%sの画像ファイルを設定できません。', $this);
+	}
+
+	/**
+	 * 画像ファイルベース名を返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @return string 画像ファイルベース名
+	 */
+	public function getImageFileBaseName ($size = 'favicon') {
+		return BSCrypt::getSHA1($this->getID());
+	}
+
+	/**
+	 * コンテナのIDを返す
+	 *
+	 * コンテナを一意に識別する値。
+	 * ファイルならinode、DBレコードなら主キー。
+	 *
+	 * @access public
+	 * @return integer ID
+	 */
+	public function getID () {
+		return $this['host']->getName();
+	}
+
+	/**
+	 * コンテナの名前を返す
+	 *
+	 * @access public
+	 * @return string 名前
+	 */
+	public function getName () {
+		return $this->getID();
+	}
+
+	/**
+	 * コンテナのラベルを返す
+	 *
+	 * @access public
+	 * @param string $language 言語
+	 * @return string ラベル
+	 */
+	public function getLabel ($language = 'ja') {
+		return $this->getID();
 	}
 
 	/**
