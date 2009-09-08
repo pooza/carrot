@@ -60,7 +60,7 @@ class BSColor extends BSParameterHolder {
 	 * @return string HTML形式の色コード
 	 */
 	public function getContents () {
-		return sprintf('#%x%x%x', $this['red'], $this['green'], $this['blue']);
+		return sprintf('#%02x%02x%02x', $this['red'], $this['green'], $this['blue']);
 	}
 }
 
