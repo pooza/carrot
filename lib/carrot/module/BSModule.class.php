@@ -128,7 +128,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 					$title = $this->getName();
 				}
 			}
-			$this->title = mb_ereg('モジュール$', '', $title) . 'モジュール';
+			$this->title = mb_ereg_replace('モジュール$', '', $title) . 'モジュール';
 		}
 		return $this->title;
 	}
