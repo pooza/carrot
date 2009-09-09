@@ -139,9 +139,9 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSAtom10Entry エントリー
 	 */
 	public function createEntry () {
-		$this->addElement($element = new BSAtom10Entry);
+		$this->addElement($entry = new BSAtom10Entry);
 		$entry->setDocument($this);
-		return $element;
+		return $entry;
 	}
 
 	/**
