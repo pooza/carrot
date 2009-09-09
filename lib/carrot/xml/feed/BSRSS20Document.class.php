@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
+	private $titles;
 
 	/**
 	 * @access public
@@ -57,7 +58,7 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	 * @access public
 	 * @return string タイトル
 	 */
-	public function getTitle ($title) {
+	public function getTitle () {
 		if ($element = $this->getChannel()->getElement('title')) {
 			return $element->getBody();
 		}
@@ -95,7 +96,7 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	 * @access public
 	 * @return BSHTTPURL リンク
 	 */
-	public function getLink ($title) {
+	public function getLink () {
 		if ($element = $this->getChannel()->getElement('link')) {
 			return BSURL::getInstance($element->getBody());
 		}
@@ -187,6 +188,29 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 			}
 			$element->setDate(BSDate::getInstance($date));
 		}
+	}
+
+	/**
+	 * エントリーのタイトルを配列で返す
+	 *
+	 * @access public
+	 * @return BSArray
+	 */
+	public function getEntryTitles () {
+		if (!$this->titles) {
+			$this->titles = new BSArray;
+			foreach ($this->getChannel() as $entry) {
+				if ($entry->getName() != 'item') {
+					continue;
+				}
+				$this->titles[] = new BSArray(array(
+					'title' => $entry->getTitle(),
+					'date' => $entry->getDate(),
+					'link' => $entry->getLink(),
+				));
+			}
+		}
+		return $this->titles;
 	}
 }
 

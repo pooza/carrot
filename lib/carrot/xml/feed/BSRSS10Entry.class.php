@@ -84,7 +84,9 @@ class BSRSS10Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('dc:date')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::getInstance(
+				mb_ereg_replace('[^0-9]', '', $element->getBody())
+			);
 		}
 	}
 

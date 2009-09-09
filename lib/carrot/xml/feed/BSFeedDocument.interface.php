@@ -93,6 +93,14 @@ interface BSFeedDocument {
 	 * @return BSFeedDocument
 	 */
 	public function convert (Zend_Feed_Abstract $feed);
+
+	/**
+	 * エントリーのタイトルを配列で返す
+	 *
+	 * @access public
+	 * @return BSArray
+	 */
+	public function getEntryTitles ();
 }
 
 /* vim:set tabstop=4: */

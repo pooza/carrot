@@ -84,7 +84,9 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('published')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::getInstance(
+				mb_ereg_replace('[^0-9]', '', $element->getBody())
+			);
 		}
 	}
 
