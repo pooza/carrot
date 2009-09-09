@@ -43,8 +43,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 			} else {
 				$record = $line;
 			}
-			preg_match_all('/"/', $record, $matched);
-			if ((count($matched[0]) % 2) != 0) {
+			if ((BSString::eregMatchAll('"', $record)->count() % 2) != 0) {
 				continue;
 			}
 

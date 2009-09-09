@@ -40,8 +40,7 @@ class BSMIMEUtility {
 		}
 
 		$str = BSString::convertKana($str, 'KV');
-		preg_match_all('/[^[:print:]]+/u', $str, $matchesAll, PREG_SET_ORDER);
-		foreach ($matchesAll as $matches) {
+		foreach (BSString::eregMatchAll('[^[:print:]]+', $str) as $matches) {
 			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
 			$encoded = self::ENCODE_PREFIX . self::encodeBase64($word) . self::ENCODE_SUFFIX;
 			$str = str_replace($matches[0], $encoded, $str);
@@ -58,9 +57,8 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function decode ($str) {
-		$pattern = '/=\\?([^\\?]+)\\?([bq])\\?([^\\?]+)\\?=/i';
-		preg_match_all($pattern, $str, $matchesAll, PREG_SET_ORDER);
-		foreach ($matchesAll as $matches) {
+		$pattern = '=\\?([^\\?]+)\\?([BbQq])\\?([^\\?]+)\\?=';
+		foreach (BSString::eregMatchAll($pattern, $str) as $matches) {
 			switch (BSString::toLower($matches[2])) {
 				case 'b':
 					$decoded = self::decodeBase64($matches[3]);
@@ -84,8 +82,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function decodeQuotedPrintable ($str) {
-		preg_match_all('/=([a-f0-9]{2})/i', $str, $matchesAll, PREG_SET_ORDER);
-		foreach ($matchesAll as $matches) {
+		foreach (BSString::eregMatchAll('=([A-Fa-f0-9]{2})', $str) as $matches) {
 			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
 		return $str;

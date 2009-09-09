@@ -234,8 +234,7 @@ class BSMIMEDocument implements BSRenderer {
 		$this->contents = $contents;
 		try {
 			$contents = BSString::explode("\n\n", $contents);
-			$this->parseHeaders($contents[0]);
-			$contents->removeParameter(0);
+			$this->parseHeaders($contents->shift());
 			$contents = $contents->join("\n\n");
 			$this->parseBody($contents);
 		} catch (Exception $e) {
@@ -281,8 +280,8 @@ class BSMIMEDocument implements BSRenderer {
 		if ($this->isMultiPart()) {
 			$separator = '--' . $this->getBoundary();
 			$parts = BSString::explode($separator, $body);
-			$parts->removeParameter($parts->count() - 1);
-			$parts->removeParameter(0);
+			$parts->pop();
+			$parts->shift();
 			foreach ($parts as $source) {
 				$part = new BSMIMEDocument;
 				$part->setContents($source);

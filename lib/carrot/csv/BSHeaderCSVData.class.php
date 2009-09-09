@@ -71,8 +71,7 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @param BSArray $lines 
 	 */
 	public function setLines (BSArray $lines) {
-		$this->setFieldNames(BSString::explode($this->getFieldSeparator(), $lines[0]));
-		$lines->removeParameter(0);
+		$this->setFieldNames(BSString::explode($this->getFieldSeparator(), $lines->shift()));
 		parent::setLines($lines);
 	}
 
