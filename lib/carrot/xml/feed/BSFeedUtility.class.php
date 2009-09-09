@@ -12,6 +12,7 @@
  */
 class BSFeedUtility {
 	const CONVERTED_TITLE_SUFFIX = '(converted)';
+	const IGNORE_TITLE_PATTERN = '^(PR|AD):';
 
 	/**
 	 * @access private
@@ -80,8 +81,11 @@ class BSFeedUtility {
 			if ($entry->getName() != $feed->getEntryElementName()) {
 				continue;
 			}
+			if (mb_ereg(self::IGNORE_TITLE_PATTERN, $title = $entry->getTitle())) {
+				continue;
+			}
 			$titles[] = new BSArray(array(
-				'title' => $entry->getTitle(),
+				'title' => $title,
 				'date' => $entry->getDate(),
 				'link' => $entry->getLink(),
 			));
