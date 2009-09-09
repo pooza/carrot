@@ -26,6 +26,26 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
+	 * エントリー要素の名前を返す
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getEntryElementName () {
+		return 'item';
+	}
+
+	/**
+	 * エントリー要素要素の格納先を返す
+	 *
+	 * @access public
+	 * @return BSXMLElement
+	 */
+	public function getEntryRootElement () {
+		return $this;
+	}
+
+	/**
 	 * 妥当な文書か？
 	 *
 	 * @access public
@@ -186,7 +206,7 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSRSS10Entry アイテム要素
 	 */
 	public function createEntry () {
-		$this->addElement($entry = new BSRSS10Entry);
+		$this->getEntryRootElement()->addElement($entry = new BSRSS10Entry);
 		if ($creator = $this->getChannel()->getElement('dc:creator')) {
 			$entry->addElement($creator);
 			$entry->setDocument($this);
@@ -222,20 +242,7 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSArray
 	 */
 	public function getEntryTitles () {
-		if (!$this->titles) {
-			$this->titles = new BSArray;
-			foreach ($this as $entry) {
-				if ($entry->getName() != 'item') {
-					continue;
-				}
-				$this->titles[] = new BSArray(array(
-					'title' => $entry->getTitle(),
-					'date' => $entry->getDate(),
-					'link' => $entry->getLink(),
-				));
-			}
-		}
-		return $this->titles;
+		return BSFeedUtility::getEntryTitles($this);
 	}
 }
 

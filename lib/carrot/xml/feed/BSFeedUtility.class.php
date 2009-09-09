@@ -65,6 +65,29 @@ class BSFeedUtility {
 		$document->convert($feed);
 		return $document;
 	}
+
+	/**
+	 * エントリーのタイトルを配列で返す
+	 *
+	 * @access public
+	 * @param BSFeedDocument $feed 対象フィード
+	 * @return BSArray
+	 * @static
+	 */
+	static public function getEntryTitles (BSFeedDocument $feed) {
+		$titles = new BSArray;
+		foreach ($feed->getEntryRootElement() as $entry) {
+			if ($entry->getName() != $feed->getEntryElementName()) {
+				continue;
+			}
+			$titles[] = new BSArray(array(
+				'title' => $entry->getTitle(),
+				'date' => $entry->getDate(),
+				'link' => $entry->getLink(),
+			));
+		}
+		return $titles;
+	}
 }
 
 /* vim:set tabstop=4: */

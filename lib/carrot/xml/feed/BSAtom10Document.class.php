@@ -26,6 +26,26 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
+	 * エントリー要素の名前を返す
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getEntryElementName () {
+		return 'entry';
+	}
+
+	/**
+	 * エントリー要素要素の格納先を返す
+	 *
+	 * @access public
+	 * @return BSXMLElement
+	 */
+	public function getEntryRootElement () {
+		return $this;
+	}
+
+	/**
 	 * 妥当な文書か？
 	 *
 	 * @access public
@@ -176,7 +196,7 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSAtom10Entry エントリー
 	 */
 	public function createEntry () {
-		$this->addElement($entry = new BSAtom10Entry);
+		$this->getEntryRootElement()->addElement($entry = new BSAtom10Entry);
 		$entry->setDocument($this);
 		return $entry;
 	}
@@ -215,20 +235,7 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSArray
 	 */
 	public function getEntryTitles () {
-		if (!$this->titles) {
-			$this->titles = new BSArray;
-			foreach ($this as $entry) {
-				if ($entry->getName() != 'entry') {
-					continue;
-				}
-				$this->titles[] = new BSArray(array(
-					'title' => $entry->getTitle(),
-					'date' => $entry->getDate(),
-					'link' => $entry->getLink(),
-				));
-			}
-		}
-		return $this->titles;
+		return BSFeedUtility::getEntryTitles($this);
 	}
 }
 

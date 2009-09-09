@@ -15,13 +15,6 @@ class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	const DATE_FORMAT = 'r';
 
 	/**
-	 * @access public
-	 */
-	public function __construct () {
-		$this->setName('item');
-	}
-
-	/**
 	 * リンクを返す
 	 *
 	 * @access public
@@ -118,6 +111,7 @@ class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	public function setDocument (BSFeedDocument $document) {
 		$this->document = $document;
+		$this->setName($document->getEntryElementName());
 	}
 }
 

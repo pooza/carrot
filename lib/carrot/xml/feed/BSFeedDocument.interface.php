@@ -13,6 +13,22 @@
 interface BSFeedDocument {
 
 	/**
+	 * エントリー要素の名前を返す
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getEntryElementName ();
+
+	/**
+	 * エントリー要素要素の格納先を返す
+	 *
+	 * @access public
+	 * @return BSXMLElement
+	 */
+	public function getEntryRootElement ();
+
+	/**
 	 * タイトルを返す
 	 *
 	 * @access public
