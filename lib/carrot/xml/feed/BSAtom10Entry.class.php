@@ -22,6 +22,18 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	}
 
 	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink () {
+		if ($element = $this->getElement('link')) {
+			return BSURL::getInstance($element->getBody());
+		}
+	}
+
+	/**
 	 * リンクを設定
 	 *
 	 * @access public
@@ -40,6 +52,18 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	}
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if ($element = $this->getElement('title')) {
+			return $element->getBody();
+		}
+	}
+
+	/**
 	 * タイトルを設定
 	 *
 	 * @access public
@@ -50,6 +74,18 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 			$element = $this->createElement('title');
 		}
 		$element->setBody($title);
+	}
+
+	/**
+	 * 日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 日付
+	 */
+	public function getDate () {
+		if ($element = $this->getElement('published')) {
+			return BSDate::getInstance($element->getBody());
+		}
 	}
 
 	/**

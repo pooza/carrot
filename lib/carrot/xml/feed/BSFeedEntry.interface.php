@@ -13,6 +13,14 @@
 interface BSFeedEntry {
 
 	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink ();
+
+	/**
 	 * リンクを設定
 	 *
 	 * @access public
@@ -21,12 +29,28 @@ interface BSFeedEntry {
 	public function setLink (BSHTTPRedirector $link);
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle ();
+
+	/**
 	 * タイトルを設定
 	 *
 	 * @access public
 	 * @param string $title タイトル
 	 */
 	public function setTitle ($title);
+
+	/**
+	 * 日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 日付
+	 */
+	public function getDate ();
 
 	/**
 	 * 日付を設定
