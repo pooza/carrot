@@ -207,9 +207,9 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function createEntry () {
 		$this->getEntryRootElement()->addElement($entry = new BSRSS10Entry);
+		$entry->setDocument($this);
 		if ($creator = $this->getChannel()->getElement('dc:creator')) {
 			$entry->addElement($creator);
-			$entry->setDocument($this);
 		}
 		return $entry;
 	}
