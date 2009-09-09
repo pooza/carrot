@@ -63,9 +63,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		} else if (defined($name = BSString::toUpper($name))) {
+		if (defined($name = BSString::toUpper((string)$name))) {
 			throw new BSRegisterException('定数 "%s" は定義済みです。', $name);
 		}
 		define($name, $value);

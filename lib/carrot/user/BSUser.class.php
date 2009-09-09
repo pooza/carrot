@@ -105,13 +105,10 @@ class BSUser extends BSParameterHolder {
 	 * @param BSDate $expire 期限
 	 */
 	public function setAttribute ($name, $value, BSDate $expire = null) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('属性名が文字列ではありません。');
-		}
-		$this->attributes[$name] = $value;
+		$this->attributes[(string)$name] = $value;
 
 		if ($expire) {
-			setcookie($name, $value, $expire->getTimestamp(), '/');
+			setcookie((string)$name, $value, $expire->getTimestamp(), '/');
 		}
 	}
 

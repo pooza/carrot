@@ -86,9 +86,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		}
 		if ($name === null) {
 			if ($position == self::POSITION_TOP) {
 				$this->unshift($value);
@@ -97,9 +94,9 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			}
 		} else {
 			if ($position == self::POSITION_TOP) {
-				$this->parameters = array($name => null) + $this->parameters;
+				$this->parameters = array((string)$name => null) + $this->parameters;
 			}
-			$this->parameters[$name] = $value;
+			$this->parameters[(string)$name] = $value;
 		}
 	}
 

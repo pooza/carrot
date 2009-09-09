@@ -312,13 +312,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param mixed $value 属性値
 	 */
 	public function setAttribute ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('属性名が文字列ではありません。');
-		}
 		if ($value instanceof BSAssignable) {
-			$this->assign($name, $value->getAssignValue());
+			$this->assign((string)$name, $value->getAssignValue());
 		} else if (!BSString::isBlank($value)) {
-			$this->assign($name, $value);
+			$this->assign((string)$name, $value);
 		}
 	}
 

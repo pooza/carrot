@@ -34,10 +34,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		}
-		$this->parameters[$name] = $value;
+		$this->parameters[(string)$name] = $value;
 	}
 
 	/**

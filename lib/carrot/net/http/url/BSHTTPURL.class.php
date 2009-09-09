@@ -103,12 +103,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param string $value パラメータの値
 	 */
 	public function setParameter ($name, $value) {
-		if (is_array($name) || is_object($name)) {
-			throw new BSRegisterException('パラメータ名が文字列ではありません。');
-		} else if (BSString::isBlank($value)) {
+		if (BSString::isBlank($value)) {
 			return;
 		}
-		$this->query[$name] = $value;
+		$this->query[(string)$name] = $value;
 	}
 
 	/**
