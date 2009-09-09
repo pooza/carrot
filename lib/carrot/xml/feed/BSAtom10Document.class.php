@@ -15,12 +15,11 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	/**
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct () {
 		$this->setName('feed');
 		$this->setNamespace('http://www.w3.org/2005/Atom');
 		$this->setDate(BSDate::getNow());
 		$this->createElement('generator', BSController::getFullName('ja'));
-
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}
@@ -140,8 +139,36 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSAtom10Entry エントリー
 	 */
 	public function createEntry () {
-		$this->addElement($element = new BSAtom10Entry());
+		$this->addElement($element = new BSAtom10Entry);
+		$entry->setDocument($this);
 		return $element;
+	}
+
+	/**
+	 * Zend形式のフィードオブジェクトを変換
+	 *
+	 * @access public
+	 * @param Zend_Feed_Abstract $feed 変換対象
+	 * @return BSFeedDocument
+	 */
+	public function convert (Zend_Feed_Abstract $feed) {
+		$this->setTitle($feed->title() . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
+		foreach ($feed as $entry) {
+			$element = $this->createEntry();
+			$link = $entry->link;
+			if (is_array($link)) {
+				$link = $link[0];
+			}
+			$element->setTitle($entry->title());
+			$element->setLink(BSURL::getInstance($link->getDOM()->getAttribute('href')));
+
+			if (BSString::isBlank($date = $entry->updated())) {
+				if (BSString::isBlank($date = $entry->modified())) {
+					$date = BSDate::getNow();
+				}
+			}
+			$element->setDate(BSDate::getInstance($date));
+		}
 	}
 }
 

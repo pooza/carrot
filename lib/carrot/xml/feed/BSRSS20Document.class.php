@@ -15,12 +15,11 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	/**
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct () {
 		$this->setName('rss');
 		$this->setAttribute('version', '2.0');
 		$this->setDate(BSDate::getNow());
 		$this->getChannel()->createElement('generator', BSController::getFullName('ja'));
-
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}
@@ -129,8 +128,29 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSRSS20Entry アイテム要素
 	 */
 	public function createEntry () {
-		$this->getChannel()->addElement($entry = new BSRSS20Entry());
+		$this->getChannel()->addElement($entry = new BSRSS20Entry);
+		$entry->setDocument($this);
 		return $entry;
+	}
+
+	/**
+	 * Zend形式のフィードオブジェクトを変換
+	 *
+	 * @access public
+	 * @param Zend_Feed_Abstract $feed 変換対象
+	 * @return BSFeedDocument
+	 */
+	public function convert (Zend_Feed_Abstract $feed) {
+		$this->setTitle($feed->title() . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
+		foreach ($feed as $entry) {
+			$element = $this->createEntry();
+			$element->setTitle($entry->title());
+			$element->setLink(BSURL::getInstance($entry->link()));
+			if (BSString::isBlank($date = $entry->pubDate())) {
+				$date = BSDate::getNow();
+			}
+			$element->setDate(BSDate::getInstance($date));
+		}
 	}
 }
 

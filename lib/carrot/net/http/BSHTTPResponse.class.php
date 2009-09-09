@@ -116,6 +116,17 @@ class BSHTTPResponse extends BSMIMEDocument {
 	}
 
 	/**
+	 * HTML文書か？
+	 *
+	 * @access public
+	 * @return boolean HTML文書ならTrue
+	 */
+	public function isHTML () {
+		return ($header = $this->getHeader('Content-Type'))
+			&& mb_ereg('/x?html[+;]', $header->getContents());
+	}
+
+	/**
 	 * 出力可能か？
 	 *
 	 * @access public

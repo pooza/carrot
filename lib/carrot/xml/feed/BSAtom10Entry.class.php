@@ -11,12 +11,13 @@
  * @version $Id$
  */
 class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
+	private $document;
 	const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
 	/**
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct () {
 		$this->setName('entry');
 	}
 
@@ -76,6 +77,16 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 		}
 		$element->setBody($body);
 		$element->setAttribute('type', 'text');
+	}
+
+	/**
+	 * 親文書を設定
+	 *
+	 * @access public
+	 * @param BSFeedDocument $document 親文書
+	 */
+	public function setDocument (BSFeedDocument $document) {
+		$this->document = $document;
 	}
 
 	/**

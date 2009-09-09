@@ -14,10 +14,9 @@
 function __autoload ($name) {
 	require_once(BS_LIB_DIR . '/carrot/BSClassLoader.class.php');
 	$classes = BSClassLoader::getInstance()->getClasses();
-	if (!isset($classes[strtolower($name)])) {
-		throw new RuntimeException($name . 'がロードできません。');
+	if (isset($classes[strtolower($name)])) {
+		require_once($classes[strtolower($name)]);
 	}
-	require_once($classes[strtolower($name)]);
 }
 
 /**
@@ -87,8 +86,10 @@ define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
 define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
 define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
 define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
+
 define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
-set_include_path(BS_LIB_PEAR_DIR . PATH_SEPARATOR . get_include_path());
+$dirs = array(BS_LIB_PEAR_DIR, BS_LIB_DIR, get_include_path());
+set_include_path(implode(PATH_SEPARATOR, $dirs));
 
 if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';

@@ -60,6 +60,15 @@ interface BSFeedDocument {
 	 * @return BSFeedEntry エントリー
 	 */
 	public function createEntry ();
+
+	/**
+	 * Zend形式のフィードオブジェクトを変換
+	 *
+	 * @access public
+	 * @param Zend_Feed_Abstract $feed 変換対象
+	 * @return BSFeedDocument
+	 */
+	public function convert (Zend_Feed_Abstract $feed);
 }
 
 /* vim:set tabstop=4: */

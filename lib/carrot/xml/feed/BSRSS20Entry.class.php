@@ -11,12 +11,13 @@
  * @version $Id$
  */
 class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
+	private $document;
 	const DATE_FORMAT = 'r';
 
 	/**
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct () {
 		$this->setName('item');
 	}
 
@@ -68,8 +69,19 @@ class BSRSS20Entry extends BSXMLElement implements BSFeedEntry {
 	public function setBody ($body = null) {
 		if (!$element = $this->getElement('description')) {
 			$element = $this->createElement('description');
+			$element->setRawMode(true);
 		}
-		$element->setBody(str_replace("\n", '<br />', $body));
+		$element->setBody(nl2br($body));
+	}
+
+	/**
+	 * 親文書を設定
+	 *
+	 * @access public
+	 * @param BSFeedDocument $document 親文書
+	 */
+	public function setDocument (BSFeedDocument $document) {
+		$this->document = $document;
 	}
 }
 

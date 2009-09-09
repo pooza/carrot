@@ -43,6 +43,14 @@ interface BSFeedEntry {
 	 * @param string $content 内容
 	 */
 	public function setBody ($body = null);
+
+	/**
+	 * 親文書を設定
+	 *
+	 * @access public
+	 * @param BSFeedDocument $document 親文書
+	 */
+	public function setDocument (BSFeedDocument $document);
 }
 
 /* vim:set tabstop=4: */

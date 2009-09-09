@@ -58,6 +58,10 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function getInstance ($date = null, $flags = null) {
+		if ($date instanceof BSDate) {
+			return $date;
+		}
+
 		$date = new self($date, $flags);
 		if (($flags & self::NO_INITIALIZE) || $date->validate()) {
 			return $date;
