@@ -51,6 +51,18 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle ($title) {
+		if ($element = $this->getElement('title')) {
+			return $element->getBody();
+		}
+	}
+
+	/**
 	 * タイトルを設定
 	 *
 	 * @access public
@@ -74,6 +86,18 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 			$element = $this->createElement('subtitle');
 		}
 		$element->setBody($description);
+	}
+
+	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink ($title) {
+		if ($element = $this->getElement('link')) {
+			return BSURL::getInstance($element->getBody());
+		}
 	}
 
 	/**
@@ -116,6 +140,18 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 				$element = $author->createElement('email');
 			}
 			$element->setBody($email->getContents());
+		}
+	}
+
+	/**
+	 * 日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 日付
+	 */
+	public function getDate () {
+		if ($element = $this->getElement('updated')) {
+			return BSDate::getInstance($element->getBody());
 		}
 	}
 

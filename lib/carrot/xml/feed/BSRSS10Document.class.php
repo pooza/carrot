@@ -67,6 +67,18 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if ($element = $this->getChannel()->getElement('title')) {
+			return $element->getBody();
+		}
+	}
+
+	/**
 	 * タイトルを設定
 	 *
 	 * @access public
@@ -103,6 +115,18 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink () {
+		if ($element = $this->getChannel()->getElement('link')) {
+			return BSURL::getInstance($element->getBody());
+		}
+	}
+
+	/**
 	 * リンクを設定
 	 *
 	 * @access public
@@ -127,6 +151,18 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 			$element = $this->getChannel()->createElement('dc:creator');
 		}
 		$element->setBody($name);
+	}
+
+	/**
+	 * 日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 日付
+	 */
+	public function getDate () {
+		if ($element = $this->getChannel()->getElement('dc:date')) {
+			return BSDate::getInstance($element->getBody());
+		}
 	}
 
 	/**

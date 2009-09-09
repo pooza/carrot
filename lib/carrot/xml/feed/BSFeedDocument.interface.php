@@ -13,6 +13,14 @@
 interface BSFeedDocument {
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle ();
+
+	/**
 	 * タイトルを設定
 	 *
 	 * @access public
@@ -27,6 +35,14 @@ interface BSFeedDocument {
 	 * @param string $description ディスクリプション
 	 */
 	public function setDescription ($description);
+
+	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink ();
 
 	/**
 	 * リンクを設定
@@ -44,6 +60,14 @@ interface BSFeedDocument {
 	 * @param BSMailAddress $email メールアドレス
 	 */
 	public function setAuthor ($name, BSMailAddress $email = null);
+
+	/**
+	 * 日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 日付
+	 */
+	public function getDate ();
 
 	/**
 	 * 日付を設定
