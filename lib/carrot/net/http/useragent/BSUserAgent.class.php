@@ -78,7 +78,7 @@ abstract class BSUserAgent implements BSAssignable {
 			}
 			if (isset($type['denied_patterns']) && is_array($type['denied_patterns'])) {
 				foreach ($type['denied_patterns'] as $pattern) {
-					if (strpos($this->getName(), $pattern) !== false) {
+					if (BSString::isContain($pattern, $this->getName())) {
 						return true;
 					}
 				}

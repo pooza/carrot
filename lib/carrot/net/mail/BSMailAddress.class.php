@@ -149,7 +149,7 @@ class BSMailAddress implements BSAssignable {
 	public function getCarrier () {
 		foreach (BSMobileCarrier::getNames() as $name) {
 			$carrier = BSClassLoader::getInstance()->getObject($name, 'MobileCarrier');
-			if (strstr($this->getContents(), $carrier->getDomainSuffix()) !== false) {
+			if (BSString::isContain($carrier->getDomainSuffix(), $this->getContents())) {
 				return $carrier;
 			}
 		}

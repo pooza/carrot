@@ -26,12 +26,12 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		if (strpos($path, '..') !== false) {
+		if (BSString::isContain('..', $path)) {
 			return false;
 		} else if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
 		}
-		return (mb_eregi('^[a-z]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path) !== false);
+		return !!mb_eregi('^[a-z]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
 	}
 
 	/**

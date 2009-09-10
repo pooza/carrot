@@ -75,8 +75,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function getDisplayInfo () {
 		foreach (self::getDisplayInfos() as $pattern => $values) {
-			$position = stripos($this->getName(), $pattern);
-			if ($position !== false) {
+			if (BSString::isContain($pattern, $this->getName(), true)) {
 				return new BSArray($values);
 			}
 		}

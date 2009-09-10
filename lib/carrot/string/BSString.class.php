@@ -364,6 +364,25 @@ class BSString {
 	}
 
 	/**
+	 * 指定文字列を含むか？
+	 *
+	 * @access public
+	 * @param string $pattern パターン
+	 * @param string $subject 処理対象の文字列
+	 * @param boolean $ignore 大文字小文字を無視するか
+	 * @return boolean 含むならTrue
+	 * @static
+	 */
+	static public function isContain ($pattern, $subject, $ignore = false) {
+		if ($ignore) {
+			$function = 'stripos';
+		} else {
+			$function = 'strpos';
+		}
+		return ($function($pattern, $subject) !== false);
+	}
+
+	/**
 	 * HTMLタグを取り除く
 	 *
 	 * @access public

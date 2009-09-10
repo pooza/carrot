@@ -66,7 +66,7 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException('%sが存在しません。', $this);
 		} else if (!$this->isWritable($this->getPath())) {
 			throw new BSFileException('%sをリネームできません。', $this);
-		} else if (strpos($name, DIRECTORY_SEPARATOR) !== false) {
+		} else if (BSString::isContain(DIRECTORY_SEPARATOR, $name)) {
 			throw new BSFileException('%sをリネームできません。', $this);
 		}
 

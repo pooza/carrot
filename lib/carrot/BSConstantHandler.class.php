@@ -109,7 +109,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	private function getSuggestedNames ($name) {
 		$names = new BSArray;
 		$names[] = $name;
-		if (strpos($name, '::') === false) {
+		if (!BSString::isContain('::', $name)) {
 			$names[] = self::PREFIX . '_' . $name;
 			$names = BSString::toUpper($names);
 		}

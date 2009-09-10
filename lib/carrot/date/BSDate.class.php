@@ -518,13 +518,13 @@ class BSDate implements ArrayAccess, BSAssignable {
 			$date->setDate(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
 		}
 
-		if (strpos($format, '%') !== false) {
+		if (BSString::isContain('%', $format)) {
 			$format = strftime($format, $date->getTimestamp());
 		}
-		if (strpos($format, 'ww') !== false) {
+		if (BSString::isContain('ww', $format)) {
 			$format = str_replace('ww', $date->getWeekdayName(), $format);
 		}
-		if (strpos($format, 'JY') !== false) {
+		if (BSString::isContain('JY', $format)) {
 			$year = $date->getGengo();
 			if ($this->getJapaneseYear() == 1) {
 				$year .= '元';
