@@ -26,7 +26,7 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		if (BSString::isContain('..', $path)) {
+		if (strpos($path, '..') !== false) {
 			return false;
 		} else if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
