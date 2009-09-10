@@ -19,6 +19,7 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	public function __construct () {
 		$this->setName('feed');
 		$this->setNamespace('http://www.w3.org/2005/Atom');
+		$this->setAttribute('version', '1.0');
 		$this->setDate(BSDate::getNow());
 		$this->createElement('generator', BSController::getFullName('ja'));
 		$author = BSAuthorRole::getInstance();
@@ -211,20 +212,23 @@ class BSAtom10Document extends BSXMLDocument implements BSFeedDocument {
 	public function convert (Zend_Feed_Abstract $feed) {
 		$this->setTitle($feed->title() . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
 		foreach ($feed as $entry) {
-			$element = $this->createEntry();
-			$link = $entry->link;
-			if (is_array($link)) {
-				$link = $link[0];
-			}
-			$element->setTitle($entry->title());
-			$element->setLink(BSURL::getInstance($link->getDOM()->getAttribute('href')));
+			try {
+				$element = $this->createEntry();
+				$element->setTitle($entry->title());
 
-			if (BSString::isBlank($date = $entry->updated())) {
-				if (BSString::isBlank($date = $entry->modified())) {
-					$date = BSDate::getNow();
+				$link = $entry->link;
+				if (is_array($link)) {
+					$link = $link[0];
 				}
+				if (!BSString::isBlank($url = $link->getDOM()->getAttribute('href'))) {
+					$element->setLink(BSURL::getInstance($url));
+				}
+
+				if ($values = new BSArray($entry->updated())) {
+					$element->setDate(BSDate::getInstance($values[0]));
+				}
+			} catch (Exception $e) {
 			}
-			$element->setDate(BSDate::getInstance($date));
 		}
 	}
 

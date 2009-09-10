@@ -4,13 +4,15 @@
  * @subpackage xml.feed
  */
 
+require_once('Zend/Feed.php');
+
 /**
  * フィードユーティリティ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFeedUtility {
+class BSFeedUtility extends Zend_Feed {
 	const CONVERTED_TITLE_SUFFIX = '(converted)';
 	const IGNORE_TITLE_PATTERN = '^(PR|AD):';
 
@@ -28,17 +30,15 @@ class BSFeedUtility {
 	 * @static
 	 */
 	static public function getFeed (BSHTTPRedirector $url) {
-		require_once('Zend/Feed.php');
-		$host = new BSCurlHTTP($url['host']);
-		if ($host->sendHeadRequest($url->getFullPath())->isHTML()) {
-			if (!$feeds = Zend_Feed::findFeeds($url->getContents())) {
-				return null;
+		try {
+			if ($feeds = self::findFeeds($url->getContents())) {
+				$feed = $feeds[0];
+			} else {
+				$feed = self::import($url->getContents());
 			}
-			$feed = $feeds[0];
-		} else {
-			$feed = Zend_Feed::import($url->getContents());
+			return self::convertFeed($feed);
+		} catch (Exception $e) {
 		}
-		return self::convertFeed($feed);
 	}
 
 	/**
@@ -52,8 +52,12 @@ class BSFeedUtility {
 	static public function convertFeed (Zend_Feed_Abstract $feed) {
 		require_once('Zend/Feed/Reader.php');
 		$classes = new BSArray(array(
+			Zend_Feed_Reader::TYPE_RSS_090 => 'BSRSS09Document',
+			Zend_Feed_Reader::TYPE_RSS_091 => 'BSRSS09Document',
+			Zend_Feed_Reader::TYPE_RSS_092 => 'BSRSS09Document',
 			Zend_Feed_Reader::TYPE_RSS_10 => 'BSRSS10Document',
 			Zend_Feed_Reader::TYPE_RSS_20 => 'BSRSS20Document',
+			Zend_Feed_Reader::TYPE_ATOM_03 => 'BSAtom03Document',
 			Zend_Feed_Reader::TYPE_ATOM_10 => 'BSAtom10Document',
 		));
 
@@ -91,6 +95,32 @@ class BSFeedUtility {
 			));
 		}
 		return $titles;
+	}
+
+	/**
+	 * Zend_Feed::importのオーバライド
+	 *
+	 * ちょっと崩れたフィードでも読めるように
+	 *
+	 * @param  string $url
+	 * @throws Zend_Feed_Exception
+	 * @return Zend_Feed_Abstract
+	 */
+	public static function import ($url) {
+		$url = BSURL::getInstance($url);
+		if (BSString::isBlank($contents = $url->fetch())) {
+			throw new BSFeedException('%sを取得できません。', $url);
+		}
+
+		$contents = BSString::convertEncoding($contents);
+		$contents = mb_eregi_replace('shift_jis', 'utf-8', $contents);
+
+		try {
+			return parent::importString($contents);
+		} catch (Zend_Feed_Exception $e) {
+			$contents = mb_ereg_replace('&([^&a-z])', '&amp;\\1', $contents);
+			return parent::importString($contents);
+		}
 	}
 }
 

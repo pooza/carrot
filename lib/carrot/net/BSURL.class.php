@@ -36,6 +36,9 @@ class BSURL implements ArrayAccess, BSAssignable {
 		if (BSString::isBlank($contents)) {
 			return new $class;
 		}
+		if (!is_string($contents)) {
+			throw new BSNetException('"%s"は正しいURLではありません。', $contents);
+		}
 
 		$attributes = new BSArray(parse_url($contents));
 		switch ($attributes['scheme']) {

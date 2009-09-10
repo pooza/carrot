@@ -200,13 +200,20 @@ class BSRSS20Document extends BSXMLDocument implements BSFeedDocument {
 	public function convert (Zend_Feed_Abstract $feed) {
 		$this->setTitle($feed->title() . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
 		foreach ($feed as $entry) {
-			$element = $this->createEntry();
-			$element->setTitle($entry->title());
-			$element->setLink(BSURL::getInstance($entry->link()));
-			if (BSString::isBlank($date = $entry->pubDate())) {
-				$date = BSDate::getNow();
+			try {
+				$element = $this->createEntry();
+				$element->setTitle($entry->title());
+				if ($values = new BSArray($entry->link())) {
+					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
+						$url = $url->firstChild->wholeText;
+					}
+					$element->setLink(BSURL::getInstance($url));
+				}
+				if ($values = new BSArray($entry->pubDate())) {
+					$element->setDate(BSDate::getInstance($values[0]));
+				}
+			} catch (Exception $e) {
 			}
-			$element->setDate(BSDate::getInstance($date));
 		}
 	}
 
