@@ -379,7 +379,7 @@ class BSString {
 		} else {
 			$function = 'strpos';
 		}
-		return ($function($pattern, $subject) !== false);
+		return ($function($subject, $pattern) !== false);
 	}
 
 	/**
