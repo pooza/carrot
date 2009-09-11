@@ -15,7 +15,7 @@ class BSJabberID implements BSAssignable {
 	private $account;
 	private $host;
 	private $resource;
-	const PATTERN = '^([-_.[:alnum:]]+)@(([-_[:alnum:]]+\\.)+[[:alpha:]]+)(/([-_[:alnum:]]+))?$';
+	const PATTERN = '^([-_.[:alnum:]]+)@(([-_.[:alnum:]]+)+[[:alpha:]]+)(/([-_[:alnum:]]+))?$';
 
 	/**
 	 * @access public

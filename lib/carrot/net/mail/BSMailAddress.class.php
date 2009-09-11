@@ -17,7 +17,7 @@ class BSMailAddress implements BSAssignable {
 	private $domain;
 	private $url;
 	private $mx = array();
-	const PATTERN = '^([-+._[:alnum:]]+)@(([-_[:alnum:]]+\\.)+[[:alpha:]]+)$';
+	const PATTERN = '^([-+._[:alnum:]]+)@(([-._[:alnum:]])+[[:alpha:]]+)$';
 
 	/**
 	 * @access private

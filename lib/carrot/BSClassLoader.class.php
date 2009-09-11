@@ -77,8 +77,7 @@ class BSClassLoader {
 		if (!mb_ereg($pattern, $class, $matches)) {
 			throw new RuntimeException($class . 'がロードできません。');
 		}
-		$basename = self::stripControlCharacters(str_replace('_', '', $matches[2]));
-
+		$basename = mb_ereg_replace('[_[:cntrl:]]', '', $matches[2]);
 		$classes = $this->getClasses();
 		foreach (array(null, self::PREFIX) as $prefix) {
 			$name = $prefix . $basename . $suffix;
@@ -191,21 +190,6 @@ class BSClassLoader {
 		if (mb_ereg('(.*?)\\.(class|interface)\\.php', $filename, $matches)) {
 			return $matches[1];
 		}
-	}
-
-	/**
-	 * コントロール文字を取り除く
-	 *
-	 * @access private
-	 * @param mixed $value 変換対象の文字列
-	 * @return mixed 変換後
-	 * @static
-	 */
-	static private function stripControlCharacters ($value) {
-		if (class_exists('BSString', false)) {
-			return BSString::stripControlCharacters($value);
-		}
-		return mb_ereg_replace('[[:cntrl:]]', '', $value);
 	}
 
 	/**
