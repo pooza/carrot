@@ -112,15 +112,10 @@ class BSFeedUtility extends Zend_Feed {
 			throw new BSFeedException('%sを取得できません。', $url);
 		}
 
-		$contents = BSString::convertEncoding($contents);
-		$contents = mb_eregi_replace('shift_jis', 'utf-8', $contents);
-
-		try {
-			return parent::importString($contents);
-		} catch (Zend_Feed_Exception $e) {
-			$contents = mb_ereg_replace('&([^&a-z])', '&amp;\\1', $contents);
-			return parent::importString($contents);
-		}
+		$contents = BSString::convertEncoding($contents, 'utf-8');
+		$contents = mb_ereg_replace('&([^&a-z])', '&amp;\\1', $contents);
+		$contents = mb_eregi_replace('encoding="[-_a-z0-9]*"', 'encoding="utf-8"', $contents);
+		return parent::importString($contents);
 	}
 }
 
