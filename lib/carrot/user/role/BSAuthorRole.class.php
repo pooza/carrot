@@ -93,7 +93,9 @@ class BSAuthorRole implements BSRole {
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return BS_AUTHOR_PASSWORD && BSCrypt::getInstance()->auth(BS_AUTHOR_PASSWORD, $password);
+		return !BSString::isBlank(BS_AUTHOR_PASSWORD)
+			&& !BSString::isBlank($password)
+			&& BSCrypt::getInstance()->auth(BS_AUTHOR_PASSWORD, $password);
 	}
 }
 

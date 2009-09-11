@@ -98,10 +98,7 @@ class BSAdministratorRole implements BSRole {
 				$this->networks[] = new BSNetwork('0.0.0.0/0');
 			} else {
 				$this->networks[] = new BSNetwork('127.0.0.1/32');
-				foreach (BSString::explode(',', BS_ADMIN_NETWORKS) as $network) {
-					$this->networks[] = new BSNetwork($network);
-				}
-				$this->networks->uniquize();
+				$this->networks->merge(BSString::explode(',', BS_ADMIN_NETWORKS));
 			}
 		}
 		return $this->networks;
@@ -125,7 +122,9 @@ class BSAdministratorRole implements BSRole {
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return BS_ADMIN_PASSWORD && BSCrypt::getInstance()->auth(BS_ADMIN_PASSWORD, $password);
+		return !BSString::isBlank(BS_ADMIN_PASSWORD)
+			&& !BSString::isBlank($password)
+			&& BSCrypt::getInstance()->auth(BS_ADMIN_PASSWORD, $password);
 	}
 }
 
