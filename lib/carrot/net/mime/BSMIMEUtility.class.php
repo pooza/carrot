@@ -40,7 +40,11 @@ class BSMIMEUtility {
 		}
 
 		$str = BSString::convertKana($str, 'KV');
-		foreach (BSString::eregMatchAll('[^[:print:]]+', $str) as $matches) {
+		mb_regex_encoding('ascii');
+		$matchesAll = BSString::eregMatchAll('[^[:print:]]+', $str);
+		mb_regex_encoding(mb_internal_encoding());
+
+		foreach ($matchesAll as $matches) {
 			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
 			$encoded = self::ENCODE_PREFIX . self::encodeBase64($word) . self::ENCODE_SUFFIX;
 			$str = str_replace($matches[0], $encoded, $str);
