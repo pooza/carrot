@@ -30,12 +30,12 @@ class BSSocket {
 	 *   BSNetworkService::UDP
 	 */
 	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
-		if (($host instanceof BSHost) == false) {
+		if (!($host instanceof BSHost)) {
 			$host = new BSHost($host);
 		}
 		$this->host = $host;
 
-		if (BSString::isBlank($port) && BSString::isBlank($port = $this->getDefaultPort())) {
+		if (!$port && BSString::isBlank($port = $this->getDefaultPort())) {
 			throw new BSNetException('ポートが未定義です。');
 		}
 		$this->port = $port;

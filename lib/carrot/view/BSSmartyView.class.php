@@ -24,7 +24,7 @@ class BSSmartyView extends BSView {
 		$this->nameSuffix = $suffix;
 
 		if ($renderer) {
-			if (($renderer instanceof BSSmarty) == false) {
+			if (!($renderer instanceof BSSmarty)) {
 				throw new BSViewException('%sをセットできません。', get_class($renderer));
 			}
 		} else {

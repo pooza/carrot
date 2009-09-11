@@ -158,7 +158,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 				}
 				break;
 			case 'host':
-				if (($value instanceof BSHost) == false) {
+				if (!($value instanceof BSHost)) {
 					$value = new BSHost($value);
 				}
 				$this->attributes['host'] = $value;

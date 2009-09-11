@@ -22,7 +22,7 @@ class BSMultiVCardRenderer extends BSArray implements BSRenderer {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
-		if (($value instanceof BSVCardRenderer) == false) {
+		if (!($value instanceof BSVCardRenderer)) {
 			throw new BSViewException(
 				'%sに%sは加えられません。',
 				get_class($this),

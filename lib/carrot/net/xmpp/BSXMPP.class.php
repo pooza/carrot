@@ -51,7 +51,7 @@ class BSXMPP extends XMPPHP_XMPP {
 	 * @param BSJabberID $jid 宛先
 	 */
 	public function setTo ($jid) {
-		if (($jid instanceof BSJabberID) == false) {
+		if (!($jid instanceof BSJabberID)) {
 			$jid = new BSJabberID($jid);
 		}
 		$this->to = $jid;

@@ -117,7 +117,7 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 		}
 		if (BSString::isBlank($file)) {
 			$file = null;
-		} else if (($file instanceof BSFile) == false) {
+		} else if (!($file instanceof BSFile)) {
 			$path = $file;
 			if (!BSUtility::isPathAbsolute($path)) {
 				$controller = BSController::getInstance();
