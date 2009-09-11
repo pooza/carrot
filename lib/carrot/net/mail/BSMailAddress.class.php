@@ -25,7 +25,7 @@ class BSMailAddress implements BSAssignable {
 	 * @param string $name 名前
 	 */
 	private function __construct ($contents, $name = null) {
-		if (BSString::isBlank($name) && mb_ereg('^(.+) <(.+)>$', $contents, $matches)) {
+		if (BSString::isBlank($name) && mb_ereg('^(.+) *<(.+)>$', $contents, $matches)) {
 			$name = $matches[1];
 			$contents = $matches[2];
 		}

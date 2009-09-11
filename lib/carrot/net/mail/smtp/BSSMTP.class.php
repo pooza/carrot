@@ -216,7 +216,7 @@ class BSSMTP extends BSSocket {
 	 * @param BSMailAddress $bcc 宛先
 	 */
 	public function addBCC (BSMailAddress $bcc) {
-		$this->getMail()->getHeader('BCC')->appendContents($cc);
+		$this->getMail()->getHeader('BCC')->appendContents($bcc);
 	}
 
 	/**
