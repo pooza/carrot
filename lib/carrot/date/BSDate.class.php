@@ -86,7 +86,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if ($time = strtotime($date)) {
 			$this->setTimestamp($time);
 		} else {
-			$date = mb_ereg_replace('[^0-9]+', '', $date);
+			$date = mb_ereg_replace('[^[:digit:]]+', '', $date);
 			$this['year'] = (int)substr($date, 0, 4);
 			$this['month'] = (int)substr($date, 4, 2);
 			$this['day'] = (int)substr($date, 6, 2);

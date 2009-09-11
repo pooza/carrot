@@ -87,8 +87,8 @@ class BSMIMEType extends BSParameterHolder {
 	private function parse () {
 		foreach ($this->getTypesFile()->getLines() as $line) {
 			$line = rtrim($line);
-			$line = preg_replace('/#.*$/', '', $line);
-			$line = mb_split('[ \t]+', $line);
+			$line = mb_ereg_replace('#.*$', '', $line);
+			$line = mb_split('[[:blank:]]+', $line);
 			for ($i = 1 ; $i < count($line) ; $i ++) {
 				$this[BSString::toLower($line[$i])] = $line[0];
 			}

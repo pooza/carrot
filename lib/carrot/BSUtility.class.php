@@ -31,7 +31,7 @@ class BSUtility {
 		} else if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
 		}
-		return !!mb_eregi('^[a-z]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
+		return !!mb_ereg('^[[:alpha:]]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
 	}
 
 	/**

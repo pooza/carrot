@@ -22,7 +22,7 @@ class BSHost implements BSAssignable {
 		require_once('Net/IPv4.php');
 		$this->address = new Net_IPv4;
 
-		if (mb_ereg('^[0-9\\.]+$', $address)) {
+		if (mb_ereg('^[.[:digit:]]+$', $address)) {
 			$this->setAddress($address);
 		} else {
 			$this->setName($address);

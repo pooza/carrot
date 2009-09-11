@@ -54,7 +54,7 @@ class BSStoreRequestFilter extends BSRequestFilter {
 		$params['UserAgent'] = $this->request->getUserAgent()->getName();
 		$params->setAttributes($_POST);
 		foreach ($params as $key => $value) {
-			if (preg_match('/password/iu', $key)) {
+			if (mb_eregi('password', $key)) {
 				$params[$key] = '********';
 			}
 		}

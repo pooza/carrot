@@ -17,7 +17,7 @@ class BSMailAddress implements BSAssignable {
 	private $domain;
 	private $url;
 	private $mx = array();
-	const PATTERN = '/^([0-9a-z_\.\+\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)$/i';
+	const PATTERN = '^([-+._[:alnum:]]+)@(([-_[:alnum:]]+\\.)+[[:alpha:]]+)$';
 
 	/**
 	 * @access private
@@ -25,11 +25,11 @@ class BSMailAddress implements BSAssignable {
 	 * @param string $name 名前
 	 */
 	private function __construct ($contents, $name = null) {
-		if (BSString::isBlank($name) && preg_match('/^(.+) <(.+)>$/i', $contents, $matches)) {
+		if (BSString::isBlank($name) && mb_ereg('^(.+) <(.+)>$', $contents, $matches)) {
 			$name = $matches[1];
 			$contents = $matches[2];
 		}
-		if (preg_match(self::PATTERN, $contents, $matches)) {
+		if (mb_ereg(self::PATTERN, $contents, $matches)) {
 			$this->contents = $contents;
 			$this->name = $name;
 			$this->account = $matches[1];

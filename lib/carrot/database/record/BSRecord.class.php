@@ -35,7 +35,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @param mixed[] $values 引数
 	 */
 	public function __call ($method, $values) {
-		if (mb_ereg('^get([A-Z][A-Za-z0-9]+)$', $method, $matches)) {
+		if (mb_ereg('^get([[:upper:]][[:alnum:]]+)$', $method, $matches)) {
 			$name = $matches[1];
 			if (!$this->records->hasParameter($name)) {
 				$table = BSTableHandler::getInstance($name);

@@ -200,7 +200,7 @@ class BSMIMEDocument implements BSRenderer {
 			return true;
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
-				if (preg_match('/^multipart\//', $header->getContents())) {
+				if (mb_ereg('^multipart/', $header->getContents())) {
 					return true;
 				}
 			}
@@ -261,10 +261,10 @@ class BSMIMEDocument implements BSRenderer {
 	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clear();
 		foreach (BSString::explode("\n", $headers) as $line) {
-			if (preg_match('/^([a-z0-9\\-]+): *(.*)$/i', $line, $matches)) {
+			if (mb_ereg('^([-[:alnum:]]+): *(.*)$', $line, $matches)) {
 				$key = $matches[1];
 				$this->setHeader($key, $matches[2]);
-			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
+			} else if (mb_ereg('^[[:blank:]]+(.*)$', $line, $matches)) {
 				$this->appendHeader($key, $matches[1]);
 			}
 		}

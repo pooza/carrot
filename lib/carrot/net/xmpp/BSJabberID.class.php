@@ -15,7 +15,7 @@ class BSJabberID implements BSAssignable {
 	private $account;
 	private $host;
 	private $resource;
-	const PATTERN = '/^([0-9a-z_\.\-]+)@(([0-9a-z_\-]+\.)+[a-z]+)(\/([0-9a-z_\-]+))?$/i';
+	const PATTERN = '^([-_.[:alnum:]]+)@(([-_[:alnum:]]+\\.)+[[:alpha:]]+)(/([-_[:alnum:]]+))?$';
 
 	/**
 	 * @access public
@@ -23,7 +23,7 @@ class BSJabberID implements BSAssignable {
 	 */
 	public function __construct ($contents) {
 		$this->contents = $contents;
-		if (!preg_match(self::PATTERN, $this->contents, $matches)) {
+		if (!mb_ereg(self::PATTERN, $this->contents, $matches)) {
 			throw new BSXMPPException('%sが正しくありません。', $this);
 		}
 		$this->account = $matches[1];

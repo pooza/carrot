@@ -32,7 +32,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 		}
 		if (!self::$instances[$name]) {
 			$constants = BSConstantHandler::getInstance();
-			if (mb_ereg('^([a-z0-9]+):', $constants['PDO_' . $name . '_DSN'], $matches)) {
+			if (mb_ereg('^([[:alnum:]]+):', $constants['PDO_' . $name . '_DSN'], $matches)) {
 				switch ($matches[1]) {
 					case 'mysql':
 						return self::$instances[$name] = BSMySQLDatabase::connect($name);
@@ -378,7 +378,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return string DBMS
 	 */
 	private function getDBMS () {
-		if (!mb_ereg('^BS([A-Za-z]+)Database$', get_class($this), $matches)) {
+		if (!mb_ereg('^BS([[:alpha:]]+)Database$', get_class($this), $matches)) {
 			throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
 		}
 		return $matches[1];

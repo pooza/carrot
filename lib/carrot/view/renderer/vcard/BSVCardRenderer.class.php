@@ -36,7 +36,7 @@ class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 		$entry = new BSArray($this->parameters[$key]);
 		$body = $entry->pop();
 		foreach ($entry as $param) {
-			if (preg_match('/^charset=(.*)$/i', $param, $matches)) {
+			if (mb_eregi('^charset=(.*)$', $param, $matches)) {
 				$body = BSString::convertEncoding($body, $matches[1]);
 				break;
 			}

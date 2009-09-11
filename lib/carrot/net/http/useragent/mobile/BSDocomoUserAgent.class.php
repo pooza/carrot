@@ -44,7 +44,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/DoCoMo/';
+		return 'DoCoMo';
 	}
 
 	/**
@@ -54,7 +54,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return boolean FOMA端末ならばTrue
 	 */
 	public function isFOMA () {
-		return !preg_match('/DoCoMo\/1\.0/', $this->getName());
+		return !mb_ereg('DoCoMo/1\\.0', $this->getName());
 	}
 
 	/**
@@ -109,7 +109,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 				$contents = $file->getContents();
 
 				//libxml2がパースエラーを起こす
-				$contents = preg_replace('/[+&]/', '', $contents);
+				$contents = mb_ereg_replace('/+&/', '', $contents);
 
 				$xml = new BSXMLDocument;
 				$xml->setContents($contents);

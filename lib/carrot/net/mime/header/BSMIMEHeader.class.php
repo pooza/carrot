@@ -160,7 +160,7 @@ class BSMIMEHeader extends BSParameterHolder {
 			if ($index == 0) {
 				$this[0] = trim($param);
 			}
-			if (preg_match('/^ *([a-z\-]+)="?([^";]+)"?/iu', $param, $matches)) {
+			if (mb_ereg('^ *([-[:alpha:]]+)="?([^";]+)"?', $param, $matches)) {
 				$this[BSString::toLower($matches[1])] = $matches[2];
 			}
 		}

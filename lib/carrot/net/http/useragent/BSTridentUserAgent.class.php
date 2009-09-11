@@ -48,7 +48,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function getPlatform () {
 		if (!$this->attributes['platform']) {
-			if (preg_match($this->getPattern(), $this->getName(), $matches)) {
+			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
 				$this->attributes['platform'] = $matches[2];
 			}
 		}
@@ -63,7 +63,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function getVersion () {
 		if (!$this->attributes['version']) {
-			if (preg_match($this->getPattern(), $this->getName(), $matches)) {
+			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
 				$this->attributes['version'] = $matches[1];
 			}
 		}
@@ -77,7 +77,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE ([4-9]\.[0-9]+); ([^;]+);/';
+		return 'MSIE ([4-9]\\.[[:digit:]]+); ([^;]+);';
 	}
 }
 

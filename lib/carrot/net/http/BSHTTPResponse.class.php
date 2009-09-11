@@ -27,7 +27,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 		try {
 			$contents = BSString::explode("\n\n", $contents);
 			foreach ($contents as $index => $value) {
-				if (preg_match('/^HTTP\//', $value)) {
+				if (mb_ereg('^HTTP/', $value)) {
 					$this->parseHeaders($value);
 					$contents->removeParameter($index);
 				} else {
@@ -48,15 +48,16 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 */
 	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clear();
+		$pattern = '^HTTP/([[:digit:]]+\\.[[:digit:]]+) ([[:digit:]]{3}) (.*)$';
 		foreach (BSString::explode("\n", $headers) as $line) {
-			if (preg_match('/^HTTP\/([0-9]+\.[0-9]+) ([0-9]{3}) (.*)$/', $line, $matches)) {
+			if (mb_ereg($pattern, $line, $matches)) {
 				$this->version = $matches[1];
 				$this->status = (int)$matches[2];
 				$this->message = $matches[3];
-			} else if (preg_match('/^([a-z0-9\\-]+): *(.*)$/i', $line, $matches)) {
+			} else if (mb_ereg('^([-[:alnum:]]+): *(.*)$', $line, $matches)) {
 				$key = $matches[1];
 				$this->setHeader($key, $matches[2]);
-			} else if (preg_match('/^[\\t ]+(.*)$/', $line, $matches)) {
+			} else if (mb_ereg('^[[:blank:]]+(.*)$', $line, $matches)) {
 				$this->appendHeader($key, $matches[1]);
 			}
 		}

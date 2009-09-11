@@ -113,8 +113,8 @@ class BSFeedUtility extends Zend_Feed {
 		}
 
 		$contents = BSString::convertEncoding($contents, 'utf-8');
-		$contents = mb_ereg_replace('&([^&a-z])', '&amp;\\1', $contents);
-		$contents = mb_eregi_replace('encoding="[-_a-z0-9]*"', 'encoding="utf-8"', $contents);
+		$contents = mb_ereg_replace('&([^[:alpha:]])', '&amp;\\1', $contents);
+		$contents = mb_ereg_replace('encoding="[-_[:alnum:]]*"', 'encoding="utf-8"', $contents);
 		return parent::importString($contents);
 	}
 }

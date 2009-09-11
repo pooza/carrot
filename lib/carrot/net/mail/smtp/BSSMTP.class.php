@@ -249,7 +249,7 @@ class BSSMTP extends BSSocket {
 	public function execute ($command) {
 		$this->putLine($command);
 
-		if (!preg_match('/^([0-9]+)/', $this->getLine(), $matches)) {
+		if (!mb_ereg('^([[:digit:]]+)', $this->getLine(), $matches)) {
 			throw new BSMailException('不正なレスポンスです。 (%s)', $this->getPrevLine());
 		}
 		$result = $matches[1];

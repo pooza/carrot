@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSKanaValidator extends BSValidator {
-	const PATTERN = '/^[ぁ-んァ-ンヴー0-9]*$/u';
+	const PATTERN = '^[ぁ-んァ-ンヴー[:digit:]]*$';
 
 	/**
 	 * 初期化
@@ -32,7 +32,7 @@ class BSKanaValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!preg_match(self::PATTERN, $value)) {
+		if (!mb_ereg(self::PATTERN, $value)) {
 			$this->error = $this['invalid_error'];
 			return false;
 		}

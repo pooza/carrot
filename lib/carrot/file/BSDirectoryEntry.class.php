@@ -184,7 +184,7 @@ abstract class BSDirectoryEntry {
 	 * @return boolean ドットから始まるならTrue
 	 */
 	public function isDoted () {
-		return preg_match("/^\./", $this->getName());
+		return mb_ereg("^\\.", $this->getName());
 	}
 
 	/**

@@ -19,7 +19,7 @@ class BSGeckoUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/Gecko\/[0-9]+/';
+		return 'Gecko/[[:digit:]]+';
 	}
 
 	/**

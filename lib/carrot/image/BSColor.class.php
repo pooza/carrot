@@ -34,11 +34,11 @@ class BSColor extends BSParameterHolder {
 	 */
 	public function setColor ($color) {
 		$color = ltrim($color, '#');
-		if (mb_eregi('^[0-9a-f]{6}$', $color)) {
+		if (mb_ereg('^[[:xdigit:]]{6}$', $color)) {
 			$this['red'] = hexdec($color[0] . $color[1]);
 			$this['green'] = hexdec($color[2] . $color[3]);
 			$this['blue'] = hexdec($color[4] . $color[5]);
-		} else if (mb_eregi('^[0-9a-f]{3}$', $color)) {
+		} else if (mb_ereg('^[[:xdigit:]]{3}$', $color)) {
 			$this['red'] = hexdec($color[0] . $color[0]);
 			$this['green'] = hexdec($color[1] . $color[1]);
 			$this['blue'] = hexdec($color[2] . $color[2]);

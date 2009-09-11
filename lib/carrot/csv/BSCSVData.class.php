@@ -80,7 +80,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	protected function trimRecord (BSArray $record) {
 		foreach ($record as $key => $field) {
 			$field = rtrim($field);
-			$field = preg_replace('/"(.*)"/s', '\\1', $field);
+			$field = mb_ereg_replace('"(.*)"', '\\1', $field, 'm');
 			$field = str_replace('""', '"', $field);
 			$record[$key] = $field;
 		}

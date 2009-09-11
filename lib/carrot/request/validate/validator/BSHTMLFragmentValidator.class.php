@@ -71,7 +71,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 			}
 			if (!$this->isJavaScriptAllowed()) {
 				foreach ($element->getAttributes() as $name => $value) {
-					if (preg_match('/^on/i', $name) || preg_match('/javascript:/i', $value)) {
+					if (mb_eregi('^on', $name) || mb_eregi('javascript:', $value)) {
 						$this->invalidNode = sprintf('%s要素/%s属性', $element->getName(), $name);
 						return false;
 					}

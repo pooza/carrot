@@ -71,7 +71,7 @@ class BSConfigManager {
 	 */
 	public function getCompiler (BSConfigFile $file) {
 		foreach ($this->compilers as $compiler) {
-			if (mb_ereg(preg_quote($compiler['pattern']), $file->getPath())) {
+			if (mb_ereg($compiler['pattern'], $file->getPath())) {
 				return $compiler;
 			}
 		}

@@ -124,7 +124,7 @@ class BSPOP3 extends BSSocket {
 	 * @return boolean 成功ならばTrue
 	 */
 	public function isSuccess () {
-		return preg_match('/^\+OK/', $this->getLine());
+		return mb_ereg('^\\+OK', $this->getLine());
 	}
 
 	/**

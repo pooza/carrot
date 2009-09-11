@@ -82,7 +82,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function decodeQuotedPrintable ($str) {
-		foreach (BSString::eregMatchAll('=([A-Fa-f0-9]{2})', $str) as $matches) {
+		foreach (BSString::eregMatchAll('=([[:xdigit:]]{2})', $str) as $matches) {
 			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
 		}
 		return $str;

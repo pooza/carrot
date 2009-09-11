@@ -21,7 +21,7 @@ class BSDefaultUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/.*/';
+		return '.*';
 	}
 }
 

@@ -41,7 +41,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return boolean WAP2.0端末ならばTrue
 	 */
 	public function isWAP2 () {
-		return preg_match('/^KDDI/', $this->getName());
+		return mb_ereg('^KDDI', $this->getName());
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/^(UP\.Browser|KDDI)/';
+		return '^(UP\\.Browser|KDDI)';
 	}
 }
 

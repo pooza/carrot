@@ -40,7 +40,7 @@ class BSTasmanUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/MSIE 5\.[0-9]+; Mac/';
+		return 'MSIE 5\\.[[:digit:]]+; Mac';
 	}
 }
 

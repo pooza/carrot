@@ -16,8 +16,8 @@ function smarty_modifier_url2link ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		return preg_replace(
-			'/https?:\/\/[a-zA-Z0-9_~.,:;\/?&=+$%#!\-]+/',
+		return mb_ereg_replace(
+			'https?://[[:graph:]]+',
 			'<a href="\\0" target="_blank">\\0</a>',
 			$value
 		);

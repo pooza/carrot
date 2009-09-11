@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSPhoneNumberValidator extends BSValidator {
-	const PATTERN = '/^[0-9]{2,4}\-[0-9]{2,4}\-[0-9]{3,4}$/';
+	const PATTERN = '^[[:digit:]]{2,4}-[[:digit:]]{2,4}-[[:digit:]]{3,4}$';
 
 	/**
 	 * 対象文字列から電話番号を返す
@@ -53,7 +53,7 @@ class BSPhoneNumberValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!preg_match(self::PATTERN, $this->getPhoneNumber($value))) {
+		if (!mb_ereg(self::PATTERN, $this->getPhoneNumber($value))) {
 			$this->error = $this['invalid_error'];
 			return false;
 		}

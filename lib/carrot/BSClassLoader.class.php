@@ -73,8 +73,8 @@ class BSClassLoader {
 	 * @return string 存在するクラス名
 	 */
 	public function getClassName ($class, $suffix = null) {
-		$pattern = sprintf('^(%s)?([a-z0-9_]+)(%s)?$', self::PREFIX, $suffix);
-		if (!mb_eregi($pattern, $class, $matches)) {
+		$pattern = '^(' . self::PREFIX . ')?([_[:alnum:]]+)(' . $suffix . ')?$';
+		if (!mb_ereg($pattern, $class, $matches)) {
 			throw new RuntimeException($class . 'がロードできません。');
 		}
 		$basename = self::stripControlCharacters(str_replace('_', '', $matches[2]));
@@ -188,7 +188,7 @@ class BSClassLoader {
 		if (BSUtility::isPathAbsolute($filename)) {
 			$filename = basename($filename);
 		}
-		if (mb_ereg('(.*?)\.(class|interface)\.php', $filename, $matches)) {
+		if (mb_ereg('(.*?)\\.(class|interface)\\.php', $filename, $matches)) {
 			return $matches[1];
 		}
 	}

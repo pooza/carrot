@@ -31,7 +31,7 @@ class BSOperaUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/Opera/';
+		return 'Opera';
 	}
 }
 

@@ -475,7 +475,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getRecordClassName ($lang = null) {
 		if (!$this->recordClassName) {
 			if (BSString::isBlank($name = $this->getConfig('record_class'))) {
-				$pattern = '^' . $this->getPrefix() . '([A-Z][A-Za-z]+)$';
+				$pattern = '^' . $this->getPrefix() . '([[:upper:]][[:alpha:]]+)$';
 				if (mb_ereg($pattern, $this->getName(), $matches)) {
 					$name = $matches[1];
 				}

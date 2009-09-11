@@ -41,7 +41,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return boolean 3GC端末ならばTrue
 	 */
 	public function is3GC () {
-		return !preg_match('/^J-PHONE/', $this->getName());
+		return !mb_ereg('^J-PHONE', $this->getName());
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/^(J-PHONE|MOT|Vodafone|SoftBank)/';
+		return '^(J-PHONE|MOT|Vodafone|SoftBank)';
 	}
 }
 

@@ -28,7 +28,7 @@ class BSLegacyMozillaUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return '/^Mozilla\/[1-4]\..*\((Mac|Win|X11)/';
+		return '^Mozilla/[1-4]\\..*\((Mac|Win|X11)';
 	}
 }
 

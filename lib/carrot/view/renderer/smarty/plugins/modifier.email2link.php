@@ -16,8 +16,8 @@ function smarty_modifier_email2link ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		return preg_replace(
-			'/[0-9a-z_\.\+\-]+@([0-9a-z_\-]+\.)+[a-z]+/i',
+		return mb_ereg_replace(
+			'[-+._[:alnum:]]+@([-._[:alnum:]]+)+[[:alpha:]]+',
 			'<a href="mailto:\\0">\\0</a>',
 			$value
 		);

@@ -12,7 +12,7 @@
  */
 class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	private $document;
-	const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
+	const DATE_FORMAT = 'Y-m-d\\TH:i:s\\Z';
 
 	/**
 	 * リンクを返す
@@ -78,7 +78,7 @@ class BSAtom10Entry extends BSXMLElement implements BSFeedEntry {
 	public function getDate () {
 		if ($element = $this->getElement('published')) {
 			return BSDate::getInstance(
-				mb_ereg_replace('[^0-9]', '', $element->getBody())
+				mb_ereg_replace('[^[:digit:]]', '', $element->getBody())
 			);
 		}
 	}

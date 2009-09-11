@@ -39,7 +39,7 @@ class BSNetwork extends BSHost {
 	 * @param string $address CIDR形式ネットワークアドレス
 	 */
 	public function setCIDR ($address) {
-		if (!mb_ereg('^([0-9\\.]+)\\/([0-9]+)$', $address, $matches)) {
+		if (!mb_ereg('^([.[:digit:]]+)/([[:digit:]]+)$', $address, $matches)) {
 			throw new BSNetException('"%s"をパースできません。', $address);
 		}
 

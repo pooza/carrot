@@ -16,7 +16,7 @@ function smarty_modifier_pictogram ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		foreach (BSString::eregMatchAll('\[\[([^\]]+)\]\]', $value) as $matches) {
+		foreach (BSString::eregMatchAll('\\[\\[([^\\]]+)\\]\\]', $value) as $matches) {
 			$tag = new BSPictogramTag($matches[1]);
 			if ($tag->isMatched()) {
 				$value = $tag->execute($value);

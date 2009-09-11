@@ -344,7 +344,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		} else if (BSUtility::isPathAbsolute($name)) {
 			return new BSTemplateFile($name);
 		} else {
-			$name = mb_eregi_replace('\.tpl$', '', $name);
+			$name = mb_eregi_replace('\\.tpl$', '', $name);
 			$directories = new BSArray;
 			$directories[] = $this->getTemplatesDirectory();
 			$directories[] = BSController::getInstance()->getDirectory('templates');

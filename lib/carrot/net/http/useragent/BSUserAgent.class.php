@@ -58,7 +58,7 @@ abstract class BSUserAgent implements BSAssignable {
 	static public function getDefaultType ($useragent) {
 		foreach (self::getTypes() as $type) {
 			$instance = BSClassLoader::getInstance()->getObject($type, 'UserAgent');
-			if (preg_match($instance->getPattern(), $useragent)) {
+			if (mb_ereg($instance->getPattern(), $useragent)) {
 				return $type;
 			}
 		}
@@ -181,8 +181,8 @@ abstract class BSUserAgent implements BSAssignable {
 	 */
 	public function getPlatform () {
 		if (!$this->attributes['platform']) {
-			$pattern = '/^Mozilla\/[0-9]\.[0-9]+ \(([^;]+);/';
-			if (preg_match($pattern, $this->getName(), $matches)) {
+			$pattern = '^Mozilla/[[:digit:]]\\.[[:digit:]]+ \(([^;]+);';
+			if (mb_ereg($pattern, $this->getName(), $matches)) {
 				$this->attributes['platform'] = $matches[1];
 			}
 		}
@@ -238,7 +238,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			preg_match('/^BS([a-z0-9]+)UserAgent$/i', get_class($this), $matches);
+			mb_ereg('^BS([[:alnum:]]+)UserAgent$', get_class($this), $matches);
 			$this->type = $matches[1];
 		}
 		return $this->type;

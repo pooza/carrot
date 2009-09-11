@@ -17,14 +17,14 @@ class BSZipcode implements BSAssignable {
 	private $file;
 	private $info;
 	private $pref;
-	const PATTERN = '/^([0-9]{3})\-?([0-9]{4})$/i';
+	const PATTERN = '^([[:digit:]]{3})-?([[:digit:]]{4})$';
 
 	/**
 	 * @access public
 	 * @param string $value 内容
 	 */
 	public function __construct ($value) {
-		if (!preg_match(self::PATTERN, $value, $matches)) {
+		if (!mb_ereg(self::PATTERN, $value, $matches)) {
 			throw new BSZipcodeException('"%s" は正しい郵便番号ではありません。', $value);
 		}
 		$this->major = $matches[1];

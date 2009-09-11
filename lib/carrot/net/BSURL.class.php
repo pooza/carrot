@@ -13,7 +13,7 @@
 class BSURL implements ArrayAccess, BSAssignable {
 	protected $attributes;
 	protected $contents;
-	const PATTERN = '/^[a-z]+:(\/\/)?[-_.!~*()a-z0-9;\/?:@&=+$,%#]+$/i';
+	const PATTERN = '^[[:alnum:]]+:(//)?[[:graph:]]+$';
 
 	/**
 	 * @access protected
@@ -79,7 +79,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 	public function setContents ($contents) {
 		$this->attributes->clear();
 		if (!BSArray::isArray($contents)) {
-			if (!preg_match(self::PATTERN, $contents)) {
+			if (!mb_ereg(self::PATTERN, $contents)) {
 				return false;
 			}
 			$contents = parse_url($contents);

@@ -26,7 +26,7 @@ abstract class BSMobileCarrier {
 	 */
 	public function __construct () {
 		$this->attributes = new BSArray;
-		preg_match('/^BS([a-z]+)MobileCarrier$/i', get_class($this), $matches);
+		mb_ereg('^BS([[:alpha:]]+)MobileCarrier$', get_class($this), $matches);
 		$this->attributes['name'] = $matches[1];
 	}
 
@@ -57,7 +57,7 @@ abstract class BSMobileCarrier {
 			}
 		}
 
-		$carrier = preg_replace('/[^a-z]/i', null, BSString::toLower($carrier));
+		$carrier = mb_ereg_replace('[^[:alpha:]]', null, BSString::toLower($carrier));
 		foreach (self::$instances as $instance) {
 			$names = new BSArray;
 			$names[] = BSString::toLower($instance->getName());

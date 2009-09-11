@@ -17,7 +17,7 @@ class BSMySQLTableProfile extends BSTableProfile {
 	 * @param string $table テーブル名
 	 */
 	public function __construct ($table, BSDatabase $database = null) {
-		if (mb_ereg('^`([a-z0-9_]+)`$', $table, $matches)) {
+		if (mb_ereg('^`([_[:alnum:]]+)`$', $table, $matches)) {
 			$table = $matches[1];
 		}
 		parent::__construct($table, $database);
