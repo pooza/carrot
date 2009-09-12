@@ -49,12 +49,8 @@ class BSWebRequest extends BSRequest {
 	 * @param integer $method メソッド
 	 */
 	public function setMethod ($method) {
-		$this->method = BSString::toUpper($method);
-		if (!self::getMethods()->isContain($this->method)) {
-			throw new BSHTTPException('"%s" は正しくないメソッドです。', $this->method);
-		}
-
-		switch ($this->method) {
+		parent::setMethod($method);
+		switch ($this->getMethod()) {
 			case 'GET':
 			case 'HEAD':
 				$this->setParameters($_GET);
@@ -70,6 +66,97 @@ class BSWebRequest extends BSRequest {
 				}
 				break;
 		}
+	}
+
+	/**
+	 * 出力内容を返す
+	 *
+	 * @access public
+	 * @return string 出力内容
+	 */
+	public function getContents () {
+		if (!$this->contents) {
+			$contents = new BSArray;
+			$contents[] = $this->getRequestLine();
+			foreach ($this->getHeaders() as $header) {
+				$contents[] = $header->getName() . ': ' . $header->getContents();
+			}
+			$this->contents[] = null;
+			$this->contents[] = $this->getBody();
+			$this->contents = $contents->join(self::LINE_SEPARATOR);
+		}
+		return $this->contents;
+	}
+
+	/**
+	 * httpバージョンを返す
+	 *
+	 * @access public
+	 * @return string httpバージョン
+	 */
+	public function getVersion () {
+		if (!$this->version) {
+			$version = $this->controller->getEnvironment('SERVER_PROTOCOL');
+			$this->version = BSString::explode('/', $version)->getParameter(1);
+		}
+		return $this->version;
+	}
+
+	/**
+	 * レンダラーを返す
+	 *
+	 * @access public
+	 * @return BSRenderer レンダラー
+	 */
+	public function getRenderer () {
+		if (!extension_loaded('http')) {
+			throw new BSHTTPException('httpモジュールがロードされていません。');
+		}
+		if (!$this->renderer) {
+			$this->renderer = new BSRawRenderer;
+			$this->renderer->setContents(http_get_request_body());
+		}
+		return $this->renderer;
+	}
+
+	/**
+	 * ヘッダ一式を返す
+	 *
+	 * @access public
+	 * @return string[] ヘッダ一式
+	 */
+	public function getHeaders () {
+		if (!$this->headers) {
+			$this->headers = new BSArray;
+			if (extension_loaded('http')) {
+				$headers = http_get_request_headers();
+			} else {
+				$headers = apache_request_headers();
+			}
+			foreach ($headers as $key => $value) {
+				$this->setHeader($key, $value);
+			}
+		}
+		return $this->headers;
+	}
+
+	/**
+	 * 送信先URLを返す
+	 *
+	 * @access public
+	 * @return BSURL 送信先URL
+	 */
+	public function getURL () {
+		if (!$this->url) {
+			$url = 'http';
+			if ($this->isSSL()) {
+				$url .= 's';
+			}
+			$url .= "://" . $this->controller->getHost()->getName();
+			$this->url = BSURL::getInstance($url);
+			$this->url['path'] = $this->controller->getEnvironment('REQUEST_URI');
+		}
+		return $this->url;
 	}
 
 	/**

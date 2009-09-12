@@ -11,12 +11,12 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRequest extends BSParameterHolder {
+abstract class BSRequest extends BSHTTPRequest {
 	const USER_AGENT_ACCESSOR = 'ua';
+	protected $version = null;
 	private $host;
 	private $useragent;
 	private $session;
-	protected $method;
 	private $attributes;
 	private $errors;
 
@@ -106,17 +106,6 @@ abstract class BSRequest extends BSParameterHolder {
 	 * @access public
 	 */
 	public function parse () {
-	}
-
-	/**
-	 * エラーを返す
-	 *
-	 * @access public
-	 * @param string $name エラー名
-	 * @return mixed エラー
-	 */
-	public function getError ($name) {
-		return $this->getErrors()->getParameter($name);
 	}
 
 	/**
@@ -315,6 +304,27 @@ abstract class BSRequest extends BSParameterHolder {
 	}
 
 	/**
+	 * 送信先URLを設定
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 送信先URL
+	 */
+	public function setURL (BSHTTPRedirector $url) {
+		throw new BSHTTPException('%sのURLを設定できません。', get_class($this));
+	}
+
+	/**
+	 * レンダラーを設定
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @param integer $flags フラグのビット列
+	 */
+	public function setRenderer (BSRenderer $renderer, $flags = null) {
+		throw new BSHTTPException('%sはレンダラーを設定できません。', get_class($this));
+	}
+
+	/**
 	 * ケータイ環境か？
 	 *
 	 * @access public
@@ -362,23 +372,6 @@ abstract class BSRequest extends BSParameterHolder {
 	 */
 	public function isFlash () {
 		return false;
-	}
-
-	/**
-	 * サポートしているメソッドを返す
-	 *
-	 * @access public
-	 * @return BSArray サポートしているメソッド
-	 * @static
-	 */
-	static public function getMethods () {
-		$methods = new BSArray;
-		$methods[] = 'HEAD';
-		$methods[] = 'GET';
-		$methods[] = 'POST';
-		$methods[] = 'PUT';
-		$methods[] = 'DELETE';
-		return $methods;
 	}
 }
 

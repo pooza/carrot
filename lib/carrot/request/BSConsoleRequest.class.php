@@ -18,7 +18,7 @@ class BSConsoleRequest extends BSRequest {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->method = 'GET';
+		$this->setMethod('GET');
 		$this->options = new BSArray;
 		$this->addOption(BSController::MODULE_ACCESSOR);
 		$this->addOption(BSController::ACTION_ACCESSOR);
@@ -72,6 +72,35 @@ class BSConsoleRequest extends BSRequest {
 
 		$this->clearParameters();
 		$this->setParameters(getopt($config));
+	}
+
+	/**
+	 * 出力内容を返す
+	 *
+	 * @access public
+	 */
+	public function getContents () {
+		return null;
+	}
+
+	/**
+	 * ヘッダ一式を返す
+	 *
+	 * @access public
+	 * @return string[] ヘッダ一式
+	 */
+	public function getHeaders () {
+		return null;
+	}
+
+	/**
+	 * レンダラーを返す
+	 *
+	 * @access public
+	 * @return BSRenderer レンダラー
+	 */
+	public function getRenderer () {
+		return null;
 	}
 
 	/**

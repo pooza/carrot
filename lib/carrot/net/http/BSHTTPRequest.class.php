@@ -11,10 +11,9 @@
  * @version $Id$
  */
 class BSHTTPRequest extends BSMIMEDocument {
-	private $version = '1.0';
-	private $method;
-	private $path;
-	private $url;
+	protected $method;
+	protected $version = '1.0';
+	protected $url;
 
 	/**
 	 * httpバージョンを返す
@@ -43,7 +42,10 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @param string $method メソッド
 	 */
 	public function setMethod ($method) {
-		$this->method = $method;
+		if (!self::isValidMethod($method)) {
+			throw new BSHTTPException('"%s" は正しくないメソッドです。', $method);
+		}
+		$this->method = BSString::toUpper($method);
 	}
 
 	/**
@@ -60,9 +62,9 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * 送信先URLを設定
 	 *
 	 * @access public
-	 * @param BSHTTPRedirector $link 送信先URL
+	 * @param BSHTTPRedirector $url 送信先URL
 	 */
-	public function setURL (BSHTTPRedirector $link) {
+	public function setURL (BSHTTPRedirector $url) {
 		$this->url = $url->getURL();
 		$this->setHeader('Host', $this->url['host']);
 	}
@@ -71,15 +73,25 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * 出力内容を返す
 	 *
 	 * @access public
+	 * @return string 出力内容
 	 */
 	public function getContents () {
 		$this->setHeader('Content-Length', $this->getRenderer()->getSize());
-		return sprintf(
-			'%s %s HTTP/%s',
-			$this->getMethod(),
-			$this->getURL()->getFullPath(),
-			$this->getVersion()
-		) . self::LINE_SEPARATOR . parent::getContents();
+		return $this->getRequestLine() . self::LINE_SEPARATOR . parent::getContents();
+	}
+
+	/**
+	 * リクエスト行を返す
+	 *
+	 * @access public
+	 * @return string 出力内容
+	 */
+	public function getRequestLine () {
+		$line = new BSStringFormat('%s %s HTTP/%s');
+		$line[] = $this->getMethod();
+		$line[] = $this->getURL()->getFullPath();
+		$line[] = $this->getVersion();
+		return $line->getContents();
 	}
 
 	/**
@@ -100,6 +112,35 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 */
 	public function getError () {
 		return 'メソッド又は送信先URLが空欄です。';
+	}
+
+	/**
+	 * サポートしているメソッドを返す
+	 *
+	 * @access public
+	 * @return BSArray サポートしているメソッド
+	 * @static
+	 */
+	static public function getMethods () {
+		$methods = new BSArray;
+		$methods[] = 'HEAD';
+		$methods[] = 'GET';
+		$methods[] = 'POST';
+		$methods[] = 'PUT';
+		$methods[] = 'DELETE';
+		return $methods;
+	}
+
+	/**
+	 * サポートされたメソッドか？
+	 *
+	 * @access public
+	 * @param string $method メソッド名
+	 * @return boolean サポートしているならTrue
+	 * @static
+	 */
+	static public function isValidMethod ($method) {
+		return self::getMethods()->isContain(BSString::toUpper($method));
 	}
 }
 
