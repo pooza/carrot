@@ -5,21 +5,13 @@
  */
 
 /**
- * フィルタチェーン
+ * フィルタセット
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  * @abstract
  */
-class BSFilterChain implements IteratorAggregate {
-	private $chain;
-
-	/**
-	 * @access public
-	 */
-	public function __construct () {
-		$this->chain = new BSArray;
-	}
+class BSFilterSet extends BSArray {
 
 	/**
 	 * 実行
@@ -41,20 +33,20 @@ class BSFilterChain implements IteratorAggregate {
 	 * @param BSFilter $filter フィルタ
 	 */
 	public function register (BSFilter $filter) {
-		$this->chain[$filter->getName()] = $filter;
+		$this[$filter->getName()] = $filter;
 	}
 
 	/**
 	 * グローバルフィルタをフィルタチェーンに加える
 	 *
 	 * @access public
+	 * @param BSHost $server 対象サーバ
 	 */
-	public function loadGlobal () {
+	public function loadGlobal (BSHost $server) {
 		$this->load('filters/carrot');
 		$this->load('filters/application');
 
-		$name = 'filters/' . BSController::getInstance()->getHost()->getName();
-		if ($file = BSConfigManager::getConfigFile($name)) {
+		if ($file = BSConfigManager::getConfigFile('filters/' . $server->getName())) {
 			$this->load($file);
 		}
 	}
@@ -78,17 +70,18 @@ class BSFilterChain implements IteratorAggregate {
 	 * @param BSAction $action アクション
 	 */
 	public function loadAction (BSAction $action) {
+		$this->loadGlobal(BSController::getInstance()->getHost());
 		$this->loadModule($action->getModule());
 		foreach ((array)$action->getConfig('filters') as $row) {
 			$row = new BSArray($row);
 			if ($row['enabled']) {
-				if (!$this->chain[$row['class']]) {
+				if (!$this[$row['class']]) {
 					$filter = BSClassLoader::getInstance()->getObject($row['class']);
 					$filter->initialize((array)$row['params']);
 					$this->register($filter);
 				}
 			} else {
-				$this->chain->removeParameter($row['class']);
+				$this->removeParameter($row['class']);
 			}
 		}
 	}
@@ -104,16 +97,6 @@ class BSFilterChain implements IteratorAggregate {
 		foreach ((array)$objects as $filter) {
 			$this->register($filter);
 		}
-	}
-
-	/**
-	 * イテレータを返す
-	 *
-	 * @access public
-	 * @return BSIterator イテレータ
-	 */
-	public function getIterator () {
-		return $this->chain->getIterator();
 	}
 }
 

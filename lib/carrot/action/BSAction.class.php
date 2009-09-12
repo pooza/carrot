@@ -390,14 +390,10 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 			throw new BSInitializeException('%sが初期化できません。', $this);
 		}
 
-		$chain = new BSFilterChain;
-		$chain->loadGlobal();
-		$chain->loadAction($this);
-
-		$filter = new BSExecutionFilter;
-		$filter->initialize();
-		$chain->register($filter);
-		$chain->execute();
+		$filters = new BSFilterSet;
+		$filters->loadAction($this);
+		$filters->register(new BSExecutionFilter);
+		$filters->execute();
 		return BSView::NONE;
 	}
 

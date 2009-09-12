@@ -178,6 +178,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return BSUserAgent 対象UserAgent
 	 */
 	public function getUserAgent () {
+		if (!$this->useragent) {
+			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
+		}
 		return $this->useragent;
 	}
 

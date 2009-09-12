@@ -33,7 +33,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 */
 	public function getUserAgent () {
 		if (!$this->useragent) {
-			$this->useragent = BSRequest::getInstance()->getUserAgent();
+			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 		}
 		return $this->useragent;
 	}
@@ -65,7 +65,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 * @return boolean 一致するならTrue
 	 */
 	public function isMatched () {
-		return isset($this->tag[0]) && ($this->tag[0] == $this->getTagName());
+		return !BSString::isBlank($this->tag[0]) && ($this->tag[0] == $this->getTagName());
 	}
 
 	/**

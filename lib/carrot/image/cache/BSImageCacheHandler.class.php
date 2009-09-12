@@ -54,7 +54,7 @@ class BSImageCacheHandler {
 	 */
 	public function getUserAgent () {
 		if (!$this->useragent) {
-			$this->useragent = BSRequest::getInstance()->getUserAgent();
+			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 		}
 		return $this->useragent;
 	}
