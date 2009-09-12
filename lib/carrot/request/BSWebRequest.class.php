@@ -189,37 +189,6 @@ class BSWebRequest extends BSRequest {
 		}
 		return $this->useragentReal;
 	}
-
-	/**
-	 * SSL環境か？
-	 *
-	 * @access public
-	 * @return boolean SSL環境ならTrue
-	 */
-	public function isSSL () {
-		return !BSString::isBlank($this->controller->getEnvironment('HTTPS'));
-	}
-
-	/**
-	 * Ajax環境か？
-	 *
-	 * @access public
-	 * @return boolean Ajax環境ならTrue
-	 */
-	public function isAjax () {
-		return !BSString::isBlank($this->controller->getEnvironment('X-PROTOTYPE-VERSION'));
-	}
-
-	/**
-	 * Flash環境か？
-	 *
-	 * @access public
-	 * @return boolean Flash環境ならTrue
-	 */
-	public function isFlash () {
-		return $this->controller->getEnvironment('X-FLASH-VERSION')
-			|| $this->controller->getEnvironment('X-IS-FLASH');
-	}
 }
 
 /* vim:set tabstop=4: */

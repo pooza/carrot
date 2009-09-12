@@ -70,7 +70,7 @@ class BSConsoleRequest extends BSRequest {
 		}
 		$config = $config->join('');
 
-		$this->clearParameters();
+		$this->clear();
 		$this->setParameters(getopt($config));
 	}
 
@@ -101,16 +101,6 @@ class BSConsoleRequest extends BSRequest {
 	 */
 	public function getRenderer () {
 		return null;
-	}
-
-	/**
-	 * コマンドライン環境か？
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 */
-	public function isCLI () {
-		return true;
 	}
 }
 

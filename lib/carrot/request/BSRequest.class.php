@@ -216,16 +216,6 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 
 	/**
-	 * メソッドを返す
-	 *
-	 * @access public
-	 * @return integer メソッド
-	 */
-	public function getMethod () {
-		return $this->method;
-	}
-
-	/**
 	 * リモートホストを返す
 	 *
 	 * @access public
@@ -341,7 +331,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean コマンドライン環境ならTrue
 	 */
 	public function isCLI () {
-		return false;
+		return (PHP_SAPI == 'cli');
 	}
 
 	/**
@@ -351,7 +341,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return false;
+		return !BSString::isBlank($this->controller->getEnvironment('HTTPS'));
 	}
 
 	/**
@@ -361,7 +351,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return false;
+		return !BSString::isBlank($this->controller->getEnvironment('X-PROTOTYPE-VERSION'));
 	}
 
 	/**
@@ -371,7 +361,8 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return false;
+		return $this->controller->getEnvironment('X-FLASH-VERSION')
+			|| $this->controller->getEnvironment('X-IS-FLASH');
 	}
 }
 
