@@ -42,10 +42,10 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @param string $method メソッド
 	 */
 	public function setMethod ($method) {
-		if (!self::isValidMethod($method)) {
-			throw new BSHTTPException('"%s" は正しくないメソッドです。', $method);
-		}
 		$this->method = BSString::toUpper($method);
+		if (!self::isValidMethod($this->method)) {
+			throw new BSHTTPException('"%s" は正しくないメソッドです。', $this->method);
+		}
 	}
 
 	/**
