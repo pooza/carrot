@@ -109,7 +109,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 				$contents = $file->getContents();
 
 				//libxml2がパースエラーを起こす
-				$contents = mb_ereg_replace('/+&/', '', $contents);
+				$contents = mb_ereg_replace('[+&]', '', $contents);
 
 				$xml = new BSXMLDocument;
 				$xml->setContents($contents);
