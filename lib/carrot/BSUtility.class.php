@@ -66,13 +66,9 @@ class BSUtility {
 			throw new BSFileException('"%s"はインクルードできません。', $file);
 		}
 
-		if ($config = ini_get('display_errors')) {
-			ini_set('display_errors', 0);
-		}
+		ini_set('display_errors', 0);
 		require_once($file->getPath());
-		if ($config) {
-			ini_set('display_errors', 1);
-		}
+		ini_restore('display_errors');
 	}
 
 	/**
