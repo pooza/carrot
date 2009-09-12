@@ -27,7 +27,7 @@ class BSFilterSet extends BSArray {
 	}
 
 	/**
-	 * フィルタをチェーンに加える
+	 * フィルタを加える
 	 *
 	 * @access public
 	 * @param BSFilter $filter フィルタ
@@ -37,7 +37,7 @@ class BSFilterSet extends BSArray {
 	}
 
 	/**
-	 * グローバルフィルタをフィルタチェーンに加える
+	 * グローバルフィルタをフィルタセットに加える
 	 *
 	 * @access public
 	 * @param BSHost $server 対象サーバ
@@ -52,7 +52,7 @@ class BSFilterSet extends BSArray {
 	}
 
 	/**
-	 * モジュールフィルタをフィルタチェーンに加える
+	 * モジュールフィルタをフィルタセットに加える
 	 *
 	 * @access public
 	 * @param BSModule $module モジュール
@@ -64,7 +64,7 @@ class BSFilterSet extends BSArray {
 	}
 
 	/**
-	 * アクションフィルタをフィルタチェーンに加える
+	 * アクションフィルタをフィルタセットに加える
 	 *
 	 * @access public
 	 * @param BSAction $action アクション
@@ -87,7 +87,7 @@ class BSFilterSet extends BSArray {
 	}
 
 	/**
-	 * フィルタチェーンに加える
+	 * フィルタセットに加える
 	 *
 	 * @access private
 	 * @param mixed $file 設定ファイル名、又はBSFileオブジェクト
