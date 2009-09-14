@@ -85,6 +85,8 @@ class BSCriteriaSet extends BSArray {
 					if ($values->count()) {
 						$values->uniquize();
 						$this[] = $key . ' IN (' . $this->quote($values)->join(',') . ')';
+					} else {
+						$this[] = $key . ' IS NULL';
 					}
 				} else if ($value instanceof BSRecord) {
 					$this[] = $key . ' ' . $operator . ' ' . $this->quote($value->getID());
