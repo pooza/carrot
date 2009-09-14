@@ -15,7 +15,7 @@ admin:
   networks:
     - 192.168.0.0/24
     - 192.168.1.0/24
-    - 192.168.100.0/24
+    - 192.168.101.0/24
 
 types:
   #file: %BS_WEBAPP_DIR%/config/mime/mime.types

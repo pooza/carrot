@@ -98,7 +98,9 @@ class BSAdministratorRole implements BSRole {
 				$this->networks[] = new BSNetwork('0.0.0.0/0');
 			} else {
 				$this->networks[] = new BSNetwork('127.0.0.1/32');
-				$this->networks->merge(BSString::explode(',', BS_ADMIN_NETWORKS));
+				foreach (BSString::explode(',', BS_ADMIN_NETWORKS) as $network) {
+					$this->networks[] = new BSNetwork($network);
+				}
 			}
 		}
 		return $this->networks;
