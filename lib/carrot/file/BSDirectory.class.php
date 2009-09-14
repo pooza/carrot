@@ -211,7 +211,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function getArchive ($flags = BSZipArchive::WITHOUT_DOTED) {
 		if (!extension_loaded('zip')) {
-			throw new BSException('zipエクステンションがロードされていません。');
+			throw new BSFileException('zipモジュールがロードされていません。');
 		}
 		if (!$this->zip) {
 			$this->zip = new BSZipArchive;

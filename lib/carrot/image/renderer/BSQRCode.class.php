@@ -22,7 +22,7 @@ class BSQRCode implements BSImageRenderer {
 	 */
 	public function __construct () {
 		if (!extension_loaded('qr')) {
-			throw new BSImageException('"qr"モジュールがロードされていません。');
+			throw new BSImageException('qrモジュールがロードされていません。');
 		}
 		$this->engine = new QRCode;
 		$this->engine->setMagnify(3);
