@@ -10,8 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSKanaValidator extends BSValidator {
-	const PATTERN = '^[ぁ-んァ-ンヴー[:digit:]]*$';
+class BSKanaValidator extends BSRegexValidator {
 
 	/**
 	 * 初期化
@@ -20,23 +19,10 @@ class BSKanaValidator extends BSValidator {
 	 * @param string[] $parameters パラメータ配列
 	 */
 	public function initialize ($parameters = array()) {
-		$this['invalid_error'] = '使用出来ない文字が含まれています。';
-		return parent::initialize($parameters);
-	}
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 * @param mixed $value バリデート対象
-	 * @return boolean 妥当な値ならばTrue
-	 */
-	public function execute ($value) {
-		if (!mb_ereg(self::PATTERN, $value)) {
-			$this->error = $this['invalid_error'];
-			return false;
-		}
-		return true;
+		$this['match'] = true;
+		$this['match_error'] = '使用出来ない文字が含まれています。';
+		$this['pattern'] = "^[ぁ-んァ-ンヴー\\n[:digit:]]*$";
+		return BSValidator::initialize($parameters);
 	}
 }
 

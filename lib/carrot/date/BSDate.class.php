@@ -62,9 +62,12 @@ class BSDate implements ArrayAccess, BSAssignable {
 			return $date;
 		}
 
-		$date = new self($date, $flags);
-		if (($flags & self::NO_INITIALIZE) || $date->validate()) {
-			return $date;
+		try {
+			$date = new self($date, $flags);
+			if (($flags & self::NO_INITIALIZE) || $date->validate()) {
+				return $date;
+			}
+		} catch (BSDateException $e) {
 		}
 	}
 

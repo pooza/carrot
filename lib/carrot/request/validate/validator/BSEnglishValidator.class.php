@@ -21,7 +21,7 @@ class BSEnglishValidator extends BSRegexValidator {
 	public function initialize ($parameters = array()) {
 		$this['match'] = true;
 		$this['match_error'] = '使用出来ない文字が含まれています。';
-		$this['pattern'] = "/^[[:print:]\n]*$/";
+		$this['pattern'] = '^[\\n[:ascii:]]*$';
 		return BSValidator::initialize($parameters);
 	}
 }

@@ -28,7 +28,11 @@ class BSDateValidator extends BSValidator {
 				$date[$key] = $this->request[$value];
 			}
 		} else {
-			$date->setDate($value);
+			try {
+				$date->setDate($value);
+			} catch (BSDateException $e) {
+				return null;
+			}
 		}
 		if ($date->validate()) {
 			return $date;

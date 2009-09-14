@@ -24,7 +24,7 @@ class BSPasswordValidator extends BSRegexValidator {
 		}
 		$parameters['match'] = true;
 		$parameters['match_error'] = $parameters['digits'] . '桁以上の英数字を入力して下さい。';
-		$parameters['pattern'] = '/[[:print:]]{' . $parameters['digits'] . ',}/';
+		$parameters['pattern'] = '[[:print:]]{' . $parameters['digits'] . ',}';
 
 		return BSValidator::initialize($parameters);
 	}
