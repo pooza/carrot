@@ -132,7 +132,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return $this->getTemplate()->compile();
+		if (!$template = $this->getTemplate()) {
+			throw new BSViewException('テンプレートが未定義です。');
+		}
+		return $template->compile();
 	}
 
 	/**
