@@ -171,7 +171,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			BSUtility::includeFile('class.ico.php');
 			$ico = new Ico($url->getContents());
 			$image = new BSImage;
-			$image->setImage($ico->getIcon(0));
+			if (!$resource = $ico->getIcon(0)) {
+				return null;
+			}
+			$image->setImage($resource);
 			$image->setType(BSMIMEType::getType('png'));
 
 			return $image;
@@ -216,8 +219,12 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		$dir = BSController::getInstance()->getDirectory('favicon');
 		$name = $this->getImageFileBaseName();
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			if (!$favicon = $this->getFavicon()) {
+				return null;
+			}
+
 			$file = BSFile::getTemporaryFile('.png', 'BSImageFile');
-			$file->setEngine($this->getFavicon());
+			$file->setEngine($favicon);
 			$file->save();
 			$file->setName($name);
 			$file->moveTo($dir);
