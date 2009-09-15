@@ -13,7 +13,6 @@ require_once('Zend/Feed.php');
  * @version $Id$
  */
 class BSFeedUtility extends Zend_Feed {
-	const CONVERTED_TITLE_SUFFIX = '(converted)';
 	const IGNORE_TITLE_PATTERN = '^(PR|AD):';
 
 	/**

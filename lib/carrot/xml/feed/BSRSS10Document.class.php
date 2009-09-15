@@ -223,7 +223,7 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function convert (Zend_Feed_Abstract $feed) {
 		$title = $feed->channel->title->getDOM()->firstChild->wholeText;
-		$this->setTitle($title . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
+		$this->setTitle($title);
 		foreach ($feed as $entry) {
 			try {
 				$element = $this->createEntry();

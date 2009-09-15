@@ -71,7 +71,7 @@ class BSAtom03Document extends BSAtom10Document {
 	 * @return BSFeedDocument
 	 */
 	public function convert (Zend_Feed_Abstract $feed) {
-		$this->setTitle($feed->title() . ' ' . BSFeedUtility::CONVERTED_TITLE_SUFFIX);
+		$this->setTitle($feed->title());
 		foreach ($feed as $entry) {
 			try {
 				$element = $this->createEntry();
