@@ -10,8 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
-	private $titles;
+class BSRSS10Document extends BSRSS09Document {
+	protected $version = '0.9';
 
 	/**
 	 * @access public
@@ -23,16 +23,6 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 		$this->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
 		$this->setDate(BSDate::getNow());
 		$this->setAuthor(BSAuthorRole::getInstance()->getName('ja'));
-	}
-
-	/**
-	 * エントリー要素の名前を返す
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function getEntryElementName () {
-		return 'item';
 	}
 
 	/**
@@ -61,19 +51,6 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
-	 * チャンネル要素を返す
-	 *
-	 * @access public
-	 * @return BSXMLElement チャンネル要素
-	 */
-	public function getChannel () {
-		if (!$element = $this->getElement('channel')) {
-			$element = $this->createElement('channel');
-		}
-		return $element;
-	}
-
-	/**
 	 * items要素を返す
 	 *
 	 * @access public
@@ -88,31 +65,6 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	}
 
 	/**
-	 * タイトルを返す
-	 *
-	 * @access public
-	 * @return string タイトル
-	 */
-	public function getTitle () {
-		if ($element = $this->getChannel()->getElement('title')) {
-			return $element->getBody();
-		}
-	}
-
-	/**
-	 * タイトルを設定
-	 *
-	 * @access public
-	 * @param string $title タイトル
-	 */
-	public function setTitle ($title) {
-		if (!$element = $this->getChannel()->getElement('title')) {
-			$element = $this->getChannel()->createElement('title');
-		}
-		$element->setBody(BSString::truncate($title, 40));
-	}
-
-	/**
 	 * チャンネルのURLを設定
 	 *
 	 * @access public
@@ -120,44 +72,6 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function setChannelURL (BSHTTPRedirector $url) {
 		$this->getChannel()->setAttribute('rdf:about', $url->getContents());
-	}
-
-	/**
-	 * ディスクリプションを設定
-	 *
-	 * @access public
-	 * @param string $description ディスクリプション
-	 */
-	public function setDescription ($description) {
-		if (!$element = $this->getChannel()->getElement('description')) {
-			$element = $this->getChannel()->createElement('description');
-		}
-		$element->setBody(BSString::truncate($description, 500));
-	}
-
-	/**
-	 * リンクを返す
-	 *
-	 * @access public
-	 * @return BSHTTPURL リンク
-	 */
-	public function getLink () {
-		if ($element = $this->getChannel()->getElement('link')) {
-			return BSURL::getInstance($element->getBody());
-		}
-	}
-
-	/**
-	 * リンクを設定
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $link リンク
-	 */
-	public function setLink (BSHTTPRedirector $link) {
-		if (!$element = $this->getChannel()->getElement('link')) {
-			$element = $this->getChannel()->createElement('link');
-		}
-		$element->setBody($link->getURL()->getContents());
 	}
 
 	/**
@@ -196,18 +110,17 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 		if (!$element = $this->getChannel()->getElement('dc:date')) {
 			$element = $this->getChannel()->createElement('dc:date');
 		}
-		$element->setBody($date->format(BSRSS10Entry::DATE_FORMAT));
+		$element->setBody($date->format(DATE_RFC3339));
 	}
 
 	/**
-	 * フィードアイテムを生成して返す
+	 * エントリーを生成して返す
 	 *
 	 * @access public
-	 * @return BSRSS10Entry アイテム要素
+	 * @return BSFeedEntry エントリー
 	 */
 	public function createEntry () {
-		$this->getEntryRootElement()->addElement($entry = new BSRSS10Entry);
-		$entry->setDocument($this);
+		$entry = BSFeedUtility::createEntry($this);
 		if ($creator = $this->getChannel()->getElement('dc:creator')) {
 			$entry->addElement($creator);
 		}
@@ -240,16 +153,6 @@ class BSRSS10Document extends BSXMLDocument implements BSFeedDocument {
 			} catch (Exception $e) {
 			}
 		}
-	}
-
-	/**
-	 * エントリーのタイトルを配列で返す
-	 *
-	 * @access public
-	 * @return BSArray
-	 */
-	public function getEntryTitles () {
-		return BSFeedUtility::getEntryTitles($this);
 	}
 }
 

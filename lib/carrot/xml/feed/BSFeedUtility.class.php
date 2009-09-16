@@ -116,6 +116,20 @@ class BSFeedUtility extends Zend_Feed {
 		$contents = mb_ereg_replace('encoding="[-_[:alnum:]]*"', 'encoding="utf-8"', $contents);
 		return parent::importString($contents);
 	}
+
+	/**
+	 * エントリーを生成して返す
+	 *
+	 * @access public
+	 * @param BSFeedDocument フィード
+	 * @return BSFeedEntry エントリー
+	 */
+	public function createEntry (BSFeedDocument $feed) {
+		$class = str_replace('Document', 'Entry', get_class($feed));
+		$feed->getEntryRootElement()->addElement($entry = new $class);
+		$entry->setDocument($feed);
+		return $entry;
+	}
 }
 
 /* vim:set tabstop=4: */

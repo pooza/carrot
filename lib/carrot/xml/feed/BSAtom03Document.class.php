@@ -10,20 +10,160 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSAtom03Document extends BSAtom10Document {
-	private $titles;
+class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
+	protected $version = '0.3';
+	protected $namespace = 'http://purl.org/atom/ns#';
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
 		$this->setName('feed');
-		$this->setNamespace('http://purl.org/atom/ns#');
-		$this->setAttribute('version', '0.3');
+		$this->setNamespace($this->namespace);
+		$this->setAttribute('version', $this->version);
 		$this->setDate(BSDate::getNow());
 		$this->createElement('generator', BSController::getFullName('ja'));
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
+	}
+
+	/**
+	 * エントリー要素の名前を返す
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function getEntryElementName () {
+		return 'entry';
+	}
+
+	/**
+	 * エントリー要素要素の格納先を返す
+	 *
+	 * @access public
+	 * @return BSXMLElement
+	 */
+	public function getEntryRootElement () {
+		return $this;
+	}
+
+	/**
+	 * 妥当な文書か？
+	 *
+	 * @access public
+	 * @return boolean 妥当な文書ならTrue
+	 */
+	public function validate () {
+		return (parent::validate()
+			&& $this->query('/feed/id')
+			&& $this->query('/feed/title')
+			&& $this->query('/feed/updated')
+			&& $this->query('/feed/author')
+			&& $this->query('/feed/link')
+		);
+	}
+
+	/**
+	 * メディアタイプを返す
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function getType () {
+		return BSMIMEType::getType('atom');
+	}
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		if ($element = $this->getElement('title')) {
+			return $element->getBody();
+		}
+	}
+
+	/**
+	 * タイトルを設定
+	 *
+	 * @access public
+	 * @param string $title タイトル
+	 */
+	public function setTitle ($title) {
+		if (!$element = $this->getElement('title')) {
+			$element = $this->createElement('title');
+		}
+		$element->setBody($title);
+	}
+
+	/**
+	 * ディスクリプションを設定
+	 *
+	 * @access public
+	 * @param string $description ディスクリプション
+	 */
+	public function setDescription ($description) {
+		if (!$element = $this->getElement('subtitle')) {
+			$element = $this->createElement('subtitle');
+		}
+		$element->setBody($description);
+	}
+
+	/**
+	 * リンクを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL リンク
+	 */
+	public function getLink () {
+		if ($element = $this->getElement('link')) {
+			return BSURL::getInstance($element->getBody());
+		}
+	}
+
+	/**
+	 * リンクを設定
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $link リンク
+	 */
+	public function setLink (BSHTTPRedirector $link) {
+		if (!$element = $this->getElement('id')) {
+			$element = $this->createElement('id');
+		}
+		$element->setBody(BSAtom03Entry::getID($link->getURL()));
+
+		if (!$element = $this->getElement('link')) {
+			$element = $this->createElement('link');
+		}
+		$element->setBody($link->getURL()->getContents());
+	}
+
+	/**
+	 * オーサーを設定
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @param BSMailAddress $email メールアドレス
+	 */
+	public function setAuthor ($name, BSMailAddress $email = null) {
+		if (!$author = $this->getElement('author')) {
+			$author = $this->createElement('author');
+		}
+
+		if (!$element = $author->getElement('name')) {
+			$element = $author->createElement('name');
+		}
+		$element->setBody($name);
+
+		if ($email) {
+			if (!$element = $author->getElement('email')) {
+				$element = $author->createElement('email');
+			}
+			$element->setBody($email->getContents());
+		}
 	}
 
 	/**
@@ -48,19 +188,17 @@ class BSAtom03Document extends BSAtom10Document {
 		if (!$element = $this->getElement('modified')) {
 			$element = $this->createElement('modified');
 		}
-		$element->setBody($date->format(BSAtom03Entry::DATE_FORMAT));
+		$element->setBody($date->format(DATE_RFC3339));
 	}
 
 	/**
 	 * エントリーを生成して返す
 	 *
 	 * @access public
-	 * @return BSAtom03Entry エントリー
+	 * @return BSFeedEntry エントリー
 	 */
 	public function createEntry () {
-		$this->getEntryRootElement()->addElement($entry = new BSAtom03Entry);
-		$entry->setDocument($this);
-		return $entry;
+		return BSFeedUtility::createEntry($this);
 	}
 
 	/**
@@ -91,6 +229,16 @@ class BSAtom03Document extends BSAtom10Document {
 			} catch (Exception $e) {
 			}
 		}
+	}
+
+	/**
+	 * エントリーのタイトルを配列で返す
+	 *
+	 * @access public
+	 * @return BSArray
+	 */
+	public function getEntryTitles () {
+		return BSFeedUtility::getEntryTitles($this);
 	}
 }
 
