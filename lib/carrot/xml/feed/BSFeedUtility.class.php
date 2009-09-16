@@ -99,7 +99,7 @@ class BSFeedUtility extends Zend_Feed {
 	/**
 	 * Zend_Feed::importのオーバライド
 	 *
-	 * ちょっと崩れたフィードでも読めるように
+	 * 多少崩れたフィードでも読めるように
 	 *
 	 * @param  string $url
 	 * @throws Zend_Feed_Exception
@@ -123,8 +123,9 @@ class BSFeedUtility extends Zend_Feed {
 	 * @access public
 	 * @param BSFeedDocument フィード
 	 * @return BSFeedEntry エントリー
+	 * @static
 	 */
-	public function createEntry (BSFeedDocument $feed) {
+	static public function createEntry (BSFeedDocument $feed) {
 		$class = str_replace('Document', 'Entry', get_class($feed));
 		$feed->getEntryRootElement()->addElement($entry = new $class);
 		$entry->setDocument($feed);
