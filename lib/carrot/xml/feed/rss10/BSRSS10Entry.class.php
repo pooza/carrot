@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.feed
+ * @subpackage xml.feed.rss10
  */
 
 /**

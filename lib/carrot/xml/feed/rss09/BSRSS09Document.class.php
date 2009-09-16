@@ -1,28 +1,26 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.feed
+ * @subpackage xml.feed.rss09
  */
 
 /**
- * Atom0.3文書
+ * RSS0.9x文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
-	protected $version = '0.3';
-	protected $namespace = 'http://purl.org/atom/ns#';
+class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
+	protected $version = '0.9';
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		$this->setName('feed');
-		$this->setNamespace($this->namespace);
+		$this->setName('rss');
 		$this->setAttribute('version', $this->version);
 		$this->setDate(BSDate::getNow());
-		$this->createElement('generator', BSController::getFullName('ja'));
+		$this->getChannel()->createElement('generator', BSController::getFullName('ja'));
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}
@@ -34,7 +32,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return string
 	 */
 	public function getEntryElementName () {
-		return 'entry';
+		return 'item';
 	}
 
 	/**
@@ -44,7 +42,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSXMLElement
 	 */
 	public function getEntryRootElement () {
-		return $this;
+		return $this->getChannel();
 	}
 
 	/**
@@ -55,22 +53,24 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function validate () {
 		return (parent::validate()
-			&& $this->query('/feed/id')
-			&& $this->query('/feed/title')
-			&& $this->query('/feed/updated')
-			&& $this->query('/feed/author')
-			&& $this->query('/feed/link')
+			&& $this->query('/rss/channel/title')
+			&& $this->query('/rss/channel/description')
+			&& $this->query('/rss/channel/link')
+			&& $this->query('/rss/channel/language')
 		);
 	}
 
 	/**
-	 * メディアタイプを返す
+	 * チャンネル要素を返す
 	 *
 	 * @access public
-	 * @return string メディアタイプ
+	 * @return BSXMLElement チャンネル要素
 	 */
-	public function getType () {
-		return BSMIMEType::getType('atom');
+	public function getChannel () {
+		if (!$element = $this->getElement('channel')) {
+			$element = $this->createElement('channel');
+		}
+		return $element;
 	}
 
 	/**
@@ -80,7 +80,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return string タイトル
 	 */
 	public function getTitle () {
-		if ($element = $this->getElement('title')) {
+		if ($element = $this->getChannel()->getElement('title')) {
 			return $element->getBody();
 		}
 	}
@@ -92,8 +92,8 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param string $title タイトル
 	 */
 	public function setTitle ($title) {
-		if (!$element = $this->getElement('title')) {
-			$element = $this->createElement('title');
+		if (!$element = $this->getChannel()->getElement('title')) {
+			$element = $this->getChannel()->createElement('title');
 		}
 		$element->setBody($title);
 	}
@@ -105,8 +105,8 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param string $description ディスクリプション
 	 */
 	public function setDescription ($description) {
-		if (!$element = $this->getElement('subtitle')) {
-			$element = $this->createElement('subtitle');
+		if (!$element = $this->getChannel()->getElement('description')) {
+			$element = $this->getChannel()->createElement('description');
 		}
 		$element->setBody($description);
 	}
@@ -118,7 +118,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSHTTPURL リンク
 	 */
 	public function getLink () {
-		if ($element = $this->getElement('link')) {
+		if ($element = $this->getChannel()->getElement('link')) {
 			return BSURL::getInstance($element->getBody());
 		}
 	}
@@ -130,13 +130,8 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param BSHTTPRedirector $link リンク
 	 */
 	public function setLink (BSHTTPRedirector $link) {
-		if (!$element = $this->getElement('id')) {
-			$element = $this->createElement('id');
-		}
-		$element->setBody(BSAtom03Entry::getID($link->getURL()));
-
-		if (!$element = $this->getElement('link')) {
-			$element = $this->createElement('link');
+		if (!$element = $this->getChannel()->getElement('link')) {
+			$element = $this->getChannel()->createElement('link');
 		}
 		$element->setBody($link->getURL()->getContents());
 	}
@@ -149,20 +144,13 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param BSMailAddress $email メールアドレス
 	 */
 	public function setAuthor ($name, BSMailAddress $email = null) {
-		if (!$author = $this->getElement('author')) {
-			$author = $this->createElement('author');
+		if (!$element = $this->getChannel()->getElement('managingEditor')) {
+			$element = $this->getChannel()->createElement('managingEditor');
 		}
-
-		if (!$element = $author->getElement('name')) {
-			$element = $author->createElement('name');
-		}
-		$element->setBody($name);
-
 		if ($email) {
-			if (!$element = $author->getElement('email')) {
-				$element = $author->createElement('email');
-			}
-			$element->setBody($email->getContents());
+			$element->setBody(sprintf('%s (%s)', $email->getContents(), $name));
+		} else {
+			$element->setBody($name);
 		}
 	}
 
@@ -173,7 +161,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @return BSDate 日付
 	 */
 	public function getDate () {
-		if ($element = $this->getElement('modified')) {
+		if ($element = $this->getChannel()->getElement('lastBuildDate')) {
 			return BSDate::getInstance($element->getBody());
 		}
 	}
@@ -185,10 +173,10 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param BSDate $date 日付
 	 */
 	public function setDate (BSDate $date) {
-		if (!$element = $this->getElement('modified')) {
-			$element = $this->createElement('modified');
+		if (!$element = $this->getChannel()->getElement('lastBuildDate')) {
+			$element = $this->getChannel()->createElement('lastBuildDate');
 		}
-		$element->setBody($date->format(DATE_RFC3339));
+		$element->setBody($date->format(DATE_RFC2822));
 	}
 
 	/**
@@ -214,16 +202,13 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 			try {
 				$element = $this->createEntry();
 				$element->setTitle($entry->title());
-
-				$link = $entry->link;
-				if (is_array($link)) {
-					$link = $link[0];
-				}
-				if (!BSString::isBlank($url = $link->getDOM()->getAttribute('href'))) {
+				if ($values = new BSArray($entry->link())) {
+					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
+						$url = $url->firstChild->wholeText;
+					}
 					$element->setLink(BSURL::getInstance($url));
 				}
-
-				if ($values = new BSArray($entry->modified())) {
+				if ($values = new BSArray($entry->pubDate())) {
 					$element->setDate(BSDate::getInstance($values[0]));
 				}
 			} catch (Exception $e) {

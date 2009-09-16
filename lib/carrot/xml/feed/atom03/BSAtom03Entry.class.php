@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.feed
+ * @subpackage xml.feed.atom03
  */
 
 /**
- * RSS0.9xエントリー
+ * Atom0.3エントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
+class BSAtom03Entry extends BSXMLElement implements BSFeedEntry {
 	private $document;
 
 	/**
@@ -32,6 +32,11 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	 * @param BSHTTPRedirector $link リンク
 	 */
 	public function setLink (BSHTTPRedirector $link) {
+		if (!$element = $this->getElement('id')) {
+			$element = $this->createElement('id');
+		}
+		$element->setBody(self::getID($link->getURL()));
+
 		if (!$element = $this->getElement('link')) {
 			$element = $this->createElement('link');
 		}
@@ -70,8 +75,10 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	 * @return BSDate 日付
 	 */
 	public function getDate () {
-		if ($element = $this->getElement('pubDate')) {
-			return BSDate::getInstance($element->getBody());
+		if ($element = $this->getElement('published')) {
+			return BSDate::getInstance(
+				mb_ereg_replace('[^[:digit:]]', '', $element->getBody())
+			);
 		}
 	}
 
@@ -82,24 +89,24 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	 * @param BSDate $date 日付
 	 */
 	public function setDate (BSDate $date) {
-		if (!$element = $this->getElement('pubDate')) {
-			$element = $this->createElement('pubDate');
+		if (!$element = $this->getElement('published')) {
+			$element = $this->createElement('published');
 		}
-		$element->setBody($date->format(DATE_RFC2822));
+		$element->setBody($date->format(DATE_RFC3339));
 	}
 
 	/**
 	 * 本文を設定
 	 *
 	 * @access public
-	 * @param string $content 本文
+	 * @param string $content 内容
 	 */
 	public function setBody ($body = null) {
-		if (!$element = $this->getElement('description')) {
-			$element = $this->createElement('description');
-			$element->setRawMode(true);
+		if (!$element = $this->getElement('content')) {
+			$element = $this->createElement('content');
 		}
-		$element->setBody(nl2br($body));
+		$element->setBody($body);
+		$element->setAttribute('type', BSMIMEType::getType('txt'));
 	}
 
 	/**
@@ -111,6 +118,36 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	public function setDocument (BSFeedDocument $document) {
 		$this->document = $document;
 		$this->setName($document->getEntryElementName());
+	}
+
+	/**
+	 * パーマリンクからIDを生成
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $link パーマリンク
+	 * @return string ID
+	 * @link http://diveintomark.org/archives/2004/05/28/howto-atom-id 参考
+	 */
+	static public function getID (BSHTTPRedirector $link) {
+		$url = $link->getURL();
+		$id = $url->getContents();
+		$id = str_replace($url['scheme'] . '://', '', $id);
+
+		if ($auth = $url['user']) {
+			if ($pass = $url['pass']) {
+				$auth .= ':' . $pass; 
+			}
+			$auth .= '@';
+			$id = str_replace($auth, '', $id);
+		}
+
+		$id = str_replace('#', '/', $id);
+
+		$host = $url['host']->getName();
+		$date = BSDate::getNow(',Y-m-d:');
+		$id = str_replace($host, $host . $date, $id);
+
+		return 'tag:' . $id;
 	}
 }
 

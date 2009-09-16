@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.feed
+ * @subpackage xml.feed.rss10
  */
 
 /**
@@ -11,14 +11,14 @@
  * @version $Id$
  */
 class BSRSS10Document extends BSRSS09Document {
-	protected $version = '0.9';
+	protected $version = '1.0';
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
 		$this->setName('rdf:RDF');
-		$this->setNamespace('http://purl.org/rss/1.0/');
+		$this->setNamespace('http://purl.org/rss/' . $this->version . '/');
 		$this->setAttribute('xmlns:rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 		$this->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
 		$this->setDate(BSDate::getNow());
