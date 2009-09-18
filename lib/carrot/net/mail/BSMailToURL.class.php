@@ -13,6 +13,17 @@
  * @version $Id$
  */
 class BSMailToURL extends BSURL {
+	private $query;
+
+
+	/**
+	 * @access protected
+	 * @param mixed $contents URL
+	 */
+	protected function __construct ($contents = null) {
+		$this->query = new BSWWWFormRenderer;
+		parent::__construct($contents);
+	}
 
 	/**
 	 * 内容を返す
@@ -23,6 +34,9 @@ class BSMailToURL extends BSURL {
 	public function getContents () {
 		if (!$this->contents) {
 			$this->contents = $this['scheme'] . ':' . $this['path'];
+			if ($this->query->count()) {
+				$this->contents .= '?' . $this->query->getContents();
+			}
 		}
 		return $this->contents;
 	}
@@ -40,6 +54,9 @@ class BSMailToURL extends BSURL {
 			case 'scheme':
 			case 'path':
 				$this->attributes[$name] = $value;
+				break;
+			case 'query':
+				$this->query->setContents($value);
 				break;
 			default:
 				throw new BSNetException('"%s"は正しくない属性名です。', $name);

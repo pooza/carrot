@@ -48,6 +48,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 			case 'mailto':
 			case 'xmpp':
 			case 'tel':
+			case 'skype':
 				return new BSMailToURL($attributes);
 			default:
 				return new BSURL($attributes);
