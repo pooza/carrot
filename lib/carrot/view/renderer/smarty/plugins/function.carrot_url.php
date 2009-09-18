@@ -17,7 +17,11 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		$params->removeParameter('contents');
 		$url = BSURL::getInstance(null, 'BSCarrotURL');
 		foreach ($params as $key => $value) {
-			$url[$key] = $value;
+			if (mb_ereg('^params_(.*)$', $key, $matches)) {
+				$url->setParameter($matches[1], $value);
+			} else {
+				$url[$key] = $value;
+			}
 		}
 		if (BSString::isBlank($params['module'])) {
 			if (BSString::isBlank($params['action'])) {
