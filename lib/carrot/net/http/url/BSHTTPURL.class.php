@@ -170,6 +170,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 
 			BSUtility::includeFile('class.ico.php');
 			$ico = new Ico($url->getContents());
+			$ico->setBackgroundTransparent(true);
 			$image = new BSImage;
 			if (!$resource = $ico->getIcon(0)) {
 				return null;
