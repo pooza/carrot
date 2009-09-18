@@ -17,7 +17,7 @@ function smarty_modifier_truncate_url ($value, $length = 16) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
 		foreach (BSString::eregMatchAll('https?://[[:graph:]]+', $value) as $matches) {
-			$value = str_replace($matches[0], BSString::truncate($matches[0], 16), $value);
+			$value = str_replace($matches[0], BSString::truncate($matches[0], $length), $value);
 		}
 		return $value;
 	}
