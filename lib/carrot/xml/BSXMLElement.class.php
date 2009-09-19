@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSXMLElement implements IteratorAggregate {
-	protected $reader;
 	private $contents;
 	private $raw = false;
 	private $body;
@@ -87,16 +86,6 @@ class BSXMLElement implements IteratorAggregate {
 		foreach ($values as $key => $value) {
 			$this->setAttribute($key, $value);
 		}
-	}
-
-	/**
-	 * 属性を全て削除
-	 *
-	 * @access public
-	 */
-	public function clearAttributes () {
-		$this->attributes->clear();
-		$this->contents = null;
 	}
 
 	/**
@@ -215,16 +204,6 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
-	 * 子要素を全て削除
-	 *
-	 * @access public
-	 */
-	public function clearElements () {
-		$this->elements->clear();
-		$this->contents = null;
-	}
-
-	/**
 	 * 要素を検索して返す
 	 *
 	 * @access public
@@ -265,9 +244,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $namespace ネームスペース
 	 */
 	public function setNamespace ($namespace) {
-		if ($namespace) {
-			$this->setAttribute('xmlns', $namespace);
-		}
+		$this->setAttribute('xmlns', $namespace);
 	}
 
 	/**
@@ -309,8 +286,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param $string $contents XML文書
 	 */
 	public function setContents ($contents) {
-		$this->clearAttributes();
-		$this->clearElements();
+		$this->attributes->clear();
+		$this->elements->clear();
 		$this->setBody();
 		$this->contents = $contents;
 
@@ -319,35 +296,33 @@ class BSXMLElement implements IteratorAggregate {
 			throw new BSXMLException('パースエラーです。');
 		}
 
-		$stack = array();
-		$this->reader = new XMLReader;
-		$this->reader->xml($contents);
-		while ($this->reader->read()) {
-			switch ($this->reader->nodeType) {
+		$stack = new BSArray;
+		$reader = new XMLReader;
+		$reader->xml($contents);
+		while ($reader->read()) {
+			switch ($reader->nodeType) {
 				case XMLReader::ELEMENT:
-					if ($stack) {
-						$element = new BSXMLElement($this->reader->name);
-						end($stack)->addElement($element);
+					if ($stack->count()) {
+						$element = $stack->getIterator()->getLast()->createElement($reader->name);
 					} else {
 						$element = $this;
-						$this->setName($this->reader->name);
+						$this->setName($reader->name);
 					}
-					if (!$this->reader->isEmptyElement) {
+					if (!$reader->isEmptyElement) {
 						$stack[] = $element;
 					}
-					while ($this->reader->moveToNextAttribute()) {
-						$element->setAttribute($this->reader->name, $this->reader->value);
+					while ($reader->moveToNextAttribute()) {
+						$element->setAttribute($reader->name, $reader->value);
 					}
 					break;
 				case XMLReader::END_ELEMENT:
-					array_pop($stack);
+					$stack->pop();
 					break;
 				case XMLReader::TEXT:
-					end($stack)->setBody($this->reader->value);
+					$stack->getIterator()->getLast()->setBody($reader->value);
 					break;
 			}
 		}
-		$this->reader = null;
 	}
 
 	/**
