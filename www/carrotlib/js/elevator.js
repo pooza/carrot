@@ -10,7 +10,7 @@ function Elevator (element, x, yMin, yMargin) {
   new PeriodicalExecuter(move, 0.1);
 
   function move () {
-    if (navigator.userAgent.match(/MSIE/)){
+    if (Prototype.Browser.IE){
       var y = (document.body.scrollTop || document.documentElement.scrollTop);
     } else  {
       var y = self.pageYOffset;
