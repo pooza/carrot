@@ -154,7 +154,7 @@ abstract class BSController {
 			if ($action = $this->getAction()) {
 				return $action->getModule();
 			}
-			$name = BSRequest::getInstance()->getParameter(BSController::MODULE_ACCESSOR);
+			$name = $this->request[self::MODULE_ACCESSOR];
 		}
 		return BSModule::getInstance($name);
 	}
@@ -202,7 +202,8 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getSecureAction () {
-		return $this->getModule(BS_MODULE_SECURE_MODULE)->getAction(BS_MODULE_SECURE_ACTION);
+		return $this->getModule(BS_MODULE_SECURE_MODULE)
+			->getAction(BS_MODULE_SECURE_ACTION);
 	}
 
 	/**
@@ -212,7 +213,8 @@ abstract class BSController {
 	 * @return BSAction アクション
 	 */
 	public function getNotFoundAction () {
-		return $this->getModule(BS_MODULE_NOT_FOUND_MODULE)->getAction(BS_MODULE_NOT_FOUND_ACTION);
+		return $this->getModule(BS_MODULE_NOT_FOUND_MODULE)
+			->getAction(BS_MODULE_NOT_FOUND_ACTION);
 	}
 
 	/**
@@ -276,7 +278,7 @@ abstract class BSController {
 	 * @return string バージョン
 	 */
 	static public function getVersion () {
-		return BSTranslateManager::getInstance()->execute('APP_VER', 'BSConstantHandler');
+		return $this->getConstant('APP_VER');
 	}
 
 	/**
@@ -288,7 +290,7 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getFullName ($lang = 'ja') {
-		return sprintf('%s %s', self::getName($lang), self::getVersion());
+		return self::getName($lang) . ' ' . self::getVersion();
 	}
 
 	/**
@@ -344,7 +346,7 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function putHeaders () {
-	}	
+	}
 }
 
 /* vim:set tabstop=4: */

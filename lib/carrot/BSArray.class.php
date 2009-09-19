@@ -41,7 +41,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			return;
 		}
 		foreach ((array)$values as $name => $value) {
-			$this->parameters[$name] = $value;
+			$this->setParameter($name, $value);
 		}
 	}
 
@@ -73,7 +73,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			return;
 		}
 		foreach ($values as $value) {
-			$this->parameters[] = $value;
+			$this->push($value);
 		}
 	}
 
@@ -86,18 +86,10 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
-		if ($name === null) {
-			if ($position == self::POSITION_TOP) {
-				$this->unshift($value);
-			} else {
-				$this->push($value);
-			}
-		} else {
-			if ($position == self::POSITION_TOP) {
-				$this->parameters = array((string)$name => null) + $this->parameters;
-			}
-			$this->parameters[(string)$name] = $value;
+		if ($position == self::POSITION_TOP) {
+			$this->parameters = array((string)$name => null) + $this->parameters;
 		}
+		$this->parameters[(string)$name] = $value;
 	}
 
 	/**
@@ -287,20 +279,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 */
 	public function join ($separator = null) {
 		return implode($separator, $this->getParameters());
-	}
-
-	/**
-	 * セパレータで結合した文字列を返す
-	 *
-	 * joinのエイリアス
-	 *
-	 * @access public
-	 * @param string $separator セパレータ
-	 * @return string 結果文字列
-	 * @final
-	 */
-	final public function implode ($separator = null) {
-		return $this->join($separator);
 	}
 
 	/**
