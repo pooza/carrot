@@ -21,7 +21,7 @@ class BSCSSFile extends BSFile {
 	public function getOptimizedContents () {
 		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
-			$contents = mb_ereg_replace('/\\*.*\\*/', null, $this->getContents());
+			$contents = mb_ereg_replace('/\\*.*?\\*/', null, $this->getContents());
 			BSController::getInstance()->setAttribute($this, $contents);
 		}
 		return $contents;

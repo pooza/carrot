@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
-	private $document;
+	protected $document;
 
 	/**
 	 * リンクを返す

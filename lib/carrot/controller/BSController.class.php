@@ -182,7 +182,7 @@ abstract class BSController {
 		if (self::ACTION_REGISTER_LIMIT < $this->getActionStack()->count()) {
 			throw new BSInitializeException('フォワードが多すぎます。');
 		}
-		$this->getActionStack()->setParameter(null, $action);
+		$this->getActionStack()->push($action);
 	}
 
 	/**

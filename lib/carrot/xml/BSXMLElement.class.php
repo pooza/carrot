@@ -23,8 +23,6 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 要素の名前
 	 */
 	public function __construct ($name = null) {
-		$this->attributes = new BSArray;
-		$this->elements = new BSArray;
 		if ($name) {
 			$this->setName($name);
 		}
@@ -38,16 +36,19 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->attributes[$name];
+		return $this->getAttributes()->getparameter($name);
 	}
 
 	/**
 	 * 属性を全て返す
 	 *
 	 * @access public
-	 * @return string[] 属性値
+	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
+		if (!$this->attributes) {
+			$this->attributes = new BSArray;
+		}
 		return $this->attributes;
 	}
 
@@ -61,7 +62,7 @@ class BSXMLElement implements IteratorAggregate {
 	public function setAttribute ($name, $value) {
 		$value = trim($value);
 		$value = BSString::convertEncoding($value, 'utf-8');
-		$this->attributes[(string)$name] = $value;
+		$this->getAttributes()->setParameter($name, $value);
 		$this->contents = null;
 	}
 
@@ -72,7 +73,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 属性名
 	 */
 	public function removeAttribute ($name) {
-		$this->attributes->removeAttribute($name);
+		$this->getAttributes()->removeParameter($name);
 		$this->contents = null;
 	}
 
@@ -157,9 +158,12 @@ class BSXMLElement implements IteratorAggregate {
 	 * 子要素を全て返す
 	 *
 	 * @access public
-	 * @return BSXMLElement[] 子要素全て
+	 * @return BSArray 子要素全て
 	 */
 	public function getElements () {
+		if (!$this->elements) {
+			$this->elements = new BSArray;
+		}
 		return $this->elements;
 	}
 
@@ -184,7 +188,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param BSXMLElement $element 要素
 	 */
 	public function addElement (BSXMLElement $element) {
-		$this->elements[] = $element;
+		$this->getElements()->push($element);
 		$this->contents = null;
 	}
 
@@ -286,8 +290,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param $string $contents XML文書
 	 */
 	public function setContents ($contents) {
-		$this->attributes->clear();
-		$this->elements->clear();
+		$this->getAttributes()->clear();
+		$this->getElements()->clear();
 		$this->setBody();
 		$this->contents = $contents;
 

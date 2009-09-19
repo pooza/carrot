@@ -285,7 +285,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 			foreach ($parts as $source) {
 				$part = new BSMIMEDocument;
 				$part->setContents($source);
-				$this->getParts()->setParameter(null, $part);
+				$this->getParts()->push($part);
 			}
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
