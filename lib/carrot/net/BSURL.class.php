@@ -49,7 +49,7 @@ class BSURL implements ArrayAccess, BSAssignable {
 			case 'xmpp':
 			case 'tel':
 			case 'skype':
-				return new BSMailToURL($attributes);
+				return new BSContactURL($attributes);
 			default:
 				return new BSURL($attributes);
 		}

@@ -5,14 +5,14 @@
  */
 
 /**
- * メールURL
+ * 連絡先URL
  *
  * mailtoとかtelとか。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMailToURL extends BSURL {
+class BSContactURL extends BSURL {
 	private $query;
 
 
