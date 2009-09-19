@@ -236,7 +236,7 @@ class BSString {
 				$value[$key] = self::underscorize($item);
 			}
 		} else {
-			foreach (self::eregMatchAll('[- _]*[A-Z]+[^A-Z]*', $value) as $matches) {
+			foreach (self::eregMatchAll('[- _]*[[:upper:]]+[^[:upper:]]*', $value) as $matches) {
 				$value = str_replace($matches[0], '_' . $matches[0], $value);
 			}
 			$value = mb_ereg_replace('_{2,}', '_', $value);
