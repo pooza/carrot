@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSCSSFile extends BSFile {
-	private $parser;
 
 	/**
 	 * 内容を最適化して返す
@@ -22,50 +21,10 @@ class BSCSSFile extends BSFile {
 	public function getOptimizedContents () {
 		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
-			$error = $this->getParser()->parseFile($this->getPath(), false);
-			if ($error instanceof PEAR_Error) {
-				throw new BSCSSException($error->getMessage());
-			} else if ($error) {
-				throw new BSCSSException('原因不明のエラーが発生。');
-			}
-			$contents = $this->getParser()->toString();
+			$contents = mb_ereg_replace('/\\*.*\\*/', null, $this->getContents());
 			BSController::getInstance()->setAttribute($this, $contents);
 		}
 		return $contents;
-	}
-
-	/**
-	 * パーサーを返す
-	 *
-	 * @access public
-	 * @return HTML_CSS パーサー
-	 */
-	public function getParser () {
-		if (!$this->parser) {
-			BSUtility::includeFile('pear/HTML/CSS.php');
-			$this->parser = new HTML_CSS;
-		}
-		return $this->parser;
-	}
-
-	/**
-	 * 出力可能か？
-	 *
-	 * @access public
-	 * @return boolean 出力可能ならTrue
-	 */
-	public function validate () {
-		return !$this->getContents() || !$this->getParser()->isError();
-	}
-
-	/**
-	 * エラーメッセージを返す
-	 *
-	 * @access public
-	 * @return string エラーメッセージ
-	 */
-	public function getError () {
-		return 'パースエラーです。';
 	}
 
 	/**

@@ -14,8 +14,6 @@ class BSStyleSet implements BSTextRenderer {
 	private $name;
 	private $files;
 	private $contents;
-	private $error;
-	private $parser;
 	static private $instances;
 
 	/**
@@ -68,21 +66,6 @@ class BSStyleSet implements BSTextRenderer {
 	}
 
 	/**
-	 * パーサーを返す
-	 *
-	 * @access public
-	 * @return HTML_CSS パーサー
-	 */
-	public function getParser () {
-		if (!$this->parser) {
-			BSUtility::includeFile('pear/HTML/CSS.php');
-			$this->parser = new HTML_CSS;
-			$this->parser->setCharset('utf-8');
-		}
-		return $this->parser;
-	}
-
-	/**
 	 * 登録
 	 *
 	 * @access public
@@ -95,11 +78,7 @@ class BSStyleSet implements BSTextRenderer {
 		$dirs[] = BSController::getInstance()->getDirectory('www');
 		foreach ($dirs as $dir) {
 			if ($file = $dir->getEntry($name, 'BSCSSFile')) {
-				if ($file->validate()) {
-					$this->files[$name] = $file;
-				} else {
-					$this->error = $file->getError();
-				}
+				$this->files[$name] = $file;
 				return;
 			}
 		}
@@ -113,10 +92,11 @@ class BSStyleSet implements BSTextRenderer {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
+			$contents = new BSArray;
 			foreach ($this->files as $file) {
-				$this->getParser()->parseString($file->getOptimizedContents());
+				$contents[] = $file->getOptimizedContents();
 			}
-			$this->contents = $this->getParser()->toString();
+			$this->contents = $contents->join("\n");
 		}
 		return $this->contents;
 	}
@@ -148,7 +128,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return string PHPのエンコード名
 	 */
 	public function getEncoding () {
-		return $this->getParser()->getCharset();
+		return 'utf-8';
 	}
 
 	/**
@@ -158,7 +138,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return BSString::isBlank($this->error);
+		return !!$this->files->count();
 	}
 
 	/**
@@ -168,7 +148,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return $this->error;
+		return 'スタイルセットにファイルがcss登録されていません。';
 	}
 }
 
