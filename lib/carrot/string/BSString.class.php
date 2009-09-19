@@ -397,6 +397,9 @@ class BSString {
 			}
 		} else {
 			$value = strip_tags($value);
+			foreach (BSString::eregMatchAll('\\[\\[[^\\]]+\\]\\]', $value) as $matches) {
+				$value = str_replace($matches[0], null, $value);
+			}
 		}
 		return $value;
 	}

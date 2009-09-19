@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-function smarty_modifier_strip_html_tag ($value) {
+function smarty_modifier_strip_html_tags ($value) {
 	if (is_array($value)) {
 		return $value;
 	} else if ($value instanceof BSParameterHolder) {
