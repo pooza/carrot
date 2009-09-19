@@ -16,7 +16,7 @@ function smarty_modifier_strip_html_tag ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		return BSString::stripHTMLTags($value);
+		return BSString::stripTags($value);
 	}
 }
 

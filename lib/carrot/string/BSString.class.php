@@ -390,10 +390,10 @@ class BSString {
 	 * @return mixed 変換後
 	 * @static
 	 */
-	static public function stripHTMLTags ($value) {
+	static public function stripTags ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
-				$value[$key] = self::stripHTMLTags($item);
+				$value[$key] = self::stripTags($item);
 			}
 		} else {
 			$value = strip_tags($value);
