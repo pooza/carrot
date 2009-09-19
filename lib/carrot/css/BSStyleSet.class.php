@@ -12,8 +12,8 @@
  */
 class BSStyleSet implements BSTextRenderer {
 	private $name;
-	private $files;
-	private $contents;
+	private $error;
+	private $contentFragments;
 	static private $instances;
 
 	/**
@@ -22,8 +22,7 @@ class BSStyleSet implements BSTextRenderer {
 	 */
 	private function __construct ($name = 'carrot') {
 		$this->name = $name;
-		$this->files = new BSArray;
-
+		$this->contentFragments = new BSArray;
 		if (isset(self::$instances[$name]['files'])) {
 			foreach ((array)self::$instances[$name]['files'] as $file) {
 				$this->register($file);
@@ -78,7 +77,11 @@ class BSStyleSet implements BSTextRenderer {
 		$dirs[] = BSController::getInstance()->getDirectory('www');
 		foreach ($dirs as $dir) {
 			if ($file = $dir->getEntry($name, 'BSCSSFile')) {
-				$this->files[$name] = $file;
+				if ($file->isReadable()) {
+					$this->contentFragments[$name] = $file->getOptimizedContents();
+				} else {
+					$this->error = $file . 'が読み込めません。';
+				}
 				return;
 			}
 		}
@@ -91,14 +94,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		if (!$this->contents) {
-			$contents = new BSArray;
-			foreach ($this->files as $file) {
-				$contents[] = $file->getOptimizedContents();
-			}
-			$this->contents = $contents->join("\n");
-		}
-		return $this->contents;
+		return $this->contentFragments->join("\n");
 	}
 
 	/**
@@ -138,7 +134,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return !!$this->files->count();
+		return BSString::isBlank($this->error);
 	}
 
 	/**
@@ -148,7 +144,7 @@ class BSStyleSet implements BSTextRenderer {
 	 * @return string エラーメッセージ
 	 */
 	public function getError () {
-		return 'スタイルセットにファイルがcss登録されていません。';
+		return $this->error;
 	}
 }
 

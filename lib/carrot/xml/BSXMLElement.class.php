@@ -16,14 +16,16 @@ class BSXMLElement implements IteratorAggregate {
 	private $raw = false;
 	private $body;
 	private $name;
-	private $attributes = array();
-	private $elements = array();
+	private $attributes;
+	private $elements;
 
 	/**
 	 * @access public
 	 * @param string $name 要素の名前
 	 */
 	public function __construct ($name = null) {
+		$this->attributes = new BSArray;
+		$this->elements = new BSArray;
 		if ($name) {
 			$this->setName($name);
 		}
@@ -37,9 +39,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		if (isset($this->attributes[$name])) {
-			return $this->attributes[$name];
-		}
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -73,10 +73,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 属性名
 	 */
 	public function removeAttribute ($name) {
-		if (isset($this->attributes[(string)$name])) {
-			unset($this->attributes[(string)$name]);
-			$this->contents = null;
-		}
+		$this->attributes->removeAttribute($name);
+		$this->contents = null;
 	}
 
 	/**
@@ -97,7 +95,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @access public
 	 */
 	public function clearAttributes () {
-		$this->attributes = array();
+		$this->attributes->clear();
 		$this->contents = null;
 	}
 
@@ -222,7 +220,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @access public
 	 */
 	public function clearElements () {
-		$this->elements = array();
+		$this->elements->clear();
 		$this->contents = null;
 	}
 
@@ -280,26 +278,26 @@ class BSXMLElement implements IteratorAggregate {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			if ($this->getAttributes()) {
-				$attributes = new BSArray;
+			$this->contents = '<' . $this->getName();
+			if ($this->getAttributes()->count()) {
 				foreach ($this->getAttributes() as $key => $value) {
-					$attributes[] = sprintf('%s="%s"', $key, BSString::sanitize($value));
+					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
 				}
-				$this->contents = sprintf('<%s %s>', $this->getName(), $attributes->join(' '));
+			}
+			if ($this->getElements()->count()) {
+				$this->contents .= '>';
+				foreach ($this->getElements() as $element) {
+					$this->contents .= $element->getContents();
+				}
+				if ($this->raw) {
+					$this->contents .= $this->getBody();
+				} else {
+					$this->contents .= BSString::sanitize($this->getBody());
+				}
+				$this->contents .= '</' . $this->getName() . '>';
 			} else {
-				$this->contents = sprintf('<%s>', $this->getName());
+				$this->contents .= ' />';
 			}
-
-			foreach ($this->getElements() as $element) {
-				$this->contents .= $element->getContents();
-			}
-
-			if ($this->raw) {
-				$this->contents .= $this->getBody();
-			} else {
-				$this->contents .= BSString::sanitize($this->getBody());
-			}
-			$this->contents .= sprintf('</%s>', $this->getName());
 		}
 		return $this->contents;
 	}

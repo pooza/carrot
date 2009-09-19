@@ -13,7 +13,7 @@
 class BSJavaScriptSet implements BSTextRenderer {
 	private $name;
 	private $error;
-	private $files = array();
+	private $contentFragments;
 	static private $instances;
 
 	/**
@@ -22,6 +22,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 */
 	private function __construct ($name = 'carrot') {
 		$this->name = $name;
+		$this->contentFragments = new BSArray;
 		foreach ((array)self::$instances[$name]['files'] as $file) {
 			$this->register($file);
 		}
@@ -44,7 +45,6 @@ class BSJavaScriptSet implements BSTextRenderer {
 			self::$instances = self::$instances->getParameters();
 		}
 		if (!isset(self::$instances[$name]['instance'])) {
-			self::$instances[$name]['instance'] = null;
 			self::$instances[$name]['instance'] = new self($name);
 		}
 		return self::$instances[$name]['instance'];
@@ -60,6 +60,30 @@ class BSJavaScriptSet implements BSTextRenderer {
 		return $this->name;
 	}
 
+
+	/**
+	 * JavaScriptファイルを登録
+	 *
+	 * @access public
+	 * @param string $name JavaScriptファイルの名前
+	 */
+	public function register ($name) {
+		$name = mb_eregi_replace('\\.js$', '', $name) . '.js';
+		$dirs = new BSArray;
+		$dirs[] = BSController::getInstance()->getDirectory('js');
+		$dirs[] = BSController::getInstance()->getDirectory('www');
+		foreach ($dirs as $dir) {
+			if ($file = $dir->getEntry($name, 'BSJavaScriptFile')) {
+				if ($file->isReadable()) {
+					$this->contentFragments[$name] = $file->getOptimizedContents();
+				} else {
+					$this->error = $file . 'が読み込めません。';
+				}
+				return;
+			}
+		}
+	}
+
 	/**
 	 * 送信内容を返す
 	 *
@@ -67,7 +91,7 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return join("\n", $this->files);
+		return $this->contentFragments->join("\n");
 	}
 
 	/**
@@ -118,29 +142,6 @@ class BSJavaScriptSet implements BSTextRenderer {
 	 */
 	public function getError () {
 		return $this->error;
-	}
-
-	/**
-	 * JavaScriptファイルを登録
-	 *
-	 * @access public
-	 * @param string $name JavaScriptファイルの名前
-	 */
-	public function register ($name) {
-		$name = mb_eregi_replace('\\.js$', '', $name) . '.js';
-		$dirs = new BSArray;
-		$dirs[] = BSController::getInstance()->getDirectory('js');
-		$dirs[] = BSController::getInstance()->getDirectory('www');
-		foreach ($dirs as $dir) {
-			if ($file = $dir->getEntry($name, 'BSJavaScriptFile')) {
-				if ($file->isReadable()) {
-					$this->files[$name] = $file->getOptimizedContents();
-				} else {
-					$this->error = $file . 'が読み込めません。';
-				}
-				return;
-			}
-		}
 	}
 }
 
