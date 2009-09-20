@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSJavaScriptFile extends BSFile {
+class BSJavaScriptFile extends BSFile implements BSDocumentSetEntry {
 
 	/**
 	 * 内容を最適化して返す

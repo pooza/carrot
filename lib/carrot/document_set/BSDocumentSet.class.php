@@ -1,10 +1,13 @@
 <?php
 /**
  * @package org.carrot-framework
+ * @subpackage document_set
  */
 
 /**
  * 書類セット
+ *
+ * BSJavaScriptSet/BSStyleSetの基底クラス
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -103,7 +106,9 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 */
 	public function register ($name) {
 		if ($file = $this->getDirectory()->getEntry($name, $this->getDocumentClassName())) {
-			if ($file->isReadable()) {
+			if (!($file instanceof BSDocumentSetEntry)) {
+				throw new BSInitializationException('%sは%sに登録できません。', $file, $this);
+			} else if ($file->isReadable()) {
 				$this->contentFragments[$name] = $file->getOptimizedContents();
 			} else {
 				$this->error = $file . 'が読み込めません。';
