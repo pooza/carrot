@@ -176,14 +176,6 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	}
 
 	/**
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return sprintf('%s "%s"', get_class($this), $this->getName());
-	}
-
-	/**
 	 * 登録内容を返す
 	 *
 	 * @access protected
@@ -222,6 +214,14 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 */
 	public function getEntryNames ($prefix = null) {
 		return $this->getEntries($prefix)->getKeys(BSArray::WITHOUT_KEY);
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('%s "%s"', get_class($this), $this->getName());
 	}
 }
 
