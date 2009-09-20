@@ -8,6 +8,7 @@
  * @version $Id$
  */
 class StyleSheetAction extends BSAction {
+	private $styleset;
 
 	/**
 	 * スタイルセットを返す
@@ -16,10 +17,10 @@ class StyleSheetAction extends BSAction {
 	 * @return BSStyleSet スタイルセット
 	 */
 	private function getStyleSet () {
-		if (BSString::isBlank($this->request['styleset'])) {
-			$this->request['styleset'] = 'carrot';
+		if (!$this->styleset) {
+			$this->styleset = new BSStyleSet($this->request['styleset']);
 		}
-		return BSStyleSet::getInstance($this->request['styleset']);
+		return $this->styleset;
 	}
 
 	public function execute () {

@@ -82,6 +82,8 @@ string:
   class: BSStringValidator
   params:
     max: 1024
+styleset:
+  class: BSStyleSetValidator
 tel:
   class: BSPhoneNumberValidator
 tel_separated:

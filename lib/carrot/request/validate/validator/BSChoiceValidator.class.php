@@ -46,7 +46,7 @@ class BSChoiceValidator extends BSValidator {
 		return true;
 	}
 
-	private function getChoices () {
+	protected function getChoices () {
 		$choices = new BSArray;
 		if ($config = $this['choices']) {
 			if (is_array($config)) {
