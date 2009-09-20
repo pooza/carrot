@@ -45,6 +45,8 @@ images:
   parent: carrotlib
 image_cache:
   parent: var
+javascript_set:
+  parent: config
 js:
   parent: carrotlib
   suffix: .js
@@ -84,7 +86,7 @@ sql:
   suffix: .sql
 sqlite3:
   constant: yes
-styleset:
+style_set:
   parent: config
 templates:
   parent: webapp
