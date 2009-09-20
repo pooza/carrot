@@ -27,38 +27,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	}
 
 	/**
-	 * 要素をまとめて設定
-	 *
-	 * @access public
-	 * @param mixed[] $values 要素の配列
-	 */
-	public function setParameters ($values) {
-		if ($values instanceof BSParameterHolder) {
-			$values = $values->getParameters();
-		} else if (BSNumeric::isZero($values)) {
-			$values = array(0);
-		} else if (!$values) {
-			return;
-		}
-		foreach ((array)$values as $name => $value) {
-			$this->setParameter($name, $value);
-		}
-	}
-
-	/**
-	 * 要素をまとめて設定
-	 *
-	 * setParametersのエイリアス
-	 *
-	 * @access public
-	 * @param mixed[] $attributes 要素の配列
-	 * @final
-	 */
-	final public function setAttributes ($attributes) {
-		$this->setParameters($attributes);
-	}
-
-	/**
 	 * 別の配列をマージ
 	 *
 	 * ハッシュではない普通の配列同士は、setParametersではマージできない。
@@ -98,47 +66,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			}
 			$this->parameters[(string)$name] = $value;
 		}
-	}
-
-	/**
-	 * 要素を設定
-	 *
-	 * setParameterのエイリアス
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @param mixed $value 要素
-	 * @param boolean $position 先頭ならTrue
-	 * @final
-	 */
-	final public function setAttribute ($name, $value, $position = self::POSITION_BOTTOM) {
-		$this->setParameter($name, $value, $position);
-	}
-
-	/**
-	 * 要素を削除
-	 *
-	 * removeParameterのエイリアス
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @final
-	 */
-	final public function removeAttribute ($name) {
-		$this->removeParameter($name);
-	}
-
-	/**
-	 * 要素を含むか？
-	 *
-	 * hasParameterのエイリアス
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @final
-	 */
-	final public function hasAttribute ($name) {
-		return $this->hasParameter($name);
 	}
 
 	/**

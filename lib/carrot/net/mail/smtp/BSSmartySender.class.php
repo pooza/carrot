@@ -5,7 +5,7 @@
  */
 
 /**
- * Smartyテンプレートによるメール送信
+ * Smartyレンダラーによるメール送信
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -67,13 +67,8 @@ class BSSmartySender extends BSSMTP {
 	 * @param string $template テンプレートファイル名
 	 */
 	public function setTemplate ($template) {
-		foreach (array($template, $template . '.mail') as $name) {
-			try {
-				$this->getRenderer()->setTemplate($template);
-				$this->getMail()->clearContents();
-			} catch (BSViewException $e) {
-			}
-		}
+		$this->getRenderer()->setTemplate($template);
+		$this->getMail()->clearContents();
 	}
 
 	/**

@@ -21,7 +21,18 @@ class BSCSSFile extends BSFile implements BSDocumentSetEntry {
 	public function getOptimizedContents () {
 		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
-			$contents = mb_ereg_replace('/\\*.*?\\*/', null, $this->getContents());
+			$renderer = new BSPlainTextRenderer;
+			$contents = BSString::convertLineSeparator($contents);
+			$renderer->setContents(mb_ereg_replace('/\\*.*?\\*/', null, $this->getContents()));
+			foreach ($renderer as $line) {
+				$contents .= trim($line) . "\n";
+			}
+			$contents = mb_ereg_replace('\\n+', "\n", $contents);
+			$contents = mb_ereg_replace('^\\n', null, $contents);
+			$contents = mb_ereg_replace('\\n$', null, $contents);
+			$contents = mb_ereg_replace(' *{ *', ' {', $contents);
+			$contents = mb_ereg_replace(' *}', '}', $contents);
+			$contents = mb_ereg_replace(' *: *', ':', $contents);
 			BSController::getInstance()->setAttribute($this, $contents);
 		}
 		return $contents;

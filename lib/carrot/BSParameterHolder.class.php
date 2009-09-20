@@ -51,11 +51,18 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 * パラメータをまとめて設定
 	 *
 	 * @access public
-	 * @param mixed[] パラメータ
+	 * @param mixed[] $params パラメータの配列
 	 */
-	public function setParameters ($parameters) {
-		foreach ($parameters as $key => $value) {
-			$this->setParameter($key, $value);
+	public function setParameters ($params) {
+		if ($params instanceof BSParameterHolder) {
+			$params = $params->getParameters();
+		} else if (BSNumeric::isZero($params)) {
+			$params = array(0);
+		} else if (!$params) {
+			return;
+		}
+		foreach ((array)$params as $name => $value) {
+			$this->setParameter($name, $value);
 		}
 	}
 

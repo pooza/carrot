@@ -178,13 +178,13 @@ class BSDate implements ArrayAccess, BSAssignable {
 		$this->attributes['timestamp'] = null;
 		if ($this->attributes['has_time'] = $mode) {
 			foreach (array('hour', 'minute', 'second') as $name) {
-				if (!$this->attributes->hasAttribute($name)) {
+				if (!$this->attributes->hasParameter($name)) {
 					$this->attributes[$name] = 0;
 				}
 			}
 		} else {
 			foreach (array('hour', 'minute', 'second') as $name) {
-				$this->attributes->removeAttribute($name);
+				$this->attributes->removeParameter($name);
 			}
 		}
 	}
@@ -243,8 +243,8 @@ class BSDate implements ArrayAccess, BSAssignable {
 			case 'year':
 			case 'month':
 			case 'day':
-				$this->attributes->removeAttribute('weekday');
-				$this->attributes->removeAttribute('weekday_name');
+				$this->attributes->removeParameter('weekday');
+				$this->attributes->removeParameter('weekday_name');
 				break;
 			case 'hour':
 			case 'minute':
@@ -434,7 +434,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		if (!$this->attributes->hasAttribute('weekday')) {
+		if (!$this->attributes->hasParameter('weekday')) {
 			$this->attributes['weekday'] = (int)date('N', $this->getTimestamp());
 		}
 		return $this->attributes['weekday'];
@@ -450,7 +450,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		if (!$this->attributes->hasAttribute('weekday_name')) {
+		if (!$this->attributes->hasParameter('weekday_name')) {
 			$weekdays = new BSArray(array(null, '月', '火', '水', '木', '金', '土', '日'));
 			$this->attributes['weekday_name'] = $weekdays[$this->getWeekday()];
 		}
@@ -467,7 +467,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		if (!$this->attributes->hasAttribute('gengo')) {
+		if (!$this->attributes->hasParameter('gengo')) {
 			foreach (self::getGengos() as $gengo) {
 				if (!$this->isPast($gengo['start_date'])) {
 					$this->attributes['gengo'] = $gengo['name'];
@@ -488,7 +488,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		if (!$this->attributes->hasAttribute('japanese_year')) {
+		if (!$this->attributes->hasParameter('japanese_year')) {
 			foreach (self::getGengos() as $gengo) {
 				if (!$this->isPast($gengo['start_date'])) {
 					$year = $this['year'] - $gengo['start_date']['year'] + 1;
