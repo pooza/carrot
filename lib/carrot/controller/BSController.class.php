@@ -268,7 +268,7 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 */
 	static public function getName ($lang = 'ja') {
-		return BSTranslateManager::getInstance()->execute('APP_NAME', 'BSConstantHandler', $lang);
+		return self::getInstance()->getConstant('app_name_' . $lang);
 	}
 
 	/**
@@ -278,7 +278,7 @@ abstract class BSController {
 	 * @return string バージョン
 	 */
 	static public function getVersion () {
-		return $this->getConstant('APP_VER');
+		return BS_APP_VER;
 	}
 
 	/**

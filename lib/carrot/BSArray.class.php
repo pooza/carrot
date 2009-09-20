@@ -86,10 +86,18 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
-		if ($position == self::POSITION_TOP) {
-			$this->parameters = array((string)$name => null) + $this->parameters;
+		if ($name === null) {
+			if ($position == self::POSITION_TOP) {
+				$this->unshift($value);
+			} else {
+				$this->push($value);
+			}
+		} else {
+			if ($position == self::POSITION_TOP) {
+				$this->parameters = array((string)$name => null) + $this->parameters;
+			}
+			$this->parameters[(string)$name] = $value;
 		}
-		$this->parameters[(string)$name] = $value;
 	}
 
 	/**
