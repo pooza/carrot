@@ -39,6 +39,16 @@ class BSJavaScriptFile extends BSFile implements BSDocumentSetEntry {
 	}
 
 	/**
+	 * エンコードを返す
+	 *
+	 * @access public
+	 * @return string PHPのエンコード名
+	 */
+	public function getEncoding () {
+		return 'utf-8';
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

@@ -13,10 +13,13 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSDocumentSet implements BSTextRenderer {
-	protected $name;
-	protected $error;
-	protected $contentFragments;
+abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
+	private $name;
+	private $error;
+	private $type;
+	private $documents;
+	private $contents;
+	private $optimized = true;
 
 	/**
 	 * @access protected
@@ -27,7 +30,7 @@ abstract class BSDocumentSet implements BSTextRenderer {
 			$name = 'carrot';
 		}
 		$this->name = $name;
-		$this->contentFragments = new BSArray;
+		$this->documents = new BSArray;
 
 		$entries = $this->getEntries();
 		if (isset($entries[$name]['files']) && BSArray::isArray($entries[$name]['files'])) {
@@ -35,18 +38,18 @@ abstract class BSDocumentSet implements BSTextRenderer {
 				$this->register($file);
 			}
 		} else {
-			if (!BSString::isBlank($prefix = $this->getPrefix())) {
-				$this->register($prefix);
+			if (!BSString::isBlank($this->getPrefix())) {
+				$this->register($this->getPrefix());
 			}
 			$this->register($name);
 		}
 	}
 
 	/**
-	 * 書類のクラス名を返す
+	 * 書類クラスを返す
 	 *
 	 * @access protected
-	 * @return string 書類のクラス名
+	 * @return string 書類クラス
 	 * @abstract
 	 */
 	abstract protected function getDocumentClassName ();
@@ -54,11 +57,13 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	/**
 	 * ディレクトリを返す
 	 *
+	 * 書類クラスがファイルではないレンダラーなら、nullを返すように
+	 *
 	 * @access protected
 	 * @return BSDirectory ディレクトリ
-	 * @abstract
 	 */
-	abstract protected function getDirectory ();
+	protected function getDirectory () {
+	}
 
 	/**
 	 * 設定ファイルの名前を返す
@@ -76,20 +81,20 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	}
 
 	/**
-	 * スタイルセット名を返す
+	 * 書類セット名を返す
 	 *
 	 * @access public
-	 * @return string スタイルセット名
+	 * @return string 書類セット名
 	 */
 	public function getName () {
 		return $this->name;
 	}
 
 	/**
-	 * スタイルセット名を返す
+	 * 書類セットのプリフィックスを返す
 	 *
 	 * @access public
-	 * @return string スタイルセット名
+	 * @return string プリフィックス
 	 */
 	public function getPrefix () {
 		$name = BSString::explode('.', $this->getName());
@@ -102,19 +107,42 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 * 登録
 	 *
 	 * @access public
-	 * @param string $name ファイル名
+	 * @param mixed $entry エントリー
 	 */
-	public function register ($name) {
-		if ($file = $this->getDirectory()->getEntry($name, $this->getDocumentClassName())) {
-			if (!($file instanceof BSDocumentSetEntry)) {
-				throw new BSInitializationException('%sは%sに登録できません。', $file, $this);
-			} else if ($file->isReadable()) {
-				$this->contentFragments[$name] = $file->getOptimizedContents();
-			} else {
-				$this->error = $file . 'が読み込めません。';
+	public function register ($entry) {
+		if (is_string($entry)) {
+			if (!$dir = $this->getDirectory()) {
+				throw new BSInitializationException($this . 'のディレクトリが未定義です。');
+			}
+			if (!$entry = $dir->getEntry($entry, $this->getDocumentClassName())) {
 				return;
 			}
 		}
+		if (($entry instanceof BSDocumentSetEntry) && $entry->validate()) {
+			$this->documents[] = $entry;
+		} else {
+			$this->error = $entry . 'が読み込めません。' . $entry->getError();
+		}
+	}
+
+	/**
+	 * 最適化するか
+	 *
+	 * @access public
+	 * @return boolean 最適化するならTrue
+	 */
+	public function isOptimized () {
+		return $this->optimized;
+	}
+
+	/**
+	 * 最適化するかを設定
+	 *
+	 * @access public
+	 * @param boolean $flag 最適化するならTrue
+	 */
+	public function setOptimized ($flag) {
+		$this->optimized = $flag;
 	}
 
 	/**
@@ -124,7 +152,18 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return $this->contentFragments->join("\n");
+		if (!$this->contents) {
+			$contents = new BSArray;
+			foreach ($this as $file) {
+				if ($this->isOptimized()) {
+					$contents[] = $file->getOptimizedContents();
+				} else {
+					$contents[] = $file->getContents();
+				}
+			}
+			$this->contents = $contents->join("\n");
+		}
+		return $this->contents;
 	}
 
 	/**
@@ -144,10 +183,12 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		$file = BSFile::getTemporaryFile(null, $this->getDocumentClassName());
-		$type = $file->getType();
-		$file->delete();
-		return $type;
+		if (!$this->type) {
+			$file = BSFile::getTemporaryFile(null, $this->getDocumentClassName());
+			$this->type = $file->getType();
+			$file->delete();
+		}
+		return $this->type;
 	}
 
 	/**
@@ -189,14 +230,12 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 */
 	protected function getEntries ($prefix = null) {
 		$entries = new BSArray;
+		foreach ($this->getDirectory() as $file) {
+			$entries[$file->getBaseName()] = array();
+		}
 		foreach ($this->getConfigFileNames() as $configFile) {
 			require(BSConfigManager::getInstance()->compile($configFile));
 			$entries->setParameters($config);
-		}
-		foreach ($this->getDirectory() as $file) {
-			if (!$entries->hasParameter($file->getBaseName())) {
-				$entries[$file->getBaseName()] = array();
-			}
 		}
 
 		if (!BSString::isBlank($prefix)) {
@@ -219,6 +258,16 @@ abstract class BSDocumentSet implements BSTextRenderer {
 	 */
 	public function getEntryNames ($prefix = null) {
 		return $this->getEntries($prefix)->getKeys(BSArray::WITHOUT_KEY);
+	}
+
+	/**
+	 * イテレータを返す
+	 *
+	 * @access public
+	 * @return BSIterator イテレータ
+	 */
+	public function getIterator () {
+		return new BSIterator($this->documents);
 	}
 
 	/**

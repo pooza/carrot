@@ -8,12 +8,11 @@
  * 書類セットエントリー
  *
  * BSDocumentSetにregister出来るクラスのインターフェース。
- * このインターフェースを実装するだけでなく、BSFileの子クラスである必要がある。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-interface BSDocumentSetEntry {
+interface BSDocumentSetEntry extends BSTextRenderer {
 
 	/**
 	 * 内容を最適化して返す
