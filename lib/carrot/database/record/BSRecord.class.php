@@ -107,7 +107,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 */
 	public function update ($values, $flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isUpdatable()) {
-			throw new BSDatabaseException('%sを更新することはできません。', $this);
+			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
 
 		$query = BSSQL::getUpdateQueryString(
@@ -156,7 +156,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 */
 	public function delete ($flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isDeletable()) {
-			throw new BSDatabaseException('%sを削除することはできません。', $this);
+			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
 
 		$query = BSSQL::getDeleteQueryString($this->getTable()->getName(), $this->getCriteria());

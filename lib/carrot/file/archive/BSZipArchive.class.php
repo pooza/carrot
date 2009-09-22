@@ -42,7 +42,7 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	 */
 	public function open ($path = null, $flags = null) {
 		if ($this->opened) {
-			throw new BSFileException('%sが開かれています。', $this->getFile());
+			throw new BSFileException($this->getFile() . 'が開かれています。');
 		}
 		$this->setFile($path);
 		$this->opened = true;
@@ -113,7 +113,7 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	 */
 	public function setFile ($file) {
 		if ($this->opened) {
-			throw new BSFileException('%sが開かれています。', $this->getFile());
+			throw new BSFileException($this->getFile() . 'が開かれています。');
 		}
 		if (BSString::isBlank($file)) {
 			$file = null;

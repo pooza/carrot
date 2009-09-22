@@ -57,7 +57,7 @@ class BSConfigManager {
 			$file = self::getConfigFile($file);
 		}
 		if (!$file->isReadable()) {
-			throw new BSConfigException('%sが読めません。', $file);
+			throw new BSConfigException($file . 'が読めません。');
 		}
 		return $file->compile();
 	}
@@ -75,7 +75,7 @@ class BSConfigManager {
 				return $compiler;
 			}
 		}
-		throw new BSConfigException('%sの設定コンパイラがありません。', $file->getName());
+		throw new BSConfigException($file . 'の設定コンパイラがありません。');
 	}
 
 	/**
@@ -95,7 +95,7 @@ class BSConfigManager {
 			$file = new $class($name . $suffix);
 			if ($file->isExists()) {
 				if (!$file->isReadable()) {
-					throw new BSConfigException('%sが読めません。', $file);
+					throw new BSConfigException($file . 'が読めません。');
 				}
 				return $file;
 			}

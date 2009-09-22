@@ -25,7 +25,7 @@ class BSSmartyView extends BSView {
 
 		if ($renderer) {
 			if (!($renderer instanceof BSSmarty)) {
-				throw new BSViewException('%sをセットできません。', get_class($renderer));
+				throw new BSViewException(get_class($renderer) . 'をセットできません。');
 			}
 		} else {
 			$renderer = new BSSmarty;

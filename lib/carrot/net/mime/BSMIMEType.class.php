@@ -63,7 +63,7 @@ class BSMIMEType extends BSParameterHolder {
 		if (!$this->file) {
 			$this->file = new BSFile(BS_TYPES_FILE);
 			if (!$this->file->isReadable()) {
-				throw new BSConfigException('%sを開くことができません。', $file);
+				throw new BSConfigException($file . 'を開くことができません。');
 			}
 		}
 		return $this->file;

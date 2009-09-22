@@ -49,7 +49,7 @@ class BSCommandLine extends BSParameterHolder {
 	 */
 	public function setDirectory (BSDirectory $dir) {
 		if (!$dir->isExists()) {
-			throw new BSConsoleException('%sが存在しません。', $dir);
+			throw new BSConsoleException($dir . 'が存在しません。');
 		}
 		$this->directory = $dir;
 	}

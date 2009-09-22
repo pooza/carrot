@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage document_set
+ * @subpackage view.renderer.document_set
  */
 
 /**

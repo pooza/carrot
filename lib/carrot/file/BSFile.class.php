@@ -57,7 +57,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function rename ($name) {
 		if ($this->isOpened()) {
-			throw new BSFileException('%sは既に開かれています。', $this);
+			throw new BSFileException($this . 'は既に開かれています。');
 		}
 
 		if ($this->isUploaded()) {
@@ -79,7 +79,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function moveTo (BSDirectory $dir) {
 		if ($this->isOpened()) {
-			throw new BSFileException('%sは既に開かれています。', $this);
+			throw new BSFileException($this . 'は既に開かれています。');
 		}
 		if ($this->isUploaded()) {
 			$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
@@ -103,7 +103,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	public function copyTo (BSDirectory $dir, $class = 'BSFile') {
 		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 		if (!copy($this->getPath(), $path)) {
-			throw new BSFileException('%sをコピーできません。', $this);
+			throw new BSFileException($this . 'をコピーできません。');
 		}
 		$class = BSClassLoader::getInstance()->getClassName($class);
 		return new $class($path);
@@ -116,12 +116,12 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function delete () {
 		if (!$this->isWritable($this->getPath())) {
-			throw new BSFileException('%sを削除できません。', $this);
+			throw new BSFileException($this . 'を削除できません。');
 		} else if ($this->isOpened()) {
-			throw new BSFileException('%sは既に開かれています。', $this);
+			throw new BSFileException($this . 'は既に開かれています。');
 		}
 		if (!unlink($this->getPath())) {
-			throw new BSFileException('%sを削除できません。', $this);
+			throw new BSFileException($this . 'を削除できません。');
 		}
 	}
 
@@ -135,11 +135,11 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if (!in_array($mode, array('r', 'a', 'w'))) {
 			throw new BSFileException('モード"%s"が正しくありません。', $mode);
 		} else if (($mode == 'r') && !$this->isExists()) {
-			throw new BSFileException('%sが存在しません。', $this);
+			throw new BSFileException($this . 'が存在しません。');
 		} else if ($this->isCompressed()) {
-			throw new BSFileException('%sはgzip圧縮されています。', $this);
+			throw new BSFileException($this . 'はgzip圧縮されています。');
 		} else if ($this->isOpened()) {
-			throw new BSFileException('%sは既に開かれています。', $this);
+			throw new BSFileException($this . 'は既に開かれています。');
 		}
 
 		if (!$this->handle = fopen($this->getPath(), $mode)) {
@@ -172,7 +172,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function putLine ($str = '', $separator = self::LINE_SEPARATOR) {
 		if (!$this->isOpened() || !in_array($this->mode, array('w', 'a'))) {
-			throw new BSFileException('%sはw又はaモードで開かれていません。', $this);
+			throw new BSFileException($this . 'はw又はaモードで開かれていません。');
 		}
 
 		flock($this->handle, LOCK_EX);
@@ -191,7 +191,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	public function getLine ($length = 4096) {
 		if ($this->isOpened()) {
 			if ($this->mode != 'r') {
-				throw new BSFileException('%sはrモードで開かれていません。', $this);
+				throw new BSFileException($this . 'はrモードで開かれていません。');
 			}
 		} else {
 			$this->open();
@@ -260,7 +260,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function compress () {
 		if ($this->isCompressed()) {
-			throw new BSFileException('%sをgzip圧縮することはできません。', $this);
+			throw new BSFileException($this . 'をgzip圧縮することはできません。');
 		}
 		$contents = gzencode($this->getContents(), 9);
 		$this->setContents($contents);
@@ -296,7 +296,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function isEof () {
 		if (!$this->isReadable()) {
-			throw new BSFileException('%sを読み込めません。', $this);
+			throw new BSFileException($this . 'を読み込めません。');
 		}
 		return feof($this->handle);
 	}
@@ -310,7 +310,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	public function getSize () {
 		if ($this->size === null) {
 			if (!$this->isExists()) {
-				throw new BSFileException('%sが存在しません。', $this);
+				throw new BSFileException($this . 'が存在しません。');
 			}
 			$this->size = filesize($this->getPath());
 		}

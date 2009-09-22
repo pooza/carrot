@@ -300,7 +300,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param BSHTTPRedirector $url 送信先URL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
-		throw new BSHTTPException('%sのURLを設定できません。', get_class($this));
+		throw new BSHTTPException(get_class($this) . 'のURLを設定できません。');
 	}
 
 	/**
@@ -311,7 +311,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param integer $flags フラグのビット列
 	 */
 	public function setRenderer (BSRenderer $renderer, $flags = null) {
-		throw new BSHTTPException('%sはレンダラーを設定できません。', get_class($this));
+		throw new BSHTTPException(get_class($this) . 'はレンダラーを設定できません。');
 	}
 
 	/**

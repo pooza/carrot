@@ -379,7 +379,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	private function getDBMS () {
 		if (!mb_ereg('^BS([[:alpha:]]+)Database$', get_class($this), $matches)) {
-			throw new BSDatabaseException('%sのDBMS名が正しくありません。', get_class($this));
+			throw new BSDatabaseException(get_class($this) . 'のDBMS名が正しくありません。');
 		}
 		return $matches[1];
 	}

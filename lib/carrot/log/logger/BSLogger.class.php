@@ -54,7 +54,7 @@ abstract class BSLogger {
 	 * @return BSArray 日付の配列
 	 */
 	public function getDates () {
-		throw new BSLogException('%sはgetDatesに対応していません。', get_class($this));
+		throw new BSLogException(get_class($this) . 'はgetDatesに対応していません。');
 	}
 
 	/**
@@ -65,7 +65,7 @@ abstract class BSLogger {
 	 * @return BSArray エントリーの配列
 	 */
 	public function getEntries (BSDate $date) {
-		throw new BSLogException('%sはgetEntriesに対応していません。', get_class($this));
+		throw new BSLogException(get_class($this) . 'はgetEntriesに対応していません。');
 	}
 
 	/**

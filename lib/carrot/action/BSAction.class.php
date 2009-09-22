@@ -387,7 +387,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable {
 	public function forward () {
 		$this->controller->registerAction($this);
 		if (!$this->initialize()) {
-			throw new BSInitializeException('%sが初期化できません。', $this);
+			throw new BSInitializeException($this . 'が初期化できません。');
 		}
 
 		$filters = new BSFilterSet;

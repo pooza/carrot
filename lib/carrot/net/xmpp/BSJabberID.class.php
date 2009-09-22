@@ -24,7 +24,7 @@ class BSJabberID implements BSAssignable {
 	public function __construct ($contents) {
 		$this->contents = $contents;
 		if (!mb_ereg(self::PATTERN, $this->contents, $matches)) {
-			throw new BSXMPPException('%sが正しくありません。', $this);
+			throw new BSXMPPException($this . 'が正しくありません。');
 		}
 		$this->account = $matches[1];
 		$this->host = new BSHost($matches[2]);

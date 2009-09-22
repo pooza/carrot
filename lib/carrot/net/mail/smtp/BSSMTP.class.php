@@ -105,7 +105,7 @@ class BSSMTP extends BSSocket {
 				}
 			}
 		}
-		throw new BSMailException('%sを送信できません。', $this->getMail());
+		throw new BSMailException($this->getMail() . 'を送信できません。');
 	}
 
 	/**

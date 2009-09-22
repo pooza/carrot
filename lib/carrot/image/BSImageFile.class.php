@@ -54,7 +54,7 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	public function getRenderer () {
 		if (!$this->renderer) {
 			if (!$this->isExists() || !$this->getSize()) {
-				throw new BSImageException('%sの形式が不明です。', $this);
+				throw new BSImageException($this . 'の形式が不明です。');
 			}
 
 			$info = getimagesize($this->getPath());
@@ -69,7 +69,7 @@ class BSImageFile extends BSFile implements BSImageContainer {
 					$image = imagecreatefrompng($this->getPath());
 					break;
 				default:
-					throw new BSImageException('%sの形式が不明です。', $this);
+					throw new BSImageException($this . 'の形式が不明です。');
 			}
 			$class = BSClassLoader::getInstance()->getClassName($this->rendererClass);
 			$this->renderer = new $class($info[0], $info[1]);
@@ -123,14 +123,14 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	 */
 	public function save () {
 		if ($this->isExists() && !$this->isWritable()) {
-			throw new BSFileException('%sに書き込むことができません。', $this);
+			throw new BSFileException($this . 'に書き込むことができません。');
 		}
 
 		$types = new BSArray;
 		$types[] = BSMIMEType::DEFAULT_TYPE;
 		$types[] = $this->getRenderer()->getType();
 		if (!$types->isContain($this->getType())) {
-			throw new BSImageException('%sのメディアタイプがレンダラーと一致しません。', $this);
+			throw new BSImageException($this . 'のメディアタイプがレンダラーと一致しません。');
 		}
 
 		switch ($this->getRenderer()->getType()) {
@@ -144,7 +144,7 @@ class BSImageFile extends BSFile implements BSImageContainer {
 				imagepng($this->getRenderer()->getImage(), $this->getPath());
 				break;
 			default:
-				throw new BSImageException('%sのメディアタイプが正しくありません。', $this);
+				throw new BSImageException($this . 'のメディアタイプが正しくありません。');
 		}
 		$this->clearImageCache();
 	}

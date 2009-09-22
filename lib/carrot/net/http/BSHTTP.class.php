@@ -81,7 +81,7 @@ class BSHTTP extends BSSocket {
 	 */
 	protected function send (BSHTTPRequest $request) {
 		if ($this->isOpened()) {
-			throw new BSHTTPException('%sは既に開いています。', $this);
+			throw new BSHTTPException($this . 'は既に開いています。');
 		}
 
 		$request->setHeader('User-Agent', BSController::getFullName('en'));

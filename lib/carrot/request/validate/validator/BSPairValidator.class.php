@@ -38,7 +38,7 @@ class BSPairValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (BSString::isBlank($name = $this['field'])) {
-			throw new BSConfigException('%sの対象フィールドが未定義です。', get_class($this));
+			throw new BSConfigException(get_class($this) . 'の対象フィールドが未定義です。');
 		}
 		if ($this['equal'] && ($value != $this->request[$name])) {
 			$this->error = $this['equal_error'];

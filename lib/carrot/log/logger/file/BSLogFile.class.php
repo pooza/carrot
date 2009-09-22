@@ -22,7 +22,7 @@ class BSLogFile extends BSFile {
 	public function getEntries () {
 		if (!$this->entries) {
 			if ($this->isOpened()) {
-				throw new BSFileException('%sは既に開いています。', $this);
+				throw new BSFileException($this . 'は既に開いています。');
 			}
 
 			foreach ($this->getLines() as $line) {

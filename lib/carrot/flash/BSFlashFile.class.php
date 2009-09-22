@@ -35,7 +35,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			$this->attributes = new BSArray;
 			$info = getimagesize($this->getPath());
 			if (!$info || ($info['mime'] != $this->getType())) {
-				throw new BSFlashException('%sはFlashムービーではありません。', $this);
+				throw new BSFlashException($this . 'はFlashムービーではありません。');
 			}
 			$this->attributes['path'] = $this->getPath();
 			$this->attributes['width'] = $info[0];
@@ -195,7 +195,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @param mixed 要素
 	 */
 	public function offsetSet ($key, $value) {
-		throw new BSFlashException('%sの属性を設定できません。', $this);
+		throw new BSFlashException($this . 'の属性を設定できません。');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @param string $key 添え字
 	 */
 	public function offsetUnset ($key) {
-		throw new BSFlashException('%sの属性を削除できません。', $this);
+		throw new BSFlashException($this . 'の属性を削除できません。');
 	}
 
 	/**

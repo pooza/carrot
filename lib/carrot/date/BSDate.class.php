@@ -101,7 +101,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if ($this->validate()) {
 			return $this;
 		} else {
-			throw new BSDateException('%sは正しくない日付です。', $this);
+			throw new BSDateException($this . 'は正しくない日付です。');
 		}
 	}
 

@@ -343,7 +343,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function setBody ($body) {
 		if (!method_exists($this->getRenderer(), 'setContents')) {
-			throw new BSMIMEException('%sの本文を上書きできません。', get_glass($renderer));
+			throw new BSMIMEException(get_glass($renderer) . 'の本文を上書きできません。');
 		}
 		$this->getRenderer()->setContents($body);
 	}

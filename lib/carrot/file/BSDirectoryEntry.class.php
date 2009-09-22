@@ -63,16 +63,16 @@ abstract class BSDirectoryEntry {
 	 */
 	public function rename ($name) {
 		if (!$this->isExists()) {
-			throw new BSFileException('%sが存在しません。', $this);
+			throw new BSFileException($this . 'が存在しません。');
 		} else if (!$this->isWritable($this->getPath())) {
-			throw new BSFileException('%sをリネームできません。', $this);
+			throw new BSFileException($this . 'をリネームできません。');
 		} else if (BSString::isContain(DIRECTORY_SEPARATOR, $name)) {
-			throw new BSFileException('%sをリネームできません。', $this);
+			throw new BSFileException($this . 'をリネームできません。');
 		}
 
 		$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
 		if (!@rename($this->getPath(), $path)) {
-			throw new BSFileException('%sをリネームできません。', $this);
+			throw new BSFileException($this . 'をリネームできません。');
 		}
 		$this->setPath($path);
 	}
@@ -136,14 +136,14 @@ abstract class BSDirectoryEntry {
 	 */
 	public function moveTo (BSDirectory $dir) {
 		if (!$this->isExists()) {
-			throw new BSFileException('%sが存在しません。', $this);
+			throw new BSFileException($this . 'が存在しません。');
 		} else if (!$this->isWritable() || !$dir->isWritable()) {
-			throw new BSFileException('%sを移動できません。', $this);
+			throw new BSFileException($this . 'を移動できません。');
 		}
 
 		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 		if (!@rename($this->getPath(), $path)) {
-			throw new BSFileException('%sを移動できません。', $this);
+			throw new BSFileException($this . 'を移動できません。');
 		}
 		$this->setPath($path);
 	}
@@ -208,7 +208,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getCreateDate () {
 		if (!$this->isExists()) {
-			throw new BSFileException('%sが存在しません。', $this);
+			throw new BSFileException($this . 'が存在しません。');
 		}
 
 		clearstatcache();
@@ -223,7 +223,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getUpdateDate () {
 		if (!$this->isExists()) {
-			throw new BSFileException('%sが存在しません。', $this);
+			throw new BSFileException($this . 'が存在しません。');
 		}
 
 		clearstatcache();
@@ -268,7 +268,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function setMode ($mode) {
 		if (!$this->isWritable() || !chmod($this->getPath(), $mode)) {
-			throw new BSFileException('%sのファイルモードを変更できません。', $this);
+			throw new BSFileException($this . 'のファイルモードを変更できません。');
 		}
 	}
 

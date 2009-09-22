@@ -32,7 +32,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected function __construct ($name) {
 		$this->name = $name;
 		if (!$this->getDirectory()) {
-			throw new BSModuleException('%sのディレクトリが見つかりません。', $this);
+			throw new BSModuleException($this . 'のディレクトリが見つかりません。');
 		}
 		if ($file = $this->getConfigFile('module')) {
 			require(BSConfigManager::getInstance()->compile($file));
@@ -378,7 +378,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getAction ($name) {
 		$class = $name . 'Action';
 		if (!$dir = $this->getDirectory('actions')) {
-			throw new BSModuleException('%sにアクションディレクトリがありません。', $this);
+			throw new BSModuleException($this . 'にアクションディレクトリがありません。');
 		} else if (!$file = $dir->getEntry($class . '.class.php')) {
 			throw new BSModuleException('%sに "%s" がありません。', $this, $class);
 		}

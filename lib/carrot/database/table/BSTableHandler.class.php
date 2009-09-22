@@ -274,7 +274,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
 		if (!$this->isInsertable()) {
-			throw new BSDatabaseException('%sへのレコード挿入はできません。', $this);
+			throw new BSDatabaseException($this . 'へのレコード挿入はできません。');
 		}
 
 		$db = $this->getDatabase();
@@ -350,7 +350,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function clear () {
 		if (!$this->isClearable()) {
-			throw new BSDatabaseException('%sのレコード全消去はできません。', $this);
+			throw new BSDatabaseException($this . 'のレコード全消去はできません。');
 		}
 		$this->getDatabase()->exec('DELETE FROM ' . $this->getName());
 
@@ -409,7 +409,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function create () {
 		if ($this->isExists()) {
-			throw new BSDatabaseException('%sは既に存在します。', $this);
+			throw new BSDatabaseException($this . 'は既に存在します。');
 		}
 		if ($schema = $this->getSchema()) {
 			$this->getDatabase()->exec(

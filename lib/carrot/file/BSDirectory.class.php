@@ -24,7 +24,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	public function __construct ($path) {
 		$this->setPath($path);
 		if (!is_dir($this->getPath())) {
-			throw new BSFileException('%sを開くことができません。', $this);
+			throw new BSFileException($this . 'を開くことができません。');
 		}
 	}
 
@@ -162,7 +162,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	public function delete () {
 		$this->clear();
 		if (!rmdir($this->getPath())) {
-			throw new BSFileException('%sを削除できません。', $this);
+			throw new BSFileException($this . 'を削除できません。');
 		}
 	}
 

@@ -241,7 +241,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param string $size サイズ名
 	 */
 	public function setImageFile (BSImageFile $file, $size = 'favicon') {
-		throw new BSImageException('%sの画像ファイルを設定できません。', $this);
+		throw new BSImageException($this . 'の画像ファイルを設定できません。');
 	}
 
 	/**
