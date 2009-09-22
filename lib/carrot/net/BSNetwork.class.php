@@ -40,7 +40,7 @@ class BSNetwork extends BSHost {
 	 */
 	public function setCIDR ($address) {
 		if (!mb_ereg('^([.[:digit:]]+)/([[:digit:]]+)$', $address, $matches)) {
-			throw new BSNetException('"%s"をパースできません。', $address);
+			throw new BSNetException($address . 'をパースできません。');
 		}
 
 		$this->setAddress($matches[1]);

@@ -141,7 +141,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if ($this->validate()) {
 			return $this;
 		} else {
-			throw new BSDateException('"%s"は正しくないタイムスタンプです。', $timestamp);
+			throw new BSDateException($timestamp . 'は正しくないタイムスタンプです。');
 		}
 	}
 

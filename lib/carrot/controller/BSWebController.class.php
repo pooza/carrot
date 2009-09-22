@@ -31,7 +31,7 @@ class BSWebController extends BSController {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
+		throw new BSSingletonException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

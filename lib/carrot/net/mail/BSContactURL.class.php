@@ -59,7 +59,7 @@ class BSContactURL extends BSURL {
 				$this->query->setContents($value);
 				break;
 			default:
-				throw new BSNetException('"%s"は正しくない属性名です。', $name);
+				throw new BSNetException($name . 'は正しくない属性名です。');
 		}
 		$this->contents = null;
 		return $this;

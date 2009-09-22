@@ -25,7 +25,7 @@ class BSZipcode implements BSAssignable {
 	 */
 	public function __construct ($value) {
 		if (!mb_ereg(self::PATTERN, $value, $matches)) {
-			throw new BSZipcodeException('"%s" は正しい郵便番号ではありません。', $value);
+			throw new BSZipcodeException($value . 'は正しい郵便番号ではありません。');
 		}
 		$this->major = $matches[1];
 		$this->minor = $matches[2];

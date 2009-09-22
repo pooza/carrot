@@ -153,7 +153,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			$response = $http->sendGetRequest($this->getFullPath());
 			return $response->getRenderer()->getContents();
 		} catch (BSException $e) {
-			throw new BSHTTPException('"%s"を取得できません。', $this->getContents());
+			throw new BSHTTPException($this . 'を取得できません。');
 		}
 	}
 

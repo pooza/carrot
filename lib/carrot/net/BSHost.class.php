@@ -48,7 +48,7 @@ class BSHost implements BSAssignable {
 	public function setAddress ($address) {
 		$this->setAttribute('ip', $address);
 		if (!$this->address->validateIP($address)) {
-			throw new BSNetException('"%s"を名前解決できません。', $this);
+			throw new BSNetException($this . 'を名前解決できません。');
 		}
 	}
 
@@ -77,7 +77,7 @@ class BSHost implements BSAssignable {
 	 */
 	public function setName ($name) {
 		if (BSString::isBlank($address = gethostbyname($name))) {
-			throw new BSNetException('"%s"は正しくないFQDN名です。', $name);
+			throw new BSNetException($name . 'は正しくないFQDN名です。');
 		}
 		$this->name = $name;
 		$this->setAddress($address);

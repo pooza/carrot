@@ -54,7 +54,7 @@ class BSFormElement extends BSXMLElement {
 	public function setMethod ($method) {
 		$this->setAttribute('method', BSString::toLower($method));
 		if (!BSHTTPRequest::isValidMethod($this->getMethod())) {
-			throw new BSHTTPException('"%s" は正しくないメソッドです。', $this->getMethod());
+			throw new BSHTTPException($this->getMethod() . 'は正しくないメソッドです。');
 		}
 		if ($this->getMethod() == 'post') {
 			$this->addHiddenField('dummy', '符号形式識別用文字列');

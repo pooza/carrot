@@ -193,7 +193,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
 		if (file_exists($path)) {
 			if (!is_dir($path)) {
-				throw new BSFileException('"%s"と同名のファイルが存在します。', $path);
+				throw new BSFileException($path . 'と同名のファイルが存在します。');
 			}
 		} else {
 			mkdir($path);

@@ -44,7 +44,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 						return self::$instances[$name] = BSODBCDatabase::connect($name);
 				}
 			}
-			throw new BSDatabaseException('"%s" のDSNが適切ではありません。', $name);
+			throw new BSDatabaseException('"%s"のDSNが適切ではありません。', $name);
 		}
 		return self::$instances[$name];
 	}
@@ -53,7 +53,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException('"%s"はコピーできません。', __CLASS__);
+		throw new BSSingletonException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

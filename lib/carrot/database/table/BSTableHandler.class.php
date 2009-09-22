@@ -647,7 +647,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			if (mb_ereg('^([[:alpha:]]+)' . self::CLASS_SUFFIX . '$', $class, $matches)) {
 				$this->recordClassName = BSClassLoader::getInstance()->getClassName($matches[1]);
 			} else {
-				throw new BSDatabaseException('"%s"のクラス名が正しくありません。', $class);
+				throw new BSDatabaseException($class . 'のクラス名が正しくありません。');
 			}
 		}
 		return $this->recordClassName;
@@ -744,7 +744,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	static public function getInstance ($class) {
 		$table = BSClassLoader::getInstance()->getObject($class, self::CLASS_SUFFIX);
 		if (!($table instanceof BSTableHandler)) {
-			throw new BSDatabaseException('"%s" はテーブルハンドラではありません。', $class);
+			throw new BSDatabaseException($class . 'はテーブルハンドラではありません。');
 		}
 		return $table;
 	}
