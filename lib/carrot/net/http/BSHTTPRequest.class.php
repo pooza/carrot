@@ -44,7 +44,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	public function setMethod ($method) {
 		$this->method = BSString::toUpper($method);
 		if (!self::isValidMethod($this->method)) {
-			throw new BSHTTPException($this->method . 'は正しくないメソッドです。', );
+			throw new BSHTTPException($this->method . 'は正しくないメソッドです。');
 		}
 	}
 
