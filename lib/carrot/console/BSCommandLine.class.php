@@ -32,20 +32,20 @@ class BSCommandLine extends BSParameterHolder {
 	}
 
 	/**
-	 * ディレクトリプリフィックスを返す
+	 * ディレクトリプレフィックスを返す
 	 *
 	 * @access public
-	 * @return BSDirectory ディレクトリプリフィックス
+	 * @return BSDirectory ディレクトリプレフィックス
 	 */
 	public function getDirectory () {
 		return $this->directory;
 	}
 
 	/**
-	 * ディレクトリプリフィックスを設定
+	 * ディレクトリプレフィックスを設定
 	 *
 	 * @access public
-	 * @param BSDirectory $dir ディレクトリプリフィックス
+	 * @param BSDirectory $dir ディレクトリプレフィックス
 	 */
 	public function setDirectory (BSDirectory $dir) {
 		if (!$dir->isExists()) {

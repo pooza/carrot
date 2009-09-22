@@ -91,10 +91,10 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	}
 
 	/**
-	 * 書類セットのプリフィックスを返す
+	 * 書類セットのプレフィックスを返す
 	 *
 	 * @access public
-	 * @return string プリフィックス
+	 * @return string プレフィックス
 	 */
 	public function getPrefix () {
 		$name = BSString::explode('.', $this->getName());
