@@ -265,20 +265,16 @@ class BSXMLElement implements IteratorAggregate {
 					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
 				}
 			}
-			if ($this->getElements()->count()) {
-				$this->contents .= '>';
-				foreach ($this->getElements() as $element) {
-					$this->contents .= $element->getContents();
-				}
-				if ($this->raw) {
-					$this->contents .= $this->getBody();
-				} else {
-					$this->contents .= BSString::sanitize($this->getBody());
-				}
-				$this->contents .= '</' . $this->getName() . '>';
-			} else {
-				$this->contents .= ' />';
+			$this->contents .= '>';
+			foreach ($this->getElements() as $element) {
+				$this->contents .= $element->getContents();
 			}
+			if ($this->raw) {
+				$this->contents .= $this->getBody();
+			} else {
+				$this->contents .= BSString::sanitize($this->getBody());
+			}
+			$this->contents .= '</' . $this->getName() . '>';
 		}
 		return $this->contents;
 	}
