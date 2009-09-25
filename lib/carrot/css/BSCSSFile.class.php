@@ -22,7 +22,6 @@ class BSCSSFile extends BSFile implements BSDocumentSetEntry {
 		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
 			$renderer = new BSPlainTextRenderer;
-			$contents = BSString::convertLineSeparator($contents);
 			$renderer->setContents(mb_ereg_replace('/\\*.*?\\*/', null, $this->getContents()));
 			foreach ($renderer as $line) {
 				$contents .= trim($line) . "\n";

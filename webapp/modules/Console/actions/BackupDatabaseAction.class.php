@@ -39,7 +39,7 @@ class BackupDatabaseAction extends BSAction {
 	private function backup (BSDirectory $dir) {
 		$suffix = '_' . BSDate::getNow('Y-m-d');
 		if (!$file = $this->getDatabase()->createDumpFile($suffix, $dir)) {
-			throw new BSDatabaseException('%sがバックアップ出来ません。', $this->getDatabase());
+			throw new BSDatabaseException($this->getDatabase() . 'がバックアップ出来ません。');
 		}
 
 		$file->setMode(0666);

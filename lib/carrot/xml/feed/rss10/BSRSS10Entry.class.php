@@ -34,9 +34,7 @@ class BSRSS10Entry extends BSRSS09Entry {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('dc:date')) {
-			return BSDate::getInstance(
-				mb_ereg_replace('[^[:digit:]]', '', $element->getBody())
-			);
+			return BSDate::getInstance($element->getBody());
 		}
 	}
 

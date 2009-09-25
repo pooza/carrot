@@ -104,11 +104,12 @@ class BSFeedUtility extends Zend_Feed {
 	 * @param  string $url
 	 * @throws Zend_Feed_Exception
 	 * @return Zend_Feed_Abstract
+	 * @static
 	 */
-	public static function import ($url) {
+	static public function import ($url) {
 		$url = BSURL::getInstance($url);
 		if (BSString::isBlank($contents = $url->fetch())) {
-			throw new BSFeedException($url . 'を取得できません。');
+			throw new BSFeedException('%sを取得できません。', $url);
 		}
 
 		$contents = BSString::convertEncoding($contents, 'utf-8');
