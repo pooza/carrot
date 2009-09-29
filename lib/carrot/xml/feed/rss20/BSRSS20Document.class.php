@@ -20,7 +20,7 @@ class BSRSS20Document extends BSRSS09Document {
 	 * @return boolean 妥当な文書ならTrue
 	 */
 	public function validate () {
-		return (parent::validate()
+		return (BSXMLDocument::validate()
 			&& $this->query('/rss/channel/title')
 			&& $this->query('/rss/channel/description')
 			&& $this->query('/rss/channel/link')
