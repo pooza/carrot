@@ -11,8 +11,10 @@ id,ID
 log,ログ
 log_entry,ログエントリー
 message,メッセージ
+minus,-
 name,名前
 password,パスワード
+plus,+
 priority,優先順位
 rank,順位
 remote_host,リモートホスト
