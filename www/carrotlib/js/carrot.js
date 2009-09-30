@@ -58,6 +58,12 @@ function putSmartTag (tag, field, name, params) {
   }
 }
 
+// SafariのString.trim対応
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[ ]+|[ ]+$/g, '');
+  }
+}
 
 var actions = {
   onload: []
