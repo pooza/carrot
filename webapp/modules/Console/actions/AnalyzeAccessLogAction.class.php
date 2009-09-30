@@ -33,7 +33,7 @@ class AnalyzeAccessLogAction extends BSAction {
 					$network->getAttribute('broadcast')
 				);
 			}
-			$this->config['admin_networks'] = $networks->implode(' ');
+			$this->config['admin_networks'] = $networks->join(' ');
 
 			if (BS_AWSTATS_DAILY) {
 				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
