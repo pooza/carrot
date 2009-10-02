@@ -93,6 +93,16 @@ class BSValidateManager implements IteratorAggregate {
 	}
 
 	/**
+	 * バリデータをまとめて登録
+	 *
+	 * @access public
+	 * @param BSValidatable $container バリデータコンテナ
+	 */
+	public function registerContainer (BSValidatorContainer $container) {
+		$container->registerValidators();
+	}
+
+	/**
 	 * フィールド名を返す
 	 *
 	 * @access public

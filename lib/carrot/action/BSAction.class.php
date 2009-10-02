@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSAction implements BSHTTPRedirector, BSAssignable {
+abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorContainer {
 	private $name;
 	protected $title;
 	private $config;

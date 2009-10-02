@@ -20,18 +20,23 @@ class BSSmartyValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$file = BSFile::getTemporaryFile('.tpl');
-		$file->setContents($value);
+		$tempfile = BSFile::getTemporaryFile('.tpl');
+		if (is_array($value) && isset($value['is_file']) && !!$value['is_file']) {
+			$file = new BSFile($value['tmp_name']);
+			$tempfile->setContents($file->getContents());
+		} else {
+			$tempfile->setContents($value);
+		}
 
 		try {
 			$smarty = new BSSmarty;
-			$smarty->setTemplate($file);
+			$smarty->setTemplate($tempfile);
 			$smarty->getContents();
 		} catch (Exception $e) {
 			$this->error = $e->getMessage();
 		}
 
-		$file->delete();
+		$tempfile->delete();
 		return BSString::isBlank($this->error);
 	}
 }
