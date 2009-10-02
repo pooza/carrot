@@ -24,20 +24,18 @@ class BSExecutionFilter extends BSFilter {
 	 * @return string ビュー名、ビューが必要ない場合は空文字列
 	 */
 	private function executeAction () {
-		if (!$this->action->isExecutable()) {
+		if ($this->action->isExecutable()) {
+			if ($file = $this->action->getValidationFile()) {
+				require(BSConfigManager::getInstance()->compile($file));
+			}
+			$this->action->registerValidators();
+			if (!BSValidateManager::getInstance()->execute() || !$this->action->validate()) {
+				return $this->action->handleError();
+			}
+			return $this->action->execute();
+		} else {
 			return $this->action->getDefaultView();
 		}
-
-		if ($file = $this->action->getValidationFile()) {
-			require(BSConfigManager::getInstance()->compile($file));
-		}
-		$validators = BSValidateManager::getInstance();
-		$validators->registerContainer($this->action);
-
-		if (!$validators->execute() || !$this->action->validate()) {
-			return $this->action->handleError();
-		}
-		return $this->action->execute();
 	}
 
 	/**
