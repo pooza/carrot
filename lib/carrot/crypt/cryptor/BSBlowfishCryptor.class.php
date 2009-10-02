@@ -24,6 +24,34 @@ class BSBlowfishCryptor extends Crypt_Blowfish implements BSCryptor {
 	}
 
 	/**
+	 * 暗号化された文字列を返す
+	 *
+	 * @access public
+	 * @param string $value 対象文字列
+	 * @return string 暗号化された文字列
+	 */
+	public function encrypt ($value) {
+		if (BSString::isBlank($value)) {
+			return; // 空文字列をCrypt_Blowfishに渡すと、E_NOTICEが発生する。
+		}
+		return parent::encrypt($value);
+	}
+
+	/**
+	 * 複号化された文字列を返す
+	 *
+	 * @access public
+	 * @param string $value 対象文字列
+	 * @return string 複号化された文字列
+	 */
+	public function decrypt ($value) {
+		if (BSString::isBlank($value)) {
+			return; // 空文字列をCrypt_Blowfishに渡すと、E_NOTICEが発生する。
+		}
+		return parent::decrypt($value);
+	}
+
+	/**
 	 * ソルトを返す
 	 *
 	 * @access public
