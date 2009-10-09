@@ -11,17 +11,17 @@
  * @version $Id$
  */
 class BSModule implements BSHTTPRedirector, BSAssignable {
-	private $name;
-	private $title;
-	private $directories;
-	private $actions;
-	private $config = array();
-	private $configFiles;
-	private $prefix;
-	private $record;
-	private $table;
-	private $parameters;
-	private $recordClassName;
+	protected $name;
+	protected $title;
+	protected $directories;
+	protected $actions;
+	protected $config = array();
+	protected $configFiles;
+	protected $prefix;
+	protected $record;
+	protected $table;
+	protected $parameters;
+	protected $recordClassName;
 	static private $instances;
 	static private $prefixes = array();
 

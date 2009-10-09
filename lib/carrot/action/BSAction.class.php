@@ -12,11 +12,11 @@
  * @abstract
  */
 abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorContainer {
-	private $name;
+	protected $name;
 	protected $title;
-	private $config;
-	private $module;
-	private $methods;
+	protected $config;
+	protected $module;
+	protected $methods;
 
 	/**
 	 * @access public
