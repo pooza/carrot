@@ -28,7 +28,6 @@ class BSMail extends BSMIMEDocument {
 		$this->setHeader('Subject', 'untitled');
 		$this->setHeader('Content-Type', $renderer);
 		$this->setHeader('Content-Transfer-Encoding', $renderer);
-		$this->setHeader('Message-Id', null);
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', null);
@@ -39,6 +38,15 @@ class BSMail extends BSMIMEDocument {
 		if (BS_DEBUG) {
 			$this->setHeader('X-Carrot-Debug-Mode', 'yes');
 		}
+	}
+
+	/**
+	 * メッセージIDを更新
+	 *
+	 * @access public
+	 */
+	public function updateMessageID () {
+		$this->setHeader('Message-Id', null);
 	}
 
 	/**
