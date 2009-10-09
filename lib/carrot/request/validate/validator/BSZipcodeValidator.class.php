@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSZipcodeValidator extends BSValidator {
+	const PATTERN = '^([[:digit:]]{3})-([[:digit:]]{4})$';
 
 	/**
 	 * 対象文字列から郵便番号を返す
@@ -57,7 +58,7 @@ class BSZipcodeValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!$zipcode = $this->getZipcode($value)) {
+		if (!mb_ereg(self::PATTERN, $value) || (!$zipcode = $this->getZipcode($value))) {
 			$this->error = $this['invalid_error'];
 			return false;
 		}
