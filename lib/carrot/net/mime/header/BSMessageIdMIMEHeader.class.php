@@ -34,7 +34,7 @@ class BSMessageIdMIMEHeader extends BSMIMEHeader {
 			$this->id = sprintf(
 				'%s.%s@%s',
 				BSDate::getNow('YmdHis'),
-				BSNumeric::getRandom(),
+				BSUtility::getUniqueID(),
 				BS_SMTP_HOST
 			);
 		} else {
