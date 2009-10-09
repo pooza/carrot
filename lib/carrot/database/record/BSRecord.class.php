@@ -180,6 +180,16 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * 表示して良いか？
+	 *
+	 * @access public
+	 * @return boolean 表示して良いならTrue
+	 */
+	public function isVisible () {
+		return ($this['status'] == 'show');
+	}
+
+	/**
 	 * 生成元テーブルハンドラを返す
 	 *
 	 * @access public
