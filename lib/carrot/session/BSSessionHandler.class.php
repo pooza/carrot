@@ -24,6 +24,7 @@ class BSSessionHandler implements BSUserIdentifier {
 			$this->storage = new BSDefaultSessionStorage;
 			$this->storage->initialize();
 		}
+		session_cache_limiter('private_no_expire');
 		session_start();
 
 		if (BS_SESSION_REGENERATE_ID) {

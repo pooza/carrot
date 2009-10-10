@@ -21,6 +21,7 @@ class BSMobileSessionHandler extends BSSessionHandler {
 			$this->storage->initialize();
 		}
 		ini_set('session.use_only_cookies', 0);
+		session_cache_limiter('private_no_expire');
 		session_start();
 	}
 
