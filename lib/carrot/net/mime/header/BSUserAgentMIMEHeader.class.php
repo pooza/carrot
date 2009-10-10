@@ -5,22 +5,22 @@
  */
 
 /**
- * Hostヘッダ
+ * UserAgentヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSHostMIMEHeader extends BSMIMEHeader {
-	private $host;
+class BSUserAgentMIMEHeader extends BSMIMEHeader {
+	private $useragent;
 
 	/**
 	 * 実体を返す
 	 *
 	 * @access public
-	 * @return BSHost 実体
+	 * @return BSUserAgent 実体
 	 */
 	public function getEntity () {
-		return $this->host;
+		return $this->useragent;
 	}
 
 	/**
@@ -30,7 +30,7 @@ class BSHostMIMEHeader extends BSMIMEHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		if ($contents instanceof BSHost) {
+		if ($contents instanceof BSUserAgent) {
 			$contents = $contents->getName();
 		}
 		parent::setContents($contents);
@@ -44,7 +44,7 @@ class BSHostMIMEHeader extends BSMIMEHeader {
 	protected function parse () {
 		parent::parse();
 		try {
-			$this->host = new BSHost($this->contents);
+			$this->useragent = BSUserAgent::getInstance($this->contents);
 		} catch (BSNetException $e) {
 		}
 	}

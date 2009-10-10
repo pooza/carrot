@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSWebRequest extends BSRequest {
-	private $useragentReal;
 	static private $instance;
 
 	/**
@@ -181,13 +180,9 @@ class BSWebRequest extends BSRequest {
 	 * @return BSUserAgent リモートホストのUserAgent
 	 */
 	public function getRealUserAgent () {
-		if (!$this->useragentReal) {
-			$name = $this->controller->getEnvironment('USER-AGENT');
-			if (!$this->useragentReal = BSUserAgent::getInstance($name)) {
-				throw new BSUserAgentException('正しくないUserAgentです。');
-			}
+		if ($header = $this->getHeader('user-agent')) {
+			return $header->getEntity();
 		}
-		return $this->useragentReal;
 	}
 }
 
