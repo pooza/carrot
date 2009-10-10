@@ -68,19 +68,6 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * 内容を返す
-	 *
-	 * getAttributesのエイリアス
-	 *
-	 * @access public
-	 * @return BSArray 全属性値
-	 * @final
-	 */
-	final public function getContents () {
-		return $this->getAttributes();
-	}
-
-	/**
 	 * 抽出条件を返す
 	 *
 	 * @access public
@@ -206,7 +193,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return integer ID
 	 */
 	public function getID () {
-		return $this->getAttribute($this->getTable()->getKeyField());
+		return $this[$this->getTable()->getKeyField()];
 	}
 
 	/**
@@ -216,7 +203,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate () {
-		return BSDate::getInstance($this->getAttribute('update_date'));
+		return BSDate::getInstance($this['update_date']);
 	}
 
 	/**
@@ -226,7 +213,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 作成日
 	 */
 	public function getCreateDate () {
-		return BSDate::getInstance($this->getAttribute('create_date'));
+		return BSDate::getInstance($this['create_date']);
 	}
 
 	/**
@@ -240,7 +227,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		foreach (array('name', 'label', 'title') as $name) {
 			foreach (array('', '_' . $language) as $suffix) {
 				$name .= $suffix;
-				if (!BSString::isBlank($label = $this->getAttribute($name))) {
+				if (!BSString::isBlank($label = $this[$name])) {
 					return $label;
 				}
 			}
