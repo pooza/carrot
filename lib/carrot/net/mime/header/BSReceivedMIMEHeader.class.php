@@ -11,7 +11,16 @@
  * @version $Id$
  */
 class BSReceivedMIMEHeader extends BSMIMEHeader {
-	private $servers = array();
+	private $servers;
+
+	/**
+	 * @access public
+	 * @param BSMIMEDocument $part メールパート
+	 */
+	public function __construct (BSMIMEDocument $part = null) {
+		parent::__construct();
+		$this->servers = new BSArray;
+	}
 
 	/**
 	 * 実体を返す
@@ -20,7 +29,7 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 	 * @return mixed 実体
 	 */
 	public function getEntity () {
-		return new BSArray($this->servers);
+		return $this->servers;
 	}
 
 	/**
@@ -30,7 +39,7 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 	 * @return string 内容
 	 */
 	public function getContents () {
-		return $this->getEntity()->join("\n");
+		return $this->servers->join("\n");
 	}
 
 	/**
@@ -52,7 +61,7 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 	 */
 	public function appendContents ($contents) {
 		parent::appendContents($contents);
-		$this->servers[count($this->servers) - 1] = $this->contents;
+		$this->servers[] = $this->contents;
 	}
 
 	/**

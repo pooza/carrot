@@ -131,7 +131,7 @@ class BSMIMEHeader extends BSParameterHolder {
 	public function setContents ($contents) {
 		$contents = BSString::stripControlCharacters($contents);
 		$this->contents = BSMIMEUtility::decode($contents);
-		$this->parseParameters();
+		$this->parse();
 	}
 
 	/**
@@ -147,7 +147,7 @@ class BSMIMEHeader extends BSParameterHolder {
 			$contents = ' ' . $contents;
 		}
 		$this->contents .= $contents;
-		$this->parseParameters();
+		$this->parse();
 	}
 
 	/**
@@ -155,7 +155,7 @@ class BSMIMEHeader extends BSParameterHolder {
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters () {
+	protected function parse () {
 		foreach (BSString::explode(';', $this->contents) as $index => $param) {
 			if ($index == 0) {
 				$this[0] = trim($param);

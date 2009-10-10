@@ -41,8 +41,8 @@ class BSDateMIMEHeader extends BSMIMEHeader {
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters () {
-		parent::parseParameters();
+	protected function parse () {
+		parent::parse();
 		$this->date = BSDate::getInstance($this->contents);
 	}
 }

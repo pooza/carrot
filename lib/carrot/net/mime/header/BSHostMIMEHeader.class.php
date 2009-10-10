@@ -41,8 +41,8 @@ class BSHostMIMEHeader extends BSMIMEHeader {
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters () {
-		parent::parseParameters();
+	protected function parse () {
+		parent::parse();
 		try {
 			$this->host = new BSHost($this->contents);
 		} catch (BSNetException $e) {

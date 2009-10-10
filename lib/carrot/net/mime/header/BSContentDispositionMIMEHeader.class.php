@@ -17,8 +17,8 @@ class BSContentDispositionMIMEHeader extends BSMIMEHeader {
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters () {
-		parent::parseParameters();
+	protected function parse () {
+		parent::parse();
 		if ($this['filename'] && ($part = $this->getPart()) && !$part->getFileName()) {
 			$part->setFileName($this['filename']);
 		}

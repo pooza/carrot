@@ -32,8 +32,8 @@ class BSContentTypeMIMEHeader extends BSMIMEHeader {
 	 *
 	 * @access protected
 	 */
-	protected function parseParameters () {
-		parent::parseParameters();
+	protected function parse () {
+		parent::parse();
 		if ($this['boundary'] && $this->getPart()) {
 			$this->getPart()->setBoundary($this['boundary']);
 		}
