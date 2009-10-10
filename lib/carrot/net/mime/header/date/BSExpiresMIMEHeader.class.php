@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mime.header
+ * @subpackage net.mime.header.date
  */
 
 /**
