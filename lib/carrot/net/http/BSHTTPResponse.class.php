@@ -11,10 +11,10 @@
  * @version $Id$
  */
 class BSHTTPResponse extends BSMIMEDocument {
-	private $version;
-	private $status;
-	private $message;
-	private $url;
+	protected $version;
+	protected $status;
+	protected $message;
+	protected $url;
 	const STATUS_PATTERN = '^HTTP/([[:digit:]]+\\.[[:digit:]]+) ([[:digit:]]{3}) (.*)$';
 
 	/**
@@ -80,7 +80,11 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @return integer ステータスコード
 	 */
 	public function getStatus () {
-		return $this->status;
+		if ($header = $this->getStatus('status')) {
+			return $header['code'];
+		} else {
+			return $this->status;
+		}
 	}
 
 	/**
@@ -90,10 +94,8 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @param integer $code ステータスコード
 	 */
 	public function setStatus ($code) {
-		if ($status = BSHTTP::getStatus($code)) {
-			$this->status = $code;
-			$this->setHeader('Status', $status);
-		}
+		$this->status = $code;
+		$this->setHeader('status', $code);
 	}
 
 	/**

@@ -41,12 +41,8 @@ class BSBasicAuthFilter extends BSFilter {
 
 	public function execute () {
 		if (!$this->isAuthenticated()) {
-			$this->controller->setHeader(
-				'WWW-Authenticate',
-				sprintf('Basic realm=\'%s\'', $this['realm'])
-			);
-			$this->controller->setHeader('Status', BSHTTP::getStatus(401));
-			$this->controller->putHeaders();
+			BSView::putHeader('WWW-Authenticate: Basic realm=\'' . $this['realm'] . '\'');
+			BSView::putHeader('Status: ' . BSHTTP::getStatus(401));
 			return true;
 		}
 	}

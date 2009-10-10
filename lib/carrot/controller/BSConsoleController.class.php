@@ -14,9 +14,10 @@ class BSConsoleController extends BSController {
 	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
+		parent::__construct();
 		if (BSString::isBlank($this->request[self::MODULE_ACCESSOR])) {
 			$this->request[self::MODULE_ACCESSOR] = 'Console';
 		}

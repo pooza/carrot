@@ -76,25 +76,6 @@ class BSWebController extends BSController {
 		$this->setHeader('Location', $url->getContents());
 		return BSView::NONE;
 	}
-
-	/**
-	 * レスポンスヘッダを送信
-	 *
-	 * @access public
-	 */
-	public function putHeaders () {
-		if (headers_sent()) {
-			$this->putLog('レスポンスヘッダを送信できません。', $this);
-		}
-
-		if ($status = $this->getHeaders()->getParameter('Status')) {
-			header('HTTP/1.0 ' . $status);
-		}
-
-		foreach ($this->getHeaders() as $name => $value) {
-			header($name . ': ' . $value);
-		}
-	}	
 }
 
 /* vim:set tabstop=4: */

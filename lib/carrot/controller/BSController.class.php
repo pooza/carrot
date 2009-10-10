@@ -12,12 +12,19 @@
  * @abstract
  */
 abstract class BSController {
-	private $host;
-	private $headers;
-	private $actions;
+	protected $host;
+	protected $headers;
+	protected $actions;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
 	const ACTION_REGISTER_LIMIT = 20;
+
+	/**
+	 * @access protected
+	 */
+	protected function __construct () {
+		$this->headers = new BSArray;
+	}
 
 	/**
 	 * @access public
@@ -320,9 +327,6 @@ abstract class BSController {
 	 * @return BSArray レスポンスヘッダの配列
 	 */
 	public function getHeaders () {
-		if (!$this->headers) {
-			$this->headers = new BSArray;
-		}
 		return $this->headers;
 	}
 
@@ -334,18 +338,10 @@ abstract class BSController {
 	 * @param string $value フィールド値
 	 */
 	public function setHeader ($name, $value) {
-		$this->getHeaders()->setParameter(
+		$this->headers->setParameter(
 			BSString::stripControlCharacters($name),
 			BSString::stripControlCharacters($value)
 		);
-	}
-
-	/**
-	 * レスポンスヘッダを送信
-	 *
-	 * @access public
-	 */
-	public function putHeaders () {
 	}
 }
 
