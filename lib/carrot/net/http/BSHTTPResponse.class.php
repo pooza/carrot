@@ -15,6 +15,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	private $status;
 	private $message;
 	private $url;
+	const STATUS_PATTERN = '^HTTP/([[:digit:]]+\\.[[:digit:]]+) ([[:digit:]]{3}) (.*)$';
 
 	/**
 	 * 出力内容を設定
@@ -27,7 +28,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 		try {
 			$contents = BSString::explode("\n\n", $contents);
 			foreach ($contents as $index => $value) {
-				if (mb_ereg('^HTTP/', $value)) {
+				if (mb_ereg(self::STATUS_PATTERN, $value)) {
 					$this->parseHeaders($value);
 					$contents->removeParameter($index);
 				} else {
@@ -48,9 +49,8 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 */
 	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clear();
-		$pattern = '^HTTP/([[:digit:]]+\\.[[:digit:]]+) ([[:digit:]]{3}) (.*)$';
 		foreach (BSString::explode("\n", $headers) as $line) {
-			if (mb_ereg($pattern, $line, $matches)) {
+			if (mb_ereg(self::STATUS_PATTERN, $line, $matches)) {
 				$this->version = $matches[1];
 				$this->status = (int)$matches[2];
 				$this->message = $matches[3];
