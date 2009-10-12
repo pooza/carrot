@@ -9,7 +9,7 @@
  */
 class LoginAction extends BSAction {
 	public function execute () {
-		$this->user->addCredential('Admin');
+		$this->user->addCredential(BSAdministratorRole::CREDENTIAL);
 		if (BS_DEBUG) {
 			$this->user->addCredential('Develop');
 		}
