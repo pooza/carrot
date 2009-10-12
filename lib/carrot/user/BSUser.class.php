@@ -246,6 +246,26 @@ class BSUser extends BSParameterHolder {
 	public function hasCredential ($name) {
 		return BSString::isBlank($name) || $this->credentials[$name];
 	}
+
+	/**
+	 * 管理者権限を持っているか？
+	 *
+	 * @access public
+	 * @return boolean 持っていればTrue
+	 */
+	public function isAdministrator () {
+		return $this->hasCredential(BSAdministratorRole::CREDENTIAL);
+	}
+
+	/**
+	 * 発行者権限を持っているか？
+	 *
+	 * @access public
+	 * @return boolean 持っていればTrue
+	 */
+	public function isAuthor () {
+		return $this->hasCredential(BSAuthorRole::CREDENTIAL);
+	}
 }
 
 /* vim:set tabstop=4: */

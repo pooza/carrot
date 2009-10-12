@@ -13,6 +13,7 @@
 class BSAdministratorRole implements BSRole {
 	private $networks;
 	static private $instance;
+	const CREDENTIAL = 'Admin';
 
 	/**
 	 * @access private

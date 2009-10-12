@@ -12,6 +12,7 @@
  */
 class BSAuthorRole implements BSRole {
 	static private $instance;
+	const CREDENTIAL = 'Author';
 
 	/**
 	 * @access private

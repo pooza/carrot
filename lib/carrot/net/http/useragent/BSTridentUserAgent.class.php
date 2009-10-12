@@ -20,6 +20,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
+		$this->bugs['cache_control'] = true;
 		$this->attributes['is_ie' . floor($this->getVersion())] = true;
 	}
 

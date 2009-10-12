@@ -98,6 +98,10 @@ class BSImageCacheHandler {
 			return null;
 		}
 
+		if (BSUser::getInstance()->isAdministrator()) {
+			$flags += self::WITHOUT_BROWSER_CACHE;
+		}
+
 		$url = BSURL::getInstance();
 		$url['path'] = sprintf(
 			'/carrotlib/images/cache/%s/%s',

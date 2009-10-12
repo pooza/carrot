@@ -172,12 +172,36 @@ class BSView extends BSHTTPResponse {
 			$this->setHeader($key, $value);
 		}
 
+		$this->setCacheControl(false);
+		if (!BSUser::getInstance()->isAdministrator()) {
+			$this->setCacheControl(true);
+		} else if (BSRequest::getInstance()->getUserAgent()->hasBug('cache_control')) {
+			if (BSRequest::getInstance()->isSSL() || !$view->isHTML()) {
+				$this->setCacheControl(true);
+			}
+		}
+
 		if ($header = $this->getHeader('status')) {
 			self::putHeader('HTTP/' . $this->getVersion() . ' ' . $header->getContents());
 		}
-
 		foreach ($this->getHeaders() as $name => $header) {
 			self::putHeader($header->format());
+		}
+	}
+
+	/**
+	 * キャッシュ制御を設定
+	 *
+	 * @access public
+	 * @param Boolean $mode キャッシュONならTrue
+	 */
+	public function setCacheControl ($mode) {
+		if (!!$mode) {
+			$this->setHeader('Cache-Control', 'private');
+			$this->setHeader('Pragma', 'private');
+		} else {
+			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
+			$this->setHeader('Pragma', 'no-cache');
 		}
 	}
 
