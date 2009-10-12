@@ -128,7 +128,12 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	private function getObjectElement (BSParameterHolder $params) {
-		$href = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+		$url = BSURL::getInstance();
+		$url['path'] = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+		if (BSUser::getInstance()->isAdministrator()) {
+			$url->setParameter('at', BSNumeric::getRandom());
+		}
+		$href = $url->getFullPath();
 
 		$element = new BSXMLElement('object');
 		$element->setAttribute('width', $this['width']);
