@@ -176,6 +176,16 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	public function auth ($password = null) {
 		return $this->getUserID() && ($this === BSRequest::getInstance()->getUserAgent());
 	}
+
+	/**
+	 * 認証時に与えられるクレデンシャルを返す
+	 *
+	 * @access public
+	 * @return BSArray クレデンシャルの配列
+	 */
+	public function getCredentials () {
+		return new BSArray;
+	}
 }
 
 /* vim:set tabstop=4: */

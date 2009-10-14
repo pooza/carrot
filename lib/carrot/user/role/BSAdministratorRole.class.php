@@ -12,6 +12,7 @@
  */
 class BSAdministratorRole implements BSRole {
 	private $networks;
+	private $credentials;
 	static private $instance;
 	const CREDENTIAL = 'Admin';
 
@@ -128,6 +129,23 @@ class BSAdministratorRole implements BSRole {
 		return !BSString::isBlank(BS_ADMIN_PASSWORD)
 			&& !BSString::isBlank($password)
 			&& BSCrypt::getInstance()->auth(BS_ADMIN_PASSWORD, $password);
+	}
+
+	/**
+	 * 認証時に与えられるクレデンシャルを返す
+	 *
+	 * @access public
+	 * @return BSArray クレデンシャルの配列
+	 */
+	public function getCredentials () {
+		if (!$this->credentials) {
+			$this->credentials = new BSArray;
+			$this->credentials[] = self::CREDENTIAL;
+			if (BS_DEBUG) {
+				$this->credentials[] = 'Develop';
+			}
+		}
+		return $this->credentials;
 	}
 }
 

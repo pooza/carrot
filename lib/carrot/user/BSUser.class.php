@@ -184,6 +184,9 @@ class BSUser extends BSParameterHolder {
 
 		$this->id = $identifier->getID();
 		$this->getSession()->write(__CLASS__, $this->id);
+		foreach ($identifier->getCredentials() as $credential) {
+			$this->addCredential($credential);
+		}
 		return true;
 	}
 

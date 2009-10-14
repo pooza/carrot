@@ -28,6 +28,14 @@ interface BSUserIdentifier {
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null);
+
+	/**
+	 * 認証時に与えられるクレデンシャルを返す
+	 *
+	 * @access public
+	 * @return BSArray クレデンシャルの配列
+	 */
+	public function getCredentials ();
 }
 
 /* vim:set tabstop=4: */
