@@ -176,7 +176,7 @@ class BSView extends BSHTTPResponse {
 		if (!BSUser::getInstance()->isAdministrator()) {
 			$this->setCacheControl(true);
 		} else if (BSRequest::getInstance()->getUserAgent()->hasBug('cache_control')) {
-			if (BSRequest::getInstance()->isSSL() || !$view->isHTML()) {
+			if (BSRequest::getInstance()->isSSL() || !$this->isHTML()) {
 				$this->setCacheControl(true);
 			}
 		}

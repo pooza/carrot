@@ -80,7 +80,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @return integer ステータスコード
 	 */
 	public function getStatus () {
-		if ($header = $this->getStatus('status')) {
+		if ($header = $this->getHeader('status')) {
 			return $header['code'];
 		} else {
 			return $this->status;
