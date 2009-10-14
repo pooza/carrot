@@ -80,8 +80,8 @@ class BSWebRequest extends BSRequest {
 			foreach ($this->getHeaders() as $header) {
 				$contents[] = $header->getName() . ': ' . $header->getContents();
 			}
-			$this->contents[] = null;
-			$this->contents[] = $this->getBody();
+			$contents[] = null;
+			$contents[] = $this->getBody();
 			$this->contents = $contents->join(self::LINE_SEPARATOR);
 		}
 		return $this->contents;
