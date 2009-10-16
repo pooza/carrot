@@ -8,8 +8,8 @@
  * @version $Id$
  */
 class AnalyzeAccessLogAction extends BSAction {
-	private $config;
-	private $prev;
+	protected $config;
+	protected $prev;
 
 	/**
 	 * 設定値を返す
