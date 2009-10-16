@@ -65,6 +65,19 @@ if (!String.prototype.trim) {
   }
 }
 
+// ゼロサプレス
+if (!Number.prototype.suppressZero) {
+  Number.prototype.suppressZero = function (n) {
+    var str = '';
+    var zerolen = n - ('' + this).length;
+    for (var i = 0 ; i < zerolen ; i ++) {
+      str += '0';
+    }
+    str += this;
+    return str;
+  }
+}
+
 var actions = {
   onload: []
 };
