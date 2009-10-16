@@ -4,7 +4,6 @@
  * @subpackage file
  */
 
-// MacOSのテキストファイル（CR改行）対応
 ini_set('auto_detect_line_endings', true);
 
 /**
@@ -388,24 +387,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function __toString () {
 		return sprintf('ファイル "%s"', $this->getShortPath());
-	}
-
-	/**
-	 * 一時ファイルを生成して返す
-	 *
-	 * @access public
-	 * @param string $suffix 拡張子
-	 * @param string $class クラス名
-	 * @return BSFile 一時ファイル
-	 * @static
-	 */
-	static public function getTemporaryFile ($suffix = null, $class = 'BSFile') {
-		$dir = BSController::getInstance()->getDirectory('tmp');
-		$name = BSUtility::getUniqueID() . $suffix;
-		if (!$file = $dir->createEntry($name, $class)) {
-			throw new BSFileException('一時ファイルが生成できません。');
-		}
-		return $file;
 	}
 }
 

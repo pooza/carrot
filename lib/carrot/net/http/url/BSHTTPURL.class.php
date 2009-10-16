@@ -224,7 +224,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 				return null;
 			}
 
-			$file = BSFile::getTemporaryFile('.png', 'BSImageFile');
+			$file = BSFileUtility::getTemporaryFile('.png', 'BSImageFile');
 			$file->setEngine($favicon);
 			$file->save();
 			$file->setName($name);

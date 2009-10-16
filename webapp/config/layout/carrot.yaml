@@ -38,6 +38,8 @@ dump:
 favicon:
   parent: var
   suffix: .png
+ffmpeg:
+  constant: yes
 font:
   parent: share
   suffix: .ttf
@@ -64,6 +66,9 @@ menu:
   parent: config
 modules:
   parent: webapp
+movies:
+  parent: carrotlib
+  suffix: .flv
 mysql:
   constant: yes
 pictogram:

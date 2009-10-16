@@ -32,7 +32,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$this->file = BSFile::getTemporaryFile('.csv');
+			$this->file = BSFileUtility::getTemporaryFile('.csv');
 		}
 		return $this->file;
 	}

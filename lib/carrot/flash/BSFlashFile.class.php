@@ -63,7 +63,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	public function getImageElement (BSParameterHolder $params) {
-		foreach (array('href_prefix', 'player_ver', 'installer_path') as $key) {
+		foreach (array('href_prefix', 'player_ver', 'installer_href') as $key) {
 			if (BSString::isBlank($params[$key])) {
 				$params[$key] = BSController::getInstance()->getConstant('flash_' . $key);
 			}

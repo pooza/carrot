@@ -14,5 +14,6 @@ carrot:
     - protocalendar/lang_ja
     - usermenu
     - elevator
+    - flowplayer-3.1.4.min
     - carrot
     - application

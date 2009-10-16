@@ -27,33 +27,7 @@ class BSFlashUtility {
 	 * @static
 	 */
 	static public function getFile ($file) {
-		if ($file instanceof BSFile) {
-			return new BSFlashFile($file->getPath());
-		}
-		if (BSArray::isArray($file)) {
-			$params = new BSArray($file);
-			if ($path = $params['src']) {
-				return self::getFile($path);
-			}
-			$module = BSController::getInstance()->getModule();
-			if ($record = $module->searchRecord($params)) {
-				if ($file = $record->getAttachment($params['size'])) {
-					return self::getFile($file);
-				}
-			}
-			return null;
-		} 
-
-		if (BSUtility::isPathAbsolute($path = $file)) {
-			return new BSFlashFile($path);
-		} else {
-			foreach (array('carrotlib', 'www', 'root') as $dir) {
-				$dir = BSController::getInstance()->getDirectory($dir);
-				if ($entry = $dir->getEntry($path, 'BSFlashFile')) {
-					return $entry;
-				}
-			}
-		}
+		return BSFileUtility::search($file, 'BSFlashFile');
 	}
 }
 

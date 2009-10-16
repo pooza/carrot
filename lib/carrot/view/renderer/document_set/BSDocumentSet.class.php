@@ -184,7 +184,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 */
 	public function getType () {
 		if (!$this->type) {
-			$file = BSFile::getTemporaryFile(null, $this->getDocumentClassName());
+			$file = BSFileUtility::getTemporaryFile(null, $this->getDocumentClassName());
 			$this->type = $file->getType();
 			$file->delete();
 		}

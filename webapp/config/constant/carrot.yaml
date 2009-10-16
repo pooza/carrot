@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.2.55
+  ver: 2.2.56
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -40,10 +40,12 @@ date:
 debug: yes
 feed:
   class: BSRSS20Document
+ffmpeg:
+  dir: /usr/local
 flash:
   href_prefix: /carrotlib/swf/
   player_ver: 8.0.0
-  installer_path: /carrotlib/swf/expressInstall.swf
+  installer_href: /carrotlib/swf/expressInstall.swf
 home:
   href: /index.html
 image:
@@ -91,6 +93,12 @@ module:
   secure:
     module: Default
     action: NotFound
+movie:
+  href_prefix: /carrotlib/movies/
+  video_codec: flv
+  audio_codec: libfaac
+  player_height: 24
+  player_href: /carrotlib/swf/flowplayer-3.1.4.swf
 mysql:
   dir: /usr/local
 net:

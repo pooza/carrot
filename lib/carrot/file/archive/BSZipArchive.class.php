@@ -23,9 +23,6 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 		if ($this->opened) {
 			$this->close();
 		}
-		if ($this->getFile() && $this->temporaryFile) {
-			$this->getFile()->delete();
-		}
 	}
 
 	/**
@@ -100,7 +97,7 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	public function getFile () {
 		if (!$this->file) {
 			$this->temporaryFile = true;
-			$this->file = BSFile::getTemporaryFile('.zip');
+			$this->file = BSFileUtility::getTemporaryFile('.zip');
 		}
 		return $this->file;
 	}

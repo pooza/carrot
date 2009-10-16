@@ -105,8 +105,9 @@ class BSCommandLine extends BSParameterHolder {
 	 * @access public
 	 */
 	public function execute () {
-		exec($this->getContents(), $this->result, $this->returnCode);
+		exec($this->getContents(), $result, $this->returnCode);
 		$this->executed = true;
+		$this->result = new BSArray($result);
 
 		if ($seconds = $this->sleepSeconds) {
 			sleep($seconds);

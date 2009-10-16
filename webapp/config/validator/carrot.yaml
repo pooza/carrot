@@ -65,10 +65,17 @@ image:
       - image/png
 kana:
   class: BSKanaValidator
+largefile:
+  class: BSFileValidator
+  params:
+    size: 16
+    suffixes: attachable
 longtext:
   class: BSStringValidator
   params:
     max: 65536
+movie:
+  class: BSMovieValidator
 number:
   class: BSNumberValidator
 password:
@@ -78,8 +85,6 @@ pixel:
   params:
     min: 8
     max: 1024
-smarty:
-  class: BSSmartyValidator
 string:
   class: BSStringValidator
   params:
