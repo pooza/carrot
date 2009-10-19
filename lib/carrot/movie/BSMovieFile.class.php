@@ -209,13 +209,17 @@ class BSMovieFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	private function getScriptElement (BSParameterHolder $params) {
+		$url = BSURL::getInstance();
+		$url['path'] = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+		if (BSUser::getInstance()->isAdministrator()) {
+			$url->setParameter('at', BSNumeric::getRandom());
+		}
+
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
 		$body[] = BSJavaScriptUtility::quote($this->getContainerID());
 		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_PLAYER_HREF);
-		$body[] = BSJavaScriptUtility::quote(
-			$params['href_prefix'] . $this->getName() . $params['href_suffix']
-		);
+		$body[] = BSJavaScriptUtility::quote($url->getFullPath());
 		$element->setBody($body->getContents());
 		return $element;
 	}
