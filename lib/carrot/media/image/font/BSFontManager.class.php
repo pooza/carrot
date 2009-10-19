@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage image.font
+ * @subpackage media.image.font
  */
 
 /**

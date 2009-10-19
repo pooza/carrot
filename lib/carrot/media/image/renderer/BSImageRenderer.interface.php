@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage image.renderer
+ * @subpackage media.image.renderer
  */
 
 /**

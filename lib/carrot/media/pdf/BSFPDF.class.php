@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage pdf
+ * @subpackage media.pdf
  */
 
 BSUtility::includeFile('fpdf/fpdf.php');
