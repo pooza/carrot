@@ -86,8 +86,8 @@ class BSMovieFile extends BSMediaFile {
 
 		$style = $this->getPixelSizeCSSSelector($params);
 		$element->setAttribute('style', $style->getContents());
-		if ($innerDiv = $element->getElement('div')) {
-			$innerDiv->setAttribute('style', $style->getContents());
+		if ($inner = $element->getElement('div')) { //Gecko対応
+			$inner->setAttribute('style', $style->getContents());
 		}
 		return $element;
 	}

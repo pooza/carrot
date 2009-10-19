@@ -65,12 +65,12 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	public function getImageElement (BSParameterHolder $params) {
-		$style = $this->getPixelSizeCSSSelector($params);
 		$root = new BSXMLElement('div');
 		if (!BSString::isBlank($params['style_class'])) {
 			$root->setAttribute('class', $params['style_class']);
 		}
 		if ($params['mode'] == 'noscript') {
+			$style = $this->getPixelSizeCSSSelector($params);
 			$root->setAttribute('style', $style->getContents());
 			$root->addElement($this->getObjectElement($params));
 		} else {
