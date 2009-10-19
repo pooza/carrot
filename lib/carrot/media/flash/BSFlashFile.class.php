@@ -77,9 +77,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @return BSXMLElement 要素
 	 */
 	protected function getObjectElement (BSParameterHolder $params) {
-		return BSFlashUtility::getObjectElement(
-			$this->getMediaURL($params)->getContents()
-		);
+		return BSFlashUtility::getObjectElement($this->getMediaURL($params));
 	}
 
 	/**
