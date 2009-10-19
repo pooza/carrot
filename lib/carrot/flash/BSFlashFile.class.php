@@ -69,16 +69,15 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			}
 		}
 
-		$style = new BSCSSSelector;
-		$style['width'] = $this['width'] . 'px';
-		$style['height'] = $this['height'] . 'px';
-
 		$root = new BSXMLElement('div');
-		$root->setAttribute('style', $style->getContents());
 		if (!BSString::isBlank($params['style_class'])) {
 			$root->setAttribute('class', $params['style_class']);
 		}
 		if ($params['mode'] == 'noscript') {
+			$style = new BSCSSSelector;
+			$style['width'] = $this['width'] . 'px';
+			$style['height'] = $this['height'] . 'px';
+			$root->setAttribute('style', $style->getContents());
 			$root->addElement($this->getObjectElement($params));
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
