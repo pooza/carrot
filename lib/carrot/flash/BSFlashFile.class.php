@@ -108,11 +108,12 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	private function getScriptElement (BSParameterHolder $params) {
+		$url = BSURL::getInstance();
+		$url['path'] = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = BSJavaScriptUtility::quote(
-			$params['href_prefix'] . $this->getName() . $params['href_suffix']
-		);
+		$body[] = BSJavaScriptUtility::quote($url->getFullPath());
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
