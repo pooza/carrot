@@ -69,14 +69,12 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			}
 		}
 
+		$style = $this->getPixelSizeCSSSelector($params);
 		$root = new BSXMLElement('div');
 		if (!BSString::isBlank($params['style_class'])) {
 			$root->setAttribute('class', $params['style_class']);
 		}
 		if ($params['mode'] == 'noscript') {
-			$style = new BSCSSSelector;
-			$style['width'] = $this['width'] . 'px';
-			$style['height'] = $this['height'] . 'px';
 			$root->setAttribute('style', $style->getContents());
 			$root->addElement($this->getObjectElement($params));
 		} else {
@@ -88,6 +86,28 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 			$root->addElement($this->getScriptElement($params));
 		}
 		return $root;
+	}
+
+	/**
+	 * スタイル属性を返す
+	 *
+	 * @access private
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSCSSSelector スタイル属性
+	 */
+	private function getPixelSizeCSSSelector (BSParameterHolder $params) {
+		$style = new BSCSSSelector;
+		if ($params['width']) {
+			$style['width'] = $params['width'] . 'px';
+		} else {
+			$style['width'] = $this['width'] . 'px';
+		}
+		if ($params['height']) {
+			$style['height'] = $params['height'] . 'px';
+		} else {
+			$style['height'] = $this['height'] . 'px';
+		}
+		return $style;
 	}
 
 	/**
@@ -113,7 +133,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = BSJavaScriptUtility::quote($url->getFullPath());
+		$body[] = BSJavaScriptUtility::quote($url->getContents());
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
@@ -138,21 +158,7 @@ class BSFlashFile extends BSFile implements ArrayAccess {
 		if (BSUser::getInstance()->isAdministrator()) {
 			$url->setParameter('at', BSNumeric::getRandom());
 		}
-		$href = $url->getFullPath();
-
-		$element = new BSXMLElement('object');
-		$element->setAttribute('width', $this['width']);
-		$element->setAttribute('height', $this['height']);
-		$element->setAttribute('type', $this->getType());
-		$element->setAttribute('data', $href);
-		$param = $element->createElement('param');
-		$param->setAttribute('name', 'movie');
-		$param->setAttribute('value', $href);
-		$param = $element->createElement('param');
-		$param->setAttribute('name', 'wmode');
-		$param->setAttribute('value', 'transparent');
-		$element->createElement('p', 'Flash Player ' . BS_FLASH_PLAYER_VER . ' 以上が必要です。');
-		return $element;
+		return BSFlashUtility::getObjectElement($url);
 	}
 
 	/**

@@ -155,17 +155,23 @@ class BSMovieFile extends BSFile implements ArrayAccess {
 		$style = $this->getPixelSizeCSSSelector($params);
 
 		$root = new BSXMLElement('div');
-		$root->setAttribute('style', $style->getContents()); //Gecko対応
+		$root->setAttribute('style', $style->getContents());
 		if (!BSString::isBlank($params['style_class'])) {
 			$root->setAttribute('class', $params['style_class']);
 		}
 
-		$container = $root->createElement('div');
-		$container->setAttribute('id', $this->getContainerID());
-		$container->getBody('Loading...');
-		$container->setAttribute('style', $style->getContents());
-
-		$root->addElement($this->getScriptElement($params));
+		if ($params['mode'] == 'noscript') {
+			$root->setAttribute('style', $style->getContents());
+			$root->addElement($this->getObjectElement($params));
+		} else {
+			if (BSString::isBlank($params['container_id'])) {
+				$params['container_id'] = $this->getContainerID();
+				$container = $root->createElement('div');
+				$container->setAttribute('id', $params['container_id']);
+				$container->setAttribute('style', $style->getContents());
+			}
+			$root->addElement($this->getScriptElement($params));
+		}
 		return $root;
 	}
 
@@ -217,10 +223,36 @@ class BSMovieFile extends BSFile implements ArrayAccess {
 
 		$element = BSJavaScriptUtility::getScriptElement();
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
-		$body[] = BSJavaScriptUtility::quote($this->getContainerID());
+		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_PLAYER_HREF);
 		$body[] = BSJavaScriptUtility::quote($url->getFullPath());
 		$element->setBody($body->getContents());
+		return $element;
+	}
+
+	/**
+	 * object要素を返す
+	 *
+	 * @access private
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSXMLElement 要素
+	 */
+	private function getObjectElement (BSParameterHolder $params) {
+		$url = BSURL::getInstance();
+		$url['path'] = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+		if (BSUser::getInstance()->isAdministrator()) {
+			$url->setParameter('at', BSNumeric::getRandom());
+		}
+
+		$element = BSFlashUtility::getObjectElement(
+			BSURL::getInstance()->setAttribute('path', BS_MOVIE_PLAYER_HREF)
+		);
+		$config = array(
+			'clip' => array('url' => $url->getContents()),
+		);
+		$param = $element->createElement('param');
+		$param->setAttribute('name', 'flashvars');
+		$param->setAttribute('value', 'config=' . BSJavaScriptUtility::quote($config));
 		return $element;
 	}
 
