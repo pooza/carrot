@@ -152,12 +152,10 @@ class BSMovieFile extends BSFile implements ArrayAccess {
 	 * @return BSXMLElement 要素
 	 */
 	public function getImageElement (BSParameterHolder $params) {
-		$style = new BSCSSSelector;
-		$style['width'] = $this['width'] . 'px';
-		$style['height'] = $this['height_full'] . 'px';
+		$style = $this->getPixelSizeCSSSelector($params);
 
 		$root = new BSXMLElement('div');
-		$root->setAttribute('style', $style->getContents());
+		$root->setAttribute('style', $style->getContents()); //Gecko対応
 		if (!BSString::isBlank($params['style_class'])) {
 			$root->setAttribute('class', $params['style_class']);
 		}
@@ -169,6 +167,28 @@ class BSMovieFile extends BSFile implements ArrayAccess {
 
 		$root->addElement($this->getScriptElement($params));
 		return $root;
+	}
+
+	/**
+	 * スタイル属性を返す
+	 *
+	 * @access private
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSCSSSelector スタイル属性
+	 */
+	private function getPixelSizeCSSSelector (BSParameterHolder $params) {
+		$style = new BSCSSSelector;
+		if ($params['width']) {
+			$style['width'] = $params['width'] . 'px';
+		} else {
+			$style['width'] = $this['width'] . 'px';
+		}
+		if ($params['height']) {
+			$style['height'] = $params['height'] . 'px';
+		} else {
+			$style['height'] = $this['height_full'] . 'px';
+		}
+		return $style;
 	}
 
 	/**

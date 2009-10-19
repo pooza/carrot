@@ -8,8 +8,8 @@
  * @version $Id$
  */
 class AnalyzeAccessLogAction extends BSAction {
-	protected $config;
-	protected $prev;
+	protected $awstatsConfig;
+	private $prev;
 
 	/**
 	 * 設定値を返す
@@ -18,12 +18,12 @@ class AnalyzeAccessLogAction extends BSAction {
 	 * @return BSArray 設定値
 	 */
 	private function getAWStatsConfig () {
-		if (!$this->config) {
-			$this->config = new BSArray;
-			$this->config['server_name'] = $this->controller->getHost()->getName();
-			$this->config['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
-			$this->config['awstat_data_dir'] = $this->controller->getPath('awstats_data');
-			$this->config['awstat_dir'] = $this->controller->getPath('awstats');
+		if (!$this->awstatsConfig) {
+			$this->awstatsConfig = new BSArray;
+			$this->awstatsConfig['server_name'] = $this->controller->getHost()->getName();
+			$this->awstatsConfig['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
+			$this->awstatsConfig['awstat_data_dir'] = $this->controller->getPath('awstats_data');
+			$this->awstatsConfig['awstat_dir'] = $this->controller->getPath('awstats');
 
 			$networks = new BSArray;
 			foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
@@ -33,16 +33,16 @@ class AnalyzeAccessLogAction extends BSAction {
 					$network->getAttribute('broadcast')
 				);
 			}
-			$this->config['admin_networks'] = $networks->join(' ');
+			$this->awstatsConfig['admin_networks'] = $networks->join(' ');
 
 			if (BS_AWSTATS_DAILY) {
-				$this->config['logfile'] = BS_AWSTATS_LOG_DIR
+				$this->awstatsConfig['logfile'] = BS_AWSTATS_LOG_DIR
 					. '/%YYYY/%MM/access_%YYYY%MM%DD.log';
 			} else {
-				$this->config['logfile'] = BS_AWSTATS_LOG_FILE;
+				$this->awstatsConfig['logfile'] = BS_AWSTATS_LOG_FILE;
 			}
 		}
-		return $this->config;
+		return $this->awstatsConfig;
 	}
 
 	/**
