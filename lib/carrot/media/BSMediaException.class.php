@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage media.flash
+ * @subpackage media
  */
 
 /**
- * Flash例外
+ * メディア例外
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFlashException extends BSException {
+class BSMediaException extends BSException {
 }
 
 /* vim:set tabstop=4: */

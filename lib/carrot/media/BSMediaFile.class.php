@@ -202,7 +202,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param mixed 要素
 	 */
 	public function offsetSet ($key, $value) {
-		throw new BSFlashException($this . 'の属性を設定できません。');
+		throw new BSMediaException($this . 'の属性を設定できません。');
 	}
 
 	/**
@@ -212,7 +212,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param string $key 添え字
 	 */
 	public function offsetUnset ($key) {
-		throw new BSFlashException($this . 'の属性を削除できません。');
+		throw new BSMediaException($this . 'の属性を削除できません。');
 	}
 
 	/**
@@ -230,12 +230,12 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		if (BSArray::isArray($file)) {
 			$params = new BSArray($file);
 			if ($path = $params['src']) {
-				return self::search($path, $class);
+				return new $class($path);
 			}
 			$module = BSController::getInstance()->getModule();
 			if ($record = $module->searchRecord($params)) {
-				if ($file = $record->getAttachment($params['size'])) {
-					return self::search($file, $class);
+				if ($attachment = $record->getAttachment($params['size'])) {
+					return new $class($attachment->getPath());
 				}
 			}
 			return null;

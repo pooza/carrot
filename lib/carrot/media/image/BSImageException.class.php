@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSImageException extends BSException {
+class BSImageException extends BSMediaException {
 }
 
 /* vim:set tabstop=4: */

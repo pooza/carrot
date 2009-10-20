@@ -20,7 +20,7 @@ class BSFlashFile extends BSMediaFile {
 	protected function analize () {
 		$info = getimagesize($this->getPath());
 		if (!$info || ($info['mime'] != BSMIMEType::getType('swf'))) {
-			throw new BSFlashException($this . 'はFlashムービーではありません。');
+			throw new BSMediaException($this . 'はFlashムービーではありません。');
 		}
 		$this->attributes['path'] = $this->getPath();
 		$this->attributes['width'] = $info[0];
