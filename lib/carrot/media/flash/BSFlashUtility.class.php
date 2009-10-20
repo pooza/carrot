@@ -56,7 +56,7 @@ class BSFlashUtility {
 	 * @static
 	 */
 	static public function getFile ($file) {
-		return BSFileUtility::search($file, 'BSFlashFile');
+		return BSMediaFile::search($file, 'BSFlashFile');
 	}
 }
 

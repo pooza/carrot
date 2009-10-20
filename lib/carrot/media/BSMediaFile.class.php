@@ -214,6 +214,44 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	public function offsetUnset ($key) {
 		throw new BSFlashException($this . 'の属性を削除できません。');
 	}
+
+	/**
+	 * 探す
+	 *
+	 * @access public
+	 * @param mixed パラメータ配列、BSFile、ファイルパス文字列
+	 * @return BSFile ファイル
+	 * @static
+	 */
+	static public function search ($file, $class = 'BSFile') {
+		if ($file instanceof BSFile) {
+			return new $class($file->getPath());
+		}
+		if (BSArray::isArray($file)) {
+			$params = new BSArray($file);
+			if ($path = $params['src']) {
+				return self::search($path, $class);
+			}
+			$module = BSController::getInstance()->getModule();
+			if ($record = $module->searchRecord($params)) {
+				if ($file = $record->getAttachment($params['size'])) {
+					return self::search($file, $class);
+				}
+			}
+			return null;
+		} 
+
+		if (BSUtility::isPathAbsolute($path = $file)) {
+			return new BSMovieFile($path);
+		} else {
+			foreach (array('carrotlib', 'www', 'root') as $dir) {
+				$dir = BSController::getInstance()->getDirectory($dir);
+				if ($entry = $dir->getEntry($path, $class)) {
+					return $entry;
+				}
+			}
+		}
+	}
 }
 
 /* vim:set tabstop=4: */

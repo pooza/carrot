@@ -65,7 +65,7 @@ class BSMovieUtility {
 	 * @static
 	 */
 	static public function getFile ($file) {
-		return BSFileUtility::search($file, 'BSMovieFile');
+		return BSMediaFile::search($file, 'BSMovieFile');
 	}
 }
 
