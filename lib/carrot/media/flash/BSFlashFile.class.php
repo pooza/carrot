@@ -17,7 +17,7 @@ class BSFlashFile extends BSMediaFile {
 	 *
 	 * @access protected
 	 */
-	protected function analize () {
+	protected function analyze () {
 		$info = getimagesize($this->getPath());
 		if (!$info || ($info['mime'] != BSMIMEType::getType('swf'))) {
 			throw new BSMediaException($this . 'はFlashムービーではありません。');

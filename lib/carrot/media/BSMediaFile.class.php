@@ -34,7 +34,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	public function getAttributes () {
 		if (!$this->attributes) {
 			$this->attributes = new BSArray;
-			$this->analize();
+			$this->analyze();
 		}
 		return $this->attributes;
 	}
@@ -45,7 +45,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @access protected
 	 * @abstract
 	 */
-	abstract protected function analize ();
+	abstract protected function analyze ();
 
 	/**
 	 * メディアタイプを返す
