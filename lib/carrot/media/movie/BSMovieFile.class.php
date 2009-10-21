@@ -33,14 +33,24 @@ class BSMovieFile extends BSMediaFile {
 			$sec = BSString::explode(':', $matches[1]);
 			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
-		if (mb_ereg(' ([[:digit:]]{,4})x([[:digit:]]{,4}),', $this->output, $matches)) {
+		if (mb_ereg(' ([[:digit:]]{,4})x([[:digit:]]{,4})', $this->output, $matches)) {
 			$this->attributes['width'] = $matches[1];
 			$this->attributes['height'] = $matches[2];
 			$this->attributes['height_full'] = $matches[2] + BS_MOVIE_PLAYER_HEIGHT;
 			$this->attributes['pixel_size'] = $matches[1] . '×' . $matches[2];
 		}
-		if (mb_ereg(' Video: ([[:alnum:]]+)', $this->output, $matches)) {
-			$this->attributes['type'] = BSMovieUtility::getType($matches[1]);
+
+		$patterns = new BSArray(array(
+			'Input #[[:digit:]]+, ([[:alnum:]]+),',
+			'Video: ([[:alnum:]]+)',
+		));
+		foreach ($patterns as $pattern) {
+			if (mb_ereg($pattern, $this->output, $matches)) {
+				if (!BSString::isBlank($type = BSMovieUtility::getType($matches[1]))) {
+					$this->attributes['type'] = $type;
+					break;
+				}
+			}
 		}
 	}
 

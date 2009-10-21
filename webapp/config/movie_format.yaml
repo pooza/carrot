@@ -1,0 +1,18 @@
+# 動画フォーマット設定ファイル
+#
+# @package org.carrot-framework
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+types:
+  flv: video/x-flv
+  mov: video/quicktime
+  m4a: video/quicktime
+  h264: video/quicktime
+  wmv1: video/x-ms-wmv
+  wmv2: video/x-ms-wmv
+  wmv3: video/x-ms-wmv
+  rv10: application/vnd.rn-realmedia
+  rv20: application/vnd.rn-realmedia
+  rv30: application/vnd.rn-realmedia
+  rv40: application/vnd.rn-realmedia
