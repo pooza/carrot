@@ -41,7 +41,7 @@ class BSMovieFile extends BSMediaFile {
 		}
 
 		$patterns = new BSArray(array(
-			'Input #[[:digit:]]+, ([[:alnum:]]+),',
+			'Input #[[:digit:]]+, ([[:alnum:]]+)',
 			'Video: ([[:alnum:]]+)',
 		));
 		foreach ($patterns as $pattern) {
