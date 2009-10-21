@@ -126,12 +126,20 @@ class BSMovieFile extends BSMediaFile {
 	}
 
 	private function getPlayerConfig (BSParameterHolder $params) {
-		$config = array('clip' => array(
-			'scaling' => 'fit',
-			'autoPlay' => false,
-			'autoBuffering' => true,
-			'url' => $this->getMediaURL($params)->getContents(),
-		));
+		$config = array(
+			'clip' => array(
+				'scaling' => 'fit',
+				'autoPlay' => false,
+				'autoBuffering' => true,
+				'url' => $this->getMediaURL($params)->getContents(),
+			),
+			'plugins' => array(
+				'controls' => array(
+					'height' => BS_MOVIE_PLAYER_HEIGHT,
+					'fullscreen' => false,
+				),
+			),
+		);
 		return BSJavaScriptUtility::quote($config);
 	}
 
