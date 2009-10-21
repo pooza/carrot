@@ -39,16 +39,18 @@ class BSMovieFile extends BSMediaFile {
 			$this->attributes['height_full'] = $matches[2] + BS_MOVIE_PLAYER_HEIGHT;
 			$this->attributes['pixel_size'] = $matches[1] . '×' . $matches[2];
 		}
+		$this->attributes['type'] = $this->analyzeType($this->output);
+	}
 
+	private function analyzeType ($output) {
 		$patterns = new BSArray(array(
 			'Input #[[:digit:]]+, ([[:alnum:]]+)',
 			'Video: ([[:alnum:]]+)',
 		));
 		foreach ($patterns as $pattern) {
-			if (mb_ereg($pattern, $this->output, $matches)) {
+			if (mb_ereg($pattern, $output, $matches)) {
 				if (!BSString::isBlank($type = BSMovieUtility::getType($matches[1]))) {
-					$this->attributes['type'] = $type;
-					break;
+					return $type;
 				}
 			}
 		}
