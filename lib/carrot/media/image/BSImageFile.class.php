@@ -13,14 +13,14 @@
 class BSImageFile extends BSFile implements BSImageContainer {
 	protected $renderer;
 	protected $rendererClass;
-	const DEFAULT_ENGINE_CLASS = 'BSImage';
+	const DEFAULT_RENDERER_CLASS = 'BSImage';
 
 	/**
 	 * @access public
 	 * @param string $path パス
 	 * @param string $class レンダラーのクラス名
 	 */
-	public function __construct ($path, $class = self::DEFAULT_ENGINE_CLASS) {
+	public function __construct ($path, $class = self::DEFAULT_RENDERER_CLASS) {
 		parent::__construct($path);
 		$this->rendererClass = $class;
 	}

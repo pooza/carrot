@@ -229,8 +229,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		}
 		if (BSArray::isArray($file)) {
 			$params = new BSArray($file);
-			if ($path = $params['src']) {
-				return new $class($path);
+			if (!BSString::isBlank($path = $params['src'])) {
+				return self::search($path, $class);
 			}
 			$module = BSController::getInstance()->getModule();
 			if ($record = $module->searchRecord($params)) {
@@ -242,7 +242,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		} 
 
 		if (BSUtility::isPathAbsolute($path = $file)) {
-			return new BSMovieFile($path);
+			return new $class($path);
 		} else {
 			foreach (array('carrotlib', 'www', 'root') as $dir) {
 				$dir = BSController::getInstance()->getDirectory($dir);
