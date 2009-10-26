@@ -61,7 +61,24 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
 		$values['create_date'] = BSDate::getNow('Y-m-d H:i:s');
 		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
+		$values[$this->getRankField()] = $this->getNextRank();
 		return parent::createRecord($values, $flags);
+	}
+
+	/**
+	 * 次の順位を返す
+	 *
+	 * @access public
+	 * @return integer 順位
+	 */
+	public function getNextRank () {
+		$sql = BSSQL::getSelectQueryString(
+			'max(' . $this->getRankField() . ') as last_rank',
+			$this->getName(),
+			$this->getCriteria()
+		);
+		$row = $this->getDatabase()->query($sql)->fetch();
+		return $row['last_rank'] + 1;
 	}
 
 	/**
