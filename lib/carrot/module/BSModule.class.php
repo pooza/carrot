@@ -97,6 +97,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),
 			'title_menu' => $this->getMenuTitle(),
+			'record_class' => $this->getRecordClassName(),
 		));
 	}
 

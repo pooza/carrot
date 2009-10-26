@@ -109,30 +109,41 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @return string 訳語
 	 */
 	public function translate ($string, $name = null, $language = null) {
-		if (!$language) {
+		if (BSString::isBlank($language)) {
 			$language = $this->getLanguage();
 		}
-
-		$names = new BSArray;
-		$names[] = $name;
-		$names[] = 'BSDictionaryFile.' . $name;
-		$names->merge($this->dictionaries->getKeys(BSArray::WITHOUT_KEY));
-		$names->uniquize();
-
-		foreach ($names as $key) {
-			if ($dictionary = $this->dictionaries[$key]) {
-				$answer = $dictionary->translate($string, $language);
-				if ($answer !== null) {
-					return $answer;
+		foreach ($this->getDictionaryNames($name) as $name) {
+			if ($dictionary = $this->dictionaries[$name]) {
+				foreach ($this->getWords($string) as $word) {
+					$answer = $dictionary->translate($word, $language);
+					if ($answer !== null) {
+						return $answer;
+					}
 				}
 			}
 		}
-
 		if (BS_DEBUG) {
 			throw new BSTranslateException('"%s"の訳語が見つかりません。', $string);
 		} else {
 			return $string;
 		}
+	}
+
+	private function getWords ($string) {
+		return new BSArray(array(
+			$string,
+			BSString::underscorize($string),
+			BSString::pascalize($string),
+		));
+	}
+
+	private function getDictionaryNames ($name) {
+		$names = new BSArray;
+		$names[] = $name;
+		$names[] = 'BSDictionaryFile.' . $name;
+		$names->merge($this->dictionaries->getKeys(BSArray::WITHOUT_KEY));
+		$names->uniquize();
+		return $names;
 	}
 
 	/**
