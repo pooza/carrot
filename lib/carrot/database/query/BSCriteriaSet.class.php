@@ -77,6 +77,13 @@ class BSCriteriaSet extends BSArray {
 				}
 				$this[] = $key . ' BETWEEN ' . $this->quote($values)->join(' AND ');
 				break;
+			case 'NOT IN':
+				$values = new BSArray($value);
+				if ($values->count()) {
+					$values->uniquize();
+					$this[] = $key . ' NOT IN (' . $this->quote($values)->join(',') . ')';
+				}
+				break;
 			default:
 				if ($value === null) {
 					$this[] = $key . ' IS NULL';
