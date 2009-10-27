@@ -275,7 +275,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * UserAgent名を返す
 	 *
 	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent名
+	 * @return string リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
 		return 'Console';

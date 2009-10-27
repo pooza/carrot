@@ -162,10 +162,11 @@ class BSWebRequest extends BSRequest {
 	 * UserAgent名を返す
 	 *
 	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent名
+	 * @return string リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
-		if (BS_DEBUG && ($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
+		if ((BS_DEBUG || $this->user->isAdministrator() || $this->user->isAuthor())
+			&& !BSString::isBlank($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
 			return $name;
 		}
 		return $this->controller->getEnvironment('USER-AGENT');
