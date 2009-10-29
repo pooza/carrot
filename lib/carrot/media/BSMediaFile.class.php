@@ -75,7 +75,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			$root->addElement($this->getObjectElement($params));
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
-				$params['container_id'] = $this->getContainerID();
+				$params['container_id'] = $this->createContainerID();
 				$container = $root->createElement('div');
 				$container->setAttribute('id', $params['container_id']);
 			}
@@ -123,13 +123,13 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 
 	/**
-	 * div要素のIDを返す
+	 * div要素のIDを生成して返す
 	 *
 	 * @access protected
 	 * @return string div要素のID
 	 */
-	protected function getContainerID () {
-		return get_class($this) . $this->getID();
+	protected function createContainerID () {
+		return get_class($this) . $this->getID() . BSUtility::getUniqueID();
 	}
 
 	/**
