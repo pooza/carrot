@@ -19,6 +19,8 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	protected $recordSeparator = "\r\n";
 	protected $fieldSeparator = ',';
 	protected $error;
+	private $commaSearchPattern;
+	const COMMA_TAG = '_COMMA_';
 
 	/**
 	 * @access public
@@ -44,17 +46,48 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 			} else {
 				$record = $line;
 			}
-			if ((BSString::eregMatchAll('"', $record)->count() % 2) != 0) {
+
+			if (!$this->isCompleteRecord($record)) {
 				continue;
 			}
 
-			$fields = BSString::explode(
-				$this->getFieldSeparator(),
-				BSString::convertEncoding($record)
-			);
+			$record = $this->escapeCommaValue($record);
+			$record = BSString::explode($this->getFieldSeparator(), $record);
+			$record = $this->unescapeCommaValue($record);
+			$this->addRecord($record);
 			$record = null;
-			$this->addRecord($fields);
 		}
+	}
+
+	private function isCompleteRecord ($record) {
+		return (BSString::eregMatchAll('"', $record)->count() % 2) == 0;
+	}
+
+	private function escapeCommaValue ($record) {
+		while (mb_ereg($this->getCommaSearchPattern(), $record, $matches)) {
+			$record = str_replace(
+				$matches[1],
+				str_replace($this->getFieldSeparator(), self::COMMA_TAG, $matches[1]),
+				$record
+			);
+		}
+		return $record;
+	}
+
+	private function unescapeCommaValue (BSArray $record) {
+		foreach ($record as $key => $value) {
+			$record[$key] = str_replace(self::COMMA_TAG, $this->getFieldSeparator(), $value);
+		}
+		return $record;
+	}
+
+	private function getCommaSearchPattern () {
+		if (!$this->commaSearchPattern) {
+			$pattern = '_COMMA_"(([^"_COMMA_]*_COMMA_)+)([^"_COMMA_]*)?"';
+			$pattern = str_replace(self::COMMA_TAG, $this->getFieldSeparator(), $pattern);
+			$this->commaSearchPattern = $pattern;
+		}
+		return $this->commaSearchPattern;
 	}
 
 	/**

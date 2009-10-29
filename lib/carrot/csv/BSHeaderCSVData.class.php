@@ -12,6 +12,7 @@
  */
 class BSHeaderCSVData extends BSCSVData {
 	protected $fields;
+	protected $hasRowID = true;
 
 	/**
 	 * @access public
@@ -39,7 +40,9 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @param BSArray $fields 見出し
 	 */
 	public function setFieldNames (BSarray $fields) {
-		$this->fields = BSString::convertEncoding($fields);
+		$fields = BSString::convertEncoding($fields);
+		$fields = $this->trimRecord($fields);
+		$this->fields = $fields;
 	}
 
 	/**
@@ -65,6 +68,26 @@ class BSHeaderCSVData extends BSCSVData {
 	}
 
 	/**
+	 * 行IDを持つか
+	 *
+	 * @access public
+	 * @return boolean 行IDを持つならTrue 
+	 */
+	public function hasRowID () {
+		return $this->hasRowID;
+	}
+
+	/**
+	 * 行IDを持つかを設定
+	 *
+	 * @access public
+	 * @param boolean $flag 行IDを持つならTrue 
+	 */
+	public function setHasRowID ($flag) {
+		$this->hasRowID = $flag;
+	}
+
+	/**
 	 * 行をセットして、レコード配列を生成
 	 *
 	 * @access public
@@ -82,17 +105,22 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @param BSArray $record 
 	 */
 	public function addRecord (BSArray $record) {
-		if (!$record[$this->getFieldName(0)]) {
+		if (BSString::isBlank($record[$this->getFieldName(0)])) {
+			$newRecord = new BSArray;
 			for ($i = 0 ; $i < $this->getFieldNames()->count() ; $i ++) {
-				$record[$this->getFieldName($i)] = $record[$i];
-				$record->removeParameter($i);
+				$newRecord[$this->getFieldName($i)] = $record[$i];
 			}
+			$record = $newRecord;
 		}
 
-		if (BSString::isBlank($record[$this->getFieldName(0)])) {
-			return;
+		if ($this->hasRowID()) {
+			if (BSString::isBlank($record[$this->getFieldName(0)])) {
+				return;
+			}
+			$this->records[$record[$this->getFieldName(0)]] = $this->trimRecord($record);
+		} else {
+			$this->records[] = $this->trimRecord($record);
 		}
-		$this->records[$record[$this->getFieldName(0)]] = $this->trimRecord($record);
 		$this->contents = null;
 	}
 
