@@ -18,7 +18,7 @@ class BSLogDirectory extends BSDirectory {
 	 */
 	public function __construct ($path = null) {
 		if (!$path) {
-			$path = BSController::getInstance()->getPath('log');
+			$path = BSFileUtility::getPath('log');
 		}
 		parent::__construct($path);
 		$this->setDefaultSuffix('.log');

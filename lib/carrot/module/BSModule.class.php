@@ -160,7 +160,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if (!$this->directories[$name]) {
 			switch ($name) {
 				case 'module':
-					$dir = $this->controller->getDirectory('modules');
+					$dir = BSFileUtility::getDirectory('modules');
 					$this->directories['module'] = $dir->getEntry($this->getName());
 					break;
 				default:

@@ -350,7 +350,7 @@ class BSImageCacheHandler {
 	 * @param BSDirectory ディレクトリ
 	 */
 	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('image_cache');
+		return BSFileUtility::getDirectory('image_cache');
 	}
 
 	/**
@@ -381,7 +381,7 @@ class BSImageCacheHandler {
 	public function getContainer (BSParameterHolder $params) {
 		if (!BSString::isBlank($params['src'])) {
 			foreach (array('images', 'www', 'root') as $name) {
-				$dir = BSController::getInstance()->getDirectory($name);
+				$dir = BSFileUtility::getDirectory($name);
 				if ($entry = $dir->getEntry($params['src'], 'BSImageFile')) {
 					return $entry;
 				}

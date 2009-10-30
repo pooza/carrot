@@ -56,7 +56,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	static private function getConfigFile () {
 		if (!self::$configFile) {
-			$dir = BSController::getInstance()->getDirectory('config');
+			$dir = BSFileUtility::getDirectory('config');
 			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
 				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
 					break;
@@ -127,7 +127,7 @@ class BSMySQLDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -150,7 +150,7 @@ class BSMySQLDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -166,7 +166,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	private function getCommandLine ($command = 'mysql') {
 		$command = new BSCommandLine('bin/' . $command);
-		$command->setDirectory(BSController::getInstance()->getDirectory('mysql'));
+		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
 		$command->addValue('--host=' . $this['host']->getAddress());
 		$command->addValue('--user=' . $this['user']);
 		$command->addValue($this['database_name']);

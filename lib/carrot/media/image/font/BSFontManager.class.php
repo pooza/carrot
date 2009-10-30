@@ -58,7 +58,7 @@ class BSFontManager {
 	 * @return BSDirectory ディレクトリ
 	 */
 	public function getDirectory () {
-		return BSController::getInstance()->getDirectory('font');
+		return BSFileUtility::getDirectory('font');
 	}
 
 	/**

@@ -21,6 +21,30 @@ class BSFileUtility {
 	}
 
 	/**
+	 * 特別なディレクトリを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリの名前
+	 * @return BSDirectory ディレクトリ
+	 * @static
+	 */
+	static public function getDirectory ($name) {
+		return BSDirectoryLayout::getInstance()->getDirectory($name);
+	}
+
+	/**
+	 * 特別なディレクトリのパスを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリの名前
+	 * @return string パス
+	 * @static
+	 */
+	static public function getPath ($name) {
+		return BSDirectoryLayout::getInstance()->getPath($name);
+	}
+
+	/**
 	 * 一時ファイルを生成して返す
 	 *
 	 * @access public
@@ -30,7 +54,7 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function getTemporaryFile ($suffix = null, $class = 'BSFile') {
-		$dir = BSController::getInstance()->getDirectory('tmp');
+		$dir = BSFileUtility::getDirectory('tmp');
 		$name = BSUtility::getUniqueID() . $suffix;
 		if (!$file = $dir->createEntry($name, $class)) {
 			throw new BSFileException('一時ファイルが生成できません。');

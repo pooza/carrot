@@ -18,7 +18,7 @@ class BSDictionaryDirectory extends BSDirectory {
 	 */
 	public function __construct ($path = null) {
 		if (!$path) {
-			$path = BSController::getInstance()->getPath('dictionaries');
+			$path = BSFileUtility::getPath('dictionaries');
 		}
 		parent::__construct($path);
 		$this->setDefaultSuffix('.csv');

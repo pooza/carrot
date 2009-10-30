@@ -29,7 +29,7 @@ class BSStyleSet extends BSDocumentSet {
 	 * @return BSDirectory ディレクトリ
 	 */
 	protected function getDirectory () {
-		return BSController::getInstance()->getDirectory('css');
+		return BSFileUtility::getDirectory('css');
 	}
 }
 

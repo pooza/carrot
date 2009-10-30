@@ -29,7 +29,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 	 * @return BSDirectory ディレクトリ
 	 */
 	protected function getDirectory () {
-		return BSController::getInstance()->getDirectory('js');
+		return BSFileUtility::getDirectory('js');
 	}
 }
 

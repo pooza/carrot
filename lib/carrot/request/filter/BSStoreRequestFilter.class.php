@@ -34,8 +34,8 @@ class BSStoreRequestFilter extends BSRequestFilter {
 
 	private function getDirectory () {
 		$name = BSDate::getNow('Y-m');
-		if (!$dir = $this->controller->getDirectory('request')->getEntry($name)) {
-			$dir = $this->controller->getDirectory('request')->createDirectory($name);
+		if (!$dir = BSFileUtility::getDirectory('request')->getEntry($name)) {
+			$dir = BSFileUtility::getDirectory('request')->createDirectory($name);
 		}
 		return $dir;
 	}

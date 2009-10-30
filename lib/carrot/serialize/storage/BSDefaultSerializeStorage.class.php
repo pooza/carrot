@@ -41,7 +41,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 	 * @param BSDictionary ディレクトリ
 	 */
 	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('serialized');
+		return BSFileUtility::getDirectory('serialized');
 	}
 
 	/**

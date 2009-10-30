@@ -217,7 +217,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSImageFile 画像ファイル
 	 */
 	public function getImageFile ($size = 'favicon') {
-		$dir = BSController::getInstance()->getDirectory('favicon');
+		$dir = BSFileUtility::getDirectory('favicon');
 		$name = $this->getImageFileBaseName();
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			if (!$favicon = $this->getFavicon()) {

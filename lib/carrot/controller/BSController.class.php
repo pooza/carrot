@@ -81,28 +81,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * 特別なディレクトリを返す
-	 *
-	 * @access public
-	 * @param string $name ディレクトリの名前
-	 * @return BSDirectory ディレクトリ
-	 */
-	public function getDirectory ($name) {
-		return BSDirectoryLayout::getInstance()->getDirectory($name);
-	}
-
-	/**
-	 * 特別なディレクトリのパスを返す
-	 *
-	 * @access public
-	 * @param string $name ディレクトリの名前
-	 * @return string パス
-	 */
-	public function getPath ($name) {
-		return BSDirectoryLayout::getInstance()->getPath($name);
-	}
-
-	/**
 	 * サーバホストを返す
 	 *
 	 * @access public

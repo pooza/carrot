@@ -37,7 +37,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$this->height = $height;
 		$this->setType(BSMIMEType::getType('gif'));
 		parent::PHPlot($width, $height);
-		$this->setTTFPath(BSController::getInstance()->getPath('font'));
+		$this->setTTFPath(BSFileUtility::getPath('font'));
 		$this->setDefaultTTFont(BSFontManager::DEFAULT_FONT);
 		$this->setUseTTF(true);
 		$this->setPlotType('lines');
@@ -256,7 +256,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 * @param string $font フォント名
 	 */
 	public function setDefaultTTFont ($font) {
-		if (!$file = BSController::getInstance()->getDirectory('font')->getEntry($font)) {
+		if (!$file = BSFileUtility::getDirectory('font')->getEntry($font)) {
 			throw new BSImageException('フォントファイル名"%s"が正しくありません。', $font);
 		}
 		$this->default_ttfont = $file->getName();

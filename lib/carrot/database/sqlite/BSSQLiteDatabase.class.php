@@ -75,7 +75,7 @@ class BSSQLiteDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -98,7 +98,7 @@ class BSSQLiteDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -114,7 +114,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	private function getCommandLine ($command = 'sqlite3') {
 		$command = new BSCommandLine('bin/' . $command);
-		$command->setDirectory(BSController::getInstance()->getDirectory('sqlite3'));
+		$command->setDirectory(BSFileUtility::getDirectory('sqlite3'));
 		$command->addValue($this['file']->getPath());
 		return $command;
 	}

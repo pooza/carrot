@@ -76,7 +76,7 @@ class BackupDatabaseAction extends BSAction {
 
 	public function execute () {
 		try {
-			$dir = $this->controller->getDirectory('dump');
+			$dir = BSFileUtility::getDirectory('dump');
 			$this->backup($dir);
 			$this->purge($dir);
 		} catch (Exception $e) {

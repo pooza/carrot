@@ -39,7 +39,7 @@ class BSProcess {
 	static public function getID ($name) {
 		$command = new BSCommandLine('bin/pgrep');
 		$command->addValue($name);
-		$command->setDirectory(BSController::getInstance()->getDirectory('proctools'));
+		$command->setDirectory(BSFileUtility::getDirectory('proctools'));
 		if ($command->hasError()) {
 			throw new BSConsoleException('実行時エラーです。(%s)', $command->getContents());
 		}

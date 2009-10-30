@@ -101,7 +101,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -124,7 +124,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		}
 
 		if (!$dir) {
-			$dir = BSController::getInstance()->getDirectory('sql');
+			$dir = BSFileUtility::getDirectory('sql');
 		}
 		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
 		$file->setContents($command->getResult());
@@ -140,7 +140,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	private function getCommandLine ($command = 'psql') {
 		$command = new BSCommandLine('bin/' . $command);
-		$command->setDirectory(BSController::getInstance()->getDirectory('pgsql'));
+		$command->setDirectory(BSFileUtility::getDirectory('pgsql'));
 		$command->addValue('--host=' . $this['host']->getAddress());
 		$command->addValue('--user=' . $this['user']);
 		$command->addValue($this['database_name']);

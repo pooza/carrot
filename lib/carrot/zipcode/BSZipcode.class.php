@@ -52,7 +52,7 @@ class BSZipcode implements BSAssignable {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$dir = BSController::getInstance()->getDirectory('zipcode');
+			$dir = BSFileUtility::getDirectory('zipcode');
 			$this->file = $dir->getEntry('zip-' . $this->major);
 		}
 		return $this->file;

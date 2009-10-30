@@ -22,8 +22,8 @@ class AnalyzeAccessLogAction extends BSAction {
 			$this->awstatsConfig = new BSArray;
 			$this->awstatsConfig['server_name'] = $this->controller->getHost()->getName();
 			$this->awstatsConfig['server_name_aliases'] = BS_AWSTATS_SERVER_NAME_ALIASES;
-			$this->awstatsConfig['awstat_data_dir'] = $this->controller->getPath('awstats_data');
-			$this->awstatsConfig['awstat_dir'] = $this->controller->getPath('awstats');
+			$this->awstatsConfig['awstat_data_dir'] = BSFileUtility::getPath('awstats_data');
+			$this->awstatsConfig['awstat_dir'] = BSFileUtility::getPath('awstats');
 
 			$networks = new BSArray;
 			foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
@@ -53,7 +53,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 */
 	private function analyze (BSFile $file = null) {
 		$command = new BSCommandLine('awstats.pl');
-		$command->setDirectory($this->controller->getDirectory('awstats'));
+		$command->setDirectory(BSFileUtility::getDirectory('awstats'));
 		$command->addValue('-config=awstats.conf');
 
 		if ($file) {
@@ -76,7 +76,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	 */
 	private function getPrevLogFile () {
 		if (!$this->prev && BS_AWSTATS_DAILY) {
-			if ($dir = $this->controller->getDirectory('awstats_log')) {
+			if ($dir = BSFileUtility::getDirectory('awstats_log')) {
 				$yesterday = BSDate::getNow()->setAttribute('day', '-1');
 				if ($dir = $dir->getEntry($yesterday->format('Y'))) {
 					if ($dir = $dir->getEntry($yesterday->format('m'))) {
@@ -101,7 +101,7 @@ class AnalyzeAccessLogAction extends BSAction {
 		$smarty = new BSSmarty;
 		$smarty->setTemplate('awstats.conf');
 		$smarty->setAttribute('config', $this->getAWStatsConfig());
-		$file = $this->controller->getDirectory('tmp')->createEntry('awstats.conf');
+		$file = BSFileUtility::getDirectory('tmp')->createEntry('awstats.conf');
 		$file->setContents($smarty->getContents());
 	}
 

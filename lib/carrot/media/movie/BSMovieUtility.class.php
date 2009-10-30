@@ -27,7 +27,7 @@ class BSMovieUtility {
 	 */
 	static public function getCommandLine () {
 		$command = new BSCommandLine('bin/ffmpeg');
-		$command->setDirectory(BSController::getInstance()->getDirectory('ffmpeg'));
+		$command->setDirectory(BSFileUtility::getDirectory('ffmpeg'));
 		return $command;
 	}
 

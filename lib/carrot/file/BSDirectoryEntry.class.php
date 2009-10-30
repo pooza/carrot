@@ -120,7 +120,7 @@ abstract class BSDirectoryEntry {
 	public function getShortPath () {
 		if (!$this->shortPath) {
 			$this->shortPath = str_replace(
-				BSController::getInstance()->getPath('root') . DIRECTORY_SEPARATOR,
+				BSFileUtility::getPath('root') . DIRECTORY_SEPARATOR,
 				'',
 				$this->getPath()
 			);

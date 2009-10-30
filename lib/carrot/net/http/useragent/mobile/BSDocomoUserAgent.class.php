@@ -100,7 +100,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 
 	static private function getDisplayInfos () {
 		if (!self::$displayInfo) {
-			$dir = BSController::getInstance()->getDirectory('config');
+			$dir = BSFileUtility::getDirectory('config');
 			$file = $dir->getEntry(self::LIST_FILE_NAME);
 
 			$controller = BSController::getInstance();

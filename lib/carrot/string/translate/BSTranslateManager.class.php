@@ -56,7 +56,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @param BSDictionaryDirectory 辞書ディレクトリ
 	 */
 	private function getDirectory () {
-		return BSController::getInstance()->getDirectory('dictionaries');
+		return BSFileUtility::getDirectory('dictionaries');
 	}
 
 	/**

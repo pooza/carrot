@@ -20,7 +20,7 @@ class BSFileSmartyCacheStorage implements BSSmartyCacheStorage {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize (BSSmarty $smarty) {
-		$dir = BSController::getInstance()->getDirectory('cache');
+		$dir = BSFileUtility::getDirectory('cache');
 		$smarty->cache_dir = $dir->getPath();
 		$smarty->cache_lifetime = BS_SMARTY_CACHE_LIFE_TIME;
 		$smarty->caching = 1;
