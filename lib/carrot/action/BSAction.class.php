@@ -313,7 +313,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return string ビュー名
 	 */
 	public function deny () {
-		return $this->controller->getSecureAction()->forward();
+		return $this->controller->getAction('secure')->forward();
 	}
 
 	/**

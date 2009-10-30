@@ -15,7 +15,7 @@ class BSHostSecurityFilter extends BSFilter {
 		try {
 			$this->auth();
 		} catch (BSNetException $e) {
-			$this->controller->getSecureAction()->forward();
+			$this->controller->getAction('secure')->forward();
 			return true;
 		}
 	}

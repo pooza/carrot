@@ -19,7 +19,7 @@ class BSSecurityFilter extends BSFilter {
 	public function execute () {
 		if (!$this->user->hasCredential($this['credential'])) {
 			if ($this->request->isAjax() || $this->request->isFlash()) {
-				return $this->controller->getNotFoundAction()->forward();
+				return $this->controller->getAction('not_found')->forward();
 			}
 			return $this->controller->getAction()->deny();
 		}

@@ -23,7 +23,7 @@ class BSDeniedUserAgentFilter extends BSFilter {
 				$module = $this->controller->getModule($this['module']);
 				$action = $module->getAction($this['action']);
 			} catch (BSException $e) {
-				$action = $this->controller->getNotFoundAction();
+				$action = $this->controller->getAction('not_found');
 			}
 			$this->controller->registerAction($action);
 		}

@@ -74,7 +74,7 @@ abstract class BSController {
 			$module = BSModule::getInstance($module);
 			$action = $module->getAction($action);
 		} catch (Exception $e) {
-			$action = $this->getNotFoundAction();
+			$action = $this->getAction('not_found');
 		}
 		$action->forward();
 	}
@@ -169,35 +169,19 @@ abstract class BSController {
 	}
 
 	/**
-	 * 呼ばれたアクションを返す
+	 * 特別なアクションを返す
 	 *
 	 * @access public
-	 * @return BSAction アクション
+	 * @param string $name アクション名
+	 * @return BSAction 名前で指定されたアクション、指定なしの場合は呼ばれたアクション
 	 */
-	public function getAction () {
-		return $this->getActionStack()->getIterator()->getLast();
-	}
-
-	/**
-	 * セキュアアクションを返す
-	 *
-	 * @access public
-	 * @return BSAction アクション
-	 */
-	public function getSecureAction () {
-		return $this->getModule(BS_MODULE_SECURE_MODULE)
-			->getAction(BS_MODULE_SECURE_ACTION);
-	}
-
-	/**
-	 * NotFoundアクションを返す
-	 *
-	 * @access public
-	 * @return BSAction アクション
-	 */
-	public function getNotFoundAction () {
-		return $this->getModule(BS_MODULE_NOT_FOUND_MODULE)
-			->getAction(BS_MODULE_NOT_FOUND_ACTION);
+	public function getAction ($name = null) {
+		if (BSString::isBlank($name)) {
+			return $this->getActionStack()->getIterator()->getLast();
+		}
+		if ($module = $this->getModule($this->getAttribute('module_' . $name . '_module'))) {
+			return $module->getAction($this->getAttribute('module_' . $name . '_action'));
+		}
 	}
 
 	/**

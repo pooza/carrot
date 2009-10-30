@@ -33,7 +33,7 @@ class DatabaseAction extends BSAction {
 	}
 
 	public function handleError () {
-		return $this->controller->getNotFoundAction()->forward();
+		return $this->controller->getAction('not_found')->forward();
 	}
 
 	public function validate () {
