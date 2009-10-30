@@ -23,7 +23,7 @@ class BSHTTPSFilter extends BSFilter {
 			&& ($this->request->getMethod() == 'GET')) {
 
 			$url = BSURL::getInstance($this['base_url']);
-			$url['path'] = $this->controller->getEnvironment('REQUEST_URI');
+			$url['path'] = $this->controller->getAttribute('REQUEST_URI');
 			$url->redirect();
 			return true;
 		}

@@ -28,7 +28,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		if ($id = BSController::getInstance()->getEnvironment('X-UP-SUBNO')) {
+		if ($id = BSController::getInstance()->getAttribute('X-UP-SUBNO')) {
 			return $id;
 		}
 		return parent::getID();
@@ -62,7 +62,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 */
 	public function getDisplayInfo () {
 		$controller = BSController::getInstance();
-		if (BSString::isBlank($info = $controller->getEnvironment('X-UP-DEVCAP-SCREENPIXELS'))) {
+		if (BSString::isBlank($info = $controller->getAttribute('X-UP-DEVCAP-SCREENPIXELS'))) {
 			return new BSArray(array(
 				'width' => self::DEFAULT_DISPLAY_WIDTH,
 				'height' => self::DEFAULT_DISPLAY_HEIGHT,

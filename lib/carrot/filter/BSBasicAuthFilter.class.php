@@ -19,7 +19,7 @@ class BSBasicAuthFilter extends BSFilter {
 	 * @return 許可されたらTrue
 	 */
 	private function isAuthenticated () {
-		if (BSString::isBlank($password = $this->controller->getEnvironment('PHP_AUTH_PW'))) {
+		if (BSString::isBlank($password = $this->controller->getAttribute('PHP_AUTH_PW'))) {
 			return false;
 		}
 		if (!BSCrypt::getInstance()->auth($this['password'], $password)) {
@@ -27,7 +27,7 @@ class BSBasicAuthFilter extends BSFilter {
 		}
 
 		if (!BSString::isBlank($this['user_id'])) {
-			return ($this['user_id'] == $this->controller->getEnvironment('PHP_AUTH_USER'));
+			return ($this['user_id'] == $this->controller->getAttribute('PHP_AUTH_USER'));
 		}
 		return true;
 	}

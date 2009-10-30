@@ -80,19 +80,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * サーバ環境変数を返す
-	 *
-	 * @access public
-	 * @param string $name サーバ環境変数の名前
-	 * @return mixed サーバ環境変数
-	 */
-	public function getEnvironment ($name) {
-		if (isset($_SERVER[$name])) {
-			return $_SERVER[$name];
-		}
-	}
-
-	/**
 	 * 定数を返す
 	 *
 	 * @access public
@@ -144,7 +131,7 @@ abstract class BSController {
 	 */
 	public function getHost () {
 		if (!$this->host) {
-			$this->host = new BSHost($this->getEnvironment('SERVER_NAME'));
+			$this->host = new BSHost($this->getAttribute('SERVER_NAME'));
 		}
 		return $this->host;
 	}
@@ -225,6 +212,31 @@ abstract class BSController {
 	}
 
 	/**
+	 * 属性を返す
+	 *
+	 * @access public
+	 * @param string $name 属性の名前
+	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
+	 * @return mixed 属性値
+	 */
+	public function getAttribute ($name, BSDate $date = null) {
+		if (!is_object($name)) {
+			$env = new BSArray($_SERVER);
+			$keys = new BSArray;
+			$keys[] = $name;
+			$keys[] = 'HTTP_' . $name;
+			$keys[] = 'HTTP_' . str_replace('-', '_', $name);
+			$keys->uniquize();
+			foreach ($keys as $key) {
+				if (!BSString::isBlank($value = $env[$key])) {
+					return $value;
+				}
+			}
+		}
+		return BSSerializeHandler::getInstance()->getAttribute($name, $date);
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -246,18 +258,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param BSDate $date 比較する日付 - この日付より古い属性値は破棄
-	 * @return mixed 属性値
-	 */
-	public function getAttribute ($name, BSDate $date = null) {
-		return BSSerializeHandler::getInstance()->getAttribute($name, $date);
-	}
-
-	/**
 	 * 全ての属性を返す
 	 *
 	 * @access public
@@ -265,39 +265,6 @@ abstract class BSController {
 	 */
 	public function getAttributes () {
 		return BSSerializeHandler::getInstance()->getAttributes();
-	}
-
-	/**
-	 * アプリケーション名を返す
-	 *
-	 * @access public
-	 * @param string $lang 言語
-	 * @return string アプリケーション名
-	 */
-	static public function getName ($lang = 'ja') {
-		return self::getInstance()->getConstant('app_name_' . $lang);
-	}
-
-	/**
-	 * アプリケーションのバージョンを返す
-	 *
-	 * @access public
-	 * @return string バージョン
-	 */
-	static public function getVersion () {
-		return BS_APP_VER;
-	}
-
-	/**
-	 * バージョン番号込みのアプリケーション名を返す
-	 *
-	 * @access public
-	 * @param string $lang 言語
-	 * @return string アプリケーション名
-	 * @static
-	 */
-	static public function getFullName ($lang = 'ja') {
-		return self::getName($lang) . ' ' . self::getVersion();
 	}
 
 	/**
@@ -342,6 +309,39 @@ abstract class BSController {
 			BSString::stripControlCharacters($name),
 			BSString::stripControlCharacters($value)
 		);
+	}
+
+	/**
+	 * アプリケーション名を返す
+	 *
+	 * @access public
+	 * @param string $lang 言語
+	 * @return string アプリケーション名
+	 */
+	static public function getName ($lang = 'ja') {
+		return self::getInstance()->getConstant('app_name_' . $lang);
+	}
+
+	/**
+	 * アプリケーションのバージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	static public function getVersion () {
+		return BS_APP_VER;
+	}
+
+	/**
+	 * バージョン番号込みのアプリケーション名を返す
+	 *
+	 * @access public
+	 * @param string $lang 言語
+	 * @return string アプリケーション名
+	 * @static
+	 */
+	static public function getFullName ($lang = 'ja') {
+		return self::getName($lang) . ' ' . self::getVersion();
 	}
 }
 

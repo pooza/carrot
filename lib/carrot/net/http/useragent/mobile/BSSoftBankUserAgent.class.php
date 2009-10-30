@@ -28,7 +28,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return string 端末ID
 	 */
 	public function getID () {
-		if ($id = BSController::getInstance()->getEnvironment('X-JPHONE-UID')) {
+		if ($id = BSController::getInstance()->getAttribute('X-JPHONE-UID')) {
 			return $id;
 		}
 		return parent::getID();
@@ -62,7 +62,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 */
 	public function getDisplayInfo () {
 		$controller = BSController::getInstance();
-		if (BSString::isBlank($info = $controller->getEnvironment('X-JPHONE-DISPLAY'))) {
+		if (BSString::isBlank($info = $controller->getAttribute('X-JPHONE-DISPLAY'))) {
 			return new BSArray(array(
 				'width' => self::DEFAULT_DISPLAY_WIDTH,
 				'height' => self::DEFAULT_DISPLAY_HEIGHT,

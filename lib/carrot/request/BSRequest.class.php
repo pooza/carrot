@@ -224,7 +224,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	public function getHost () {
 		if (!$this->host) {
 			$this->host = new BSHost(
-				$this->controller->getEnvironment('REMOTE_ADDR')
+				$this->controller->getAttribute('REMOTE_ADDR')
 			);
 		}
 		return $this->host;
@@ -341,7 +341,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return !BSString::isBlank($this->controller->getEnvironment('HTTPS'));
+		return !BSString::isBlank($this->controller->getAttribute('HTTPS'));
 	}
 
 	/**
@@ -351,7 +351,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return !BSString::isBlank($this->controller->getEnvironment('X-PROTOTYPE-VERSION'));
+		return !BSString::isBlank($this->controller->getAttribute('X-PROTOTYPE-VERSION'));
 	}
 
 	/**
@@ -361,8 +361,8 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return $this->controller->getEnvironment('X-FLASH-VERSION')
-			|| $this->controller->getEnvironment('X-IS-FLASH');
+		return $this->controller->getAttribute('X-FLASH-VERSION')
+			|| $this->controller->getAttribute('X-IS-FLASH');
 	}
 }
 
