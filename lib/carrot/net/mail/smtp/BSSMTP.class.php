@@ -99,7 +99,7 @@ class BSSMTP extends BSSocket {
 					if ($this->execute('.') != 250) {
 						throw new BSMailException($this->getPrevLine());
 					}
-					BSController::getInstance()->putLog($this->getSentMessage(), $this);
+					BSLogManager::getInstance()->put($this->getSentMessage(), $this);
 					return $this->getPrevLine();
 				} catch (BSMailException $e) {
 					sleep(1);

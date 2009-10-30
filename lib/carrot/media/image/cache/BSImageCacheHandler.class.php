@@ -135,7 +135,7 @@ class BSImageCacheHandler {
 			return $file->getEngine();
 		} catch (BSImageException $e) {
 			$file->delete();
-			BSController::getInstance()->putLog($file . 'を削除しました。');
+			BSLogManager::getInstance()->put($file . 'を削除しました。');
 		}
 	}
 

@@ -114,7 +114,7 @@ class AnalyzeAccessLogAction extends BSAction {
 			$this->analyze();
 		} catch (Exception $e) {
 		}
-		$this->controller->putLog('実行しました。', $this);
+		BSLogManager::getInstance()->put('実行しました。', $this);
 		return BSView::NONE;
 	}
 }

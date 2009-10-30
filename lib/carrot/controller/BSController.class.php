@@ -24,6 +24,7 @@ abstract class BSController {
 	 */
 	protected function __construct () {
 		$this->headers = new BSArray;
+		$this->actions = new BSArray;
 	}
 
 	/**
@@ -77,17 +78,6 @@ abstract class BSController {
 			$action = $this->getAction('not_found');
 		}
 		$action->forward();
-	}
-
-	/**
-	 * ログを出力
-	 *
-	 * @access public
-	 * @param mixed $message ログメッセージの文字列、又はBSStringFormat
-	 * @param mixed $priority 優先順位
-	 */
-	public function putLog ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
-		BSLogManager::getInstance()->put($message, $priority);
 	}
 
 	/**
@@ -149,9 +139,6 @@ abstract class BSController {
 	 * @return BSArray アクションスタック
 	 */
 	public function getActionStack () {
-		if (!$this->actions) {
-			$this->actions = new BSArray;
-		}
 		return $this->actions;
 	}
 

@@ -278,7 +278,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function putLog ($log) {
 		if ($this->isLoggable()) {
-			BSController::getInstance()->putLog($log, $this);
+			BSLogManager::getInstance()->put($log, $this);
 		}
 	}
 

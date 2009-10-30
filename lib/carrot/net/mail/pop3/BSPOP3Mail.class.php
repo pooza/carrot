@@ -104,7 +104,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 			$message = new BSStringFormat('%sを%sから削除しました。');
 			$message[] = $this;
 			$message[] = $this->server;
-			BSController::getInstance()->putLog($message, $this);
+			BSLogManager::getInstance()->put($message, $this);
 			$this->executed['DELE'] = true;
 		}
 	}

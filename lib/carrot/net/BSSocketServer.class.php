@@ -61,7 +61,7 @@ class BSSocketServer {
 		$message = new BSStringFormat('開始しました。（ポート:%d, PID:%d）');
 		$message[] = $this->getAttribute('port');
 		$message[] = $this->getAttribute('pid');
-		BSController::getInstance()->putLog($message, $this);
+		BSLogManager::getInstance()->put($message, $this);
 
 		$this->execute();
 	}
@@ -81,7 +81,7 @@ class BSSocketServer {
 		$message = new BSStringFormat('終了しました。（ポート:%d, PID:%d）');
 		$message[] = $this->getAttribute('port');
 		$message[] = $this->getAttribute('pid');
-		BSController::getInstance()->putLog($message, $this);
+		BSLogManager::getInstance()->put($message, $this);
 
 		BSController::getInstance()->removeAttribute($this);
 	}

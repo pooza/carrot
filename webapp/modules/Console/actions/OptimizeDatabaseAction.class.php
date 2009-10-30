@@ -23,7 +23,7 @@ class OptimizeDatabaseAction extends BSAction {
 
 		$message = new BSStringFormat('%sを最適化しました。');
 		$message[] = $db;
-		$this->controller->putLog($message, $db);
+		BSLogManager::getInstance()->put($message, $db);
 		return BSView::NONE;
 	}
 }

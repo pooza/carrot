@@ -33,7 +33,7 @@ class BSException extends Exception {
 		parent::__construct($message);
 
 		if ($this->isLoggable()) {
-			BSController::getInstance()->putLog($this);
+			BSLogManager::getInstance()->put($this);
 		}
 	}
 

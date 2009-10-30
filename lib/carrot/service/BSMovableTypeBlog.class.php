@@ -43,7 +43,7 @@ class BSMovableTypeBlog {
 
 		$message = new BSStringFormat('%sにコメントを送信しました。');
 		$message[] = $url;
-		BSController::getInstance()->putLog($message, $this);
+		BSLogManager::getInstance()->put($message, $this);
 	}
 }
 

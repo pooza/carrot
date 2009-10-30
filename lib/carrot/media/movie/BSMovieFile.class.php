@@ -80,7 +80,7 @@ class BSMovieFile extends BSMediaFile {
 			$command->addValue($file->getPath());
 			$command->addValue('2>&1', null);
 			$this->output = $command->getResult()->join("\n");
-			BSController::getInstance()->putLog($this . 'をflvに変換しました。', $this);
+			BSLogManager::getInstance()->put($this . 'をflvに変換しました。', $this);
 		}
 		return new self($file->getPath());
 	}

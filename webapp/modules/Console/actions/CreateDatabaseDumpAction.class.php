@@ -23,7 +23,7 @@ class CreateDatabaseDumpAction extends BSAction {
 
 		$message = new BSStringFormat('%sのダンプを作成しました。');
 		$message[] = $db;
-		$this->controller->putLog($message, $db);
+		BSLogManager::getInstance()->put($message, $db);
 		return BSView::NONE;
 	}
 }

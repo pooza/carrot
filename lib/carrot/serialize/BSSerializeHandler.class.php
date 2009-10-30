@@ -117,7 +117,7 @@ class BSSerializeHandler {
 		$message = new BSStringFormat('%sのシリアライズを格納しました。 (%sB)');
 		$message[] = $name;
 		$message[] = BSNumeric::getBinarySize(strlen($serialized));
-		BSController::getInstance()->putLog($message, $this->getStorage());
+		BSLogManager::getInstance()->put($message, $this->getStorage());
 	}
 
 	/**

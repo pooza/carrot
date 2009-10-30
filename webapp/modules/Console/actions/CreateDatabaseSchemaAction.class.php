@@ -23,7 +23,7 @@ class CreateDatabaseSchemaAction extends BSAction {
 
 		$message = new BSStringFormat('%sのスキーマを作成しました。');
 		$message[] = $db;
-		$this->controller->putLog($message, $db);
+		BSLogManager::getInstance()->put($message, $db);
 		return BSView::NONE;
 	}
 }
