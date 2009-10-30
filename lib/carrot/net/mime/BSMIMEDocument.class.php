@@ -196,7 +196,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @return boolean マルチパートならばTrue
 	 */
 	public function isMultiPart () {
-		if (0 < $this->getParts()->count()) {
+		if (!!$this->getParts()->count()) {
 			return true;
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {

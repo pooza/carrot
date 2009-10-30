@@ -150,7 +150,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasErrors () {
-		return (0 < $this->getErrors()->count());
+		return !!$this->getErrors()->count();
 	}
 
 	/**

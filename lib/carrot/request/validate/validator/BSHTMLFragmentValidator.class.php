@@ -58,7 +58,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @return boolean 問題なしならTrue
 	 */
 	private function isValidElement (BSXMLElement $element) {
-		if (0 < $element->getElements()->count()) {
+		if (!!$element->getElements()->count()) {
 			foreach ($element as $child) {
 				if (!self::isValidElement($child)) {
 					return false;

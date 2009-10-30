@@ -51,7 +51,7 @@ class BSEmptyValidator extends BSValidator {
 			if ($value['is_file']) {
 				return BSString::isBlank($value['name']);
 			} else {
-				return ($value->count() == 0);
+				return !$value->count();
 			}
 		} else {
 			return BSString::isBlank($value);
