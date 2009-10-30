@@ -9,7 +9,7 @@
  */
 class LoginAction extends BSAction {
 	public function execute () {
-		$url = BSURL::getInstance($this->controller->getConstant('ROOT_URL_HTTPS'));
+		$url = BSURL::getInstance($this->controller->getAttribute('ROOT_URL_HTTPS'));
 		$url['path'] = '/AdminLog/';
 		return $url->redirect();
 	}

@@ -61,7 +61,7 @@ class BSMemcacheManager {
 	 * @return string 設定値
 	 */
 	public function getConfig ($name) {
-		return BSController::getInstance()->getConstant('MEMCACHE_' . $name);
+		return BSController::getInstance()->getAttribute('MEMCACHE_' . $name);
 	}
 
 	/**

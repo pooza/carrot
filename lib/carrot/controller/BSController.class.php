@@ -80,17 +80,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * 定数を返す
-	 *
-	 * @access public
-	 * @param string $name 定数の名前
-	 * @return string 定数の値
-	 */
-	public function getConstant ($name) {
-		return BSConstantHandler::getInstance()->getParameter($name);
-	}
-
-	/**
 	 * ログを出力
 	 *
 	 * @access public
@@ -220,8 +209,10 @@ abstract class BSController {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
-		if (!is_object($name)) {
-			$env = new BSArray($_SERVER);
+		if (!$date && !is_object($name)) {
+			$env = new BSArray;
+			$env->setParameters($_ENV);
+			$env->setParameters($_SERVER);
 			$keys = new BSArray;
 			$keys[] = $name;
 			$keys[] = 'HTTP_' . $name;
@@ -231,6 +222,11 @@ abstract class BSController {
 				if (!BSString::isBlank($value = $env[$key])) {
 					return $value;
 				}
+			}
+
+			$constants = BSConstantHandler::getInstance();
+			if (!BSString::isBlank($value = $constants[$name])) {
+				return $value;
 			}
 		}
 		return BSSerializeHandler::getInstance()->getAttribute($name, $date);
@@ -319,7 +315,7 @@ abstract class BSController {
 	 * @return string アプリケーション名
 	 */
 	static public function getName ($lang = 'ja') {
-		return self::getInstance()->getConstant('app_name_' . $lang);
+		return self::getInstance()->getAttribute('app_name_' . $lang);
 	}
 
 	/**

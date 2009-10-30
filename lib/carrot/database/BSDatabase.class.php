@@ -289,7 +289,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return boolean クエリーログを使用するならTrue
 	 */
 	private function isLoggable () {
-		return BSController::getInstance()->getConstant('PDO_' . $this->getName() . '_LOGGABLE');
+		return BSController::getInstance()->getAttribute('PDO_' . $this->getName() . '_LOGGABLE');
 	}
 
 	/**
