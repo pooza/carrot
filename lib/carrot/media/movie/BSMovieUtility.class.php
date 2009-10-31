@@ -40,7 +40,7 @@ class BSMovieUtility {
 	 * @static
 	 */
 	static public function getType ($name) {
-		require(BSConfigManager::getInstance()->compile('movie_format'));
+		$config = BSConfigManager::getInstance()->compile('movie_format');
 		$names = new BSArray($config['types']);
 		return $names[BSString::toLower($name)];
 	}

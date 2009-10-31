@@ -83,7 +83,7 @@ class BSZipcode implements BSAssignable {
 	 */
 	public function getPref () {
 		if (!$this->pref && $this->getInfo()) {
-			require(BSConfigManager::getInstance()->compile('postal'));
+			$config = BSConfigManager::getInstance()->compile('postal');
 			$this->pref = $config['prefs'][$this->getInfo()->getParameter(0) - 1];
 		}
 		return $this->pref;

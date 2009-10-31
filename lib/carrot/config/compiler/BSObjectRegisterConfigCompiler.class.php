@@ -25,6 +25,7 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 			$line[] = self::quote((array)$values['params']);
 			$this->putLine($line);
 		}
+		$this->putLine('return $objects;');
 		return $this->getBody();
 	}
 }

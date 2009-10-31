@@ -234,8 +234,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 			$entries[$file->getBaseName()] = array();
 		}
 		foreach ($this->getConfigFileNames() as $configFile) {
-			require(BSConfigManager::getInstance()->compile($configFile));
-			$entries->setParameters($config);
+			$entries->setParameters(BSConfigManager::getInstance()->compile($configFile));
 		}
 
 		if (!BSString::isBlank($prefix)) {

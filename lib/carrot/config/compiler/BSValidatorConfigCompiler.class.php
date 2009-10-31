@@ -39,11 +39,10 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function parse (BSConfigFile $file) {
+		$configure = BSConfigManager::getInstance();
 		$this->validators = new BSArray;
-		require(BSConfigManager::getInstance()->compile('validator/carrot'));
-		$this->validators->setParameters($config);
-		require(BSConfigManager::getInstance()->compile('validator/application'));
-		$this->validators->setParameters($config);
+		$this->validators->setParameters($configure->compile('validator/carrot'));
+		$this->validators->setParameters($configure->compile('validator/application'));
 
 		$config = new BSArray($file->getResult());
 		$this->parseMethods(new BSArray($config['methods']));

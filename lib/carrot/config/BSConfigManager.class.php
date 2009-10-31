@@ -18,9 +18,8 @@ class BSConfigManager {
 	 * @access private
 	 */
 	private function __construct () {
-		$objects = array();
-		require_once(self::getConfigFile('config_compilers', 'BSRootConfigFile')->compile());
-		$this->compilers = new BSArray($objects);
+		$file = self::getConfigFile('config_compilers', 'BSRootConfigFile');
+		$this->compilers = new BSArray($this->compile($file));
 		$this->compilers[] = new BSDefaultConfigCompiler(array('pattern' => '.'));;
 	}
 
@@ -59,7 +58,7 @@ class BSConfigManager {
 		if (!$file->isReadable()) {
 			throw new BSConfigException($file . 'が読めません。');
 		}
-		return $file->compile();
+		return require($file->compile()->getPath());
 	}
 
 	/**

@@ -99,10 +99,12 @@ $_SERVER['SERVER_NAME'] = basename(BS_ROOT_DIR);
 if (!$file = BSConfigManager::getConfigFile('constant/' . $_SERVER['SERVER_NAME'])) {
 	throw new RuntimeException('サーバ定義(' . $_SERVER['SERVER_NAME'] . ') が見つかりません。');
 }
-require(BSConfigManager::getInstance()->compile($file));
-require(BSConfigManager::getInstance()->compile('constant/application'));
-require(BSConfigManager::getInstance()->compile('constant/package'));
-require(BSConfigManager::getInstance()->compile('constant/carrot'));
+
+$configure = BSConfigManager::getInstance();
+$configure->compile($file);
+$configure->compile('constant/application');
+$configure->compile('constant/package');
+$configure->compile('constant/carrot');
 
 ini_set('realpath_cache_size', '128K');
 date_default_timezone_set(BS_DATE_TIMEZONE);

@@ -18,12 +18,13 @@ class BSDirectoryLayout {
 	 * @access private
 	 */
 	private function __construct () {
-		require(BSConfigManager::getInstance()->compile('layout/carrot'));
-		require(BSConfigManager::getInstance()->compile('layout/application'));
+		$configure = BSConfigManager::getInstance();
+		$this->directories += $configure->compile('layout/carrot');
+		$this->directories += $configure->compile('layout/application');
 
 		$name = 'layout/' . BSController::getInstance()->getHost()->getName();
 		if ($file = BSConfigManager::getConfigFile($name)) {
-			require(BSConfigManager::getInstance()->compile($file));
+			$this->directories += $configure->compile($file);
 		}
 	}
 

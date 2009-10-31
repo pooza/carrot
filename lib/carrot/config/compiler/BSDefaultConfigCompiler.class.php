@@ -18,7 +18,7 @@ class BSDefaultConfigCompiler extends BSConfigCompiler {
 
 		$this->clearBody();
 		$line = sprintf(
-			'$config = BSController::getInstance()->getAttribute(%s);',
+			'return BSController::getInstance()->getAttribute(%s);',
 			self::quote(BSSerializeHandler::getInstance()->getAttributeName($file))
 		);
 		$this->putLine($line);

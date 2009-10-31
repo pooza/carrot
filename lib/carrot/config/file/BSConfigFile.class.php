@@ -59,14 +59,14 @@ class BSConfigFile extends BSFile {
 	 * コンパイル
 	 *
 	 * @access public
-	 * @return string キャッシュファイルのフルパス
+	 * @return BSFile 設定キャッシュファイル
 	 */
 	public function compile () {
 		$cache = $this->getCacheFile();
 		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
 			$cache->setContents($this->getCompiler()->execute($this));
 		}
-		return $cache->getPath();
+		return $cache;
 	}
 
 	/**

@@ -26,8 +26,7 @@ class BSMenuFilter extends BSFilter {
 	private function getMenu () {
 		if (!$this->menu) {
 			$separator = true; //次の仕切りを無視するか？
-			require(BSConfigManager::getInstance()->compile($this->getMenuFile()));
-			foreach ($config as $values) {
+			foreach (BSConfigManager::getInstance()->compile($this->getMenuFile()) as $values) {
 				if ($menuitem = $this->getMenuItem($values)) {
 					if (BSString::isBlank($menuitem['separator'])) {
 						$separator = false;

@@ -13,10 +13,11 @@
 class BSLayoutConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
+		$this->putLine('$dirs = array();');
 		foreach ($file->getResult() as $name => $params) {
 			foreach ($params as $key => $value) {
 				$line = sprintf(
-					'$this->directories[%s][%s] = %s;',
+					'$dirs[%s][%s] = %s;',
 					self::quote($name),
 					self::quote($key),
 					self::quote($value)
@@ -25,6 +26,7 @@ class BSLayoutConfigCompiler extends BSConfigCompiler {
 				$this->putLine($line);
 			}
 		}
+		$this->putLine('return $dirs;');
 		return $this->getBody();
 	}
 }

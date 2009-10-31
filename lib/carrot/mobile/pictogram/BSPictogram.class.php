@@ -26,7 +26,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	private function __construct ($id) {
 		$this->id = $id;
-		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$config = BSConfigManager::getInstance()->compile('pictogram');
 		$this->codes = new BSArray($config['codes'][$this->getName()]);
 	}
 
@@ -73,7 +73,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	public function getNames () {
 		if (!$this->names) {
 			$this->names = new BSArray;
-			require(BSConfigManager::getInstance()->compile('pictogram'));
+			$config = BSConfigManager::getInstance()->compile('pictogram');
 			$this->names->merge($config['names'][$this->getID()]);
 		}
 		return $this->names;
@@ -255,7 +255,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictogramCode ($name) {
-		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$config = BSConfigManager::getInstance()->compile('pictogram');
 		if (is_numeric($name) && isset($config['names'][$name])) {
 			return $name;
 		} else if (isset($config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
@@ -271,7 +271,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictograms () {
-		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$config = BSConfigManager::getInstance()->compile('pictogram');
 		$pictograms = new BSArray;
 		foreach ($config['codes'] as $name => $entry) {
 			$pictograms[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
@@ -287,7 +287,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictogramNames () {
-		require(BSConfigManager::getInstance()->compile('pictogram'));
+		$config = BSConfigManager::getInstance()->compile('pictogram');
 		$codes = new BSArray($config['codes']);
 		return $codes->getKeys(BSArray::WITHOUT_KEY);
 	}

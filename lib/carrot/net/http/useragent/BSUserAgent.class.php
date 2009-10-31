@@ -274,10 +274,9 @@ abstract class BSUserAgent implements BSAssignable {
 	static private function getDeniedTypes () {
 		if (!self::$denied) {
 			self::$denied = new BSArray;
-			require(BSConfigManager::getInstance()->compile('useragent/carrot'));
-			self::$denied->setParameters($config);
-			require(BSConfigManager::getInstance()->compile('useragent/application'));
-			self::$denied->setParameters($config);
+			$configure = BSConfigManager::getInstance();
+			self::$denied->setParameters($configure->compile('useragent/carrot'));
+			self::$denied->setParameters($configure->compile('useragent/application'));
 		}
 		return self::$denied;
 	}

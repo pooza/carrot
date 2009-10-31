@@ -404,7 +404,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-		require(BSConfigManager::getInstance()->compile('date'));
+		$config = BSConfigManager::getInstance()->compile('date');
 		if (!isset($config['holiday'][$country])) {
 			throw new BSConfigException('国名"%s"の休日が未定義です。', $country);
 		}
@@ -672,7 +672,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	static public function getGengos () {
 		if (!self::$gengos) {
 			self::$gengos = new BSArray;
-			require(BSConfigManager::getInstance()->compile('date'));
+			$config = BSConfigManager::getInstance()->compile('date');
 			if (!isset($config['gengo'])) {
 				throw new BSConfigException('元号が設定されていません。');
 			}

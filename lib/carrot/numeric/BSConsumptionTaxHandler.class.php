@@ -22,7 +22,7 @@ class BSConsumptionTaxHandler {
 	 * @access private
 	 */
 	private function __construct () {
-		require(BSConfigManager::getInstance()->compile('consumption_tax'));
+		$config = BSConfigManager::getInstance()->compile('consumption_tax');
 		$this->rates = new BSArray;
 		foreach ($config['rates'] as $row) {
 			$date = BSDate::getInstance($row['start_date']);

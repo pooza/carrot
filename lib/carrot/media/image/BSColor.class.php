@@ -44,8 +44,7 @@ class BSColor extends BSParameterHolder {
 			$this['blue'] = hexdec($color[2] . $color[2]);
 		} else {
 			$color = BSString::toLower($color);
-			require(BSConfigManager::getInstance()->compile('color'));
-			$colors = new BSArray($config);
+			$colors = new BSArray(BSConfigManager::getInstance()->compile('color'));
 			if (BSString::isBlank($code = $colors[$color])) {
 				throw new BSImageException('色 "%s" は正しくありません。', $color);
 			}
