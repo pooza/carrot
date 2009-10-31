@@ -49,7 +49,7 @@ class BSConfigManager {
 	 *
 	 * @access public
 	 * @param mixed $file BSFile又はファイル名
-	 * @return string コンパイル済みキャッシュファイルのフルパス
+	 * @return mixed 設定ファイルからの戻り値
 	 */
 	public function compile ($file) {
 		if (!($file instanceof BSFile)) {
