@@ -106,13 +106,9 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 			$controller = BSController::getInstance();
 			if (!$agents = $controller->getAttribute($file, $file->getUpdateDate())) {
 				$agents = new BSArray;
-				$contents = $file->getContents();
-
-				//libxml2がパースエラーを起こす
-				$contents = mb_ereg_replace('[+&]', '', $contents);
-
 				$xml = new BSXMLDocument;
-				$xml->setContents($contents);
+				$xml->setDirty(true);
+				$xml->setContents($file->getContents());
 				foreach ($xml->getElements() as $element) {
 					$agents[$element->getName()] = $element->getAttributes();
 				}

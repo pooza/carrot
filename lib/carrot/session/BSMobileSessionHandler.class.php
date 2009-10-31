@@ -17,8 +17,7 @@ class BSMobileSessionHandler extends BSSessionHandler {
 	 */
 	public function __construct () {
 		if (!$this->getStorage()->initialize()) {
-			$this->storage = new BSDefaultSessionStorage;
-			$this->storage->initialize();
+			throw new BSSessionException('セッションを開始できません。');
 		}
 		ini_set('session.use_only_cookies', 0);
 		session_start();

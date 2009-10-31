@@ -32,7 +32,7 @@ class BSDirectoryLayout {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSConsoleController インスタンス
+	 * @return BSDirectoryLayout インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
@@ -95,16 +95,6 @@ class BSDirectoryLayout {
 		}
 
 		return $dir;
-	}
-
-	/**
-	 * 特別なディレクトリのパスを返す
-	 *
-	 * @access public
-	 * @param string パス
-	 */
-	public function getPath ($name) {
-		return $this->getDirectory($name)->getPath();
 	}
 }
 

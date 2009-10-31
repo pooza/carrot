@@ -17,12 +17,8 @@ class BSSessionHandler implements BSUserIdentifier {
 	 * @access public
 	 */
 	public function __construct () {
-		if (headers_sent()) {
+		if (headers_sent() || !$this->getStorage()->initialize()) {
 			throw new BSSessionException('セッションを開始できません。');
-		}
-		if (!$this->getStorage()->initialize()) {
-			$this->storage = new BSDefaultSessionStorage;
-			$this->storage->initialize();
 		}
 		session_start();
 		if (BS_SESSION_REGENERATE_ID) {

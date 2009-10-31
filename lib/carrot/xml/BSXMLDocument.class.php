@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
+	private $dirty = false;
 	private $error;
 
 	/**
@@ -44,6 +45,31 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	}
 
 	/**
+	 * ダーティモードか？
+	 *
+	 * @access public
+	 * @return boolean ダーティモードならTrue
+	 */
+	public function isDirty () {
+		return $this->dirty;
+	}
+
+	/**
+	 * ダーティモードを設定
+	 *
+	 * libxml2がエラーを起こすXML文書を無理やり処理する。
+	 *
+	 * @access public
+	 * @param boolean $mode ダーティモード
+	 */
+	public function setDirty ($mode) {
+		$this->dirty = $mode;
+		$this->getAttributes()->clear();
+		$this->getElements()->clear();
+		$this->setBody();
+	}
+
+	/**
 	 * 内容をXMLで返す
 	 *
 	 * @access public
@@ -55,6 +81,19 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 		$xml->formatOutput = true;
 		$xml->normalizeDocument();
 		return $xml->saveXML();
+	}
+
+	/**
+	 * XMLをパースして要素と属性を抽出
+	 *
+	 * @access public
+	 * @param $string $contents XML文書
+	 */
+	public function setContents ($contents) {
+		if ($this->isDirty()) {
+			$contents = mb_ereg_replace('[+&]', '', $contents);
+		}
+		parent::setContents($contents);
 	}
 
 	/**

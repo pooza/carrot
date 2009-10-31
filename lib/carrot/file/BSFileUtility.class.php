@@ -41,7 +41,7 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function getPath ($name) {
-		return BSDirectoryLayout::getInstance()->getPath($name);
+		return self::getDirectory($name)->getPath();
 	}
 
 	/**
