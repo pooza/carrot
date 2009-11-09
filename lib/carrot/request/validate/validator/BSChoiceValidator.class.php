@@ -34,11 +34,10 @@ class BSChoiceValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!BSArray::isArray($value)) {
-			$value = array($value);
-		}
-		foreach ($value as $item) {
-			if (!$this->getChoices()->isContain($item)) {
+		$choices = new BSArray($value);
+		$choices->trim();
+		foreach ($choices as $choice) {
+			if (!$this->getChoices()->isContain($choice)) {
 				$this->error = $this['choices_error'];
 				return false;
 			}

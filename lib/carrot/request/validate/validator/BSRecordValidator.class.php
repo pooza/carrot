@@ -40,7 +40,9 @@ class BSRecordValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		foreach ((array)$value as $id) {
+		$ids = new BSArray($value);
+		$ids->trim();
+		foreach ($ids as $id) {
 			if ($this->isExists($id)) {
 				if (!$this['exist']) {
 					$this->error = $this['duplicate_error'];
