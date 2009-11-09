@@ -110,7 +110,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 				$xml->setDirty(true);
 				$xml->setContents($file->getContents());
 				foreach ($xml->getElements() as $element) {
-					$agents[$element->getName()] = $element->getAttributes();
+					$agents[$element->getName()] = $element->getAttributes()->getParameters();
 				}
 				$agents->sort(BSArray::SORT_KEY_DESC);
 				$controller->setAttribute($file, $agents->getParameters());
