@@ -4,15 +4,16 @@
  * @subpackage media.image.renderer
  */
 
+BSUtility::includeFile('qrcode.php');
+
 /**
- * QRCodeレンダラー
+ * QRコードレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
 class BSQRCode implements BSImageRenderer {
 	private $image;
-	private $type;
 	private $data;
 	private $error;
 	private $engine;
@@ -21,21 +22,7 @@ class BSQRCode implements BSImageRenderer {
 	 * @access public
 	 */
 	public function __construct () {
-		if (!extension_loaded('qr')) {
-			throw new BSImageException('qrモジュールがロードされていません。');
-		}
 		$this->engine = new QRCode;
-		$this->engine->setMagnify(3);
-		$this->setType(BSMIMEType::getType('gif'));
-	}
-
-	/**
-	 * @access public
-	 * @param string $method メソッド名
-	 * @param mixed[] $values 引数
-	 */
-	public function __call ($method, $values) {
-		return BSUtility::executeMethod($this->engine, $method, $values);
 	}
 
 	/**
@@ -55,13 +42,8 @@ class BSQRCode implements BSImageRenderer {
 	 * @param string $data エンコード対象データ
 	 */
 	public function setData ($data) {
-		if ($this->data) {
-			throw new BSImageException('エンコード対象は設定済みです。');
-		} else {
-			$this->data = $data;
-			$this->engine->addData($data);
-			$this->engine->finalize();
-		}
+		$this->data = $data;
+		$this->image = null;
 	}
 
 	/**
@@ -71,32 +53,7 @@ class BSQRCode implements BSImageRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return $this->type;
-	}
-
-	/**
-	 * メディアタイプを設定
-	 *
-	 * @access public
-	 * @param string $type メディアタイプ又は拡張子
-	 */
-	public function setType ($type) {
-		if (!BSString::isBlank($suggested = BSMIMEType::getType($type, null))) {
-			$type = $suggested;
-		}
-		switch ($this->type = $type) {
-			case 'image/jpeg':
-				$this->engine->setFormat(QR_FMT_JPEG);
-				break;
-			case 'image/gif':
-				$this->engine->setFormat(QR_FMT_GIF);
-				break;
-			case 'image/png':
-				$this->engine->setFormat(QR_FMT_PNG);
-				break;
-			default:
-				throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
-		}
+		return BS_IMAGE_QRCODE_TYPE;
 	}
 
 	/**
@@ -106,8 +63,10 @@ class BSQRCode implements BSImageRenderer {
 	 * @return resource GDイメージリソース
 	 */
 	public function getImage () {
-		if (!$this->image && $this->getData()) {
-			$this->image = $this->engine->getImageResource();
+		if (!$this->image && !BSString::isBlank($this->getData())) {
+			$data = BSString::convertEncoding($this->getData(), 'sjis-win');
+			$qr = $this->engine->getMinimumQRCode($data, QR_ERROR_CORRECT_LEVEL_L);
+			$this->image = $qr->createImage(BS_IMAGE_QRCODE_SIZE, BS_IMAGE_QRCODE_MARGIN);
 		}
 		return $this->image;
 	}
@@ -139,11 +98,9 @@ class BSQRCode implements BSImageRenderer {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		ob_start();
-		$this->engine->outputSymbol();
-		$contents = ob_get_contents();
-		ob_end_clean();
-		return $contents;
+		$image = new BSImage;
+		$image->setImage($this->getImage());
+		return $image->getContents();
 	}
 
 	/**
