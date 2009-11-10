@@ -17,6 +17,7 @@ class BSQRCode implements BSImageRenderer {
 	private $data;
 	private $error;
 	private $engine;
+	private $type = BS_IMAGE_QRCODE_TYPE;
 
 	/**
 	 * @access public
@@ -53,7 +54,17 @@ class BSQRCode implements BSImageRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BS_IMAGE_QRCODE_TYPE;
+		return $this->type;
+	}
+
+	/**
+	 * メディアタイプを設定
+	 *
+	 * @access public
+	 * @param string $type メディアタイプ
+	 */
+	public function setType ($type) {
+		$this->type = $type;
 	}
 
 	/**
@@ -99,6 +110,7 @@ class BSQRCode implements BSImageRenderer {
 	 */
 	public function getContents () {
 		$image = new BSImage;
+		$image->setType($this->getType());
 		$image->setImage($this->getImage());
 		return $image->getContents();
 	}
