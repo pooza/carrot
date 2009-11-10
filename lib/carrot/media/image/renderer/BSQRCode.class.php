@@ -18,6 +18,8 @@ class BSQRCode implements BSImageRenderer {
 	private $error;
 	private $engine;
 	private $type = BS_IMAGE_QRCODE_TYPE;
+	private $size = BS_IMAGE_QRCODE_SIZE;
+	private $margin = BS_IMAGE_QRCODE_MARGIN;
 
 	/**
 	 * @access public
@@ -77,7 +79,7 @@ class BSQRCode implements BSImageRenderer {
 		if (!$this->image && !BSString::isBlank($this->getData())) {
 			$data = BSString::convertEncoding($this->getData(), 'sjis-win');
 			$qr = $this->engine->getMinimumQRCode($data, QR_ERROR_CORRECT_LEVEL_L);
-			$this->image = $qr->createImage(BS_IMAGE_QRCODE_SIZE, BS_IMAGE_QRCODE_MARGIN);
+			$this->image = $qr->createImage($this->size, $this->margin);
 		}
 		return $this->image;
 	}
