@@ -16,15 +16,6 @@ class BSCurlHTTP extends BSHTTP {
 	private $ssl = false;
 
 	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		if ($this->getEngine()) {
-			curl_close($this->getEngine());
-		}
-	}
-
-	/**
 	 * HEADリクエスト
 	 *
 	 * @access public
@@ -110,7 +101,7 @@ class BSCurlHTTP extends BSHTTP {
 	private function getEngine () {
 		if (!$this->engine) {
 			if (!extension_loaded('curl')) {
-				return null;
+				throw new BSHTTPException('curlモジュールがロードされていません。');
 			}
 
 			$this->engine = curl_init();
@@ -182,9 +173,6 @@ class BSCurlHTTP extends BSHTTP {
 		$this->ssl = $mode;
 		$this->name = null;
 		if ($this->isSSL()) {
-			if (!$this->getEngine()) {
-				throw new BSHTTPException('SSLモードの実行にはCurlが必要です。');
-			}
 			$this->port = BSNetworkService::getPort('https');
 		} else {
 			$this->port = BSNetworkService::getPort('http');

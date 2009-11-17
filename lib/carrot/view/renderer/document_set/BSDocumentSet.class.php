@@ -34,7 +34,8 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 
 		$entries = $this->getEntries();
 		if (isset($entries[$name]['files']) && BSArray::isArray($entries[$name]['files'])) {
-			foreach ($entries[$name]['files'] as $file) {
+			$files = $entries[$name]['files']; //この代入はPHP5.1対応。
+			foreach ($files as $file) {
 				$this->register($file);
 			}
 		} else {

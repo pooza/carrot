@@ -100,6 +100,8 @@ tel_separated:
       - tel1
       - tel2
       - tel3
+time:
+  class: BSTimeValidator
 tinytext:
   class: BSStringValidator
   params:
