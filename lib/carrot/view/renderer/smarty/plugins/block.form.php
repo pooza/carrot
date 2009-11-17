@@ -19,7 +19,12 @@ function smarty_block_form ($params, $contents, &$smarty) {
 		$params['method'] = 'POST';
 	}
 	$form->setMethod($params['method']);
-	$form->setAttachable(!!$params['attachable']);
+	if (!!$params['attachable']) {
+		$form->setAttachable(true);
+		if (!BSString::isBlank($size = $params['attachment_size'])) {
+			$form->addHiddenField('MAX_FILE_SIZE', $size * 1024 * 1024);
+		}
+	}
 	$form->setAction($params);
 
 	$params->removeParameter('method');
