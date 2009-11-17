@@ -15,6 +15,7 @@ class BSMIMEHeader extends BSParameterHolder {
 	protected $part;
 	protected $name;
 	protected $contents;
+	const WITHOUT_CRLF = 1;
 
 	/**
 	 * @access public
@@ -170,11 +171,16 @@ class BSMIMEHeader extends BSParameterHolder {
 	 * ヘッダを整形して返す
 	 *
 	 * @access public
-	 * @param ヘッダ行
+	 * @param integer $flags フラグのビット列
+	 *   self::WITHOUT_CRLF 改行を含まない
+	 * @return ヘッダ行
 	 */
-	public function format () {
+	public function format ($flags = null) {
 		if (!$this->isVisible()) {
 			return null;
+		}
+		if ($flags & self::WITHOUT_CRLF) {
+			return $this->name . ': ' . $this->getContents();
 		}
 
 		$contents = BSMIMEUtility::encode($this->getContents());

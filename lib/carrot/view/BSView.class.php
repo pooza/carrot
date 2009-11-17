@@ -185,7 +185,7 @@ class BSView extends BSHTTPResponse {
 			self::putHeader('HTTP/' . $this->getVersion() . ' ' . $header->getContents());
 		}
 		foreach ($this->getHeaders() as $name => $header) {
-			self::putHeader($header->format());
+			self::putHeader($header->format(BSMIMEHeader::WITHOUT_CRLF));
 		}
 	}
 
