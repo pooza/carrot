@@ -18,6 +18,9 @@ function smarty_block_form ($params, $contents, &$smarty) {
 	if (BSString::isBlank($params['method'])) {
 		$params['method'] = 'POST';
 	}
+	if (!!$params['send_submit_values']) {
+		$form->addSubmitFiedls();
+	}
 	$form->setMethod($params['method']);
 	if (!!$params['attachable']) {
 		$form->setAttachable(true);

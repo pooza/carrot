@@ -57,8 +57,7 @@ class BSFormElement extends BSXMLElement {
 			throw new BSHTTPException($this->getMethod() . 'は正しくないメソッドです。');
 		}
 		if ($this->getMethod() == 'post') {
-			$this->addHiddenField('dummy', '符号形式識別用文字列');
-			$this->addHiddenField('submit', 1);
+			$this->addSubmitFiedls();
 		}
 	}
 
@@ -129,6 +128,16 @@ class BSFormElement extends BSXMLElement {
 		} else {
 			$this->removeAttribute('enctype');
 		}
+	}
+
+	/**
+	 * Submit判定用のhidden値を加える
+	 *
+	 * @access public
+	 */
+	public function addSubmitFiedls () {
+		$this->addHiddenField('dummy', '符号形式識別用文字列');
+		$this->addHiddenField('submit', 1);
 	}
 
 	/**
