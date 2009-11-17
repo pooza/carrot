@@ -19,7 +19,7 @@ function smarty_block_form ($params, $contents, &$smarty) {
 		$params['method'] = 'POST';
 	}
 	if (!!$params['send_submit_values']) {
-		$form->addSubmitFiedls();
+		$form->addSubmitFields();
 	}
 	$form->setMethod($params['method']);
 	if (!!$params['attachable']) {
