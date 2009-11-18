@@ -15,8 +15,8 @@ class BSSocket {
 	protected $port;
 	protected $protocol;
 	protected $name;
-	private $client;
-	private $line;
+	protected $client;
+	protected $line;
 	const LINE_BUFFER = 4096;
 	const RETRY_LIMIT = 10;
 	const LINE_SEPARATOR = "\r\n";
@@ -126,7 +126,7 @@ class BSSocket {
 		} else if ($this->isEof()) {
 			return '';
 		}
-		$this->line = rtrim(fread($this->client, $length));
+		$this->line = rtrim(fgets($this->client, $length));
 		return $this->line;
 	}
 

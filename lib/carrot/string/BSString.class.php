@@ -112,12 +112,7 @@ class BSString {
 				$value[$key] = self::convertKana($item, $format);
 			}
 		} else {
-			if (BSString::isBlank($encoding = self::getEncoding($value))) {
-				// PHP5.1のバグ？
-				return mb_convert_kana($value, $format);
-			} else {
-				return mb_convert_kana($value, $format, $encoding);
-			}
+			return mb_convert_kana($value, $format, self::getEncoding($value));
 		}
 		return $value;
 	}

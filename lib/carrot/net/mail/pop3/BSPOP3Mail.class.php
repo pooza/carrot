@@ -48,7 +48,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 */
 	public function getHeader ($name) {
 		if (!$this->getHeaders()->count()) {
-			$this->queryHeaders();
+			$this->fetchHeaders();
 		}
 		return parent::getHeader($name);
 	}
@@ -77,7 +77,6 @@ class BSPOP3Mail extends BSMIMEDocument {
 		$this->executed['TOP'] = true;
 	}
 
-
 	/**
 	 * 本文を返す
 	 *
@@ -94,6 +93,16 @@ class BSPOP3Mail extends BSMIMEDocument {
 	}
 
 	/**
+	 * メールのサイズをPOPセッションから取得して返す
+	 *
+	 * @access public
+	 * @return integer サイズ
+	 */
+	public function getMailSize () {
+		return $this->size;
+	}
+
+	/**
 	 * サーバから削除
 	 *
 	 * @access public
@@ -107,6 +116,14 @@ class BSPOP3Mail extends BSMIMEDocument {
 			BSLogManager::getInstance()->put($message, $this);
 			$this->executed['DELE'] = true;
 		}
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('POP3メール "%s"', $this->getMessageID());
 	}
 }
 

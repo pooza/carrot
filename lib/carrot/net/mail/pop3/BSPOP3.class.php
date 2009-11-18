@@ -23,10 +23,6 @@ class BSPOP3 extends BSSocket {
 		if (!$this->isSuccess()) {
 			throw new BSMailException('%sに接続できません。 (%s)', $this, $this->getPrevLine());
 		}
-		try {
-			$this->execute('UIDL');
-		} catch (Exception $e) {
-		}
 	}
 
 	/**
