@@ -17,7 +17,7 @@ function smarty_modifier_url2link ($value) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
 		return mb_ereg_replace(
-			'https?://[[:alnum:][:punct:]]+',
+			'https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+',
 			'<a href="\\0" target="_blank">\\0</a>',
 			$value
 		);
