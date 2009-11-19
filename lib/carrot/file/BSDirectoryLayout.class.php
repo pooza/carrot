@@ -12,19 +12,25 @@
  */
 class BSDirectoryLayout {
 	static private $instance;
-	private $directories = array();
+	private $directories;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
 		$configure = BSConfigManager::getInstance();
-		$this->directories += $configure->compile('layout/carrot');
-		$this->directories += $configure->compile('layout/application');
+		$this->directories = new BSArray;
 
-		$name = 'layout/' . BSController::getInstance()->getHost()->getName();
-		if ($file = BSConfigManager::getConfigFile($name)) {
-			$this->directories += $configure->compile($file);
+		$entries = new BSArray;
+		$entries[] = 'carrot';
+		$entries[] = 'application';
+		$entries[] = BSController::getInstance()->getHost()->getName();
+		foreach ($entries as $entry) {
+			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
+				foreach ($configure->compile($file) as $key => $values) {
+					$this->directories[$key] = new BSArray($values);
+				}
+			}
 		}
 	}
 
@@ -57,44 +63,31 @@ class BSDirectoryLayout {
 	 * @return BSDirectory ディレクトリ
 	 */
 	public function getDirectory ($name) {
-		if (!isset($this->directories[$name])) {
+		if (!$info = $this->directories[$name]) {
 			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
 		}
-		if (!isset($this->directories[$name]['instance'])) {
-			$this->directories[$name]['instance'] = $this->getDirectoryInstance($name);
-		}
-		return $this->directories[$name]['instance'];
-	}
+		if (!$info['instance']) {
+			if (!BSString::isBlank($info['constant'])) {
+				$dir = new BSDirectory(BSController::getInstance()->getAttribute($name . '_DIR'));
+			} else if (!BSString::isBlank($info['name'])) {
+				$dir = $this->getDirectory($info['parent'])->getEntry($info['name']);
+			} else {
+				$dir = $this->getDirectory($info['parent'])->getEntry($name);
+			}
+			if (!$dir || !$dir->isDirectory()) {
+				throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+			}
 
-	/**
-	 * 特別なディレクトリのインスタンスを生成
-	 *
-	 * @access private
-	 * @param string $name 名前
-	 */
-	private function getDirectoryInstance ($name) {
-		$params = $this->directories[$name];
-		if (isset($params['constant'])) {
-			$dir = new BSDirectory(BSController::getInstance()->getAttribute($name . '_DIR'));
-		} else if (isset($params['name'])) {
-			$dir = $this->getDirectory($params['parent'])->getEntry($params['name']);
-		} else {
-			$dir = $this->getDirectory($params['parent'])->getEntry($name);
+			if (!BSString::isBlank($info['class'])) {
+				$class = BSClassLoader::getInstance()->getClassName($info['class']);
+				$dir = new $class($dir->getPath());
+			}
+			if (!BSString::isBlank($info['suffix'])) {
+				$dir->setDefaultSuffix($info['suffix']);
+			}
+			$info['instance'] = $dir;
 		}
-
-		if (!$dir || !$dir->isDirectory()) {
-			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
-		}
-
-		if (isset($params['class'])) {
-			$class = BSClassLoader::getInstance()->getClassName($params['class']);
-			$dir = new $class($dir->getPath());
-		}
-		if (isset($params['suffix'])) {
-			$dir->setDefaultSuffix($params['suffix']);
-		}
-
-		return $dir;
+		return $info['instance'];
 	}
 }
 
