@@ -200,7 +200,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 			return true;
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
-				if (mb_ereg('^multipart/', $header->getContents())) {
+				if (mb_eregi('^multipart/', $header->getContents())) {
 					return true;
 				}
 			}
@@ -233,6 +233,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	public function setContents ($contents) {
 		$this->contents = $contents;
 		try {
+			$contents = BSString::convertLineSeparator($contents);
 			$contents = BSString::explode("\n\n", $contents);
 			$this->parseHeaders($contents->shift());
 			$contents = $contents->join("\n\n");
