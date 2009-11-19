@@ -199,7 +199,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		if ($this->isEof()) {
 			return '';
 		}
-		$line = fread($this->handle, $length);
+		$line = fgets($this->handle, $length);
 		$line = rtrim($line);
 		return $line;
 	}
