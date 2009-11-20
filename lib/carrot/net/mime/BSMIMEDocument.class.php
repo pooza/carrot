@@ -369,8 +369,8 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 			}
 			return $parts;
 		} else {
+			$entity = $this->getRenderer()->getContents();
 			if ($header = $this->getHeader('Content-Type')) {
-				$entity = $this->getRenderer()->getContents();
 				switch ($this->getContentTransferEncoding()) {
 					case 'base64':
 						$entity = BSMIMEUtility::decodeBase64($entity);
@@ -382,9 +382,8 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 				if ($header['main_type'] == 'text') {
 					$entity = BSString::convertEncoding($entity, 'utf-8', $header['charset']);
 				}
-				return $entity;
 			}
-			return $this->getRenderer();
+			return $entity;
 		}
 	}
 
