@@ -102,6 +102,11 @@ tel_separated:
       - tel3
 time:
   class: BSTimeValidator
+tinyint:
+  class: BSNumberValidator
+  params:
+    min: 0
+    max: 250
 tinytext:
   class: BSStringValidator
   params:
