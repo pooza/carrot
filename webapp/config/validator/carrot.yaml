@@ -85,6 +85,8 @@ pixel:
   params:
     min: 8
     max: 1024
+smarty:
+  class: BSSmartyValidator
 string:
   class: BSStringValidator
   params:
