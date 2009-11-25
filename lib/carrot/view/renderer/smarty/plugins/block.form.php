@@ -31,7 +31,7 @@ function smarty_block_form ($params, $contents, &$smarty) {
 	$form->setAction($params);
 
 	$params->removeParameter('method');
-	$params->removeParameter('attchable');
+	$params->removeParameter('attachable');
 	$params->removeParameter('path');
 	$params->removeParameter('module');
 	$params->removeParameter('action');
