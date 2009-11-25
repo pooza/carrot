@@ -32,6 +32,8 @@ class BSFormElement extends BSXMLElement {
 			foreach ($this->useragent->getAttribute('query') as $key => $value) {
 				$this->addHiddenField($key, $value);
 			}
+		} else {
+			$this->disableMultiSubmit();
 		}
 	}
 
@@ -138,6 +140,15 @@ class BSFormElement extends BSXMLElement {
 	public function addSubmitFields () {
 		$this->addHiddenField('dummy', '符号形式識別用文字列');
 		$this->addHiddenField('submit', 1);
+	}
+
+	/**
+	 * 二度押し防止
+	 *
+	 * @access public
+	 */
+	public function disableMultiSubmit () {
+		$this->setAttribute('onsubmit', 'this.onsubmit=function(){return false}');
 	}
 
 	/**
