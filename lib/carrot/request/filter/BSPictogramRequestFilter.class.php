@@ -25,7 +25,7 @@ class BSPictogramRequestFilter extends BSRequestFilter {
 	protected function convert ($key, $value) {
 		$useragent = $this->request->getUserAgent();
 		if ($useragent->isMobile()) {
-			$value = $useragent->getCarrier()->convertPictogram($value);
+			$value = $useragent->getCarrier()->trimPictogram($value);
 		}
 		return $value;
 	}
