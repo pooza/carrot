@@ -214,11 +214,15 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		return BSTranslateManager::getInstance()->execute(
-			$this->getBaseName(),
-			'user_image',
-			$language
-		);
+		try {
+			return BSTranslateManager::getInstance()->execute(
+				$this->getBaseName(),
+				'user_image',
+				$language
+			);
+		} catch (BSTranslateException $e) {
+			return $this->getBaseName();
+		}
 	}
 
 	/**
