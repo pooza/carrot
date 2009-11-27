@@ -28,30 +28,33 @@ class BSURL implements ArrayAccess, BSAssignable {
 	 * ファクトリインスタンスを返す
 	 *
 	 * @access public
-	 * @param $contents URL文字列
+	 * @param string $contents URL文字列、又はパラメータ配列
+	 * @param string $class 生成クラス名
 	 * @return BSURL
 	 * @static
 	 */
 	static public function getInstance ($contents = null, $class = 'BSHTTPURL') {
 		if (BSString::isBlank($contents)) {
 			return new $class;
-		}
-		if (!is_string($contents)) {
-			throw new BSNetException('"%s"は正しいURLではありません。', $contents);
+		} else if (is_string($contents)) {
+			$params = new BSArray(parse_url($contents));
+		} else if ($contents instanceof BSParameterHolder) {
+			$params = new BSArray($contents->getParameters());
+		} else {
+			return null;
 		}
 
-		$attributes = new BSArray(parse_url($contents));
-		switch ($attributes['scheme']) {
+		switch ($params['scheme']) {
 			case 'http':
 			case 'https':
-				return new BSHTTPURL($attributes);
+				return new $class($params);
 			case 'mailto':
 			case 'xmpp':
 			case 'tel':
 			case 'skype':
-				return new BSContactURL($attributes);
+				return new BSContactURL($params);
 			default:
-				return new BSURL($attributes);
+				return new BSURL($params);
 		}
 	}
 
