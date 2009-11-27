@@ -29,8 +29,10 @@
  */
 function smarty_block_jsonp ($params, $contents, &$smarty) {
 	$params = new BSArray($params);
-	$serializer = new BSJSONSerializer;
-	return sprintf('%s(%s);', $params['method'], $serializer->encode($contents));
+	$body = new BSStringFormat('%s(%s);');
+	$body[] = $params['method'];
+	$body[] = BSJavaScriptUtility::quote($contents);
+	return $body->getContents();
 }
 
 /* vim:set tabstop=4: */
