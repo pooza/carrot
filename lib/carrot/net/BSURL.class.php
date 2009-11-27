@@ -173,8 +173,6 @@ class BSURL implements ArrayAccess, BSAssignable {
 			case 'pass':
 				$this->attributes[$name] = $value;
 				break;
-			default:
-				throw new BSNetException($name . 'は正しくない属性名です。');
 		}
 		$this->contents = null;
 		return $this;

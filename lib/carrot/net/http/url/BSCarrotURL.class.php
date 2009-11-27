@@ -143,6 +143,37 @@ class BSCarrotURL extends BSHTTPURL {
 		// path属性をsetAttributeすると、queryやflagmentが初期化されてしまう。
 		$this->attributes['path'] = $path->join('/');
 	}
+
+	/**
+	 * パラメータ配列をパース
+	 *
+	 * パラメータ配列にmodule要素やaction要素がない場合は、
+	 * 実行中アクションから引用する。
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params 又はパラメータ配列
+	 * @return BSArray パースされたパラメータ配列
+	 * @static
+	 */
+	static public function parseParameters (BSParameterHolder $params) {
+		$params = new BSArray($params->getParameters());
+		if (BSString::isBlank($params['scheme'])) {
+			$params['scheme'] = 'http';
+		}
+		if (BSString::isBlank($params['host'])) {
+			$params['host'] = BSController::getInstance()->getHost();
+		}
+		if (BSString::isBlank($params['module'])) {
+			if (BSString::isBlank($params['action'])) {
+				$action = BSController::getInstance()->getAction();
+				$params['action'] = $action->getName();
+				$params['module'] = $action->getModule()->getName();
+			} else {
+				$params['module'] = BSController::getInstance()->getModule();
+			}
+		}
+		return $params;
+	}
 }
 
 /* vim:set tabstop=4: */

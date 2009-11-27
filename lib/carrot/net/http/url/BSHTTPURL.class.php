@@ -64,9 +64,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			case 'fragment':
 				$this->attributes[$name] = $value;
 				return $this;
-			case mb_ereg('^params_(.*)$', $name, $matches):
-				$this->setParameter($matches[1], $value);
-				return $this;
+		}
+		if (mb_ereg('^params?_(.*)$', $name, $matches)) {
+			$this->setParameter($matches[1], $value);
+			return $this;
 		}
 		return parent::setAttribute($name, $value);
 	}
