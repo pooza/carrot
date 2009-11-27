@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.9
+  ver: 2.3.10
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -111,7 +111,8 @@ package:
   name:
   ver:
 pdo:
-  query_log_enable: no
+  query_log:
+    enable: no
   default:
     dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
     loggable: yes
