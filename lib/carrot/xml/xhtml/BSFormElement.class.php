@@ -84,11 +84,10 @@ class BSFormElement extends BSXMLElement {
 			$this->setAttribute('action', $action->getURL()->getContents());
 		} else if ($action instanceof BSParameterHolder) {
 			if (BSString::isBlank($action['path'])) {
-				$params = BSCarrotURL::parseParameters($action);
-				$url = BSURL::getInstance($params, 'BSCarrotURL');
-				return $this->setAction($url->getContents());
+				$this->setAction(BSURL::getInstance($action, 'BSCarrotURL'));
+			} else {
+				$this->setAction($action['path']);
 			}
-			$this->setAction($action['path']);
 		} else {
 			$this->setAttribute('action', $action);
 		}

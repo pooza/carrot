@@ -14,7 +14,6 @@ function smarty_function_carrot_url ($params, &$smarty) {
 	$params = new BSArray($params);
 
 	if (BSString::isBlank($params['contents'])) {
-		$params = BSCarrotURL::parseParameters($params);
 		$url = BSURL::getInstance($params, 'BSCarrotURL');
 	} else {
 		$url = BSURL::getInstance($params['contents']);

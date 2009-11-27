@@ -40,6 +40,9 @@ class BSURL implements ArrayAccess, BSAssignable {
 			$params = new BSArray(parse_url($contents));
 		} else if ($contents instanceof BSParameterHolder) {
 			$params = new BSArray($contents->getParameters());
+			if ($class == 'BSCarrotURL') {
+				$params = BSCarrotURL::parseParameters($params);
+			}
 		} else {
 			return null;
 		}
