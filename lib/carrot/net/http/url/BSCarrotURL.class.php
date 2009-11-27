@@ -26,10 +26,13 @@ class BSCarrotURL extends BSHTTPURL {
 	public function setAttribute ($name, $value) {
 		switch ($name) {
 			case 'module':
+			case 'module_name':
 				return $this->setModuleName($value);
 			case 'action':
+			case 'action_name':
 				return $this->setActionName($value);
 			case 'record':
+			case 'record_id':
 				return $this->setRecordID($value);
 		}
 		return parent::setAttribute($name, $value);

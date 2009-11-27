@@ -26,9 +26,6 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		if (BSString::isBlank($params['module'])) {
 			if (BSString::isBlank($params['action'])) {
 				$url['action'] = BSController::getInstance()->getAction();
-				if (!BSString::isBlank($params['record_id'])) {
-					$url['record'] = $params['record_id'];
-				}
 			} else {
 				$url['module'] = BSController::getInstance()->getModule();
 			}
