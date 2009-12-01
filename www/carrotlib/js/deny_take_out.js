@@ -6,16 +6,20 @@
  * @version $Id$
  */
 
-function denyTakeOut () {
+function denyTakeOut (selector_name) {
   var doNothing = function () {return false;}
   var configureElement = function (element) {
-    if (element.oncontextmenu == null) {
+    if (!element.oncontextmenu) {
       element.oncontextmenu = doNothing;
       element.onselectstart = doNothing;
       element.onmousedown = doNothing;
     }
   }
-  var elements = $$('.deny_take_out');
+
+  if (!selector_name) {
+    selector_name = '.deny_take_out';
+  }
+  var elements = $$(selector_name);
   for (var i = 0 ; i < elements.length ; i ++) {
     configureElement(elements[i]);
   }
