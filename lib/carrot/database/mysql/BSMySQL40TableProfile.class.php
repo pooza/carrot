@@ -16,13 +16,14 @@ class BSMySQL40TableProfile extends BSMySQLTableProfile {
 	 * テーブルのフィールドリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] フィールドのリスト
+	 * @return BSArray フィールドのリスト
 	 */
 	public function getFields () {
 		if (!$this->fields) {
+			$this->fields = new BSArray;
 			$query = 'DESC `' . $this->getName() . '`';
 			foreach ($this->database->query($query) as $row) {
-				$this->fields[] = array(
+				$this->fields[$row['Field']] = array(
 					'column_name' => $row['Field'],
 					'data_type' => $row['Type'],
 					'is_nullable' => $row['Null'],
@@ -37,14 +38,18 @@ class BSMySQL40TableProfile extends BSMySQLTableProfile {
 	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] 制約のリスト
+	 * @return BSArray 制約のリスト
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
+			$this->constraints = new BSArray;
 			$query = 'SHOW KEYS FROM `' . $this->getName() . '`';
 			foreach ($this->database->query($query) as $row) {
 				$name = $row['Key_name'];
-				$this->constraints[$name]['name'] = $name;
+				if (!$this->constraints[$name]) {
+					$this->constraints[$name] = new BSArray;
+					$this->constraints[$name]['name'] = $name;
+				}
 				$this->constraints[$name]['fields'][] = array(
 					'column_name' => $row['Column_name'],
 				);

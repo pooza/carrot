@@ -12,9 +12,10 @@
  * @abstract
  */
 abstract class BSTableProfile implements BSAssignable {
+	private $attributeName;
 	protected $database;
-	protected $fields = array();
-	protected $constraints = array();
+	protected $fields;
+	protected $constraints;
 	private $name;
 
 	/**
@@ -31,6 +32,36 @@ abstract class BSTableProfile implements BSAssignable {
 		if (!$this->isExists()) {
 			throw new BSDatabaseException($this . 'が取得できません。');
 		}
+
+		if ($profile = BSController::getInstance()->getAttribute($this->getAttributeName())) {
+			$this->fields = new BSArray($profile['fields']);
+			$this->constraints = new BSArray($profile['constraints']);
+		}
+	}
+
+	/**
+	 * @access public
+	 */
+	public function __destruct () {
+		$name = get_class($this) . '.' . $this->getName();
+		if (!$profile = BSController::getInstance()->getAttribute($this->getAttributeName())) {
+			$values = array(
+				'fields' => $this->getFields()->getParameters(),
+				'constraints' => $this->getConstraints()->getParameters(),
+			);
+			BSController::getInstance()->setAttribute($this->getAttributeName(), $values);
+		}
+	}
+
+	private function getAttributeName () {
+		if (!$this->attributeName) {
+			$name = new BSArray;
+			$name[] = get_class($this);
+			$name[] = $this->getDatabase()->getName();
+			$name[] = $this->getName();
+			$this->attributeName = $name->join('.');
+		}
+		return $this->attributeName;
 	}
 
 	/**
@@ -67,7 +98,7 @@ abstract class BSTableProfile implements BSAssignable {
 	 * テーブルのフィールドリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] フィールドのリスト
+	 * @return BSArray フィールドのリスト
 	 * @abstract
 	 */
 	abstract public function getFields ();
@@ -76,7 +107,7 @@ abstract class BSTableProfile implements BSAssignable {
 	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] 制約のリスト
+	 * @return BSArray 制約のリスト
 	 * @abstract
 	 */
 	abstract public function getConstraints ();

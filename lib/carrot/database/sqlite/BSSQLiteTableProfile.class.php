@@ -16,30 +16,29 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	 * テーブルのフィールドリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] フィールドのリスト
+	 * @return BSArray フィールドのリスト
 	 */
 	public function getFields () {
 		if (!$this->fields) {
-			$fields = array();
+			$this->fields = new BSArray;
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $row) {
-				$fields[$row['name']] = array(
+				$this->fields[$row['name']] = array(
 					'column_name' => $row['name'],
 					'data_type' => BSString::toLower($row['type']),
 					'is_nullable' => $row['notnull'],
 					'column_default' => $row['dflt_value'],
 				);
 			}
-			$this->fields = $fields;
 		}
 		return $this->fields;
 	}
 
 	/**
-	 * テーブルのキーリストを配列で返す
+	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] キーのリスト
+	 * @return BSArray 制約のリスト
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
@@ -53,7 +52,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 				foreach ($this->getDatabase()->query($query) as $rowField) {
 					$key['fields'][] = array('column_name' => $rowField['name']);
 				}
-				$this->constraints[] = $key;
+				$this->constraints[$rowKey['name']] = $key;
 			}
 		}
 		return $this->constraints;

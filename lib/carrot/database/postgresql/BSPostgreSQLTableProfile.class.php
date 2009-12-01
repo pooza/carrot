@@ -16,7 +16,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	 * テーブルのフィールドリストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] フィールドのリスト
+	 * @return BSArray フィールドのリスト
 	 */
 	public function getFields () {
 		if (!$this->fields) {
@@ -26,7 +26,10 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 				$this->getCriteria(),
 				'ordinal_position'
 			);
-			$this->fields = $this->database->query($query)->fetchAll();
+			$this->fields = new BSArray;
+			foreach ($this->database->query($query) as $row) {
+				$this->fields[$row['column_name']] = $row;
+			}
 		}
 		return $this->fields;
 	}
@@ -35,19 +38,20 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	 * テーブルの制約リストを配列で返す
 	 *
 	 * @access public
-	 * @return string[][] 制約のリスト
+	 * @return BSArray 制約のリスト
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
+			$this->constraints = new BSArray;
 			$query = BSSQL::getSelectQueryString(
 				'constraint_name AS name,constraint_type AS type',
 				'information_schema.table_constraints',
 				$this->getCriteria(),
 				'constraint_type=' . $this->database->quote('PRIMARY KEY') . ',constraint_name'
 			);
-			foreach ($this->database->query($query)->fetchAll() as $row) {
+			foreach ($this->database->query($query) as $row) {
 				$criteria = $this->getCriteria();
-				$criteria[] = 'constraint_name=' . $this->database->quote($row['name']);
+				$criteria->register('constraint_name', $row['name']);
 				$query = BSSQL::getSelectQueryString(
 					'column_name',
 					'information_schema.key_column_usage',
@@ -66,12 +70,12 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	 * 抽出条件を返す
 	 *
 	 * @access protected
-	 * @return string[] 抽出条件
+	 * @return BSCriteriaSet 抽出条件
 	 */
 	protected function getCriteria () {
-		return array(
-			'table_name=' . $this->database->quote($this->getName()),
-		);
+		$criteria = $this->database->createCriteriaSet();
+		$criteria->register('table_name', $this->getName());
+		return $criteria;
 	}
 }
 

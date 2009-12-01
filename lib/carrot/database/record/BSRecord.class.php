@@ -97,6 +97,12 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
 
+		$fields = $this->getTable()->getProfile()->getFields();
+		$field = $this->getTable()->getUpdateDateField();
+		if ($fields[$field]) {
+			$values[$field] = BSDate::getNow('Y-m-d H:i:s');
+		}
+
 		$query = BSSQL::getUpdateQueryString(
 			$this->getTable()->getName(),
 			$values,
@@ -203,7 +209,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate () {
-		return BSDate::getInstance($this['update_date']);
+		return BSDate::getInstance($this[$this->getTable()->getUpdateDateField()]);
 	}
 
 	/**
@@ -213,7 +219,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @return BSDate 作成日
 	 */
 	public function getCreateDate () {
-		return BSDate::getInstance($this['create_date']);
+		return BSDate::getInstance($this[$this->getTable()->getCreateDateField()]);
 	}
 
 	/**
