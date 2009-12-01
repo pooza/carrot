@@ -42,6 +42,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
+			$this->constraints = new BSArray;
 			$query = 'PRAGMA index_list(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $rowKey) {
 				$key = array(
