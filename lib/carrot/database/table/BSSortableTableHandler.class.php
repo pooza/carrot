@@ -59,8 +59,6 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 * @return string レコードの主キー
 	 */
 	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
-		$values['create_date'] = BSDate::getNow('Y-m-d H:i:s');
-		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
 		$values[$this->getRankField()] = $this->getNextRank();
 		return parent::createRecord($values, $flags);
 	}
@@ -89,16 +87,6 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 */
 	public function getRankField () {
 		return 'rank';
-	}
-
-	/**
-	 * 状態フィールド名
-	 *
-	 * @access public
-	 * @return string 状態フィールド名
-	 */
-	public function getStatusField () {
-		return 'status';
 	}
 
 	/**

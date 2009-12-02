@@ -75,6 +75,36 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * 状態フィールド名
+	 *
+	 * @access public
+	 * @return string 状態フィールド名
+	 */
+	public function getStatusField () {
+		return 'status';
+	}
+
+	/**
+	 * 作成日フィールド名
+	 *
+	 * @access public
+	 * @return string 作成日フィールド名
+	 */
+	public function getCreateDateField () {
+		return 'create_date';
+	}
+
+	/**
+	 * 更新日フィールド名
+	 *
+	 * @access public
+	 * @return string 更新日フィールド名
+	 */
+	public function getUpdateDateField () {
+		return 'update_date';
+	}
+
+	/**
 	 * 抽出条件文字列を返す
 	 *
 	 * @access public
@@ -406,26 +436,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getIterator () {
 		return new BSTableIterator($this);
-	}
-
-	/**
-	 * 作成日フィールド名
-	 *
-	 * @access public
-	 * @return string 作成日フィールド名
-	 */
-	public function getCreateDateField () {
-		return 'create_date';
-	}
-
-	/**
-	 * 更新日フィールド名
-	 *
-	 * @access public
-	 * @return string 更新日フィールド名
-	 */
-	public function getUpdateDateField () {
-		return 'update_date';
 	}
 
 	/**

@@ -18,19 +18,6 @@ abstract class BSSortableRecord extends BSRecord {
 	const RANK_BOTTOM = 'bottom';
 
 	/**
-	 * 更新
-	 *
-	 * @access public
-	 * @param string[] $values 更新する値
-	 * @param integer $flags フラグのビット列
-	 *   BSDatabase::WITH_LOGGING ログを残さない
-	 */
-	public function update ($values, $flags = BSDatabase::WITH_LOGGING) {
-		$values['update_date'] = BSDate::getNow('Y-m-d H:i:s');
-		parent::update($values, $flags);
-	}
-
-	/**
 	 * 更新可能か？
 	 *
 	 * @access protected

@@ -70,16 +70,13 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	/**
 	 * 抽出条件を返す
 	 *
-	 * @access public
-	 * @return string 抽出条件
+	 * @access protected
+	 * @return BSCriteriaSet 抽出条件
 	 */
-	public function getCriteria () {
+	protected function getCriteria () {
 		if (!$this->criteria) {
-			$this->criteria = sprintf(
-				'%s=%s',
-				$this->getTable()->getKeyField(),
-				$this->getTable()->getDatabase()->quote($this->getID())
-			);
+			$this->criteria = $this->getTable()->getDatabase()->createCriteriaSet();
+			$this->criteria->register($this->getTable()->getKeyField(), $this);
 		}
 		return $this->criteria;
 	}
