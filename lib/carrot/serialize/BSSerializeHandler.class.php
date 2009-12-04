@@ -113,11 +113,13 @@ class BSSerializeHandler {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		if ($value instanceof BSArray) {
+		if (BSArray::isArray($value)) {
+			$value = new BSArray($value);
 			$value = $value->decode();
 		} else if ($value instanceof BSParameterHolder) {
 			$value = $value->getParameters();
 		}
+
 		$serialized = $this->getStorage()->setAttribute($this->getAttributeName($name), $value);
 		$message = new BSStringFormat('%sのシリアライズをキャッシュしました。 (%sB)');
 		$message[] = $name;
