@@ -90,7 +90,7 @@ abstract class BSTableAction extends BSAction {
 		if (!$this->rows) {
 			$this->rows = new BSArray;
 			foreach ($this->getTable() as $record) {
-				$this->rows[] = $record->getAttributes();
+				$this->rows[] = $record->getAssignValue();
 			}
 		}
 		return $this->rows;

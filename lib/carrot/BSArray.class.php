@@ -247,6 +247,22 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	}
 
 	/**
+	 * PHP配列に戻す
+	 *
+	 * @access public
+	 * @return mixed[] PHP配列
+	 */
+	public function decode () {
+		$values = $this->getParameters();
+		foreach ($values as $key => $value) {
+			if ($value instanceof BSArray) {
+				$values[$key] = $value->decode();
+			}
+		}
+		return $values;
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public

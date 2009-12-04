@@ -113,8 +113,13 @@ class BSSerializeHandler {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
+		if ($value instanceof BSArray) {
+			$value = $value->decode();
+		} else if ($value instanceof BSParameterHolder) {
+			$value = $value->getParameters();
+		}
 		$serialized = $this->getStorage()->setAttribute($this->getAttributeName($name), $value);
-		$message = new BSStringFormat('%sのシリアライズを格納しました。 (%sB)');
+		$message = new BSStringFormat('%sのシリアライズをキャッシュしました。 (%sB)');
 		$message[] = $name;
 		$message[] = BSNumeric::getBinarySize(strlen($serialized));
 		BSLogManager::getInstance()->put($message, $this->getStorage());
@@ -144,6 +149,8 @@ class BSSerializeHandler {
 			$name->merge(explode(DIRECTORY_SEPARATOR, $file->getShortPath()));
 			$name->trim();
 			return $name->join('.');
+		} else if ($name instanceof BSRecord) {
+			return $name->getSerializedName();
 		} else if (is_object($name)) {
 			return get_class($name);
 		}
