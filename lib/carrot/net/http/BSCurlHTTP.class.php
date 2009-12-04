@@ -112,6 +112,16 @@ class BSCurlHTTP extends BSHTTP {
 			$this->setAttribute('returntransfer', true);
 			$this->setAttribute('maxredirs', 32);
 			$this->setAttribute('ssl_verifypeer', false);
+
+			if ($this->host->getName() == BSController::getInstance()->getHost()->getName()) {
+				$constants = BSConstantHandler::getInstance();
+				if ($constants['app_basic_auth_user'] && $constants['app_basic_auth_password']) {
+					$value = new BSStringFormat('%s:%s');
+					$value[] = $constants['app_basic_auth_user'];
+					$value[] = $constants['app_basic_auth_password'];
+					$this->setAttribute('userpwd', $value->getContents());
+				}
+			}
 		}
 		return $this->engine;
 	}
