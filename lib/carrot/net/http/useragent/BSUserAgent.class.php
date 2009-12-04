@@ -261,7 +261,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return $this->attributes->getParameters();
+		return $this->attributes;
 	}
 
 	/**

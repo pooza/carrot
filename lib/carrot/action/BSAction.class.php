@@ -413,7 +413,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return $this->getAttributes()->getParameters();
+		return $this->getAttributes();
 	}
 
 	/**

@@ -113,7 +113,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 					$agents[$element->getName()] = $element->getAttributes()->getParameters();
 				}
 				$agents->sort(BSArray::SORT_KEY_DESC);
-				$controller->setAttribute($file, $agents->getParameters());
+				$controller->setAttribute($file, $agents);
 			}
 			self::$displayInfo = new BSArray($agents);
 		}

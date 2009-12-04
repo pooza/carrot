@@ -83,6 +83,11 @@ class BSSessionHandler implements BSUserIdentifier {
 	 * @param mixed $value 値
 	 */
 	public function write ($key, $value) {
+		if ($value instanceof BSArray) {
+			$value = $value->decode();
+		} else if ($value instanceof BSParameterHolder) {
+			$value = $value->getParameters();
+		}
 		$_SESSION[$key] = $value;
 	}
 

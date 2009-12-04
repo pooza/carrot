@@ -36,7 +36,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 			if (BSString::isBlank($words)) {
 				$this->words = clone $this->getEngine()->getRecords();
 				$this->words->flatten();
-				$controller->setAttribute($this, $this->words->getParameters());
+				$controller->setAttribute($this, $this->words);
 			} else {
 				$this->words = new BSArray($words);
 			}

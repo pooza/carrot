@@ -449,7 +449,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		}
 		if ($schema = $this->getSchema()) {
 			$this->getDatabase()->exec(
-				BSSQL::getCreateTableQueryString($this->getName(), $schema->getParameters())
+				BSSQL::getCreateTableQueryString($this->getName(), $schema)
 			);
 		}
 	}

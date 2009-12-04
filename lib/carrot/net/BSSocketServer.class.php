@@ -55,7 +55,7 @@ class BSSocketServer {
 		$params = new BSArray;
 		$params['port'] = $this->open();
 		$params['pid'] = BSProcess::getCurrentID();
-		BSController::getInstance()->setAttribute($this, $params->getParameters());
+		BSController::getInstance()->setAttribute($this, $params);
 		$this->attributes = $params;
 
 		$message = new BSStringFormat('開始しました。（ポート:%d, PID:%d）');

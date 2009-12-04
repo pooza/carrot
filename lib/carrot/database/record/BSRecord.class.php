@@ -310,7 +310,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * シリアライズされるときの名前を返す
 	 *
 	 * @access public
-	 * @return name シリアライズされるときの名前
+	 * @return string シリアライズされるときの名前
 	 */
 	public function getSerializedName () {
 		return sprintf('%s.%08d', get_class($this), $this->getID());
@@ -329,21 +329,21 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * シリアライズを削除
-	 *
-	 * @access public
-	 */
-	public function clearSerialized () {
-		BSController::getInstance()->removeAttribute($this);
-	}
-
-	/**
 	 * シリアライズされた情報を返す
 	 *
 	 * @access protected
 	 */
 	protected function getSerialized () {
 		return BSController::getInstance()->getAttribute($this);
+	}
+
+	/**
+	 * シリアライズを削除
+	 *
+	 * @access public
+	 */
+	public function clearSerialized () {
+		BSController::getInstance()->removeAttribute($this);
 	}
 
 	/**

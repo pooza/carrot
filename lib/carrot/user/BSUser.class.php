@@ -34,8 +34,8 @@ class BSUser extends BSParameterHolder {
 	 * @access public
 	 */
 	public function __destruct () {
-		$this->getSession()->write('attributes', $this->attributes->getParameters());
-		$this->getSession()->write('credentials', $this->credentials->getParameters());
+		$this->getSession()->write('attributes', $this->attributes);
+		$this->getSession()->write('credentials', $this->credentials);
 	}
 
 	/**

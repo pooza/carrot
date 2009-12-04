@@ -46,8 +46,8 @@ abstract class BSTableProfile implements BSAssignable {
 		$name = get_class($this) . '.' . $this->getName();
 		if (!$profile = BSController::getInstance()->getAttribute($this->getAttributeName())) {
 			$values = array(
-				'fields' => $this->getFields()->getParameters(),
-				'constraints' => $this->getConstraints()->getParameters(),
+				'fields' => $this->getFields(),
+				'constraints' => $this->getConstraints(),
 			);
 			BSController::getInstance()->setAttribute($this->getAttributeName(), $values);
 		}

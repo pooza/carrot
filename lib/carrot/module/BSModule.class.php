@@ -196,10 +196,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		$this->parameters = clone $params;
 		$this->parameters->removeParameter(BSController::MODULE_ACCESSOR);
 		$this->parameters->removeParameter(BSController::ACTION_ACCESSOR);
-		$this->user->setAttribute(
-			$this->getParameterCacheName(),
-			$this->parameters->getParameters()
-		);
+		$this->user->setAttribute($this->getParameterCacheName(), $this->parameters);
 	}
 
 	/**
@@ -498,7 +495,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return $this->getAttributes()->getParameters();
+		return $this->getAttributes();
 	}
 
 	/**
