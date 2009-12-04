@@ -105,6 +105,12 @@ class BSUser extends BSParameterHolder {
 	 * @param BSDate $expire 期限
 	 */
 	public function setAttribute ($name, $value, BSDate $expire = null) {
+		if ($value instanceof BSArray) {
+			$value = $value->decode();
+		} else if ($value instanceof BSParameterHolder) {
+			$value = $value->getParameters();
+		}
+
 		$this->attributes[(string)$name] = $value;
 
 		if ($expire) {
@@ -142,7 +148,9 @@ class BSUser extends BSParameterHolder {
 	 * @param mixed[] $attributes 属性値
 	 */
 	public function setAttributes ($attributes) {
-		$this->attributes->setParameters($attributes);
+		foreach ($attributes as $key => $value) {
+			$this->setAttribute($key, $value);
+		}
 	}
 
 	/**
