@@ -105,15 +105,7 @@ class BSUser extends BSParameterHolder {
 	 * @param BSDate $expire 期限
 	 */
 	public function setAttribute ($name, $value, BSDate $expire = null) {
-		if (BSArray::isArray($value)) {
-			$value = new BSArray($value);
-			$value = $value->decode();
-		} else if ($value instanceof BSParameterHolder) {
-			$value = $value->getParameters();
-		}
-
 		$this->attributes[(string)$name] = $value;
-
 		if ($expire) {
 			setcookie((string)$name, $value, $expire->getTimestamp(), '/');
 		}
