@@ -12,10 +12,10 @@
  * @abstract
  */
 abstract class BSTableProfile implements BSAssignable {
-	private $attributeName;
 	protected $database;
 	protected $fields;
 	protected $constraints;
+	private $serializedName;
 	private $name;
 
 	/**
@@ -33,7 +33,7 @@ abstract class BSTableProfile implements BSAssignable {
 			throw new BSDatabaseException($this . 'が取得できません。');
 		}
 
-		if ($profile = BSController::getInstance()->getAttribute($this->getAttributeName())) {
+		if ($profile = BSController::getInstance()->getAttribute($this->getSerializedName())) {
 			$this->fields = new BSArray($profile['fields']);
 			$this->constraints = new BSArray($profile['constraints']);
 		}
@@ -44,24 +44,24 @@ abstract class BSTableProfile implements BSAssignable {
 	 */
 	public function __destruct () {
 		$name = get_class($this) . '.' . $this->getName();
-		if (!$profile = BSController::getInstance()->getAttribute($this->getAttributeName())) {
+		if (!$profile = BSController::getInstance()->getAttribute($this->getSerializedName())) {
 			$values = array(
 				'fields' => $this->getFields(),
 				'constraints' => $this->getConstraints(),
 			);
-			BSController::getInstance()->setAttribute($this->getAttributeName(), $values);
+			BSController::getInstance()->setAttribute($this->getSerializedName(), $values);
 		}
 	}
 
-	private function getAttributeName () {
-		if (!$this->attributeName) {
+	private function getSerializedName () {
+		if (!$this->serializedName) {
 			$name = new BSArray;
 			$name[] = get_class($this);
 			$name[] = $this->getDatabase()->getName();
 			$name[] = $this->getName();
-			$this->attributeName = $name->join('.');
+			$this->serializedName = $name->join('.');
 		}
-		return $this->attributeName;
+		return $this->serializedName;
 	}
 
 	/**

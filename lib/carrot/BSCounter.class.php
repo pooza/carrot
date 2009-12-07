@@ -28,13 +28,13 @@ class BSCounter {
 	 * @return integer カウンターの値
 	 */
 	public function getContents () {
-		if (!$this->getUser()->hasAttribute($this->getAttributeName())) {
-			$count = BSController::getInstance()->getAttribute($this->getAttributeName());
+		if (!$this->getUser()->hasAttribute($this->getSerializedName())) {
+			$count = BSController::getInstance()->getAttribute($this->getSerializedName());
 			$count ++;
-			BSController::getInstance()->setAttribute($this->getAttributeName(), $count);
-			$this->getUser()->setAttribute($this->getAttributeName(), $count);
+			BSController::getInstance()->setAttribute($this->getSerializedName(), $count);
+			$this->getUser()->setAttribute($this->getSerializedName(), $count);
 		}
-		return $this->getUser()->getAttribute($this->getAttributeName());
+		return $this->getUser()->getAttribute($this->getSerializedName());
 	}
 
 	/**
@@ -43,8 +43,8 @@ class BSCounter {
 	 * @access public
 	 */
 	public function release () {
-		if ($this->getUser()->hasAttribute($this->getAttributeName())) {
-			$this->getUser()->removeAttribute($this->getAttributeName());
+		if ($this->getUser()->hasAttribute($this->getSerializedName())) {
+			$this->getUser()->removeAttribute($this->getSerializedName());
 		}
 	}
 
@@ -64,7 +64,7 @@ class BSCounter {
 	 * @access private
 	 * @return string 名前
 	 */
-	private function getAttributeName () {
+	private function getSerializedName () {
 		return get_class($this) . '.' . $this->name;
 	}
 }

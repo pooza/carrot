@@ -11,6 +11,16 @@
  * @version $Id$
  */
 class BSDateException extends BSException {
+
+	/**
+	 * ログを書き込むか
+	 *
+	 * @access public
+	 * @return boolean ログを書き込むならTrue
+	 */
+	public function isLoggable () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */
