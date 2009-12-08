@@ -119,6 +119,18 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	public function getError () {
 		return $this->error;
 	}
+
+	/**
+	 * コメントを削除
+	 *
+	 * @access public
+	 * @param string $value 対象文字列
+	 * @return string 変換後の文字列
+	 * @static
+	 */
+	static public function stripComment ($value) {
+		return mb_ereg_replace('<!--.*?-->', null, $value);
+	}
 }
 
 /* vim:set tabstop=4: */
