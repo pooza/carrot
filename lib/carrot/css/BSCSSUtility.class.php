@@ -30,14 +30,16 @@ class BSCSSUtility {
 	 * @static
 	 */
 	static public function trim ($value, BSArray $properties = null) {
+		$value = BSString::stripControlCharacters($value);
 		if (!$properties) {
 			$properties = new BSArray;
+			$properties[] = 'font';
 			$properties[] = 'font-size';
 			$properties[] = 'font-family';
 			$properties[] = 'margin';
 		}
 		foreach ($properties as $property) {
-			$value = mb_ereg_replace($property . ':[^;"]+([;"])', '\\1', $value);
+			$value = mb_ereg_replace($property . ' ?: ?[^;"]+([;"])', '\\1', $value);
 		}
 		$value = str_replace('class="MsoNormal"', null, $value);
 		$value = str_replace('style=";"', null, $value);
