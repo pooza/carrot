@@ -25,6 +25,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		parent::__construct($name);
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['id'] = $this->getID();
+		$this->attributes['is_attachable'] = $this->isAttachable();
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['query'] = new BSArray;
@@ -59,6 +60,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$params = new BSWWWFormRenderer;
 		$params->setParameters($this->attributes['query']);
 		$params[$session->getName()] = $session->getID();
+		$params['mobile_useragent_id'] = $this->getID();
 		if (BS_DEBUG) {
 			$params[BSRequest::USER_AGENT_ACCESSOR] = $this->getName();
 		}
@@ -139,6 +141,16 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @abstract
 	 */
 	abstract public function getDisplayInfo ();
+
+	/**
+	 * 添付可能か？
+	 *
+	 * @access public
+	 * @return boolean 添付可能ならTrue
+	 */
+	public function isAttachable () {
+		return false;
+	}
 
 	/**
 	 * 端末IDを返す

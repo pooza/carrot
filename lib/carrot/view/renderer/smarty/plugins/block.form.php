@@ -22,7 +22,8 @@ function smarty_block_form ($params, $contents, &$smarty) {
 		$form->addSubmitFields();
 	}
 	$form->setMethod($params['method']);
-	if (!!$params['attachable']) {
+	$useragent = $smarty->getUserAgent();
+	if ($params['attachable'] && (!$useragent->isMobile() || $useragent->isAttachable())) {
 		$form->setAttachable(true);
 		if (!BSString::isBlank($size = $params['attachment_size'])) {
 			$form->addHiddenField('MAX_FILE_SIZE', $size * 1024 * 1024);

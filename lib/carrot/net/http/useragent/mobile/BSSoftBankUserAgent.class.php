@@ -77,6 +77,16 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
+	 * 添付可能か？
+	 *
+	 * @access public
+	 * @return boolean 添付可能ならTrue
+	 */
+	public function isAttachable () {
+		return true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
