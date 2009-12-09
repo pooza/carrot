@@ -26,7 +26,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['id'] = $this->getID();
 		$this->attributes['is_attachable'] = $this->isAttachable();
-		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['query'] = new BSArray;
 	}

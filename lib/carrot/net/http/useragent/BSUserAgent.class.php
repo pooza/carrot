@@ -26,6 +26,7 @@ abstract class BSUserAgent implements BSAssignable {
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
+		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
 		$this->bugs = new BSArray;
 	}
