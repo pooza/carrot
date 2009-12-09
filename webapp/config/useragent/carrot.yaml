@@ -8,6 +8,8 @@ Tasman:
   denied: yes
 LegacyMozilla:
   denied: yes
+Trident:
+  legacy_denied: yes
 Docomo:
   legacy_denied: yes
   denied_patterns:

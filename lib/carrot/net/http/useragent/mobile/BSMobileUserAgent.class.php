@@ -85,21 +85,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
-	 * 非対応のUserAgentか？
-	 *
-	 * @access public
-	 * @return boolean 非対応のUserAgentならTrue
-	 */
-	public function isDenied () {
-		if ($type = self::getDeniedTypes()->getParameter($this->getType())) {
-			if (isset($type['legacy_denied']) && $type['legacy_denied'] && $this->isLegacy()) {
-				return true;
-			}
-		}
-		return parent::isDenied();
-	}
-
-	/**
 	 * プラットホームを返す
 	 *
 	 * @access public
@@ -127,15 +112,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		}
 		return $this->carrier;
 	}
-
-	/**
-	 * 旧機種か？
-	 *
-	 * @access public
-	 * @return boolean 旧機種ならばTrue
-	 * @abstract
-	 */
-	abstract public function isLegacy ();
 
 	/**
 	 * 規定の画像形式を返す

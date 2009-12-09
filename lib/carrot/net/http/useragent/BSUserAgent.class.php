@@ -66,6 +66,16 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
+	 * レガシー環境/旧機種か？
+	 *
+	 * @access public
+	 * @return boolean レガシーならばTrue
+	 */
+	public function isLegacy () {
+		return false;
+	}
+
+	/**
 	 * 非対応のUserAgentか？
 	 *
 	 * @access public
@@ -73,11 +83,15 @@ abstract class BSUserAgent implements BSAssignable {
 	 */
 	public function isDenied () {
 		if ($type = self::getDeniedTypes()->getParameter($this->getType())) {
-			if (isset($type['denied']) && $type['denied']) {
+			$values = new BSArray($type);
+			if ($values['denied']) {
 				return true;
 			}
-			if (isset($type['denied_patterns']) && is_array($type['denied_patterns'])) {
-				foreach ($type['denied_patterns'] as $pattern) {
+			if ($values['legacy_denied'] && $this->isLegacy()) {
+				return true;
+			}
+			if (BSArray::isArray($values['denied_patterns'])) {
+				foreach ($values['denied_patterns'] as $pattern) {
 					if (BSString::isContain($pattern, $this->getName())) {
 						return true;
 					}

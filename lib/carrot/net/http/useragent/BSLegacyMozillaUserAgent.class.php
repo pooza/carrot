@@ -22,6 +22,16 @@ class BSLegacyMozillaUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * レガシー環境/旧機種か？
+	 *
+	 * @access public
+	 * @return boolean レガシーならばTrue
+	 */
+	public function isLegacy () {
+		return true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
