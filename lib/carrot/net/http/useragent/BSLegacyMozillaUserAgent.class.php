@@ -19,6 +19,7 @@ class BSLegacyMozillaUserAgent extends BSUserAgent {
 	public function __construct ($name = null) {
 		parent::__construct($name);
 		$this->bugs['css'] = true;
+		$this->attributes['is_kuso'] = true;
 	}
 
 	/**
