@@ -9,6 +9,7 @@ Tasman:
 LegacyMozilla:
   denied: yes
 Docomo:
+  legacy_denied: yes
   denied_patterns:
     - D20
     - D21
@@ -54,6 +55,7 @@ Docomo:
     - NM850iG
     - F2051
 Au:
+  legacy_denied: yes
   denied_patterns:
     - ST14
     - HI14
@@ -81,6 +83,7 @@ Au:
     - CA14
     - TS14
 SoftBank:
+  legacy_denied: yes
   denied_patterns:
     - 304T
     - C980

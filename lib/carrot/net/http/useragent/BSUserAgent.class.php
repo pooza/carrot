@@ -72,7 +72,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return boolean 非対応のUserAgentならTrue
 	 */
 	public function isDenied () {
-		if ($type = $this->getDeniedTypes()->getParameter($this->getType())) {
+		if ($type = self::getDeniedTypes()->getParameter($this->getType())) {
 			if (isset($type['denied']) && $type['denied']) {
 				return true;
 			}
@@ -267,11 +267,11 @@ abstract class BSUserAgent implements BSAssignable {
 	/**
 	 * 全てのタイプ情報を返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @return BSArray 全てのタイプ情報
 	 * @static
 	 */
-	static private function getDeniedTypes () {
+	static protected function getDeniedTypes () {
 		if (!self::$denied) {
 			self::$denied = new BSArray;
 			$configure = BSConfigManager::getInstance();
