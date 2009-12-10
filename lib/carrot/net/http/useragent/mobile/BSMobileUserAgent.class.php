@@ -61,11 +61,10 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$params[$session->getName()] = $session->getID();
 		if (BS_DEBUG) {
 			$params[BSRequest::USER_AGENT_ACCESSOR] = $this->getName();
+			$params['mobile_agent_id'] = $this->getID();
 		}
-		$this->attributes['query_params'] = $params->getContents();
-
-		$params['mobile_agent_id'] = $this->getID();
 		$this->attributes['query'] = $params->getParameters();
+		$this->attributes['query_params'] = $params->getContents();
 
 		if ($this->smarty) {
 			$this->smarty->setAttribute('useragent', $this);
