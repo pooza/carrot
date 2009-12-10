@@ -380,6 +380,9 @@ class BSImageCacheHandler {
 	 */
 	public function getContainer (BSParameterHolder $params) {
 		if (!BSString::isBlank($params['src'])) {
+			if (BSUtility::isPathAbsolute($params['src'])) {
+				return new BSImageFile($params['src']);
+			}
 			foreach (array('images', 'www', 'root') as $name) {
 				$dir = BSFileUtility::getDirectory($name);
 				if ($entry = $dir->getEntry($params['src'], 'BSImageFile')) {
