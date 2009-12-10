@@ -88,7 +88,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'MSIE ([:digit:]\\.[[:digit:]]+); ([^;]+);';
+		return 'MSIE ([[:digit:]]\\.[[:digit:]]+); ([^;]+);';
 	}
 }
 
