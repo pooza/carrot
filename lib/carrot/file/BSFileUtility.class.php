@@ -72,7 +72,7 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function isDottedName ($name) {
-		return mb_ereg("^\\.", basename($name));
+		return mb_ereg('^\\.', basename($name));
 	}
 
 
