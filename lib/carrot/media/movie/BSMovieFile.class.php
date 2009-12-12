@@ -95,7 +95,7 @@ class BSMovieFile extends BSMediaFile {
 	public function getImageElement (BSParameterHolder $params) {
 		$element = parent::getImageElement($params);
 		if ($inner = $element->getElement('div')) { //Gecko対応
-			$inner->setAttribute('style', $this->getPixelSizeCSSSelector($params));
+			$inner->setAttribute('style', $this->getStyle($params)->getContents());
 		}
 		return $element;
 	}
