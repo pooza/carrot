@@ -178,13 +178,23 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
+	 * 無視対象か？
+	 *
+	 * @access public
+	 * @return boolean 無視対象ならTrue
+	 */
+	public function isIgnore () {
+		return BSFileUtility::isIgnoreName($this->getName());
+	}
+
+	/**
 	 * 名前がドットから始まるか？
 	 *
 	 * @access public
 	 * @return boolean ドットから始まるならTrue
 	 */
-	public function isDoted () {
-		return mb_ereg("^\\.", $this->getName());
+	public function isDotted () {
+		return BSFileUtility::isDotted($this->getName());
 	}
 
 	/**

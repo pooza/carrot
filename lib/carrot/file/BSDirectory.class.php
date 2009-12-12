@@ -16,6 +16,9 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	private $zip;
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
+	const WITHOUT_DOTTED = 1;
+	const WITHOUT_IGNORE = 2;
+	const WITHOUT_ALL_IGNORE = 3;
 
 	/**
 	 * @access public
@@ -65,11 +68,19 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * 拡張子による抽出を行い、かつ拡張子を削除する。
 	 *
 	 * @access public
+	 * @param integer $flags フラグのビット列
+	 *   self::WITHOUT_DOTTED ドットファイルを除く
+	 *   self::WITHOUT_IGNORE 無視ファイルを除く
 	 * @return BSArray 抽出されたエントリー名
 	 */
-	public function getEntryNames () {
+	public function getEntryNames ($flags = null) {
 		$names = new BSArray;
 		foreach ($this->getAllEntryNames() as $name) {
+			if (($flags & self::WITHOUT_DOTTED) && BSFileUtility::isDottedName($name)) {
+				continue;
+			} else if (($flags & self::WITHOUT_IGNORE) && BSFileUtility::isIgnoreName($name)) {
+				continue;
+			}
 			if (fnmatch('*' . $this->getDefaultSuffix(), $name)) {
 				$names[] = basename($name, $this->getDefaultSuffix());
 			}
@@ -206,10 +217,11 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param integer $flags フラグのビット列
-	 *   BSZipArchive::WITHOUT_DOTED ドットファイルを除く
+	 *   self::WITHOUT_DOTTED ドットファイルを除く
+	 *   self::WITHOUT_IGNORE 無視ファイルを除く
 	 * @return BSZipArchive ZIPアーカイブ
 	 */
-	public function getArchive ($flags = BSZipArchive::WITHOUT_DOTED) {
+	public function getArchive ($flags = self::WITHOUT_ALL_IGNORE) {
 		if (!extension_loaded('zip')) {
 			throw new BSFileException('zipモジュールがロードされていません。');
 		}

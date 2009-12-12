@@ -14,7 +14,6 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	private $file;
 	private $temporaryFile;
 	private $opened = false;
-	const WITHOUT_DOTED = 1;
 
 	/**
 	 * @access public
@@ -66,10 +65,13 @@ class BSZipArchive extends ZipArchive implements BSrenderer {
 	 * @param BSDirectoryEntry $entry エントリー
 	 * @param string $prefix エントリー名のプレフィックス
 	 * @param integer $flags フラグのビット列
-	 *   self::WITHOUT_DOTED ドットファイルを除く
+	 *   BSDirectory::WITHOUT_DOTTED ドットファイルを除く
+	 *   BSDirectory::WITHOUT_IGNORE 無視ファイルを除く
 	 */
 	public function register (BSDirectoryEntry $entry, $prefix = null, $flags = null) {
-		if (($flags & self::WITHOUT_DOTED) && $entry->isDoted()) {
+		if (($flags & BSDirectory::WITHOUT_DOTTED) && $entry->isDotted()) {
+			return;
+		} else if (($flags & BSDirectory::WITHOUT_IGNORE) && $entry->isIgnore()) {
 			return;
 		}
 
