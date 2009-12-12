@@ -55,7 +55,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @return BSXMLElement 要素
 	 */
 	protected function getScriptElement (BSParameterHolder $params) {
-		$element = BSJavaScriptUtility::getScriptElement();
+		$element = new BSScriptElement;
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
 		$body[] = BSJavaScriptUtility::quote($this->getMediaURL($params)->getContents());
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);

@@ -128,7 +128,7 @@ class BSFeedUtility extends Zend_Feed {
 	 */
 	static public function createEntry (BSFeedDocument $feed) {
 		$class = str_replace('Document', 'Entry', get_class($feed));
-		$feed->getEntryRootElement()->addElement($entry = new $class);
+		$entry = $feed->getEntryRootElement()->addElement(new $class);
 		$entry->setDocument($feed);
 		return $entry;
 	}

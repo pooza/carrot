@@ -12,11 +12,11 @@
  */
 class BSXMLElement implements IteratorAggregate {
 	private $contents;
-	private $raw = false;
 	private $body;
 	private $name;
 	private $attributes;
 	private $elements;
+	protected $raw = false;
 
 	/**
 	 * @access public
@@ -182,14 +182,26 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
+	 * 空要素か？
+	 *
+	 * @access public
+	 * @return boolean 空要素ならTrue
+	 */
+	public function isEmptyElement () {
+		return false;
+	}
+
+	/**
 	 * 子要素を追加
 	 *
 	 * @access public
 	 * @param BSXMLElement $element 要素
+	 * @return BSXMLElement 追加した要素
 	 */
 	public function addElement (BSXMLElement $element) {
 		$this->getElements()->push($element);
 		$this->contents = null;
+		return $element;
 	}
 
 	/**
@@ -201,9 +213,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSXMLElement 要素
 	 */
 	public function createElement ($name, $body = null) {
-		$element = new BSXMLElement($name);
+		$element = $this->addElement(new BSXMLElement($name));
 		$element->setBody($body);
-		$this->addElement($element);
 		return $element;
 	}
 
@@ -265,6 +276,11 @@ class BSXMLElement implements IteratorAggregate {
 					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
 				}
 			}
+
+			if ($this->isEmptyElement()) {
+				return $this->contents .= ' />';
+			}
+
 			$this->contents .= '>';
 			foreach ($this->getElements() as $element) {
 				$this->contents .= $element->getContents();
@@ -326,12 +342,24 @@ class BSXMLElement implements IteratorAggregate {
 	}
 
 	/**
+	 * 上位のタグでくくって返す
+	 *
+	 * @access public
+	 * @param BSXMLElement $parent 上位の要素
+	 * @return BSXMLElement 上位の要素
+	 */
+	public function wrap (BSXMLElement $parent) {
+		$parent->addElement($this);
+		return $parent;
+	}
+
+	/**
 	 * RAWモードを返す
 	 *
 	 * @access public
 	 * @return boolean RAWモード
 	 */
-	public function getRawMode () {
+	public function isRawMode () {
 		return $this->raw;
 	}
 

@@ -19,9 +19,8 @@ function smarty_block_smarty_preformatted ($params, $contents, &$smarty) {
 	$contents = mb_ereg_replace('\\{[^}]*\\}', '<em>\\0</em>', $contents);
 	$contents = nl2br($contents);
 
-	$element = new BSXMLElement('span');
+	$element = new BSSpanElement;
 	$element->setAttribute('class', $params['style_class']);
-	$element->setRawMode(true);
 	$element->setBody($contents);
 
 	return $element->getContents();

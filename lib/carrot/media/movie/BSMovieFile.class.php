@@ -110,7 +110,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSXMLElement 要素
 	 */
 	protected function getScriptElement (BSParameterHolder $params) {
-		$element = BSJavaScriptUtility::getScriptElement();
+		$element = new BSScriptElement;
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_PLAYER_HREF);

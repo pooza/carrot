@@ -361,13 +361,8 @@ class BSImageCacheHandler {
 	 * @return BSXMLElement img要素
 	 */
 	public function getImageElement (BSArray $info) {
-		$element = new BSXMLElement('img');
-		$element->setAttribute('src', $info['url']);
-		$element->setAttribute('width', $info['width']);
-		$element->setAttribute('height', $info['height']);
-		if (!$this->getUserAgent()->isMobile()) {
-			$element->setAttribute('alt', $info['alt']);
-		}
+		$element = new BSImageElement;
+		$element->setAttributes($info);
 		return $element;
 	}
 

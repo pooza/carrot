@@ -26,10 +26,7 @@ class BSJavaScriptUtility {
 	 * @static
 	 */
 	static public function getScriptElement () {
-		$element = new BSXMLElement('script');
-		$element->setAttribute('type', 'text/javascript');
-		$element->setRawMode(true);
-		return $element;
+		return new BSScriptElement;
 	}
 
 	/**

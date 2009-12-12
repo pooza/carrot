@@ -10,8 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFormElement extends BSXMLElement {
-	private $useragent;
+class BSFormElement extends BSXHTMLElement {
 	const ATTACHABLE_TYPE = 'multipart/form-data';
 
 	/**
@@ -19,15 +18,8 @@ class BSFormElement extends BSXMLElement {
 	 * @param string $name 要素の名前
 	 * @param BSUserAgent $useragent 対象UserAgent
 	 */
-	public function __construct ($name = 'form', BSUserAgent $useragent = null) {
+	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name);
-		$this->setRawMode(true);
-
-		if ($useragent) {
-			$this->useragent = $useragent;
-		} else {
-			$this->useragent = BSRequest::getInstance()->getUserAgent();
-		}
 		if ($this->useragent->isMobile()) {
 			foreach ($this->useragent->getAttribute('query') as $key => $value) {
 				$this->addHiddenField($key, $value);

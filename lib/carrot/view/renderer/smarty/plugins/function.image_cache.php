@@ -16,7 +16,6 @@ function smarty_function_image_cache ($params, &$smarty) {
 	$caches = BSImageCacheHandler::getInstance();
 	$params = new BSArray($params);
 	$flags = $caches->convertFlags($params['flags']);
-	$mode = BSString::toLower($params['mode']);
 
 	if (!$container = $caches->getContainer($params)) {
 		return null;
@@ -24,35 +23,30 @@ function smarty_function_image_cache ($params, &$smarty) {
 		return null;
 	}
 
-	switch ($mode) {
+	$element = $caches->getImageElement($info);
+	$element->setAttribute('class', $params['style_class']);
+
+	switch ($mode = BSString::toLower($params['mode'])) {
+		case 'pixel_size':
 		case 'size':
 			return $info['pixel_size'];
 		case 'width':
-			return $info['width'];
 		case 'height':
-			return $info['height'];
+			return $info[$mode];
+		case 'lightbox':
+			$element = $element->wrap(new BSAnchorElement);
+			$element->setAttribute('rel', 'lightbox');
+			$url = $caches->getURL(
+				$container,
+				$params['size'],
+				$params['pixel_full'],
+				$caches->convertFlags($params['flags_full'])
+			);
+			$element->setURL($url);
+			//↓そのまま実行
+		default:
+			return $element->getContents();
 	}
-
-	$element = $caches->getImageElement($info);
-	if (($class = $params['style_class']) && !$smarty->getUserAgent()->isMobile()) {
-		$element->setAttribute('class', $class);
-	}
-
-	if ($mode == 'lightbox') {
-		$url = $caches->getURL(
-			$container,
-			$params['size'],
-			$params['pixel_full'],
-			$caches->convertFlags($params['flags_full'])
-		);
-		$parent = new BSXMLElement('a');
-		$parent->addElement($element);
-		$element = $parent;
-		$element->setAttribute('rel', 'lightbox');
-		$element->setAttribute('href', $url->getContents());
-	}
-
-	return $element->getContents();
 }
 
 /* vim:set tabstop=4: */
