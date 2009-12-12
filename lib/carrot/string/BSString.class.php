@@ -112,7 +112,32 @@ class BSString {
 				$value[$key] = self::convertKana($item, $format);
 			}
 		} else {
+			if (self::isContain('a-', $format)) {
+				$format = str_replace('a-', null, $format);
+				$value = self::convertAlphabet($value);
+			}
 			return mb_convert_kana($value, $format, self::getEncoding($value));
+		}
+		return $value;
+	}
+
+	/**
+	 * アルファベットを半角化
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function convertAlphabet ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertAlphabet($item, $format);
+			}
+		} else {
+			foreach (self::eregMatchAll('[[:alpha:]]+', $value) as $matches) {
+				$value = str_replace($matches[0], mb_convert_kana($matches[0], 'a'), $value);
+			}
 		}
 		return $value;
 	}
