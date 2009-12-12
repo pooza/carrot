@@ -194,7 +194,7 @@ abstract class BSDirectoryEntry {
 	 * @return boolean ドットから始まるならTrue
 	 */
 	public function isDotted () {
-		return BSFileUtility::isDotted($this->getName());
+		return BSFileUtility::isDottedName($this->getName());
 	}
 
 	/**
