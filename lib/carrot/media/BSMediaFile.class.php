@@ -73,9 +73,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
 				$params['container_id'] = $this->createContainerID();
-				$container = new BSDivisionElement;
+				$container = $root->addElement(new BSDivisionElement);
 				$container->setAttribute('id', $params['container_id']);
-				$root->addElement($container);
 			}
 			$root->addElement($this->getScriptElement($params));
 		}
