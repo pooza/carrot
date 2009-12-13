@@ -10,8 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSFlashObjectElement extends BSXHTMLElement {
-	private $transparent;
+class BSFlashObjectElement extends BSObjectElement {
 	private $flashvars;
 
 	/**
@@ -27,16 +26,6 @@ class BSFlashObjectElement extends BSXHTMLElement {
 		$this->setAttribute('type', BSMIMEType::getType('swf'));
 		$this->createElement('p', 'Flash Player ' . BS_FLASH_PLAYER_VER . ' 以上が必要です。');
 		$this->setParameter('wmode', 'transparent');
-	}
-
-	/**
-	 * タグ名を返す
-	 *
-	 * @access public
-	 * @return string タグ名
-	 */
-	public function getTag () {
-		return 'object';
 	}
 
 	/**
@@ -82,20 +71,6 @@ class BSFlashObjectElement extends BSXHTMLElement {
 	public function getContents () {
 		$this->setParameter('FlashVars', $this->flashvars->getContents());
 		return parent::getContents();
-	}
-
-	private function setParameter ($name, $value) {
-		foreach ($this->elements as $index => $element) {
-			if (($element->getName() == 'param') && ($element->getAttribute('name') == $name)) {
-				$this->elements->removeParameter($index);
-			}
-		}
-		if (BSString::isBlank($value)) {
-			return;
-		}
-		$param = $this->createElement('param');
-		$param->setAttribute('name', $name);
-		$param->setAttribute('value', $value);
 	}
 }
 
