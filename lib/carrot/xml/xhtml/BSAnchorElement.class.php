@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSAnchorElement extends BSXHTMLElement {
-	private $transparent;
 
 	/**
 	 * タグ名を返す
