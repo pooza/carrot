@@ -95,7 +95,7 @@ class BSMovieFile extends BSMediaFile {
 	public function getImageElement (BSParameterHolder $params) {
 		$element = parent::getImageElement($params);
 		if ($inner = $element->getElement('div')) { //Gecko対応
-			$inner->setAttribute('style', $this->getStyle($params)->getContents());
+			$inner->setStyles($this->getStyles($params));
 		}
 		return $element;
 	}
@@ -128,9 +128,7 @@ class BSMovieFile extends BSMediaFile {
 		$element = BSFlashUtility::getObjectElement(
 			BSURL::getInstance()->setAttribute('path', BS_MOVIE_PLAYER_HREF)
 		);
-		$param = $element->createElement('param');
-		$param->setAttribute('name', 'flashvars');
-		$param->setAttribute('value', 'config=' . $this->getPlayerConfig($params));
+		$element->setFlashVar('config', $this->getPlayerConfig($params));
 		return $element;
 	}
 

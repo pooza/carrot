@@ -78,6 +78,26 @@ class BSIterator implements Iterator {
 	}
 
 	/**
+	 * カーソルは最初か？
+	 *
+	 * @access public
+	 * @return boolean 最初ならTrue
+	 */
+	public function isFirst () {
+		return ($this->cursor == 0);
+	}
+
+	/**
+	 * カーソルは最後か？
+	 *
+	 * @access public
+	 * @return boolean 最後ならTrue
+	 */
+	public function isLast () {
+		return ($this->cursor == (count($this->values) - 1));
+	}
+
+	/**
 	 * 現在のエントリーを返す
 	 *
 	 * @access public

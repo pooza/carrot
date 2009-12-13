@@ -64,8 +64,8 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	 */
 	public function setDirty ($mode) {
 		$this->dirty = $mode;
-		$this->getAttributes()->clear();
-		$this->getElements()->clear();
+		$this->attributes->clear();
+		$this->elements->clear();
 		$this->setBody();
 	}
 

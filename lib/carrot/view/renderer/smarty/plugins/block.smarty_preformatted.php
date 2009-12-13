@@ -20,7 +20,7 @@ function smarty_block_smarty_preformatted ($params, $contents, &$smarty) {
 	$contents = nl2br($contents);
 
 	$element = new BSSpanElement;
-	$element->setAttribute('class', $params['style_class']);
+	$element->registerStyleClass($params['style_class']);
 	$element->setBody($contents);
 
 	return $element->getContents();

@@ -12,6 +12,7 @@
  */
 class BSFlashObjectElement extends BSXHTMLElement {
 	private $transparent;
+	private $flashvars;
 
 	/**
 	 * @access public
@@ -20,11 +21,12 @@ class BSFlashObjectElement extends BSXHTMLElement {
 	 */
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
+		$this->flashvars = new BSWWWFormRenderer;
 		$this->setAttribute('width', '100%');
 		$this->setAttribute('height', '100%');
 		$this->setAttribute('type', BSMIMEType::getType('swf'));
 		$this->createElement('p', 'Flash Player ' . BS_FLASH_PLAYER_VER . ' 以上が必要です。');
-		$this->registerParameterElement('wmode', 'transparent');
+		$this->setParameter('wmode', 'transparent');
 	}
 
 	/**
@@ -44,14 +46,53 @@ class BSFlashObjectElement extends BSXHTMLElement {
 	 * @param BSHTTPRedirector $url FlashムービーのURL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
-		if (!BSString::isBlank($this->getAttribute('data'))) {
-			throw new BSFlashException('URLが設定済みです。');
-		}
 		$this->setAttribute('data', $url->getContents());
-		$this->registerParameterElement('movie', $url->getContents());
+		$this->setParameter('movie', $url->getContents());
 	}
 
-	private function registerParameterElement ($name, $value) {
+	/**
+	 * FlashVarsを返す
+	 *
+	 * @access public
+	 * @param string $name 変数の名前
+	 * @return string 変数の値
+	 */
+	public function getFlashVar ($name) {
+		return $this->flashvars[$name];
+	}
+
+	/**
+	 * FlashVarsを設定
+	 *
+	 * @access public
+	 * @param string $name 変数の名前
+	 * @param string $value 変数の値
+	 */
+	public function setFlashVar ($name, $value) {
+		$this->flashvars[$name] = $value;
+		$this->contents = null;
+	}
+
+	/**
+	 * 内容をXMLで返す
+	 *
+	 * @access public
+	 * @return string XML要素
+	 */
+	public function getContents () {
+		$this->setParameter('FlashVars', $this->flashvars->getContents());
+		return parent::getContents();
+	}
+
+	private function setParameter ($name, $value) {
+		foreach ($this->elements as $index => $element) {
+			if (($element->getName() == 'param') && ($element->getAttribute('name') == $name)) {
+				$this->elements->removeParameter($index);
+			}
+		}
+		if (BSString::isBlank($value)) {
+			return;
+		}
 		$param = $this->createElement('param');
 		$param->setAttribute('name', $name);
 		$param->setAttribute('value', $value);

@@ -11,11 +11,11 @@
  * @version $Id$
  */
 class BSXMLElement implements IteratorAggregate {
-	private $contents;
-	private $body;
-	private $name;
-	private $attributes;
-	private $elements;
+	protected $contents;
+	protected $body;
+	protected $name;
+	protected $attributes;
+	protected $elements;
 	protected $raw = false;
 
 	/**
@@ -23,7 +23,9 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 要素の名前
 	 */
 	public function __construct ($name = null) {
-		if ($name) {
+		$this->attributes = new BSArray;
+		$this->elements = new BSArray;
+		if (!BSString::isBlank($name)) {
 			$this->setName($name);
 		}
 	}
@@ -36,7 +38,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return string 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getparameter($name);
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -46,9 +48,6 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-		}
 		return $this->attributes;
 	}
 
@@ -62,7 +61,7 @@ class BSXMLElement implements IteratorAggregate {
 	public function setAttribute ($name, $value) {
 		$value = trim($value);
 		$value = BSString::convertEncoding($value, 'utf-8');
-		$this->getAttributes()->setParameter($name, $value);
+		$this->attributes[$name] = $value;
 		$this->contents = null;
 	}
 
@@ -73,7 +72,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 属性名
 	 */
 	public function removeAttribute ($name) {
-		$this->getAttributes()->removeParameter($name);
+		$this->attributes->removeParameter($name);
 		$this->contents = null;
 	}
 
@@ -199,7 +198,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSXMLElement 追加した要素
 	 */
 	public function addElement (BSXMLElement $element) {
-		$this->getElements()->push($element);
+		$this->elements[] = $element;
 		$this->contents = null;
 		return $element;
 	}
@@ -271,8 +270,8 @@ class BSXMLElement implements IteratorAggregate {
 	public function getContents () {
 		if (!$this->contents) {
 			$this->contents = '<' . $this->getName();
-			if ($this->getAttributes()->count()) {
-				foreach ($this->getAttributes() as $key => $value) {
+			if ($this->attributes->count()) {
+				foreach ($this->attributes as $key => $value) {
 					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
 				}
 			}
@@ -282,7 +281,7 @@ class BSXMLElement implements IteratorAggregate {
 			}
 
 			$this->contents .= '>';
-			foreach ($this->getElements() as $element) {
+			foreach ($this->elements as $element) {
 				$this->contents .= $element->getContents();
 			}
 			if ($this->raw) {
@@ -302,8 +301,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param $string $contents XML文書
 	 */
 	public function setContents ($contents) {
-		$this->getAttributes()->clear();
-		$this->getElements()->clear();
+		$this->attributes->clear();
+		$this->elements->clear();
 		$this->setBody();
 		$this->contents = $contents;
 
@@ -384,7 +383,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSIterator イテレータ
 	 */
 	public function getIterator () {
-		return new BSIterator($this->getElements());
+		return new BSIterator($this->elements);
 	}
 }
 

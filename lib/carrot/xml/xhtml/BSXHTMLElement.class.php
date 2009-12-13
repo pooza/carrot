@@ -13,6 +13,8 @@
 class BSXHTMLElement extends BSXMLElement {
 	protected $tag;
 	protected $useragent;
+	protected $styles;
+	protected $styleClasses;
 	protected $raw = true;
 
 	/**
@@ -26,6 +28,10 @@ class BSXHTMLElement extends BSXMLElement {
 				throw new BSXMLException('XHTMLのエレメント名が正しくありません。');
 			}
 		}
+
+		$this->styles = new BSCSSSelector;
+		$this->styleClasses = new BSArray;
+
 		parent::__construct($name, $useragent);
 		if ($useragent) {
 			$this->useragent = $useragent;
@@ -50,6 +56,116 @@ class BSXHTMLElement extends BSXMLElement {
 	}
 
 	/**
+	 * IDを返す
+	 *
+	 * @access public
+	 * @return string ID
+	 */
+	public function getID () {
+		return $this->attributes['id'];
+	}
+
+	/**
+	 * IDを設定
+	 *
+	 * @access public
+	 * @param string $id ID
+	 */
+	public function setID ($id) {
+		$this->attributes['id'] = $id;
+	}
+
+	/**
+	 * スタイルを返す
+	 *
+	 * @access public
+	 * @param string $name スタイル名
+	 * @return string スタイル値
+	 */
+	public function getStyle ($name) {
+		return $this->styles[$name];
+	}
+
+	/**
+	 * スタイルを設定
+	 *
+	 * @access public
+	 * @param string $name スタイル名
+	 * @param string $value スタイル値
+	 */
+	public function setStyle ($name, $value) {
+		$this->styles[$name] = $value;
+		$this->contents = null;
+	}
+
+	/**
+	 * スタイルを全て返す
+	 *
+	 * @access public
+	 * @return BSCSSSelector スタイル
+	 */
+	public function getStyles () {
+		return $this->styles;
+	}
+
+	/**
+	 * スタイルを置き換え
+	 *
+	 * @access public
+	 * @param mixed $styles スタイル
+	 */
+	public function setStyles ($styles) {
+		if ($styles instanceof BSCSSSelector) {
+			$this->styles = $styles;
+		} else {
+			$this->styles->clear();
+			$this->styles->setContents($styles);
+		}
+		$this->contents = null;
+	}
+
+	/**
+	 * CSSクラスを登録
+	 *
+	 * @access public
+	 * @param mixed $classes クラス名、又はその配列
+	 */
+	public function registerStyleClass ($classes) {
+		if ($this->useragent->isMobile()) {
+			return;
+		}
+
+		if (!BSArray::isArray($classes)) {
+			$classes = mb_split('(,| +)', $classes);
+		}
+		foreach ($classes as $class) {
+			$this->styleClasses->push($class);
+		}
+		$this->styleClasses->uniquize();
+		$this->styleClasses->trim();
+	}
+
+	/**
+	 * 内容をXMLで返す
+	 *
+	 * @access public
+	 * @return string XML要素
+	 */
+	public function getContents () {
+		if ($this->styles->count()) {
+			$this->attributes['style'] = $this->styles->getContents();
+		} else {
+			$this->attributes->removeParameter('style');
+		}
+		if ($this->styleClasses->count()) {
+			$this->attributes['class'] = $this->styleClasses->join(' ');
+		} else {
+			$this->attributes->removeParameter('class');
+		}
+		return parent::getContents();
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -58,25 +174,15 @@ class BSXHTMLElement extends BSXMLElement {
 	 */
 	public function setAttribute ($name, $value) {
 		switch ($name) {
+			case 'id':
 			case 'container_id':
-				$name = 'id';
-				break;
+				return $this->setID($value);
+			case 'styles':
 			case 'style':
-				if ($value instanceof BSCSSSelector) {
-					$value = $value->getContents();
-				}
-				break;
-			case 'style_class':
-				$name = 'class';
-				//↓そのまま実行
+				return $this->setStyles($value);
 			case 'class':
-				if (BSString::isBlank($value) || $this->useragent->isMobile()) {
-					return;
-				}
-				if ($value instanceof BSArray) {
-					$value = $value->join(' ');
-				}
-				break;
+			case 'style_class':
+				return $this->registerStyleClass($value);
 		}
 		parent::setAttribute($name, $value);
 	}

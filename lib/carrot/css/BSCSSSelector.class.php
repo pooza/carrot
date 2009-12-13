@@ -23,8 +23,12 @@ class BSCSSSelector extends BSArray {
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
 		if ($value instanceof BSColor) {
 			$value = $value->getContents();
+		} else if (is_numeric($value)) {
+			$value .= 'px';
 		}
-		parent::setParameter($name, $value, $position);
+		if (($name = trim($name)) && ($value = trim($value))) {
+			parent::setParameter($name, $value, $position);
+		}
 	}
 
 	/**
@@ -46,10 +50,7 @@ class BSCSSSelector extends BSArray {
 	public function setContents ($contents) {
 		foreach (BSString::explode(';', $contents) as $param) {
 			$param = BSString::explode(':', $param);
-			if (!BSString::isBlank($value = trim($param[1]))) {
-				$key = trim($param[0]);
-				$this[$key] = $value;
-			}
+			$this[$param[0]] = $param[1];
 		}
 	}
 }

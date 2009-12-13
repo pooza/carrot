@@ -33,6 +33,32 @@ class BSImageElement extends BSXHTMLElement {
 	}
 
 	/**
+	 * URLを設定
+	 *
+	 * @access public
+	 * @param mixed $url
+	 */
+	public function setURL ($url) {
+		if ($url instanceof BSHTTPRedirector) {
+			$url = $url->getURL()->getContents();
+		}
+		$this->attributes['src'] = $url;
+	}
+
+	/**
+	 * alt文字列を設定
+	 *
+	 * @access public
+	 * @param string $value alt文字列
+	 */
+	public function setAlt ($value) {
+		if ($this->useragent->isMobile()) {
+			return;
+		}
+		$this->attributes['alt'] = $value;
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -45,19 +71,14 @@ class BSImageElement extends BSXHTMLElement {
 			case 'height':
 			case 'border':
 			case 'class':
+			case 'style':
 				break;
 			case 'alt':
-				if ($this->useragent->isMobile()) {
-					return;
-				}
-				break;
+				return $this->setAlt($value);
+			case 'href':
 			case 'url':
 			case 'src':
-				$name = 'src';
-				if ($value instanceof BSHTTPRedirector) {
-					$value = $value->getContents();
-				}
-				break;
+				return $this->setURL($value);
 			default:
 				return;
 		}

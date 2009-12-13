@@ -66,15 +66,15 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 */
 	public function getImageElement (BSParameterHolder $params) {
 		$root = new BSDivisionElement;
-		$root->setAttribute('class', $params['style_class']);
+		$root->registerStyleClass($params['style_class']);
 		if ($params['mode'] == 'noscript') {
-			$root->setAttribute('style', $this->getStyle($params));
+			$root->setStyles($this->getStyles($params));
 			$root->addElement($this->getObjectElement($params));
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
 				$params['container_id'] = $this->createContainerID();
 				$container = $root->addElement(new BSDivisionElement);
-				$container->setAttribute('id', $params['container_id']);
+				$container->setID($params['container_id']);
 			}
 			$root->addElement($this->getScriptElement($params));
 		}
@@ -88,7 +88,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSCSSSelector スタイル属性
 	 */
-	protected function getStyle (BSParameterHolder $params) {
+	protected function getStyles (BSParameterHolder $params) {
 		$style = new BSCSSSelector;
 		if ($params['width']) {
 			$style['width'] = $params['width'] . 'px';

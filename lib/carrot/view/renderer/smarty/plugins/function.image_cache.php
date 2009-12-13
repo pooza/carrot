@@ -23,7 +23,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 	}
 
 	$element = $caches->getImageElement($info);
-	$element->setAttribute('class', $params['style_class']);
+	$element->registerStyleClass($params['style_class']);
 	switch ($mode = BSString::toLower($params['mode'])) {
 		case 'pixel_size':
 		case 'size':
@@ -36,7 +36,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 			$element->setAttribute('rel', 'lightbox');
 			$flags = $caches->convertFlags($params['flags_full']);
 			$element->setURL(
-				$caches->getURL($container, $params['size'], $params['pixel_full'], $flags);
+				$caches->getURL($container, $params['size'], $params['pixel_full'], $flags)
 			);
 			//↓そのまま実行
 		default:
