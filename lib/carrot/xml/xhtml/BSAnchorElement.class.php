@@ -32,7 +32,7 @@ class BSAnchorElement extends BSXHTMLElement {
 		if ($url instanceof BSHTTPRedirector) {
 			$url = $url->getURL()->getContents();
 		}
-		$element->setAttribute('href', $url);
+		$this->setAttribute('href', $url);
 	}
 }
 

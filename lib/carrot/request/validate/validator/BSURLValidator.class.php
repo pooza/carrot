@@ -20,7 +20,16 @@ class BSURLValidator extends BSValidator {
 	 */
 	public function initialize ($parameters = array()) {
 		$this['net_error'] = '正しくありません。';
+		$this['schemes'] = array('http', 'https');
+		$this['scheme_error'] = sprintf(
+			'スキーム(%s)が正しくありません。',
+			join('|', $this['schemes'])
+		);
 		return BSValidator::initialize($parameters);
+	}
+
+	private function getSchemes () {
+		return new BSArray($this['schemes']);
 	}
 
 	/**
@@ -32,8 +41,12 @@ class BSURLValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-			if (!BSURL::getInstance($value)) {
+
+			if (!$url = BSURL::getInstance($value)) {
 				$this->error = $this['net_error'];
+			}
+			if (!$this->getSchemes()->isContain($url['scheme'])) {
+				$this->error = $this['scheme_error'];
 			}
 		} catch (BSNetException $e) {
 			$this->error = $this['net_error'];

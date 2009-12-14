@@ -8,7 +8,9 @@ carrot:
   files:
     - prototype
     - scriptaculous/effects
+    - scriptaculous/builder
     - ajaxzip2/ajaxzip2
+    - lightbox
     - prototabs
     - protocalendar/protocalendar
     - protocalendar/lang_ja

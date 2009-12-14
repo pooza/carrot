@@ -17,6 +17,7 @@ carrot.Detail:
     - carrot.Detail
     - protocalendar
     - prototabs
+    - lightbox
     - application
 
 carrot.LoginForm:
