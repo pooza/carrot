@@ -15,7 +15,22 @@ table.Detail td {
 	width: 480px;
 }
 
+table.Detail td td,th {
+	width: auto;
+}
+
+table.Detail .image_uploader_half {
+	float: left;
+	width: 220px;
+	border: 1px solid #666666;
+	padding: 4px;
+	margin: 2px;
+}
+
 table.Detail .image_uploader {
+	float: left;
+	width: 220px;
+	height: 250px;
 	border: 1px solid #666666;
 	padding: 4px;
 	margin: 2px;
