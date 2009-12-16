@@ -13,6 +13,8 @@ function denyTakeOut (selector_name) {
       element.oncontextmenu = doNothing;
       element.onselectstart = doNothing;
       element.onmousedown = doNothing;
+      element.unselectable = 'on';
+      element.galleryimg = 'no';
     }
   }
 
