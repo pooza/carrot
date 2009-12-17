@@ -146,7 +146,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSXMLElement 名前に一致する最初の要素
 	 */
 	public function getElement ($name) {
-		foreach ($this as $child) {
+		foreach ($this->getElements() as $child) {
 			if ($child->getName() == $name) {
 				return $child;
 			}
