@@ -21,6 +21,9 @@ class BSSQL {
 	/**
 	 * 文字列をクォート
 	 *
+	 * 極力使わない。
+	 * BSCriteriaSet等、クォート処理をラップした機能を使用すること。
+	 *
 	 * @access public
 	 * @param string $str クォートの対象
 	 * @param BSDatabase $db データベース
