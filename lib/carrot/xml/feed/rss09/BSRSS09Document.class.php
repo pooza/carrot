@@ -15,9 +15,10 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 
 	/**
 	 * @access public
+	 * @param string $name 要素の名前
 	 */
-	public function __construct () {
-		$this->setName('rss');
+	public function __construct ($name = null) {
+		parent::__construct('rss');
 		$this->setAttribute('version', $this->version);
 		$this->setDate(BSDate::getNow());
 		$this->getChannel()->createElement('generator', BSController::getFullName('ja'));

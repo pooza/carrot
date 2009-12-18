@@ -15,9 +15,10 @@ class BSRSS10Document extends BSRSS09Document {
 
 	/**
 	 * @access public
+	 * @param string $name 要素の名前
 	 */
-	public function __construct () {
-		$this->setName('rdf:RDF');
+	public function __construct ($name = null) {
+		parent::__construct('rdf:RDF');
 		$this->setNamespace('http://purl.org/rss/' . $this->version . '/');
 		$this->setAttribute('xmlns:rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 		$this->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
