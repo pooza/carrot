@@ -160,24 +160,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSArray 子要素全て
 	 */
 	public function getElements () {
-		if (!$this->elements) {
-			$this->elements = new BSArray;
-		}
 		return $this->elements;
-	}
-
-	/**
-	 * 要素の名前を全て返す
-	 *
-	 * @access public
-	 * @return string[] 要素の名前
-	 */
-	public function getElementNames () {
-		$names = array();
-		foreach ($this as $element) {
-			$names[] = $element->getName();
-		}
-		return $names;
 	}
 
 	/**
@@ -225,16 +208,15 @@ class BSXMLElement implements IteratorAggregate {
 	 * @return BSXMLElement 最初にマッチした要素
 	 */
 	public function query ($path) {
-		$path = ltrim($path, '/');
-		if (!$steps = explode('/', $path)) {
-			return;
-		} else if ($steps[0] != $this->getName()) {
+		$path = BSString::explode('/', $path);
+		$path->shift();
+		if (!$path->count() || ($path->shift() != $this->getName())) {
 			return;
 		}
-		unset($steps[0]);
+
 		$element = $this;
-		foreach ($steps as $step) {
-			if (!$element = $element->getElement($step)) {
+		foreach ($path as $name) {
+			if (!$element = $element->getElement($name)) {
 				return;
 			}
 		}
@@ -303,7 +285,7 @@ class BSXMLElement implements IteratorAggregate {
 	public function setContents ($contents) {
 		$this->attributes->clear();
 		$this->elements->clear();
-		$this->setBody();
+		$this->body = null;
 		$this->contents = $contents;
 
 		$xml = new DOMDocument('1.0', 'utf-8');
