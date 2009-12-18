@@ -317,7 +317,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$db = $this->getDatabase();
 		$query = BSSQL::getInsertQueryString($this->getName(), $values, $db);
 		$db->exec($query);
-		if ($this->isAutoIncrement()) {
+		if ($this->hasSurrogateKey()) {
 			$id = $db->lastInsertId($db->getSequenceName($this->getName(), $this->getKeyField()));
 		} else {
 			$id = $values[$this->getKeyField()];
@@ -700,13 +700,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * オートインクリメントのテーブルか？
+	 * サロゲートキーを持つテーブルか？
 	 *
-	 * @access public
-	 * @return boolean オートインクリメントならTrue
+	 * @access protected
+	 * @return boolean サロゲートキーを持つならTrue
 	 */
-	public function isAutoIncrement () {
-		return false;
+	protected function hasSurrogateKey () {
+		return $this->isInsertable();
 	}
 
 	/**

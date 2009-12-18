@@ -40,16 +40,6 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	}
 
 	/**
-	 * オートインクリメントのテーブルか？
-	 *
-	 * @access public
-	 * @return boolean オートインクリメントならTrue
-	 */
-	public function isAutoIncrement () {
-		return true;
-	}
-
-	/**
 	 * レコード追加
 	 *
 	 * @access public

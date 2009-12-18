@@ -23,16 +23,6 @@ class BSLogEntryHandler extends BSTableHandler {
 	}
 
 	/**
-	 * オートインクリメントのテーブルか？
-	 *
-	 * @access public
-	 * @return boolean オートインクリメントならTrue
-	 */
-	public function isAutoIncrement () {
-		return true;
-	}
-
-	/**
 	 * テーブル名を返す
 	 *
 	 * @access public
