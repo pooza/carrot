@@ -360,23 +360,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * 最終レコードを返す
+	 * サロゲートキーを持つテーブルか？
 	 *
-	 * @access public
-	 * @return BSRecord レコード
+	 * @access protected
+	 * @return boolean サロゲートキーを持つならTrue
 	 */
-	public function getLastRecord () {
-		return $this->getIterator()->getLast();
-	}
-
-	/**
-	 * 先頭レコードを返す
-	 *
-	 * @access public
-	 * @return BSRecord レコード
-	 */
-	public function getFirstRecord () {
-		return $this->getIterator()->getFirst();
+	protected function hasSurrogateKey () {
+		return $this->isInsertable();
 	}
 
 	/**
@@ -697,16 +687,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			}
 		}
 		return $this->recordClassName;
-	}
-
-	/**
-	 * サロゲートキーを持つテーブルか？
-	 *
-	 * @access protected
-	 * @return boolean サロゲートキーを持つならTrue
-	 */
-	protected function hasSurrogateKey () {
-		return $this->isInsertable();
 	}
 
 	/**
