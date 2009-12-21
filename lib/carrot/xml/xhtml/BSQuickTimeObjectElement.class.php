@@ -21,7 +21,6 @@ class BSQuickTimeObjectElement extends BSObjectElement {
 		parent::__construct($name, $useragent);
 		$this->inner = $this->createElement('embed');
 		$this->setAttribute('classid', 'clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B');
-		$this->setAttribute('codebase', 'http://www.apple.com/qtactivex/qtplugin.cab');
 		$this->setAttribute('type', BSMIMEType::getType('mov'));
 		$this->setParameter('controller', 'true');
 		$this->setParameter('autoplay', 'false');
