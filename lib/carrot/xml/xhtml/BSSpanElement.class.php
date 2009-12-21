@@ -24,6 +24,15 @@ class BSSpanElement extends BSXHTMLElement {
 		if ($color = $this->getStyle('color')) {
 			$element->setAttribute('color', $color);
 		}
+		if ($this->getStyle('font-weight') == 'bold') {
+			$element = $element->wrap(new BSXHTMLElement('b'));
+		}
+		if ($this->getStyle('font-style') == 'italic') {
+			$element = $element->wrap(new BSXHTMLElement('i'));
+		}
+		if ($this->getStyle('text-decoration') == 'underline') {
+			$element = $element->wrap(new BSXHTMLElement('u'));
+		}
 		return $element;
 	}
 }
