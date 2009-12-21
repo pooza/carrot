@@ -58,9 +58,9 @@ class BSMovieUtility {
 			return;
 		}
 		switch ($file->getType()) {
-			case BSMIMEType::getType('mov');
+			case BSMIMEType::getType('mov'):
 				return BSMediaFile::search($file, 'BSQuickTimeMovieFile');
-			case BSMIMEType::getType('wmv');
+			case BSMIMEType::getType('wmv'):
 				return BSMediaFile::search($file, 'BSWindowsMediaMovieFile');
 		}
 		return $file;
