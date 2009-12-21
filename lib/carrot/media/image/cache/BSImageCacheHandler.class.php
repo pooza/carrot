@@ -18,6 +18,7 @@ class BSImageCacheHandler {
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
 	const WITHOUT_SQUARE = 8;
+	const FORCE_GIF = 16;
 
 	/**
 	 * @access private
@@ -91,6 +92,7 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSURL URL
 	 */
 	public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -125,6 +127,7 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSImage サムネイル
 	 */
 	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -151,11 +154,15 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @param BSImage サムネイル
 	 */
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
 		$dir = $this->getEntryDirectory($record, $size);
 		$name = $this->getFileName($record, $pixel, $flags);
+		if ($flags & self::FORCE_GIF) {
+			$dir->setDefaultSuffix('.gif');
+		}
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
@@ -190,6 +197,7 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
@@ -221,6 +229,7 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSFile サムネイルファイル
 	 */
 	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
@@ -230,6 +239,9 @@ class BSImageCacheHandler {
 
 		$dir = $this->getEntryDirectory($record, $size);
 		$name = $this->getFileName($record, $pixel, $flags);
+		if ($flags & self::FORCE_GIF) {
+			$name .= '.gif';
+		}
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$this->setThumbnail($record, $size, $pixel, $source, $flags);
 			$file = $dir->getEntry($name, 'BSImageFile');
@@ -274,12 +286,17 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 * @param BSImage サムネイル
 	 */
 	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
 		$image = new BSImage;
 		$image->setImage($contents);
-		$image->setType($this->getType());
+		if ($flags & self::FORCE_GIF) {
+			$image->setType(BSMIMEType::getType('gif'));
+		} else {
+			$image->setType($this->getType());
+		}
 
 		if ($pixel) {
 			if ($flags & self::WITHOUT_SQUARE) {
@@ -402,6 +419,7 @@ class BSImageCacheHandler {
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
+	 *   self::FORCE_GIF gif形式を強制
 	 */
 	public function convertFlags ($values) {
 		if (!BSArray::isArray($values)) {
