@@ -26,6 +26,7 @@ function smarty_function_movie ($params, &$smarty) {
 		case 'height_full':
 		case 'seconds':
 		case 'duration':
+		case 'type':
 			return $file[$mode];
 		default:
 			if (BSString::isBlank($params['href_prefix'])) {

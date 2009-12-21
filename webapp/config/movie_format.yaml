@@ -12,7 +12,3 @@ types:
   wmv1: video/x-ms-wmv
   wmv2: video/x-ms-wmv
   wmv3: video/x-ms-wmv
-  rv10: application/vnd.rn-realmedia
-  rv20: application/vnd.rn-realmedia
-  rv30: application/vnd.rn-realmedia
-  rv40: application/vnd.rn-realmedia

@@ -54,7 +54,15 @@ class BSMovieUtility {
 	 * @static
 	 */
 	static public function getFile ($file) {
-		return BSMediaFile::search($file, 'BSMovieFile');
+		$file = BSMediaFile::search($file, 'BSMovieFile');
+		switch ($file->getType()) {
+			case 'video/quicktime';
+				return BSMediaFile::search($file, 'BSQuickTimeMovieFile');
+			case 'video/x-ms-wmv';
+				return BSMediaFile::search($file, 'BSWindowsMediaMovieFile');
+			default:
+				return $file;
+		}
 	}
 }
 

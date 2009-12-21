@@ -35,7 +35,6 @@ types:
   pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
   qt: video/quicktime
   rb:
-  rm: application/vnd.rn-realmedia
   sql:
   swf: application/x-shockwave-flash
   tgz: application/x-gzip

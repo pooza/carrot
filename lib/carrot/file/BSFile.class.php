@@ -49,6 +49,18 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
+	 * 規定のサフィックスを返す
+	 *
+	 * @access public
+	 * @return string 規定サフィックス
+	 */
+	public function getDefaultSuffix () {
+		$types = new BSArray(BSMIMEType::getInstance()->getParameters());
+		$suffixes = $types->getKeys();
+		return '.' . $suffixes[$this->getType()];
+	}
+
+	/**
 	 * リネーム
 	 *
 	 * @access public
