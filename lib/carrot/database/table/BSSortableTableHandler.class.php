@@ -94,7 +94,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 			array($this->getRankField() => 0),
 			$criteria
 		);
-		BSDatabase::getInstance()->exec($sql);
+		$this->getDatabase()->exec($sql);
 	}
 }
 

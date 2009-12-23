@@ -75,7 +75,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 */
 	protected function getCriteria () {
 		if (!$this->criteria) {
-			$this->criteria = $this->getTable()->getDatabase()->createCriteriaSet();
+			$this->criteria = $this->createCriteriaSet();
 			$this->criteria->register($this->getTable()->getKeyField(), $this);
 		}
 		return $this->criteria;
@@ -104,16 +104,16 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 			$this->getTable()->getName(),
 			$values,
 			$this->getCriteria(),
-			$this->getTable()->getDatabase()
+			$this->getDatabase()
 		);
-		$this->getTable()->getDatabase()->exec($query);
+		$this->getDatabase()->exec($query);
 		$this->attributes->setParameters($values);
 		$this->clearSerialized();
 
 		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを更新しました。');
 			$message[] = $this;
-			$this->getTable()->getDatabase()->putLog($message);
+			$this->getDatabase()->putLog($message);
 		}
 	}
 
@@ -151,13 +151,13 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		}
 
 		$query = BSSQL::getDeleteQueryString($this->getTable()->getName(), $this->getCriteria());
-		$this->getTable()->getDatabase()->exec($query);
+		$this->getDatabase()->exec($query);
 		$this->clearSerialized();
 
 		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを削除しました。');
 			$message[] = $this;
-			$this->getTable()->getDatabase()->putLog($message);
+			$this->getDatabase()->putLog($message);
 		}
 	}
 
@@ -189,6 +189,26 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 */
 	public function getTable () {
 		return $this->table;
+	}
+
+	/**
+	 * データベースを返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		return $this->getTable()->getDatabase();
+	}
+
+	/**
+	 * 抽出条件を生成して返す
+	 *
+	 * @access public
+	 * @return BSCriteriaSet 抽出条件
+	 */
+	public function createCriteriaSet () {
+		return $this->getDatabase()->createCriteriaSet();
 	}
 
 	/**

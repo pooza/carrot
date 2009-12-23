@@ -44,7 +44,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 * @return SortableTableHandler テーブル
 	 * @abstract
 	 */
-	abstract public function getAlikeRecords ();
+	abstract public function getSimilars ();
 
 	/**
 	 * 順位を変更
@@ -54,7 +54,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 */
 	public function setOrder ($option) {
 		$rank = 0;
-		foreach ($ids = $this->getAlikeRecords()->getIDs() as $id) {
+		foreach ($ids = $this->getSimilars()->getIDs() as $id) {
 			if ($id == $this->getID()) {
 				break;
 			}
@@ -87,7 +87,7 @@ abstract class BSSortableRecord extends BSRecord {
 		$rank = 0;
 		foreach ($ids as $id) {
 			$rank ++;
-			$this->getAlikeRecords()->getRecord($id)->setRank($rank);
+			$this->getSimilars()->getRecord($id)->setRank($rank);
 		}
 	}
 
