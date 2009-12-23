@@ -20,7 +20,7 @@ class BSWindowsMediaObjectElement extends BSObjectElement {
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
 		$this->inner = $this->createElement('embed');
-		$this->setAttribute('classid', 'clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6');
+		$this->setAttribute('classid', 'clsid:' . BS_MOVIE_WMV_PLAYER_CLSID);
 		$this->setAttribute('type', BSMIMEType::getType('wmv'));
 		$this->setParameter('autostart', '0');
 	}

@@ -22,13 +22,22 @@ class BSWindowsMediaMovieFile extends BSMovieFile {
 	public function getImageElement (BSParameterHolder $params) {
 		$element = new BSDivisionElement;
 		$element->registerStyleClass($params['style_class']);
-		$params['height'] += 30;
 		$element->setStyles($this->getStyles($params));
 		$object = $element->addElement(new BSWindowsMediaObjectElement);
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
 		$object->setURL($this->getMediaURL($params));
 		return $element;
+	}
+
+	/**
+	 * プレイヤーの高さを返す
+	 *
+	 * @access protected
+	 * @return integer プレイヤーの高さ
+	 */
+	protected function getPlayerHeight () {
+		return BS_MOVIE_WMV_PLAYER_HEIGHT;
 	}
 
 	/**

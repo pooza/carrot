@@ -36,7 +36,7 @@ class BSMovieFile extends BSMediaFile {
 		if (mb_ereg(' ([[:digit:]]{,4})x([[:digit:]]{,4})', $this->output, $matches)) {
 			$this->attributes['width'] = $matches[1];
 			$this->attributes['height'] = $matches[2];
-			$this->attributes['height_full'] = $matches[2] + BS_MOVIE_PLAYER_HEIGHT;
+			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();
 			$this->attributes['pixel_size'] = $matches[1] . '×' . $matches[2];
 		}
 		$this->attributes['type'] = $this->analyzeType($this->output);
@@ -54,6 +54,16 @@ class BSMovieFile extends BSMediaFile {
 				}
 			}
 		}
+	}
+
+	/**
+	 * プレイヤーの高さを返す
+	 *
+	 * @access protected
+	 * @return integer プレイヤーの高さ
+	 */
+	protected function getPlayerHeight () {
+		return BS_MOVIE_FLV_PLAYER_HEIGHT;
 	}
 
 	/**
@@ -111,7 +121,7 @@ class BSMovieFile extends BSMediaFile {
 		$element = new BSScriptElement;
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
-		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_PLAYER_HREF);
+		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_FLV_PLAYER_HREF);
 		$body[] = $this->getPlayerConfig($params);
 		$element->setBody($body->getContents());
 		return $element;
@@ -126,7 +136,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	protected function getObjectElement (BSParameterHolder $params) {
 		$element = BSFlashUtility::getObjectElement(
-			BSURL::getInstance()->setAttribute('path', BS_MOVIE_PLAYER_HREF)
+			BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF)
 		);
 		$element->setFlashVar('config', $this->getPlayerConfig($params));
 		return $element;
@@ -149,7 +159,7 @@ class BSMovieFile extends BSMediaFile {
 			),
 			'plugins' => array(
 				'controls' => array(
-					'height' => BS_MOVIE_PLAYER_HEIGHT,
+					'height' => BS_MOVIE_FLV_PLAYER_HEIGHT,
 					'fullscreen' => false,
 				),
 			),

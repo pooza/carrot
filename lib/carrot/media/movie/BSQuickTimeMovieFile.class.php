@@ -31,6 +31,16 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 	}
 
 	/**
+	 * プレイヤーの高さを返す
+	 *
+	 * @access protected
+	 * @return integer プレイヤーの高さ
+	 */
+	protected function getPlayerHeight () {
+		return BS_MOVIE_QUICKTIME_PLAYER_HEIGHT;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
