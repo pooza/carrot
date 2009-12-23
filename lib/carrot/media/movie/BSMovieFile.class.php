@@ -59,10 +59,10 @@ class BSMovieFile extends BSMediaFile {
 	/**
 	 * プレイヤーの高さを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return integer プレイヤーの高さ
 	 */
-	protected function getPlayerHeight () {
+	public function getPlayerHeight () {
 		return BS_MOVIE_FLV_PLAYER_HEIGHT;
 	}
 
