@@ -15,7 +15,10 @@ table.Detail td {
 	width: 480px;
 }
 
-table.Detail td td,th {
+table.Detail td td {
+	width: auto;
+}
+table.Detail td th {
 	width: auto;
 }
 
