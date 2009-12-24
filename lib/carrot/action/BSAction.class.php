@@ -294,6 +294,16 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	}
 
 	/**
+	 * 抽出条件を生成して返す
+	 *
+	 * @access protected
+	 * @return BSCriteriaSet 抽出条件
+	 */
+	protected function createCriteriaSet () {
+		return $this->database->createCriteriaSet();
+	}
+
+	/**
 	 * 必要なクレデンシャルを返す
 	 *
 	 * モジュール規定のクレデンシャル以外の、動的なクレデンシャルを設定。
