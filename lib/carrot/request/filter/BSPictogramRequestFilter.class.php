@@ -7,7 +7,7 @@
 /**
  * 絵文字リクエストフィルタ
  *
- * 絵文字を検出し、内部表現タグに置換
+ * 絵文字を取り除く。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
@@ -24,7 +24,7 @@ class BSPictogramRequestFilter extends BSRequestFilter {
 	 */
 	protected function convert ($key, $value) {
 		$useragent = $this->request->getUserAgent();
-		if ($value && !BSArray::isArray($value) && $useragent->isMobile()) {
+		if (!BSArray::isArray($value) && $useragent->isMobile()) {
 			$value = $useragent->getCarrier()->trimPictogram($value);
 		}
 		return $value;

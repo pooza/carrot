@@ -5,12 +5,12 @@
  */
 
 /**
- * 日付 リクエストフィルタ
+ * 郵便番号 リクエストフィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDateRequestFilter extends BSRequestFilter {
+class BSZipcodeRequestFilter extends BSRequestFilter {
 
 	/**
 	 * 変換して返す
@@ -21,14 +21,9 @@ class BSDateRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if (!BSArray::isArray($value) && mb_ereg('(day|date)$', $key)) {
-			if ($date = BSDate::getInstance($value)) {
-				if ($date['hour'] || $date['minute'] || $date['second']) {
-					$value = $date->format('Y-m-d H:i:s');
-				} else {
-					$value = $date->format('Y-m-d');
-				}
-			}
+		if (!BSArray::isArray($value) && mb_ereg('zipcode$', $key)) {
+			$value = mb_ereg_replace('[^[:digit:]]', null, $value);
+			$value = substr($value, 0, 3) . '-' . substr($value, 3, 4);
 		}
 		return $value;
 	}

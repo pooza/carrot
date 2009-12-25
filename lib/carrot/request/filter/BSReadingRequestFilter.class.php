@@ -21,7 +21,7 @@ class BSReadingRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if (mb_ereg('_read$', $key)) {
+		if (!BSArray::isArray($value) && mb_ereg('_read$', $key)) {
 			$value = str_replace(' ', '', $value);
 			$value = BSString::convertKana($value, 'KVC');
 		}
