@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTinyURLService extends BSCurlHTTP {
+class BSTinyURLService extends BSCurlHTTP implements BSURLShorter {
 	const DEFAULT_HOST = 'tinyurl.com';
 
 	/**
@@ -26,14 +26,14 @@ class BSTinyURLService extends BSCurlHTTP {
 	}
 
 	/**
-	 * URLをエンコードする
+	 * 短縮URLを返す
 	 *
 	 * @access public
-	 * @param BSHTTPRedirector $link エンコード対象URL、又はそれを含んだリダイレクタ
-	 * @return BSURL エンコードされたURL
+	 * @param BSHTTPRedirector $url 対象URL
+	 * @return BSHTTPURL 短縮URL
 	 */
-	public function encode (BSHTTPRedirector $link) {
-		$path = '/api-create.php?url=' . BSURL::encode($link->getURL()->getContents());
+	public function getShortURL (BSHTTPRedirector $url) {
+		$path = '/api-create.php?url=' . BSURL::encode($url->getURL()->getContents());
 		$response = $this->sendGetRequest($path);
 		return BSURL::getInstance($response->getRenderer()->getContents());
 	}

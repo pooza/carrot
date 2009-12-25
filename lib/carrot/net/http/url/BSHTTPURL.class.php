@@ -13,7 +13,7 @@
 class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	private $fullpath;
 	private $query;
-	private $tinyurl;
+	private $shortURL;
 	private $dirty = false;
 
 	/**
@@ -294,17 +294,30 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	}
 
 	/**
-	 * TinyURLを返す
+	 * 短縮URLを返す
 	 *
 	 * @access public
-	 * @return BSURL TinyURL
+	 * @return BSURL 短縮URL
 	 */
-	public function getTinyURL () {
-		if (!$this->tinyurl) {
-			$service = new BSTinyURL; 
-			$this->tinyurl = $service->encode($this);
+	public function getShortURL () {
+		if (!$this->shortURL) {
+			$service = new BSTinyURLService; 
+			$this->shortURL = $service->getShortURL($this);
 		}
-		return $this->tinyurl;
+		return $this->shortURL;
+	}
+
+	/**
+	 * 短縮URLを返す
+	 *
+	 * getShortURLのエイリアス
+	 *
+	 * @access public
+	 * @return BSURL 短縮URL
+	 * @final
+	 */
+	final public function getTinyURL () {
+		return $this->getShortURL();
 	}
 
 	/**
