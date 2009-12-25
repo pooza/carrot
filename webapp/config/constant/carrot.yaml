@@ -119,7 +119,7 @@ mysql:
 net:
   resolvable: yes
   url:
-    shorter: tinyurl
+    shorter: bitly
 package:
   name:
   ver:
@@ -148,6 +148,11 @@ serialize:
   serializer: JSON
   keep:
     - BSCounter.*
+service:
+  bitly:
+    version: 2.0.1
+    login: carrotfw
+    api_key: R_dbbb70d7b5959e23289acfc3458f836f
 session:
   storage: default
   regenerate_id: no

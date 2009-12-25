@@ -66,7 +66,7 @@ class BSCurlHTTP extends BSHTTP {
 	private function execute ($path) {
 		$url = BSURL::getInstance();
 		$url['host'] = $this->getHost();
-		$url['path'] = $path;
+		$url['path'] ='/' . ltrim($path, '/');
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
 		} else {
