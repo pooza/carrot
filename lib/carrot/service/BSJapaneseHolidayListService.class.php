@@ -20,7 +20,7 @@
  * @version $Id$
  * @link http://www.finds.jp/wsdocs/calendar/
  */
-class BSJapaneseHolidayList extends BSCurlHTTP implements BSHolidayList {
+class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 	private $date;
 	private $holidays;
 	const DEFAULT_HOST = 'www.finds.jp';

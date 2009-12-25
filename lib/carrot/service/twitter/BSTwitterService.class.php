@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTwitter extends BSCurlHTTP {
+class BSTwitterService extends BSCurlHTTP {
 	private $uid;
 	private $password;
 	const DEFAULT_HOST = 'twitter.com';

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage service
+ * @subpackage service.blog
  */
 
 /**
@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMovableTypeBlog {
+class BSMovableTypeBlogService {
 	private $urls;
 
 	private function getURL ($type = 'comment') {

@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTinyURL extends BSCurlHTTP {
+class BSTinyURLService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'tinyurl.com';
 
 	/**
