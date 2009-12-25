@@ -160,7 +160,7 @@ class BSIterator implements Iterator, Countable {
 	 * @return integer 要素数
 	 */
 	public function count () {
-		return count($this->values);
+		return count($this->keys);
 	}
 }
 
