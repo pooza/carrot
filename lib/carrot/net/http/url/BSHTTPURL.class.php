@@ -301,7 +301,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function getShortURL () {
 		if (!$this->shortURL) {
-			$service = new BSTinyURLService; 
+			$service = BSClassLoader::getInstance()->getObject(BS_NET_URL_SHORTER, 'Service');
+			if (!$service || !($service instanceof BSURLShorter)) {
+				throw new BSHTTPException('URL短縮サービスが取得できません。');
+			}
 			$this->shortURL = $service->getShortURL($this);
 		}
 		return $this->shortURL;

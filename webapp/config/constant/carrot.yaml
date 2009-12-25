@@ -118,6 +118,8 @@ mysql:
   dir: /usr/local
 net:
   resolvable: yes
+  url:
+    shorter: tinyurl
 package:
   name:
   ver:
