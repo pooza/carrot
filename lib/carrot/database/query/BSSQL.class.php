@@ -52,26 +52,15 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getSelectQueryString ($fields, $tables, $criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
-		$query = array(
-			'SELECT',
-			self::getFieldsString($fields),
-			'FROM ' . self::getFromString($tables),
-		);
-
-		if ($criteria) {
-			$query[] = 'WHERE ' . self::getCriteriaString($criteria);
-		}
-		if ($group) {
-			$query[] = 'GROUP BY ' . self::getGroupString($group);
-		}
-		if ($order) {
-			$query[] = 'ORDER BY ' . self::getOrderString($order);
-		}
-		if ($page && $pagesize) {
-			$query[] = self::getOffsetString($page, $pagesize);
-		}
-
-		return implode(' ', $query);
+		$query = new BSArray;
+		$query[] = 'SELECT';
+		$query[] = self::getFieldsString($fields)
+		$query[] = self::getFromString($tables);
+		$query[] = self::getCriteriaString($criteria);
+		$query[] = self::getGroupString($group);
+		$query[] = self::getOrderString($order);
+		$query[] = self::getOffsetString($page, $pagesize);
+		return $query->join('');
 	}
 
 	/**
@@ -119,9 +108,13 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getUpdateQueryString ($table, $values, $criteria, BSDatabase $db = null) {
+		if (BSString::isBlank($criteria = self::getCriteriaString($criteria))) {
+			throw new BSDatabaseException('抽出条件がありません。');
+		}
 		if (!$db) {
 			$db = BSDatabase::getInstance();
 		}
+
 		if (is_array($values)) {
 			$values = new BSArray($values);
 		} else if ($values instanceof BSParameterHolder) {
@@ -133,12 +126,7 @@ class BSSQL {
 			$fields[] = sprintf('%s=%s', $key, $db->quote($value));
 		}
 
-		return sprintf(
-			'UPDATE %s SET %s WHERE %s',
-			$table,
-			$fields->join(', '),
-			self::getCriteriaString($criteria)
-		);
+		return sprintf('UPDATE %s SET %s %s', $table, $fields->join(', '), $criteria);
 	}
 
 	/**
@@ -151,7 +139,10 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getDeleteQueryString ($table, $criteria) {
-		return sprintf('DELETE FROM %s WHERE %s', $table, self::getCriteriaString($criteria));
+		if (BSString::isBlank($criteria = self::getCriteriaString($criteria))) {
+			throw new BSDatabaseException('抽出条件がありません。');
+		}
+		return sprintf('DELETE FROM %s %s', $table, $criteria);
 	}
 
 	/**
@@ -215,7 +206,7 @@ class BSSQL {
 		if (!($tables instanceof BSTableFieldSet)) {
 			$tables = new BSTableFieldSet($tables);
 		}
-		return $tables->getContents();
+		return 'FROM ' . $tables->getContents();
 	}
 
 	/**
@@ -230,7 +221,9 @@ class BSSQL {
 		if (!($criteria instanceof BSCriteriaSet)) {
 			$criteria = new BSCriteriaSet($criteria);
 		}
-		return $criteria->getContents();
+		if ($criteria->count()) {
+			return 'WHERE ' . $criteria->getContents();
+		}
 	}
 
 	/**
@@ -245,7 +238,9 @@ class BSSQL {
 		if (!($order instanceof BSTableFieldSet)) {
 			$order = new BSTableFieldSet($order);
 		}
-		return $order->getContents();
+		if ($order->count()) {
+			return 'ORDER BY ' . $order->getContents();
+		}
 	}
 
 	/**
@@ -260,7 +255,9 @@ class BSSQL {
 		if (!($group instanceof BSTableFieldSet)) {
 			$group = new BSTableFieldSet($group);
 		}
-		return $group->getContents();
+		if ($group->count()) {
+			return $group->getContents();
+		}
 	}
 
 	/**
@@ -273,11 +270,9 @@ class BSSQL {
 	 * @static
 	 */
 	static private function getOffsetString ($page, $pagesize) {
-		return sprintf(
-			'LIMIT %d OFFSET %d',
-			$pagesize,
-			($page - 1) * $pagesize
-		);
+		if ($page && $pagesize) {
+			return sprintf('LIMIT %d OFFSET %d', $pagesize, ($page - 1) * $pagesize);
+		}
 	}
 }
 
