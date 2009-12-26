@@ -289,7 +289,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	static public function getPictogramNames () {
 		$config = BSConfigManager::getInstance()->compile('pictogram');
 		$codes = new BSArray($config['codes']);
-		return $codes->getKeys(BSArray::WITHOUT_KEY);
+		return $codes->getKeys();
 	}
 }
 

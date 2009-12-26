@@ -102,7 +102,7 @@ class BSSQL {
 		return sprintf(
 			'INSERT INTO %s (%s) VALUES (%s)',
 			$table,
-			$values->getKeys(BSArray::WITHOUT_KEY)->join(', '),
+			$values->getKeys()->join(', '),
 			$quoted->join(', ')
 		);
 	}

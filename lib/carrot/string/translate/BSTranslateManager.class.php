@@ -141,7 +141,7 @@ class BSTranslateManager implements IteratorAggregate {
 		$names = new BSArray;
 		$names[] = $name;
 		$names[] = 'BSDictionaryFile.' . $name;
-		$names->merge($this->dictionaries->getKeys(BSArray::WITHOUT_KEY));
+		$names->merge($this->dictionaries->getKeys());
 		$names->uniquize();
 		return $names;
 	}
@@ -220,7 +220,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @static
 	 */
 	static public function getLanguageNames () {
-		return self::getLanguages()->getKeys();
+		return self::getLanguages()->getFlipped();
 	}
 
 	/**

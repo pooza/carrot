@@ -61,7 +61,7 @@ class BSChoiceValidator extends BSValidator {
 				$class = $classes->getClassName($this['class']);
 			}
 			$choices->setParameters(call_user_func(array($class, $this['function'])));
-			$choices = $choices->getKeys(BSArray::WITHOUT_KEY);
+			$choices = $choices->getKeys();
 		}
 		return $choices;
 	}

@@ -452,7 +452,7 @@ class BSImage implements BSImageRenderer {
 	 * @return BSArray 拡張子
 	 */
 	static public function getSuffixes () {
-		return self::getTypes()->getKeys();
+		return self::getTypes()->getFlipped();
 	}
 
 	/**

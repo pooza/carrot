@@ -255,7 +255,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return string MySQLのエンコード名
 	 */
 	private function getEncodingName () {
-		$names = self::getEncodings()->getKeys();
+		$names = self::getEncodings()->getFlipped();
 		return $names[$this['encoding']];
 	}
 

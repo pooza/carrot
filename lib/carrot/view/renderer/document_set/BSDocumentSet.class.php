@@ -257,7 +257,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 * @return BSArray 登録名
 	 */
 	public function getEntryNames ($prefix = null) {
-		return $this->getEntries($prefix)->getKeys(BSArray::WITHOUT_KEY);
+		return $this->getEntries($prefix)->getKeys();
 	}
 
 	/**

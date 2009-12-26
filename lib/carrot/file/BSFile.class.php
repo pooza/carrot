@@ -56,7 +56,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 */
 	public function getDefaultSuffix () {
 		$types = new BSArray(BSMIMEType::getInstance()->getParameters());
-		$suffixes = $types->getKeys();
+		$suffixes = $types->getFlipped();
 		return '.' . $suffixes[$this->getType()];
 	}
 

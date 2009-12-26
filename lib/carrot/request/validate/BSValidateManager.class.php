@@ -99,7 +99,7 @@ class BSValidateManager implements IteratorAggregate {
 	 * @return BSArray フィールド名
 	 */
 	public function getFieldNames () {
-		return $this->fields->getKeys(BSArray::WITHOUT_KEY);
+		return $this->fields->getKeys();
 	}
 
 	/**
