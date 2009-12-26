@@ -12,7 +12,7 @@
  * @abstract
  */
 abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssignable {
-	private $fields = '*';
+	private $fields;
 	private $criteria;
 	private $order;
 	private $page;
@@ -35,6 +35,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	public function __construct ($criteria = null, $order = null) {
 		$this->setCriteria($criteria);
 		$this->setOrder($order);
+		$this->setFields('*');
 
 		if (!$this->isExists() && $this->getSchema()) {
 			$this->create();
@@ -45,7 +46,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * 出力フィールド文字列を返す
 	 *
 	 * @access public
-	 * @return string 出力フィールド文字列
+	 * @return BSTableFieldSet 出力フィールド
 	 */
 	public function getFields () {
 		return $this->fields;
@@ -58,10 +59,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $fields 配列または文字列による出力フィールド
 	 */
 	public function setFields ($fields) {
-		if ($fields) {
-			$this->fields = BSSQL::getFieldsString($fields);
-			$this->setExecuted(false);
+		if (!($fields instanceof BSTableFieldSet)) {
+			$fields = new BSTableFieldSet($fields);
 		}
+		$this->fields = $fields;
+		$this->setExecuted(false);
 	}
 
 	/**
@@ -159,12 +161,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * ソート順文字列を返す
 	 *
 	 * @access public
-	 * @return string ソート順文字列
+	 * @return BSFieldSet ソート順文字列
 	 */
 	public function getOrder () {
-		if (!$this->order) {
-			$this->setOrder($this->getKeyField());
-		}
 		return $this->order;
 	}
 
@@ -175,10 +174,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $order 配列または文字列によるソート順
 	 */
 	public function setOrder ($order) {
-		if (!$order) {
-			return;
+		if (!($order instanceof BSTableFieldSet)) {
+			$order = new BSTableFieldSet($order);
 		}
-		$this->order = BSSQL::getOrderString($order);
+		if (!$order->count()) {
+			$order[] = $this->getKeyField();
+		}
+		$this->order = $order;
 		$this->setExecuted(false);
 	}
 

@@ -194,12 +194,13 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getFieldsString ($fields = null) {
-		if (!$fields) {
-			return '*';
-		} if (!is_array($fields)) {
-			return $fields;
+		if (!($fields instanceof BSTableFieldSet)) {
+			$fields = new BSTableFieldSet($fields);
 		}
-		return implode(', ', $fields);
+		if (!$fields->count()) {
+			$fields[] = '*';
+		}
+		return $fields->getContents();
 	}
 
 	/**
@@ -211,10 +212,10 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getFromString ($tables) {
-		if (!is_array($tables)) {
-			return $tables;
+		if (!($tables instanceof BSTableFieldSet)) {
+			$tables = new BSTableFieldSet($tables);
 		}
-		return implode(', ', $tables);
+		return $tables->getContents();
 	}
 
 	/**
@@ -241,10 +242,10 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getOrderString ($order) {
-		if (!is_array($order)) {
-			return $order;
+		if (!($order instanceof BSTableFieldSet)) {
+			$order = new BSTableFieldSet($order);
 		}
-		return implode(', ', $order);
+		return $order->getContents();
 	}
 
 	/**
@@ -256,10 +257,10 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getGroupString ($group) {
-		if (!is_array($group)) {
-			return $group;
+		if (!($group instanceof BSTableFieldSet)) {
+			$group = new BSTableFieldSet($group);
 		}
-		return implode(', ', $group);
+		return $group->getContents();
 	}
 
 	/**
