@@ -54,13 +54,13 @@ class BSSQL {
 	static public function getSelectQueryString ($fields, $tables, $criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
 		$query = new BSArray;
 		$query[] = 'SELECT';
-		$query[] = self::getFieldsString($fields)
+		$query[] = self::getFieldsString($fields);
 		$query[] = self::getFromString($tables);
 		$query[] = self::getCriteriaString($criteria);
 		$query[] = self::getGroupString($group);
 		$query[] = self::getOrderString($order);
 		$query[] = self::getOffsetString($page, $pagesize);
-		return $query->join('');
+		return $query->trim()->join(' ');
 	}
 
 	/**

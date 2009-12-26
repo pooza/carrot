@@ -32,7 +32,7 @@ class BSTableFieldSet extends BSArray {
 	 */
 	public function setParameters ($params) {
 		if (is_string($params)) {
-			$params = BSString::explode(',');
+			$params = BSString::explode(',', $params);
 		}
 		parent::setParameters($params);
 	}
@@ -45,7 +45,7 @@ class BSTableFieldSet extends BSArray {
 	 */
 	public function merge ($values) {
 		if (is_string($params)) {
-			$params = BSString::explode(',');
+			$params = BSString::explode(',', $params);
 		}
 		parent::merge($params);
 	}
