@@ -188,12 +188,12 @@ class BSSQL {
 	/**
 	 * フィールドリスト文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param string[] $fields フィールドリストの配列
 	 * @return string フィールドリスト文字列
 	 * @static
 	 */
-	static public function getFieldsString ($fields = null) {
+	static private function getFieldsString ($fields = null) {
 		if (!($fields instanceof BSTableFieldSet)) {
 			$fields = new BSTableFieldSet($fields);
 		}
@@ -206,12 +206,12 @@ class BSSQL {
 	/**
 	 * テーブル文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param string[] $tables テーブルの配列
 	 * @return string テーブル文字列
 	 * @static
 	 */
-	static public function getFromString ($tables) {
+	static private function getFromString ($tables) {
 		if (!($tables instanceof BSTableFieldSet)) {
 			$tables = new BSTableFieldSet($tables);
 		}
@@ -236,12 +236,12 @@ class BSSQL {
 	/**
 	 * ソート順文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param string[] $order ソート順の配列
 	 * @return string ソート順文字列
 	 * @static
 	 */
-	static public function getOrderString ($order) {
+	static private function getOrderString ($order) {
 		if (!($order instanceof BSTableFieldSet)) {
 			$order = new BSTableFieldSet($order);
 		}
@@ -251,12 +251,12 @@ class BSSQL {
 	/**
 	 * グループ化文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param string[] $order グループ化の配列
 	 * @return string グループ化文字列
 	 * @static
 	 */
-	static public function getGroupString ($group) {
+	static private function getGroupString ($group) {
 		if (!($group instanceof BSTableFieldSet)) {
 			$group = new BSTableFieldSet($group);
 		}
@@ -266,13 +266,13 @@ class BSSQL {
 	/**
 	 * オフセット文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param integer $page ページ番号
 	 * @param integer $pagesize ページサイズ
 	 * @return string オフセット文字列
 	 * @static
 	 */
-	static public function getOffsetString ($page, $pagesize) {
+	static private function getOffsetString ($page, $pagesize) {
 		return sprintf(
 			'LIMIT %d OFFSET %d',
 			$pagesize,
