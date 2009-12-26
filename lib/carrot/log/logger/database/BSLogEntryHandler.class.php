@@ -63,7 +63,8 @@ class BSLogEntryHandler extends BSTableHandler {
 	 */
 	public function getEntries (BSDate $date) {
 		$table = clone $this;
-		$criteria = sprintf(
+		$criteria = $this->createCriteriaSet();
+		$criteria[] = sprintf(
 			'strftime(%s,date)=%s',
 			$this->getDatabase()->quote('%Y-%m-%d'),
 			$this->getDatabase()->quote($date->format('Y-m-d'))

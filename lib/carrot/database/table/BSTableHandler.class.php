@@ -105,10 +105,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * 抽出条件文字列を返す
+	 * 抽出条件を返す
 	 *
 	 * @access public
-	 * @return string 抽出条件文字列
+	 * @return BSCriteriaSet 抽出条件
 	 */
 	public function getCriteria () {
 		return $this->criteria;
@@ -121,20 +121,21 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $criteria 配列または文字列による抽出条件
 	 */
 	public function setCriteria ($criteria) {
-		if (!$criteria) {
-			return;
+		if (!($criteria instanceof BSCriteriaSet)) {
+			$criteria = new BSCriteriaSet($criteria);
+			$criteria->setDatabase($this->getDatabase());
 		}
-		$this->criteria = BSSQL::getCriteriaString($criteria);
+		$this->criteria = $criteria;
 		$this->setExecuted(false);
 	}
 
 	/**
-	 * 抽出条件文字列を返す
+	 * 抽出条件を返す
 	 *
 	 * getCriteriaのエイリアス
 	 *
 	 * @access public
-	 * @return string 抽出条件文字列
+	 * @return BSCriteriaSet 抽出条件
 	 * final
 	 */
 	final public function getWhere () {

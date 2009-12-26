@@ -199,7 +199,6 @@ class BSSQL {
 		} if (!is_array($fields)) {
 			return $fields;
 		}
-
 		return implode(', ', $fields);
 	}
 
@@ -215,30 +214,22 @@ class BSSQL {
 		if (!is_array($tables)) {
 			return $tables;
 		}
-
 		return implode(', ', $tables);
 	}
 
 	/**
 	 * 抽出条件文字列を返す
 	 *
-	 * @access public
+	 * @access private
 	 * @param mixed $criteria 抽出条件の配列
-	 * @param string $glue 結合子
 	 * @return string 抽出条件文字列
 	 * @static
 	 */
-	static public function getCriteriaString ($criteria, $glue = ' AND ') {
-		if ($criteria instanceof BSCriteriaSet) {
-			return $criteria->getContents();
-		} else if (!is_array($criteria)) {
-			return $criteria;
+	static private function getCriteriaString ($criteria) {
+		if (!($criteria instanceof BSCriteriaSet)) {
+			$criteria = new BSCriteriaSet($criteria);
 		}
-		$criteriaFormed = array();
-		foreach ($criteria as $item) {
-			$criteriaFormed[] = sprintf('(%s)', $item);
-		}
-		return implode($glue, $criteriaFormed);
+		return $criteria->getContents();
 	}
 
 	/**
