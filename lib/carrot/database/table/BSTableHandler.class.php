@@ -49,7 +49,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$this->fields = clone $this->fields;
 		$this->criteria = clone $this->criteria;
 		$this->order = clone $this->order;
-		$this->ids = clone $this->ids;
+		if ($this->ids) {
+			$this->ids = clone $this->ids;
+		}
 	}
 
 	/**
