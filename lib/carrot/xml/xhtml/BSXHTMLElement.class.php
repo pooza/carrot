@@ -94,7 +94,11 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @param string $value スタイル値
 	 */
 	public function setStyle ($name, $value) {
-		$this->styles[$name] = $value;
+		if (BSString::isBlank($value)) {
+			$this->styles->removeParameter($name);
+		} else {
+			$this->styles[$name] = $value;
+		}
 		$this->contents = null;
 	}
 
