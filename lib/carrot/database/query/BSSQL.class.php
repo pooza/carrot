@@ -256,7 +256,7 @@ class BSSQL {
 			$group = new BSTableFieldSet($group);
 		}
 		if ($group->count()) {
-			return $group->getContents();
+			return 'GROUP BY ' . $group->getContents();
 		}
 	}
 
