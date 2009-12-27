@@ -43,6 +43,16 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * @access public
+	 */
+	public function __clone () {
+		$this->fields = clone $this->fields;
+		$this->criteria = clone $this->criteria;
+		$this->order = clone $this->order;
+		$this->ids = clone $this->ids;
+	}
+
+	/**
 	 * 出力フィールド文字列を返す
 	 *
 	 * @access public
@@ -59,7 +69,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $fields 配列または文字列による出力フィールド
 	 */
 	public function setFields ($fields) {
-		if (!($fields instanceof BSTableFieldSet)) {
+		if ($fields instanceof BSTableFieldSet) {
+			$fields = clone $fields;
+		} else {
 			$fields = new BSTableFieldSet($fields);
 		}
 		$this->fields = $fields;
@@ -123,10 +135,12 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $criteria 配列または文字列による抽出条件
 	 */
 	public function setCriteria ($criteria) {
-		if (!($criteria instanceof BSCriteriaSet)) {
+		if ($criteria instanceof BSCriteriaSet) {
+			$criteria = clone $criteria;
+		} else {
 			$criteria = new BSCriteriaSet($criteria);
-			$criteria->setDatabase($this->getDatabase());
 		}
+		$criteria->setDatabase($this->getDatabase());
 		$this->criteria = $criteria;
 		$this->setExecuted(false);
 	}
@@ -174,7 +188,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @param mixed $order 配列または文字列によるソート順
 	 */
 	public function setOrder ($order) {
-		if (!($order instanceof BSTableFieldSet)) {
+		if ($order instanceof BSTableFieldSet) {
+			$order = clone $order;
+		} else {
 			$order = new BSTableFieldSet($order);
 		}
 		if (!$order->count()) {
@@ -292,12 +308,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			}
 		} else {
 			$table = clone $this;
-			$criteria = $this->createCriteriaSet();
-			$criteria->merge($this->getCriteria());
 			foreach ($key as $field => $value) {
-				$criteria->register($field, $value);
+				$table->getCriteria()->register($field, $value);
 			}
-			$table->setCriteria($criteria);
 			if ($table->count() == 1) {
 				$table->query();
 				$class = $this->getRecordClassName();
