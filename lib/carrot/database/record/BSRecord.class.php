@@ -108,8 +108,9 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		);
 		$this->getDatabase()->exec($query);
 		$this->attributes->setParameters($values);
-		$this->clearSerialized();
-
+		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
+			$this->clearSerialized();
+		}
 		if ($flags & BSDatabase::WITH_LOGGING) {
 			$message = new BSStringFormat('%sを更新しました。');
 			$message[] = $this;
