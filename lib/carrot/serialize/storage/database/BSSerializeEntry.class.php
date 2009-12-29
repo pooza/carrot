@@ -23,6 +23,18 @@ class BSSerializeEntry extends BSRecord {
 	}
 
 	/**
+	 * 更新
+	 *
+	 * @access public
+	 * @param mixed $values 更新する値
+	 * @param integer $flags フラグのビット列
+	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
+	 */
+	public function update ($values, $flags = BSDatabase::WITHOUT_LOGGING) {
+		parent::update($values, $flags);
+	}
+
+	/**
 	 * 削除可能か？
 	 *
 	 * @access protected
@@ -30,6 +42,17 @@ class BSSerializeEntry extends BSRecord {
 	 */
 	protected function isDeletable () {
 		return true;
+	}
+
+	/**
+	 * シリアライズするか？
+	 *
+	 * @access public
+	 * @return boolean シリアライズするならTrue
+	 * @final
+	 */
+	final function isSerializable () {
+		return false;
 	}
 }
 
