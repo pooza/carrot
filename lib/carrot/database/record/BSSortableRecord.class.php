@@ -100,7 +100,7 @@ abstract class BSSortableRecord extends BSRecord {
 	protected function setRank ($rank) {
 		$this->update(
 			array($this->getTable()->getRankField() => $rank),
-			BSDatabase::WITHOUT_SERIALIZE
+			BSDatabase::WITHOUT_LOGGING | BSDatabase::WITHOUT_SERIALIZE
 		);
 	}
 }

@@ -87,9 +87,10 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @access public
 	 * @param mixed $values 更新する値
 	 * @param integer $flags フラグのビット列
-	 *   BSDatabase::WITH_LOGGING ログを残さない
+	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
+	 *   BSDatabase::WITHOUT_SERIALIZE シリアライズしない
 	 */
-	public function update ($values, $flags = BSDatabase::WITH_LOGGING) {
+	public function update ($values, $flags = null) {
 		if (!$this->isUpdatable()) {
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
@@ -111,7 +112,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
 			$this->clearSerialized();
 		}
-		if ($flags & BSDatabase::WITH_LOGGING) {
+		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$message = new BSStringFormat('%sを更新しました。');
 			$message[] = $this;
 			$this->getDatabase()->putLog($message);
@@ -136,7 +137,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 * @access public
 	 */
 	public function touch () {
-		$this->update(array(), null);
+		$this->update(array(), BSDatabase::WITHOUT_LOGGING);
 	}
 
 	/**
@@ -144,9 +145,9 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	 *
 	 * @access public
 	 * @param integer $flags フラグのビット列
-	 *   BSDatabase::WITH_LOGGING ログを残さない
+	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
 	 */
-	public function delete ($flags = BSDatabase::WITH_LOGGING) {
+	public function delete ($flags = null) {
 		if (!$this->isDeletable()) {
 			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
@@ -155,7 +156,7 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 		$this->getDatabase()->exec($query);
 		$this->clearSerialized();
 
-		if ($flags & BSDatabase::WITH_LOGGING) {
+		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$message = new BSStringFormat('%sを削除しました。');
 			$message[] = $this;
 			$this->getDatabase()->putLog($message);

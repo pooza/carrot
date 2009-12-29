@@ -40,15 +40,15 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	}
 
 	/**
-	 * レコード追加
+	 * レコード作成
 	 *
 	 * @access public
-	 * @param mixed[] $values 値
+	 * @param mixed $values 値
 	 * @param integer $flags フラグのビット列
-	 *   BSDatabase::WITH_LOGGING ログを残さない
+	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
+	public function createRecord ($values, $flags = null) {
 		$values[$this->getRankField()] = $this->getNextRank();
 		return parent::createRecord($values, $flags);
 	}

@@ -16,7 +16,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	protected $tables;
 	private $name;
 	static private $instances;
-	const WITH_LOGGING = 1;
+	const WITHOUT_LOGGING = 1;
 	const WITHOUT_SERIALIZE = 2;
 
 	/**

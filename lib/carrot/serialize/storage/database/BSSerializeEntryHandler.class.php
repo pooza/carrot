@@ -23,15 +23,15 @@ class BSSerializeEntryHandler extends BSTableHandler {
 	}
 
 	/**
-	 * レコード追加
+	 * レコード作成
 	 *
 	 * @access public
 	 * @param mixed $values 値
 	 * @param integer $flags フラグのビット列
-	 *   BSDatabase::WITH_LOGGING ログを残さない
+	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values, $flags = BSDatabase::WITH_LOGGING) {
+	public function createRecord ($values, $flags = BSDatabase::WITHOUT_LOGGING) {
 		$db = $this->getDatabase();
 		$query = BSSQL::getInsertQueryString($this->getName(), $values, $db);
 		$db->exec($query);
