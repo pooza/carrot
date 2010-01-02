@@ -100,38 +100,23 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		if (BSString::isBlank($this->_dequote($params['key']))) {
 			$params['key'] = 'key' . BSUtility::getUniqueID();
 		}
-		$var = '$this->_foreach[' . $this->quote($params['name']) . ']';
 
+		$var = '$this->_foreach[' . $this->quote($params['name']) . ']';
 		$body = new BSArray;
 		$body[] = sprintf(
-			'<?php %s = array(%s => %s, %s => 0);',
-			$var,
-			$this->quote('from'),
-			$params['from'],
-			$this->quote('iteration')
+			'<?php %s = array(\'from\' => %s, \'iteration\' => 0);',
+			$var, $params['from']
 		);
-		$body[] = sprintf('%s[%s] = count(%s[%s]);',
-			$var,
-			$this->quote('total'),
-			$var,
-			$this->quote('from')
-		);
-
+		$body[] = sprintf('%s[\'total\'] = count(%s[\'from\']);', $var, $var);
 		$body[] = sprintf('if (0 < %s[%s]):', $var, $this->quote('from'));
 		$body[] = sprintf(
-			'  foreach (%s[%s] as $this->_tpl_vars[%s] => $this->_tpl_vars[%s]):',
-			$var,
-			$this->quote('from'),
-			$this->quote($params['key']),
-			$this->quote($params['item'])
+			'  foreach (%s[\'from\'] as $this->_tpl_vars[%s] => $this->_tpl_vars[%s]):',
+			$var, $this->quote($params['key']), $this->quote($params['item'])
 		);
-		$body[] = sprintf('    %s[%s] ++;', $var, $this->quote('iteration'));
+		$body[] = sprintf('    %s[\'iteration\'] ++;', $var);
 
 		if ($limit = $params['limit']) {
-			$body[] = sprintf(
-				'    if (%d < %s[%s]) {break;}',
-				$limit, $var, $this->quote('iteration')
-			);
+			$body[] = sprintf('    if (%d < %s[\'iteration\']) {break;}', $limit, $var);
 		}
 
 		$body[] = '?>';
