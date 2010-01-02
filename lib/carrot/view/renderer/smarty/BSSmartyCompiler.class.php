@@ -108,7 +108,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 			$var, $params['from']
 		);
 		$body[] = sprintf('%s[\'total\'] = count(%s[\'from\']);', $var, $var);
-		$body[] = sprintf('if (0 < %s[%s]):', $var, $this->quote('from'));
+		$body[] = 'if (0 < %s[\'from\']):', $var);
 		$body[] = sprintf(
 			'  foreach (%s[\'from\'] as $this->_tpl_vars[%s] => $this->_tpl_vars[%s]):',
 			$var, $this->quote($params['key']), $this->quote($params['item'])
