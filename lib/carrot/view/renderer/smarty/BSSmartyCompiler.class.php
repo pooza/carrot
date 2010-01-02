@@ -83,6 +83,70 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	}
 
 	/**
+	 * Compile {foreach ...} tag.
+	 *
+	 * @access public
+	 * @param string $args
+	 * @return string
+	 */
+	public function _compile_foreach_start ($args) {
+		$params = new BSArray($this->_parse_attrs($args));
+		if (BSString::isBlank($params['name'])) {
+			$params['name'] = BSUtility::getUniqueID();
+		}
+		if (BSString::isBlank($this->_dequote($params['item']))) {
+			$params['item'] = 'item' . BSUtility::getUniqueID();
+		}
+		if (BSString::isBlank($this->_dequote($params['key']))) {
+			$params['key'] = 'key' . BSUtility::getUniqueID();
+		}
+		$var = '$this->_foreach[' . $this->quote($params['name']) . ']';
+
+		$body = new BSArray;
+		$body[] = sprintf(
+			'<?php %s = array(%s => %s, %s => 0);',
+			$var,
+			$this->quote('from'),
+			$params['from'],
+			$this->quote('iteration')
+		);
+		$body[] = sprintf('%s[%s] = count(%s[%s]);',
+			$var,
+			$this->quote('total'),
+			$var,
+			$this->quote('from')
+		);
+
+		$body[] = sprintf('if (0 < %s[%s]):', $var, $this->quote('from'));
+		$body[] = sprintf(
+			'  foreach (%s[%s] as $this->_tpl_vars[%s] => $this->_tpl_vars[%s]):',
+			$var,
+			$this->quote('from'),
+			$this->quote($params['key']),
+			$this->quote($params['item'])
+		);
+		$body[] = sprintf('    %s[%s] ++;', $var, $this->quote('iteration'));
+
+		if ($limit = $params['limit']) {
+			$body[] = sprintf(
+				'    if (%d < %s[%s]) {break;}',
+				$limit, $var, $this->quote('iteration')
+			);
+		}
+
+		$body[] = '?>';
+		return $body->join("\n");
+	}
+
+	private function quote ($value) {
+		if (is_string($value)) {
+			$value = $this->_dequote($value);
+		}
+		$value = BSConfigCompiler::quote($value);
+		return $value;
+	}
+
+	/**
 	 * エラートリガ
 	 *
 	 * @access public
