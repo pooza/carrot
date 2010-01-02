@@ -92,13 +92,13 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	public function _compile_foreach_start ($args) {
 		$params = new BSArray($this->_parse_attrs($args));
 		if (BSString::isBlank($params['name'])) {
-			$params['name'] = BSUtility::getUniqueID();
+			$params['name'] = 'foreach_' . BSUtility::getUniqueID();
 		}
-		if (BSString::isBlank($this->_dequote($params['item']))) {
-			$params['item'] = 'item' . BSUtility::getUniqueID();
+		if (BSString::isBlank($params['item'])) {
+			$params['item'] = $params['name'] . '_item';
 		}
-		if (BSString::isBlank($this->_dequote($params['key']))) {
-			$params['key'] = 'key' . BSUtility::getUniqueID();
+		if (BSString::isBlank($params['key'])) {
+			$params['key'] = $params['name'] . '_key';
 		}
 
 		$var = '$this->_foreach[' . $this->quote($params['name']) . ']';
@@ -124,9 +124,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	}
 
 	private function quote ($value) {
-		if (is_string($value)) {
-			$value = $this->_dequote($value);
-		}
+		$value = $this->_dequote($value);
 		$value = BSConfigCompiler::quote($value);
 		return $value;
 	}
