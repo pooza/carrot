@@ -259,15 +259,21 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * 文字列をクォート
 	 *
 	 * @access public
-	 * @param string $string 対象文字列
+	 * @param mixed $value 対象の文字列または配列
 	 * @param string $type クォートのタイプ
 	 * @return string クォート後の文字列
 	 */
-	public function quote ($string, $type = self::PARAM_STR) {
-		if (BSString::isBlank($string)) {
+	public function quote ($value, $type = self::PARAM_STR) {
+		if (BSArray::isArray($value)) {
+			$values = $value;
+			foreach ($values as $key => $value) {
+				$values[$key] = self::quote($value, $type);
+			}
+			return $values;
+		} else if (BSString::isBlank($value)) {
 			return 'NULL';
 		} else {
-			return parent::quote($string, $type);
+			return parent::quote($value, $type);
 		}
 	}
 

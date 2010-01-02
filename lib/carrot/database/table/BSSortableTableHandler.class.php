@@ -20,11 +20,9 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 	 */
 	public function __construct ($criteria = null, $order = null) {
 		if (!$order) {
-			$order = array(
-				$this->getRankField(),
-				$this->getKeyField(),
-			);
-			$order = implode(',', $order);
+			$order = new BSTableFieldSet;
+			$order[] = $this->getRankField();
+			$order[] = $this->getKeyField();
 		}
 		parent::__construct($criteria, $order);
 	}
