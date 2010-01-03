@@ -390,6 +390,28 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
+	 * Remove starting and ending quotes from the string
+	 *
+	 * @access public
+	 * @param string $value
+	 * @return string
+	 */
+	public function _dequote ($value) {
+		if (BSArray::isArray($value)) {
+			$values = $value;
+			foreach ($values as $key => $value) {
+				$values[$key] = $this->_dequote($value);
+			}
+			return $values;
+		} else {
+			if (($value[0] == '\'' || $value[0] == '"') && (substr($value, -1) == $value[0])) {
+				return substr($value, 1, -1);
+			}
+			return $value;
+		}
+	}
+
+	/**
 	 * リソースを指定してコンパイル
 	 *
 	 * @param string $resource リソース名
