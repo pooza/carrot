@@ -294,6 +294,16 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	}
 
 	/**
+	 * 外部のURLか？
+	 *
+	 * @access public
+	 * @return boolean 外部のURLならTrue
+	 */
+	public function isForeign () {
+		return $this['host']->isForeign();
+	}
+
+	/**
 	 * 短縮URLを返す
 	 *
 	 * @access public

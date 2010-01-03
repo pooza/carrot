@@ -143,6 +143,20 @@ class BSHost implements BSAssignable {
 	}
 
 	/**
+	 * 異なるホストか？
+	 *
+	 * @access public
+	 * @param BSHost $host 対象ホスト
+	 * @return boolean 異なるホストならTrue
+	 */
+	public function isForeign (BSHost $host = null) {
+		if (!$host) {
+			$host = BSController::getInstance()->getHost();
+		}
+		return ($this->getName() != $host->getName());
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public
