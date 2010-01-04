@@ -408,7 +408,7 @@ class BSString {
 	}
 
 	/**
-	 * HTMLタグを取り除く
+	 * HTMLタグとスマートタグを取り除く
 	 *
 	 * @access public
 	 * @param mixed $value 変換対象の文字列又は配列
@@ -444,6 +444,25 @@ class BSString {
 			}
 		} else {
 			$value = mb_ereg_replace('[[:cntrl:]]', '', $value);
+		}
+		return $value;
+	}
+
+	/**
+	 * クォートされた文字列から、クォートを外す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function dequote ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::dequote($item);
+			}
+		} else {
+			$value = trim($value, '\'"');
 		}
 		return $value;
 	}

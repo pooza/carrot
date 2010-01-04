@@ -108,25 +108,34 @@ class BSSmartyCompiler extends Smarty_Compiler {
 			$var, $params['from']
 		);
 		$body[] = sprintf('%s[\'total\'] = count(%s[\'from\']);', $var, $var);
-		$body[] = sprintf('if (0 < %s[\'from\']):', $var);
+		$body[] = sprintf('if (0 < %s[\'total\']):', $var);
 		$body[] = sprintf(
 			'  foreach (%s[\'from\'] as $this->_tpl_vars[%s] => $this->_tpl_vars[%s]):',
 			$var, $this->quote($params['key']), $this->quote($params['item'])
 		);
 		$body[] = sprintf('    %s[\'iteration\'] ++;', $var);
-
-		if ($limit = $params['limit']) {
-			$body[] = sprintf('    if (%d < %s[\'iteration\']) {break;}', $limit, $var);
+		if ($max = $params['max']) {
+			$body[] = sprintf('    if (%d < %s[\'iteration\']) {break;}', $max, $var);
 		}
-
 		$body[] = '?>';
 		return $body->join("\n");
 	}
 
 	private function quote ($value) {
-		$value = $this->_dequote($value);
+		$value = BSString::dequote($value);
 		$value = BSConfigCompiler::quote($value);
 		return $value;
+	}
+
+	/**
+	 * クォートされた文字列から、クォートを外す
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 */
+	public function _dequote ($value) {
+		return BSString::dequote($value);
 	}
 
 	/**

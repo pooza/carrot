@@ -390,25 +390,14 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * Remove starting and ending quotes from the string
+	 * クォートされた文字列から、クォートを外す
 	 *
 	 * @access public
-	 * @param string $value
-	 * @return string
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
 	 */
 	public function _dequote ($value) {
-		if (BSArray::isArray($value)) {
-			$values = $value;
-			foreach ($values as $key => $value) {
-				$values[$key] = $this->_dequote($value);
-			}
-			return $values;
-		} else {
-			if (($value[0] == '\'' || $value[0] == '"') && (substr($value, -1) == $value[0])) {
-				return substr($value, 1, -1);
-			}
-			return $value;
-		}
+		return BSString::dequote($value);
 	}
 
 	/**
