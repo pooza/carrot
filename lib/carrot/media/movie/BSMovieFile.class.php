@@ -33,7 +33,7 @@ class BSMovieFile extends BSMediaFile {
 			$sec = BSString::explode(':', $matches[1]);
 			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
-		if (mb_ereg(' ([[:digit:]]{,4})x([[:digit:]]{,4})', $this->output, $matches)) {
+		if (mb_ereg(' ([[:digit:]]{2,4})x([[:digit:]]{2,4})', $this->output, $matches)) {
 			$this->attributes['width'] = $matches[1];
 			$this->attributes['height'] = $matches[2];
 			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();

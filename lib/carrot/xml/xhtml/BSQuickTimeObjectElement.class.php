@@ -36,6 +36,8 @@ class BSQuickTimeObjectElement extends BSObjectElement {
 	public function setURL (BSHTTPRedirector $url) {
 		$this->setParameter('src', $url->getContents());
 		$this->inner->setAttribute('src', $url->getContents());
+		$this->setParameter('qtsrc', $url->getContents());
+		$this->inner->setAttribute('qtsrc', $url->getContents());
 	}
 }
 
