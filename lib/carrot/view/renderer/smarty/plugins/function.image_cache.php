@@ -30,6 +30,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 			return $info['pixel_size'];
 		case 'width':
 		case 'height':
+		case 'url':
 			return $info[$mode];
 		case 'lightbox':
 			$element = $element->wrap(new BSAnchorElement);
@@ -40,6 +41,9 @@ function smarty_function_image_cache ($params, &$smarty) {
 			);
 			//↓そのまま実行
 		default:
+			if ($id = $params['container_id']) {
+				$element->setID($id);
+			}
 			return $element->getContents();
 	}
 }
