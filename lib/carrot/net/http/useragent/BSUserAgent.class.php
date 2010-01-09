@@ -91,8 +91,10 @@ abstract class BSUserAgent implements BSAssignable {
 			if ($values['legacy_denied'] && $this->isLegacy()) {
 				return true;
 			}
-			if (BSArray::isArray($values['denied_patterns'])) {
-				foreach ($values['denied_patterns'] as $pattern) {
+
+			// $patterns変数への代入は、PHP5.1対応。
+			if (BSArray::isArray($patterns = $values['denied_patterns'])) {
+				foreach ($patterns as $pattern) {
 					if (BSString::isContain($pattern, $this->getName())) {
 						return true;
 					}
