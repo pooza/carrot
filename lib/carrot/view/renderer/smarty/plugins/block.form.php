@@ -29,8 +29,18 @@ function smarty_block_form ($params, $contents, &$smarty) {
 			$form->addHiddenField('MAX_FILE_SIZE', $size * 1024 * 1024);
 		}
 	}
+	if ($useragent->isMobile()) {
+		$session = BSRequest::getInstance()->getSession();
+		$form->addHiddenField($session->getName(), $session->getID());
+	}
+	if (BSString::isBlank($params['scheme'])
+		&& BSString::isBlank($params['host'])
+		&& BSRequest::getInstance()->isSSL()) {
+		$params['scheme'] = 'https';
+	}
 	$form->setAction($params);
 
+	$params->removeParameter('scheme');
 	$params->removeParameter('method');
 	$params->removeParameter('attachable');
 	$params->removeParameter('path');
