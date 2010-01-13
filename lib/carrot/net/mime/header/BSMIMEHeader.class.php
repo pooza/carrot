@@ -168,6 +168,16 @@ class BSMIMEHeader extends BSParameterHolder {
 	}
 
 	/**
+	 * 改行などの整形を行うか？
+	 *
+	 * @access protected
+	 * @return boolean 整形を行うならTrue
+	 */
+	protected function isFormattable () {
+		return true;
+	}
+
+	/**
 	 * ヘッダを整形して返す
 	 *
 	 * @access public
@@ -179,7 +189,7 @@ class BSMIMEHeader extends BSParameterHolder {
 		if (!$this->isVisible()) {
 			return null;
 		}
-		if ($flags & self::WITHOUT_CRLF) {
+		if (!$this->isFormattable() || ($flags & self::WITHOUT_CRLF)) {
 			return $this->name . ': ' . $this->getContents();
 		}
 
