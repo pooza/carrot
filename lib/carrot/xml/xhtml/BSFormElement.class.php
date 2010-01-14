@@ -24,6 +24,10 @@ class BSFormElement extends BSXHTMLElement {
 			foreach ($this->useragent->getAttribute('query') as $key => $value) {
 				$this->addHiddenField($key, $value);
 			}
+
+			// DoCoMoのSSL環境で、以下の対応が必要？
+			$session = BSRequest::getInstance()->getSession();
+			$this->addHiddenField($session->getName(), $session->getID());
 		} else {
 			$this->disableMultiSubmit();
 		}

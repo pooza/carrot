@@ -52,6 +52,7 @@ class BSWebController extends BSController {
 		$session = $this->request->getSession();
 		$url->setParameters($this->request->getUserAgent()->getAttribute('query'));
 		if ($this->request->isMobile()) {
+			// DoCoMoのSSL環境で、以下の対応が必要？
 			$url->setParameter($session->getName(), $session->getID());
 		}
 

@@ -73,6 +73,23 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	}
 
 	/**
+	 * URLを設定
+	 *
+	 * @access public
+	 * @param mixed $contents URL
+	 */
+	public function setContents ($contents) {
+		if (BSArray::isArray($contents)
+			&& BSString::isBlank($contents['scheme'])
+			&& BSString::isBlank($contents['host'])
+			&& BSRequest::getInstance()->isSSL()) {
+
+			$contents['scheme'] = 'https';
+		}
+		parent::setContents($contents);
+	}
+
+	/**
 	 * path以降を返す
 	 *
 	 * @access public

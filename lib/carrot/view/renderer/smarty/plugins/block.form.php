@@ -12,7 +12,8 @@
  */
 function smarty_block_form ($params, $contents, &$smarty) {
 	$params = new BSArray($params);
-	$form = new BSFormElement;
+	$useragent = $smarty->getUserAgent();
+	$form = new BSFormElement(null, $useragent);
 	$form->setBody($contents);
 
 	if (BSString::isBlank($params['method'])) {
@@ -22,21 +23,11 @@ function smarty_block_form ($params, $contents, &$smarty) {
 		$form->addSubmitFields();
 	}
 	$form->setMethod($params['method']);
-	$useragent = $smarty->getUserAgent();
 	if ($params['attachable'] && (!$useragent->isMobile() || $useragent->isAttachable())) {
 		$form->setAttachable(true);
 		if (!BSString::isBlank($size = $params['attachment_size'])) {
 			$form->addHiddenField('MAX_FILE_SIZE', $size * 1024 * 1024);
 		}
-	}
-	if ($useragent->isMobile()) {
-		$session = BSRequest::getInstance()->getSession();
-		$form->addHiddenField($session->getName(), $session->getID());
-	}
-	if (BSString::isBlank($params['scheme'])
-		&& BSString::isBlank($params['host'])
-		&& BSRequest::getInstance()->isSSL()) {
-		$params['scheme'] = 'https';
 	}
 	$form->setAction($params);
 
