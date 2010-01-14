@@ -139,6 +139,16 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
+	 * クエリーパラメータを返す
+	 *
+	 * @access public
+	 * @return BSWWWFormRenderer
+	 */
+	public function getQuery () {
+		return new BSWWWFormRenderer;
+	}
+
+	/**
 	 * ユーザーエージェント名を返す
 	 *
 	 * @access public
@@ -278,6 +288,8 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
+		$this->attributes['query'] = $this->getQuery();
+		$this->attributes['query_params'] = $this->getQuery()->getContents();
 		return $this->attributes;
 	}
 

@@ -13,7 +13,7 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
-	private $smarty;
+	private $query;
 	const DEFAULT_DISPLAY_WIDTH = 240;
 	const DEFAULT_DISPLAY_HEIGHT = 320;
 
@@ -43,7 +43,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$view->getRenderer()->addModifier('pictogram');
 		$view->getRenderer()->addOutputFilter('mobile');
 		$view->getRenderer()->addOutputFilter('encoding');
-		$this->smarty = $view->getRenderer();
 		return true;
 	}
 
@@ -54,22 +53,28 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return BSSessionHandler
 	 */
 	public function createSession () {
-		$session = new BSMobileSessionHandler;
-		$params = new BSWWWFormRenderer;
+		return new BSMobileSessionHandler;
+	}
 
-		$params->setParameters($this->attributes['query']);
-		$params[$session->getName()] = $session->getID();
-		if (BS_DEBUG) {
-			$params[BSRequest::USER_AGENT_ACCESSOR] = $this->getName();
-			$params['mobile_agent_id'] = $this->getID();
-		}
-		$this->attributes['query'] = $params->getParameters();
-		$this->attributes['query_params'] = $params->getContents();
+	/**
+	 * クエリーパラメータを返す
+	 *
+	 * @access public
+	 * @return BSWWWFormRenderer
+	 */
+	public function getQuery () {
+		if (!$this->query) {
+			$this->query = new BSWWWFormRenderer;
+			$this->query->setParameters($this->attributes['query']);
 
-		if ($this->smarty) {
-			$this->smarty->setAttribute('useragent', $this);
+			$session = BSRequest::getInstance()->getSession();
+			$this->query[$session->getName()] = $session->getID();
+			if (BS_DEBUG) {
+				$this->query[BSRequest::USER_AGENT_ACCESSOR] = $this->getName();
+				$this->query['mobile_agent_id'] = $this->getID();
+			}
 		}
-		return $session;
+		return $this->query;
 	}
 
 	/**

@@ -19,8 +19,8 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		$url = BSURL::getInstance($params['contents']);
 	}
 
-	if (($useragent = $smarty->getUserAgent()) && $useragent->isMobile()) {
-		$url->setParameters($useragent->getAttribute('query'));
+	if ($useragent = $smarty->getUserAgent()) {
+		$url->setParameters($useragent->getQuery());
 	}
 
 	return $url->getContents();

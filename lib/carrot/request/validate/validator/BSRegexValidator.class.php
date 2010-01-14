@@ -16,13 +16,13 @@ class BSRegexValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['match'] = true;
 		$this['match_error'] = '正しくありません。';
 		$this['pattern'] = null;
-		parent::initialize($parameters);
+		parent::initialize($params);
 
 		if (!$this['pattern']) {
 			throw new BSValidateException('正規表現パターンが指定されていません。');

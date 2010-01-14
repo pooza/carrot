@@ -16,9 +16,9 @@ class BSPairValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['field'] = null;
 		$this['equal'] = true;
 		$this['equal_error'] = '一致しません。';
@@ -26,7 +26,7 @@ class BSPairValidator extends BSValidator {
 		$this['lesser_error'] = '小さすぎます。';
 		$this['greater'] = false;
 		$this['greater_error'] = '大きすぎます。';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

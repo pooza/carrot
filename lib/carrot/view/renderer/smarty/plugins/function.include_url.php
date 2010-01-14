@@ -22,9 +22,9 @@ function smarty_function_include_url ($params, &$smarty) {
 		return null;
 	}
 
-	if ($url['host']->getName() == BSController::getInstance()->getHost()->getName()) {
-		if (($useragent = $smarty->getUserAgent()) && $useragent->isMobile()) {
-			$url->setParameters($useragent->getAttribute('query'));
+	if (!$url['host']->isForeign(BSController::getInstance()->getHost())) {
+		if ($useragent = $smarty->getUserAgent()) {
+			$url->setParameters($useragent->getQuery());
 		}
 	}
 	return $url->fetch();

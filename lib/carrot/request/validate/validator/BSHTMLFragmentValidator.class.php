@@ -18,13 +18,13 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['element_error'] = '許可されていない要素又は属性が含まれています。';
 		$this['allowed_tags'] = 'a,br,div,li,ol,p,span,ul';
 		$this['javascript_allowed'] = false;
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

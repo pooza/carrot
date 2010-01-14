@@ -61,9 +61,9 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			}
 		} else {
 			if ($position == self::POSITION_TOP) {
-				$this->parameters = array((string)$name => null) + $this->parameters;
+				$this->params = array((string)$name => null) + $this->params;
 			}
-			$this->parameters[(string)$name] = $value;
+			$this->params[(string)$name] = $value;
 		}
 	}
 
@@ -74,7 +74,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @return mixed 削除された先頭要素
 	 */
 	public function shift () {
-		return array_shift($this->parameters);
+		return array_shift($this->params);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @return BSArray 自分自身
 	 */
 	public function unshift ($value) {
-		array_unshift($this->parameters, $value);
+		array_unshift($this->params, $value);
 		return $this;
 	}
 
@@ -96,7 +96,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @return mixed 削除された末尾要素
 	 */
 	public function pop () {
-		return array_pop($this->parameters);
+		return array_pop($this->params);
 	}
 
 	/**
@@ -107,7 +107,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @return BSArray 自分自身
 	 */
 	public function push ($value) {
-		$this->parameters[] = $value;
+		$this->params[] = $value;
 		return $this;
 	}
 
@@ -128,7 +128,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 		if (BSString::isBlank($func = $funcs[$order])) {
 			throw new BSInitializeException('BSArray::sortの引数が正しくありません。');
 		}
-		$func($this->parameters);
+		$func($this->params);
 		return $this;
 	}
 
@@ -156,9 +156,9 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 */
 	public function uniquize () {
 		if (version_compare(PHP_VERSION, '5.2.9', '<')) {
-			$this->parameters = array_unique($this->parameters);
+			$this->params = array_unique($this->params);
 		} else {
-			$this->parameters = array_unique($this->parameters, SORT_STRING);
+			$this->params = array_unique($this->params, SORT_STRING);
 		}
 		return $this;
 	}
@@ -171,7 +171,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 	 * @return BSArray 自分自身
 	 */
 	public function flatten ($glue = '_') {
-		$this->parameters = self::getFlatContents(null, $this->parameters, $glue);
+		$this->params = self::getFlatContents(null, $this->params, $glue);
 		return $this;
 	}
 	static private function getFlatContents ($prefix, $arg, $glue) {

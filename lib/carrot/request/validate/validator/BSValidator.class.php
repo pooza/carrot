@@ -16,10 +16,10 @@ abstract class BSValidator extends BSParameterHolder {
 
 	/**
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function __construct ($parameters = array()) {
-		$this->initialize($parameters);
+	public function __construct ($params = array()) {
+		$this->initialize($params);
 	}
 
 	/**
@@ -56,11 +56,11 @@ abstract class BSValidator extends BSParameterHolder {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param mixed[] $parameters パラメータ
+	 * @param mixed[] $params パラメータ
 	 * @return boolean 初期化が成功すればTrue
 	 */
-	public function initialize ($parameters = array()) {
-		$this->setParameters($parameters);
+	public function initialize ($params = array()) {
+		$this->setParameters($params);
 		return true;
 	}
 

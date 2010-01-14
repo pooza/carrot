@@ -17,9 +17,9 @@ class BSRecordValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['table'] = null;
 		$this['class'] = null;
 		$this['field'] = 'id';
@@ -29,7 +29,7 @@ class BSRecordValidator extends BSValidator {
 		$this['duplicate_error'] = '重複します。';
 		$this['valid_values'] = array();
 		$this['criteria'] = array();
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

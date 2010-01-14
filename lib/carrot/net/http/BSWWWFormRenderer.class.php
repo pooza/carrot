@@ -32,7 +32,7 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 		if (BSArray::isArray($contents)) {
 			$this->setParameters($contents);
 		} else {
-			parse_str($contents, $this->parameters);
+			parse_str($contents, $this->params);
 		}
 	}
 

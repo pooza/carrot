@@ -11,9 +11,9 @@
  * @version $Id$
  */
 class BSHTTPSFilter extends BSFilter {
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['base_url'] = BS_ROOT_URL_HTTPS;
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	public function execute () {

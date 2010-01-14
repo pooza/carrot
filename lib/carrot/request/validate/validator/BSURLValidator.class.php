@@ -16,16 +16,16 @@ class BSURLValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['net_error'] = '正しくありません。';
 		$this['schemes'] = array('http', 'https');
 		$this['scheme_error'] = sprintf(
 			'スキーム(%s)が正しくありません。',
 			join('|', $this['schemes'])
 		);
-		return BSValidator::initialize($parameters);
+		return BSValidator::initialize($params);
 	}
 
 	private function getSchemes () {

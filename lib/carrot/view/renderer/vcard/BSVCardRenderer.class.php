@@ -33,7 +33,7 @@ class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 	}
 
 	private function getFieldContents ($key) {
-		$entry = new BSArray($this->parameters[$key]);
+		$entry = new BSArray($this->params[$key]);
 		$body = $entry->pop();
 		foreach ($entry as $param) {
 			if (mb_eregi('^charset=(.*)$', $param, $matches)) {

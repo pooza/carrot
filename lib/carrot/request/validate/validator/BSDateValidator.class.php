@@ -43,9 +43,9 @@ class BSDateValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['fields'] = array();
 		$this['invalid_error'] = '正しい日付ではありません。';
 		$this['today'] = true;
@@ -54,7 +54,7 @@ class BSDateValidator extends BSValidator {
 		$this['past_error'] = '過去の日付は選べません。';
 		$this['future'] = true;
 		$this['future_error'] = '未来の日付は選べません。';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

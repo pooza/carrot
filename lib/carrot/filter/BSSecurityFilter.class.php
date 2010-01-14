@@ -11,9 +11,9 @@
  * @version $Id$
  */
 class BSSecurityFilter extends BSFilter {
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['credential'] = $this->action->getCredential();
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	public function execute () {

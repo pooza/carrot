@@ -134,6 +134,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		if (!$template = $this->getTemplate()) {
 			throw new BSViewException('テンプレートが未定義です。');
 		}
+		$this->setAttribute('useragent', $this->getUserAgent());
 		return $template->compile();
 	}
 
@@ -194,7 +195,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
-		$this->setAttribute('useragent', $useragent);
 	}
 
 	/**

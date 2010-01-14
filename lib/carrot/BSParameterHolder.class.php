@@ -11,7 +11,7 @@
  * @abstract
  */
 abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Countable {
-	protected $parameters = array();
+	protected $params = array();
 
 	/**
 	 * パラメータを返す
@@ -22,7 +22,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 */
 	public function getParameter ($name) {
 		if ($this->hasParameter($name)) {
-			return $this->parameters[$name];
+			return $this->params[$name];
 		}
 	}
 
@@ -34,7 +34,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 * @param mixed $value 値
 	 */
 	public function setParameter ($name, $value) {
-		$this->parameters[(string)$name] = $value;
+		$this->params[(string)$name] = $value;
 	}
 
 	/**
@@ -44,7 +44,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 * @return mixed[] 全てのパラメータ
 	 */
 	public function getParameters () {
-		return $this->parameters;
+		return $this->params;
 	}
 
 	/**
@@ -77,7 +77,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 		if (is_array($name) || is_object($name)) {
 			return false;
 		}
-		return array_key_exists($name, $this->parameters);
+		return array_key_exists($name, $this->params);
 	}
 
 	/**
@@ -88,7 +88,7 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 */
 	public function removeParameter ($name) {
 		if ($this->hasParameter($name)) {
-			unset($this->parameters[$name]);
+			unset($this->params[$name]);
 		}
 	}
 

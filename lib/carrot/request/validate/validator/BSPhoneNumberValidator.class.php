@@ -38,13 +38,13 @@ class BSPhoneNumberValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['fields'] = array();
 		$this['invalid_error'] = '正しい電話番号ではありません。';
 		$this['loose'] = false;
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

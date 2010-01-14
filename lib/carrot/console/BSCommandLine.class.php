@@ -66,7 +66,7 @@ class BSCommandLine extends BSParameterHolder {
 		if ($flags & self::WITH_QUOTE) {
 			$value =  self::quote($value);
 		}
-		$this->parameters[] = $value;
+		$this->params[] = $value;
 	}
 
 	/**

@@ -16,11 +16,11 @@ class BSMovieValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['invalid_error'] = '正しいファイルではありません。';
-		return BSValidator::initialize($parameters);
+		return BSValidator::initialize($params);
 	}
 
 	/**

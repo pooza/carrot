@@ -44,9 +44,9 @@ class BSImageValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['types'] = 'jpeg,gif,png';
 		$this['types_error'] = '画像形式が正しくありません。';
 		$this['min_height'] = null;
@@ -57,7 +57,7 @@ class BSImageValidator extends BSValidator {
 		$this['min_width_error'] = '画像の幅が狭過ぎます。';
 		$this['max_width'] = null;
 		$this['max_width_error'] = '画像の幅が広過ぎます。';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

@@ -16,11 +16,11 @@ class BSEmptyValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['required_msg'] = '空欄です。';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

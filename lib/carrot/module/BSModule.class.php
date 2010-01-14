@@ -20,7 +20,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $prefix;
 	protected $record;
 	protected $table;
-	protected $parameters;
+	protected $params;
 	protected $recordClassName;
 	static private $instances;
 	static private $prefixes = array();
@@ -177,13 +177,13 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSArray 検索条件キャッシュ
 	 */
 	public function getParameterCache () {
-		if (!$this->parameters) {
-			$this->parameters = new BSArray;
+		if (!$this->params) {
+			$this->params = new BSArray;
 			if ($params = $this->user->getAttribute($this->getParameterCacheName())) {
-				$this->parameters->setParameters($params);
+				$this->params->setParameters($params);
 			}
 		}
-		return $this->parameters;
+		return $this->params;
 	}
 
 	/**
@@ -193,10 +193,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @param BSArray $params 検索条件キャッシュ
 	 */
 	public function setParameterCache (BSArray $params) {
-		$this->parameters = clone $params;
-		$this->parameters->removeParameter(BSController::MODULE_ACCESSOR);
-		$this->parameters->removeParameter(BSController::ACTION_ACCESSOR);
-		$this->user->setAttribute($this->getParameterCacheName(), $this->parameters);
+		$this->params = clone $params;
+		$this->params->removeParameter(BSController::MODULE_ACCESSOR);
+		$this->params->removeParameter(BSController::ACTION_ACCESSOR);
+		$this->user->setAttribute($this->getParameterCacheName(), $this->params);
 	}
 
 	/**

@@ -11,10 +11,10 @@
  * @version $Id$
  */
 class BSDeniedUserAgentFilter extends BSFilter {
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['module'] = 'Default';
 		$this['action'] = 'DeniedUserAgent';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	public function execute () {

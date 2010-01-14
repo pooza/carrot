@@ -151,14 +151,14 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * パラメータを設定
 	 *
 	 * @access public
-	 * @param mixed $parameters パラメータ文字列、又は配列
+	 * @param mixed $params パラメータ文字列、又は配列
 	 */
-	public function setParameters ($parameters) {
-		if (!BSArray::isArray($parameters)) {
-			parse_str($parameters, $parsed);
-			$parameters = (array)$parsed;
+	public function setParameters ($params) {
+		if (!is_array($params) && !($params instanceof BSParameterHolder)) {
+			parse_str($params, $parsed);
+			$params = (array)$parsed;
 		}
-		$this->query->setParameters($parameters);
+		$this->query->setParameters($params);
 	}
 
 	/**

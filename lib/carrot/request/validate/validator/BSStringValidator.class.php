@@ -17,15 +17,15 @@ class BSStringValidator extends BSValidator {
 	 * 初期化
 	 *
 	 * @access public
-	 * @param string[] $parameters パラメータ配列
+	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['max'] = self::MAX_SIZE;
 		$this['max_error'] = '長すぎます。';
 		$this['min'] = null;
 		$this['min_error'] = '短すぎます。';
 		$this['invalid_error'] = '正しくありません。';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 
 	/**

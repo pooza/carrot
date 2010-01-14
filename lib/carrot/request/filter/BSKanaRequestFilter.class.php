@@ -24,9 +24,9 @@ class BSKanaRequestFilter extends BSRequestFilter {
 		return BSString::convertKana($value, $this['option']);
 	}
 
-	public function initialize ($parameters = array()) {
+	public function initialize ($params = array()) {
 		$this['option'] = 'KV';
-		return parent::initialize($parameters);
+		return parent::initialize($params);
 	}
 }
 
