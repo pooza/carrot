@@ -11,7 +11,7 @@
  * @version $Id$
  */
 function smarty_modifier_qrcode ($value) {
-	$url = BSURL::getInstance(null, 'BSCarrotURL');
+	$url = BSURL::getInstance(null, 'carrot');
 	$url['module'] = 'Default';
 	$url['action'] = 'QRCode';
 	$url->setParameter('value', $value);

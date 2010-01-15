@@ -23,16 +23,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	protected function __construct ($contents = null) {
 		$this->attributes = new BSArray;
 		$this->query = new BSWWWFormRenderer;
-		if (BSString::isBlank($contents)) {
-			if (BSRequest::getInstance()->isSSL()) {
-				$this['scheme'] = 'https';
-			} else {
-				$this['scheme'] = 'http';
-			}
-			$this['host'] = BSController::getInstance()->getHost();
-		} else {
-			$this->setContents($contents);
-		}
+		$this->setContents($contents);
 	}
 
 	/**
@@ -79,12 +70,21 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param mixed $contents URL
 	 */
 	public function setContents ($contents) {
-		if (BSArray::isArray($contents)
-			&& BSString::isBlank($contents['scheme'])
-			&& BSString::isBlank($contents['host'])
-			&& BSRequest::getInstance()->isSSL()) {
-
-			$contents['scheme'] = 'https';
+		if (is_string($contents) || BSString::isBlank($contents)) {
+			$contents = parse_url($contents);
+		}
+		if (is_array($contents) || ($contents instanceof BSParameterHolder)) {
+			$contents = new BSArray($contents);
+		}
+		if (BSString::isBlank($contents['scheme'])) {
+			if (BSRequest::getInstance()->isSSL()) {
+				$contents['scheme'] = 'https';
+			} else {
+				$contents['scheme'] = 'http';
+			}
+		}
+		if (BSString::isBlank($contents['host'])) {
+			$contents['host'] = BSController::getInstance()->getHost();
 		}
 		parent::setContents($contents);
 	}
