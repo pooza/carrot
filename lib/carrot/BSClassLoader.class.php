@@ -72,7 +72,7 @@ class BSClassLoader {
 	 * @param string $suffix クラス名サフィックス
 	 * @return string 存在するクラス名
 	 */
-	public function getClassName ($class, $suffix = null) {
+	public function getClass ($class, $suffix = null) {
 		$pattern = '^(' . self::PREFIX . ')?([_[:alnum:]]+)(' . $suffix . ')?$';
 		if (!mb_ereg($pattern, $class, $matches)) {
 			throw new RuntimeException($class . 'がロードできません。');
@@ -99,7 +99,7 @@ class BSClassLoader {
 	 * @return string 存在するクラス名
 	 */
 	public function getObject ($class, $suffix = null) {
-		$class = $this->getClassName($class, $suffix);
+		$class = $this->getClass($class, $suffix);
 		return new $class;
 	}
 
@@ -131,7 +131,7 @@ class BSClassLoader {
 				continue;
 			} else if ($iterator->isDir()) {
 				$entries += $this->loadPath($entry->getPathname());
-			} else if ($key = self::extractClassName($entry->getfilename())) {
+			} else if ($key = self::extractClass($entry->getfilename())) {
 				$entries[strtolower($key)] = $entry->getPathname();
 			}
 		}
@@ -182,7 +182,7 @@ class BSClassLoader {
 	 * @return string クラス名
 	 * @static
 	 */
-	static private function extractClassName ($filename) {
+	static private function extractClass ($filename) {
 		require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
 		if (BSUtility::isPathAbsolute($filename)) {
 			$filename = basename($filename);

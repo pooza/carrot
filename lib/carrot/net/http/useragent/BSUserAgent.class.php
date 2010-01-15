@@ -44,7 +44,7 @@ abstract class BSUserAgent implements BSAssignable {
 		if (!$type) {
 			$type = self::getDefaultType($useragent);
 		}
-		$class = BSClassLoader::getInstance()->getClassName($type, 'UserAgent');
+		$class = BSClassLoader::getInstance()->getClass($type, 'UserAgent');
 		return new $class($useragent);
 	}
 

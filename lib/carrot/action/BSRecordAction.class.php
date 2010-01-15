@@ -27,7 +27,7 @@ abstract class BSRecordAction extends BSAction {
 		}
 
 		if ($record = $this->getRecord()) {
-			$name = BSString::underscorize($this->getModule()->getRecordClassName());
+			$name = BSString::underscorize($this->getModule()->getRecordClass());
 			$this->request->setAttribute($name, $record);
 			if (!$this->isExecutable() && BSString::isBlank($this->request['submit'])) {
 				$this->request->setParameters($record->getAttributes());
@@ -50,7 +50,7 @@ abstract class BSRecordAction extends BSAction {
 		if (BSString::isBlank($this->title)) {
 			if (BSString::isBlank($this->title = $this->getConfig('title'))) {
 				try {
-					$this->title = $this->getModule()->getRecordClassName('ja');
+					$this->title = $this->getModule()->getRecordClass('ja');
 					if ($this->isCreateAction()) {
 						$this->title .= '登録';
 					} else {

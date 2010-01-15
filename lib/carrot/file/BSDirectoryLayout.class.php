@@ -79,7 +79,7 @@ class BSDirectoryLayout {
 			}
 
 			if (!BSString::isBlank($info['class'])) {
-				$class = BSClassLoader::getInstance()->getClassName($info['class']);
+				$class = BSClassLoader::getInstance()->getClass($info['class']);
 				$dir = new $class($dir->getPath());
 			}
 			if (!BSString::isBlank($info['suffix'])) {

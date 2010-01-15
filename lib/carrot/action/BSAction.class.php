@@ -228,7 +228,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			$basename = $this->getName() . $name . 'View';
 			if ($file = $dir->getEntry($basename . '.class.php')) {
 				require_once($file->getPath());
-				$class = BSClassLoader::getInstance()->getClassName($basename);
+				$class = BSClassLoader::getInstance()->getClass($basename);
 			}
 		}
 

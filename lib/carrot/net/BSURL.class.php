@@ -35,7 +35,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function getInstance ($contents = null, $class = 'http') {
-		if (!$class = BSClassLoader::getInstance()->getClassName($class, 'URL')) {
+		if (!$class = BSClassLoader::getInstance()->getClass($class, 'URL')) {
 			throw new BSNetException('URLクラスが見つかりません。');
 		}
 

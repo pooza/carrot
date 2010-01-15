@@ -71,7 +71,7 @@ class BSImageFile extends BSFile implements BSImageContainer {
 				default:
 					throw new BSImageException($this . 'の形式が不明です。');
 			}
-			$class = BSClassLoader::getInstance()->getClassName($this->rendererClass);
+			$class = BSClassLoader::getInstance()->getClass($this->rendererClass);
 			$this->renderer = new $class($info[0], $info[1]);
 			$this->renderer->setType($type);
 			$this->renderer->setImage($image);

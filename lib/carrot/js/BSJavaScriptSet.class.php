@@ -18,7 +18,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 	 * @access protected
 	 * @return string $name 書類のクラス名
 	 */
-	protected function getDocumentClassName () {
+	protected function getDocumentClass () {
 		return 'BSJavaScriptFile';
 	}
 

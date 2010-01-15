@@ -120,7 +120,7 @@ abstract class BSTableProfile implements BSAssignable {
 	 */
 	public function getTableClassNames () {
 		try {
-			$name = BSClassLoader::getInstance()->getClassName(
+			$name = BSClassLoader::getInstance()->getClass(
 				$this->getName(),
 				BSTableHandler::CLASS_SUFFIX
 			);

@@ -40,7 +40,7 @@ class BSDictionaryDirectory extends BSDirectory {
 	 * @access public
 	 * @return string エントリーのクラス名
 	 */
-	public function getDefaultEntryClassName () {
+	public function getDefaultEntryClass () {
 		return 'BSDictionaryFile';
 	}
 }
