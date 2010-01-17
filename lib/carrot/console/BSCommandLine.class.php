@@ -123,7 +123,7 @@ class BSCommandLine extends BSParameterHolder {
 	public function getContents () {
 		if ($this->directory) {
 			if (!$file = $this->directory->getEntry($this->command)) {
-				throw new BSConsoleException($file . 'が見つかりません。');
+				throw new BSConsoleException($this->command . 'が見つかりません。');
 			}
 			$contents = $file->getPath();
 		} else {
