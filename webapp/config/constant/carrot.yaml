@@ -42,6 +42,11 @@ feed:
   class: BSRSS20Document
 ffmpeg:
   dir: /usr/local
+file:
+  magic:
+    file: /etc/httpd/magic
+  types:
+    file: /etc/httpd/mime.types
 flash:
   href_prefix: /carrotlib/swf/
   player_ver: 8.0.0
@@ -168,8 +173,6 @@ sqlite3:
 string:
   mobile:
     force_convert: no
-types:
-  file: /etc/httpd/mime.types
 xmpp:
   host: talk.google.com
   port: 5222

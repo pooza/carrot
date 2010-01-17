@@ -12,7 +12,8 @@
  */
 class BSMIMEType extends BSParameterHolder {
 	static private $instance;
-	private $file;
+	private $typesFile;
+	private $magicFile;
 	const DEFAULT_TYPE = 'application/octet-stream';
 
 	/**
@@ -60,13 +61,29 @@ class BSMIMEType extends BSParameterHolder {
 	 * @return BSFile mime.typesファイル
 	 */
 	private function getTypesFile () {
-		if (!$this->file) {
-			$this->file = new BSFile(BS_TYPES_FILE);
-			if (!$this->file->isReadable()) {
+		if (!$this->typesFile) {
+			$this->typesFile = new BSFile(BS_FILE_TYPES_FILE);
+			if (!$this->typesFile->isReadable()) {
 				throw new BSConfigException($file . 'を開くことができません。');
 			}
 		}
-		return $this->file;
+		return $this->typesFile;
+	}
+
+	/**
+	 * magicファイルを返す
+	 *
+	 * @access private
+	 * @return BSFile magicファイル
+	 */
+	private function getMagicFile () {
+		if (!$this->magicFile) {
+			$this->magicFile = new BSFile(BS_FILE_MAGIC_FILE);
+			if (!$this->magicFile->isReadable()) {
+				throw new BSConfigException($file . 'を開くことができません。');
+			}
+		}
+		return $this->magicFile;
 	}
 
 	/**
