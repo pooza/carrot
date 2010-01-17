@@ -17,18 +17,12 @@ admin:
     - 192.168.1.0/24
     - 192.168.101.0/24
 
-types:
-  #file: %BS_WEBAPP_DIR%/config/mime/mime.types
-
 pdo:
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
-
-smtp:
-  host: localhost
 
 awstats:
   log_dir: /var/log/httpd/www.example.com
