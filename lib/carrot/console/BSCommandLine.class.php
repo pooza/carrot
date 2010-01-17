@@ -122,11 +122,10 @@ class BSCommandLine extends BSParameterHolder {
 	 */
 	public function getContents () {
 		if ($this->directory) {
-			$contents = $this->directory->getPath() . DIRECTORY_SEPARATOR . $this->command;
-			$file = new BSFile($contents);
-			if (!$file->isExists()) {
+			if (!$file = $this->directory->getEntry($this->command)) {
 				throw new BSConsoleException($file . 'が見つかりません。');
 			}
+			$contents = $file->getPath();
 		} else {
 			$contents = $this->command;
 		}
