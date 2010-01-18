@@ -90,7 +90,7 @@ class BSAtom03Entry extends BSXMLElement implements BSFeedEntry {
 	 * @param BSDate $date 日付
 	 */
 	public function setDate (BSDate $date) {
-		foreach (array('published', 'created') as $field) {
+		foreach (array('published', 'created', 'updated') as $field) {
 			if (!$element = $this->getElement($field)) {
 				$element = $this->createElement($field);
 			}

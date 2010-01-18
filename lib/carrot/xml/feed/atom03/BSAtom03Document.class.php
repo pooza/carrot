@@ -140,6 +140,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 			$element = $this->createElement('link');
 		}
 		$element->setBody($link->getURL()->getContents());
+		$element->setAttribute('href', $link->getURL()->getContents());
 	}
 
 	/**
