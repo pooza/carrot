@@ -44,6 +44,11 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators->setParameters($configure->compile('validator/carrot'));
 		$this->validators->setParameters($configure->compile('validator/application'));
 
+		$server = BSController::getInstance()->getHost();
+		if ($config = BSConfigManager::getConfigFile('validator/' . $server->getName())) {
+			$this->validators->setParameters($configure->compile($config));
+		}
+
 		$config = new BSArray($file->getResult());
 		$this->parseMethods(new BSArray($config['methods']));
 		$this->parseFields(new BSArray($config['fields']));
