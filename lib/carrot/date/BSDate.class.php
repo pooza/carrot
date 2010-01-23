@@ -277,29 +277,44 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return boolean 妥当な日付ならtrue
 	 */
 	public function validate () {
-		return checkdate($this['month'], $this['day'], $this['year'])
+		return (checkdate($this['month'], $this['day'], $this['year'])
 			&& (0 <= $this['hour']) && ($this['hour'] <= 23)
 			&& (0 <= $this['minute']) && ($this['minute'] <= 59)
 			&& (0 <= $this['second']) && ($this['second'] <= 59)
-			&& ($this->getTimestamp() !== false);
+			&& ($this->getTimestamp() !== false)
+		);
 	}
 
 	/**
 	 * 指定日付よりも過去か？
 	 *
 	 * @access public
-	 * @param BSDate $now 比較対象の日付
-	 * @return boolean 過去日付ならtrue
+	 * @param mixed $date 比較対象の日付またはその配列
+	 * @return boolean 過去日付ならtrue、配列が与えられた場合は最新の日付でなければTrue
 	 */
-	public function isPast (BSDate $now = null) {
+	public function isPast ($date = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-		if (!$now) {
-			$now = self::getNow();
+		if (BSArray::isArray($date)) {
+			$dates = $date;
+			foreach ($dates as $item) {
+				if ($this->isPast($item)) {
+					return true;
+				}
+			}
+			return false;
 		}
-		return ($this->getTimestamp() < $now->getTimestamp());
+
+		if ($date === null) {
+			$date = self::getNow();
+		} else if (!($date instanceof BSDate)) {
+			if (!$date = BSDate::getInstance($date)) {
+				throw new BSDateException('日付が正しくありません。');
+			}
+		}
+		return ($this->getTimestamp() < $date->getTimestamp());
 	}
 
 	/**
