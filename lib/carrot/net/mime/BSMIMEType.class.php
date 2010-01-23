@@ -20,12 +20,12 @@ class BSMIMEType extends BSParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		$expire = $this->getTypesFile()->getUpdateDate();
-		if (!$this->getConfigFile()->getUpdateDate()->isPast($expire)) {
-			$expire = $this->getConfigFile()->getUpdateDate();
-		}
+		$date = BSDate::getNewest(new BSArray(array(
+			$this->getTypesFile()->getUpdateDate(),
+			$this->getConfigFile()->getUpdateDate(),
+		)));
 
-		if ($params = BSController::getInstance()->getAttribute($this, $expire)) {
+		if ($params = BSController::getInstance()->getAttribute($this, $date)) {
 			$this->setParameters($params);
 		} else {
 			$this->parse();

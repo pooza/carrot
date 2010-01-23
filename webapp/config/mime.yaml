@@ -11,6 +11,7 @@ types:
   doc: application/vnd.ms-word
   docx: application/vnd.openxmlformats-officedocument.wordprocessingml.document
   eml: message/rfc822
+  eps: application/postscript
   flv: video/x-flv
   gif: image/gif
   gz: application/x-gzip
@@ -41,6 +42,8 @@ types:
   sql:
   swf: application/x-shockwave-flash
   tgz: application/x-gzip
+  tif: image/tiff
+  tiff: image/tiff
   tpl:
   ttf: application/x-truetype-font
   txt: text/plain
