@@ -288,27 +288,22 @@ class BSDate implements ArrayAccess, BSAssignable {
 	/**
 	 * 指定日付よりも過去か？
 	 *
+	 * 配列が与えられたら、その中の最新日付と比較。
+	 *
 	 * @access public
 	 * @param mixed $date 比較対象の日付またはその配列
-	 * @return boolean 過去日付ならtrue、配列が与えられた場合は最新の日付でなければTrue
+	 * @return boolean 過去日付ならtrue
 	 */
 	public function isPast ($date = null) {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-		if (BSArray::isArray($date)) {
-			$dates = $date;
-			foreach ($dates as $item) {
-				if ($this->isPast($item)) {
-					return true;
-				}
-			}
-			return false;
-		}
 
 		if ($date === null) {
 			$date = self::getNow();
+		} else if (BSArray::isArray($date)) {
+			$date = self::getNewest(new BSArray($date));
 		} else if (!($date instanceof BSDate)) {
 			if (!$date = BSDate::getInstance($date)) {
 				throw new BSDateException('日付が正しくありません。');
@@ -660,6 +655,29 @@ class BSDate implements ArrayAccess, BSAssignable {
 			$days[$day] = $day;
 		}
 		return $days;
+	}
+
+	/**
+	 * 配列の中から、最も新しい日付を返す
+	 *
+	 * @access public
+	 * @param BSArray 日付の配列
+	 * @return BSDate 最も新しい日付
+	 * @static
+	 */
+	static public function getNewest (BSArray $dates) {
+		$newest = null;
+		foreach ($dates as $date) {
+			if (!($date instanceof BSDate)) {
+				if (!$date = self::getInstance($date)) {
+					throw new BSDateException('日付でない要素が含まれています。');
+				}
+			}
+			if (!$newest || ($newest->getTimestamp() < $date->getTimestamp())) {
+				$newest = $date;
+			}
+		}
+		return $newest;
 	}
 
 	/**
