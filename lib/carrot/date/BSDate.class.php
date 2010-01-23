@@ -299,7 +299,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 			throw new BSDateException('日付が初期化されていません。');
 		}
 
-
 		if ($date === null) {
 			$date = self::getNow();
 		} else if (BSArray::isArray($date)) {
@@ -673,7 +672,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 					throw new BSDateException('日付でない要素が含まれています。');
 				}
 			}
-			if (!$newest || ($newest->getTimestamp() < $date->getTimestamp())) {
+			if (!$newest || $newest->isPast($date)) {
 				$newest = $date;
 			}
 		}
