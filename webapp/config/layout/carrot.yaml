@@ -27,6 +27,9 @@ compile:
 css:
   parent: carrotlib
   suffix: .css
+css_cache:
+  parent: var
+  suffix: .css
 db:
   parent: var
   suffix: .sqlite3
@@ -47,10 +50,11 @@ images:
   parent: carrotlib
 image_cache:
   parent: var
-javascript_set:
-  parent: config
 js:
   parent: carrotlib
+  suffix: .js
+js_cache:
+  parent: var
   suffix: .js
 lib:
   constant: yes
@@ -91,8 +95,6 @@ sql:
   suffix: .sql
 sqlite3:
   constant: yes
-style_set:
-  parent: config
 templates:
   parent: webapp
   suffix: .tpl

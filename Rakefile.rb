@@ -27,7 +27,14 @@ end
 
 namespace :var do
   desc 'varディレクトリを初期化'
-  task :init => [:chmod, :clean, 'images:cache:init', 'images:favicon:init']
+  task :init => [
+    :chmod,
+    :clean,
+    'images:cache:init',
+    'images:favicon:init',
+    'css:init',
+    'js:init',
+  ]
 
   task :chmod do
     system 'chmod 777 var/*'
@@ -60,6 +67,34 @@ namespace :var do
       file 'www/carrotlib/images/favicon' do
         sh 'ln -s ../../../var/favicon www/carrotlib/images/favicon'
       end
+    end
+  end
+
+  namespace :css do
+    desc 'cssキャッシュを初期化'
+    task :init => ['www/carrotlib/css/cache']
+
+    desc 'cssキャッシュをクリア'
+    task :clean do
+      system 'rm  var/css_cache/*'
+    end
+
+    file 'www/carrotlib/css/cache' do
+      sh 'ln -s ../../../var/css_cache www/carrotlib/css/cache'
+    end
+  end
+
+  namespace :js do
+    desc 'jsキャッシュを初期化'
+    task :init => ['www/carrotlib/js/cache']
+
+    desc 'jsキャッシュをクリア'
+    task :clean do
+      system 'rm  var/js_cache/*'
+    end
+
+    file 'www/carrotlib/js/cache' do
+      sh 'ln -s ../../../var/js_cache www/carrotlib/js/cache'
     end
   end
 
