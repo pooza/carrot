@@ -2,6 +2,8 @@
 /**
  * JavaScriptアクション
  *
+ * 利用非推奨。BSSmartyの js_cache 関数を利用すること。
+ *
  * @package org.carrot-framework
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>

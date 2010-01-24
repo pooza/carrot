@@ -2,6 +2,8 @@
 /**
  * StyleSheetアクション
  *
+ * 利用非推奨。BSSmartyの css_cache 関数を利用すること。
+ *
  * @package org.carrot-framework
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
