@@ -95,6 +95,8 @@ sql:
   suffix: .sql
 sqlite3:
   constant: yes
+swf:
+  parent: carrotlib
 templates:
   parent: webapp
   suffix: .tpl

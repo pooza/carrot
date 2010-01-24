@@ -49,13 +49,23 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	}
 
 	/**
+	 * ファイルの内容から、メディアタイプを返す
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function analyzeType () {
+		return BSMIMEType::analyzeType($this);
+	}
+
+	/**
 	 * 規定のサフィックスを返す
 	 *
 	 * @access public
 	 * @return string 規定サフィックス
 	 */
 	public function getDefaultSuffix () {
-		$types = new BSArray(BSMIMEType::getInstance()->getParameters());
+		$types = new BSArray(BSMIMEType::getInstance());
 		$suffixes = $types->getFlipped();
 		return '.' . $suffixes[$this->getType()];
 	}
