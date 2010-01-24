@@ -17,6 +17,7 @@ abstract class BSDirectoryEntry {
 	private $suffix;
 	private $basename;
 	private $shortPath;
+	private $linkTarget;
 	protected $directory;
 
 	/**
@@ -195,6 +196,34 @@ abstract class BSDirectoryEntry {
 	 */
 	public function isDotted () {
 		return BSFileUtility::isDottedName($this->getName());
+	}
+
+	/**
+	 * シンボリックリンクか？
+	 *
+	 * @access public
+	 * @return boolean シンボリックリンクならTrue
+	 */
+	public function isLink () {
+		return is_link($this->getPath());
+	}
+
+	/**
+	 * リンク先を返す
+	 *
+	 * @access public
+	 * @return BSDirectoryEntry リンク先
+	 */
+	public function getLinkTarget () {
+		if ($this->isLink() && !$this->linkTarget) {
+			if ($this->isFile()) {
+				$class = 'BSFile';
+			} else {
+				$class = 'BSDirectory';
+			}
+			$this->linkTarget = new $class(readlink($this->getPath()));
+		}
+		return $this->linkTarget;
 	}
 
 	/**
