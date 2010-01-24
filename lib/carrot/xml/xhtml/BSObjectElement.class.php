@@ -59,6 +59,7 @@ class BSObjectElement extends BSXHTMLElement {
 			return;
 		}
 		$param = $this->createElement('param');
+		$param->setEmptyElement(true);
 		$param->setAttribute('name', $name);
 		$param->setAttribute('value', $value);
 

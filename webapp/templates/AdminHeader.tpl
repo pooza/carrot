@@ -10,8 +10,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <title>{const name='app_name_ja'} {$title|default:$module.title}</title>
-<script type="text/javascript" src="/JavaScript{if $jsset}?jsset={$jsset}{/if}" charset="utf-8"></script>
-<link rel="stylesheet" type="text/css" href="/StyleSheet{if $styleset}?styleset={$styleset}{/if}" />
+{js_cache name=$jsset}
+{css_cache name=$styleset}
 </head>
 <body {if $body.id}id="{$body.id}"{/if}>
 

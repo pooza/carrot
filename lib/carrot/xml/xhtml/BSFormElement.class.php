@@ -137,6 +137,7 @@ class BSFormElement extends BSXHTMLElement {
 	 */
 	public function addHiddenField ($name, $value) {
 		$hidden = $this->createElement('input');
+		$hidden->setEmptyElement(true);
 		$hidden->setAttribute('type', 'hidden');
 		$hidden->setAttribute('name', $name);
 		$hidden->setAttribute('value', $value);
