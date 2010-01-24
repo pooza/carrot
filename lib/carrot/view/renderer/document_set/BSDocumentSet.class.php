@@ -35,8 +35,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 		$this->documents = new BSArray;
 
 		$entries = $this->getEntries();
-		if (isset($entries[$name]['files']) && BSArray::isArray($entries[$name]['files'])) {
-			$files = $entries[$name]['files']; //この代入はPHP5.1対応。
+		if ($files = $entries[$name]['files']) {
 			foreach ($files as $file) {
 				$this->register($file);
 			}
@@ -169,13 +168,13 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	/**
 	 * 登録
 	 *
-	 * @access public
+	 * @access protected
 	 * @param mixed $entry エントリー
 	 */
-	public function register ($entry) {
+	protected function register ($entry) {
 		if (is_string($entry)) {
 			if (!$dir = $this->getSourceDirectory()) {
-				throw new BSInitializationException($this . 'のディレクトリが未定義です。');
+				throw new BSInitializationException($this . 'のソースディレクトリが未定義です。');
 			}
 			if (!$entry = $dir->getEntry($entry, $this->getDocumentClass())) {
 				return;
@@ -307,10 +306,12 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	protected function getEntries ($prefix = null) {
 		$entries = new BSArray;
 		foreach ($this->getSourceDirectory() as $file) {
-			$entries[$file->getBaseName()] = array();
+			$entries[$file->getBaseName()] = new BSArray;
 		}
 		foreach ($this->getConfigFiles() as $file) {
-			$entries->setParameters(BSConfigManager::getInstance()->compile($file));
+			foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
+				$entries[$key] = new BSArray($values);
+			}
 		}
 
 		if (!BSString::isBlank($prefix)) {
