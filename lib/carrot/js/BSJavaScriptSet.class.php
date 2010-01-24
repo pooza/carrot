@@ -23,13 +23,35 @@ class BSJavaScriptSet extends BSDocumentSet {
 	}
 
 	/**
-	 * ディレクトリを返す
+	 * ソースディレクトリを返す
 	 *
 	 * @access protected
-	 * @return BSDirectory ディレクトリ
+	 * @return BSDirectory ソースディレクトリ
 	 */
-	protected function getDirectory () {
+	protected function getSourceDirectory () {
 		return BSFileUtility::getDirectory('js');
+	}
+
+	/**
+	 * キャッシュディレクトリを返す
+	 *
+	 * @access protected
+	 * @return BSDirectory キャッシュディレクトリ
+	 */
+	protected function getCacheDirectory () {
+		return BSFileUtility::getDirectory('js_cache');
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf(
+			'JavaScriptセット "%s"(%s)',
+			$this->getName(),
+			$this->getCacheFile()->getShortPath()
+		);
 	}
 }
 

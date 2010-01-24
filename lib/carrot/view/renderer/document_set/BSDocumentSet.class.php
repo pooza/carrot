@@ -17,6 +17,8 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	private $name;
 	private $error;
 	private $type;
+	private $cacheFile;
+	private $updateDate;
 	private $documents;
 	private $contents;
 	private $optimized = true;
@@ -44,6 +46,8 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 			}
 			$this->register($name);
 		}
+
+		$this->updateContents();
 	}
 
 	/**
@@ -56,29 +60,87 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	abstract protected function getDocumentClass ();
 
 	/**
-	 * ディレクトリを返す
+	 * ソースディレクトリを返す
 	 *
 	 * 書類クラスがファイルではないレンダラーなら、nullを返すように
 	 *
 	 * @access protected
-	 * @return BSDirectory ディレクトリ
+	 * @return BSDirectory ソースディレクトリ
 	 */
-	protected function getDirectory () {
+	protected function getSourceDirectory () {
 	}
 
 	/**
-	 * 設定ファイルの名前を返す
+	 * キャッシュディレクトリを返す
 	 *
 	 * @access protected
-	 * @return BSArray 設定ファイルの名前
+	 * @return BSDirectory キャッシュディレクトリ
+	 * @abstract
 	 */
-	protected function getConfigFileNames () {
+	abstract protected function getCacheDirectory ();
+
+	/**
+	 * キャッシュファイルを返す
+	 *
+	 * @access public
+	 * @return BSFile キャッシュファイル
+	 */
+	public function getCacheFile () {
+		if (!$this->cacheFile) {
+			$name = $this->getName();
+			if (!BS_DEBUG) {
+				$name = BSCrypt::getSHA1($name . BS_CRYPT_SALT);
+			}
+
+			$dir = $this->getCacheDirectory();
+			if (!$this->cacheFile = $dir->getEntry($name)) {
+				$this->cacheFile = $dir->createEntry($name);
+			}
+		}
+		return $this->cacheFile;
+	}
+
+	/**
+	 * 更新日付を返す
+	 *
+	 * @access public
+	 * @return BSate 更新日付
+	 */
+	public function getUpdateDate () {
+		if (!$this->updateDate) {
+			if (!!$this->documents->count()) {
+				$dates = new BSArray;
+				foreach ($this as $file) {
+					$dates[] = $file->getUpdateDate();
+				}
+				foreach ($this->getConfigFiles() as $file) {
+					$dates[] = $file->getUpdateDate();
+				}
+				$this->updateDate = BSDate::getNewest($dates);
+			} else {
+				$this->updateDate = BSDate::getNow();
+			}
+		}
+		return $this->updateDate;
+	}
+
+	/**
+	 * 設定ファイルを返す
+	 *
+	 * @access protected
+	 * @return BSArray 設定ファイルの配列
+	 */
+	protected function getConfigFiles () {
+		$files = new BSArray;
 		$prefix = mb_ereg_replace('^' . BSClassLoader::PREFIX, null, get_class($this));
 		$prefix = BSString::underscorize($prefix);
-		return new BSArray(array(
-			$prefix . '/application',
-			$prefix . '/carrot',
-		));
+		$host = BSController::getInstance()->getHost();
+		foreach (array($host->getName(), 'application', 'carrot') as $name) {
+			if ($file = BSConfigManager::getConfigFile($prefix . DIRECTORY_SEPARATOR . $name)) {
+				$files[] = $file;
+			}
+		}
+		return $files;
 	}
 
 	/**
@@ -112,7 +174,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 */
 	public function register ($entry) {
 		if (is_string($entry)) {
-			if (!$dir = $this->getDirectory()) {
+			if (!$dir = $this->getSourceDirectory()) {
 				throw new BSInitializationException($this . 'のディレクトリが未定義です。');
 			}
 			if (!$entry = $dir->getEntry($entry, $this->getDocumentClass())) {
@@ -153,7 +215,19 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		if (!$this->contents) {
+		return $this->contents;
+	}
+
+	/**
+	 * 送信内容を更新
+	 *
+	 * @access protected
+	 */
+	protected function updateContents () {
+		$cache = $this->getCacheFile();
+		if ((BSString::isBlank($cache->getContents()) && !!$this->documents->count())
+			|| $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
+
 			$contents = new BSArray;
 			foreach ($this as $file) {
 				if ($this->isOptimized()) {
@@ -162,9 +236,10 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 					$contents[] = $file->getContents();
 				}
 			}
-			$this->contents = $contents->join("\n");
+			$cache->setContents($contents->join("\n"));
+			BSLogManager::getInstance()->put($this . 'を更新しました。', $this);
 		}
-		return $this->contents;
+		$this->contents = $cache->getContents();
 	}
 
 	/**
@@ -231,11 +306,11 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 */
 	protected function getEntries ($prefix = null) {
 		$entries = new BSArray;
-		foreach ($this->getDirectory() as $file) {
+		foreach ($this->getSourceDirectory() as $file) {
 			$entries[$file->getBaseName()] = array();
 		}
-		foreach ($this->getConfigFileNames() as $configFile) {
-			$entries->setParameters(BSConfigManager::getInstance()->compile($configFile));
+		foreach ($this->getConfigFiles() as $file) {
+			$entries->setParameters(BSConfigManager::getInstance()->compile($file));
 		}
 
 		if (!BSString::isBlank($prefix)) {

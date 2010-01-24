@@ -12,12 +12,12 @@ require 'webapp/config/Rakefile.local'
 
 namespace :production do
   desc '運用環境の構築'
-  task :init => ['var:init', 'database:init', 'local:init']
+  task :init => ['var:init', 'var:clean', 'database:init', 'local:init']
 end
 
 namespace :development do
   desc '開発環境の構築'
-  task :init => ['var:init', 'database:init', 'local:init', 'phpdoc:init']
+  task :init => ['var:init', 'var:clean', 'database:init', 'local:init', 'phpdoc:init']
 end
 
 namespace :database do
@@ -29,7 +29,6 @@ namespace :var do
   desc 'varディレクトリを初期化'
   task :init => [
     :chmod,
-    :clean,
     'images:cache:init',
     'images:favicon:init',
     'css:init',

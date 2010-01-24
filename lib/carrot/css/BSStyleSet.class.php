@@ -23,13 +23,35 @@ class BSStyleSet extends BSDocumentSet {
 	}
 
 	/**
-	 * ディレクトリを返す
+	 * ソースディレクトリを返す
 	 *
 	 * @access protected
-	 * @return BSDirectory ディレクトリ
+	 * @return BSDirectory ソースディレクトリ
 	 */
-	protected function getDirectory () {
+	protected function getSourceDirectory () {
 		return BSFileUtility::getDirectory('css');
+	}
+
+	/**
+	 * キャッシュディレクトリを返す
+	 *
+	 * @access protected
+	 * @return BSDirectory キャッシュディレクトリ
+	 */
+	protected function getCacheDirectory () {
+		return BSFileUtility::getDirectory('css_cache');
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf(
+			'スタイルセット "%s"(%s)',
+			$this->getName(),
+			$this->getCacheFile()->getShortPath()
+		);
 	}
 }
 

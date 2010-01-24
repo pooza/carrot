@@ -16,10 +16,12 @@ function smarty_function_css_cache ($params, &$smarty) {
 		$params['name'] = 'carrot';
 	}
 
-	$url = BSURL::getInstance(null, 'carrot');
-	$url['module'] = 'Default';
-	$url['action'] = 'StyleSheet';
-	$url->setParameter('styleset', $params['name']);
+	if (!$styleset = new BSStyleSet($params['name'])) {
+		return;
+	}
+
+	$url = BSURL::getInstance();
+	$url['path'] =  '/carrotlib/css/cache/' . $styleset->getCacheFile()->getName();
 
 	$element = new BSXHTMLElement('link');
 	$element->setEmptyElement(true);
