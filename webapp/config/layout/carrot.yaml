@@ -39,6 +39,7 @@ dictionaries:
   class: BSDictionaryDirectory
 dump:
   parent: var
+  suffix: .sql
 favicon:
   parent: var
   suffix: .png

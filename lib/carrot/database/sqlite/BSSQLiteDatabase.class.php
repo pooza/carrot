@@ -60,49 +60,18 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
-	 * ダンプファイルを生成
+	 * ダンプ実行
 	 *
-	 * @access public
-	 * @param string $suffix ファイル名サフィックス
-	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSFile ダンプファイル
+	 * @access protected
+	 * @return string 結果
 	 */
-	public function createDumpFile ($suffix = '_init', BSDirectory $dir = null) {
+	protected function dump () {
 		$command = $this->getCommandLine();
 		$command->addValue('.dump');
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
-
-		if (!$dir) {
-			$dir = BSFileUtility::getDirectory('sql');
-		}
-		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
-		$file->setContents($command->getResult());
-		return $file;
-	}
-
-	/**
-	 * スキーマファイルを生成
-	 *
-	 * @access public
-	 * @param string $suffix ファイル名サフィックス
-	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSFile スキーマファイル
-	 */
-	public function createSchemaFile ($suffix = '_schema', BSDirectory $dir = null) {
-		$command = $this->getCommandLine();
-		$command->addValue('.schema');
-		if ($command->hasError()) {
-			throw new BSDatabaseException($command->getResult());
-		}
-
-		if (!$dir) {
-			$dir = BSFileUtility::getDirectory('sql');
-		}
-		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
-		$file->setContents($command->getResult());
-		return $file;
+		return $command->getResult();
 	}
 
 	/**
@@ -126,6 +95,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	public function optimize () {
 		$this->exec('VACUUM');
+		$this->putLog($this . 'を最適化しました。');
 	}
 
 	/**

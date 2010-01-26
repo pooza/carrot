@@ -335,27 +335,47 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * ダンプファイルを生成
+	 * ダンプファイル生成してを返す
 	 *
 	 * @access public
-	 * @param string $suffix ファイル名サフィックス
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile ダンプファイル
 	 */
-	public function createDumpFile ($suffix = null, BSDirectory $dir = null) {
-		return null;
+	public function getDumpFile (BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSFileUtility::getDirectory('dump');
+		}
+
+		try {
+			$name = sprintf('%s_%s.sql', $this->getName(), BSDate::getNow('Y-m-d'));
+			$file = $dir->createEntry($name);
+			$file->setContents($this->dump());
+			$file->setMode(0666);
+
+			$expire = BSDate::getNow()->setAttribute('month', '-1');
+			foreach ($dir as $entry) {
+				if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
+					continue;
+				}
+				if ($entry->getUpdateDate()->isPast($expire)) {
+					$entry->delete();
+				}
+			}
+		} catch (BSDatabaseException $e) {
+		}
+
+		$this->putLog($this . 'のダンプファイルを保存しました。');
+		return $file;
 	}
 
 	/**
-	 * スキーマファイルを生成
+	 * ダンプ実行
 	 *
-	 * @access public
-	 * @param string $suffix ファイル名サフィックス
-	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSFile スキーマファイル
+	 * @access protected
+	 * @return string 結果
 	 */
-	public function createSchemaFile ($suffix = null, BSDirectory $dir = null) {
-		return null;
+	protected function dump () {
+		throw new BSDatabaseException($this . 'はダンプできません。');
 	}
 
 	/**

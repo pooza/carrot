@@ -21,51 +21,9 @@ class BackupDatabaseAction extends BSAction {
 			if (!$name = $this->request['d']) {
 				$name = 'default';
 			}
-			try {
-				$this->database = BSDatabase::getInstance($name);
-			} catch (BSDatabaseException $e) {
-				return null;
-			}
+			$this->database = BSDatabase::getInstance($name);
 		}
 		return $this->database;
-	}
-
-	/**
-	 * バックアップ
-	 *
-	 * @access private
-	 * @param BSDirectory 出力先ディレクトリ
-	 */
-	private function backup (BSDirectory $dir) {
-		$suffix = '_' . BSDate::getNow('Y-m-d');
-		if (!$file = $this->getDatabase()->createDumpFile($suffix, $dir)) {
-			throw new BSDatabaseException($this->getDatabase() . 'がバックアップ出来ません。');
-		}
-
-		$file->setMode(0666);
-		$file->compress();
-
-		$message = new BSStringFormat('%sをバックアップしました。');
-		$message[] = $this->getDatabase();
-		BSLogManager::getInstance()->put($message, $this->getDatabase());
-	}
-
-	/**
-	 * 古いダンプをパージ
-	 *
-	 * @access private
-	 * @param BSDirectory 対象ディレクトリ
-	 */
-	private function purge (BSDirectory $dir) {
-		$expire = BSDate::getNow()->setAttribute('month', '-1');
-		foreach ($dir as $entry) {
-			if ($entry->isDirectory()) {
-				continue;
-			}
-			if ($entry->getUpdateDate()->isPast($expire)) {
-				$entry->delete();
-			}
-		}
 	}
 
 	public function initialize () {
@@ -76,14 +34,10 @@ class BackupDatabaseAction extends BSAction {
 
 	public function execute () {
 		try {
-			$dir = BSFileUtility::getDirectory('dump');
-			$this->backup($dir);
-			$this->purge($dir);
+			$this->getDatabase()->dump();
 		} catch (Exception $e) {
 			$this->handleError();
 		}
-
-		BSLogManager::getInstance()->put('実行しました。', $this);
 		return BSView::NONE;
 	}
 

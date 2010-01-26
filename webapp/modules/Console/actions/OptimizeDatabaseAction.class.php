@@ -18,12 +18,7 @@ class OptimizeDatabaseAction extends BSAction {
 		if (BSString::isBlank($name = $this->request['d'])) {
 			$name = 'default';
 		}
-		$db = BSDatabase::getInstance($name);
-		$db->optimize();
-
-		$message = new BSStringFormat('%sを最適化しました。');
-		$message[] = $db;
-		BSLogManager::getInstance()->put($message, $db);
+		BSDatabase::getInstance($name)->optimize();
 		return BSView::NONE;
 	}
 }

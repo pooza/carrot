@@ -113,48 +113,17 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * ダンプファイルを生成
+	 * ダンプ実行
 	 *
-	 * @access public
-	 * @param string $suffix ファイル名サフィックス
-	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSFile ダンプファイル
+	 * @access protected
+	 * @return string 結果
 	 */
-	public function createDumpFile ($suffix = '_init', BSDirectory $dir = null) {
+	protected function dump () {
 		$command = $this->getCommandLine('mysqldump');
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
-
-		if (!$dir) {
-			$dir = BSFileUtility::getDirectory('sql');
-		}
-		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
-		$file->setContents($command->getResult());
-		return $file;
-	}
-
-	/**
-	 * スキーマファイルを生成
-	 *
-	 * @access public
-	 * @param string $suffix ファイル名サフィックス
-	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSFile スキーマファイル
-	 */
-	public function createSchemaFile ($suffix = '_schema', BSDirectory $dir = null) {
-		$command = $this->getCommandLine('mysqldump');
-		$command->addValue('--no-data');
-		if ($command->hasError()) {
-			throw new BSDatabaseException($command->getResult());
-		}
-
-		if (!$dir) {
-			$dir = BSFileUtility::getDirectory('sql');
-		}
-		$file = $dir->createEntry($this->getName() . $suffix . '.sql');
-		$file->setContents($command->getResult());
-		return $file;
+		return $command->getResult();
 	}
 
 	/**
@@ -170,11 +139,9 @@ class BSMySQLDatabase extends BSDatabase {
 		$command->addValue('--host=' . $this['host']->getAddress());
 		$command->addValue('--user=' . $this['user']);
 		$command->addValue($this['database_name']);
-
-		if ($password = $this['password']) {
+		if (!BSString::isBlank($password = $this['password'])) {
 			$command->addValue('--password=' . $password);
 		}
-
 		return $command;
 	}
 
@@ -187,6 +154,7 @@ class BSMySQLDatabase extends BSDatabase {
 		foreach ($this->getTableNames() as $name) {
 			$this->exec('OPTIMIZE TABLE ' . $name);
 		}
+		$this->putLog($this . 'を最適化しました。');
 	}
 
 	/**
