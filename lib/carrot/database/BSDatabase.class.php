@@ -341,7 +341,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSFile ダンプファイル
 	 */
-	public function getDumpFile (BSDirectory $dir = null) {
+	public function createDumpFile (BSDirectory $dir = null) {
 		if (!$dir) {
 			$dir = BSFileUtility::getDirectory('dump');
 		}
@@ -350,7 +350,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$name = sprintf('%s_%s.sql', $this->getName(), BSDate::getNow('Y-m-d'));
 			$file = $dir->createEntry($name);
 			$file->setContents($this->dump());
-			$file->setMode(0666);
+			$file->setMode(0600);
 
 			$expire = BSDate::getNow()->setAttribute('month', '-1');
 			foreach ($dir as $entry) {

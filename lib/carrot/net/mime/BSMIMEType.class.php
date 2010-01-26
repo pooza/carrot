@@ -187,8 +187,10 @@ class BSMIMEType extends BSParameterHolder {
 		if (!extension_loaded('fileinfo')) {
 			throw new BSFileException('fileinfoモジュールがロードされていません。');
 		}
-		$finfo = new finfo(FILEINFO_MIME);
-		return $finfo->file($file->getPath());
+		if ($file->isExists()) {
+			$finfo = new finfo(FILEINFO_MIME);
+			return $finfo->file($file->getPath());
+		}
 	}
 }
 

@@ -34,7 +34,7 @@ class BackupDatabaseAction extends BSAction {
 
 	public function execute () {
 		try {
-			$this->getDatabase()->dump();
+			$this->getDatabase()->createDumpFile();
 		} catch (Exception $e) {
 			$this->handleError();
 		}
