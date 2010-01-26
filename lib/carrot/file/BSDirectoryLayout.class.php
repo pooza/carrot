@@ -10,16 +10,14 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSDirectoryLayout {
+class BSDirectoryLayout extends BSParameterHolder {
 	static private $instance;
-	private $directories;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
 		$configure = BSConfigManager::getInstance();
-		$this->directories = new BSArray;
 
 		$entries = new BSArray;
 		$entries[] = 'carrot';
@@ -28,7 +26,7 @@ class BSDirectoryLayout {
 		foreach ($entries as $entry) {
 			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
 				foreach ($configure->compile($file) as $key => $values) {
-					$this->directories[$key] = new BSArray($values);
+					$this[$key] = new BSArray($values);
 				}
 			}
 		}
@@ -63,7 +61,7 @@ class BSDirectoryLayout {
 	 * @return BSDirectory ディレクトリ
 	 */
 	public function getDirectory ($name) {
-		if (!$info = $this->directories[$name]) {
+		if (!$info = $this[$name]) {
 			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
 		}
 		if (!$info['instance']) {
@@ -88,6 +86,28 @@ class BSDirectoryLayout {
 			$info['instance'] = $dir;
 		}
 		return $info['instance'];
+	}
+
+	/**
+	 * 特別なディレクトリのURLを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリの名前
+	 * @return BSHTTPURL URL
+	 */
+	public function getURL ($name) {
+		if (!$info = $this[$name]) {
+			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+		}
+		if (!$info['url']) {
+			if (BSString::isBlank($info['href'])) {
+				$info['url'] = $this->getDirectory($name)->getURL();
+			} else {
+				$info['url'] = BSURL::getInstance();
+				$info['url']['path'] = $info['href'];
+			}
+		}
+		return $info['url'];
 	}
 }
 

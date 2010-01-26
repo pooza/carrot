@@ -26,7 +26,7 @@ class BSDefaultSessionStorage implements BSSessionStorage {
 		ini_set('session.cookie_httponly', 1);
 		ini_set('session.use_trans_sid', 0);
 		ini_set('session.hash_function', 1);
-		ini_set('session.save_path', BS_VAR_DIR . '/tmp');
+		ini_set('session.save_path', BSFileUtility::getPath('tmp'));
 		return true;
 	}
 }

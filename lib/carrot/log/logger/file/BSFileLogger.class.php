@@ -14,7 +14,6 @@ class BSFileLogger extends BSLogger {
 	private $dates;
 	private $entries;
 	private $file;
-	private $directory;
 
 	/**
 	 * @access public
@@ -50,11 +49,7 @@ class BSFileLogger extends BSLogger {
 	 * @return BSLogDirectory ログディレクトリ
 	 */
 	public function getDirectory () {
-		if (!$this->directory) {
-			//BSDirectoryLayoutは使わない。
-			$this->directory = new BSLogDirectory(BS_VAR_DIR . '/log');
-		}
-		return $this->directory;
+		return BSFileUtility::getDirectory('log');
 	}
 
 	/**

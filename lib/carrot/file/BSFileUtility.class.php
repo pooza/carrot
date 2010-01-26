@@ -41,7 +41,23 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function getPath ($name) {
-		return self::getDirectory($name)->getPath();
+		if ($dir = self::getDirectory($name)) {
+			return $dir->getPath();
+		}
+	}
+
+	/**
+	 * 特別なディレクトリのURLを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリの名前
+	 * @return BSHTTPURL URL
+	 * @static
+	 */
+	static public function getURL ($name) {
+		if (self::getDirectory($name)) {
+			return BSDirectoryLayout::getInstance()->getURL($name);
+		}
 	}
 
 	/**

@@ -30,6 +30,7 @@ css:
 css_cache:
   parent: var
   suffix: .css
+  href: /carrotlib/css/cache/
 db:
   parent: var
   suffix: .sqlite3
@@ -41,6 +42,7 @@ dump:
 favicon:
   parent: var
   suffix: .png
+  href: /carrotlib/images/favicon/
 ffmpeg:
   constant: yes
 font:
@@ -50,9 +52,11 @@ images:
   parent: carrotlib
 image_cache:
   parent: var
+  href: /carrotlib/images/cache/
 js:
   parent: carrotlib
   suffix: .js
+  href: /carrotlib/js/cache/
 js_cache:
   parent: var
   suffix: .js

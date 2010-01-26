@@ -13,6 +13,7 @@
 class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	private $suffix;
 	private $entries;
+	private $url;
 	private $zip;
 	const SORT_ASC = 'asc';
 	const SORT_DESC = 'dsc';
@@ -210,6 +211,25 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			mkdir($path);
 		}
 		return new $class($path);
+	}
+
+	/**
+	 * URLを返す
+	 *
+	 * BSFileUtility::getURLから呼ばれるので、こちらを利用すること。
+	 *
+	 * @access public
+	 * @return BSHTTPURL URL
+	 */
+	public function getURL () {
+		if (!$this->url) {
+			$documentRoot = BSFileUtility::getPath('www');
+			if (mb_ereg('^' . $documentRoot, $this->getPath())) {
+				$this->url = BSURL::getInstance();
+				$this->url['path'] = str_replace($documentRoot, '', $this->getPath()) . '/';
+			}
+		}
+		return $this->url;
 	}
 
 	/**
