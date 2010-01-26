@@ -8,6 +8,24 @@
  * @version $Id$
  */
 class OptimizeDatabaseAction extends BSAction {
+	private $database;
+
+	/**
+	 * 対象データベースを返す
+	 *
+	 * @access private
+	 * @return BSDatabase 対象データベース
+	 */
+	private function getDatabase () {
+		if (!$this->database) {
+			if (!$name = $this->request['d']) {
+				$name = 'default';
+			}
+			$this->database = BSDatabase::getInstance($name);
+		}
+		return $this->database;
+	}
+
 	public function initialize () {
 		$this->request->addOption('d');
 		$this->request->parse();
@@ -15,11 +33,20 @@ class OptimizeDatabaseAction extends BSAction {
 	}
 
 	public function execute () {
-		if (BSString::isBlank($name = $this->request['d'])) {
-			$name = 'default';
+		try {
+			$this->getDatabase()->optimize();
+		} catch (Exception $e) {
+			$this->handleError();
 		}
-		BSDatabase::getInstance($name)->optimize();
 		return BSView::NONE;
+	}
+
+	public function handleError () {
+		return BSView::NONE;
+	}
+
+	public function validate () {
+		return !!$this->getDatabase();
 	}
 }
 
