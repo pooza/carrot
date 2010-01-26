@@ -369,6 +369,16 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * バックアップ対象ファイルを返す
+	 *
+	 * @access public
+	 * @return BSFile バックアップ対象ファイル
+	 */
+	public function getBackupTarget () {
+		return $this->createDumpFile();
+	}
+
+	/**
 	 * ダンプ実行
 	 *
 	 * @access protected

@@ -75,6 +75,16 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
+	 * バックアップ対象ファイルを返す
+	 *
+	 * @access public
+	 * @return BSFile バックアップ対象ファイル
+	 */
+	public function getBackupTarget () {
+		return $this['file'];
+	}
+
+	/**
 	 * コマンドラインを返す
 	 *
 	 * @access private
