@@ -17,6 +17,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	private $lines;
 	private $size;
 	private $handle;
+	private $compressed;
 	private $error;
 	const LINE_SEPARATOR = "\n";
 	const COMPRESSED_SUFFIX = '.gz';
@@ -286,6 +287,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 		$contents = gzencode($this->getContents(), 9);
 		$this->setContents($contents);
 		$this->rename($this->getName() . self::COMPRESSED_SUFFIX);
+		$this->compressed = true;
 	}
 
 	/**
@@ -295,13 +297,16 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return boolean gzip圧縮されていたらTrue
 	 */
 	public function isCompressed () {
-		if (extension_loaded('fileinfo')) {
-			$header = new BSContentTypeMIMEHeader;
-			$header->setContents($this->analyzeType());
-			return ($header['type'] == 'application/x-gzip');
-		} else {
-			return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
+		if ($this->compressed === null) {
+			if (extension_loaded('fileinfo')) {
+				$header = new BSContentTypeMIMEHeader;
+				$header->setContents($this->analyzeType());
+				$this->compressed = ($header['type'] == 'application/x-gzip');
+			} else {
+				$this->compressed = ($this->getSuffix() == self::COMPRESSED_SUFFIX);
+			}
 		}
+		return $this->compressed;
 	}
 
 	/**
