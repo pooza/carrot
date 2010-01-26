@@ -295,8 +295,13 @@ class BSFile extends BSDirectoryEntry implements BSRenderer {
 	 * @return boolean gzip圧縮されていたらTrue
 	 */
 	public function isCompressed () {
-		// BSMIMEType等を通る無限ループが発生する為、$this->getType()は使用できない。
-		return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
+		if (extension_loaded('fileinfo')) {
+			$header = new BSContentTypeMIMEHeader;
+			$header->setContents($this->analyzeType());
+			return ($header['type'] == 'application/x-gzip');
+		} else {
+			return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
+		}
 	}
 
 	/**

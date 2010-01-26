@@ -40,6 +40,7 @@ class BSContentTypeMIMEHeader extends BSMIMEHeader {
 		$type = BSString::explode('/', $this[0]);
 		$this['main_type'] = $type[0];
 		$this['sub_type'] = $type[1];
+		$this['type'] = $type[0] . '/' . $type[1];
 	}
 
 	/**
