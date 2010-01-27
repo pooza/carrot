@@ -351,18 +351,9 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$file = $dir->createEntry($name);
 			$file->setMode(0600);
 			$file->setContents($this->dump());
-		} catch (BSDatabaseException $e) {
+			$dir->purge();
+		} catch (Exception $e) {
 			return;
-		}
-
-		$expire = BSDate::getNow()->setAttribute('month', '-1');
-		foreach ($dir as $entry) {
-			if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
-				continue;
-			}
-			if ($entry->getUpdateDate()->isPast($expire)) {
-				$entry->delete();
-			}
 		}
 
 		$this->putLog($this . 'のダンプファイルを保存しました。');

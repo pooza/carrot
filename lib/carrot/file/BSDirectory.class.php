@@ -194,6 +194,26 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
+	 * 古いファイルを削除
+	 *
+	 * @access public
+	 * @param BSDate $date 基準日
+	 */
+	public function purge (BSDate $date = null) {
+		if (!$date) {
+			$date = BSDate::getNow()->setAttribute('month', '-1');
+		}
+		foreach ($this as $entry) {
+			if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
+				continue;
+			}
+			if ($entry->getUpdateDate()->isPast($date)) {
+				$entry->delete();
+			}
+		}
+	}
+
+	/**
 	 * 新規ディレクトリを作り、返す
 	 *
 	 * @access public

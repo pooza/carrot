@@ -48,22 +48,21 @@ class BSBackupManager {
 	 * ZIPアーカイブにバックアップを取る
 	 *
 	 * @access public
+	 * @param BSDirectory $dir 出力先ディレクトリ
 	 * @return BSZipArchive バックアップ
 	 */
-	public function execute () {
-		$dir = BSFileUtility::getDirectory('backup');
-		$file = $this->createArchive()->getFile();
-		$file->rename(sprintf('%s.zip', BSDate::getNow('Y-m-d')));
-		$file->moveTo($dir);
+	public function execute (BSDirectory $dir = null) {
+		if (!$dir) {
+			$dir = BSFileUtility::getDirectory('backup');
+		}
 
-		$expire = BSDate::getNow()->setAttribute('month', '-1');
-		foreach ($dir as $entry) {
-			if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
-				continue;
-			}
-			if ($entry->getUpdateDate()->isPast($expire)) {
-				$entry->delete();
-			}
+		try {
+			$file = $this->createArchive()->getFile();
+			$file->rename(sprintf('%s.zip', BSDate::getNow('Y-m-d')));
+			$file->moveTo($dir);
+			$dir->purge();
+		} catch (Exception $e) {
+			return;
 		}
 
 		BSLogManager::getInstance()->put('バックアップを実行しました。', $this);
@@ -81,9 +80,9 @@ class BSBackupManager {
 		}
 		foreach ((array)$this->config['directories'] as $name) {
 			if (!$dir = BSFileUtility::getDirectory($name)) {
-				throw new BSDatabaseException('データベース "%s" が見つかりません。', $name);
+				throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
 			}
-			$zip->register($dir, null, BSDirectory::WITHOUT_DOTTED);
+			$zip->register($dir, null, BSDirectory::WITHOUT_ALL_IGNORE);
 		}
 		$zip->close();
 		return $zip;
