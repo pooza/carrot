@@ -349,7 +349,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 		try {
 			$name = sprintf('%s_%s.sql', $this->getName(), BSDate::getNow('Y-m-d'));
 			$file = $dir->createEntry($name);
-			$file->setMode(0600);
 			$file->setContents($this->dump());
 			$dir->purge();
 		} catch (Exception $e) {
