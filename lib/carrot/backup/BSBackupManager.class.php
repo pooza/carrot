@@ -59,13 +59,16 @@ class BSBackupManager {
 			$dir = BSFileUtility::getDirectory('backup');
 		}
 
+		$name = new BSStringFormat('%s_%s.zip');
+		$name[] = BSController::getInstance()->getHost()->getName();
+		$name[] = BSDate::getNow('Y-m-d');
+
 		try {
 			$file = $this->createArchive()->getFile();
-			$file->rename(sprintf('%s.zip', BSDate::getNow('Y-m-d')));
+			$file->rename($name->getContents());
 			$file->moveTo($dir);
 			$dir->purge();
 		} catch (Exception $e) {
-p($e);exit;
 			return;
 		}
 
