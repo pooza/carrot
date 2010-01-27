@@ -349,19 +349,20 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 		try {
 			$name = sprintf('%s_%s.sql', $this->getName(), BSDate::getNow('Y-m-d'));
 			$file = $dir->createEntry($name);
-			$file->setContents($this->dump());
 			$file->setMode(0600);
-
-			$expire = BSDate::getNow()->setAttribute('month', '-1');
-			foreach ($dir as $entry) {
-				if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
-					continue;
-				}
-				if ($entry->getUpdateDate()->isPast($expire)) {
-					$entry->delete();
-				}
-			}
+			$file->setContents($this->dump());
 		} catch (BSDatabaseException $e) {
+			return;
+		}
+
+		$expire = BSDate::getNow()->setAttribute('month', '-1');
+		foreach ($dir as $entry) {
+			if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
+				continue;
+			}
+			if ($entry->getUpdateDate()->isPast($expire)) {
+				$entry->delete();
+			}
 		}
 
 		$this->putLog($this . 'のダンプファイルを保存しました。');

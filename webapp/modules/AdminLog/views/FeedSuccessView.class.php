@@ -10,7 +10,7 @@
 class FeedSuccessView extends BSView {
 	public function initialize () {
 		parent::initialize();
-		$this->setRenderer(BSClassLoader::getInstance()->getObject(BS_FEED_CLASS));
+		$this->setRenderer(new BSRSS20Document);
 		return true;
 	}
 

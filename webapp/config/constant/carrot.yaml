@@ -38,8 +38,6 @@ crypt:
 date:
   timezone: Asia/Tokyo
 debug: yes
-feed:
-  class: BSRSS20Document
 ffmpeg:
   dir: /usr/local
 file:

@@ -11,6 +11,9 @@ awstats_data:
   parent: var
 awstats_log:
   constant: yes
+backup:
+  parent: var
+  suffix: .zip
 bin:
   constant: yes
 cache:
