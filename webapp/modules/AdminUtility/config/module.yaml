@@ -6,7 +6,7 @@
 # @version $Id$
 
 module:
-  title_menu: ユーティリティ
+  title: ユーティリティ
 
 actions:
   Backup:

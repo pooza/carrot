@@ -138,8 +138,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getMenuTitle () {
 		if (BSString::isBlank($title = $this->getConfig('title_menu'))) {
-			if (BSString::isBlank($title = $this->getRecordClass('ja'))) {
-				$title = $this->getName();
+			if (BSString::isBlank($title = $this->getConfig('title'))) {
+				if (BSString::isBlank($title = $this->getRecordClass('ja'))) {
+					$title = $this->getName();
+				}
 			}
 		}
 		return $title;
