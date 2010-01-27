@@ -18,9 +18,12 @@ class BSBackupManager {
 	 * @access private
 	 */
 	private function __construct () {
-		$this->config = new BSArray(
-			BSConfigManager::getInstance()->compile('backup/application')
-		);
+		$this->config = new BSArray;
+		$configure = BSConfigManager::getInstance();
+		foreach ($configure->compile('backup/application') as $key => $values) {
+			$this->config[$key] = new BSArray($values);
+			$this->config[$key]->trim();
+		}
 	}
 
 	/**
@@ -45,11 +48,11 @@ class BSBackupManager {
 	}
 
 	/**
-	 * ZIPアーカイブにバックアップを取る
+	 * ZIPアーカイブにバックアップを取り、返す
 	 *
 	 * @access public
 	 * @param BSDirectory $dir 出力先ディレクトリ
-	 * @return BSZipArchive バックアップ
+	 * @return BSFile バックアップファイル
 	 */
 	public function execute (BSDirectory $dir = null) {
 		if (!$dir) {
@@ -62,6 +65,7 @@ class BSBackupManager {
 			$file->moveTo($dir);
 			$dir->purge();
 		} catch (Exception $e) {
+p($e);exit;
 			return;
 		}
 
@@ -72,13 +76,13 @@ class BSBackupManager {
 	private function createArchive () {
 		$zip = new BSZipArchive;
 		$zip->open();
-		foreach ((array)$this->config['databases'] as $name) {
+		foreach ($this->config['databases'] as $name) {
 			if (!$db = BSDatabase::getInstance($name)) {
 				throw new BSDatabaseException('データベース "%s" が見つかりません。', $name);
 			}
 			$zip->register($db->getBackupTarget());
 		}
-		foreach ((array)$this->config['directories'] as $name) {
+		foreach ($this->config['directories'] as $name) {
 			if (!$dir = BSFileUtility::getDirectory($name)) {
 				throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
 			}

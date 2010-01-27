@@ -6,6 +6,9 @@
 
 - separator: yes
 - module: AdminLog
+- title: バックアップ
+  module: AdminUtility
+  action: Backup
 - module: AdminMemcache
 - module: DevelopTableReport
 - title: APIドキュメント

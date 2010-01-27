@@ -1,0 +1,13 @@
+# モジュール設定ファイル
+#
+# @package org.carrot-framework
+# @subpackage AdminUtility
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @version $Id$
+
+module:
+  title_menu: ユーティリティ
+
+actions:
+  Backup:
+    title: バックアップ
