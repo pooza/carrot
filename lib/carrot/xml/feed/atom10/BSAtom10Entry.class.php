@@ -22,7 +22,7 @@ class BSAtom10Entry extends BSAtom03Entry {
 		if (!$element = $this->getElement('content')) {
 			$element = $this->createElement('content');
 		}
-		$element->setBody($body);
+		$element->setBody(mb_ereg_replace('&[[:alpha:]]+;', '', $body));
 		$element->setAttribute('type', 'text');
 	}
 }

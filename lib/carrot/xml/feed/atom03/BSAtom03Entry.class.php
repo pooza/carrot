@@ -108,7 +108,7 @@ class BSAtom03Entry extends BSXMLElement implements BSFeedEntry {
 		if (!$element = $this->getElement('content')) {
 			$element = $this->createElement('content');
 		}
-		$element->setBody($body);
+		$element->setBody(mb_ereg_replace('&[[:alpha:]]+;', '', $body));
 		$element->setAttribute('type', BSMIMEType::getType('txt'));
 	}
 
