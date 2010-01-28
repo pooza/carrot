@@ -41,7 +41,9 @@ class BSURLValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-
+			if (!mb_ereg('https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+', $value)) {
+				$this->error = $this['net_error'];
+			}
 			if (!$url = BSURL::getInstance($value)) {
 				$this->error = $this['net_error'];
 			}

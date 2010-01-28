@@ -42,7 +42,7 @@ class BSPhoneNumberValidator extends BSValidator {
 	 */
 	public function initialize ($params = array()) {
 		$this['fields'] = array();
-		$this['invalid_error'] = '正しい電話番号ではありません。';
+		$this['invalid_error'] = '正しくありません。';
 		$this['loose'] = false;
 		return parent::initialize($params);
 	}
@@ -56,10 +56,12 @@ class BSPhoneNumberValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if ($this['loose'] && !mb_ereg(self::PATTERN_LOOSE, $value)) {
-			if (!mb_ereg(self::PATTERN, $this->getPhoneNumber($value))) {
-				$this->error = $this['invalid_error'];
-				return false;
-			}
+			$this->error = $this['invalid_error'];
+			return false;
+		}
+		if (!mb_ereg(self::PATTERN, $this->getPhoneNumber($value))) {
+			$this->error = $this['invalid_error'];
+			return false;
 		}
 		return true;
 	}
