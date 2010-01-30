@@ -20,6 +20,21 @@ function __autoload ($name) {
 }
 
 /**
+ * エラーハンドラ
+ *
+ * @access public
+ * @param integer $errno エラー番号
+ * @param string $errstr エラーメッセージ
+ * @param string $errfile エラーが発生したファイル名
+ * @param string $errline エラーが発生した行数
+ */
+function handleError ($errno, $errstr, $errfile, $errline) {
+	if ($errno & error_reporting()) {
+		throw new RuntimeException($errstr, $errno);
+	}
+}
+
+/**
  * スーパーグローバル配列の保護
  *
  * @access public
@@ -106,6 +121,7 @@ $configure->compile('constant/application');
 $configure->compile('constant/package');
 $configure->compile('constant/carrot');
 
+set_error_handler('handleError');
 ini_set('realpath_cache_size', '128K');
 date_default_timezone_set(BS_DATE_TIMEZONE);
 
