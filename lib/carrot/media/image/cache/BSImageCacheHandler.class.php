@@ -104,12 +104,8 @@ class BSImageCacheHandler {
 			$flags += self::WITHOUT_BROWSER_CACHE;
 		}
 
-		$url = BSURL::getInstance();
-		$url['path'] = sprintf(
-			'/carrotlib/images/cache/%s/%s',
-			$this->getEntryName($record, $size),
-			$file->getName()
-		);
+		$url = BSFileUtility::getURL('image_cache');
+		$url['path'] .= $this->getEntryName($record, $size) . '/' . $file->getName();
 		if ($flags & self::WITHOUT_BROWSER_CACHE) {
 			$url->setParameter('at', BSNumeric::getRandom());
 		}

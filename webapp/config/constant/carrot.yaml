@@ -46,7 +46,6 @@ file:
   types:
     file: /etc/httpd/mime.types
 flash:
-  href_prefix: /carrotlib/swf/
   player_ver: 8.0.0
   installer:
     href: /carrotlib/swf/expressInstall.swf
@@ -102,7 +101,6 @@ module:
     module: Default
     action: NotFound
 movie:
-  href_prefix: /carrotlib/movies/
   video_codec: flv
   audio_codec: libfaac
   flv:

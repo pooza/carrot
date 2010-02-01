@@ -111,8 +111,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return BSURL メディアURL
 	 */
 	protected function getMediaURL (BSParameterHolder $params) {
-		$url = BSURL::getInstance();
-		$url['path'] = $params['href_prefix'] . $this->getName() . $params['href_suffix'];
+		$url = BSURL::getInstance($params['href_prefix']);
+		$url['path'] .= $this->getName() . $params['href_suffix'];
 		if (BSUser::getInstance()->isAdministrator()) {
 			$url->setParameter('at', BSNumeric::getRandom());
 		}

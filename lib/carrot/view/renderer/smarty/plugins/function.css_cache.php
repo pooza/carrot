@@ -20,8 +20,8 @@ function smarty_function_css_cache ($params, &$smarty) {
 		return;
 	}
 
-	$url = BSURL::getInstance();
-	$url['path'] =  '/carrotlib/css/cache/' . $styleset->getCacheFile()->getName();
+	$url = BSFileUtility::getURL('css_cache');
+	$url['path'] .= $styleset->getCacheFile()->getName();
 
 	$element = new BSXHTMLElement('link');
 	$element->setEmptyElement(true);

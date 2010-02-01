@@ -194,8 +194,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return BSURL URL
 	 */
 	public function getURL () {
-		$url = BSURL::getInstance();
-		$url['path'] = '/carrotlib/images/pictogram/i/' . $this->getImageFile()->getName();
+		$url = BSFileUtility::getURL('pictogram');
+		$url['path'] .= 'i/' . $this->getImageFile()->getName();
 		return $url;
 	}
 

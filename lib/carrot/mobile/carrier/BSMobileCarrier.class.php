@@ -118,7 +118,8 @@ abstract class BSMobileCarrier {
 			$this->mpc->setFromCharset('SJIS');
 			$this->mpc->setFrom($this->getMPCCode());
 			$this->mpc->setStringType(BSMobileCarrier::MPC_RAW);
-			$this->mpc->setImagePath('/carrotlib/images/pictogram');
+			$url = BSFileUtility::getURL('pictogram');
+			$this->mpc->setImagePath($url['path']);
 		}
 		return $this->mpc;
 	}

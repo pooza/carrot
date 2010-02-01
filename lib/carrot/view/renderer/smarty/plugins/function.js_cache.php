@@ -20,8 +20,8 @@ function smarty_function_js_cache ($params, &$smarty) {
 		return;
 	}
 
-	$url = BSURL::getInstance();
-	$url['path'] =  '/carrotlib/js/cache/' . $jsset->getCacheFile()->getName();
+	$url = BSFileUtility::getURL('js_cache');
+	$url['path'] .= $jsset->getCacheFile()->getName();
 
 	$element = new BSScriptElement;
 	$element->setAttribute('src', $url->getContents());

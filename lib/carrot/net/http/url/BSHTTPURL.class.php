@@ -218,8 +218,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile()) {
-			$url = BSURL::getInstance();
-			$url['path'] = '/carrotlib/images/favicon/' . $file->getName();
+			$url = BSFileUtility::getURL('favicon');
+			$url['path'] .= $file->getName();
 			return new BSArray(array(
 				'width' => $file->getEngine()->getWidth(),
 				'height' => $file->getEngine()->getHeight(),

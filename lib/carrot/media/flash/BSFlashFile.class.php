@@ -39,7 +39,7 @@ class BSFlashFile extends BSMediaFile {
 	 */
 	public function getImageElement (BSParameterHolder $params) {
 		$constants = BSConstantHandler::getInstance();
-		foreach (array('href_prefix', 'player_ver', 'installer_href') as $key) {
+		foreach (array('player_ver', 'installer_href') as $key) {
 			if (BSString::isBlank($params[$key])) {
 				$params[$key] = $constants['flash_' . $key];
 			}

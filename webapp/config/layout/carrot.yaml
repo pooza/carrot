@@ -60,10 +60,10 @@ image_cache:
 js:
   parent: carrotlib
   suffix: .js
-  href: /carrotlib/js/cache/
 js_cache:
   parent: var
   suffix: .js
+  href: /carrotlib/js/cache/
 lib:
   constant: yes
 local_lib:
@@ -105,6 +105,7 @@ sqlite3:
   constant: yes
 swf:
   parent: carrotlib
+  suffix: .swf
 templates:
   parent: webapp
   suffix: .tpl

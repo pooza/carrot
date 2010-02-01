@@ -22,14 +22,14 @@ function smarty_function_flash ($params, &$smarty) {
 		case 'size':
 			return $file['pixel_size'];
 		case 'width':
-			return $file['width'];
 		case 'height':
-			return $file['height'];
+			return $file[$mode];
 		default:
 			if (BSString::isBlank($params['href_prefix'])) {
 				if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
-					$dir = $record->getTable()->getDirectory();
-					$params['href_prefix'] = BS_FLASH_HREF_PREFIX . $dir->getName() . '/';
+					$url = BSFileUtility::getURL('swf');
+					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
+					$params['href_prefix'] = $url['path'];
 				}
 			}
 			return $file->getImageElement($params)->getContents();
