@@ -107,7 +107,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 				$info['url']['path'] = $info['href'];
 			}
 		}
-		return $info['url'];
+		return clone $info['url'];
 	}
 }
 

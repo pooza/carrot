@@ -63,6 +63,13 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * @access public
+	 */
+	public function __clone () {
+		$this->attributes = clone $this->attributes;
+	}
+
+	/**
 	 * 内容を返す
 	 *
 	 * @access public
