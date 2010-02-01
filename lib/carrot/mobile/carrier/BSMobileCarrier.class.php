@@ -111,15 +111,14 @@ abstract class BSMobileCarrier {
 	 */
 	public function getMPC () {
 		if (!$this->mpc) {
-			BSUtility::includeFile('MPC/MobilePictogramConverter.php');
-			BSUtility::includeFile('MPC/Carrier/' . BSString::toLower($this->getMPCCode()) . '.php');
+			BSUtility::includeFile('MPC/MobilePictogramConverter');
+			BSUtility::includeFile('MPC/Carrier/' . BSString::toLower($this->getMPCCode()));
 			$class = 'MPC_' . $this->getMPCCode();
 			$this->mpc = new $class;
 			$this->mpc->setFromCharset('SJIS');
 			$this->mpc->setFrom($this->getMPCCode());
 			$this->mpc->setStringType(BSMobileCarrier::MPC_RAW);
-			$url = BSFileUtility::getURL('pictogram');
-			$this->mpc->setImagePath($url['path']);
+			$this->mpc->setImagePath(BSFileUtility::getURL('pictogram')->getAttribute('path'));
 		}
 		return $this->mpc;
 	}

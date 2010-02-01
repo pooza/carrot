@@ -189,7 +189,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			$url = clone $this;
 			$url['path'] = '/favicon.ico';
 
-			BSUtility::includeFile('class.ico.php');
+			BSUtility::includeFile('class.ico');
 			$ico = new Ico($url->getContents());
 			$ico->setBackgroundTransparent(true);
 			$image = new BSImage;

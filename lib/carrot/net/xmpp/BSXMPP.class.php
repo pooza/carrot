@@ -4,7 +4,7 @@
  * @subpackage net.xmpp
  */
 
-BSUtility::includeFile('XMPPHP/XMPP.php');
+BSUtility::includeFile('XMPPHP/XMPP');
 
 /**
  * XMPPプロトコル

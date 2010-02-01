@@ -4,7 +4,7 @@
  * @subpackage media.image.renderer
  */
 
-BSUtility::includeFile('qrcode.php');
+BSUtility::includeFile('qrcode');
 
 /**
  * QRコードレンダラー

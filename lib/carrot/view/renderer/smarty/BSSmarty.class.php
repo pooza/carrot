@@ -4,7 +4,7 @@
  * @subpackage view.renderer.smarty
  */
 
-BSUtility::includeFile('Smarty/Smarty.class.php');
+BSUtility::includeFile('Smarty/Smarty.class');
 
 /**
  * Smartyラッパー

@@ -4,7 +4,7 @@
  * @subpackage crypt.cryptor
  */
 
-BSUtility::includeFile('pear/Crypt/CBC.php');
+BSUtility::includeFile('pear/Crypt/CBC');
 
 /**
  * CBC暗号

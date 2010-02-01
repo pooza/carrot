@@ -4,7 +4,7 @@
  * @subpackage crypt.cryptor
  */
 
-BSUtility::includeFile('pear/Crypt/Blowfish.php');
+BSUtility::includeFile('pear/Crypt/Blowfish');
 
 /**
  * Blowfish暗号

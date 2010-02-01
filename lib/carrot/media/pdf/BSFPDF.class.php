@@ -4,9 +4,9 @@
  * @subpackage media.pdf
  */
 
-BSUtility::includeFile('fpdf/fpdf.php');
-BSUtility::includeFile('fpdf/font/mbttfdef.php');
-BSUtility::includeFile('fpdf/mbfpdf.php');
+BSUtility::includeFile('fpdf/fpdf');
+BSUtility::includeFile('fpdf/font/mbttfdef');
+BSUtility::includeFile('fpdf/mbfpdf');
 
 /**
  * MBFPDFラッパー

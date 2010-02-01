@@ -21,7 +21,7 @@ class BSJavaScriptFile extends BSFile implements BSDocumentSetEntry {
 	public function getOptimizedContents () {
 		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
 		if ($contents === null) {
-			BSUtility::includeFile('jsmin.php');
+			BSUtility::includeFile('jsmin');
 			$contents = JSMin::minify($this->getContents());
 			BSController::getInstance()->setAttribute($this, $contents);
 		}
