@@ -27,6 +27,14 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	}
 
 	/**
+	 * @access public
+	 */
+	public function __clone () {
+		$this->attributes = clone $this->attributes;
+		$this->query = clone $this->query;
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -154,10 +162,6 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param mixed $params パラメータ文字列、又は配列
 	 */
 	public function setParameters ($params) {
-		if (!is_array($params) && !($params instanceof BSParameterHolder)) {
-			parse_str($params, $parsed);
-			$params = (array)$parsed;
-		}
 		$this->query->setParameters($params);
 	}
 

@@ -13,6 +13,20 @@
 class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 
 	/**
+	 * パラメータをまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] $params パラメータの配列、又はクエリー文字列
+	 */
+	public function setParameters ($params) {
+		if (!BSArray::isArray($params)) {
+			parse_str($params, $parsed);
+			$params = (array)$parsed;
+		}
+		parent::setParameters($params);
+	}
+
+	/**
 	 * 出力内容を返す
 	 *
 	 * @access public
@@ -29,11 +43,7 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	 */
 	public function setContents ($contents) {
 		$this->clear();
-		if (BSArray::isArray($contents)) {
-			$this->setParameters($contents);
-		} else {
-			parse_str($contents, $this->params);
-		}
+		$this->setParameters($contents);
 	}
 
 	/**
