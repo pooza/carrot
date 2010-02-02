@@ -25,6 +25,7 @@ table.Detail td th {
 table.Detail .image_uploader_half {
 	float: left;
 	width: 220px;
+	height: 60px;
 	border: 1px solid #666666;
 	padding: 4px;
 	margin: 2px;

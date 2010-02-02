@@ -19,7 +19,7 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	 * @param mixed[] $params パラメータの配列、又はクエリー文字列
 	 */
 	public function setParameters ($params) {
-		if (!BSArray::isArray($params)) {
+		if (!is_array($params) && !($params instanceof BSParameterHolder)) {
 			parse_str($params, $parsed);
 			$params = (array)$parsed;
 		}
