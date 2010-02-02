@@ -24,10 +24,14 @@ function smarty_function_image_cache ($params, &$smarty) {
 
 	$element = $caches->getImageElement($info);
 	$element->registerStyleClass($params['style_class']);
+	if ($id = $params['container_id']) {
+		$element->setID($id);
+	}
+
 	switch ($mode = BSString::toLower($params['mode'])) {
-		case 'pixel_size':
 		case 'size':
 			return $info['pixel_size'];
+		case 'pixel_size':
 		case 'width':
 		case 'height':
 		case 'url':
@@ -43,13 +47,18 @@ function smarty_function_image_cache ($params, &$smarty) {
 			$element->setURL(
 				$caches->getURL($container, $params['size'], $params['pixel_full'], $flags)
 			);
-			//↓そのまま実行
-		default:
-			if ($id = $params['container_id']) {
-				$element->setID($id);
-			}
-			return $element->getContents();
+			break;
+		case 'thickbox':
+			$element = $element->wrap(new BSAnchorElement);
+			$element->registerStyleClass('thickbox');
+			$element->setAttribute('rel', $params['group']);
+			$flags = $caches->convertFlags($params['flags_full']);
+			$element->setURL(
+				$caches->getURL($container, $params['size'], $params['pixel_full'], $flags)
+			);
+			break;
 	}
+	return $element->getContents();
 }
 
 /* vim:set tabstop=4: */
