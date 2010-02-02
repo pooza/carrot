@@ -34,7 +34,11 @@ function smarty_function_image_cache ($params, &$smarty) {
 			return $info[$mode];
 		case 'lightbox':
 			$element = $element->wrap(new BSAnchorElement);
-			$element->setAttribute('rel', 'lightbox');
+			if (BSString::isBlank($params['group'])) {
+				$element->setAttribute('rel', 'lightbox');
+			} else {
+				$element->setAttribute('rel', 'lightbox[' . $params['group'] . ']');
+			}
 			$flags = $caches->convertFlags($params['flags_full']);
 			$element->setURL(
 				$caches->getURL($container, $params['size'], $params['pixel_full'], $flags)
