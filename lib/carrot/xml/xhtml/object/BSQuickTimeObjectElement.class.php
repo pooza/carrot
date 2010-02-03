@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.xhtml
+ * @subpackage xml.xhtml.object
  */
 
 /**
- * WindowsMedia用object要素
+ * QuickTime用object要素
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSWindowsMediaObjectElement extends BSObjectElement {
+class BSQuickTimeObjectElement extends BSObjectElement {
 
 	/**
 	 * @access public
@@ -20,9 +20,11 @@ class BSWindowsMediaObjectElement extends BSObjectElement {
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
 		$this->inner = $this->createElement('embed');
-		$this->setAttribute('classid', 'clsid:' . BS_MOVIE_WMV_PLAYER_CLSID);
-		$this->setAttribute('type', BSMIMEType::getType('wmv'));
-		$this->setParameter('autostart', '0');
+		$this->setAttribute('classid', 'clsid:' . BS_MOVIE_QUICKTIME_PLAYER_CLSID);
+		$this->setAttribute('type', BSMIMEType::getType('mov'));
+		$this->setParameter('controller', 'true');
+		$this->setParameter('autoplay', 'false');
+		$this->setParameter('scale', 'aspect');
 	}
 
 	/**
@@ -32,8 +34,10 @@ class BSWindowsMediaObjectElement extends BSObjectElement {
 	 * @param BSHTTPRedirector $url FlashムービーのURL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
-		$this->setParameter('url', $url->getContents());
+		$this->setParameter('src', $url->getContents());
 		$this->inner->setAttribute('src', $url->getContents());
+		$this->setParameter('qtsrc', $url->getContents());
+		$this->inner->setAttribute('qtsrc', $url->getContents());
 	}
 }
 

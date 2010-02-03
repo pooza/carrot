@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.xhtml
+ * @subpackage xml.xhtml.anchor
  */
 
 /**
- * Lightboxへのリンク
+ * ThickBoxへのリンク
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSLightboxAnchorElement extends BSImageAnchorElement {
+class BSThickboxAnchorElement extends BSImageAnchorElement {
 
 	/**
 	 * @access public
@@ -19,7 +19,7 @@ class BSLightboxAnchorElement extends BSImageAnchorElement {
 	 */
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
-		$this->setAttribute('rel', 'lightbox');
+		$this->registerStyleClass('thickbox');
 	}
 
 	/**
@@ -29,11 +29,7 @@ class BSLightboxAnchorElement extends BSImageAnchorElement {
 	 * @param string $group グループ名
 	 */
 	public function setImageGroup ($group) {
-		if (BSString::isBlank($group)) {
-			$this->setAttribute('rel', 'lightbox');
-		} else {
-			$this->setAttribute('rel', 'lightbox[' . $group . ']');
-		}
+		$this->setAttribute('rel', $group);
 	}
 }
 

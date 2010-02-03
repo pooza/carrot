@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage xml.xhtml
+ * @subpackage xml.xhtml.anchor
  */
 
 /**

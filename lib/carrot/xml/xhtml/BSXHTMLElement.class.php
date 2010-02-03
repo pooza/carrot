@@ -72,6 +72,9 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @param string $id ID
 	 */
 	public function setID ($id) {
+		if (BSString::isBlank($id)) {
+			return;
+		}
 		$this->attributes['id'] = $id;
 	}
 
