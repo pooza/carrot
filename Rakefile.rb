@@ -226,10 +226,10 @@ namespace :distribution do
   task :pset do
     system 'svn pset svn:ignore \'*\' var/*'
     media_types.each do |extension, type|
-      if type != nil
-        system 'svn pset svn:mime-type ' + type + ' `find . -name \'*.' + extension + '\'`'
-      else
+      if type == nil
         system 'svn pdel svn:mime-type `find . -name \'*.' + extension + '\'`'
+      else
+        system 'svn pset svn:mime-type ' + type + ' `find . -name \'*.' + extension + '\'`'
       end
       if (type == nil) || (/^text\// =~ type)
         system 'svn pset svn:eol-style LF ./*.' + extension
