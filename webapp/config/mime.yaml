@@ -5,6 +5,7 @@
 # @version $Id$
 
 types:
+  as:
   css: text/css
   csv: text/csv
   dat: application/octet-stream

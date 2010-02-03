@@ -231,15 +231,18 @@ namespace :distribution do
       else
         system 'svn pdel svn:mime-type `find . -name \'*.' + extension + '\'`'
       end
+      if (type == nil) || (/^text\// =~ type)
+        system 'svn pset svn:eol-style LF ./*.' + extension
+        system 'svn pset svn:eol-style LF `find bin -name \'*.' + extension + '\'`'
+        system 'svn pset svn:eol-style LF `find share -name \'*.' + extension + '\'`'
+        system 'svn pset svn:eol-style LF `find webapp -name \'*.' + extension + '\'`'
+        system 'svn pset svn:eol-style LF `find www -name \'*.' + extension + '\'`'
+        system 'svn pset svn:eol-style LF `find lib/carrot -name \'*.' + extension + '\'`'
+      end
       system 'svn pdel svn:executable `find . -name \'*.' + extension + '\'`'
     end
     system 'svn pset svn:executable ON bin/*'
     system 'svn pset svn:executable ON lib/*/*.pl'
-    system 'cd share; svn pset svn:eol-style LF `find . -name \'*.as\'`'
-    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.html\'`'
-    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.htm\'`'
-    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.js\'`'
-    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.css\'`'
   end
 
   desc '配布アーカイブを作成'
