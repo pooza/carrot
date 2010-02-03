@@ -236,6 +236,10 @@ namespace :distribution do
     system 'svn pset svn:executable ON bin/*'
     system 'svn pset svn:executable ON lib/*/*.pl'
     system 'cd share; svn pset svn:eol-style LF `find . -name \'*.as\'`'
+    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.html\'`'
+    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.htm\'`'
+    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.js\'`'
+    system 'cd www; svn pset svn:eol-style LF `find . -name \'*.css\'`'
   end
 
   desc '配布アーカイブを作成'
