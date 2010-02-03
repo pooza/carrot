@@ -29,6 +29,7 @@ class BSMultiboxAnchorElement extends BSImageAnchorElement {
 	 * @param string $group グループ名
 	 */
 	public function setImageGroup ($group) {
+		$this->registerStyleClass($group);
 	}
 }
 
