@@ -37,11 +37,11 @@
 
 .MultiBoxClose {
 	position: absolute;
-	top: -26px;
-	right: -26px;
+	top: -20px;
+	right: -20px;
 	background: url(/carrotlib/images/multibox/close.gif) no-repeat;
-	width: 24px;
-	height: 24px;
+	width: 20px;
+	height: 20px;
 	cursor: pointer;
 }
 
@@ -102,6 +102,13 @@
 	color: #FFF;
 	font-weight: bold;
 	text-align: left;
+}
+/* WebKit (Safari, Chrome etc) hack */
+@media screen and (-webkit-min-device-pixel-ratio:0){
+	.MultiBoxTitle {  
+		position: static;
+		padding-left: 30px;
+	}  
 }
 
 .MultiBoxNumber {
