@@ -11,3 +11,5 @@ module:
 actions:
   Backup:
     title: バックアップ
+  Pictogram:
+    title: 絵文字入力
