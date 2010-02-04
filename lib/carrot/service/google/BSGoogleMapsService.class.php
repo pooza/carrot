@@ -37,7 +37,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$values = array('addr' => $address);
 		if (!$entry = $this->getTable()->getRecord($values)) {
 			if ($result = $this->queryGeocode($address)) {
-				$entry = $this->getTable()->register($address, new BSArray($result));
+				$entry = $this->getTable()->register($address, $result);
 			}
 		}
 		return $entry;
@@ -54,7 +54,11 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode($response->getBody());
 		if (isset($result['Placemark'][0]['Point']['coordinates'])) {
-			return $result['Placemark'][0]['Point']['coordinates'];
+			$coord = $result['Placemark'][0]['Point']['coordinates'];
+			return new BSArray(array(
+				'lat' => $coord[1],
+				'lng' => $coord[0],
+			));
 		}
 	}
 

@@ -51,11 +51,8 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 	 * @return BSGeocodeEntry 登録されたレコード
 	 */
 	public function register ($addr, BSArray $coord) {
-		$values = array(
-			'addr' => $addr,
-			'lat' => $coord[1],
-			'lng' => $coord[0],
-		);
+		$values = clone $coord;
+		$values['addr'] = $addr;
 		if ($id = $this->createRecord($values)) {
 			return $this->getRecord($id);
 		}
