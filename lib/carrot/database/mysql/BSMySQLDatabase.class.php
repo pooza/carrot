@@ -123,7 +123,7 @@ class BSMySQLDatabase extends BSDatabase {
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
-		return $command->getResult();
+		return $command->getResult()->join("\n");
 	}
 
 	/**
@@ -137,7 +137,7 @@ class BSMySQLDatabase extends BSDatabase {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
 		$command->addValue('--host=' . $this['host']->getAddress());
-		$command->addValue('--user=' . $this['user']);
+		$command->addValue('--user=' . $this['uid']);
 		$command->addValue($this['database_name']);
 		if (!BSString::isBlank($password = $this['password'])) {
 			$command->addValue('--password=' . $password);

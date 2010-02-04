@@ -97,7 +97,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
-		return $command->getResult();
+		return $command->getResult()->join("\n");
 	}
 
 	/**
