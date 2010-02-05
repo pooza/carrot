@@ -29,7 +29,6 @@ class BSMapTag extends BSSmartTag {
 	 * @access public
 	 * @param string $body 置換対象文字列
 	 * @return string 置換された文字列
-	 * @abstract
 	 */
 	public function execute ($body) {
 		try {
@@ -46,10 +45,7 @@ class BSMapTag extends BSSmartTag {
 	}
 
 	private function getMobileAnchorElement () {
-		$url = BSURL::getInstance();
-		$url['host'] = 'www.google.co.jp';
-		$url['path'] = '/m/local';
-		$url->setParameter('q', $this->tag[1]);
+		$url = BSGoogleMapsService::getURL($this->tag[1], $this->getUserAgent());
 		$element = new BSAnchorElement;
 		$element->setBody($this->tag[1]);
 		$element->setURL($url);

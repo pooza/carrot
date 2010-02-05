@@ -28,7 +28,6 @@ class BSPictogramTag extends BSSmartTag {
 	 * @access public
 	 * @param string $body 置換対象文字列
 	 * @return string 置換された文字列
-	 * @abstract
 	 */
 	public function execute ($body) {
 		try {

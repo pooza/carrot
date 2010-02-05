@@ -68,6 +68,31 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		}
 		return $this->table;
 	}
+
+	/**
+	 * サイトを直接開くURLを返す
+	 *
+	 * @access public
+	 * @param string $addr 住所
+	 * @param string BSUserAgent $useragent 対象ブラウザ
+	 * @return BSHTTPURL
+	 * @static
+	 */
+	static public function getURL ($addr, BSUserAgent $useragent = null) {
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
+		}
+
+		$url = BSURL::getInstance();
+		if ($useragent->isMobile()) {
+			$url['host'] = 'www.google.co.jp';
+			$url['path'] = '/m/local';
+		} else {
+			$url['host'] = self::DEFAULT_HOST;
+		}
+		$url->setParameter('q', $addr);
+		return $url;
+	}
 }
 
 /* vim:set tabstop=4: */
