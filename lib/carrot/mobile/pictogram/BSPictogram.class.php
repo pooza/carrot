@@ -121,7 +121,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 			return $this->getNumericReference();
 		} else {
 			$caches = BSImageCacheHandler::getInstance();
-			return $caches->getImageElement($this->getImageInfo())->getContents();
+			return $caches->getElement($this->getImageInfo())->getContents();
 		}
 	}
 

@@ -13,6 +13,7 @@
  */
 abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected $attributes;
+	protected $output;
 
 	/**
 	 * 属性を返す
@@ -43,9 +44,41 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * ファイルを解析
 	 *
 	 * @access protected
-	 * @abstract
 	 */
-	abstract protected function analyze ();
+	protected function analyze () {
+		$command = self::getCommandLine();
+		$command->addValue('-i');
+		$command->addValue($this->getPath());
+		$command->addValue('2>&1', null);
+		$this->output = $command->getResult()->join("\n");
+
+		if (mb_ereg('Duration: ([.:[:digit:]]+),', $this->output, $matches)) {
+			$this->attributes['duration'] = $matches[1];
+			$sec = BSString::explode(':', $matches[1]);
+			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
+		}
+	}
+
+	/**
+	 * FFmpegの出力から、メディアタイプを調べる
+	 *
+	 * @access protected
+	 * @param string $track トラック名。 (Video|Audio)
+	 * @return string メディアタイプ
+	 */
+	protected function analyzeMediaType ($track) {
+		$patterns = new BSArray(array(
+			$track . ': ([[:alnum:]]+)',
+			'Input #[[:digit:]]+, ([[:alnum:]]+)',
+		));
+		foreach ($patterns as $pattern) {
+			if (mb_ereg($pattern, $this->output, $matches)) {
+				if (!BSString::isBlank($type = self::getMediaType($matches[1]))) {
+					return $type;
+				}
+			}
+		}
+	}
 
 	/**
 	 * メディアタイプを返す
@@ -58,13 +91,27 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 
 	/**
+	 * 規定のサフィックスを返す
+	 *
+	 * @access public
+	 * @return string 規定サフィックス
+	 */
+	public function getDefaultSuffix () {
+		// mime.typesを読み込まない。
+		$config = BSConfigManager::getInstance()->compile('mime');
+		$types = new BSArray($config['types']);
+		$suffixes = $types->getFlipped();
+		return '.' . $suffixes[$this->getType()];
+	}
+
+	/**
 	 * ムービー表示用のXHTML要素を返す
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	public function getImageElement (BSParameterHolder $params) {
+	public function getElement (BSParameterHolder $params) {
 		$root = new BSDivisionElement;
 		$root->registerStyleClass($params['style_class']);
 		if ($params['mode'] == 'noscript') {
@@ -213,10 +260,43 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 
 	/**
+	 * コマンドラインを返す
+	 *
+	 * @access public
+	 * @return BSCommandLine コマンドライン
+	 * @static
+	 */
+	static public function getCommandLine () {
+		$command = new BSCommandLine('bin/ffmpeg');
+		$command->setDirectory(BSFileUtility::getDirectory('ffmpeg'));
+		return $command;
+	}
+
+	/**
+	 * MIMEタイプを返す
+	 *
+	 * @access public
+	 * @param string $name FFmpegのエンコード名等
+	 * @return string MIMEタイプ
+	 * @static
+	 */
+	static public function getMediaType ($name) {
+		$config = BSConfigManager::getInstance()->compile('mime');
+		$names = new BSArray($config['types']);
+
+		$header = new BSContentTypeMIMEHeader;
+		$header->setContents($names[BSString::toLower($name)]);
+		if (in_array($header['main_type'], array('audio', 'video'))) {
+			return $header['type'];
+		}
+	}
+
+	/**
 	 * 探す
 	 *
 	 * @access public
-	 * @param mixed パラメータ配列、BSFile、ファイルパス文字列
+	 * @param mixed $file パラメータ配列、BSFile、ファイルパス文字列
+	 * @param string $class クラス名
 	 * @return BSFile ファイル
 	 * @static
 	 */

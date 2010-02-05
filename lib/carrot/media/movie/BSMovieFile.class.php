@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSMovieFile extends BSMediaFile {
-	private $output;
 
 	/**
 	 * ファイルを解析
@@ -19,19 +18,9 @@ class BSMovieFile extends BSMediaFile {
 	 * @access protected
 	 */
 	protected function analyze () {
-		$command = BSMovieUtility::getCommandLine();
-		$command->addValue('-i');
-		$command->addValue($this->getPath());
-		$command->addValue('2>&1', null);
-		$this->output = $command->getResult()->join("\n");
-
+		parent::analyze();
 		if (mb_ereg('frame rate: [^\\-]+ -> ([.[:digit:]]+)', $this->output, $matches)) {
 			$this->attributes['frame_rate'] = (float)$matches[1];
-		}
-		if (mb_ereg('Duration: ([.:[:digit:]]+),', $this->output, $matches)) {
-			$this->attributes['duration'] = $matches[1];
-			$sec = BSString::explode(':', $matches[1]);
-			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
 		if (mb_ereg(' ([[:digit:]]{2,4})x([[:digit:]]{2,4})', $this->output, $matches)) {
 			$this->attributes['width'] = $matches[1];
@@ -39,21 +28,7 @@ class BSMovieFile extends BSMediaFile {
 			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();
 			$this->attributes['pixel_size'] = $matches[1] . '×' . $matches[2];
 		}
-		$this->attributes['type'] = $this->analyzeMovieType($this->output);
-	}
-
-	private function analyzeMovieType ($output) {
-		$patterns = new BSArray(array(
-			'Input #[[:digit:]]+, ([[:alnum:]]+)',
-			'Video: ([[:alnum:]]+)',
-		));
-		foreach ($patterns as $pattern) {
-			if (mb_ereg($pattern, $output, $matches)) {
-				if (!BSString::isBlank($type = BSMovieUtility::getType($matches[1]))) {
-					return $type;
-				}
-			}
-		}
+		$this->attributes['type'] = $this->analyzeMediaType('Video');
 	}
 
 	/**
@@ -79,7 +54,7 @@ class BSMovieFile extends BSMediaFile {
 			$duplicated->rename($file->getName());
 			$file = $duplicated;
 		} else {
-			$command = BSMovieUtility::getCommandLine();
+			$command = self::getCommandLine();
 			$command->addValue('-y');
 			$command->addValue('-i');
 			$command->addValue($this->getPath());
@@ -102,8 +77,8 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	public function getImageElement (BSParameterHolder $params) {
-		$element = parent::getImageElement($params);
+	public function getElement (BSParameterHolder $params) {
+		$element = parent::getElement($params);
 		if ($inner = $element->getElement('div')) { //Gecko対応
 			$inner->setStyles($this->getStyles($params));
 		}
@@ -135,9 +110,8 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSXMLElement 要素
 	 */
 	protected function getObjectElement (BSParameterHolder $params) {
-		$element = BSFlashUtility::getObjectElement(
-			BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF)
-		);
+		$element = new BSFlashObjectElement;
+		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
 		$element->setFlashVar('config', $this->getPlayerConfig($params));
 		return $element;
 	}
@@ -160,7 +134,7 @@ class BSMovieFile extends BSMediaFile {
 			'plugins' => array(
 				'controls' => array(
 					'height' => BS_MOVIE_FLV_PLAYER_HEIGHT,
-					'fullscreen' => false,
+					//'fullscreen' => false,
 				),
 			),
 		);
@@ -173,6 +147,28 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function __toString () {
 		return sprintf('動画ファイル "%s"', $this->getShortPath());
+	}
+
+	/**
+	 * 探す
+	 *
+	 * @access public
+	 * @param mixed $file パラメータ配列、BSFile、ファイルパス文字列
+	 * @param string $class クラス名
+	 * @return BSFile ファイル
+	 * @static
+	 */
+	static public function search ($file, $class = 'BSMovieFile') {
+		if (!$file = parent::search($file, $class)) {
+			return;
+		}
+		switch ($file->getType()) {
+			case BSMIMEType::getType('mov'):
+				return parent::search($file, 'BSQuickTimeMovieFile');
+			case BSMIMEType::getType('wmv'):
+				return parent::search($file, 'BSWindowsMediaMovieFile');
+		}
+		return $file;
 	}
 }
 

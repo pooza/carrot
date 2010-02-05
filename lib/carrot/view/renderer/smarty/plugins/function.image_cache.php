@@ -22,7 +22,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 		return null;
 	}
 
-	$element = $caches->getImageElement($info);
+	$element = $caches->getElement($info);
 	$element->registerStyleClass($params['style_class']);
 	$element->setID($params['container_id']);
 

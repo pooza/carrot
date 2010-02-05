@@ -81,6 +81,9 @@ modules:
 movies:
   parent: carrotlib
   suffix: .flv
+musics:
+  parent: carrotlib
+  suffix: .mp3
 mysql:
   constant: yes
 pictogram:

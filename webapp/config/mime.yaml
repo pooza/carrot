@@ -5,6 +5,10 @@
 # @version $Id$
 
 types:
+  aac: audio/x-aac
+  aif: audio/x-aiff
+  aifc: audio/x-aiff
+  aiff: audio/x-aiff
   as:
   css: text/css
   csv: text/csv
@@ -16,6 +20,7 @@ types:
   flv: video/x-flv
   gif: image/gif
   gz: application/x-gzip
+  h264: video/quicktime
   htm: text/html
   html: text/html
   ini: text/x-ini-file
@@ -25,6 +30,7 @@ types:
   json: text/javascript
   mime: message/rfc822
   mov: video/quicktime
+  mp3: audio/mpeg
   mp4: video/mp4
   mpeg: video/mpeg
   mpg: video/mpeg
@@ -48,7 +54,11 @@ types:
   tpl:
   ttf: application/x-truetype-font
   txt: text/plain
+  wav: audio/x-wav
   wmv: video/x-ms-wmv
+  wmv1: video/x-ms-wmv
+  wmv2: video/x-ms-wmv
+  wmv3: video/x-ms-wmv
   yaml: text/yaml
   yml: text/yaml
   xls: application/vnd.ms-excel

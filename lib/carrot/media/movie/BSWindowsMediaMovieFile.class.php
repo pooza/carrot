@@ -19,7 +19,7 @@ class BSWindowsMediaMovieFile extends BSMovieFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 要素
 	 */
-	public function getImageElement (BSParameterHolder $params) {
+	public function getElement (BSParameterHolder $params) {
 		$element = new BSDivisionElement;
 		$element->registerStyleClass($params['style_class']);
 		$element->setStyles($this->getStyles($params));

@@ -12,18 +12,17 @@
  */
 function smarty_function_movie ($params, &$smarty) {
 	$params = new BSArray($params);
-	$mode = BSString::toLower($params['mode']);
-
-	if (!$file = BSMovieUtility::getFile($params)) {
+	if (!$file = BSMovieFile::search($params)) {
 		return null;
 	}
 
-	switch ($mode) {
+	switch ($mode = BSString::toLower($params['mode'])) {
 		case 'size':
 			return $file['pixel_size'];
 		case 'width':
 		case 'height':
 		case 'height_full':
+		case 'pixel_size':
 		case 'seconds':
 		case 'duration':
 		case 'type':
@@ -36,7 +35,7 @@ function smarty_function_movie ($params, &$smarty) {
 					$params['href_prefix'] = $url['path'];
 				}
 			}
-			return $file->getImageElement($params)->getContents();
+			return $file->getElement($params)->getContents();
 	}
 }
 

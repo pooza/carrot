@@ -115,6 +115,12 @@ movie:
     player:
       clsid: 02BF25D5-8C17-4B23-BC80-D3488ABDDC6B
       height: 16
+music:
+  mp3:
+    player:
+      href: /carrotlib/swf/player_mp3_maxi.swf
+      width: 200
+      height: 20
 mysql:
   dir: /usr/local
 net:
