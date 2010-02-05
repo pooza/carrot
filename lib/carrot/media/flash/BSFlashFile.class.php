@@ -23,8 +23,8 @@ class BSFlashFile extends BSMediaFile {
 			throw new BSMediaException($this . 'はFlashムービーではありません。');
 		}
 		$this->attributes['path'] = $this->getPath();
-		$this->attributes['width'] = $info[0];
 		$this->attributes['type'] = $info['mime'];
+		$this->attributes['width'] = $info[0];
 		$this->attributes['height'] = $info[1];
 		$this->attributes['height_full'] = $info[1];
 		$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];

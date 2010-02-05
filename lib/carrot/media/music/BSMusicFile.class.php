@@ -19,6 +19,9 @@ class BSMusicFile extends BSMediaFile {
 	 */
 	protected function analyze () {
 		parent::analyze();
+		$this->attributes['width'] = BS_MUSIC_MP3_PLAYER_WIDTH;
+		$this->attributes['height'] = BS_MUSIC_MP3_PLAYER_HEIGHT;
+		$this->attributes['height_full'] = $this->attributes['height'];
 		$this->attributes['type'] = $this->analyzeMediaType('Audio');
 	}
 
@@ -89,8 +92,8 @@ class BSMusicFile extends BSMediaFile {
 	protected function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
-		$element->setAttribute('width', BS_MUSIC_MP3_PLAYER_WIDTH);
-		$element->setAttribute('height', BS_MUSIC_MP3_PLAYER_HEIGHT);
+		$element->setAttribute('width', $this['width']);
+		$element->setAttribute('height', $this['height']);
 		$element->setFlashVar('mp3', $this->getMediaURL($params)->getContents());
 		$element->setFlashVar('autoload', 1);
 		$element->setFlashVar('showstop', 1);
