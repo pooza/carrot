@@ -478,9 +478,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			throw new BSDatabaseException($this . 'は既に存在します。');
 		}
 		if ($schema = $this->getSchema()) {
-			$this->getDatabase()->exec(
-				BSSQL::getCreateTableQueryString($this->getName(), $schema)
-			);
+			$this->getDatabase()->createTable($this->getName(), $schema);
 		}
 	}
 

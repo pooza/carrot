@@ -312,13 +312,26 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * テーブルを削除
+	 * テーブルを作成
 	 *
 	 * @access public
 	 * @param string $table テーブル名
+	 * @param BSArray $schema スキーマ
+	 */
+	public function createTable ($table, BSArray $schema) {
+		$this->exec(BSSQL::getCreateTableQueryString($table, $schema));
+		$this->tables = null;
+	}
+
+	/**
+	 * テーブルを削除
+	 *
+	 * @access public
+	 * @param string $name テーブル名
 	 */
 	public function deleteTable ($table) {
 		$this->exec(BSSQL::getDropTableQueryString($table));
+		$this->tables = null;
 	}
 
 	/**
