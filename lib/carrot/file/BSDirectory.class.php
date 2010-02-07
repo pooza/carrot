@@ -211,6 +211,11 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 				$entry->delete();
 			}
 		}
+
+		$message = new BSStringFormat('%s内の、%s以前のファイルを削除しました。');
+		$message[] = $this;
+		$message[] = $date->format('Y/n/j');
+		BSLogManager::getInstance()->put($message, $this);
 	}
 
 	/**

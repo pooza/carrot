@@ -14,6 +14,8 @@ awstats_log:
 backup:
   parent: var
   suffix: .zip
+  purge:
+    month: 1
 bin:
   constant: yes
 cache:
@@ -43,6 +45,8 @@ dictionaries:
 dump:
   parent: var
   suffix: .sql
+  purge:
+    month: 1
 favicon:
   parent: var
   suffix: .png
@@ -72,6 +76,8 @@ local_lib:
 log:
   parent: var
   class: BSLogDirectory
+  purge:
+    month: 3
 man:
   parent: share
 menu:
@@ -95,6 +101,8 @@ pgsql:
 request:
   parent: var
   suffix: .txt
+  purge:
+    day: 7
 root:
   constant: yes
 serialized:
@@ -114,6 +122,8 @@ templates:
   suffix: .tpl
 tmp:
   parent: var
+  purge:
+    day: 7
 var:
   constant: yes
 webapp:
