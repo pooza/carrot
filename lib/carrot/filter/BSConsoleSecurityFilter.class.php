@@ -12,6 +12,11 @@
  */
 class BSConsoleSecurityFilter extends BSFilter {
 	public function execute () {
+		if (!BSString::isBlank($user = $this->controller->getAttribute('USER'))) {
+			if (!BSProcess::getAllowedUsers()->isContain($user)) {
+				throw new BSConsoleException('実行ユーザー "%s" が正しくありません。', $user);
+			}
+		}
 		return !$this->request->isCLI();
 	}
 }

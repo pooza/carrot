@@ -247,6 +247,9 @@ class BSView extends BSHTTPResponse {
 	 * @return BSArray 全てのサフィックス
 	 */
 	static public function putHeader ($header) {
+		if (BSRequest::getInstance()->isCLI()) {
+			return;
+		}
 		if (headers_sent()) {
 			throw new BSHTTPException('レスポンスヘッダを送信できません。');
 		}

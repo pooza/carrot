@@ -50,6 +50,23 @@ class BSProcess {
 	}
 
 	/**
+	 * 許可されたユーザーを返す
+	 *
+	 * @access public
+	 * @return BSArray ユーザー名の配列
+	 * @static
+	 */
+	static public function getAllowedUsers () {
+		$users = new BSArray;
+		foreach (array('_', '') as $prefix) {
+			foreach (array('www', 'nobody') as $name) {
+				$users[] = $prefix . $name;
+			}
+		}
+		return $users;
+	}
+
+	/**
 	 * pidは存在するか？
 	 *
 	 * @access public
