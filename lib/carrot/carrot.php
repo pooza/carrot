@@ -122,18 +122,17 @@ $configure->compile('constant/package');
 $configure->compile('constant/carrot');
 
 set_error_handler('handleError');
-ini_set('realpath_cache_size', '128K');
 date_default_timezone_set(BS_DATE_TIMEZONE);
+ini_set('realpath_cache_size', '128K');
+ini_set('log_errors', 1);
+ini_set('error_log', BS_VAR_DIR . '/tmp/error_' . BSDate::getNow('Y-m-d') . '.log');
 
 if (BS_DEBUG) {
 	error_reporting(E_ALL | E_STRICT);
 	ini_set('display_errors', 1);
-	ini_set('log_errors', 0);
 	BSController::getInstance()->dispatch();
 } else {
 	ini_set('display_errors', 0);
-	ini_set('log_errors', 1);
-	ini_set('error_log', BS_VAR_DIR . '/tmp/error.log');
 	try {
 		BSController::getInstance()->dispatch();
 	} catch (BSException $e) {
