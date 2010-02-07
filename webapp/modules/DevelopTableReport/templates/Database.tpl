@@ -16,6 +16,11 @@
 
 <h1>{$action.title}</h1>
 
+{form module=$module.name action='Optimize'}
+	<input type="hidden" name="database" value="{$database.name}" />
+	<input type="submit" value="最適化" />
+{/form}
+
 <h2>基本情報</h2>
 <table class="Detail">
 
