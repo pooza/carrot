@@ -188,7 +188,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('テーブル "%s" の分析', $this->getName());
+		return sprintf('テーブルプロフィール "%s"', $this->getName());
 	}
 }
 
