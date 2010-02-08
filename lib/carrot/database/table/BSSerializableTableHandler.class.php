@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSSerializableTableHandler extends BSTableHandler {
+abstract class BSSerializableTableHandler extends BSTableHandler implements BSSerializable {
 
 	/**
 	 * @access public
@@ -19,7 +19,10 @@ abstract class BSSerializableTableHandler extends BSTableHandler {
 	 * @param mixed $order ソート順
 	 */
 	public function __construct ($criteria = null, $order = null) {
-		$this->getContents();
+		if (!$this->getSerialized()) {
+			$this->serialize();
+		}
+		$this->setExecuted(true);
 	}
 
 	/**
@@ -56,24 +59,36 @@ abstract class BSSerializableTableHandler extends BSTableHandler {
 	 * @return string[] 結果の配列
 	 */
 	public function getResult () {
-		if ($result = BSController::getInstance()->getAttribute(get_class($this))) {
-			$this->setExecuted(true);
-			return $result;
-		} else {
-			return $this->query();
-		}
+		return $this->getSerialized();
 	}
 
 	/**
-	 * クエリーを送信し直して結果を返す
+	 * シリアライズ時の属性名を返す
 	 *
 	 * @access public
-	 * @return string[] 結果の配列
+	 * @return string シリアライズ時の属性名
 	 */
-	public function query () {
-		$result = parent::query();
-		BSController::getInstance()->setAttribute($this, $result);
-		return $result;
+	public function getSerializedName () {
+		return get_class($this);
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		BSController::getInstance()->setAttribute($this, parent::getResult());
+	}
+
+	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		return BSController::getInstance()->getAttribute($this);
 	}
 }
 

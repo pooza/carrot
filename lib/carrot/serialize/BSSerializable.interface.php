@@ -12,15 +12,6 @@
  */
 interface BSSerializable {
 
-
-	/**
-	 * シリアライズするか？
-	 *
-	 * @access public
-	 * @return boolean シリアライズするならTrue
-	 */
-	public function isSerializable ();
-
 	/**
 	 * シリアライズ時の属性名を返す
 	 *
@@ -36,13 +27,6 @@ interface BSSerializable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized ();
-
-	/**
-	 * シリアライズを削除
-	 *
-	 * @access public
-	 */
-	public function clearSerialized ();
 
 	/**
 	 * シリアライズ
