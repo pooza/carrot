@@ -91,7 +91,7 @@ class BSSerializeHandler {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
-		return $this->getStorage()->getAttribute($this->getSerializedName($name), $date);
+		return $this->getStorage()->getAttribute($this->serializeName($name), $date);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class BSSerializeHandler {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate ($name) {
-		return $this->getStorage()->getUpdateDate($this->getSerializedName($name));
+		return $this->getStorage()->getUpdateDate($this->serializeName($name));
 	}
 
 	/**
@@ -120,7 +120,7 @@ class BSSerializeHandler {
 			$value = $value->getParameters();
 		}
 
-		$serialized = $this->getStorage()->setAttribute($this->getSerializedName($name), $value);
+		$serialized = $this->getStorage()->setAttribute($this->serializeName($name), $value);
 		$message = new BSStringFormat('%sのシリアライズをキャッシュしました。 (%sB)');
 		$message[] = $name;
 		$message[] = BSNumeric::getBinarySize(strlen($serialized));
@@ -134,19 +134,19 @@ class BSSerializeHandler {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		$this->getStorage()->removeAttribute($this->getSerializedName($name));
+		$this->getStorage()->removeAttribute($this->serializeName($name));
 	}
 
 	/**
-	 * 属性名を文字列に正規化する
+	 * 属性名へ正規化
 	 *
 	 * @access public
 	 * @param mixed $name 属性名に用いる値
 	 * @return string 属性名
 	 */
-	public function getSerializedName ($name) {
+	public function serializeName ($name) {
 		if ($name instanceof BSSerializable) {
-			return $name->getSerializedName();
+			return $name->serializeName();
 		} else if (is_object($name)) {
 			return get_class($name);
 		}

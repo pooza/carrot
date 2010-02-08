@@ -414,12 +414,12 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
-	 * シリアライズ時の属性名を返す
+	 * 属性名へシリアライズ
 	 *
 	 * @access public
-	 * @return string シリアライズ時の属性名
+	 * @return string 属性名
 	 */
-	public function getSerializedName () {
+	public function serializeName () {
 		$name = new BSArray(get_class($this));
 		$name->merge(explode(DIRECTORY_SEPARATOR, $this->getShortPath()));
 		$name->trim();

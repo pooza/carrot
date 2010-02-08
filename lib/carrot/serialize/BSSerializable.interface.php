@@ -13,12 +13,12 @@
 interface BSSerializable {
 
 	/**
-	 * シリアライズ時の属性名を返す
+	 * 属性名へシリアライズ
 	 *
 	 * @access public
-	 * @return string シリアライズ時の属性名
+	 * @return string 属性名
 	 */
-	public function getSerializedName ();
+	public function serializeName ();
 
 	/**
 	 * シリアライズ時の値を返す
