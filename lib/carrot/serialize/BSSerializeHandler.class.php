@@ -145,13 +145,7 @@ class BSSerializeHandler {
 	 * @return string 属性名
 	 */
 	public function getSerializedName ($name) {
-		if ($name instanceof BSFile) {
-			$file = $name;
-			$name = new BSArray(get_class($file));
-			$name->merge(explode(DIRECTORY_SEPARATOR, $file->getShortPath()));
-			$name->trim();
-			return $name->join('.');
-		} else if ($name instanceof BSSerializable) {
+		if ($name instanceof BSSerializable) {
 			return $name->getSerializedName();
 		} else if (is_object($name)) {
 			return get_class($name);
