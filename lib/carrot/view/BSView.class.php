@@ -14,10 +14,9 @@ class BSView extends BSHTTPResponse {
 	protected $nameSuffix;
 	protected $action;
 	protected $version = '1.0';
-	const ALERT = 'Alert';
+	const NONE = null;
 	const ERROR = 'Error';
 	const INPUT = 'Input';
-	const NONE = null;
 	const SUCCESS = 'Success';
 
 	/**
@@ -233,7 +232,6 @@ class BSView extends BSHTTPResponse {
 	 */
 	static public function getNameSuffixes () {
 		return new BSArray(array(
-			self::ALERT,
 			self::ERROR,
 			self::INPUT,
 			self::SUCCESS,
