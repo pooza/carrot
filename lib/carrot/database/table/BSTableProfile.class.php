@@ -11,11 +11,10 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSTableProfile implements BSAssignable {
+abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	protected $database;
 	protected $fields;
 	protected $constraints;
-	private $serializedName;
 	private $name;
 
 	/**
@@ -33,35 +32,12 @@ abstract class BSTableProfile implements BSAssignable {
 			throw new BSDatabaseException($this . 'が取得できません。');
 		}
 
-		if ($profile = BSController::getInstance()->getAttribute($this->getSerializedName())) {
-			$this->fields = new BSArray($profile['fields']);
-			$this->constraints = new BSArray($profile['constraints']);
+		if (!$this->getSerialized()) {
+			$this->serialize();
 		}
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		$name = get_class($this) . '.' . $this->getName();
-		if (!$profile = BSController::getInstance()->getAttribute($this->getSerializedName())) {
-			$values = array(
-				'fields' => $this->getFields(),
-				'constraints' => $this->getConstraints(),
-			);
-			BSController::getInstance()->setAttribute($this->getSerializedName(), $values);
-		}
-	}
-
-	private function getSerializedName () {
-		if (!$this->serializedName) {
-			$name = new BSArray;
-			$name[] = get_class($this);
-			$name[] = $this->getDatabase()->getName();
-			$name[] = $this->getName();
-			$this->serializedName = $name->join('.');
-		}
-		return $this->serializedName;
+		$profile = $this->getSerialized();
+		$this->fields = new BSArray($profile['fields']);
+		$this->constraints = new BSArray($profile['constraints']);
 	}
 
 	/**
@@ -146,6 +122,29 @@ abstract class BSTableProfile implements BSAssignable {
 	}
 
 	/**
+	 * 属性名へシリアライズ
+	 *
+	 * @access public
+	 * @return string 属性名
+	 */
+	public function serializeName () {
+		return get_class($this) . '.' . $this->getName();
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		$values = array(
+			'fields' => $this->getFields(),
+			'constraints' => $this->getConstraints(),
+		);
+		BSController::getInstance()->setAttribute($this, $values);
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public
@@ -175,11 +174,21 @@ abstract class BSTableProfile implements BSAssignable {
 	}
 
 	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		return BSController::getInstance()->getAttribute($this);
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('テーブルのプロフィール "%s"', $this->getName());
+		return sprintf('テーブル "%s" の分析', $this->getName());
 	}
 }
 

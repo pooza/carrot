@@ -138,7 +138,7 @@ class BSSerializeHandler {
 	}
 
 	/**
-	 * 属性名へ正規化
+	 * 属性名へシリアライズ
 	 *
 	 * @access public
 	 * @param mixed $name 属性名に用いる値
