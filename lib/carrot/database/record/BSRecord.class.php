@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRecord implements ArrayAccess, BSAssignable {
+abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 	private $attributes;
 	private $table;
 	private $criteria;
@@ -329,10 +329,10 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * シリアライズされるときの名前を返す
+	 * シリアライズ時の属性名を返す
 	 *
 	 * @access public
-	 * @return string シリアライズされるときの名前
+	 * @return string シリアライズ時の属性名
 	 */
 	public function getSerializedName () {
 		return sprintf('%s.%08d', get_class($this), $this->getID());
@@ -351,11 +351,12 @@ abstract class BSRecord implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * シリアライズされた情報を返す
+	 * シリアライズ時の値を返す
 	 *
-	 * @access protected
+	 * @access public
+	 * @return mixed シリアライズ時の値
 	 */
-	protected function getSerialized () {
+	public function getSerialized () {
 		return BSController::getInstance()->getAttribute($this);
 	}
 
