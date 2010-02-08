@@ -12,6 +12,11 @@
 <title>{const name='app_name_ja'} {$title|default:$module.title}</title>
 {js_cache name=$jsset}
 {css_cache name=$styleset}
+{if $is_debug}
+<style type="text/css">
+body {ldelim}background: url(/carrotlib/images/background/test.gif) repeat-y;{rdelim}
+</style>
+{/if}
 </head>
 <body {if $body.id}id="{$body.id}"{/if}>
 
