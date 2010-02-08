@@ -357,7 +357,11 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return BSController::getInstance()->getAttribute($this);
+		if ($date = $this->getUpdateDate()) {
+			return BSController::getInstance()->getAttribute($this, $date);
+		} else {
+			return BSController::getInstance()->getAttribute($this);
+		}
 	}
 
 	/**
