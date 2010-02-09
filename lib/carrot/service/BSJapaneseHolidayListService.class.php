@@ -36,6 +36,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 			$host = new BSHost(self::DEFAULT_HOST);
 		}
 		parent::__construct($host, $port);
+		$this->holidays = new BSArray;
 	}
 
 	/**
@@ -73,7 +74,8 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 		if (BSString::isBlank($this->getSerialized())) {
 			$this->serialize();
 		}
-		$this->holidays = new BSArray($this->getSerialized());
+		$this->holidays->clear();
+		$this->holidays->setParameters($this->getSerialized());
 	}
 
 	/**
