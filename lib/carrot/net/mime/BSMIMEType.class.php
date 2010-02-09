@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMIMEType extends BSParameterHolder {
+class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	static private $instance;
 	private $typesFile;
 	private $magicFile;
@@ -20,17 +20,10 @@ class BSMIMEType extends BSParameterHolder {
 	 * @access private
 	 */
 	private function __construct () {
-		$date = BSDate::getNewest(new BSArray(array(
-			$this->getTypesFile()->getUpdateDate(),
-			$this->getConfigFile()->getUpdateDate(),
-		)));
-
-		if ($params = BSController::getInstance()->getAttribute($this, $date)) {
-			$this->setParameters($params);
-		} else {
-			$this->parse();
-			BSController::getInstance()->setAttribute($this, $this->getParameters());
+		if (!$this->getSerialized()) {
+			$this->serialize();
 		}
+		$this->setParameters($this->getSerialized());
 	}
 
 	/**
@@ -97,11 +90,32 @@ class BSMIMEType extends BSParameterHolder {
 	}
 
 	/**
-	 * 設定ファイルとmime.typesをパース
+	 * パラメータを返す
 	 *
-	 * @access private
+	 * @access public
+	 * @param string $name パラメータ名
+	 * @return mixed パラメータ
 	 */
-	private function parse () {
+	public function getParameter ($name) {
+		return parent::getParameter(ltrim($name, '.'));
+	}
+
+	/**
+	 * 属性名へシリアライズ
+	 *
+	 * @access public
+	 * @return string 属性名
+	 */
+	public function serializeName () {
+		return get_class($this);
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
 		foreach ($this->getTypesFile()->getLines() as $line) {
 			$line = rtrim($line);
 			$line = mb_ereg_replace('#.*$', '', $line);
@@ -119,17 +133,22 @@ class BSMIMEType extends BSParameterHolder {
 				$this[BSString::toLower($key)] = $value;
 			}
 		}
+
+		BSController::getInstance()->setAttribute($this, $this->getParameters());
 	}
 
 	/**
-	 * パラメータを返す
+	 * シリアライズ時の値を返す
 	 *
 	 * @access public
-	 * @param string $name パラメータ名
-	 * @return mixed パラメータ
+	 * @return mixed シリアライズ時の値
 	 */
-	public function getParameter ($name) {
-		return parent::getParameter(ltrim($name, '.'));
+	public function getSerialized () {
+		$date = BSDate::getNewest(new BSArray(array(
+			$this->getTypesFile()->getUpdateDate(),
+			$this->getConfigFile()->getUpdateDate(),
+		)));
+		return BSController::getInstance()->getAttribute($this, $date);
 	}
 
 	/**
