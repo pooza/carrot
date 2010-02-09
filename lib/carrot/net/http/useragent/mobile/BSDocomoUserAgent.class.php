@@ -11,8 +11,6 @@
  * @version $Id$
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
-	const LIST_FILE_NAME = 'docomo_agents.xml';
-	static private $displayInfo;
 
 	/**
 	 * @access public
@@ -74,7 +72,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		foreach (self::getDisplayInfos() as $pattern => $values) {
+		foreach ($this->getCarrier()->getAttribute('display_infos') as $pattern => $values) {
 			if (BSString::isContain($pattern, $this->getName(), true)) {
 				return new BSArray($values);
 			}
@@ -96,28 +94,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 			return BSMIMEType::getType('gif');
 		}
 		return parent::getDefaultImageType();
-	}
-
-	static private function getDisplayInfos () {
-		if (!self::$displayInfo) {
-			$dir = BSFileUtility::getDirectory('config');
-			$file = $dir->getEntry(self::LIST_FILE_NAME);
-
-			$controller = BSController::getInstance();
-			if (!$agents = $controller->getAttribute($file, $file->getUpdateDate())) {
-				$agents = new BSArray;
-				$xml = new BSXMLDocument;
-				$xml->setDirty(true);
-				$xml->setContents($file->getContents());
-				foreach ($xml->getElements() as $element) {
-					$agents[$element->getName()] = $element->getAttributes()->getParameters();
-				}
-				$agents->sort(BSArray::SORT_KEY_DESC);
-				$controller->setAttribute($file, $agents);
-			}
-			self::$displayInfo = new BSArray($agents);
-		}
-		return self::$displayInfo;
 	}
 }
 

@@ -28,7 +28,7 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	 * @access public
 	 * @return BSArray 別名の配列
 	 */
-	public function getAltNames () {
+	public function getAlternativeNames () {
 		return new BSArray(array(
 			'ezweb',
 			'ez',

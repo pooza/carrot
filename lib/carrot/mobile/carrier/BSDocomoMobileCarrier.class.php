@@ -11,6 +11,28 @@
  * @version $Id$
  */
 class BSDocomoMobileCarrier extends BSMobileCarrier {
+	const LIST_FILE_NAME = 'docomo_agents.xml';
+
+	/**
+	 * @access public
+	 */
+	public function __construct () {
+		parent::__construct();
+
+		$file = BSFileUtility::getDirectory('config')->getEntry(self::LIST_FILE_NAME);
+		if (!$file->getSerialized()) {
+			$agents = new BSArray;
+			$xml = new BSXMLDocument;
+			$xml->setDirty(true);
+			$xml->setContents($file->getContents());
+			foreach ($xml->getElements() as $element) {
+				$agents[$element->getName()] = $element->getAttributes()->getParameters();
+			}
+			$agents->sort(BSArray::SORT_KEY_DESC);
+			BSController::getInstance()->setAttribute($file, $agents);
+		}
+		$this->attributes['display_infos'] = $file->getSerialized();
+	}
 
 	/**
 	 * ドメインサフィックスを返す
@@ -28,7 +50,7 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 	 * @access public
 	 * @return BSArray 別名の配列
 	 */
-	public function getAltNames () {
+	public function getAlternativeNames () {
 		return new BSArray(array(
 			'imode',
 			'foma',
