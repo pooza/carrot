@@ -9,7 +9,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSCounter {
+class BSCounter implements BSSerializable {
 	private $file;
 	private $name;
 
@@ -28,13 +28,11 @@ class BSCounter {
 	 * @return integer カウンターの値
 	 */
 	public function getContents () {
-		if (!$this->getUser()->hasAttribute($this->getSerializedName())) {
-			$count = BSController::getInstance()->getAttribute($this->getSerializedName());
-			$count ++;
-			BSController::getInstance()->setAttribute($this->getSerializedName(), $count);
-			$this->getUser()->setAttribute($this->getSerializedName(), $count);
+		if (!$this->getUser()->hasAttribute($this->serializeName())) {
+			$this->serialize();
+			$this->getUser()->setAttribute($this->serializeName(), $this->getSerialized());
 		}
-		return $this->getUser()->getAttribute($this->getSerializedName());
+		return $this->getUser()->getAttribute($this->serializeName());
 	}
 
 	/**
@@ -43,8 +41,8 @@ class BSCounter {
 	 * @access public
 	 */
 	public function release () {
-		if ($this->getUser()->hasAttribute($this->getSerializedName())) {
-			$this->getUser()->removeAttribute($this->getSerializedName());
+		if ($this->getUser()->hasAttribute($this->serializeName())) {
+			$this->getUser()->removeAttribute($this->serializeName());
 		}
 	}
 
@@ -59,13 +57,42 @@ class BSCounter {
 	}
 
 	/**
-	 * 属性に使用する名前を返す
+	 * 属性名へシリアライズ
 	 *
-	 * @access private
-	 * @return string 名前
+	 * @access public
+	 * @return string 属性名
 	 */
-	private function getSerializedName () {
+	public function serializeName () {
 		return get_class($this) . '.' . $this->name;
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		$count = (int)$this->getSerialized($this);
+		$count ++;
+		BSController::getInstance()->setAttribute($this, $count);
+	}
+
+	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		return BSController::getInstance()->getAttribute($this);
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('カウンター "%s"', $this->name);
 	}
 }
 
