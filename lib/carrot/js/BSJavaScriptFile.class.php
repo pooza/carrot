@@ -10,23 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSJavaScriptFile extends BSFile implements BSDocumentSetEntry {
-
-	/**
-	 * 内容を最適化して返す
-	 *
-	 * @access public
-	 * @return string 最適化された内容
-	 */
-	public function getOptimizedContents () {
-		$contents = BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
-		if ($contents === null) {
-			BSUtility::includeFile('jsmin');
-			$contents = JSMin::minify($this->getContents());
-			BSController::getInstance()->setAttribute($this, $contents);
-		}
-		return $contents;
-	}
+class BSJavaScriptFile extends BSFile {
 
 	/**
 	 * メディアタイプを返す
@@ -46,6 +30,16 @@ class BSJavaScriptFile extends BSFile implements BSDocumentSetEntry {
 	 */
 	public function getEncoding () {
 		return 'utf-8';
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		BSUtility::includeFile('jsmin');
+		BSController::getInstance()->setAttribute($this, JSMin::minify($this->getContents()));
 	}
 
 	/**

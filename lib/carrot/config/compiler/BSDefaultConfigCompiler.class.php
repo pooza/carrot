@@ -12,14 +12,14 @@
  */
 class BSDefaultConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
-		if ($this->controller->getAttribute($file, $file->getUpdateDate()) === null) {
-			$this->controller->setAttribute($file, $this->getContents($file->getResult()));
+		if ($file->getSerialized() === null) {
+			$file->serialize();
 		}
 
 		$this->clearBody();
 		$line = sprintf(
 			'return BSController::getInstance()->getAttribute(%s);',
-			self::quote(BSSerializeHandler::getInstance()->serializeName($file))
+			self::quote($file->serializeName())
 		);
 		$this->putLine($line);
 		return $this->getBody();

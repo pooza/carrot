@@ -86,6 +86,15 @@ class BSConfigFile extends BSFile {
 	}
 
 	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		BSController::getInstance()->setAttribute($this, $this->getResult());
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
