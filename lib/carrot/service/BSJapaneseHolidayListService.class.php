@@ -11,7 +11,7 @@
  * 曜日を知りたい場合は、BSDate::getWeekday等を利用すること。
  *
  * サンプルコード
- * $holidays = new BSJapaneseHolidayList;
+ * $holidays = new BSJapaneseHolidayListService;
  * $holidays->setDate(BSDate::getNow());
  * p($holidays[5]); //当月5日の祝日の名前
  * p($holidays->getHolidays()); //当月のすべての祝日を配列で
@@ -20,7 +20,7 @@
  * @version $Id$
  * @link http://www.finds.jp/wsdocs/calendar/
  */
-class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
+class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, BSSerializable {
 	private $date;
 	private $holidays;
 	const DEFAULT_HOST = 'www.finds.jp';
@@ -69,6 +69,11 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 		}
 		$this->date->setHasTime(false);
 		$this->date['day'] = 1;
+
+		if (BSString::isBlank($this->getSerialized())) {
+			$this->serialize();
+		}
+		$this->holidays = new BSArray($this->getSerialized());
 	}
 
 	/**
@@ -78,16 +83,6 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 	 * @return BSArray 祝日配列
 	 */
 	public function getHolidays () {
-		if (!$this->holidays) {
-			$name = sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
-			$date = BSDate::getNow()->setAttribute('month', '-1');
-			$holidays = BSController::getInstance()->getAttribute($name, $date);
-			if (BSString::isBlank($holidays)) {
-				$holidays = $this->query();
-				BSController::getInstance()->setAttribute($name, $holidays);
-			}
-			$this->holidays = new BSArray($holidays);
-		}
 		return $this->holidays;
 	}
 
@@ -95,7 +90,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 	 * クエリーを実行
 	 *
 	 * @access private
-	 * @return BSArray 祝日配列
+	 * @return BSXMLDocument レスポンスのXML文書
 	 */
 	private function query () {
 		try {
@@ -106,36 +101,13 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 			$url->setParameter('m', $this->getDate()->getAttribute('month'));
 			$url->setParameter('t', 'h');
 			$response = $this->sendGetRequest($url->getFullPath());
+
 			$xml = new BSXMLDocument;
 			$xml->setContents($response->getRenderer()->getContents());
-			return $this->parse($xml);
+			return $xml;
 		} catch (Exception $e) {
 			throw new BSHTTPException('祝日が取得できません。');
 		}
-	}
-
-	/**
-	 * 祝日XMLをパースして配列を返す
-	 *
-	 * @access private
-	 * @param BSXMLDocument $xml 祝日XML
-	 * @return BSArray 祝日配列
-	 */
-	private function parse (BSXMLDocument $xml) {
-		if (!$result = $xml->getElement('result')) {
-			throw new BSXMLException('result要素がありません。');
-		}
-
-		$holidays = new BSArray;
-		foreach ($result as $element) {
-			if ($element->getName() == 'day') {
-				$holidays->setParameter(
-					$element->getElement('mday')->getBody(),
-					$element->getElement('hname')->getBody()
-				);
-			}
-		}
-		return $holidays;
 	}
 
 	/**
@@ -179,6 +151,56 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList {
 	 */
 	public function offsetUnset ($key) {
 		throw new BSInitializationException(get_class($this) . 'は更新できません。');
+	}
+
+	/**
+	 * 属性名へシリアライズ
+	 *
+	 * @access public
+	 * @return string 属性名
+	 */
+	public function serializeName () {
+		return sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		if (!$result = $this->query()->getElement('result')) {
+			throw new BSXMLException('result要素がありません。');
+		}
+		$holidays = new BSArray;
+		foreach ($result as $element) {
+			if ($element->getName() == 'day') {
+				$holidays->setParameter(
+					$element->getElement('mday')->getBody(),
+					$element->getElement('hname')->getBody()
+				);
+			}
+		}
+		BSController::getInstance()->setAttribute($this, $holidays);
+	}
+
+	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		$date = BSDate::getNow()->setAttribute('month', '-1');
+		return BSController::getInstance()->getAttribute($this, $date);
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return '日本の祝日(' . $this->getDate()->format('Y-m') . ')';
 	}
 }
 
