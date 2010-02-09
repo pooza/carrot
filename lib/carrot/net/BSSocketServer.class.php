@@ -24,7 +24,7 @@ class BSSocketServer {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->attributes = new BSArray(BSController::getInstance()->getAttribute($this));
+		$this->attributes = new BSArray($this->getSerialized());
 	}
 
 	/**
@@ -34,7 +34,7 @@ class BSSocketServer {
 	 * @return string 名前
 	 */
 	public function getName () {
-		if (!$this->name && !BSString::isBlank($port = $this->getAttribute('port'))) {
+		if (!$this->name && !BSString::isBlank($port = $this->attributes['port'])) {
 			$this->name = 'tcp://0.0.0.0:' . $port;
 		}
 		return $this->name;
@@ -52,17 +52,9 @@ class BSSocketServer {
 			throw new BSConsoleException($message);
 		}
 
-		$params = new BSArray;
-		$params['port'] = $this->open();
-		$params['pid'] = BSProcess::getCurrentID();
-		BSController::getInstance()->setAttribute($this, $params);
-		$this->attributes = $params;
-
-		$message = new BSStringFormat('開始しました。（ポート:%d, PID:%d）');
-		$message[] = $this->getAttribute('port');
-		$message[] = $this->getAttribute('pid');
-		BSLogManager::getInstance()->put($message, $this);
-
+		$this->open();
+		$this->serialize();
+		$this->putLog('開始しました。');
 		$this->execute();
 	}
 
@@ -77,13 +69,16 @@ class BSSocketServer {
 		}
 
 		$this->close();
-
-		$message = new BSStringFormat('終了しました。（ポート:%d, PID:%d）');
-		$message[] = $this->getAttribute('port');
-		$message[] = $this->getAttribute('pid');
-		BSLogManager::getInstance()->put($message, $this);
-
+		$this->putLog('終了しました。');
 		BSController::getInstance()->removeAttribute($this);
+	}
+
+	private function putLog ($body) {
+		$message = new BSStringFormat('%s（ポート:%d, PID:%d）');
+		$message[] = $body;
+		$message[] = $this->attributes['port'];
+		$message[] = $this->attributes['pid'];
+		BSLogManager::getInstance()->put($message, $this);
 	}
 
 	/**
@@ -100,14 +95,14 @@ class BSSocketServer {
 	 * サーバソケットを開く
 	 *
 	 * @access private
-	 * @return integer ポート番号
 	 */
 	private function open () {
 		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
 			$port = BSNumeric::getRandom(48557, 49150);
 			$this->name = 'tcp://0.0.0.0:' . $port;
 			if ($this->server = stream_socket_server($this->getName())) {
-				return $port;
+				$this->attributes['port'] = $port;
+				$this->attributes['pid'] = BSProcess::getCurrentID();
 			}
 		}
 
@@ -127,6 +122,7 @@ class BSSocketServer {
 				fclose($stream);
 			}
 			$this->server = null;
+			$this->attributes->clear();
 		}
 	}
 
@@ -202,7 +198,7 @@ class BSSocketServer {
 	 * @return boolean 動作中ならTrue
 	 */
 	public function isActive () {
-		return is_resource($this->server) || BSProcess::isExists($this->getAttribute('pid'));
+		return is_resource($this->server) || BSProcess::isExists($this->attributes['pid']);
 	}
 
 	/**
@@ -226,6 +222,35 @@ class BSSocketServer {
 				return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 属性名へシリアライズ
+	 *
+	 * @access public
+	 * @return string 属性名
+	 */
+	public function serializeName () {
+		return get_class($this);
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		BSController::getInstance()->setAttribute($this, $this->attributes);
+	}
+
+	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		return BSController::getInstance()->getAttribute($this);
 	}
 
 	/**
