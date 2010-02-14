@@ -12,7 +12,7 @@
  */
 class BSPhoneNumberValidator extends BSValidator {
 	const PATTERN = '^[[:digit:]]{2,4}-[[:digit:]]{2,4}-[[:digit:]]{3,4}$';
-	const PATTERN_LOOSE = '^[[:digit:]]{8,12}$';
+	const PATTERN_LOOSE = '^[-[:digit:]]{8,14}$';
 
 	/**
 	 * 対象文字列から電話番号を返す
