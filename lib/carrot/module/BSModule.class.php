@@ -279,6 +279,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function clearRecordID () {
 		$this->user->removeAttribute($this->getRecordIDName());
+		$this->record = null;
 	}
 
 	/**
