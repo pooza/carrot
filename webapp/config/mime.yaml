@@ -5,6 +5,7 @@
 # @version $Id$
 
 types:
+  3gp: video/3gpp
   aac: audio/x-aac
   aif: audio/x-aiff
   aifc: audio/x-aiff
@@ -28,6 +29,7 @@ types:
   jpeg: image/jpeg
   js: text/javascript
   json: text/javascript
+  m4p: audio/x-m4p
   mime: message/rfc822
   mov: video/quicktime
   mp3: audio/mpeg

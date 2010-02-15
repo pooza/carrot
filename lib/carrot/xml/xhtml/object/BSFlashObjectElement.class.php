@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSFlashObjectElement extends BSObjectElement {
-	private $flashvars;
+	protected $flashvars;
 
 	/**
 	 * @access public

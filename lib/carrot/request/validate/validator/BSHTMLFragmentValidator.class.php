@@ -65,7 +65,8 @@ class BSHTMLFragmentValidator extends BSValidator {
 				}
 			}
 		} else {
-			if (!$this->getAllowedTags()->isContain($element->getName())) {
+			$tags = $this->getAllowedTags();
+			if (!!$tags->count() && !$tags->isContain($element->getName())) {
 				$this->invalidNode = $element->getName() . '要素';
 				return false;
 			}
@@ -90,16 +91,17 @@ class BSHTMLFragmentValidator extends BSValidator {
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
 			$this->allowedTags = new BSArray;
-			$this->allowedTags[] = 'div';
-			$this->allowedTags[] = 'span';
-
-			$tags = $this['allowed_tags'];
-			if (!is_array($tags)) {
-				$tags = BSString::explode(',', $tags);
+			if ($tags = $this['allowed_tags']) {
+				$this->allowedTags[] = 'div';
+				$this->allowedTags[] = 'span';
+	
+				if (!is_array($tags)) {
+					$tags = BSString::explode(',', $tags);
+				}
+				$this->allowedTags->merge($tags);
+				$this->allowedTags->trim();
+				$this->allowedTags->uniquize();
 			}
-			$this->allowedTags->merge($tags);
-			$this->allowedTags->trim();
-			$this->allowedTags->uniquize();
 		}
 		return $this->allowedTags;
 	}
@@ -111,7 +113,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @return boolean 許可されているならTrue
 	 */
 	private function isJavaScriptAllowed () {
-		return ($this['javascript_allowed'] == true);
+		return !!$this['javascript_allowed'];
 	}
 }
 
