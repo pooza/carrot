@@ -60,18 +60,11 @@ class BSCurlHTTP extends BSHTTP {
 	 * リクエスト実行
 	 *
 	 * @param string $path パス
-	 * @access private
+	 * @access protected
 	 * @return BSHTTPResponse レスポンス
 	 */
-	private function execute ($path) {
-		$url = BSURL::getInstance();
-		$url['host'] = $this->getHost();
-		$url['path'] ='/' . ltrim($path, '/');
-		if ($this->isSSL()) {
-			$url['scheme'] = 'https';
-		} else {
-			$url['scheme'] = 'http';
-		}
+	protected function execute ($path) {
+		$url = $this->createURL($path);
 		$this->setAttribute('url', $url->getContents());
 
 		$response = new BSHTTPResponse;
@@ -90,6 +83,25 @@ class BSCurlHTTP extends BSHTTP {
 			);
 		}
 		return $response;
+	}
+
+	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @param string $href パス
+	 * @access protected
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href) {
+		$url = BSURL::getInstance();
+		$url['host'] = $this->getHost();
+		$url['path'] ='/' . ltrim($href, '/');
+		if ($this->isSSL()) {
+			$url['scheme'] = 'https';
+		} else {
+			$url['scheme'] = 'http';
+		}
+		return $url;
 	}
 
 	/**
