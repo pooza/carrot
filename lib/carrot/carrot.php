@@ -133,7 +133,7 @@ if (BS_DEBUG) {
 	BSController::getInstance()->dispatch();
 } else {
 	if (defined('E_DEPRECATED')) {
-		error_reporting(error_reporting() ^ E_DEPRECATED);
+		error_reporting(error_reporting() & ~E_DEPRECATED);
 	}
 	ini_set('display_errors', 0);
 	try {
