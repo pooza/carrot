@@ -76,11 +76,10 @@ class BSCurlHTTP extends BSHTTP {
 		$response->setContents($contents);
 
 		if (!$response->validate()) {
-			throw new BSHTTPException(
-				'不正なレスポンスです。 (%d %s)',
-				$response->getStatus(),
-				$response->getError()
-			);
+			$message = new BSStringFormat('不正なレスポンスです。 (%d %s)');
+			$message[] = $response->getStatus();
+			$message[] = $response->getError();
+			throw new BSHTTPException($message);
 		}
 		return $response;
 	}
@@ -92,7 +91,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @access protected
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href) {
+	protected function createRequestURL ($href) {
 		$url = BSURL::getInstance();
 		$url['host'] = $this->getHost();
 		$url['path'] ='/' . ltrim($href, '/');
