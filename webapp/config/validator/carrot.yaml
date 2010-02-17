@@ -81,6 +81,8 @@ longtext:
     max: 65536
 movie:
   class: BSMovieValidator
+music:
+  class: BSMusicValidator
 number:
   class: BSNumberValidator
 password:

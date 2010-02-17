@@ -70,6 +70,35 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	/**
+	 * script要素を返す
+	 *
+	 * @access public
+	 * @param BSGeocodeEntry $geocode ジオコード
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSDivisionElement
+	 * @static
+	 */
+	static public function getScriptElement (BSGeocodeEntry $geocode, BSParameterHolder $params) {
+		$element = new BSDivisionElement;
+		$inner = $element->addElement(new BSDivisionElement);
+		$script = $element->addElement(new BSScriptElement);
+
+		$inner->setID($params['id']);
+		$inner->setStyle('width', $params['width']);
+		$inner->setStyle('height', $params['height']);
+		$inner->setBody('Loading...');
+
+		$statement = 'actions.onload.push(function(){handleGoogleMaps($(%s), %f, %f);});';
+		$statement = new BSStringFormat($statement);
+		$statement[] = BSJavaScriptUtility::quote($params['id']);
+		$statement[] = $geocode['lat'];
+		$statement[] = $geocode['lng'];
+		$script->setBody($statement->getContents());
+
+		return $element;
+	}
+
+	/**
 	 * サイトを直接開くURLを返す
 	 *
 	 * @access public
