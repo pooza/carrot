@@ -111,8 +111,8 @@ abstract class BSMobileCarrier {
 	 */
 	public function getMPC () {
 		if (!$this->mpc) {
-			BSUtility::includeFile('MPC/MobilePictogramConverter');
-			BSUtility::includeFile('MPC/Carrier/' . BSString::toLower($this->getMPCCode()));
+			require_once('MPC/MobilePictogramConverter.php');
+			require_once('MPC/Carrier/' . BSString::toLower($this->getMPCCode())) . '.php';
 			$class = 'MPC_' . $this->getMPCCode();
 			$this->mpc = new $class;
 			$this->mpc->setFromCharset('SJIS');
