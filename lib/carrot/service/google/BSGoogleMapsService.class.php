@@ -88,8 +88,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$inner->setStyle('height', $params['height']);
 		$inner->setBody('Loading...');
 
-		$statement = 'actions.onload.push(function(){handleGoogleMaps($(%s), %f, %f);});';
-		$statement = new BSStringFormat($statement);
+		$statement = new BSStringFormat('handleGoogleMaps($(%s), %f, %f);');
 		$statement[] = BSJavaScriptUtility::quote($params['id']);
 		$statement[] = $geocode['lat'];
 		$statement[] = $geocode['lng'];
