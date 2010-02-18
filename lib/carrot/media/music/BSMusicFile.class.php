@@ -22,7 +22,18 @@ class BSMusicFile extends BSMediaFile {
 		$this->attributes['width'] = BS_MUSIC_MP3_PLAYER_WIDTH;
 		$this->attributes['height'] = BS_MUSIC_MP3_PLAYER_HEIGHT;
 		$this->attributes['height_full'] = $this->attributes['height'];
-		$this->attributes['type'] = $this->analyzeMediaType('Audio');
+		$this->attributes['type'] = $this->analyzeMediaTypes()->getIterator()->getFirst();
+	}
+
+	/**
+	 * FFmpegの出力からメディアタイプを調べ、候補一覧を返す
+	 *
+	 * @access protected
+	 * @param string $track トラック名。 (Video|Audio)
+	 * @return BSArray メディアタイプ
+	 */
+	protected function analyzeMediaTypes ($track = 'Audio') {
+		return parent::analyzeMediaTypes($track);
 	}
 
 	/**

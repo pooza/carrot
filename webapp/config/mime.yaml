@@ -29,7 +29,6 @@ types:
   jpeg: image/jpeg
   js: text/javascript
   json: text/javascript
-  m4p: audio/x-m4p
   mime: message/rfc822
   mov: video/quicktime
   mp3: audio/mpeg
@@ -56,6 +55,9 @@ types:
   tpl:
   ttf: application/x-truetype-font
   txt: text/plain
+  wma: audio/x-ms-wma
+  wmav1: audio/x-ms-wma
+  wmav2: audio/x-ms-wma
   wav: audio/x-wav
   wmv: video/x-ms-wmv
   wmv1: video/x-ms-wmv
