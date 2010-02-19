@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.55
+  ver: 2.3.56
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -106,7 +106,7 @@ movie:
   flv:
     player:
       height: 24
-      href: /carrotlib/swf/flowplayer-3.1.4.swf
+      href: /carrotlib/swf/flowplayer-3.1.5.swf
   wmv:
     player:
       clsid: 6BF52A52-394A-11d3-B153-00C04F79FAA6
