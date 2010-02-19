@@ -112,10 +112,12 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	protected function getScriptElement (BSParameterHolder $params) {
 		$element = new BSScriptElement;
-		$body = new BSStringFormat('flowplayer(%s, {src:%s, wmode:%s}, %s);');
+		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
-		$body[] = BSJavaScriptUtility::quote(BS_MOVIE_FLV_PLAYER_HREF);
-		$body[] = BSJavaScriptUtility::quote('transparent');
+		$body[] = BSJavaScriptUtility::quote(array(
+			'src' => BS_MOVIE_FLV_PLAYER_HREF,
+			'wmode' => 'transparent',
+		));
 		$body[] = $this->getPlayerConfig($params);
 		$element->setBody($body->getContents());
 		return $element;

@@ -7,7 +7,7 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
-# $Revision: 1.12 $ - $Author: eldy $ - $Date: 2006/05/06 02:54:48 $
+# $Revision: 1.16 $ - $Author: eldy $ - $Date: 2008/11/15 16:03:42 $
 
 
 # <-----
@@ -25,7 +25,8 @@ if (!eval ('require "Geo/IP.pm";')) {
 	}
 }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -153,7 +154,9 @@ sub Init_geoip_region_maxmind {
    	my ($mode,$datafile)=split(/\s+/,$InitParams,2);
    	if (! $datafile) { $datafile="GeoIPRegion.dat"; }
 	if ($type eq 'geoippureperl') {
-		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_MEMORY_CACHE(); }
+		# With pureperl with always use GEOIP_STANDARD.
+		# GEOIP_MEMORY_CACHE seems to fail with ActiveState
+		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 		else { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 	} else {
 		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::GEOIP_MEMORY_CACHE(); }
@@ -364,7 +367,7 @@ sub ShowInfoHost_geoip_region_maxmind {
     	if ($NewLinkParams) { $NewLinkParams="${NewLinkParams}&"; }
 
 		print "<th width=\"80\">";
-        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_region_maxmind"):"$PROG$StaticLinks.plugin_geoip_region_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br>Region</a>";
+        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_region_maxmind"):"$PROG$StaticLinks.plugin_geoip_region_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br />Region</a>";
         print "</th>";
 	}
 	elsif ($param) {
@@ -514,7 +517,7 @@ sub SectionReadHistory_geoip_region_maxmind {
 		}
 		$_=<HISTORY>;
 		chomp $_; s/\r//;
-		@field=split(/\s+/,($xmlold?CleanFromTags($_):$_));
+		@field=split(/\s+/,($xmlold?XMLDecodeFromHisto($_):$_));
 		$countlines++;
 	}
 	until ($field[0] eq 'END_PLUGIN_geoip_region_maxmind' || $field[0] eq "${xmleb}END_PLUGIN_geoip_region_maxmind" || ! $_);

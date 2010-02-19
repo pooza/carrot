@@ -7,13 +7,14 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: None
 #-----------------------------------------------------------------------------
-# $Revision: 1.15 $ - $Author: eldy $ - $Date: 2006/07/29 18:20:49 $
-
+# $Revision: 1.17 $ - $Author: eldy $ - $Date: 2008/11/15 16:03:42 $
+# Modified by ホビット 2009.1.21
 
 # <-----
 # ENTER HERE THE USE COMMAND FOR ALL REQUIRED PERL MODULES.
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -106,11 +107,11 @@ sub AddHTMLBodyHeader_tooltips {
 		# Seul IE en HTML a besoin de code supplémentaire. IE en xhtml est OK
 		if ($BuildReportFormat ne 'xhtml' && $BuildReportFormat ne 'xml') {
 print <<EOF;
-<script language="javascript" type="text/javascript" src="$DirJs/tooltiph.js"></script>
+<script type="text/javascript" src="$DirJs/tooltiph.js"></script>
 EOF
 		} else {
 print <<EOF;
-<script language="javascript" type="text/javascript" src="$DirJs/tooltipx.js"></script>
+<script type="text/javascript" src="$DirJs/tooltipx.js"></script>
 
 EOF
 		}

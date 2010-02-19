@@ -1,5 +1,6 @@
-# French message file (eldy@users.sourceforge.net)
-# $Revision: 1.83 $ - $Date: 2006/08/13 19:47:06 $
+﻿# French message file (eldy@users.sourceforge.net)
+# $Revision: 1.89 $ - $Date: 2009/06/03 19:05:30 $
+PageCode=utf-8
 message0=Inconnu
 message1=Inconnus (IP non résolue)
 message2=Autres
@@ -38,7 +39,7 @@ message34=Versions de MS Internet Explorer
 message35=Dernière mise à jour
 message36=Connexions au site par
 message37=Origine de la connexion
-message38=Adresse directe / Bookmarks
+message38=Adresse directe / Bookmark / Lien dans email...
 message39=Origine inconnue
 message40=Lien depuis un moteur de recherche Internet
 message41=Lien depuis une page externe (autres sites, hors moteurs)
@@ -137,7 +138,7 @@ message133=Période d'analyse
 message134=Extra/Marketing
 message135=Résolution écran
 message136=Attaques Worm/Virus
-message137=Ajout aux favoris (indicateur relatif)
+message137=Hits avec succès sur favicon.ico
 message138=Jours du mois
 message139=Divers
 message140=Navigateurs avec support Java actif
@@ -173,3 +174,8 @@ message169=Généré par
 message170=plugins
 message171=Regions
 message172=Villes
+message173=Versions Opera
+message174=Versions Safari
+message175=Versions Chrome
+message176=Versions Konqueror	
+

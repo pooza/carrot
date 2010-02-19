@@ -8,8 +8,8 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
-# $Revision: 1.24 $ - $Author: eldy $ - $Date: 2006/05/06 02:51:34 $
-# Modified by makoto_hobbit 2007.1.41
+# $Revision: 1.26 $ - $Author: eldy $ - $Date: 2009/09/05 14:42:49 $
+# Modified by makoto_hobbit 2009.9.7
 
 
 # <-----
@@ -27,7 +27,8 @@ if (!eval ('require "Geo/IP.pm";')) {
 	}
 }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -92,6 +93,7 @@ sub Init_geoip {
 sub GetCountryCodeByAddr_geoip {
     my $param="$_[0]";
 	# <-----
+	if (! $param) { return ''; }
 	my $res=$TmpDomainLookup{$param}||'';
 	if (! $res) {
 		$res=lc($gi->country_code_by_addr($param)) || 'unknown';
@@ -112,6 +114,7 @@ sub GetCountryCodeByAddr_geoip {
 sub GetCountryCodeByName_geoip {
     my $param="$_[0]";
 	# <-----
+	if (! $param) { return ''; }
 	my $res=$TmpDomainLookup{$param}||'';
 	if (! $res) {
 		$res=lc($gi->country_code_by_name($param)) || 'unknown';
@@ -136,6 +139,7 @@ sub GetCountryCodeByName_geoip {
 sub ShowInfoHost_geoip {
     my $param="$_[0]";
 	# <-----
+	if (! $param) { return ''; }
 	if ($param eq '__col__') {
 	        print "<col width=\"80\"$endtag";
 	} elsif ($param eq '__title__') {

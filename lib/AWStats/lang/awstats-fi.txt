@@ -1,6 +1,7 @@
 # Finnish message file (skyde@welho.com)
 # Original by (zebi@kanetti.com)
-# $Revision: 1.3 $ - $Date: 2004/06/07 11:09:33 $
+# $Revision: 1.4 $ - $Date: 2008/10/05 11:01:31 $
+PageCode=iso-8859-1
 message0=Tuntematon
 message1=Tuntematon (Selvittämätön IP)
 message2=Muut
@@ -159,7 +160,7 @@ message154=Tässä luetellut koodit luetaan "ei näytetty" -liikenteeksi, eikä 
 message155=Rypäs
 message156=Tässä luetellut robotit luetaan "ei näytetty" -liikenteeksi, eikä niitä ole näinollen sisällytetty muihin tilastoihin.
 message157=Luvut + -merkin jälkeen ovat onnistuneita osumia "robots.txt"-tiedostoihin.
-message158=Tässä luetellut madot luetaan "ei näytetty" -liikenteeksi, eikä niitä ole näinollen sisällytetty muihin tilastoihin.
+message158=Tässä luetellut madot luetaan "ei näytetty" -liikenteeksi, eikä niitä ole näinollen sisällytetty muihin tilastoihin. 
 message159="Ei näytetty"-liikenne sisältää hakurobottien, matojen ja poikkeavien HTTP-tilakoodien aiheuttaman liikenteen.
 message160=Näytetty liikenne
 message161=Ei näytetty liikenne

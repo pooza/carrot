@@ -6,7 +6,7 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
-# $Revision: 1.9 $ - $Author: eldy $ - $Date: 2006/05/06 02:54:48 $
+# $Revision: 1.14 $ - $Author: eldy $ - $Date: 2008/11/15 16:03:42 $
 
 
 # <-----
@@ -24,7 +24,8 @@ if (!eval ('require "Geo/IP.pm";')) {
 	}
 }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -67,13 +68,14 @@ sub Init_geoip_isp_maxmind {
    	my ($mode,$datafile)=split(/\s+/,$InitParams,2);
    	if (! $datafile) { $datafile="GeoIPIsp.dat"; }
 	if ($type eq 'geoippureperl') {
-		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_MEMORY_CACHE(); }
+		# With pureperl with always use GEOIP_STANDARD.
+		# GEOIP_MEMORY_CACHE seems to fail with ActiveState
+		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 		else { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 	} else {
 		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::GEOIP_MEMORY_CACHE(); }
 		else { $mode=Geo::IP::GEOIP_STANDARD(); }
 	}
-	%TmpDomainLookup=();
 	debug(" Plugin geoip_isp_maxmind: GeoIP initialized type=$type mode=$mode",1);
 	if ($type eq 'geoippureperl') {
 		$geoip_isp_maxmind = Geo::IP::PurePerl->open($datafile, $mode);
@@ -222,7 +224,7 @@ sub ShowInfoHost_geoip_isp_maxmind {
     	if ($NewLinkParams) { $NewLinkParams="${NewLinkParams}&"; }
 
 		print "<th width=\"80\">";
-        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_isp_maxmind"):"$PROG$StaticLinks.plugin_geoip_isp_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br>ISP</a>";
+        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_isp_maxmind"):"$PROG$StaticLinks.plugin_geoip_isp_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br />ISP</a>";
         print "</th>";
 	}
 	elsif ($param) {
@@ -246,7 +248,8 @@ sub ShowInfoHost_geoip_isp_maxmind {
         	}
         	else
         	{
-        		$isp=$geoip_isp_maxmind->isp_by_addr($param) if $geoip_isp_maxmind;
+        		# Function isp_by_addr does not exits, so we use org_by_addr
+        		$isp=$geoip_isp_maxmind->org_by_addr($param) if $geoip_isp_maxmind;
         	}
         	if ($Debug) { debug("  Plugin geoip_isp_maxmind: GetIspByIp for $param: [$isp]",5); }
 		    if ($isp) {
@@ -322,7 +325,8 @@ sub SectionProcessIp_geoip_isp_maxmind {
 	}
 	else
 	{
-		$isp=$geoip_isp_maxmind->isp_by_addr($param) if $geoip_isp_maxmind;
+        # Function isp_by_addr does not exits, so we use org_by_addr
+		$isp=$geoip_isp_maxmind->org_by_addr($param) if $geoip_isp_maxmind;
 	}
 	if ($Debug) { debug("  Plugin geoip_isp_maxmind: GetIspByIp for $param: [$isp]",5); }
     if ($isp) {
@@ -389,7 +393,7 @@ sub SectionReadHistory_geoip_isp_maxmind {
 		}
 		$_=<HISTORY>;
 		chomp $_; s/\r//;
-		@field=split(/\s+/,($xmlold?CleanFromTags($_):$_));
+		@field=split(/\s+/,($xmlold?XMLDecodeFromHisto($_):$_));
 		$countlines++;
 	}
 	until ($field[0] eq 'END_PLUGIN_geoip_isp_maxmind' || $field[0] eq "${xmleb}END_PLUGIN_geoip_isp_maxmind" || ! $_);

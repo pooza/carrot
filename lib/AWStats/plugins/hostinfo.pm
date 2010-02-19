@@ -5,8 +5,8 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: XWhois
 #-----------------------------------------------------------------------------
-# $Revision: 1.17 $ - $Author: eldy $ - $Date: 2005/02/19 13:50:06 $
-# Modified by makoto_hobbit 2005.10.11
+# $Revision: 1.19 $ - $Author: eldy $ - $Date: 2008/11/15 16:03:42 $
+# Modified by makoto_hobbit 2009.1.21
 
 
 # <-----
@@ -15,7 +15,8 @@ push @INC, "${DIR}/plugins";
 if (!eval ('require "Net/XWhois.pm";')) { return $@?"Error: $@":"Error: Need Perl module Net::XWhois"; }
 if (!eval ('require "Digest/MD5.pm";')) { return $@?"Error: $@":"Error: Need Perl module Digest::MD5"; }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -70,7 +71,7 @@ sub AddHTMLBodyHeader_hostinfo {
 
 	print <<EOF;
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 function neww(a,b) {
 var wfeatures="directories=0,menubar=1,status=0,resizable=1,scrollbars=1,toolbar=0,width=$WIDTHINFO,height=$HEIGHTINFO,left=" + eval("(screen.width - $WIDTHINFO)/2") + ",top=" + eval("(screen.height - $HEIGHTINFO)/2");
 EOF

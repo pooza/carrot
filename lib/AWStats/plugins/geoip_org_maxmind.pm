@@ -6,8 +6,8 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
-# $Revision: 1.8 $ - $Author: eldy $ - $Date: 2006/05/06 02:54:48 $
-
+# $Revision: 1.13 $ - $Author: eldy $ - $Date: 2008/11/15 16:03:42 $
+# modified by ホビット 2009/1/26
 
 # <-----
 # ENTER HERE THE USE COMMAND FOR ALL REQUIRED PERL MODULES
@@ -24,7 +24,8 @@ if (!eval ('require "Geo/IP.pm";')) {
 	}
 }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -67,13 +68,14 @@ sub Init_geoip_org_maxmind {
    	my ($mode,$datafile)=split(/\s+/,$InitParams,2);
    	if (! $datafile) { $datafile="GeoIPOrg.dat"; }
 	if ($type eq 'geoippureperl') {
-		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_MEMORY_CACHE(); }
+		# With pureperl with always use GEOIP_STANDARD.
+		# GEOIP_MEMORY_CACHE seems to fail with ActiveState
+		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 		else { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 	} else {
 		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::GEOIP_MEMORY_CACHE(); }
 		else { $mode=Geo::IP::GEOIP_STANDARD(); }
 	}
-	%TmpDomainLookup=();
 	debug(" Plugin geoip_org_maxmind: GeoIP initialized type=$type mode=$mode",1);
 	if ($type eq 'geoippureperl') {
 		$geoip_org_maxmind = Geo::IP::PurePerl->open($datafile, $mode);
@@ -127,13 +129,21 @@ sub AddHTMLGraph_geoip_org_maxmind {
 	if ($Debug) { debug(" Plugin geoip_org_maxmind: AddHTMLGraph $categ $menu $menulink $menutext"); }
 	my $title='Organizations';
 	&tab_head("$title",19,0,'org');
+	print "<col$endtag";
+	if ($ShowISP =~ /P/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowISP =~ /P/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowISP =~ /H/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowISP =~ /H/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowISP =~ /B/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowISP =~ /L/i) { print "<col width=\"120\"$endtag"; }
+	print "\n";
 	print "<tr bgcolor=\"#$color_TableBGRowTitle\"><th>Organizations : ".((scalar keys %_org_h)-($_org_h{'unknown'}?1:0))."</th>";
-	if ($ShowISP =~ /P/i) { print "<th bgcolor=\"#$color_p\" width=\"80\">$Message[56]</th>"; }
-	if ($ShowISP =~ /P/i) { print "<th bgcolor=\"#$color_p\" width=\"80\">$Message[15]</th>"; }
-	if ($ShowISP =~ /H/i) { print "<th bgcolor=\"#$color_h\" width=\"80\">$Message[57]</th>"; }
-	if ($ShowISP =~ /H/i) { print "<th bgcolor=\"#$color_h\" width=\"80\">$Message[15]</th>"; }
-	if ($ShowISP =~ /B/i) { print "<th bgcolor=\"#$color_k\" width=\"80\">$Message[75]</th>"; }
-	if ($ShowISP =~ /L/i) { print "<th width=\"120\">$Message[9]</th>"; }
+	if ($ShowISP =~ /P/i) { print "<th class=\"colorp\" abbr=\"$Message[56]\">$Message[56]</th>"; }
+	if ($ShowISP =~ /P/i) { print "<th class=\"colorp\" abbr=\"$Message[15]\">$Message[15]</th>"; }
+	if ($ShowISP =~ /H/i) { print "<th class=\"colorp\" abbr=\"$Message[57]\">$Message[57]</th>"; }
+	if ($ShowISP =~ /H/i) { print "<th class=\"colorh\" abbr=\"$Message[15]\">$Message[15]</th>"; }
+	if ($ShowISP =~ /B/i) { print "<th class=\"colork\" abbr=\"$Message[75]\">$Message[75]</th>"; }
+	if ($ShowISP =~ /L/i) { print "<th abbr=\"$Message[9]\">$Message[9]</th>"; }
 	print "</tr>\n";
 	$total_p=$total_h=$total_k=0;
 	my $count=0;
@@ -146,10 +156,10 @@ sub AddHTMLGraph_geoip_org_maxmind {
    		    print "<tr>";
    		    my $org=$key; $org =~ s/_/ /g;
    		    print "<td class=\"aws\">".ucfirst($org)."</td>";
-    		if ($ShowISP =~ /P/i) { print "<td>".($_org_p{$key}?$_org_p{$key}:"&nbsp;")."</td>"; }
-    		if ($ShowISP =~ /P/i) { print "<td>".($_org_p{$key}?"$p_p %":'&nbsp;')."</td>"; }
-    		if ($ShowISP =~ /H/i) { print "<td>".($_org_h{$key}?$_org_h{$key}:"&nbsp;")."</td>"; }
-    		if ($ShowISP =~ /H/i) { print "<td>".($_org_h{$key}?"$p_h %":'&nbsp;')."</td>"; }
+    		if ($ShowISP =~ /P/i) { print "<td>".($_org_p{$key}?$_org_p{$key}:"")."</td>"; }
+    		if ($ShowISP =~ /P/i) { print "<td>".($_org_p{$key}?"$p_p %":'')."</td>"; }
+    		if ($ShowISP =~ /H/i) { print "<td>".($_org_h{$key}?$_org_h{$key}:"")."</td>"; }
+    		if ($ShowISP =~ /H/i) { print "<td>".($_org_h{$key}?"$p_h %":'')."</td>"; }
     		if ($ShowISP =~ /B/i) { print "<td>".Format_Bytes($_org_k{$key})."</td>"; }
     		if ($ShowISP =~ /L/i) { print "<td>".($_org_p{$key}?Format_Date($_org_l{$key},1):'-')."</td>"; }
     		print "</tr>\n";
@@ -178,12 +188,12 @@ sub AddHTMLGraph_geoip_org_maxmind {
 		if ($TotalHits)  { $p_h=int($rest_h/$TotalHits*1000)/10; }
 		print "<tr>";
 		print "<td class=\"aws\"><span style=\"color: #$color_other\">$Message[2]/$Message[0]</span></td>";
-		if ($ShowISP =~ /P/i) { print "<td>".($rest_p?$rest_p:"&nbsp;")."</td>"; }
-   		if ($ShowISP =~ /P/i) { print "<td>".($rest_p?"$p_p %":'&nbsp;')."</td>"; }
-		if ($ShowISP =~ /H/i) { print "<td>".($rest_h?$rest_h:"&nbsp;")."</td>"; }
-   		if ($ShowISP =~ /H/i) { print "<td>".($rest_h?"$p_h %":'&nbsp;')."</td>"; }
+		if ($ShowISP =~ /P/i) { print "<td>".($rest_p?$rest_p:"")."</td>"; }
+   		if ($ShowISP =~ /P/i) { print "<td>".($rest_p?"$p_p %":'')."</td>"; }
+		if ($ShowISP =~ /H/i) { print "<td>".($rest_h?$rest_h:"")."</td>"; }
+   		if ($ShowISP =~ /H/i) { print "<td>".($rest_h?"$p_h %":'')."</td>"; }
 		if ($ShowISP =~ /B/i) { print "<td>".Format_Bytes($rest_k)."</td>"; }
-		if ($ShowISP =~ /L/i) { print "<td>&nbsp;</td>"; }
+		if ($ShowISP =~ /L/i) { print "<td></td>"; }
 		print "</tr>\n";
 	}
 	&tab_end();
@@ -212,17 +222,17 @@ sub ShowInfoHost_geoip_org_maxmind {
     	$NewLinkParams =~ s/(^|&|&amp;)staticlinks(=\w*|$)//i;
     	$NewLinkParams =~ s/(^|&|&amp;)framename=[^&]*//i;
     	my $NewLinkTarget='';
-    	if ($DetailedReportsOnNewWindows) { $NewLinkTarget=" target=\"awstatsbis\""; }
+    	if ($DetailedReportsOnNewWindows) { $NewLinkTarget=""; }
     	if (($FrameName eq 'mainleft' || $FrameName eq 'mainright') && $DetailedReportsOnNewWindows < 2) {
     		$NewLinkParams.="&framename=mainright";
-    		$NewLinkTarget=" target=\"mainright\"";
+    		$NewLinkTarget="";
     	}
     	$NewLinkParams =~ s/(&amp;|&)+/&amp;/i;
     	$NewLinkParams =~ s/^&amp;//; $NewLinkParams =~ s/&amp;$//;
     	if ($NewLinkParams) { $NewLinkParams="${NewLinkParams}&"; }
 
 		print "<th width=\"80\">";
-        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_org_maxmind"):"$PROG$StaticLinks.plugin_geoip_org_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br>Org</a>";
+        print "<a href=\"".($ENV{'GATEWAY_INTERFACE'} || !$StaticLinks?XMLEncode("$AWScript?${NewLinkParams}output=plugin_geoip_org_maxmind"):"$PROG$StaticLinks.plugin_geoip_org_maxmind.$StaticExt")."\"$NewLinkTarget>GeoIP<br$endtagOrg</a>";
         print "</th>";
 	}
 	elsif ($param) {
@@ -286,7 +296,7 @@ sub ShowInfoHost_geoip_org_maxmind {
 		print "</td>";
 	}
 	else {
-		print "<td>&nbsp;</td>";
+		print "<td></td>";
 	}
 	return 1;
 	# ----->
@@ -389,7 +399,7 @@ sub SectionReadHistory_geoip_org_maxmind {
 		}
 		$_=<HISTORY>;
 		chomp $_; s/\r//;
-		@field=split(/\s+/,($xmlold?CleanFromTags($_):$_));
+		@field=split(/\s+/,($xmlold?XMLDecodeFromHisto($_):$_));
 		$countlines++;
 	}
 	until ($field[0] eq 'END_PLUGIN_geoip_org_maxmind' || $field[0] eq "${xmleb}END_PLUGIN_geoip_org_maxmind" || ! $_);

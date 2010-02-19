@@ -6,8 +6,8 @@
 #-----------------------------------------------------------------------------
 # Perl Required Modules: Geo::IP or Geo::IP::PurePerl
 #-----------------------------------------------------------------------------
-# $Revision: 1.20 $ - $Author: eldy $ - $Date: 2006/09/04 06:04:04 $
-
+# $Revision: 1.26 $ - $Author: eldy $ - $Date: 2008/11/29 18:10:00 $
+# modified by ホビット 2009/1/26
 
 # <-----
 # ENTER HERE THE USE COMMAND FOR ALL REQUIRED PERL MODULES
@@ -24,7 +24,8 @@ if (!eval ('require "Geo/IP.pm";')) {
 	}
 }
 # ----->
-use strict;no strict "refs";
+#use strict;
+no strict "refs";
 
 
 
@@ -1156,7 +1157,7 @@ my %regall=(
 "ET_52","Sumale",
 "ET_53","Tigray",
 "ET_54","YeDebub Biheroch Bihereseboch na Hizboch",
-"FI_01","Åland",
+"FI_01","Iland",
 "FI_06","Lapland",
 "FI_08","Oulu",
 "FI_13","Southern Finland",
@@ -2123,7 +2124,7 @@ my %regall=(
 "KZ_01","Almaty",
 "KZ_02","Almaty City",
 "KZ_03","Aqmola",
-"KZ_04","Aqtöbe",
+"KZ_04","Aqtebe",
 "KZ_05","Astana",
 "KZ_06","Atyrau",
 "KZ_07","West Kazakhstan",
@@ -2244,21 +2245,21 @@ my %regall=(
 "LV_07","Daugavpils",
 "LV_08","Dobeles",
 "LV_09","Gulbenes",
-"LV_10","Jékabpils",
+"LV_10","Jekabpils",
 "LV_11","Jelgava",
 "LV_12","Jelgavas",
 "LV_13","Jurmala",
-"LV_14","Kráslavas",
+"LV_14","Krelavas",
 "LV_15","Kuldigas",
-"LV_16","Liepája",
-"LV_17","Liepájas",
+"LV_16","Liepeja",
+"LV_17","Liepejas",
 "LV_18","Limbazu",
 "LV_19","Ludzas",
 "LV_20","Madonas",
 "LV_21","Ogres",
 "LV_22","Preilu",
-"LV_23","Rézekne",
-"LV_24","Rézeknes",
+"LV_23","Rezekne",
+"LV_24","Rezeknes",
 "LV_25","Riga",
 "LV_26","Rigas",
 "LV_27","Saldus",
@@ -4288,7 +4289,9 @@ sub Init_geoip_city_maxmind {
    	my ($mode,$datafile)=split(/\s+/,$InitParams,2);
    	if (! $datafile) { $datafile="GeoIPCity.dat"; }
 	if ($type eq 'geoippureperl') {
-		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_MEMORY_CACHE(); }
+		# With pureperl with always use GEOIP_STANDARD.
+		# GEOIP_MEMORY_CACHE seems to fail with ActiveState
+		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 		else { $mode=Geo::IP::PurePerl::GEOIP_STANDARD(); }
 	} else {
 		if ($mode eq '' || $mode eq 'GEOIP_MEMORY_CACHE')  { $mode=Geo::IP::GEOIP_MEMORY_CACHE(); }
@@ -4347,17 +4350,25 @@ sub AddHTMLGraph_geoip_city_maxmind {
 
 	if ($Debug) { debug(" Plugin geoip_city_maxmind: AddHTMLGraph $categ $menu $menulink $menutext"); }
 	my $title="GeoIP Cities";
-	&tab_head($title,19,0,'cities');
-	print "<tr bgcolor=\"#$color_TableBGRowTitle\">";
-	print "<th>".$Message[148]."</th>";
-	print "<th>".$Message[171]."</th>";
-	print "<th>".$Message[172].": ".((scalar keys %_city_h)-($_city_h{'unknown'}?1:0))."</th>";
-	if ($ShowCities =~ /P/i) { print "<th bgcolor=\"#$color_p\" width=\"80\">$Message[56]</th>"; }
-	if ($ShowCities =~ /P/i) { print "<th bgcolor=\"#$color_p\" width=\"80\">$Message[15]</th>"; }
-	if ($ShowCities =~ /H/i) { print "<th bgcolor=\"#$color_h\" width=\"80\">$Message[57]</th>"; }
-	if ($ShowCities =~ /H/i) { print "<th bgcolor=\"#$color_h\" width=\"80\">$Message[15]</th>"; }
-	if ($ShowCities =~ /B/i) { print "<th bgcolor=\"#$color_k\" width=\"80\">$Message[75]</th>"; }
-	if ($ShowCities =~ /L/i) { print "<th width=\"120\">$Message[9]</th>"; }
+	&tab_head($title,19,0,'CITIES');
+	print "<col span=\"3\"$endtag";
+	if ($ShowCities =~ /P/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowCities =~ /P/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowCities =~ /H/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowCities =~ /H/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowCities =~ /B/i) { print "<col width=\"80\"$endtag"; }
+	if ($ShowCities =~ /L/i) { print "<col width=\"120\"$endtag"; }
+	print "\n";
+	print "<tr class=\"colortab\">";
+	print "<th abbr=\"$Message[148]\">".$Message[148]."</th>";
+	print "<th abbr=\"$Message[148]\">".$Message[171]."</th>";
+	print "<th abbr=\"$Message[148]\">".$Message[172].": ".((scalar keys %_city_h)-($_city_h{'unknown'}?1:0))."</th>";
+	if ($ShowCities =~ /P/i) { print "<th class=\"colorp\" abbr=\"$Message[56]\">$Message[56]</th>"; }
+	if ($ShowCities =~ /P/i) { print "<th class=\"colorp\" abbr=\"$Message[15]\">$Message[15]</th>"; }
+	if ($ShowCities =~ /H/i) { print "<th class=\"colorh\" abbr=\"$Message[57]\">$Message[57]</th>"; }
+	if ($ShowCities =~ /H/i) { print "<th class=\"colorh\" abbr=\"$Message[15]\">$Message[15]</th>"; }
+	if ($ShowCities =~ /B/i) { print "<th class=\"colork\" abbr=\"$Message[75]\">$Message[75]</th>"; }
+	if ($ShowCities =~ /L/i) { print "<th abbr=\"$Message[9]\">$Message[9]</th>"; }
 	print "</tr>\n";
 	$total_p=$total_h=$total_k=0;
 	my $count=0;
@@ -4386,7 +4397,7 @@ sub AddHTMLGraph_geoip_city_maxmind {
    		    print "<td class=\"aws\">".$DomainsHashIDLib{$countrycode}."</td>";
    		    my $regionlib=RegionName($countrycode, $regioncode);
    		    print "<td class=\"aws\">".($regionlib?$regionlib:'&nbsp;')."</td>";
-   		    print "<td class=\"aws\">".ucfirst($city)."</td>";
+   		    print "<td class=\"aws\">".ucfirst(EncodeToPageCode($city))."</td>";
     		if ($ShowCities =~ /P/i) { print "<td>".($_city_p{$key}?$_city_p{$key}:"&nbsp;")."</td>"; }
     		if ($ShowCities =~ /P/i) { print "<td>".($_city_p{$key}?"$p_p %":'&nbsp;')."</td>"; }
     		if ($ShowCities =~ /H/i) { print "<td>".($_city_h{$key}?$_city_h{$key}:"&nbsp;")."</td>"; }
@@ -4453,9 +4464,10 @@ sub GetCountryCodeByAddr_geoip_city_maxmind {
 	        $country=$record[0] if @record;
 	    	$res=lc($country) || 'unknown';
 			$TmpDomainLookup{$param}=$res;
-	    	if ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByAddr for $param: [$res]",5); }
+	    	if ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByAddr for $param: [$res]",5); }
+; }
 		}
-		elsif ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByAddr for $param: Already resolved to [$res]",5); }
+		elsif ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByAddr for $param: Already resolved to [$res]",5); }
 	}
 	else
 	{
@@ -4466,9 +4478,9 @@ sub GetCountryCodeByAddr_geoip_city_maxmind {
 	        $country=$record->country if $record;
 	    	$res=lc($country) || 'unknown';
 			$TmpDomainLookup{$param}=$res;
-	    	if ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByAddr for $param: [$res]",5); }
+	    	if ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByAddr for $param: [$res]",5); }
 		}
-		elsif ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByAddr for $param: Already resolved to [$res]",5); }
+		elsif ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByAddr for $param: Already resolved to [$res]",5); }
 	}
 	# ----->
 	return $res;
@@ -4493,9 +4505,10 @@ sub GetCountryCodeByName_geoip_city_maxmind {
 	        $country=$record[0] if @record;
 	    	$res=lc($country) || 'unknown';
 			$TmpDomainLookup{$param}=$res;
-	    	if ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByName for $param: [$res]",5); }
+	    	if ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByName for $param: [$res]",5); }
+; }
 		}
-		elsif ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByName for $param: Already resolved to [$res]",5); }
+		elsif ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByName for $param: Already resolved to [$res]",5); }
 	}
 	else
 	{
@@ -4506,9 +4519,9 @@ sub GetCountryCodeByName_geoip_city_maxmind {
 	        $country=$record->country if $record;
 	    	$res=lc($country) || 'unknown';
 			$TmpDomainLookup{$param}=$res;
-	    	if ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByName for $param: [$res]",5); }
+	    	if ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByName for $param: [$res]",5); }
 		}
-		elsif ($Debug) { debug("  Plugin geoip_region_maxmind: GetCountryCodeByName for $param: Already resolved to [$res]",5); }
+		elsif ($Debug) { debug("  Plugin geoip_city_maxmind: GetCountryCodeByName for $param: Already resolved to [$res]",5); }
 	}
 	# ----->
 	return $res;
@@ -4587,7 +4600,7 @@ sub ShowInfoHost_geoip_city_maxmind {
 #		    else { print "<span style=\"color: #$color_other\">$Message[0]</span>"; }
 #		    print "</td>";
 			print "<td>";
-		    if ($city) { print "$city"; }
+		    if ($city) { print EncodeToPageCode($city); }
 		    else { print "<span style=\"color: #$color_other\">$Message[0]</span>"; }
 		    print "</td>";
 		}
@@ -4623,7 +4636,7 @@ sub ShowInfoHost_geoip_city_maxmind {
 #		    else { print "<span style=\"color: #$color_other\">$Message[0]</span>"; }
 #		    print "</td>";
 			print "<td>";
-		    if ($city) { print "$city"; }
+		    if ($city) { print EncodeToPageCode($city); }
 		    else { print "<span style=\"color: #$color_other\">$Message[0]</span>"; }
 			print "</td>";
 		}
@@ -4777,7 +4790,7 @@ sub SectionReadHistory_geoip_city_maxmind {
 		}
 		$_=<HISTORY>;
 		chomp $_; s/\r//;
-		@field=split(/\s+/,($xmlold?CleanFromTags($_):$_));
+		@field=split(/\s+/,($xmlold?XMLDecodeFromHisto($_):$_));
 		$countlines++;
 	}
 	until ($field[0] eq 'END_PLUGIN_geoip_city_maxmind' || $field[0] eq "${xmleb}END_PLUGIN_geoip_city_maxmind" || ! $_);
@@ -4808,14 +4821,14 @@ sub SectionWriteHistory_geoip_city_maxmind {
 		#my $page=$_city_p{$_}||0;
 		#my $bytes=$_city_k{$_}||0;
 		#my $lastaccess=$_city_l{$_}||'';
-		print HISTORYTMP "${xmlrb}$_${xmlrs}0${xmlrs}", $_city_h{$_}, "${xmlrs}0${xmlrs}0${xmlre}\n"; next;
+		print HISTORYTMP "${xmlrb}".XMLEncodeForHisto($_)."${xmlrs}0${xmlrs}", $_city_h{$_}, "${xmlrs}0${xmlrs}0${xmlre}\n"; next;
 	}
 	foreach (keys %_city_h) {
 		if ($keysinkeylist{$_}) { next; }
 		#my $page=$_city_p{$_}||0;
 		#my $bytes=$_city_k{$_}||0;
 		#my $lastaccess=$_city_l{$_}||'';
-		print HISTORYTMP "${xmlrb}$_${xmlrs}0${xmlrs}", $_city_h{$_}, "${xmlrs}0${xmlrs}0${xmlre}\n"; next;
+		print HISTORYTMP "${xmlrb}".XMLEncodeForHisto($_)."${xmlrs}0${xmlrs}", $_city_h{$_}, "${xmlrs}0${xmlrs}0${xmlre}\n"; next;
 	}
 	print HISTORYTMP "${xmleb}END_PLUGIN_geoip_city_maxmind${xmlee}\n";
 	# ----->

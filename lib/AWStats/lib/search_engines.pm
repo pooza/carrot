@@ -5,8 +5,8 @@
 # SearchEnginesHashLib.
 # An entry if known in SearchEnginesKnownUrl is also welcome.
 #------------------------------------------------------------------------------
-# $Revision: 1.43 $ - $Author: eldy $ - $Date: 2007/06/06 17:14:21 $
-# Modified by ホビット 2007/9/27
+# $Revision: 1.50 $ - $Author: eldy $ - $Date: 2009/09/12 11:06:54 $
+# Modified by ホビット 2009/10/14
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
 #            added minor italian search engines
 #                  arianna http://arianna.libero.it/
@@ -158,40 +158,77 @@
 # Added by Ryu 2007.01.06
 '66\.102\.11\.104',
 '64\.233\.179\.99',
-'209\.85\.(129|135|165)\.104',
+'72\.14\.235\.132',
+'74\.125\.(77|95|153|155)\.132',
+'74\.125\.113\.104',
+'209\.85\.(129|135|165|173|175|207)\.104',
+'209\.85\.(135|173|175|229)\.132',
 '216\.239\.(37\.99|39\.104|41\.104|63\.104)',
+'www\.answers\.com',
+'search\.allabout\.co\.jp',
+'search\.aol\.jp',
+'search\.auone\.jp',
+'avabox\.jp',
 'biglobe\.ne\.jp',
+'search\.cashback\.ne\.jp',
+'search\.kbg\.jp',
+'\.cometsystems\.com',
+'\.cybozu\.net',
 'cache\.yahoofs\.jp',
-'cgi\.search\.biglobe\.ne\.jp',
 'clusty\.jp',
+'eniro\.fi',
 'excite\.co\.jp',
 'excite-cache\.jp',
+'ezsch\.ezweb\.ne\.jp',
+'fc2\.super-search\.jp',
 'find\.x0\.to',
 'search\.fresheye\.com',
 'dir\.fresheye\.com',
 'goo\.ne\.jp',
 'google\.co\.jp',
+'search\.idol-photo\.com',
+'iug\.newsing\.jp',
+'search\.1pa2\.info',
+'search\.juno\.com',
+'jword\.jp',
+'s\.luna\.tv',
 #'msnscache\.com',
-'mysearch\.myway\.com',
+'www\.marsflag\.com',
+'myway\.com',
 'naver\.co\.jp',
-'search\.biglobe\.ne\.jp',
+'naver\.com',
+'search\.lifemile\.jp',
+'search\.50pt\.jp',
+'search\.point-box\.jp',
+'sitesearch\.nikkei\.co\.jp',
+'search\.okodukai\.jp',
 'search\.jp\.aol\.com',
 'search\.livedoor\.com',
 'search\.nifty\.com',
 'search\.msn\.co\.jp',
 'search\.odn\.ne\.jp',
 'search-hp\.com',
+'olane\.jp',
+'picsearch\.com',
+'picsearch\.sk',
+'www\.prsearch\.',
+'websearch\.rakuten\.co\.jp',
 'm\.technorati\.jp',
 'www\.technorati\.jp',
 'technorati\.jp',
 'technorati\.com',
 'tocc\.co\.jp',
+'www\.baidu\.jp',
+'image\.baidu\.jp',
 'www\.ceek\.jp',
+'www\.dir\.bg',
 'www\.infoseek\.co\.jp',
 'www\.megite\.com',
 'www\.seochat\.com',
+'www\.websearch\.com',
 'www\.yahoogle\.jp',
 # Major international search engines
+'google\.[\w.]+/products',
 'base\.google\.',
 'froogle\.google\.',
 'groups\.google\.',
@@ -209,6 +246,7 @@
 '72\.14\.2[0-9]{2}\.104',
 'msn\.',
 'live\.com',
+'bing\.',
 'voila\.',
 'mindset\.research\.yahoo',
 'yahoo\.','(66\.218\.71\.225|216\.109\.117\.135|216\.109\.125\.130|66\.218\.69\.11)',
@@ -322,7 +360,15 @@
 # Minor brazilian search engines
 'engine\.exe', 'miner\.bol\.com\.br',
 # Minor chinese search engines
-'baidu\.com','search\.sina\.com','search\.sohu\.com', 'sogou\.com',
+'\.baidu\.com',     # baidu search portal
+'\.vnet\.cn',       # powered by MSN
+'\.soso\.com',      # powered by Google
+'\.sogou\.com',     # powered by Sohu
+'\.3721\.com',      # powered by Yahoo!
+'iask\.com',        # powered by Sina
+'\.accoona\.com',   # Accoona
+'\.163\.com',       # powered by Google
+'\.zhongsou\.com',  # zhongsou search portal
 # Minor czech search engines
 'atlas\.cz','seznam\.cz','quick\.cz','centrum\.cz','jyxo\.(cz|com)','najdi\.to','redbox\.cz',
 # Minor danish search-engines
@@ -371,7 +417,9 @@
 # Minor Portuguese search engines
 'sapo\.pt',
 # Minor swiss search engines
-'search\.ch', 'search\.bluewin\.ch'
+'search\.ch', 'search\.bluewin\.ch',
+# Minor Croatian, Serbian, Macedonian, Bosnian and Herzegovinian search engines
+'pogodak\.'
 );
 @SearchEnginesSearchIDOrder_listgen=(
 # Generic search engines
@@ -396,8 +444,7 @@
 'infoseek\.co\.jp'=>'at\.imfoseek\.co\.jp',
 'googlee\.'=>'mail\.googlee\.',
 'googlee\.'=>'translate\.googlee\.',
-'goo\.ne\.jp'=>'members\.goo\.ne\.jp',
-'goo\.ne\.jp'=>'bsearch\.goo\.ne\.jp'
+'goo\.ne\.jp'=>'members\.goo\.ne\.jp'
 );
 
 
@@ -409,40 +456,77 @@
 # Added by Ryu 2007.01.06
 '66\.102\.11\.104','googlejapan',
 '64\.233\.179\.99','googlejapan',
-'209\.85\.(129|135|165)\.104','google',
+'72\.14\.235\.132','google',
+'74\.125\.(77|95|153|155)\.132','google',
+'74\.125\.113\.104','google',
+'209\.85\.(129|135|165|173|175|207)\.104','google',
+'209\.85\.(135|173|175|229)\.132','google',
 '216\.239\.(37\.99|39\.104|41\.104|63\.104)','googlejapan',
+'www\.answers\.com','answers',
+'search\.allabout\.co\.jp','allabout',
+'search\.auone\.jp','auone',
+'avabox\.jp','avabox',
 'biglobe\.ne\.jp','biglobe',
+'search\.cashback\.ne\.jp','cashback',
+'search\.kbg\.jp','kbg',
+'\.cometsystems\.com','cometsystems',
+'\.cybozu\.net','cybozu',
 'cache\.yahoofs\.jp','yahoocache',
-'cgi\.search\.biglobe\.ne\.jp','biglobe',
 'clusty\.jp','clustyjp',
+'eniro\.fi','eniro',
 'excite\.co\.jp','excitejapan',
 'excite-cache\.jp','excitejapan',
+'ezsch\.ezweb\.ne\.jp','ezweb',
+'fc2\.super-search\.jp','fc2',
 'find\.x0\.to','asamasearch',
 'search\.fresheye\.com','fresheye',
 'dir\.fresheye\.com','fresheyedir',
 'goo\.ne\.jp','goo',
 'google\.co\.jp','google',
+'search\.idol-photo\.com','idolphoto',
+'iug\.newsing\.jp','iug',
+'search\.1pa2\.info','1pa2',
+'search\.juno\.com','juno',
+'jword\.jp','jword',
+'s\.luna\.tv','lunascape',
 #'msnscache\.com','msn_cache',
-'mysearch\.myway\.com','myway',
-'naver\.co\.jp','naver',
-'search\.biglobe\.ne\.jp','biglobe',
+'www\.marsflag\.com','marsflag',
+'myway\.com','myway',
+'naver\.co\.jp','naverjp',
+'naver\.com','navercom',
+'search\.lifemile\.jp','lifemile',
+'search\.50pt\.jp','50pt',
+'search\.point-box\.jp','pointbox',
+'sitesearch\.nikkei\.co\.jp','nikkei',
+'search\.okodukai\.jp','okodukai',
+'search\.aol\.jp','aoljapan',
 'search\.jp\.aol\.com','aoljapan',
 'search\.livedoor\.com','livedoor',
 'search\.nifty\.com','nifty',
 'search\.msn\.co\.jp','msnjapan',
 'search\.odn\.ne\.jp','odn',
 'search-hp\.com','searchhp',
+'olane\.jp','olane',
+'picsearch\.com','picsearchcom',
+'picsearch\.sk','picsearchsk',
+'www\.prsearch\.','prsearch',
+'websearch\.rakuten\.co\.jp','rakuten',
 'm\.technorati\.jp','mtechnoratijp',
 'www\.technorati\.jp','wtechnoratijp',
 'technorati\.jp','technoratijp',
 'technorati\.com','technorati',
 'tocc\.co\.jp','tocc',
+'www\.baidu\.jp','baidujp',
+'image\.baidu\.jp','imagebaidujp',
 'www\.ceek\.jp','ceekjp',
+'www\.dir\.bg','dirbg',
 'www\.infoseek\.co\.jp','infoseek',
 'www\.megite\.com','megite',
 'www\.seochat\.com','seochat',
+'www\.websearch\.com','websearch',
 'www\.yahoogle\.jp','yahoogle',
 # Major international search engines
+'google\.[\w.]+/products','google_products',
 'base\.google\.','google_base',
 'froogle\.google\.','google_froogle',
 'groups\.google\.','google_groups',
@@ -460,6 +544,7 @@
 '72\.14\.2[0-9]{2}\.104','google_cache',
 'msn\.','msn',
 'live\.com','live',
+'bing\.','bing',
 'voila\.','voila',
 'mindset\.research\.yahoo','yahoo_mindset',
 'yahoo\.','yahoo','(66\.218\.71\.225|216\.109\.117\.135|216\.109\.125\.130|66\.218\.69\.11)','yahoo',
@@ -572,10 +657,15 @@
 'engine\.exe','engine',
 'miner\.bol\.com\.br','miner',
 # Minor chinese search engines
-'baidu\.com','baidu',
-'search\.sina\.com','sina',
-'search\.sohu\.com','sohu',
-'sogou\.com','sogou',
+'\.baidu\.com','baidu',
+'iask\.com','iask',
+'\.accoona\.com','accoona',
+'\.3721\.com','3721',
+'\.163\.com','netease',
+'\.soso\.com','soso',
+'\.zhongsou\.com','zhongsou',
+'\.vnet\.cn','vnet',
+'\.sogou\.com','sogou',
 # Minor czech search engines
 'atlas\.cz','atlas',
 'seznam\.cz','seznam',
@@ -698,6 +788,8 @@
 # Minor swiss search engines
 'search\.ch','searchch',
 'search\.bluewin\.ch','bluewin',
+# Minor Croatian, Serbian, Macedonian, Bosnian and Herzegovinian search engines
+'pogodak\.','pogodak',
 # Generic search engines
 'search\..*\.\w+','search'
 );
@@ -708,8 +800,12 @@
 #------------------------------------------------------------------------------
 %SearchEnginesWithKeysNotInQuery=(
 'a9',1,   # www.a9.com/searckey1%20searchkey2
+'answers',1,	# www.answers.com/searckey1%20searchkey2
 'fresheyedir',1,	# dir.fresheye.com/ds/kw/new/searckey1/
+'idolphoto',1,	# search.idol-photo.com/%E3%82%A8%E3%83%AB%E3%83%95/index10.html
+'iug',1,	# iug.newsing.jp/tag/searckey1?...
 'megite',1,	# www.megite.com/discover/searckey1%20searchkey2
+'olane',1,	# olane.jp/keyword/eラーニング/c/8
 'yahoogle',1,   # www.yahoogle.jp/yahoogle-1-searckey1%20searchkey2
 'mtechnoratijp',1,  # m.technorati.jp/search/searckey1+searchkey2
 'wtechnoratijp',1,	# www.technorati.jp/search/searckey1+searchkey2
@@ -724,31 +820,65 @@
 %SearchEnginesKnownUrl=(
 # Japanese Search Engines
 # Added by Ryu 2007.01.06
+'answers','www\.answers\.com\/',
 'asamasearch','q=',
 'askjapan','q=',
+'allabout','qs=',
+'auone','q=',
+'avabox','keyword=',
+'baidujp','wd=',
+'imagebaidujp','word=',
 'biglobe','q=',
+'cashback','keywords=',
+'kbg','extrakey=',
+'cometsystems','qry=',
+'cybozu','(keywords|query)=',
 'ceekjp','q=',
+'dirbg','s=',
 'clustyjp','query=',
+'eniro','q=',
 'excitejapan','search=',
+'ezweb','query=',
+'fc2','search=',
 'fresheye','kw=',
 'fresheyedir','dir\.fresheye\.com\/ds\/kw\/new\/',
 'goo','mt=',
 'googlejapan','(p=|q=cache:[0-9A-Za-z]{12}:|as_p=|as_q=|as_epq=|q=)',
 'infoseek','qt=',
+'idolphoto','photo\.com\/',
+'iug','iug\.newsing\.jp\/tag\/',
+'1pa2','feed=',
+'juno','query=',
+'jword','(name|q)=',
 'livedoor','q=',
+'lunascape','q=',
 'megite','www\.megite\.com\/discover\/',
+'marsflag','key=',
 'myway','searchfor=',
 'msnjapan','(q|mt)=',
-'naver','query=',
-'nifty','text=',
+'naverjp','query=',
+'navercom','query=',
+'lifemile','keywords=',
+'50pt','keywords=',
+'pointbox','keywords=',
+'nikkei','q=',
+'okodukai','q=',
+'aoljapan','(query|query_contain)=',
+'nifty','(text|q)=',
 'odn','querystring=',
+'olane','keyword\/',
 'searchhp','kensaku_ward=',
+'picsearchcom','q=',
+'picsearchsk','q=',
+'prsearch','query=',
+'rakuten','qt=',
 'mtechnoratijp','m\.technorati\.jp\/search\/',
 'wtechnoratijp','www\.technorati\.jp\/(?:search|posts/tag)\/',
 'technoratijp','technorati\.jp\/search\/',
 'technorati','technorati\.com\/(?:tag|posts/tag)\/',
 'tocc','qry=',
 'yahoocache','w=',
+'websearch','qkw=',
 'yahoogle','www\.yahoogle\.jp\/yahoogle-1-',
 # Most common search engines
 'alexa','q=',
@@ -756,6 +886,7 @@
 'altavista','q=',
 'a9','a9\.com\/',
 'dmoz','search=',
+'google_products','(p|q|as_p|as_q)=',
 'google_base','(p|q|as_p|as_q)=',
 'google_froogle','(p|q|as_p|as_q)=',
 'google_groups','group\/', # does not work
@@ -765,6 +896,7 @@
 'lycos','query=',
 'msn','(q|mt)=',
 'live','q=',
+'bing','q=',
 'netscape','search=',
 'tiscali','key=',
 'aol','query=',
@@ -772,7 +904,7 @@
 'voila','(kw|rdata)=',
 'search.com','q=',
 'yahoo_mindset','p=',
-'yahoo','p=',
+'yahoo','(p|kw)=',
 'sympatico', 'query=',
 'excite','search=',
 # Minor international search engines
@@ -867,7 +999,15 @@
 # Minor brazilian search engines
 'engine','p1=', 'miner','q=',
 # Minor chinese search engines
-'baidu','word=', 'sina', 'word=', 'sohu','word=', 'sogou', 'query=',
+'baidu','(wd|word)=',
+'iask','(w|k)=',
+'accoona','qt=',
+'3721','(p|name)=',
+'netease','q=',
+'soso','q=',
+'zhongsou','(word|w)=',
+'sogou', 'query=',
+'vnet','kw=',
 # Minor czech search engines
 'atlas','searchtext=', 'seznam','w=', 'quick','query=', 'centrum','q=', 'jyxo','s=', 'najdi','dotaz=', 'redbox','srch=',
 # Minor danish search engines
@@ -937,7 +1077,9 @@
 'passagen','q=',
 'enirose','q=',
 # Minor swiss search engines
-'searchch', 'q=', 'bluewin', 'qry='
+'searchch', 'q=', 'bluewin', 'qry=',
+# Minor Croatian, Serbian, Macedonian, Bosnian and Herzegovinian search engines
+'pogodak', 'q='
 );
 
 # SearchEnginesKnownUrlTrail
@@ -947,6 +1089,8 @@
 # Japanese Search Engines
 # Added by Hobbit_makoto 2007.01.17
 'fresheyedir','\/',
+'idolphoto','\/index[0-9]+\.html',
+'olane','\/c\/\d',
 'yahoogle','\.html',
 );
 
@@ -961,7 +1105,7 @@
 # If no rules are known, WordsToExtractSearchUrl will be used to search keyword parameter
 # If no rules are known and search in WordsToExtractSearchUrl failed, this will be used to clean URL of not keyword parameters.
 #------------------------------------------------------------------------------
-@WordsToExtractSearchUrl= ('ask=','claus=','general=','key=','kw=','keyword=','keywords=','MT=','p=','q=','qr=','qt=','query=','s=','search=','searchText=','string=','su=','txtsearch=','w=');
+@WordsToExtractSearchUrl= ('tn=','ie=','ask=','claus=','general=','key=','kw=','keyword=','keywords=','MT=','p=','q=','qr=','qt=','query=','s=','search=','searchText=','string=','su=','txtsearch=','w=');
 # Words after "look" are added by Ryu for Japanese Search Engines.
 @WordsToCleanSearchUrl= ('act=','annuaire=','btng=','cat=','categoria=','cfg=','cof=','cou=','count=','cp=','dd=','domain=','dt=','dw=','enc=','exec=','geo=','hc=','height=','hits=','hl=','hq=','hs=','id=','kl=','lang=','loc=','lr=','matchmode=','medor=','message=','meta=','mode=','order=','page=','par=','pays=','pg=','pos=','prg=','qc=','refer=','sa=','safe=','sc=','sort=','src=','start=','style=','stype=','sum=','tag=','temp=','theme=','type=','url=','user=','width=','what=','\\.x=','\\.y=','y=','look=','target=','collection=','showSummary=','perPage=','next=','DB=','OPE=','Max=','base=','submit=','SearchType=','SESSIONID=','QUERYRULE=','DISPLAYMIN=','RELURLSWITCH=','SORT=','start=','direct=','relwd=','lk=','svx=','nh=','internet=','DC=','submit0=','DEST=','where=','CCM=','NRS=','UNI=','UD0=','FRS=','sv=','rf=','oq=','col=','act\.search=');
 
@@ -982,30 +1126,63 @@
 %SearchEnginesHashLib=(
 # Japanese Search Engines
 # Added by Ryu 2006.03.15
+'answers','<a href="http://www.answers.com">Answers.com</a>',
+'allabout','<a href="http://search.allabout.co.jp">All About</a>',
+'auone','<a href="http://search.auone.jp">au one</a>',
+'avabox','<a href="http://avabox.jp">Avabox</a>',
 'googlejapan','<a href="http://www.google.co.jp">Google Japan</a>',
-'biglobe','Biglobe',
+'biglobe','<a href="http://www.biglobe.ne.jp">BIGLOBE</a>',
+'cashback','<a href="http://www.cashback.ne.jp">Cashback Mall</a>',
+'kbg','<a href="http://keitai.biglobe.ne.jp">ケータイBIGLOBE</a>',
+'cometsystems','Comet Systems',
+'cybozu','<a href="http://www.cybozu.net">cybozu.net</a>',
 'aoljapan','<a href="http://search.jp.aol.com">AOL Japan</a>',
 'goo','<a href="http://goo.ne.jp">Goo</a>',
 'nifty','<a href="http://www.nifty.com/search/">Nifty</a>',
-'msnjapan','MSN Japan',
+'msnjapan','<a href="http://jp.msn.com">Microsoft MSN Japan</a>',
 'odn','ODN',
 'clustyjp','<a href="http://clusty.jp">Clusty Japan</a>',
+'eniro','<a href="http://eniro.fi">eniro</a>',
 'excitejapan','Excite Japan',
+'ezweb','<a href="http://www.au.kddi.com/service/ezweb/index.html">ezweb</a>',
 'mtechnoratijp','<a href="http://m.technorati.jp">テクノラティモバイル検索</a>',
 'wtechnoratijp','<a href="http://technorati.jp">テクノラティ検索(WWW)</a>',
 'technoratijp','<a href="http://technorati.jp">テクノラティ検索</a>',
 'technorati','<a href="http://technorati.com">Technorati Search</a>',
+'websearch','<a href="http://www.websearch.com">WebSearch</a>',
 'yahoogle','<a href="http://www.yahoogle.jp">yahoogle</a>',
 #'msn_cache','MSN Cache',
-'myway','MyWay',
-'naver','Naver',
+'marsflag','<a href="http://www.marsflag.com">MARSFLAG</a>',
+'myway','<a href="http://home.myway.com">MyWay</a>',
+'naverjp','<a href="http://www.naver.co.jp">Naver.co.jp</a>',
+'navercom','<a href="http://www.naver.com">Naver.com</a>',
+'nikkei','<a href="http://sitesearch.nikkei.co.jp">Nikkei Net</a>',
+'lifemile','<a href="http://search.lifemile.jp">Life Mile</a>',
+'50pt','<a href="http://search.50pt.jp">50pt</a>',
+'pointbox','<a href="http://search.point-box.jp">Point Box</a>',
+'okodukai','<a href="http://search.okodukai.jp">お小遣いJP</a>',
 'asamasearch','<a href="http://find.x0.to">Asamasearch</a>',
+'fc2','<a href="http://fc2.super-search.jp/">fc2.super-search.jp</a>',
 'fresheye','<a href="http://fresheye.com">Fresheye</a>',
 'fresheyedir','<a href="http://fresheye.com">Fresheye(Dir)</a>',
+'idolphoto','<a href="http://search.idol-photo.com">search.idol-photo.com</a>',
+'iug','<a href="http://iug.newsing.jp">iUG-newsing</a>',
+'1pa2','<a href="http://search.1pa2.info">1pa2</a>',
+'juno','<a href="http://search.juno.com">JUNO</a>',
+'jword','<a href="http://www.jword.jp">Jword</a>',
+'lunascape','<a href="http://s.luna.tv">Lunascape</a>',
 'seochat','SEOChat',
 'tocc','TOCC/Search',
 'searchhp','<a href="http://search-hp.com">Search HP</a>',
+'olane','<a href="http://olane.jp">olane.jp</a>',
+'picsearchcom','<a href="www.picsearch.com">picsearch</a>',
+'picsearchsk','<a href="www.picsearch.sk">picsearch.sk</a>',
+'prsearch','<a href="http://www.prsearch.biz">prsearch</a>',
+'rakuten','<a href="http://www.rakuten.co.jp">楽天</a>',
+'baidujp','<a href="http://www.baidu.jp">baidu.jp</a>',
+'imagebaidujp','<a href="http://image.baidu.jp">image.baidu.jp</a>',
 'ceekjp','<a href="http://www.ceek.jp">CEEK.JP</a>',
+'dirbg','<a href="http://dir.dir.bg">Dir.bg</a>',
 'infoseek','<a href="http://www.infoseek.co.jp">Infoseek</a>',
 'yahoocache','Yahoo Cache',
 'askjapan','Ask Jeeves Japan',
@@ -1016,6 +1193,7 @@
 'altavista','<a href="http://www.altavista.com" title="Search Engine Home Page">AltaVista</a>',
 'a9', '<a href="http://www.a9.com" title="Search Engine Home Page">A9</a>',
 'dmoz','<a href="http://dmoz.org" title="Search Engine Home Page">DMOZ</a>',
+'google_products','<a href="http://www.google.com/products" title="Search Engine Home Page">Google (Products)</a>',
 'google_base','<a href="http://base.google.com" title="Search Engine Home Page">Google (Base)</a>',
 'google_froogle','<a href="http://froogle.google.com" title="Search Engine Home Page">Froogle (Google)</a>',
 'google_groups','<a href="http://groups.google.com" title="Search Engine Home Page">Google (Groups)</a>',
@@ -1023,8 +1201,9 @@
 'google_cache','<a href="http://www.google.com/help/features.html#cached" title="Search Engine Home Page">Google (cache)</a>',
 'google','<a href="http://www.google.com" title="Search Engine Home Page">Google</a>',
 'lycos','<a href="http://www.lycos.com" title="Search Engine Home Page">Lycos</a>',
-'msn','<a href="http://search.msn.com" title="Search Engine Home Page">MSN Search</a>',
-'live','<a href="http://www.live.com" title="Search Engine Home Page">Windows Live</a>',
+'msn','<a href="http://search.msn.com" title="Search Engine Home Page">Microsoft MSN Search</a>',
+'live','<a href="http://www.live.com" title="Search Engine Home Page">Microsoft Windows Live</a>',
+'bing','<a href="http://www.bing.com" title="Search Engine Home Page">Microsoft Bing</a>',
 'netscape','<a href="http://www.netscape.com" title="Search Engine Home Page">Netscape</a>',
 'aol','<a href="http://www.aol.com" title="Search Engine Home Page">AOL</a>',
 'terra','<a href="http://www.terra.es" title="Search Engine Home Page">Terra</a>',
@@ -1037,8 +1216,8 @@
 'excite','<a href="http://www.excite.com" title="Search Engine Home Page">Excite</a>',
 # Minor international search engines
 'google4counter','<a href="http://www.4-counter.com" title="Search Engine Home Page">4-counter (Google)</a>',
-'att','<a href="http://www.att.net" title="Search Engine Home Page">AT&T search (powered by Google)</a>',
-'bungeebonesdotcom','<a href="http://BungeeBones.com/search.php/" title="Search Engine Home Page">BungeeBones</a>',
+'att','<a href="http://www.att.net" title="Search Engine Home Page">AT&amp;T search (powered by Google)</a>',
+'bungeebonesdotcom','<a href="http://BungeeBones.com/search.php" title="Search Engine Home Page">BungeeBones</a>',
 'go','Go.com',
 'askde','<a href="http://de.ask.com" title="Search Engine Home Page">Ask Deutschland</a>',
 'askes','<a href="http://es.ask.com" title="Search Engine Home Page">Ask Espa&ntilde;a</a>', # break out Ask country specific engines.
@@ -1127,7 +1306,15 @@
 # Minor brazilian search engines
 'engine','Cade', 'miner','Meta Miner',
 # Minor chinese search engines
-'baidu','Baidu', 'sina','Sina', 'sohu','Sohu', 'sogou','<a href="http://www.sogou.com" title="Search Engine Home Page">Sogou</a>',
+'baidu','<a href="http://www.baidu.com">Baidu</a>',
+'iask','<a href="http://www.iask.com">Iask</a>',
+'accoona','<a href="http://cn.accoona.com">Accoona</a>',
+'3721','<a href="http://www.3721.com">3721</a>',
+'netease', '<a href="http://www.163.com">NetEase</a>',
+'soso','<a href="http://www.soso.com">SoSo</a>',
+'zhongsou','<a href="http://www.zhongsou.com">ZhongSou</a>',
+'sogou', '<a href="http://www.sogou.com">SoGou</a>',
+'vnet','<a href="http://114.vnet.cn">VNet</a>',
 # Minor czech search engines
 'atlas','Atlas.cz',	'seznam','Seznam', 'quick','Quick.cz', 'centrum','Centrum.cz', 'jyxo','Jyxo.cz', 'najdi','Najdi.to', 'redbox','RedBox.cz',
 # Minor danish search-engines
@@ -1175,7 +1362,7 @@
 'shinyseek\.it','Shinyseek.it',
 'teecnoit','<a href="http://www.teecno.it" title="Teecno home page">Teecno</a>',
 # Minor Japanese search engines
-'askjp','<a href="http://www.ask.jp" title="Search E@SearchEngngine Home Page">Ask Japan</a>',
+'askjp','<a href="http://www.ask.jp" title="Search Engine Home Page">Ask Japan</a>',
 'sagool','<a href="http://sagool.jp" title="Sagool home page">Sagool</a>',
 # Minor Norwegian search engines
 'start','start.no', 'eniro','<a href="http://www.eniro.no" title="Search Engine Home Page">Eniro</a>',
@@ -1188,7 +1375,7 @@
 'hogapl','<a href="http://www.hoga.pl" title="Hoga.pl home page">Hoga.pl</a>',
 'netsprintpl','<a href="http://www.netsprint.pl" title="NetSprint.pl home page">NetSprint.pl</a>',
 'interiapl','<a href="http://www.google.interia.pl" title="Interia.pl home page">Interia.pl</a>',
-'katalogonetpl','<a href="http://katalog.onet.pl" ti@SearchEngtle="Katalog.Onet.pl home page">Katalog.Onet.pl</a>',
+'katalogonetpl','<a href="http://katalog.onet.pl" title="Katalog.Onet.pl home page">Katalog.Onet.pl</a>',
 'o2pl','<a href="http://szukaj2.o2.pl" title="o2.pl home page">o2.pl</a>',
 'polskapl','<a href="http://szukaj.polska.pl" title="Polska home page">Polska</a>',
 'szukaczpl','<a href="http://www.szukacz.pl" title="Szukacz home page">Szukacz</a>',
@@ -1199,13 +1386,15 @@
 'passagen','Evreka',
 'enirose','<a href="http://www.eniro.se" title="Eniro Sverige home page">Eniro Sverige</a>',
 # Minor Slovak search engines
-'zoznam','<a href="http://www.zoznam.sk" Searc Engine home page">Zoznam</a>',
+'zoznam','<a href="http://www.zoznam.sk" title="Zoznam search engine home page">Zoznam</a>',
 # Minor Portuguese search engines
-'sapo','<a href="http://www.sapo.pt" Searc Engine home page">Sapo</a>',
+'sapo','<a href="http://www.sapo.pt" title="Sapo search engine home page">Sapo</a>',
 # Minor Swiss search engines
 'searchch', 'search.ch', 'bluewin', 'search.bluewin.ch',
+# Minor Croatian, Serbian, Macedonian, Bosnian and Herzegovinian search engines
+'pogodak','<a href="http://www.pogodak.com" title="Pogodak search engine home page">Pogodak.com</a>',
 # Generic search engines
-'search','Unknown search engines'
+'search',"$Message[215]"
 );
 
 

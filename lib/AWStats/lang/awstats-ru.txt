@@ -1,6 +1,6 @@
 # Russian message file
-# $Revision: 1.13 $ - $Date: 2006/03/14 23:49:17 $
-PageCode=windows-1251
+# $Revision: 1.15 $ - $Date: 2009/10/25 11:12:35 $
+PageCode=utf-8
 message0=Неизвестный
 message1=Неизвестный
 message2=Остальные
@@ -76,7 +76,7 @@ message71=Декабрь
 message72=Навигация
 message73=Тип файла
 message74=Обновить сейчас
-message75=Величина
+message75=Объем
 message76=Вернуться на главную страницу
 message77=Топ
 message78=dd mmm yyyy - HH:MM
@@ -171,4 +171,6 @@ message166=Отправка почты неудалась
 message167=Чувствительность целей
 message168=Javascript отключен
 message169=Создано
-message170=Плагины
+message170=плагины
+message171=Регионы
+message172=Города
