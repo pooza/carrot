@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSImageFile extends BSFile implements BSImageContainer {
+class BSImageFile extends BSMediaFile implements BSImageContainer {
 	protected $renderer;
 	protected $rendererClass;
 	const DEFAULT_RENDERER_CLASS = 'BSImage';
@@ -43,6 +43,20 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	public function rename ($name) {
 		$name .= BSImage::getSuffixes()->getParameter($this->getEngine()->getType());
 		parent::rename($name);
+	}
+
+	/**
+	 * ファイルを解析
+	 *
+	 * @access protected
+	 */
+	protected function analyze () {
+		$this->attributes['path'] = $this->getPath();
+		$this->attributes['type'] = $this->getRenderer()->getType();
+		$this->attributes['width'] = $this->getRenderer()->getWidth();
+		$this->attributes['height'] = $this->getRenderer()->getHeight();
+		$this->attributes['height_full'] = $this->getRenderer()->getHeight();
+		$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
 	}
 
 	/**
@@ -101,6 +115,8 @@ class BSImageFile extends BSFile implements BSImageContainer {
 	public function setRenderer (BSImageRenderer $renderer) {
 		$this->renderer = $renderer;
 		$this->rendererClass = get_class($renderer);
+		$this->attributes->clear();
+		$this->analized = false;
 	}
 
 	/**
@@ -147,6 +163,48 @@ class BSImageFile extends BSFile implements BSImageContainer {
 				throw new BSImageException($this . 'のメディアタイプが正しくありません。');
 		}
 		$this->clearImageCache();
+	}
+
+	/**
+	 * XHTML要素を返す
+	 *
+	 * 通常はBSImageCacheHandlerを利用すること。
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSXMLElement 要素
+	 */
+	public function getElement (BSParameterHolder $params) {
+		$params = new BSArray($params);
+		$element = new BSImageElement;
+		$element->setURL($this->getMediaURL($params));
+		$element->registerStyleClass($params['style_class']);
+		$element->setAttribute('width', $this['width']);
+		$element->setAttribute('height', $this['height']);
+		$element->setAttributes($params);
+		return $element;
+	}
+
+	/**
+	 * script要素を返す
+	 *
+	 * @access protected
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSXMLElement 要素
+	 */
+	protected function getScriptElement (BSParameterHolder $params) {
+		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
+	}
+
+	/**
+	 * object要素を返す
+	 *
+	 * @access protected
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSXMLElement 要素
+	 */
+	protected function getObjectElement (BSParameterHolder $params) {
+		throw new BSMediaException($this . 'はgetObjectElementに対応していません。');
 	}
 
 	/**
