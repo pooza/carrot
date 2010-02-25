@@ -36,7 +36,7 @@ function putSmartTag (tag, field, name, params) {
       var encoded = [];
       for(var key in params) {
         if (params[key] != null) {
-          encoded.push(key + '=' + encodeURI(params[key]));
+          encoded.push(key + '=' + encodeURIComponent(params[key]));
         }
       }
       if (0 < encoded.length) {
