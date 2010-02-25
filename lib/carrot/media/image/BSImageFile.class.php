@@ -115,8 +115,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 	public function setRenderer (BSImageRenderer $renderer) {
 		$this->renderer = $renderer;
 		$this->rendererClass = get_class($renderer);
-		$this->attributes->clear();
-		$this->analized = false;
+		$this->attributes = null;
 	}
 
 	/**
