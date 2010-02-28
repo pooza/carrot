@@ -12,10 +12,48 @@
  * @abstract
  */
 abstract class BSSortableRecord extends BSRecord {
+	protected $next;
+	protected $prev;
 	const RANK_UP = 'up';
 	const RANK_DOWN = 'down';
 	const RANK_TOP = 'top';
 	const RANK_BOTTOM = 'bottom';
+
+	/**
+	 * 前レコードを返す
+	 *
+	 * @access public
+	 * @return BSSortableRecord 前レコード
+	 */
+	public function getPrev () {
+		if (!$this->prev) {
+			$iterator = $this->getSimilars()->getIterator();
+			foreach ($iterator as $record) {
+				if ($this->getID() == $record->getID()) {
+					return $this->prev = $iterator->prev();
+				}
+			}
+		}
+		return $this->prev;
+	}
+
+	/**
+	 * 次レコードを返す
+	 *
+	 * @access public
+	 * @return BSSortableRecord 次レコード
+	 */
+	public function getNext () {
+		if (!$this->next) {
+			$iterator = $this->getSimilars()->getIterator();
+			foreach ($iterator as $record) {
+				if ($this->getID() == $record->getID()) {
+					return $this->next = $iterator->next();
+				}
+			}
+		}
+		return $this->next;
+	}
 
 	/**
 	 * 更新可能か？
