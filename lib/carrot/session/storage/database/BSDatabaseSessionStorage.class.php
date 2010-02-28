@@ -21,6 +21,7 @@ class BSDatabaseSessionStorage implements BSSessionStorage {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
+		session_write_close();
 		try {
 			return session_set_save_handler(
 				array($this->getTable(), 'open'),

@@ -127,6 +127,8 @@ ini_set('realpath_cache_size', '128K');
 ini_set('log_errors', 1);
 ini_set('error_log', BS_VAR_DIR . '/tmp/error_' . BSDate::getNow('Y-m-d') . '.log');
 
+BSRequest::getInstance()->createSession();
+
 if (BS_DEBUG) {
 	error_reporting(E_ALL | E_STRICT);
 	ini_set('display_errors', 1);

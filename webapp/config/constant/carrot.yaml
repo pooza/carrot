@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.57
+  ver: 2.3.58
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -94,6 +94,9 @@ module:
   default:
     module: Default
     action: Default
+  cookie_disabled:
+    module: Default
+    action: CookieDisabled
   not_found:
     module: Default
     action: NotFound
