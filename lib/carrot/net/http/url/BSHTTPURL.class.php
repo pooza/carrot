@@ -318,10 +318,20 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * 外部のURLか？
 	 *
 	 * @access public
+	 * @param mixed $host 対象ホスト
 	 * @return boolean 外部のURLならTrue
 	 */
-	public function isForeign () {
-		return $this['host']->isForeign();
+	public function isForeign ($host = null) {
+		if ($host) {
+			if ($host instanceof BSHTTPURL) {
+				$host = $host['host'];
+			} else if (!($host instanceof BSHost)) {
+				$host = new BSHost($host);
+			}
+		} else {
+			$host = BSController::getInstance()->getHost();
+		}
+		return $this['host']->isForeign($host);
 	}
 
 	/**
