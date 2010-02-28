@@ -16,10 +16,14 @@ class BSMobileSessionHandler extends BSSessionHandler {
 	 * @access public
 	 */
 	public function __construct () {
+		session_write_close();
+		ini_set('session.use_cookies', 0);
+		ini_set('session.use_only_cookies', 0);
+		ini_set('session.use_trans_sid', 0);
+		ini_set('session.hash_function', 1);
 		if (!$this->getStorage()->initialize()) {
 			throw new BSSessionException('セッションを開始できません。');
 		}
-		ini_set('session.use_only_cookies', 0);
 		session_start();
 	}
 

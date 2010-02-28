@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.58
+  ver: 2.3.59
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -143,8 +143,6 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/geocode.sqlite3
   log:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
-  session:
-    dsn: sqlite:%BS_VAR_DIR%/db/session.sqlite3
   serialize:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
 pictogram:
