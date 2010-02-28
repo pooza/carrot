@@ -42,7 +42,7 @@ class BSUtility {
 	 * @static
 	 */
 	static public function getUniqueID () {
-		return BSCrypt::getSHA1(
+		return BSCrypt::getDigest(
 			BSDate::getNow('YmdHis') . uniqid(BSNumeric::getRandom(), true)
 		);
 	}

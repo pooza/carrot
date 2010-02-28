@@ -88,7 +88,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 		if (!$this->cacheFile) {
 			$name = $this->getName();
 			if (!BS_DEBUG) {
-				$name = BSCrypt::getSHA1($name . BS_CRYPT_SALT);
+				$name = BSCrypt::getDigest($name);
 			}
 
 			$dir = $this->getCacheDirectory();

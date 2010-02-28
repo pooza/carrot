@@ -17,7 +17,7 @@ function smarty_function_map ($params, &$smarty) {
 		throw new BSGeocodeException('ジオコードが取得できません。');
 	}
 
-	$params['id'] = 'map_' . BSCrypt::getSHA1($params['addr'] . BS_CRYPT_SALT);
+	$params['id'] = 'map_' . BSCrypt::getDigest($params['addr']);
 	$element = BSGoogleMapsService::getScriptElement($geocode, $params);
 	return $element->getContents();
 }

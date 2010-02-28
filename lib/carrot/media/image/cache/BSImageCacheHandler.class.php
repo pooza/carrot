@@ -331,7 +331,7 @@ class BSImageCacheHandler {
 		$name = $name->getContents();
 
 		if (!BS_DEBUG) {
-			$name = BSCrypt::getSHA1($name . BS_CRYPT_SALT);
+			$name = BSCrypt::getDigest($name);
 		}
 		return $name;
 	}

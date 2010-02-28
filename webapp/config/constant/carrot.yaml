@@ -35,6 +35,8 @@ awstats:
 crypt:
   salt: carrot
   engine: blowfish
+  digest:
+    method: sha1
 date:
   timezone: Asia/Tokyo
 debug: yes

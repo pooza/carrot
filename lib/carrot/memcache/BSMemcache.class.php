@@ -174,7 +174,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 			$name,
 			BS_CRYPT_SALT,
 		);
-		return BSCrypt::getSHA1(join('.', $name));
+		return BSCrypt::getDigest(join('.', $name));
 	}
 
 	/**

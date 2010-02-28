@@ -54,7 +54,7 @@ class BSMapTag extends BSSmartTag {
 
 	private function getAjaxDivisionElement () {
 		$params = new BSArray($this->getQueryParameters());
-		$params['id'] = 'map_' . BSCrypt::getSHA1($this->tag[1] . BS_CRYPT_SALT);
+		$params['id'] = 'map_' . BSCrypt::getDigest($this->tag[1]);
 		return BSGoogleMapsService::getScriptElement($this->getGeocode(), $params);
 	}
 
