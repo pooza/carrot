@@ -351,7 +351,8 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return !BSString::isBlank($this->controller->getAttribute('X-PROTOTYPE-VERSION'));
+		return $this->controller->getAttribute('X-REQUESTED-WITH')
+			|| $this->controller->getAttribute('X-PROTOTYPE-VERSION');
 	}
 
 	/**
