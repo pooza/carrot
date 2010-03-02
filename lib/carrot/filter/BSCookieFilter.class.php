@@ -19,11 +19,7 @@ class BSCookieFilter extends BSFilter {
 	}
 
 	public function execute () {
-		if ($this->request->isCLI()
-			|| $this->request->isAjax()
-			|| $this->request->isFlash()
-			|| $this->request->isMobile()) {
-
+		if (!$this->request->isEnableCookie()) {
 			return;
 		}
 
