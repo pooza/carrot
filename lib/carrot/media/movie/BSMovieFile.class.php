@@ -28,25 +28,6 @@ class BSMovieFile extends BSMediaFile {
 			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();
 			$this->attributes['pixel_size'] = $matches[1] . '×' . $matches[2];
 		}
-		$this->attributes['type'] = $this->analyzeMediaTypes()->getIterator()->getFirst();
-	}
-
-	/**
-	 * FFmpegの出力からメディアタイプを調べ、候補一覧を返す
-	 *
-	 * video/3gppを優先。
-	 *
-	 * @access protected
-	 * @param string $track トラック名。 (Video|Audio)
-	 * @return BSArray メディアタイプ
-	 */
-	protected function analyzeMediaTypes ($track = 'Video') {
-		$types = parent::analyzeMediaTypes($track);
-		if ($types->isContain($type = BSMIMEType::getType('3gp'))) {
-			$types->unshift($type);
-			$types->uniquize();
-		}
-		return $types;
 	}
 
 	/**

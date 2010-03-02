@@ -193,24 +193,6 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 		}
 		return $type;
 	}
-
-	/**
-	 * ファイル内容からメディアタイプを返す
-	 *
-	 * @access public
-	 * @param BSFile $file ファイル
-	 * @return string メディアタイプ
-	 * @static
-	 */
-	static public function analyzeType (BSFile $file) {
-		if (!extension_loaded('fileinfo')) {
-			throw new BSFileException('fileinfoモジュールがロードされていません。');
-		}
-		if ($file->isExists()) {
-			$finfo = new finfo(FILEINFO_MIME);
-			return $finfo->file($file->getPath());
-		}
-	}
 }
 
 /* vim:set tabstop=4: */

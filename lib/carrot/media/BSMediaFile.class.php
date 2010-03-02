@@ -58,35 +58,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			$sec = BSString::explode(':', $matches[1]);
 			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
-	}
 
-	/**
-	 * FFmpegの出力からメディアタイプを調べ、候補一覧を返す
-	 *
-	 * @access protected
-	 * @param string $track トラック名。 (Video|Audio)
-	 * @return BSArray メディアタイプ
-	 */
-	protected function analyzeMediaTypes ($track) {
-		if (!$this->types) {
-			$this->types = new BSArray;
-			$patterns = new BSArray(array(
-				$track . ': ([[:alnum:]]+)',
-				'Input #[[:digit:]]+, ([[:alnum:],]+)',
-			));
-			foreach ($patterns as $pattern) {
-				if (mb_ereg($pattern, $this->output, $matches)) {
-					foreach (BSString::explode(',', $matches[1]) as $value) {
-						if (!BSString::isBlank($type = self::getMediaType($value))) {
-							$this->types[] = $type;
-						}
-					}
-				}
-			}
-			$this->types->uniquize();
-			$this->types->trim();
-		}
-		return $this->types;
+		$this->attributes['type'] = $this->analyzeType();
 	}
 
 	/**
