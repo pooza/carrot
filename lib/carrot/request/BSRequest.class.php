@@ -315,13 +315,25 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 
 	/**
+	 * Cookie対応環境か？
+	 *
+	 * 環境自体がCookieに対応するかではなく、carrot上でCookie対応とみなすかどうかを返す。
+	 *
+	 * @access public
+	 * @return boolean Cookie対応環境ならTrue
+	 */
+	public function isEnableCookie () {
+		return false;
+	}
+
+	/**
 	 * ケータイ環境か？
 	 *
 	 * @access public
 	 * @return boolean ケータイ環境ならTrue
 	 */
 	public function isMobile () {
-		return $this->getUserAgent()->isMobile();
+		return false;
 	}
 
 	/**
@@ -331,7 +343,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean コマンドライン環境ならTrue
 	 */
 	public function isCLI () {
-		return (PHP_SAPI == 'cli');
+		return false;
 	}
 
 	/**
@@ -341,7 +353,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return !BSString::isBlank($this->controller->getAttribute('HTTPS'));
+		return false;
 	}
 
 	/**
@@ -351,8 +363,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Ajax環境ならTrue
 	 */
 	public function isAjax () {
-		return $this->controller->getAttribute('X-REQUESTED-WITH')
-			|| $this->controller->getAttribute('X-PROTOTYPE-VERSION');
+		return false;
 	}
 
 	/**
@@ -362,8 +373,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isFlash () {
-		return $this->controller->getAttribute('X-FLASH-VERSION')
-			|| $this->controller->getAttribute('X-IS-FLASH');
+		return false;
 	}
 }
 

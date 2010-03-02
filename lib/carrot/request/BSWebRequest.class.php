@@ -166,6 +166,58 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
+	 * Cookie対応環境か？
+	 *
+	 * 環境自体がCookieに対応するかではなく、carrot上でCookie対応とみなすかどうかを返す。
+	 *
+	 * @access public
+	 * @return boolean Cookie対応環境ならTrue
+	 */
+	public function isEnableCookie () {
+		return (!$this->isAjax() && !$this->isFlash() && !$this->isMobile());
+	}
+
+	/**
+	 * ケータイ環境か？
+	 *
+	 * @access public
+	 * @return boolean ケータイ環境ならTrue
+	 */
+	public function isMobile () {
+		return $this->getUserAgent()->isMobile();
+	}
+
+	/**
+	 * SSL環境か？
+	 *
+	 * @access public
+	 * @return boolean SSL環境ならTrue
+	 */
+	public function isSSL () {
+		return !!$this->getHeader('https');
+	}
+
+	/**
+	 * Ajax環境か？
+	 *
+	 * @access public
+	 * @return boolean Ajax環境ならTrue
+	 */
+	public function isAjax () {
+		return $this->getHeader('x-requested-with') || $this->getHeader('x-prototype-version');
+	}
+
+	/**
+	 * Flash環境か？
+	 *
+	 * @access public
+	 * @return boolean Flash環境ならTrue
+	 */
+	public function isFlash () {
+		return $this->getHeader('x-flash-version') || $this->getHeader('x-is-flash');
+	}
+
+	/**
 	 * UserAgent名を返す
 	 *
 	 * @access public
