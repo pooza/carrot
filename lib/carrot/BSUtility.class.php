@@ -26,10 +26,10 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		if (strpos($path, '..') !== false) {
-			return false;
-		} else if ($path[0] == DIRECTORY_SEPARATOR) {
+		if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
+		} else if (strpos($path, '..') !== false) {
+			return false;
 		}
 		return !!mb_ereg('^[[:alpha:]]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
 	}
@@ -42,9 +42,10 @@ class BSUtility {
 	 * @static
 	 */
 	static public function getUniqueID () {
-		return BSCrypt::getDigest(
-			BSDate::getNow('YmdHis') . uniqid(BSNumeric::getRandom(), true)
-		);
+		return BSCrypt::getDigest(array(
+			BSDate::getNow('YmdHis'),
+			uniqid(BSNumeric::getRandom(), true),
+		));
 	}
 
 	/**

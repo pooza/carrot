@@ -135,17 +135,25 @@ class BSCrypt {
 	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @param string $value 対象文字列
+	 * @param mixed $value 対象文字列又はその配列
 	 * @param string $method ダイジェスト方法
 	 * @param string $salt ソルト文字列
 	 * @return string ダイジェスト文字列
 	 * @static
 	 */
-	static public function getDigest ($value,
-		$method = BS_CRYPT_DIGEST_METHOD, $salt = BS_CRYPT_SALT) {
-
+	static public function getDigest ($value, $method = null, $salt = BS_CRYPT_SALT) {
 		if (!extension_loaded('hash')) {
-			throw new BSFileException('hashモジュールがロードされていません。');
+			throw new BSCryptException('hashモジュールがロードされていません。');
+		}
+		if (BSString::isBlank($method)) {
+			$method = BS_CRYPT_DIGEST_METHOD;
+		}
+		if (!in_array($method, hash_algos())) {
+			throw new BSCryptException('ハッシュ関数"%s"は正しくありません。');
+		}
+		if (BSArray::isArray($value)) {
+			$value = new BSArray($value);
+			$value = $value->join();
 		}
 		return hash($method, $value . $salt);
 	}

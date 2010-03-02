@@ -129,7 +129,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @return string エントリーの値
 	 */
 	public function get ($name) {
-		return parent::get($this->getAttributeName($name));
+		return parent::get($this->serializeName($name));
 	}
 
 	/**
@@ -146,7 +146,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 		if (is_object($value)) {
 			throw new BSMemcacheException('オブジェクトを登録できません。');
 		}
-		return parent::set($this->getAttributeName($name), $value, $flag, $expire);
+		return parent::set($this->serializeName($name), $value, $flag, $expire);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @return boolean 処理の成否
 	 */
 	public function delete ($name) {
-		return parent::delete($this->getAttributeName($name));
+		return parent::delete($this->serializeName($name));
 	}
 
 	/**
@@ -167,14 +167,12 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @param string $name エントリー名
 	 * @return string memcachedでの属性名
 	 */
-	protected function getAttributeName ($name) {
-		$name = array(
+	protected function serializeName ($name) {
+		return BSCrypt::getDigest(array(
 			BSController::getInstance()->getHost()->getName(),
 			get_class($this),
 			$name,
-			BS_CRYPT_SALT,
-		);
-		return BSCrypt::getDigest(join('.', $name));
+		));
 	}
 
 	/**
