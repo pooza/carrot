@@ -70,25 +70,19 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 			if (!$this->isExists() || !$this->getSize()) {
 				throw new BSImageException($this . 'の形式が不明です。');
 			}
-
 			$info = getimagesize($this->getPath());
-			switch ($type = $info['mime']) {
-				case 'image/jpeg':
-					$image = imagecreatefromjpeg($this->getPath());
-					break;
-				case 'image/gif':
-					$image = imagecreatefromgif($this->getPath());
-					break;
-				case 'image/png':
-					$image = imagecreatefrompng($this->getPath());
-					break;
-				default:
-					throw new BSImageException($this . 'の形式が不明です。');
+
+			foreach (array('jpeg', 'gif', 'png') as $suffix) {
+				if ($info['mime'] == BSMIMEType::getType($suffix)) {
+					$class = BSClassLoader::getInstance()->getClass($this->rendererClass);
+					$this->renderer = new $class($info[0], $info[1]);
+					$this->renderer->setType($info['mime']);
+					$function = 'imagecreatefrom' . $suffix;
+					$this->renderer->setImage($function($this->getPath()));
+					return $this->renderer;
+				}
 			}
-			$class = BSClassLoader::getInstance()->getClass($this->rendererClass);
-			$this->renderer = new $class($info[0], $info[1]);
-			$this->renderer->setType($type);
-			$this->renderer->setImage($image);
+			throw new BSImageException($this . 'の形式が不明です。');
 		}
 		return $this->renderer;
 	}
