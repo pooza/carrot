@@ -141,27 +141,21 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 			throw new BSFileException($this . 'に書き込むことができません。');
 		}
 
-		$types = new BSArray;
-		$types[] = BSMIMEType::DEFAULT_TYPE;
+		$types = new BSArray(BSMIMEType::DEFAULT_TYPE);
 		$types[] = $this->getRenderer()->getType();
 		if (!$types->isContain($this->getType())) {
 			throw new BSImageException($this . 'のメディアタイプがレンダラーと一致しません。');
 		}
 
-		switch ($this->getRenderer()->getType()) {
-			case 'image/jpeg':
-				imagejpeg($this->getRenderer()->getImage(), $this->getPath());
-				break;
-			case 'image/gif':
-				imagegif($this->getRenderer()->getImage(), $this->getPath());
-				break;
-			case 'image/png':
-				imagepng($this->getRenderer()->getImage(), $this->getPath());
-				break;
-			default:
-				throw new BSImageException($this . 'のメディアタイプが正しくありません。');
+		foreach (array('jpeg', 'gif', 'png') as $suffix) {
+			if ($this->getRenderer()->getType() == BSMIMEType::getType($suffix)) {
+				$function = 'image' . $suffix;
+				$function($this->getRenderer()->getImage(), $this->getPath());
+				$this->clearImageCache();
+				return;
+			}
 		}
-		$this->clearImageCache();
+		throw new BSImageException($this . 'のメディアタイプが正しくありません。');
 	}
 
 	/**
