@@ -41,8 +41,8 @@ class BSMusicFile extends BSMediaFile {
 	 * @return BSMusicFile 変換後ファイル
 	 */
 	public function convert () {
-		$file = BSFileUtility::getTemporaryFile('.mp3', 'BSMusicFile');
-		if ($this->getType() == BSMIMEType::getType('.mp3')) {
+		$file = BSFileUtility::getTemporaryFile('mp3', 'BSMusicFile');
+		if ($this->getType() == BSMIMEType::getType('mp3')) {
 			$duplicated = $this->copyTo($file->getDirectory());
 			$duplicated->rename($file->getName());
 			$file = $duplicated;

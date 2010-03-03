@@ -56,13 +56,8 @@ types:
   ttf: application/x-truetype-font
   txt: text/plain
   wma: audio/x-ms-wma
-  wmav1: audio/x-ms-wma
-  wmav2: audio/x-ms-wma
   wav: audio/x-wav
   wmv: video/x-ms-wmv
-  wmv1: video/x-ms-wmv
-  wmv2: video/x-ms-wmv
-  wmv3: video/x-ms-wmv
   yaml: text/yaml
   yml: text/yaml
   xls: application/vnd.ms-excel
@@ -70,3 +65,17 @@ types:
   xml: application/xml
   vcf: text/x-vcard
   zip: application/zip
+
+# 上記で複数の拡張子が割り当てられているMIMEタイプに対し、既定の拡張子を設定。
+suffixes:
+  application/xml: xml
+  application/x-gzip: gz
+  audio/x-aiff: aiff
+  image/jpeg: jpg
+  image/tiff: tiff
+  message/rfc822: eml
+  text/javascript: js
+  text/html: html
+  text/yaml: yaml
+  video/mpeg: mpeg
+  video/quicktime: mov

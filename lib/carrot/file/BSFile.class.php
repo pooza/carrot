@@ -77,9 +77,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return string 規定サフィックス
 	 */
 	public function getDefaultSuffix () {
-		$types = new BSArray(BSMIMEType::getInstance());
-		$suffixes = $types->getFlipped();
-		return '.' . $suffixes[$this->getType()];
+		return BSMIMEType::getSuffix($this->getType());
 	}
 
 	/**

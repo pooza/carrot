@@ -11,9 +11,10 @@
  * @version $Id$
  */
 class BSMIMEType extends BSParameterHolder implements BSSerializable {
-	static private $instance;
 	private $typesFile;
 	private $magicFile;
+	private $suffixes;
+	static private $instance;
 	const DEFAULT_TYPE = 'application/octet-stream';
 
 	/**
@@ -152,6 +153,25 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	}
 
 	/**
+	 * 全てのサフィックスを返す
+	 *
+	 * @access public
+	 * @return BSArray 全てのサフィックス
+	 */
+	public function getSuffixes () {
+		if (!$this->suffixes) {
+			$types = new BSArray($this->params);
+			$this->suffixes = $types->getFlipped();
+			$config = BSConfigManager::getInstance()->compile($this->getConfigFile());
+			$this->suffixes->setParameters($config['suffixes']);
+			foreach ($this->suffixes as $type => $suffix) {
+				$this->suffixes[$type] = '.' . $suffix;
+			}
+		}
+		return $this->suffixes;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
@@ -192,6 +212,18 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 			$type = self::DEFAULT_TYPE;
 		}
 		return $type;
+	}
+
+	/**
+	 * 規定のサフィックスを返す
+	 *
+	 * @access public
+	 * @param string $type MIMEタイプ
+	 * @return string サフィックス
+	 * @static
+	 */
+	static public function getSuffix ($type) {
+		return self::getInstance()->getSuffixes()->getParameter($type);
 	}
 }
 

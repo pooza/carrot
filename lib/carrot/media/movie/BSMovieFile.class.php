@@ -47,8 +47,8 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSMovieFile 変換後ファイル
 	 */
 	public function convert () {
-		$file = BSFileUtility::getTemporaryFile('.flv', 'BSMovieFile');
-		if ($this->getType() == BSMIMEType::getType('.flv')) {
+		$file = BSFileUtility::getTemporaryFile('flv', 'BSMovieFile');
+		if ($this->getType() == BSMIMEType::getType('flv')) {
 			$duplicated = $this->copyTo($file->getDirectory());
 			$duplicated->rename($file->getName());
 			$file = $duplicated;
