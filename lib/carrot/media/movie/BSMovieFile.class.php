@@ -31,6 +31,23 @@ class BSMovieFile extends BSMediaFile {
 	}
 
 	/**
+	 * ファイルの内容から、メディアタイプを返す
+	 *
+	 * fileinfoだけでは、wmvを認識できないことがある。
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function analyzeType () {
+		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
+			if (BSString::isContain('Video: wmv', $this->output)) {
+				return BSMIMEType::getType('wmv');
+			}
+		}
+		return $type;
+	}
+
+	/**
 	 * プレイヤーの高さを返す
 	 *
 	 * @access public

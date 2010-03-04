@@ -70,6 +70,7 @@ types:
 suffixes:
   application/xml: xml
   application/x-gzip: gz
+  audio/mpeg: mp3
   audio/x-aiff: aiff
   image/jpeg: jpg
   image/tiff: tiff
