@@ -33,14 +33,31 @@
  * @see http://www.leigeber.com/2008/04/sliding-javascript-dropdown-menu/ 改造もと
  */
 
-function UserMenu (id) {
-  var imagePath = '/carrotlib/images/usermenu/';
-  var selectorPrefix = 'usermenu';
-  var speed = 10;
-  var timer = 15;
-  var opacity = 0.9;
+function UserMenu (id, options) {
+  this.imagePath = '/carrotlib/images/usermenu/';
+  this.selectorPrefix = 'usermenu';
+  this.speed = 10;
+  this.timer = 15;
+  this.opacity = 0.9;
+  this.offImageSuffix = '.gif';
+  this.onImageSuffix = '_on.gif';
+  this.offImage = null;
+  this.onImage = null;
 
-  var selector = '#' + selectorPrefix + '_' + id;
+  if (options) {
+    for (var index in options) {
+      this[index] = options[index];
+    }
+  }
+  if (!this.onImage) {
+    this.onImage = this.imagePath + id + this.onImageSuffix;
+  }
+  if (!this.offImage) {
+    this.offImage = this.imagePath + id + this.offImageSuffix;
+  }
+
+  var menu = this;
+  var selector = '#' + this.selectorPrefix + '_' + id;
   var tab = $$(selector + ' dt')[0];
   var items = $$(selector + ' dd')[0];
   var tabImage = $$(selector + ' dt img')[0];
@@ -61,9 +78,9 @@ function UserMenu (id) {
       return;
     }
     if (flag) {
-      tabImage.src = imagePath + id + '_on.gif';
+      tabImage.src = menu.onImage;
     } else {
-      tabImage.src = imagePath + id + '.gif';
+      tabImage.src = menu.offImage;
     }
   }
 
@@ -83,7 +100,7 @@ function UserMenu (id) {
         items.style.height = '0px';
       }
     }
-    items.timer = setInterval(function(){slide(flag)}, timer);
+    items.timer = setInterval(function(){slide(flag)}, menu.timer);
   }
 
   function cancelHide () {
@@ -93,7 +110,7 @@ function UserMenu (id) {
     }
     clearInterval(items.timer);
     if (items.offsetHeight < items.maxHeight) {
-      items.timer = setInterval(function(){slide(true)}, timer);
+      items.timer = setInterval(function(){slide(true)}, menu.timer);
     }
   }
 
@@ -103,13 +120,13 @@ function UserMenu (id) {
     }
     var y = items.offsetHeight;
     if (flag) {
-      items.style.height = y + Math.max(1, Math.round((items.maxHeight - y) / speed)) + 'px';
+      items.style.height = y + Math.max(1, Math.round((items.maxHeight - y) / menu.speed)) + 'px';
     } else {
-      items.style.height = y + (Math.round(y / speed) * -1) + 'px';
+      items.style.height = y + (Math.round(y / menu.speed) * -1) + 'px';
     }
-    items.style.opacity = y / items.maxHeight * opacity;
+    items.style.opacity = y / items.maxHeight * menu.opacity;
     items.style.filter = 'alpha(opacity=' + (items.style.opacity * 100) + ')';
-    if((y < 2 && !flag) || ((items.maxHeight - 2) < y && flag)){
+    if ((y < 2 && !flag) || ((items.maxHeight - 2) < y && flag)) {
       clearInterval(items.timer);
     }
   }
