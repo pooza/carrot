@@ -115,7 +115,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		);
 		$body[] = sprintf('    %s[\'iteration\'] ++;', $var);
 		if ($max = $params['max']) {
-			$body[] = sprintf('    if (%d < %s[\'iteration\']) {break;}', $max, $var);
+			$body[] = sprintf('    if (%s < %s[\'iteration\']) {break;}', $max, $var);
 		}
 		$body[] = '?>';
 		return $body->join("\n");
