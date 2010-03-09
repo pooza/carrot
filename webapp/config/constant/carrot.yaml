@@ -25,6 +25,9 @@ app:
   xmpp:
     jid:
     password:
+  basic_auth:
+    uid:
+    password:
 author:
   name:
   email:
