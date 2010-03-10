@@ -79,4 +79,5 @@ suffixes:
   text/html: html
   text/yaml: yaml
   video/mpeg: mpeg
+  video/mp4: mp4
   video/quicktime: mov
