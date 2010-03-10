@@ -34,6 +34,11 @@ interface BSSerializable {
 	 * @access public
 	 */
 	public function serialize ();
+
+	/**
+	 * @access public
+	 */
+	public function __toString ();
 }
 
 /* vim:set tabstop=4: */
