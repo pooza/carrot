@@ -142,7 +142,7 @@ namespace :var do
 
     def keep_types
       types = []
-      ['carrot', 'application'].each do |name|
+      ['carrot', 'package', 'application'].each do |name|
         begin
           types += YAML.load_file('webapp/config/constant/' + name + '.yaml')['serialize']['keep']
         rescue

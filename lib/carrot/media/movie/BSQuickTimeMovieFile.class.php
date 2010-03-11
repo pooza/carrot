@@ -24,6 +24,7 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 		$element->registerStyleClass($params['style_class']);
 		$element->setStyles($this->getStyles($params));
 		$object = $element->addElement(new BSQuickTimeObjectElement);
+		$object->setAttribute('type', $this->getType());
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
 		$object->setURL($this->getMediaURL($params));

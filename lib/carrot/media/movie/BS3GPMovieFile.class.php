@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BS3GPMovieFile extends BSWindowsMediaMovieFile {
+class BS3GPMovieFile extends BSQuickTimeMovieFile {
 
 	/**
 	 * @access public
