@@ -11,8 +11,8 @@
  * @version $Id$
  */
 class BSAuthorRole implements BSRole {
-	private $credentials;
-	static private $instance;
+	protected $credentials;
+	static protected $instance;
 	const CREDENTIAL = 'Author';
 
 	/**

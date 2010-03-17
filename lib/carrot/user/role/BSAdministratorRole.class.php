@@ -11,9 +11,9 @@
  * @version $Id$
  */
 class BSAdministratorRole implements BSRole {
-	private $networks;
-	private $credentials;
-	static private $instance;
+	protected $networks;
+	protected $credentials;
+	static protected $instance;
 	const CREDENTIAL = 'Admin';
 
 	/**
