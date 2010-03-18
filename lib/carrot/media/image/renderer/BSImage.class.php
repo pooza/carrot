@@ -11,14 +11,13 @@
  * @version $Id$
  */
 class BSImage implements BSImageRenderer {
-	private $type;
-	private $image;
-	private $height;
-	private $width;
-	private $origin;
-	private $antialias = false;
-	private $font;
-	private $fontsize;
+	protected $type;
+	protected $image;
+	protected $height;
+	protected $width;
+	protected $origin;
+	protected $font;
+	protected $fontsize;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
@@ -34,7 +33,6 @@ class BSImage implements BSImageRenderer {
 		$this->height = BSNumeric::round($height);
 		$this->setType(BSMIMEType::getType('gif'));
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
-		$this->setAntialias(false);
 		$this->setFont(BSFontManager::getInstance()->getFont());
 		$this->setFontSize(BSFontManager::DEFAULT_FONT_SIZE);
 	}
@@ -125,31 +123,6 @@ class BSImage implements BSImageRenderer {
 	 */
 	public function getHeight () {
 		return $this->height;
-	}
-
-	/**
-	 * アンチエイリアス状態を返す
-	 *
-	 * @access public
-	 * @return boolean アンチエイリアスの有無
-	 */
-	public function getAntialias () {
-		return $this->antialias;
-	}
-
-	/**
-	 * アンチエイリアス状態を設定
-	 *
-	 * @access public
-	 * @param boolean $mode アンチエイリアスの有無
-	 */
-	public function setAntialias ($mode) {
-		if (function_exists('imageantialias')) {
-			imageantialias($this->getImage(), $mode);
-		} else {
-			$mode = false;
-		}
-		$this->antialias = $mode;
 	}
 
 	/**
@@ -360,30 +333,23 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		$dest = new BSImage($width, $height);
-		$dest->fill($this->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
-
-		if ($this->getAspect() < $dest->getAspect()) {
-			$width = $dest->getHeight() * $this->getAspect();
-			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);
-			$coord = $dest->getCoordinate($x, 0);
-		} else {
-			$height = $dest->getWidth() / $this->getAspect();
-			$y = BSNumeric::round(($dest->getHeight() - $height) / 2);
-			$coord = $dest->getCoordinate(0, $y);
+		foreach (array('imagick', 'gd') as $name) {
+			if (extension_loaded($name)) {
+				$class = BSClassLoader::getInstance()->getClass($name, 'ImageResizer');
+				$resizer = new $class($this);
+				$this->setImage($resizer->execute($width, $height));
+				return;
+			}
 		}
-
-		imagecopyresampled(
-			$dest->getImage(), //コピー先
-			$this->getImage(), //コピー元
-			$coord->getX(), $coord->getY(),
-			$this->getOrigin()->getX(), $this->getOrigin()->getY(),
-			BSNumeric::round($width), BSNumeric::round($height), //コピー先サイズ
-			$this->getWidth(), $this->getHeight() //コピー元サイズ
-		);
-		$this->setImage($dest->getImage());
+		throw new BSImageException('画像リサイズ機能を利用できません。');
 	}
 
+	/**
+	 * 幅変更
+	 *
+	 * @access public
+	 * @param integer $width 幅
+	 */
 	public function resizeWidth ($width) {
 		if ($this->getWidth() < $width) {
 			return;
@@ -392,6 +358,12 @@ class BSImage implements BSImageRenderer {
 		$this->resize($width, $height);
 	}
 
+	/**
+	 * 高さ変更
+	 *
+	 * @access public
+	 * @param integer $height 高さ
+	 */
 	public function resizeHeight ($height) {
 		if ($this->getHeight() < $height) {
 			return;
@@ -400,6 +372,12 @@ class BSImage implements BSImageRenderer {
 		$this->resize($width, $height);
 	}
 
+	/**
+	 * 長辺を変更
+	 *
+	 * @access public
+	 * @param integer $pixel 長辺
+	 */
 	public function resizeSquare ($pixel) {
 		if (($this->getWidth() < $pixel) && ($this->getHeight() < $pixel)) {
 			return;
@@ -432,7 +410,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 利用可能なメディアタイプを返す
+	 * 全機能を利用可能なメディアタイプを返す
 	 *
 	 * @access public
 	 * @return BSArray メディアタイプ
@@ -446,13 +424,37 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 利用可能な拡張子を返す
+	 * 一部機能を利用可能なメディアタイプを返す
+	 *
+	 * @access public
+	 * @return BSArray メディアタイプ
+	 */
+	static public function getAllTypes () {
+		$types = self::getTypes();
+		foreach (array('.tiff', '.eps') as $suffix) {
+			$types[$suffix] = BSMIMEType::getType($suffix);
+		}
+		return $types;
+	}
+
+	/**
+	 * 全機能を利用可能な拡張子を返す
 	 *
 	 * @access public
 	 * @return BSArray 拡張子
 	 */
 	static public function getSuffixes () {
 		return self::getTypes()->getFlipped();
+	}
+
+	/**
+	 * 一部機能を用可能な拡張子を返す
+	 *
+	 * @access public
+	 * @return BSArray 拡張子
+	 */
+	static public function getAllSuffixes () {
+		return self::getAllTypes()->getFlipped();
 	}
 
 	/**

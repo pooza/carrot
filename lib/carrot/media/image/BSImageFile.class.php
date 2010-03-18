@@ -82,6 +82,11 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 					return $this->renderer;
 				}
 			}
+			if (extension_loaded('imagick')) {
+				$this->renderer = new BSImagickImage;
+				$this->renderer->setImagick(new Imagick($this->getPath()));
+				return $this->renderer;
+			}
 			throw new BSImageException($this . 'の形式が不明です。');
 		}
 		return $this->renderer;
