@@ -13,6 +13,7 @@
 class BSImage implements BSImageRenderer {
 	protected $type;
 	protected $image;
+	protected $imagick;
 	protected $height;
 	protected $width;
 	protected $origin;
@@ -67,6 +68,26 @@ class BSImage implements BSImageRenderer {
 		}
 		$this->width = imagesx($this->image);
 		$this->height = imagesy($this->image);
+	}
+
+	/**
+	 * Imagickオブジェクトを返す
+	 *
+	 * @access public
+	 * @return Imagick
+	 */
+	public function getImagick () {
+		if (!$this->imagick) {
+			if (!extension_loaded('imagick')) {
+				throw new BSCryptException('imagickモジュールがロードされていません。');
+			}
+
+			$file = BSFileUtility::getTemporaryFile();
+			$file->setContents($this->getContents());
+			$this->imagick = new Imagick($file->getPath());
+			$file->delete();
+		}
+		return $this->imagick;
 	}
 
 	/**
@@ -410,7 +431,7 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 全機能を利用可能なメディアタイプを返す
+	 * 利用可能なメディアタイプを返す
 	 *
 	 * @access public
 	 * @return BSArray メディアタイプ
@@ -420,41 +441,22 @@ class BSImage implements BSImageRenderer {
 		foreach (array('.gif', '.jpg', '.png') as $suffix) {
 			$types[$suffix] = BSMIMEType::getType($suffix);
 		}
-		return $types;
-	}
-
-	/**
-	 * 一部機能を利用可能なメディアタイプを返す
-	 *
-	 * @access public
-	 * @return BSArray メディアタイプ
-	 */
-	static public function getAllTypes () {
-		$types = self::getTypes();
-		foreach (array('.tiff', '.eps') as $suffix) {
-			$types[$suffix] = BSMIMEType::getType($suffix);
+		if (extension_loaded('imagick')) {
+			foreach (array('.tiff', '.eps') as $suffix) {
+				$types[$suffix] = BSMIMEType::getType($suffix);
+			}
 		}
 		return $types;
 	}
 
 	/**
-	 * 全機能を利用可能な拡張子を返す
+	 * 利用可能な拡張子を返す
 	 *
 	 * @access public
 	 * @return BSArray 拡張子
 	 */
 	static public function getSuffixes () {
 		return self::getTypes()->getFlipped();
-	}
-
-	/**
-	 * 一部機能を用可能な拡張子を返す
-	 *
-	 * @access public
-	 * @return BSArray 拡張子
-	 */
-	static public function getAllSuffixes () {
-		return self::getAllTypes()->getFlipped();
 	}
 
 	/**

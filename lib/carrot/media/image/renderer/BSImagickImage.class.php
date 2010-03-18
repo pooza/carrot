@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSImagickImage extends BSImage {
-	private $imagick;
 
 	/**
 	 * @access public
@@ -188,7 +187,11 @@ class BSImagickImage extends BSImage {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return !BSString::isBlank($this->getContents());
+		if (BSString::isBlank($this->getContents())) {
+			$this->error = '画像リソースが正しくありません。';
+			return false;
+		}
+		return true;
 	}
 }
 

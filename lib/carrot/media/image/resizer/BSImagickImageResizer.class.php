@@ -42,11 +42,7 @@ class BSImagickImageResizer extends BSImageResizer {
 			$coord = $dest->getCoordinate(0, $y);
 		}
 
-		if ($this->source instanceof BSImagickImage) {
-			$resized = clone $this->source->getImagick();
-		} else {
-			$resized = new Imagick($this->getFile()->getPath());
-		}
+		$resized = clone $this->source->getImagick();
 		$resized->thumbnailImage($width, $height, true);
 		$dest->getImagick()->compositeImage(
 			$resized,
@@ -54,14 +50,6 @@ class BSImagickImageResizer extends BSImageResizer {
 			$coord->getX(), $coord->getY()
 		);
 		return $dest;
-	}
-
-	private function getFile () {
-		if (!$this->file) {
-			$this->file = BSFileUtility::getTemporaryFile();
-			$this->file->setContents($this->source->getContents());
-		}
-		return $this->file;
 	}
 }
 
