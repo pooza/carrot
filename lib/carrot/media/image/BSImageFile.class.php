@@ -149,7 +149,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 		foreach (array('jpeg', 'gif', 'png') as $suffix) {
 			if ($this->getRenderer()->getType() == BSMIMEType::getType($suffix)) {
 				$function = 'image' . $suffix;
-				$function($this->getRenderer()->getImage(), $this->getPath());
+				$function($this->getRenderer()->getGDHandle(), $this->getPath());
 				$this->clearImageCache();
 				return;
 			}

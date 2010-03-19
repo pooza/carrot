@@ -18,7 +18,7 @@ interface BSImageRenderer extends BSRenderer {
 	 * @access public
 	 * @return resource GDイメージリソース
 	 */
-	public function getImage ();
+	public function getGDHandle ();
 
 	/**
 	 * 幅を返す

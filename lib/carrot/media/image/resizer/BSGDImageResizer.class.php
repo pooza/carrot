@@ -33,8 +33,8 @@ class BSGDImageResizer extends BSImageResizer {
 		}
 
 		imagecopyresampled(
-			$dest->getImage(), //コピー先
-			$this->source->getImage(), //コピー元
+			$dest->getGDHandle(), //コピー先
+			$this->source->getGDHandle(), //コピー元
 			$coord->getX(), $coord->getY(),
 			$this->source->getOrigin()->getX(), $this->source->getOrigin()->getY(),
 			BSNumeric::round($width), BSNumeric::round($height), //コピー先サイズ

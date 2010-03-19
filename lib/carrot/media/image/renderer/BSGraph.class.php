@@ -18,7 +18,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	private $type;
 	private $error;
 	private $min = 0;
-	protected $img;
+	protected $gd;
 	protected $data;
 	public $num_data_rows;
 	public $plot_max_x;
@@ -75,7 +75,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$image = new BSImage($this->getWidth(), $this->getHeight());
 			$image->setType($this->getType());
 			$image->drawText($e->getMessage(), $image->getCoordinate(6, 18));
-			$this->img = $image->getImage();
+			$this->gd = $image->getGDHandle();
 			return $image->getContents();
 		}
 	}
@@ -123,12 +123,12 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 * @access public
 	 * @return resource GDイメージリソース
 	 */
-	public function getImage () {
-		if (!$this->img) {
+	public function getGDHandle () {
+		if (!is_resource($this->gd)) {
 			throw new BSImageException('有効な画像リソースがありません。');
 		}
 		$this->getContents();
-		return $this->img;
+		return $this->gd;
 	}
 
 	/**
@@ -322,8 +322,8 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 		$box_end_x = $box_start_x + $width - 5;
 
 		// Draw outer box
-		//ImageFilledRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_bg_color);
-		//ImageRectangle($this->img, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
+		//ImageFilledRectangle($this->gd, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_bg_color);
+		//ImageRectangle($this->gd, $box_start_x, $box_start_y, $box_end_x, $box_end_y, $this->ndx_grid_color);
 
 		$color_index = 0;
 		$max_color_index = count($this->ndx_data_colors) - 1;
@@ -338,11 +338,11 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 							$this->ndx_text_color, $leg, 'right');
 			// Draw a box in the data color
 			ImageFilledRectangle(
-				$this->img, $dot_left_x, $y_pos + 1, $dot_right_x, $y_pos + $dot_height-1,
+				$this->gd, $dot_left_x, $y_pos + 1, $dot_right_x, $y_pos + $dot_height-1,
 				$this->ndx_data_colors[$color_index]
 			);
 			ImageRectangle(
-				$this->img, $dot_left_x, $y_pos, $dot_right_x, $y_pos + $dot_height,
+				$this->gd, $dot_left_x, $y_pos, $dot_right_x, $y_pos + $dot_height,
 				$this->ndx_text_color
 			);
 
@@ -397,7 +397,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			// 細い円弧は描画しない
 			if (0.3 < $label_percentage) {
 				ImageFilledArc(
-					$this->img,
+					$this->gd,
 					$xpos, $ypos,
 					$diameter, $diam2,
 					360-$start_angle, 360-$end_angle,
@@ -407,7 +407,7 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 
 			// Draw the outline
 			ImageFilledArc(
-				$this->img,
+				$this->gd,
 				$xpos, $ypos,
 				$diameter, $diam2,
 				360-$start_angle, 360-$end_angle,
@@ -458,10 +458,10 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 					$y2 = $this->ytr($this->x_axis_position + $oldv);
 					$oldv += abs($this->data[$row][$record]);
 					ImageFilledRectangle(
-						$this->img, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]
+						$this->gd, $x1, $y1, $x2, $y2, $this->ndx_data_colors[$record - 1]
 					);
 					ImageRectangle(
-						$this->img, $x1, $y1, $x2,$y2,
+						$this->gd, $x1, $y1, $x2,$y2,
 						$this->ndx_data_border_colors[$record - 1]
 					);
 				}

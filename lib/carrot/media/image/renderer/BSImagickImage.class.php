@@ -65,7 +65,7 @@ class BSImagickImage extends BSImage {
 	 * @access public
 	 * @return resource GDイメージリソース
 	 */
-	public function getImage () {
+	public function getGDHandle () {
 		$header = new BSContentTypeMIMEHeader;
 		$header->setContents(BS_IMAGE_THUMBNAIL_TYPE);
 
@@ -74,7 +74,7 @@ class BSImagickImage extends BSImage {
 		$image = new BSImage;
 		$image->setType($header->getContents());
 		$image->setImage($converted->__toString());
-		return $image->getImage();
+		return $image->getGDHandle();
 	}
 
 	/**
