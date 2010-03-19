@@ -22,8 +22,6 @@ class BSGDImageResizer extends BSImageResizer {
 	 */
 	public function execute ($width, $height) {
 		$dest = new BSImage($width, $height);
-		$dest->fill($this->source->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
-
 		if ($this->source->getAspect() < $dest->getAspect()) {
 			$width = $dest->getHeight() * $this->source->getAspect();
 			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);

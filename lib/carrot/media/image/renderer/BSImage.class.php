@@ -36,6 +36,7 @@ class BSImage implements BSImageRenderer {
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
 		$this->setFont(BSFontManager::getInstance()->getFont());
 		$this->setFontSize(BSFontManager::DEFAULT_FONT_SIZE);
+		$this->fill($this->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
 	}
 
 	/**
