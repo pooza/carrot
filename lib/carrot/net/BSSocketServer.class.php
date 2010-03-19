@@ -18,7 +18,6 @@ class BSSocketServer {
 	private $name;
 	private $streams;
 	const LINE_BUFFER = 4096;
-	const RETRY_LIMIT = 10;
 
 	/**
 	 * @access public
@@ -97,18 +96,15 @@ class BSSocketServer {
 	 * @access private
 	 */
 	private function open () {
-		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
-			$port = BSNumeric::getRandom(48557, 49150);
-			$this->name = 'tcp://0.0.0.0:' . $port;
-			if ($this->server = stream_socket_server($this->getName())) {
-				$this->attributes['port'] = $port;
-				$this->attributes['pid'] = BSProcess::getCurrentID();
-			}
+		$port = BSNumeric::getRandom(48557, 49150);
+		$this->name = 'tcp://0.0.0.0:' . $port;
+		if (!$this->server = stream_socket_server($this->getName())) {
+			$message = new BSStringFormat('%sのサーバソケットを作成できません。');
+			$message[] = get_class($this);
+			throw new BSNetException($message);
 		}
-
-		$message = new BSStringFormat('%sのサーバソケットを作成できません。');
-		$message[] = get_class($this);
-		throw new BSNetException($message);
+		$this->attributes['port'] = $port;
+		$this->attributes['pid'] = BSProcess::getCurrentID();
 	}
 
 	/**

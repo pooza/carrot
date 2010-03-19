@@ -18,7 +18,6 @@ class BSSocket {
 	protected $client;
 	protected $line;
 	const LINE_BUFFER = 4096;
-	const RETRY_LIMIT = 10;
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
@@ -77,15 +76,10 @@ class BSSocket {
 	public function open () {
 		$error = null;
 		$message = null;
-		for ($i = 0 ; $i < self::RETRY_LIMIT ; $i ++) {
-			if ($this->client = stream_socket_client($this->getName(), $error, $message)) {
-				stream_set_timeout($this->client, 10);
-				return;
-			}
-			$this->client = null;
-			sleep(1);
+		if (!$this->client = stream_socket_client($this->getName(), $error, $message)) {
+			throw new BSNetException('%sに接続できません。(%s)', $this, $message);
 		}
-		throw new BSNetException('%sに接続できません。(%s)', $this, $message);
+		stream_set_timeout($this->client, 10);
 	}
 
 	/**
