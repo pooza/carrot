@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSImageFile extends BSMediaFile implements BSImageContainer {
+class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable {
 	protected $renderer;
 	protected $rendererClass;
 	const DEFAULT_RENDERER_CLASS = 'BSImage';
@@ -273,6 +273,18 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 		} catch (BSTranslateException $e) {
 			return $this->getBaseName();
 		}
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		$values = $this->getImageInfo();
+		$values['path'] = $this->getPath();
+		return $values;
 	}
 
 	/**
