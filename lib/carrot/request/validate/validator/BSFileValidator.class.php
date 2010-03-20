@@ -67,7 +67,7 @@ class BSFileValidator extends BSValidator {
 			} else if ($suffixes->count() && !$suffixes->isContain($suffix)) {
 				$this->error = $this['suffix_error'];
 				return false;
-			} else if ($value['error'] == 2) {
+			} else if (in_array($value['error'], range(1, 2))) {
 				$this->error = $this['size_error'];
 				return false;
 			} else if ($value['error']) {
