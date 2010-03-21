@@ -120,14 +120,14 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	}
 
 	/**
-	 * GDイメージリソースを返す
+	 * GD画像リソースを返す
 	 *
 	 * @access public
-	 * @return resource GDイメージリソース
+	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
 		if (!is_resource($this->gd)) {
-			throw new BSImageException('有効な画像リソースがありません。');
+			throw new BSImageException('GD画像リソースが正しくありません。');
 		}
 		$this->getContents();
 		return $this->gd;

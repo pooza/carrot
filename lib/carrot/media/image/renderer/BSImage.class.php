@@ -40,20 +40,20 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * GDイメージリソースを返す
+	 * GD画像リソースを返す
 	 *
 	 * @access public
-	 * @return resource GDイメージリソース
+	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
 		return $this->gd;
 	}
 
 	/**
-	 * GDイメージリソースを設定
+	 * GD画像リソースを設定
 	 *
 	 * @access public
-	 * @param mixed $image 画像リソース
+	 * @param mixed $image GD画像リソース等
 	 */
 	public function setImage ($image) {
 		if (is_resource($image)) {
@@ -65,7 +65,7 @@ class BSImage implements BSImageRenderer {
 		} else if ($image = imagecreatefromstring($image)) {
 			$this->gd = $image;
 		} else {
-			throw new BSImageException('GDイメージリソースが正しくありません。');
+			throw new BSImageException('GD画像リソースが正しくありません。');
 		}
 		$this->width = imagesx($this->gd);
 		$this->height = imagesy($this->gd);
@@ -417,7 +417,7 @@ class BSImage implements BSImageRenderer {
 	 */
 	public function validate () {
 		if (!is_resource($this->getGDHandle())) {
-			$this->error = '画像リソースが正しくありません。';
+			$this->error = 'GD画像リソースが正しくありません。';
 			return false;
 		}
 		return true;
@@ -460,18 +460,6 @@ class BSImage implements BSImageRenderer {
 	 */
 	static public function getSuffixes () {
 		return self::getTypes()->getFlipped();
-	}
-
-	/**
-	 * メディアタイプに適切な拡張子を返す
-	 *
-	 * @access public
-	 * $params string $type メディアタイプ
-	 * @return string 拡張子
-	 * @static
-	 */
-	static public function getSuffix ($type) {
-		return self::getSuffixes()->getParameter($type);
 	}
 }
 

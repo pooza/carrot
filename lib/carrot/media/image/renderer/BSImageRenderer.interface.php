@@ -13,10 +13,10 @@
 interface BSImageRenderer extends BSRenderer {
 
 	/**
-	 * GDイメージリソースを返す
+	 * GD画像リソースを返す
 	 *
 	 * @access public
-	 * @return resource GDイメージリソース
+	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle ();
 

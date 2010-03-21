@@ -70,10 +70,10 @@ class BSQRCode implements BSImageRenderer {
 	}
 
 	/**
-	 * GDイメージリソースを返す
+	 * GD画像リソースを返す
 	 *
 	 * @access public
-	 * @return resource GDイメージリソース
+	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
 		if (!is_resource($this->gd) && !BSString::isBlank($this->getData())) {
