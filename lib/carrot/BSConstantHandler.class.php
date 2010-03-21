@@ -64,7 +64,9 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 */
 	public function setParameter ($name, $value) {
 		if (defined($name = BSString::toUpper((string)$name))) {
-			throw new BSInitializeException('定数 "%s" は定義済みです。', $name);
+			$message = new BSStringFormat('定数 "%s" は定義済みです。');
+			$message[] = $name;
+			throw new BSInitializeException($message);
 		}
 		define($name, $value);
 	}

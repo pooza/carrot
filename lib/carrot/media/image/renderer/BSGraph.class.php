@@ -111,7 +111,9 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 			$type = $suggested;
 		}
 		if (BSString::isBlank($suffix = BSImage::getSuffixes()->getParameter($type))) {
-			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
+			$message = new BSStringFormat('メディアタイプ"%s"が正しくありません。');
+			$message[] = $type;
+			throw new BSImageException($message);
 		}
 		$this->setFileFormat(str_replace('.', '', $suffix));
 		$this->type = $type;
@@ -257,7 +259,9 @@ class BSGraph extends PHPlot implements BSImageRenderer {
 	 */
 	public function setDefaultTTFont ($font) {
 		if (!$file = BSFileUtility::getDirectory('font')->getEntry($font)) {
-			throw new BSImageException('フォントファイル名"%s"が正しくありません。', $font);
+			$message = new BSStringFormat('フォントファイル名"%s"が正しくありません。');
+			$message[] = $font;
+			throw new BSImageException($message);
 		}
 		$this->default_ttfont = $file->getName();
 		return $this->setDefaultFonts();

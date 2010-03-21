@@ -33,7 +33,10 @@ class BSODBCDatabase extends BSDatabase {
 			} catch (Exception $e) {
 			}
 		}
-		throw new BSDatabaseException('データベース "%s" に接続できません。', $name);
+
+		$message = new BSStringFormat('データベース "%s" に接続できません。');
+		$message[] = $name;
+		throw new BSDatabaseException($message);
 	}
 
 	/**

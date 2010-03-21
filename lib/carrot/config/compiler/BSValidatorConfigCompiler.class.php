@@ -100,7 +100,9 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 		$this->validators->setParameters($config);
 		foreach ($this->validators as $name => $values) {
 			if (!$values) {
-				throw new BSConfigException('バリデータ "%s" が未定義です。', $name);
+				$message = new BSStringFormat('バリデータ "%s" が未定義です。');
+				$message[] = $name;
+				throw new BSConfigException($message);
 			}
 			$this->validators[$name] = new BSArray($values);
 		}

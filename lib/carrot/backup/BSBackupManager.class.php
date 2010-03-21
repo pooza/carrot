@@ -81,13 +81,17 @@ class BSBackupManager {
 		$zip->open();
 		foreach ($this->config['databases'] as $name) {
 			if (!$db = BSDatabase::getInstance($name)) {
-				throw new BSDatabaseException('データベース "%s" が見つかりません。', $name);
+				$message = new BSStringFormat('データベース "%s" が見つかりません。');
+				$message[] = $name;
+				throw new BSDatabaseException($message);
 			}
 			$zip->register($db->getBackupTarget());
 		}
 		foreach ($this->config['directories'] as $name) {
 			if (!$dir = BSFileUtility::getDirectory($name)) {
-				throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
+				$message[] = $name;
+				throw new BSFileException($message);
 			}
 			$zip->register($dir, null, BSDirectory::WITHOUT_ALL_IGNORE);
 		}

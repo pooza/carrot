@@ -104,7 +104,9 @@ abstract class BSDirectoryEntry {
 	 */
 	public function setPath ($path) {
 		if (!BSUtility::isPathAbsolute($path)) {
-			throw new BSFileException('パス"%s"が正しくありません。', $path);
+			$message = new BSStringFormat('パス"%s"が正しくありません。');
+			$message[] = $path;
+			throw new BSFileException($message);
 		}
 		$this->path = $path;
 		$this->name = null;

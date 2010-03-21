@@ -252,7 +252,9 @@ class BSDate implements ArrayAccess, BSAssignable {
 				$this->setHasTime(true);
 				break;
 			default:
-				throw new BSDateException('属性名"%s"は正しくありません。', $name);
+				$message = new BSStringFormat('属性名 "%s"は正しくありません。');
+				$message[] = $name;
+				throw new BSDateException($message);
 		}
 
 		if (($value[0] == '+') || ($value[0] == '-')) {
@@ -415,7 +417,9 @@ class BSDate implements ArrayAccess, BSAssignable {
 
 		$config = BSConfigManager::getInstance()->compile('date');
 		if (!isset($config['holiday'][$country])) {
-			throw new BSConfigException('国名"%s"の休日が未定義です。', $country);
+			$message = new BSStringFormat('国名 "%s"の休日が未定義です。');
+			$message[] = $country;
+			throw new BSConfigException($message);
 		}
 		$holidays = new $config['holiday'][$country]['class'];
 		$holidays->setDate($this);

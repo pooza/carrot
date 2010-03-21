@@ -62,7 +62,9 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 */
 	public function getDirectory ($name) {
 		if (!$info = $this[$name]) {
-			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+			$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
+			$message[] = $name;
+			throw new BSFileException($message);
 		}
 		if (!$info['instance']) {
 			if (!BSString::isBlank($info['constant'])) {
@@ -73,7 +75,9 @@ class BSDirectoryLayout extends BSParameterHolder {
 				$dir = $this->getDirectory($info['parent'])->getEntry($name);
 			}
 			if (!$dir || !$dir->isDirectory()) {
-				throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
+				$message[] = $name;
+				throw new BSFileException($message);
 			}
 
 			if (!BSString::isBlank($info['class'])) {
@@ -97,7 +101,9 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 */
 	public function getURL ($name) {
 		if (!$info = $this[$name]) {
-			throw new BSFileException('ディレクトリ "%s" が見つかりません。', $name);
+			$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
+			$message[] = $name;
+			throw new BSFileException($message);
 		}
 		if (!$info['url']) {
 			if (BSString::isBlank($info['href'])) {

@@ -46,7 +46,9 @@ class BSColor extends BSParameterHolder {
 			$color = BSString::toLower($color);
 			$colors = new BSArray(BSConfigManager::getInstance()->compile('color'));
 			if (BSString::isBlank($code = $colors[$color])) {
-				throw new BSImageException('色 "%s" は正しくありません。', $color);
+				$message = new BSStringFormat('色 "%s" は正しくありません。');
+				$message[] = $color;
+				throw new BSImageException($message);
 			}
 			$this->setColor($code);
 		}

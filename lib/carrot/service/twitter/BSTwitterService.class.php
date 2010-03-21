@@ -110,7 +110,9 @@ class BSTwitterService extends BSCurlHTTP {
 			$this->setAttribute('userpwd', $this->getUserID() . ':' . $this->getPassword());
 			return parent::sendGetRequest($path);
 		} catch (BSHTTPException $e) {
-			throw new BSTwitterException('認証エラーが発生した為、%sが実行できません。', $path);
+			$message = new BSStringFormat('認証エラーが発生した為、%sが実行できません。');
+			$message[] = $path;
+			throw new BSTwitterException($message);
 		}
 	}
 
@@ -133,7 +135,9 @@ class BSTwitterService extends BSCurlHTTP {
 			$this->setAttribute('userpwd', $this->getUserID() . ':' . $this->getPassword());
 			return parent::sendPostRequest($path, $params);
 		} catch (BSHTTPException $e) {
-			throw new BSTwitterException('認証エラーが発生した為、%sが実行できません。', $path);
+			$message = new BSStringFormat('認証エラーが発生した為、%sが実行できません。');
+			$message[] = $path;
+			throw new BSTwitterException($message);
 		}
 	}
 

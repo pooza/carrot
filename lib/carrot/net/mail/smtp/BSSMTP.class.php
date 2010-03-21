@@ -40,7 +40,10 @@ class BSSMTP extends BSSocket {
 		parent::open();
 		$command = 'EHLO ' . BSController::getInstance()->getHost()->getName();
 		if (!in_array($this->execute($command), array(220, 250))) {
-			throw new BSMailException('%sに接続できません。 (%s)', $this, $this->getPrevLine());
+			$message = new BSStringFormat('%sに接続できません。 (%s)');
+			$message[] = $this;
+			$message[] = $this->getPrevLine();
+			throw new BSMailException($message);
 		}
 		$this->keywords = new BSArray($this->getLines());
 	}
@@ -52,7 +55,10 @@ class BSSMTP extends BSSocket {
 	 */
 	public function close () {
 		if ($this->execute('QUIT') != 221) {
-			throw new BSMailException('%sから切断できません。(%s)',$this, $this->getPrevLine());
+			$message = new BSStringFormat('%sから切断できません。(%s)');
+			$message[] = $this;
+			$message[] = $this->getPrevLine();
+			throw new BSMailException($message);
 		}
 		parent::close();
 	}
@@ -244,14 +250,17 @@ class BSSMTP extends BSSocket {
 	 */
 	public function execute ($command) {
 		$this->putLine($command);
-
 		if (!mb_ereg('^([[:digit:]]+)', $this->getLine(), $matches)) {
-			throw new BSMailException('不正なレスポンスです。 (%s)', $this->getPrevLine());
+			$message = new BSStringFormat('不正なレスポンスです。 (%s)');
+			$message[] = $this->getPrevLine();
+			throw new BSMailException($message);
 		}
-		$result = $matches[1];
 
-		if (400 <= $result) {
-			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
+		if (400 <= ($result = $matches[1])) {
+			$message = new BSStringFormat('%s (%s)');
+			$message[] = $this->getPrevLine();
+			$message[] = $command;
+			throw new BSMailException($message);
 		}
 		return $result;
 	}

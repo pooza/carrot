@@ -41,7 +41,10 @@ class BSHTMLFragmentValidator extends BSValidator {
 			$element = new BSXMLElement;
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
-				throw new BSXMLException('%s (%s)', $this['element_error'], $this->invalidNode);
+				$message = new BSString('%s (%s)');
+				$message[] = $this['element_error'];
+				$message[] = $this->invalidNode;
+				throw new BSXMLException($message);
 			}
 		} catch (BSXMLException $e) {
 			$this->error = $e->getMessage();

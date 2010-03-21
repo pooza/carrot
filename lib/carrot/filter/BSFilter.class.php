@@ -37,7 +37,9 @@ abstract class BSFilter extends BSParameterHolder {
 			case 'action':
 				return BSController::getInstance()->getAction();
 			default:
-				throw new BSMagicMethodException('仮想プロパティ"%s"は未定義です。', $name);
+				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
+				$message[] = $name;
+				throw new BSMagicMethodException($message);
 		}
 	}
 

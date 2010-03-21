@@ -112,7 +112,9 @@ class BSImage implements BSImageRenderer {
 			$type = $suggested;
 		}
 		if (!self::getTypes()->isContain($type)) {
-			throw new BSImageException('メディアタイプ"%s"が正しくありません。', $type);
+			$message = new BSStringFormat('メディアタイプ"%s"が正しくありません。');
+			$message[] = $type;
+			throw new BSImageException($message);
 		}
 		$this->type = $type;
 	}

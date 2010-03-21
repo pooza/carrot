@@ -97,11 +97,11 @@ class BSMail extends BSMIMEDocument {
 			if (!$this->getRecipients()->count()) {
 				throw new BSMailException('宛先アドレスが指定されていません。');
 			}
-			if (BS_SMTP_CHECK_ADDRESSES) {
-				foreach ($this->getRecipients() as $email) {
-					if (!$email->isValidDomain()) {
-						throw new BSMailException('宛先%sが正しくありません。', $email);
-					}
+			foreach ($this->getRecipients() as $email) {
+				if (BS_SMTP_CHECK_ADDRESSES && !$email->isValidDomain()) {
+					$message = new BSStringFormat('宛先%sが正しくありません。');
+					$message[] = $email;
+					throw new BSMailException($message);
 				}
 			}
 			return true;

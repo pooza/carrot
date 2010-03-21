@@ -76,8 +76,11 @@ class BSSocket {
 	public function open () {
 		$error = null;
 		$message = null;
-		if (!$this->client = stream_socket_client($this->getName(), $error, $message)) {
-			throw new BSNetException('%sに接続できません。(%s)', $this, $message);
+		if (!$this->client = stream_socket_client($this->getName(), $error, $result)) {
+			$message = new BSStringFormat('%sに接続できません。(%s)');
+			$message[] = $this;
+			$message[] = $result;
+			throw new BSNetException($message);
 		}
 		stream_set_timeout($this->client, 10);
 	}

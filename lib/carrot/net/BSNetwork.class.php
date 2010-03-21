@@ -46,7 +46,10 @@ class BSNetwork extends BSHost {
 		$this->setAddress($matches[1]);
 		$net = $this->address->parseAddress($address);
 		if ($net instanceof PEAR_Error) {
-			throw new BSNetException('%sをパースできません。(%s)', $this, $net->message);
+			$message = new BSStringFormat('%sをパースできません。(%s)');
+			$message[] = $this;
+			$message[] = $net->message;
+			throw new BSNetException($message);
 		}
 
 		foreach (array('bitmask', 'netmask', 'network', 'broadcast', 'long') as $var) {

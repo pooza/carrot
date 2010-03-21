@@ -88,7 +88,9 @@ class BSRaderChart extends BSImage {
 	private function getColor ($name) {
 		$config = new BSArray(BSConfigManager::getInstance()->compile('rader_chart'));
 		if (!$config->hasParameter($name)) {
-			throw new BSImageException('レーダーチャートの色 "%s" は未定義です。', $name);
+			$message = new BSStringFormat('レーダーチャートの色 "%s" は未定義です。');
+			$message[] = $name;
+			throw new BSImageException($message);
 		}
 		return new BSColor($config[$name]);
 	}

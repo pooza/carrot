@@ -45,7 +45,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 						return self::$instances[$name] = BSODBCDatabase::connect($name);
 				}
 			}
-			throw new BSDatabaseException('"%s"のDSNが適切ではありません。', $name);
+
+			$message = new BSStringFormat('"%s"のDSNが適切ではありません。');
+			$message[] = $name;
+			throw new BSDatabaseException($message);
 		}
 		return self::$instances[$name];
 	}

@@ -44,7 +44,9 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		}
 
 		if (BSString::isBlank($id = self::getPictogramCode($name))) {
-			throw new BSMobileException('絵文字 "%s" が見つかりません。', $name);
+			$message = new BSStringFormat('絵文字 "%s" が見つかりません。');
+			$message[] = $name;
+			throw new BSMobileException($message);
 		}
 		if (!self::$instances[$id]) {
 			self::$instances[$id] = new self($id);

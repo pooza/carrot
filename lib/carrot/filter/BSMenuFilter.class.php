@@ -54,7 +54,9 @@ class BSMenuFilter extends BSFilter {
 		$values = new BSArray($values);
 		if (!BSString::isBlank($values['module'])) {
 			if (!$module = $this->controller->getModule($values['module'])) {
-				throw new BSConfigException('モジュール "%s" がありません。', $values['module']);
+				$message = new BSStringFormat('モジュール "%s" がありません。');
+				$message[] = $values['module'];
+				throw new BSConfigException($message);
 			}
 			if (BSString::isBlank($values['title'])) {
 				$values['title'] = $module->getMenuTitle();
@@ -85,7 +87,10 @@ class BSMenuFilter extends BSFilter {
 				return $file;
 			}
 		}
-		throw new BSConfigException('メニュー (%s)が見つかりません。', $names->join('|'));
+
+		$message = new BSStringFormat('メニュー (%s)が見つかりません。');
+		$message[] = $names->join('|');
+		throw new BSConfigException($message);
 	}
 
 	/**

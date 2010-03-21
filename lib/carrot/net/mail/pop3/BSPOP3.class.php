@@ -21,7 +21,10 @@ class BSPOP3 extends BSSocket {
 	public function open () {
 		parent::open();
 		if (!$this->isSuccess()) {
-			throw new BSMailException('%sに接続できません。 (%s)', $this, $this->getPrevLine());
+			$message = new BSStringFormat('%sに接続できません。 (%s)');
+			$message[] = $this;
+			$message[] = $this->getPrevLine();
+			throw new BSMailException($message);
 		}
 	}
 
@@ -108,7 +111,10 @@ class BSPOP3 extends BSSocket {
 	public function execute ($command) {
 		$this->putLine($command);
 		if (!$this->isSuccess()) {
-			throw new BSMailException('%s (%s)', $this->getPrevLine(), $command);
+			$message = new BSStringFormat('%s (%s)');
+			$message[] = $this->getPrevLine();
+			$message[] = $command;
+			throw new BSMailException($message);
 		}
 		return true;
 	}

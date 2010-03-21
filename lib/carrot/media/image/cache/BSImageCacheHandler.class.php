@@ -430,7 +430,9 @@ class BSImageCacheHandler {
 		$flags = 0;
 		foreach ($values as $value) {
 			if (BSString::isBlank($flag = $constants['BSImageCacheHandler::' . $value])) {
-				throw new BSImageException('BSImageCacheHandler::%sが未定義です。', $value);
+				$message = new BSStringFormat('BSImageCacheHandler::%sが未定義です。');
+				$message[] = $value;
+				throw new BSImageException($message);
 			}
 			$flags += $flag;
 		}

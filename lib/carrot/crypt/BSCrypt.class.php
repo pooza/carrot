@@ -149,7 +149,9 @@ class BSCrypt {
 			$method = BS_CRYPT_DIGEST_METHOD;
 		}
 		if (!in_array($method, hash_algos())) {
-			throw new BSCryptException('ハッシュ関数"%s"は正しくありません。');
+			$message = new BSStringFormat('ハッシュ関数 "%s"は正しくありません。');
+			$message[] = $method;
+			throw new BSCryptException($message);
 		}
 		if (BSArray::isArray($value)) {
 			$value = new BSArray($value);

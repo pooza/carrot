@@ -43,7 +43,10 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 			}
 			return $this->records[$name];
 		} 
-		throw new BSMagicMethodException('仮想メソッド"%s"は未定義です。', $method);
+
+		$message = new BSStringFormat('仮想メソッド"%s"は未定義です。');
+		$message[] = $method;
+		throw new BSMagicMethodException($message);
 	}
 
 	/**

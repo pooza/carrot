@@ -41,7 +41,9 @@ class BSProcess {
 		$command->addValue($name);
 		$command->setDirectory(BSFileUtility::getDirectory('proctools'));
 		if ($command->hasError()) {
-			throw new BSConsoleException('実行時エラーです。(%s)', $command->getContents());
+			$message = new BSStringFormat('実行時エラーです。(%s)');
+			$message[] = $command->getContents();
+			throw new BSConsoleException($message);
 		}
 
 		if ($result = $command->getResult()) {

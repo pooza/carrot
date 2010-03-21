@@ -443,7 +443,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			$template = $file->getPath();
 			return parent::_smarty_include($params);
 		}
-		throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
+
+		$message = new BSStringFormat('テンプレート "%s"が見つかりません。');
+		$message[] = $template;
+		throw new BSViewException($message);
 	}
 
 	/**
@@ -467,10 +470,10 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return string
 	 */
 	public function _get_auto_filename ($base, $source = null, $id = null) {
-		// ソーステンプレート名をフルパス表記に修正
 		if (!BSUtility::isPathAbsolute($source)) {
-			$pattern = preg_quote(DIRECTORY_SEPARATOR) . '*$';
-			$source = mb_ereg_replace($pattern, DIRECTORY_SEPARATOR, $base) . $source;
+			$message = new BSStringFormat('テンプレート名 "%s" はフルパスではありません。');
+			$message[] = $source;
+			throw new BSViewException($message);
 		}
 		return parent::_get_auto_filename($base, $source, $id);
 	}

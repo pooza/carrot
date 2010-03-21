@@ -13,24 +13,15 @@ class BSException extends Exception {
 
 	/**
 	 * @access public
+	 * $param string $message メッセージ
+	 * @param int $code コード
+	 * @param Exception $prev 直前の例外。例外の連結に使用。
 	 */
-	public function __construct () {
-		switch (count($args = func_get_args())) {
-			case 0:
-				$message = $this->getName() . 'が発生しました。';
-				break;
-			case 1:
-				if ($args[0] instanceof BSStringFormat) {
-					$message = $args[0]->getContents();
-				} else {
-					$message = $args[0];
-				}
-				break;
-			default:
-				$message = call_user_func_array('sprintf', $args);
-				break;
+	public function __construct ($message = null, $code = 0, Exception $prev = null) {
+		if ($message instanceof BSStringFormat) {
+			$message = $message->getContents();
 		}
-		parent::__construct($message);
+		parent::__construct($message, $code, $prev);
 
 		if ($this->isLoggable()) {
 			BSLogManager::getInstance()->put($this);

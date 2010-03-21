@@ -22,12 +22,16 @@ class BSStatusMIMEHeader extends BSMIMEHeader {
 		if (mb_ereg('^([[:digit:]]{3}) ', $contents, $matches)) {
 			return $this->setContents($matches[1]);
 		} else if (!is_numeric($contents)) {
-			throw new BSHTTPException('ステータス"%s"は正しくありません。', $contents);
+			$message = new BSStringFormat('ステータス"%s"は正しくありません。');
+			$message[] = $contents;		
+			throw new BSHTTPException($message);
 		}
 
 		$this['code'] = $contents;
 		if (BSString::isBlank($status = BSHTTP::getStatus($contents))) {
-			throw new BSHTTPException('ステータス"%s"は正しくありません。', $contents);
+			$message = new BSStringFormat('ステータス"%s"は正しくありません。');
+			$message[] = $contents;		
+			throw new BSHTTPException($message);
 		}
 		parent::setContents($status);
 	}

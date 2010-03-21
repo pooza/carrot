@@ -94,7 +94,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if ($this->isUploaded()) {
 			$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
 			if (!move_uploaded_file($this->getPath(), $path)) {
-				throw new BSFileException('アップロードされた%sをリネームできません。', $this);
+				$message = new BSStringFormat('アップロードされた%sをリネームできません。');
+				$message[] = $this;
+				throw new BSFileException($message);
 			}
 			$this->setPath($path);
 		} else {
@@ -115,7 +117,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if ($this->isUploaded()) {
 			$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
 			if (!move_uploaded_file($this->getPath(), $path)) {
-				throw new BSFileException('アップロードされた%sを移動できません。', $this);
+				$message = new BSStringFormat('アップロードされた%sを移動できません。');
+				$message[] = $this;
+				throw new BSFileException($message);
 			}
 			$this->setPath($path);
 		} else {
@@ -164,7 +168,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function open ($mode = 'r') {
 		if (!in_array($mode, array('r', 'a', 'w'))) {
-			throw new BSFileException('モード"%s"が正しくありません。', $mode);
+			$message = new BSStringFormat('モード "%s" が正しくありません。');
+			$message[] = $mode;
+			throw new BSFileException($message);
 		} else if (($mode == 'r') && !$this->isExists()) {
 			throw new BSFileException($this . 'が存在しません。');
 		} else if ($this->isCompressed()) {
@@ -176,9 +182,11 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if (!$this->handle = fopen($this->getPath(), $mode)) {
 			$this->handle = null;
 			$this->mode = null;
-			throw new BSFileException('%sを%sモードで開くことができません。', $this, $mode);
+			$message = new BSStringFormat('%sを%sモードで開くことができません。');
+			$message[] = $this;
+			$message[] = $mode;
+			throw new BSFileException($message);
 		}
-
 		$this->mode = $mode;
 	}
 

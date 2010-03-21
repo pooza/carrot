@@ -36,7 +36,9 @@ class BSMemcacheSmartyCacheStorage implements BSSmartyCacheStorage {
 					case 'clear':
 						return true; //サポートしない
 					default:
-						throw new BSSmartyException('不正なアクション "%s" です。', $action);
+						$message = new BSStringFormat('不正なアクション "%s" です。');
+						$message[] = $action;
+						throw new BSSmartyException($message);
 				}
 			}
 		}

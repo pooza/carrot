@@ -80,7 +80,10 @@ abstract class BSMobileCarrier {
 				return $instance;
 			}
 		}
-		throw new BSMobileException('キャリア "%s" が見つかりません。', $name);
+
+		$message = new BSStringFormat('キャリア "%s" が見つかりません。');
+		$message[] = $name;
+		throw new BSMobileException($message);
 	}
 
 	/**

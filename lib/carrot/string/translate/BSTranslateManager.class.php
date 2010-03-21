@@ -83,7 +83,9 @@ class BSTranslateManager implements IteratorAggregate {
 	 */
 	public function setDictionaryPriority ($name, $priority) {
 		if (!$dictionary = $this->dictionaries[$name]) {
-			throw new BSTranslateException('辞書 "%s" は登録されていません。', $name);
+			$message = new BSStringFormat('辞書 "%s" は登録されていません。');
+			$message[] = $name;
+			throw new BSTranslateException($message);
 		}
 		$this->dictionaries->removeParameter($name);
 		$this->dictionaries->setParameter($name, $dictionary, $priority);
@@ -123,7 +125,9 @@ class BSTranslateManager implements IteratorAggregate {
 			}
 		}
 		if (BS_DEBUG) {
-			throw new BSTranslateException('"%s"の訳語が見つかりません。', $string);
+			$message = new BSStringFormat('"%s"の訳語が見つかりません。');
+			$message[] = $string;
+			throw new BSTranslateException($message);
 		} else {
 			return $string;
 		}
@@ -181,7 +185,9 @@ class BSTranslateManager implements IteratorAggregate {
 	public function setLanguage ($language) {
 		$language = BSString::toLower($language);
 		if (!self::getLanguageNames()->isContain($language)) {
-			throw new BSTranslateException('言語コード"%s"が正しくありません。', $language);
+			$message = new BSStringFormat('言語コード"%s"が正しくありません。');
+			$message[] = $language;
+			throw new BSTranslateException($message);
 		}
 		$this->language = $language;
 	}
