@@ -56,9 +56,13 @@ class BSCoordinate {
 	 */
 	private function validate () {
 		if (($this->getX() < 0) || ($this->getImage()->getWidth() - 1 < $this->getX())) {
-			throw new BSImageException('X座標[%d]は領域外です。', $this->getX());
+			$message = new BSStringFormat('X座標 "%d" は領域外です。');
+			$message[] = $this->getX();
+			throw new BSImageException($message);
 		} else if (($this->getY() < 0) || ($this->getImage()->getHeight() - 1 < $this->getY())) {
-			throw new BSImageException('Y座標[%d]は領域外です。', $this->getY());
+			$message = new BSStringFormat('Y座標 "%d" は領域外です。');
+			$message[] = $this->getY();
+			throw new BSImageException($message);
 		}
 	}
 

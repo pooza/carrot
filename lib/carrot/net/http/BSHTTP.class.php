@@ -141,7 +141,10 @@ class BSHTTP extends BSSocket {
 		if ($status = self::getAllStatus()->getParameter($code)) {
 			return $code . ' ' . $status['status'];
 		}
-		throw new BSHTTPException('%dは正しくないステータスコードです。', $code);
+
+		$message = new BSStringFormat('ステータスコード "%d" が正しくありません。');
+		$message[] = $code;
+		throw new BSHTTPException($message);
 	}
 }
 

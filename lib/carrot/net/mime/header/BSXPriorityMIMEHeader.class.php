@@ -20,7 +20,9 @@ class BSXPriorityMIMEHeader extends BSMIMEHeader {
 	 */
 	public function setContents ($contents) {
 		if (!in_array($contents, range(1, 5))) {
-			throw new BSMailException('優先順位"%d"が正しくありません。', $contents);
+			$message = new BSStringFormat('優先順位"%d"が正しくありません。');
+			$message[] = $contents;
+			throw new BSMailException($message);
 		}
 		parent::setContents($contents);
 	}
