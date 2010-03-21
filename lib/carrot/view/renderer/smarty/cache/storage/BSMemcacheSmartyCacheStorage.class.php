@@ -38,7 +38,7 @@ class BSMemcacheSmartyCacheStorage implements BSSmartyCacheStorage {
 					default:
 						$message = new BSStringFormat('不正なアクション "%s" です。');
 						$message[] = $action;
-						throw new BSSmartyException($message);
+						throw new BSViewException($message);
 				}
 			}
 		}

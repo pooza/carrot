@@ -88,7 +88,7 @@ class BSUtility {
 			$message = new BSStringFormat('クラス "%s" のメソッド "%s" が未定義です。');
 			$message[] = get_class($object);
 			$message[] = $method;
-			throw new BSMagicMethodException($message);
+			throw new BadFunctionCallException($message);
 		}
 		return call_user_func_array(array($object, $method), $values);
 	}

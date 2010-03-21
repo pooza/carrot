@@ -41,7 +41,7 @@ abstract class BSController {
 			default:
 				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
 				$message[] = $name;
-				throw new BSMagicMethodException($message);
+				throw new BadFunctionCallException($message);
 		}
 	}
 
@@ -130,7 +130,7 @@ abstract class BSController {
 	 */
 	public function registerAction (BSAction $action) {
 		if (self::ACTION_REGISTER_LIMIT < $this->getActionStack()->count()) {
-			throw new BSInitializeException('フォワードが多すぎます。');
+			throw new BadFunctionCallException('フォワードが多すぎます。');
 		}
 		$this->getActionStack()->push($action);
 	}

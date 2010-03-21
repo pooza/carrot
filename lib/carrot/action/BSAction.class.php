@@ -47,7 +47,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			default:
 				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
 				$message[] = $name;
-				throw new BSMagicMethodException($message);
+				throw new BadFunctionCallException($message);
 		}
 	}
 
@@ -395,7 +395,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	public function forward () {
 		$this->controller->registerAction($this);
 		if (!$this->initialize()) {
-			throw new BSInitializeException($this . 'が初期化できません。');
+			throw new BadFunctionCallException($this . 'が初期化できません。');
 		}
 
 		$filters = new BSFilterSet;

@@ -38,6 +38,14 @@ class BSStringFormat extends BSArray {
 	public function getContents () {
 		return call_user_func_array('sprintf', $this->getParameters());
 	}
+
+	/**
+	 * @access public
+	 * @return string
+	 */
+	public function __toString () {
+		return $this->getContents();
+	}
 }
 
 /* vim:set tabstop=4: */

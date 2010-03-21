@@ -37,7 +37,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException(__CLASS__ . 'はコピーできません。');
+		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**
@@ -66,7 +66,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		if (defined($name = BSString::toUpper((string)$name))) {
 			$message = new BSStringFormat('定数 "%s" は定義済みです。');
 			$message[] = $name;
-			throw new BSInitializeException($message);
+			throw new BadFunctionCallException($message);
 		}
 		define($name, $value);
 	}
@@ -125,7 +125,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @param string $name パラメータ名
 	 */
 	public function removeParameter ($name) {
-		throw new BSInitializeException('定数は削除できません。');
+		throw new BadFunctionCallException('定数は削除できません。');
 	}
 
 	/**

@@ -126,7 +126,7 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 		$funcs[self::SORT_VALUE_DESC] = 'arsort';
 
 		if (BSString::isBlank($func = $funcs[$order])) {
-			throw new BSInitializeException('BSArray::sortの引数が正しくありません。');
+			throw new InvalidArgumentException('BSArray::sortの引数が正しくありません。');
 		}
 		$func($this->params);
 		return $this;

@@ -24,7 +24,7 @@ class BSIterator implements Iterator, Countable {
 		} else if (is_array($array)) {
 			$this->values = $array;
 		} else {
-			throw new BSInitializeException('引数は配列ではありません。');
+			throw new InvalidArgumentException('引数は配列ではありません。');
 		}
 		$this->keys = array_keys($this->values);
 	}

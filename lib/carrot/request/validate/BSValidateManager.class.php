@@ -39,7 +39,7 @@ class BSValidateManager implements IteratorAggregate {
 	 * @access public
 	 */
 	public function __clone () {
-		throw new BSSingletonException(__CLASS__ . 'はコピーできません。');
+		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**
@@ -54,7 +54,7 @@ class BSValidateManager implements IteratorAggregate {
 			default:
 				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
 				$message[] = $name;
-				throw new BSMagicMethodException($message);
+				throw new BadFunctionCallException($message);
 		}
 	}
 

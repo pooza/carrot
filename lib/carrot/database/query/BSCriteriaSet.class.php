@@ -73,7 +73,7 @@ class BSCriteriaSet extends BSArray {
 			case 'BETWEEN':
 				$values = new BSArray($value);
 				if ($values->count() != 2) {
-					throw new BSDatabaseException('BETWEEN演算子に与える引数は2個です。');
+					throw new InvalidArgumentException('BETWEEN演算子に与える引数は2個です。');
 				}
 				$this[] = $key . ' BETWEEN ' . $this->quote($values)->join(' AND ');
 				break;
