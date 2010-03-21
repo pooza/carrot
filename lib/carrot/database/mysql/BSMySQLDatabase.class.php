@@ -207,10 +207,9 @@ class BSMySQLDatabase extends BSDatabase {
 			$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
 			$result = PDO::query($query)->fetch();
 			if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
-				throw new BSDatabaseException(
-					'文字セット"%s"は使用できません。',
-					$result['Value']
-				);
+				$message = new BSStringFormat('文字セット "%s" は使用できません。');
+				$message[] = $result['Value'];
+				throw new BSDatabaseException($message);
 			}
 			return $encoding;
 		} else {

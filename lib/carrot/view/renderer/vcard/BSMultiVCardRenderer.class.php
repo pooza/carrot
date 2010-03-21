@@ -23,11 +23,10 @@ class BSMultiVCardRenderer extends BSArray implements BSRenderer {
 	 */
 	public function setParameter ($name, $value, $position = self::POSITION_BOTTOM) {
 		if (!($value instanceof BSVCardRenderer)) {
-			throw new BSViewException(
-				'%sに%sは加えられません。',
-				get_class($this),
-				get_class($value)
-			);
+			$message = new BSStringFormat('%sに%sは加えられません。');
+			$message[] = get_class($this);
+			$message[] = get_class($value);
+			throw new BSViewException($message);
 		}
 		parent::setParameter($name, $value, $position);
 	}

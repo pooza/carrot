@@ -92,11 +92,10 @@ class BSHTTP extends BSSocket {
 		$response->setURL($request->getURL());
 	
 		if (!$response->validate()) {
-			throw new BSHTTPException(
-				'不正なレスポンスです。 (%d %s)',
-				$response->getStatus(),
-				$response->getError()
-			);
+			$message = new BSStringFormat('不正なレスポンスです。 (%d %s)');
+			$message[] = $response->getStatus();
+			$message[] = $response->getError();
+			throw new BSHTTPException($message);
 		}
 		return $response;
 	}

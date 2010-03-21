@@ -47,9 +47,9 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	public function getDate () {
 		if (!$this->date) {
-			throw new BSInitializationException(
-				get_class($this) . 'の対象日付が設定されていません。'
-			);
+			$message = new BSStringFormat('%sの対象日付が設定されていません。');
+			$message[] = get_class($this);
+			throw new BSInitializationException($message);
 		}
 		return $this->date;
 	}

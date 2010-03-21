@@ -283,7 +283,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setTemplate ($template) {
 		if (!$file = $this->searchTemplate($template)) {
-			throw new BSViewException('テンプレート"%s"が見つかりません。', $template);
+			$message = new BSStringFormat('テンプレート "%s" が見つかりません。');
+			$message[] = $template;
+			throw new BSViewException($message);
 		}
 		$this->template = $file;
 		$this->template->setEngine($this);
@@ -381,10 +383,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		if (!$this->compiler) {
 			$this->compiler = new $this->compiler_class;
 			if (!$this->compiler->initialize($this)) {
-				throw new BSInitializationException(
-					'%sが初期化できません。',
-					$this->compiler_class
-				);
+				$message = new BSStringFormat('%sが初期化できません。');
+				$message[] = $this->compiler_class;
+				throw new BSInitializationException($message);
 			}
 		}
 		return $this->compiler;

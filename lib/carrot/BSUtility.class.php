@@ -85,11 +85,10 @@ class BSUtility {
 	 */
 	static public function executeMethod ($object, $method, $values) {
 		if (!method_exists($object, $method)) {
-			throw new BSMagicMethodException(
-				'クラス"%s"のメソッド"%s"が未定義です。',
-				get_class($object),
-				$method
-			);
+			$message = new BSStringFormat('クラス "%s" のメソッド "%s" が未定義です。');
+			$message[] = get_class($object);
+			$message[] = $method;
+			throw new BSMagicMethodException($message);
 		}
 		return call_user_func_array(array($object, $method), $values);
 	}

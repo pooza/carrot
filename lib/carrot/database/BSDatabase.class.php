@@ -157,11 +157,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function query ($query) {
 		if (!$rs = parent::query($this->encodeQuery($query))) {
-			throw new BSDatabaseException(
-				'実行不能なクエリーです。(%s) [%s]',
-				$this->getError(),
-				$query
-			);
+			$message = new BSStringFormat('実行不能なクエリーです。(%s) [%s]');
+			$message[] = $this->getError();
+			$message[] = $query;
+			throw new BSDatabaseException($message);
 		}
 		$rs->setFetchMode(PDO::FETCH_ASSOC);
 		return $rs;
@@ -177,11 +176,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	public function exec ($query) {
 		$r = parent::exec($this->encodeQuery($query));
 		if ($r === false) {
-			throw new BSDatabaseException(
-				'実行不能なクエリーです。(%s) [%s]',
-				$this->getError(),
-				$query
-			);
+			$message = new BSStringFormat('実行不能なクエリーです。(%s) [%s]');
+			$message[] = $this->getError();
+			$message[] = $query;
+			throw new BSDatabaseException($message);
 		}
 		if (BS_PDO_QUERY_LOG_ENABLE) {
 			$this->putLog($query);
