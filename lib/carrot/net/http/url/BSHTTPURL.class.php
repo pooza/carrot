@@ -46,13 +46,14 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		$this->fullpath = null;
 		switch ($name) {
 			case 'path':
-				if ($values = @parse_url($value)) {
-					$values = new BSArray($values);
+				try {
+					$values = new BSArray(parse_url($value));
 					$this->attributes['path'] = $values['path'];
 					$this->attributes['fragment'] = $values['fragment'];
 					$this['query'] = $values['query'];
 					$this->dirty = false;
-				} else {
+				} catch (Exception $e) {
+					$this->attributes->clear();
 					$this->attributes['path'] = $value;
 					$this->dirty = true;
 				}

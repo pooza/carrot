@@ -300,8 +300,10 @@ class BSXMLElement implements IteratorAggregate {
 		$this->contents = $contents;
 
 		$xml = new DOMDocument('1.0', 'utf-8');
-		if (@$xml->loadXML($contents) === false) {
-			throw new BSXMLException('パースエラーです。');
+		try {
+			$xml->loadXML($contents);
+		} catch (Exception $e) {
+			throw new BSXMLException($e->getMessage());
 		}
 
 		$stack = new BSArray;
