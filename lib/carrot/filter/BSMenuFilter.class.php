@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSMenuFilter extends BSFilter {
-	private $menu = array();
+	private $menu;
 
 	public function execute () {
 		$this->request->setAttribute('menu', $this->getMenu());
@@ -21,10 +21,11 @@ class BSMenuFilter extends BSFilter {
 	 * メニュー配列を返す
 	 *
 	 * @access private
-	 * @return string[][] メニュー配列
+	 * @return BSArray メニュー配列
 	 */
 	private function getMenu () {
 		if (!$this->menu) {
+			$this->menu = new BSArray;
 			$separator = true; //次の仕切りを無視するか？
 			foreach (BSConfigManager::getInstance()->compile($this->getMenuFile()) as $values) {
 				if ($menuitem = $this->getMenuItem($values)) {
