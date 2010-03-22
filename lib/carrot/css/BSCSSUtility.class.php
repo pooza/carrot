@@ -36,7 +36,6 @@ class BSCSSUtility {
 			$properties[] = 'font';
 			$properties[] = 'font-size';
 			$properties[] = 'font-family';
-			$properties[] = 'margin';
 		}
 		foreach ($properties as $property) {
 			$value = mb_ereg_replace($property . ' ?: ?[^;"]+([;"])', '\\1', $value);
