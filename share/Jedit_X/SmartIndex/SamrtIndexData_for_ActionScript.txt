@@ -1,3 +1,0 @@
-^[ \t]*(.*function.*) {$	\1
-^[ \t]*(.*class.*) {$	\1	Bold
-^(package.*) {$	\1	Bold
