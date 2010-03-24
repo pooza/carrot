@@ -45,6 +45,7 @@
   <F-03A color="1" depth="16777216" height="352" width="240" />
   <F-03B color="1" depth="262144" height="648" width="480" />
   <F-04A color="1" depth="262144" height="352" width="240" />
+  <F-04B color="1" depth="262144" height="648" width="480" />
   <F-05A color="1" depth="65536" height="352" width="240" />
   <F-06A color="1" depth="16777216" height="352" width="240" />
   <F-07A color="1" depth="262144" height="256" width="240" />
@@ -105,6 +106,7 @@
   <F906I color="1" depth="16777216" height="352" width="240" />
   <KO209I color="1" depth="256" height="96" width="96" />
   <KO210I color="1" depth="256" height="96" width="96" />
+  <L-01B color="1" depth="262144" height="660" width="480" />
   <L600I color="1" depth="65536" height="189" width="170" />
   <L601I color="1" depth="65536" height="189" width="170" />
   <L602I color="1" depth="65536" height="189" width="170" />
@@ -191,7 +193,6 @@
   <NM706I color="1" depth="16777216" height="235" width="231" />
   <NM850IG color="1" depth="65536" height="144" width="176" />
   <P-01A color="1" depth="262144" height="350" width="240" />
-  <P-01B color="1" depth="262144" height="662" width="480" />
   <P-02A color="1" depth="262144" height="350" width="240" />
   <P-02B color="1" depth="262144" height="662" width="480" />
   <P-03A color="1" depth="262144" height="350" width="240" />
