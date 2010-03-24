@@ -303,7 +303,9 @@ class BSXMLElement implements IteratorAggregate {
 		try {
 			$xml->loadXML($contents);
 		} catch (Exception $e) {
-			throw new BSXMLException($e->getMessage());
+			$message = new BSStringFormat('パースエラーです。 (%s)');
+			$message[] = BSString::stripTags($e->getMessage());
+			throw new BSXMLException($message);
 		}
 
 		$stack = new BSArray;
