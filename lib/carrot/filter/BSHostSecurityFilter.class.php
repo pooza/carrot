@@ -28,7 +28,7 @@ class BSHostSecurityFilter extends BSFilter {
 	 */
 	private function auth () {
 		foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
-			if ($this->request->getHost()->isInNetwork($network)) {
+			if ($network->isContain($this->request->getHost())) {
 				return true;
 			}
 		}

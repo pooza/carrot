@@ -11,7 +11,7 @@
  * @version $Id$
  */
 class BSHost implements BSAssignable {
-	protected $address;
+	protected $ipv4;
 	protected $name;
 
 	/**
@@ -20,7 +20,7 @@ class BSHost implements BSAssignable {
 	 */
 	public function __construct ($address) {
 		require_once('Net/IPv4.php');
-		$this->address = new Net_IPv4;
+		$this->ipv4 = new Net_IPv4;
 
 		if (mb_ereg('^[.[:digit:]]+$', $address)) {
 			$this->setAddress($address);
@@ -47,7 +47,7 @@ class BSHost implements BSAssignable {
 	 */
 	public function setAddress ($address) {
 		$this->setAttribute('ip', $address);
-		if (!$this->address->validateIP($address)) {
+		if (!$this->ipv4->validateIP($address)) {
 			throw new BSNetException($this . 'を名前解決できません。');
 		}
 	}
@@ -105,7 +105,7 @@ class BSHost implements BSAssignable {
 	 * @param mixed 属性
 	 */
 	public function getAttribute ($name) {
-		return $this->address->$name;
+		return $this->ipv4->$name;
 	}
 
 	/**
@@ -116,7 +116,7 @@ class BSHost implements BSAssignable {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		$this->address->$name = $value;
+		$this->ipv4->$name = $value;
 	}
 
 	/**
@@ -126,20 +126,9 @@ class BSHost implements BSAssignable {
 	 * @return mixed[] 全ての属性
 	 */
 	public function getAttributes () {
-		$values = get_object_vars($this->address);
+		$values = get_object_vars($this->ipv4);
 		$values['name'] = $this->getName();
 		return $values;
-	}
-
-	/**
-	 * インスタンスはネットワーク内のノードか？
-	 *
-	 * @access public
-	 * @param BSNetwork $network 評価対象ネットワーク
-	 * @return boolean ネットワーク内ならTrue
-	 */
-	public function isInNetwork (BSNetwork $network) {
-		return $this->address->ipInNetwork($this->getAddress(), $network->getCIDR());
 	}
 
 	/**

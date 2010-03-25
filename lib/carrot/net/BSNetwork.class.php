@@ -18,7 +18,7 @@ class BSNetwork extends BSHost {
 	 */
 	public function __construct ($address) {
 		require_once('Net/IPv4.php');
-		$this->address = new Net_IPv4;
+		$this->ipv4 = new Net_IPv4;
 		$this->setCIDR($address);
 	}
 
@@ -44,7 +44,7 @@ class BSNetwork extends BSHost {
 		}
 
 		$this->setAddress($matches[1]);
-		$net = $this->address->parseAddress($address);
+		$net = $this->ipv4->parseAddress($address);
 		if ($net instanceof PEAR_Error) {
 			$message = new BSStringFormat('%sをパースできません。(%s)');
 			$message[] = $this;
@@ -55,6 +55,17 @@ class BSNetwork extends BSHost {
 		foreach (array('bitmask', 'netmask', 'network', 'broadcast', 'long') as $var) {
 			$this->setAttribute($var, $net->$var);
 		}
+	}
+
+	/**
+	 * ネットワーク内のノードか？
+	 *
+	 * @access public
+	 * @param BSHost $host 対象ホスト
+	 * @return boolean ネットワーク内ならTrue
+	 */
+	public function isContain (BSHost $host) {
+		return $this->ipv4->ipInNetwork($this->getCIDR(), $host->getAddress());
 	}
 
 	/**
