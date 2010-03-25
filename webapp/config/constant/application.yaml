@@ -20,3 +20,8 @@ author:
 
 crypt:
   salt: carrot
+
+service:
+  google:
+    analytics:
+      tracker_id: 0000000-00 # 先頭の "UA-" は含めない。

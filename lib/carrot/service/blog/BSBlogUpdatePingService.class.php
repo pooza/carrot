@@ -31,7 +31,7 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 
 		try {
 			$response = $this->execute($href);
-			$message = new BSStringFormat('%sへ更新Ping送信を送信しました。');
+			$message = new BSStringFormat('%sへ更新Pingを送信しました。');
 			$message[] = $url->getContents();
 			BSLogManager::getInstance()->put($message, $this);
 		} catch (Exception $e) {
