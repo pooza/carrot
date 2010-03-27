@@ -88,7 +88,7 @@ class BSHTTP extends BSSocket {
 		$this->putLine($request->getContents());
 
 		$response = new BSHTTPResponse;
-		$response->setContents(new BSArray($this->getLines()));
+		$response->setContents($this->getLines());
 		$response->setURL($request->getURL());
 	
 		if (!$response->validate()) {

@@ -72,8 +72,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 */
 	public function fetchHeaders () {
 		$this->server->execute('TOP ' . $this->getID() . ' 0');
-		$headers = new BSArray($this->server->getLines());
-		$this->parseHeaders($headers->join("\n"));
+		$this->parseHeaders($this->server->getLines()->join("\n"));
 		$this->executed['TOP'] = true;
 	}
 

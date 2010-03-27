@@ -118,7 +118,6 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 */
 	public function serialize () {
 		foreach ($this->getTypesFile()->getLines() as $line) {
-			$line = rtrim($line);
 			$line = mb_ereg_replace('#.*$', '', $line);
 			$line = mb_split('[[:blank:]]+', $line);
 			for ($i = 1 ; $i < count($line) ; $i ++) {

@@ -45,7 +45,7 @@ class BSSMTP extends BSSocket {
 			$message[] = $this->getPrevLine();
 			throw new BSMailException($message);
 		}
-		$this->keywords = new BSArray($this->getLines());
+		$this->keywords = $this->getLines();
 	}
 
 	/**

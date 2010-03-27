@@ -59,7 +59,7 @@ class BSCSVFile extends BSFile {
 	public function setEngine (BSCSVData $engine) {
 		$this->engine = $engine;
 		if ($this->isExists()) {
-			$this->engine->setLines(new BSArray($this->getLines()));
+			$this->engine->setLines($this->getLines());
 		}
 	}
 

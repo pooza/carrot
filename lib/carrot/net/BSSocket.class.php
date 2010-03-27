@@ -140,10 +140,10 @@ class BSSocket {
 	 * ストリームの終端まで読んで返す
 	 *
 	 * @access public
-	 * @return string[] 読み込んだ内容
+	 * @return BSArray 読み込んだ内容
 	 */
 	public function getLines () {
-		return explode(self::LINE_SEPARATOR, stream_get_contents($this->client));
+		return BSString::explode(self::LINE_SEPARATOR, stream_get_contents($this->client));
 	}
 
 	/**

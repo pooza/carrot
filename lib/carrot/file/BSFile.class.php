@@ -246,17 +246,17 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * 全ての行を返す
 	 *
 	 * @access public
-	 * @return string[] 読み込んだ内容の配列
+	 * @return BSArray 読み込んだ内容の配列
 	 */
 	public function getLines () {
 		if (!$this->lines) {
+			$this->lines = new BSArray;
 			if ($this->isCompressed()) {
-				$this->lines = gzfile($this->getPath());
+				foreach (gzfile($this->getPath()) as $line) {
+					$this->lines[] = rtrim($line);
+				}
 			} else {
-				$this->lines = file($this->getPath());
-			}
-			foreach ($this->lines as &$line) {
-				$line = rtrim($line);
+				$this->lines->merge(file($this->getPath(), FILE_IGNORE_NEW_LINES));
 			}
 		}
 		return $this->lines;
