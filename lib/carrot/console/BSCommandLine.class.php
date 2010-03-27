@@ -93,6 +93,16 @@ class BSCommandLine {
 	}
 
 	/**
+	 * 実行されたか？
+	 *
+	 * @access public
+	 * @return boolean 実行されたならTrue
+	 */
+	public function isExecuted () {
+		return !!$this->result;
+	}
+
+	/**
 	 * バックグラウンド実行か？
 	 *
 	 * @access public
@@ -150,7 +160,7 @@ class BSCommandLine {
 		}
 
 		if ($this->isBackground()) {
-			$contents[] = ' > /dev/null &';
+			$contents[] = '> /dev/null &';
 		}
 
 		return $contents->join(' ');
@@ -163,7 +173,7 @@ class BSCommandLine {
 	 * @return string 標準出力
 	 */
 	public function getResult () {
-		if (!$this->result) {
+		if (!$this->isExecuted()) {
 			$this->execute();
 		}
 		return $this->result;
@@ -176,7 +186,7 @@ class BSCommandLine {
 	 * @return integer 戻り値
 	 */
 	public function getReturnCode () {
-		if (!$this->result) {
+		if (!$this->isExecuted()) {
 			$this->execute();
 		}
 		return $this->returnCode;
