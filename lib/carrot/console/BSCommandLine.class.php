@@ -10,7 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSCommandLine extends BSParameterHolder {
+class BSCommandLine {
+	private $params;
 	private $pipes;
 	private $command;
 	private $directory;
@@ -30,6 +31,7 @@ class BSCommandLine extends BSParameterHolder {
 			throw new BSConsoleException('コマンド名が空です。');
 		}
 		$this->command = $command;
+		$this->params = new BSArray;
 		$this->pipes = new BSArray;
 	}
 
@@ -133,25 +135,27 @@ class BSCommandLine extends BSParameterHolder {
 	 * @return string コマンドライン
 	 */
 	public function getContents () {
+		$contents = clone $this->params;
+
 		if ($this->directory) {
 			if (!$file = $this->directory->getEntry($this->command)) {
 				throw new BSConsoleException($this->command . 'が見つかりません。');
 			}
-			$contents = $file->getPath();
+			$contents->unshift($file->getPath());
 		} else {
-			$contents = $this->command;
+			$contents->unshift($this->command);
 		}
-		$contents .= ' ' . implode(' ', $this->getParameters());
 
 		foreach ($this->pipes as $pipe) {
-			$contents .= '| ' . $pipe->getContents();
+			$contents[] = '|';
+			$contents[] = $pipe->getContents();
 		}
 
 		if ($this->isBackground()) {
-			$contents .= ' > /dev/null &';
+			$contents[] = ' > /dev/null &';
 		}
 
-		return $contents;
+		return $contents->join(' ');
 	}
 
 	/**
@@ -187,7 +191,7 @@ class BSCommandLine extends BSParameterHolder {
 	 * @return boolean エラーを含んでいたらTrue
 	 */
 	public function hasError () {
-		return ($this->getReturnCode() != 0);
+		return !!$this->getReturnCode();
 	}
 
 	/**
