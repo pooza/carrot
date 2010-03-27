@@ -93,7 +93,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function send ($flags = null) {
 		try {
-			$this->getMail()->updateMessageID();
+			$this->getMail()->clearMessageID();
 			$this->execute('MAIL FROM:' . $this->getFrom()->getContents());
 			foreach ($this->getRecipients($flags) as $email) {
 				$this->execute('RCPT TO:' . $email->getContents());

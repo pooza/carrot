@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSMailLogger extends BSLogger {
-	private $server;
 	private $patterns;
 
 	/**
@@ -24,12 +23,7 @@ class BSMailLogger extends BSLogger {
 		if (!BS_NET_RESOLVABLE) {
 			return false; 
 		}
-		try {
-			$this->server = new BSSmartySender;
-			return true;
-		} catch (Exception $e) {
-			return false;
-		}
+		return BSMail::isEnable();
 	}
 
 	/**
@@ -65,10 +59,11 @@ class BSMailLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	private function send ($message, $priority) {
-		$this->server->setTemplate('BSException.mail');
-		$this->server->setAttribute('priority', $priority);
-		$this->server->setAttribute('message', $message);
-		$this->server->send();
+		$mail = new BSSmartyMail;
+		$mail->getRenderer()->setTemplate('BSException.mail');
+		$mail->getRenderer()->setAttribute('message', $message);
+		$mail->getRenderer()->setAttribute('priority', $priority);
+		$mail->send();
 	}
 
 	/**
