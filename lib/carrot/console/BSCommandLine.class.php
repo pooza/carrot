@@ -15,9 +15,8 @@ class BSCommandLine {
 	private $pipes;
 	private $command;
 	private $directory;
-	private $result = array();
+	private $result;
 	private $returnCode = 0;
-	private $executed = false;
 	private $background = false;
 	private $sleepSeconds = 0;
 	const WITH_QUOTE = 1;
@@ -120,7 +119,6 @@ class BSCommandLine {
 	 */
 	public function execute () {
 		exec($this->getContents(), $result, $this->returnCode);
-		$this->executed = true;
 		$this->result = new BSArray($result);
 
 		if ($seconds = $this->sleepSeconds) {
@@ -165,7 +163,7 @@ class BSCommandLine {
 	 * @return string 標準出力
 	 */
 	public function getResult () {
-		if (!$this->executed) {
+		if (!$this->result) {
 			$this->execute();
 		}
 		return $this->result;
@@ -178,7 +176,7 @@ class BSCommandLine {
 	 * @return integer 戻り値
 	 */
 	public function getReturnCode () {
-		if (!$this->executed) {
+		if (!$this->result) {
 			$this->execute();
 		}
 		return $this->returnCode;
