@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSCommandLine extends BSParameterHolder {
+	private $pipes;
 	private $command;
 	private $directory;
 	private $result = array();
@@ -29,6 +30,7 @@ class BSCommandLine extends BSParameterHolder {
 			throw new BSConsoleException('コマンド名が空です。');
 		}
 		$this->command = $command;
+		$this->pipes = new BSArray;
 	}
 
 	/**
@@ -67,6 +69,16 @@ class BSCommandLine extends BSParameterHolder {
 			$value =  self::quote($value);
 		}
 		$this->params[] = $value;
+	}
+
+	/**
+	 * パイプを加える
+	 *
+	 * @access public
+	 * @param BSCommandLine $pipe パイプ
+	 */
+	public function registerPipe (BSCommandLine $pipe) {
+		$this->pipes[] = $pipe;
 	}
 
 	/**
@@ -130,6 +142,10 @@ class BSCommandLine extends BSParameterHolder {
 			$contents = $this->command;
 		}
 		$contents .= ' ' . implode(' ', $this->getParameters());
+
+		foreach ($this->pipes as $pipe) {
+			$contents .= '| ' . $pipe->getContents();
+		}
 
 		if ($this->isBackground()) {
 			$contents .= ' > /dev/null &';

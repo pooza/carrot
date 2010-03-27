@@ -20,10 +20,7 @@ class BSMailLogger extends BSLogger {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		if (!BS_NET_RESOLVABLE) {
-			return false; 
-		}
-		return BSMail::isEnable();
+		return !!BS_NET_RESOLVABLE;
 	}
 
 	/**

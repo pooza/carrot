@@ -12,6 +12,7 @@
  */
 class BSMail extends BSMIMEDocument {
 	private $error;
+	private $file;
 	static private $smtp;
 
 	/**
@@ -28,6 +29,15 @@ class BSMail extends BSMIMEDocument {
 		$this->setHeader('To', BSAdministratorRole::getInstance()->getMailAddress());
 		if (BS_DEBUG) {
 			$this->setHeader('X-Carrot-Debug-Mode', 'yes');
+		}
+	}
+
+	/**
+	 * @access public
+	 */
+	public function __destruct () {
+		if ($file = $this->getFile()) {
+			$file->delete();
 		}
 	}
 
@@ -64,10 +74,38 @@ class BSMail extends BSMIMEDocument {
 	 * @param string $value 値
 	 */
 	public function send () {
-		$smtp = self::getServer();
-		$smtp->setMail($this);
-		$smtp->send();
-		$smtp->close();
+		switch (BSString::toLower(BS_MAIL_METHOD)) {
+			case 'sendmail':
+				$sendmail = self::getSendmailCommand();
+				$sendmail->addValue('-f' . $this->getHeader('from')->getEntity()->getContents());
+				$command = new BSCommandLine('cat');
+				$command->addValue($this->getFile()->getPath());
+				$command->registerPipe($sendmail);
+				$command->setBackground(true);
+				$command->execute();
+				break;
+			default:
+			case 'smtp':
+				$smtp = self::getServer();
+				$smtp->setMail($this);
+				$smtp->send();
+				$smtp->close();
+				break;
+		}
+	}
+
+	/**
+	 * ファイルを生成して返す
+	 *
+	 * @access public
+	 * @return BSFile ファイル
+	 */
+	public function getFile () {
+		if (!$this->file || !$this->file->isExists()) {
+			$this->file = BSFileUtility::getTemporaryFile('.eml');
+			$this->file->setContents($this->getContents());
+		}
+		return $this->file;
 	}
 
 	/**
@@ -149,19 +187,18 @@ class BSMail extends BSMIMEDocument {
 	}
 
 	/**
-	 * 送信可能か？
+	 * sendmailコマンドを返す
 	 * 
 	 * @access public
-	 * @return boolean 送信可能ならTrue
+	 * @return BSCommandLine sendmailコマンド
 	 * @static
 	 */
-	static public function isEnable () {
-		try {
-			self::getServer();
-			return true;
-		} catch (Exception $e) {
-			return false;
-		}
+	static public function getSendmailCommand () {
+		$command = new BSCommandLine('sbin/sendmail');
+		$command->setDirectory(BSFileUtility::getDirectory('sendmail'));
+		$command->addValue('-t');
+		$command->addValue('-i');
+		return $command;
 	}
 }
 

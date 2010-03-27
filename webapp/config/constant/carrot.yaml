@@ -87,6 +87,8 @@ log:
       - BSDatabaseException
       - BSMailException
       - BSFileException
+mail:
+  method: smtp
 memcache:
   daemon_name: memcached
   host: localhost
@@ -158,6 +160,8 @@ proctools:
 request:
   validate:
     strict: no
+sendmail:
+  dir: /usr
 serialize:
   storage: default
   serializer: JSON

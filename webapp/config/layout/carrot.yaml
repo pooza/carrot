@@ -105,6 +105,8 @@ request:
     day: 7
 root:
   constant: yes
+sendmail:
+  constant: yes
 serialized:
   parent: var
 share:
