@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSHTTP extends BSSocket {
-	private $headers = array();
 	private $status;
 
 	/**
@@ -90,7 +89,7 @@ class BSHTTP extends BSSocket {
 		$response = new BSHTTPResponse;
 		$response->setContents($this->getLines());
 		$response->setURL($request->getURL());
-	
+
 		if (!$response->validate()) {
 			$message = new BSStringFormat('不正なレスポンスです。 (%d %s)');
 			$message[] = $response->getStatus();
