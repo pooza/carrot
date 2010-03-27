@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSHTTP extends BSSocket {
-	private $status;
 
 	/**
 	 * HEADリクエスト
