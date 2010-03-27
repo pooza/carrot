@@ -72,7 +72,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
-		if (!@rename($this->getPath(), $path)) {
+		if (!rename($this->getPath(), $path)) {
 			throw new BSFileException($this . 'をリネームできません。');
 		}
 		$this->setPath($path);
@@ -145,7 +145,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
-		if (!@rename($this->getPath(), $path)) {
+		if (!rename($this->getPath(), $path)) {
 			throw new BSFileException($this . 'を移動できません。');
 		}
 		$this->setPath($path);
