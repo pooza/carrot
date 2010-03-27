@@ -82,7 +82,7 @@ class BSSocket {
 			$message[] = $result;
 			throw new BSNetException($message);
 		}
-		stream_set_timeout($this->client, 10);
+		stream_set_timeout($this->client, 1);
 	}
 
 	/**
