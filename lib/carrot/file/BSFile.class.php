@@ -239,9 +239,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if ($this->isEof()) {
 			return '';
 		}
-		$line = fgets($this->handle, $length);
-		$line = rtrim($line);
-		return $line;
+		return stream_get_line($this->handle, $length);
 	}
 
 	/**

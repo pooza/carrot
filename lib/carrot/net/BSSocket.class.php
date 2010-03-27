@@ -123,8 +123,7 @@ class BSSocket {
 		} else if ($this->isEof()) {
 			return '';
 		}
-		$this->line = rtrim(fgets($this->client, $length));
-		return $this->line;
+		return $this->line = stream_get_line($this->client, $length);
 	}
 
 	/**
