@@ -20,7 +20,7 @@ class BSMailLogger extends BSLogger {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		return !!BS_NET_RESOLVABLE;
+		return !!BSMail::getSender();
 	}
 
 	/**

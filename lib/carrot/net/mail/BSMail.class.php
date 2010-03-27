@@ -13,7 +13,6 @@
 class BSMail extends BSMIMEDocument {
 	private $error;
 	private $file;
-	static private $smtp;
 
 	/**
 	 * @access public
@@ -74,24 +73,7 @@ class BSMail extends BSMIMEDocument {
 	 * @param string $value 値
 	 */
 	public function send () {
-		switch (BSString::toLower(BS_MAIL_METHOD)) {
-			case 'sendmail':
-				$sendmail = self::getSendmailCommand();
-				$sendmail->addValue('-f' . $this->getHeader('from')->getEntity()->getContents());
-				$command = new BSCommandLine('cat');
-				$command->addValue($this->getFile()->getPath());
-				$command->registerPipe($sendmail);
-				$command->setBackground(true);
-				$command->execute();
-				break;
-			default:
-			case 'smtp':
-				$smtp = self::getServer();
-				$smtp->setMail($this);
-				$smtp->send();
-				$smtp->close();
-				break;
-		}
+		self::getSender()->send($this);
 	}
 
 	/**
@@ -173,32 +155,18 @@ class BSMail extends BSMIMEDocument {
 	}
 
 	/**
-	 * SMTPサーバを返す
+	 * 送信機能を返す
 	 * 
 	 * @access public
-	 * @return BSSMTP SMTPサーバ
+	 * @return BSMailSender 送信機能
 	 * @static
 	 */
-	static public function getServer () {
-		if (!self::$smtp) {
-			self::$smtp = new BSSMTP;
+	static public function getSender () {
+		$sender = BSClassLoader::getInstance()->getObject(BS_MAIL_SENDER, 'MailSender');
+		if (!$sender || !$sender->initialize()) {
+			throw new BSConfigException('BS_MAIL_SENDERが正しくありません。');
 		}
-		return self::$smtp;
-	}
-
-	/**
-	 * sendmailコマンドを返す
-	 * 
-	 * @access public
-	 * @return BSCommandLine sendmailコマンド
-	 * @static
-	 */
-	static public function getSendmailCommand () {
-		$command = new BSCommandLine('sbin/sendmail');
-		$command->setDirectory(BSFileUtility::getDirectory('sendmail'));
-		$command->addValue('-t');
-		$command->addValue('-i');
-		return $command;
+		return $sender;
 	}
 }
 

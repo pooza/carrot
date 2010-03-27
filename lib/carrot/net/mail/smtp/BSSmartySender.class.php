@@ -7,6 +7,8 @@
 /**
  * Smartyレンダラーによるメール送信
  *
+ * 非推奨。BSSmartyMailからの送信を推奨。
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
