@@ -24,6 +24,7 @@ types:
   h264: video/quicktime
   htm: text/html
   html: text/html
+  ico: image/vnd.microsoft.icon
   ini: text/x-ini-file
   jpg: image/jpeg
   jpeg: image/jpeg
