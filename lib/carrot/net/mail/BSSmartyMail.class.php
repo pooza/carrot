@@ -63,10 +63,10 @@ class BSSmartyMail extends BSMail {
 		foreach ($this->getRenderer()->getHeaders() as $key => $value) {
 			$this->setHeader($key, $value);
 		}
-		parent::send();
 		if ($file = $this->getFile()) {
 			$file->delete();
 		}
+		parent::send();
 	}
 }
 
