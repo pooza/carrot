@@ -102,6 +102,21 @@ class BSMusicFile extends BSMediaFile {
 	}
 
 	/**
+	 * 出力可能か？
+	 *
+	 * @access public
+	 * @return boolean 出力可能ならTrue
+	 */
+	public function validate () {
+		if (!parent::validate()) {
+			return false;
+		}
+		$header = new BSContentTypeMIMEHeader;
+		$header->setContents($this->analyzeType());
+		return ($header['main_type'] == 'audio');
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

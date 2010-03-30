@@ -257,6 +257,21 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	}
 
 	/**
+	 * 出力可能か？
+	 *
+	 * @access public
+	 * @return boolean 出力可能ならTrue
+	 */
+	public function validate () {
+		if (!parent::validate()) {
+			return false;
+		}
+		$header = new BSContentTypeMIMEHeader;
+		$header->setContents($this->analyzeType());
+		return ($header['main_type'] == 'image');
+	}
+
+	/**
 	 * ラベルを返す
 	 *
 	 * @access public

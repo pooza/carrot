@@ -112,6 +112,19 @@ class BSFlashFile extends BSMediaFile {
 	}
 
 	/**
+	 * 出力可能か？
+	 *
+	 * @access public
+	 * @return boolean 出力可能ならTrue
+	 */
+	public function validate () {
+		if (!parent::validate()) {
+			return false;
+		}
+		return ($this->analyzeType() == BSMIMEType::getType('swf'));
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

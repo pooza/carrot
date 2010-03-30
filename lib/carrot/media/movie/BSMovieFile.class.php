@@ -155,11 +155,26 @@ class BSMovieFile extends BSMediaFile {
 			'plugins' => array(
 				'controls' => array(
 					'height' => BS_MOVIE_FLV_PLAYER_HEIGHT,
-					//'fullscreen' => false,
+					'fullscreen' => ($params['mode'] != 'noscript'),
 				),
 			),
 		);
 		return BSJavaScriptUtility::quote($config);
+	}
+
+	/**
+	 * 出力可能か？
+	 *
+	 * @access public
+	 * @return boolean 出力可能ならTrue
+	 */
+	public function validate () {
+		if (!parent::validate()) {
+			return false;
+		}
+		$header = new BSContentTypeMIMEHeader;
+		$header->setContents($this->analyzeType());
+		return ($header['main_type'] == 'video');
 	}
 
 	/**

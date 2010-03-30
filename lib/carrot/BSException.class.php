@@ -21,8 +21,11 @@ class BSException extends Exception {
 		if ($message instanceof BSStringFormat) {
 			$message = $message->getContents();
 		}
-		parent::__construct($message, $code, $prev);
-
+		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+			parent::__construct($message, $code);
+		} else {
+			parent::__construct($message, $code, $prev);
+		}
 		if ($this->isLoggable()) {
 			BSLogManager::getInstance()->put($this);
 		}
