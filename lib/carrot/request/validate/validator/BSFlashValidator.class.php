@@ -19,8 +19,8 @@ class BSFlashValidator extends BSValidator {
 	 * @param string[] $params パラメータ配列
 	 */
 	public function initialize ($params = array()) {
-		$this['type_error'] = 'ファイル形式が正しくありません。';
-		return parent::initialize($params);
+		$this['invalid_error'] = '正しいファイルではありません。';
+		return BSValidator::initialize($params);
 	}
 
 	/**
@@ -32,14 +32,12 @@ class BSFlashValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-			if (BSString::isBlank($name = $value['tmp_name'])) {
-				throw new BFlashException('ファイルが存在しない、又は正しくありません。');
+			$file = new BSFlashFile($value['tmp_name']);
+			if (!$file->isExists() || !$file->validate()) {
+				$this->error = $this['invalid_error'];
 			}
-			$file = new BSFlashFile($name);
-			$file->getAttributes();
-		} catch (BSException $e) {
-			$this->error = $this['type_error'];
-			return false;
+		} catch (Exception $e) {
+			$this->error = $this['invalid_error'];
 		}
 		return BSString::isBlank($this->error);
 	}

@@ -31,12 +31,12 @@ class BSMovieValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (BSString::isBlank($name = $value['tmp_name'])) {
-			throw new BSImageException('ファイルが存在しない、又は正しくありません。');
-		}
-		$file = new BSMovieFile($name);
-
-		if (BSString::isBlank($file->getType())) {
+		try {
+			$file = new BSMovieFile($value['tmp_name']);
+			if (!$file->isExists() || !$file->validate()) {
+				$this->error = $this['invalid_error'];
+			}
+		} catch (Exception $e) {
 			$this->error = $this['invalid_error'];
 		}
 		return BSString::isBlank($this->error);
