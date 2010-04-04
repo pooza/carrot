@@ -21,7 +21,7 @@
  *   </dl>
  * </div>
  * <script type="text/javascript">
- * actions.onload.push(function () {
+ * Event.observe(window, 'load', function () {
  *   new UserMenu('sample1'); //#usermenu_sample1に対応
  *   new UserMenu('sample2'); //#usermenu_sample2に対応
  * });

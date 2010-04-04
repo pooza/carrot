@@ -78,17 +78,7 @@ if (!Number.prototype.suppressZero) {
   }
 }
 
-var actions = {
-  onload: []
-};
-
-window.onload = function () {
-  for (var i = 0 ; i < actions.onload.length ; i ++) {
-    actions.onload[i]();
-  }
-}
-
-actions.onload.push(function () {
+Event.observe(window, 'load', function () {
   try {
     AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
   } catch (e) {

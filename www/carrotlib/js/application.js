@@ -6,6 +6,6 @@
  * @version $Id$
  */
 
-actions.onload.push(function () {
+Event.observe(window, 'load', function () {
   //alert('追加分の処理');
 });
