@@ -11,10 +11,6 @@
   action: Backup
 - module: AdminMemcache
 - module: DevelopTableReport
-- title: APIドキュメント
-  href: /man
-  target: _blank
-  credential: Develop
 - title: アクセスログ解析
   href: /awstats/awstats.pl
   target: _blank
