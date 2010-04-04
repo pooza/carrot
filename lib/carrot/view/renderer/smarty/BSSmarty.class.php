@@ -20,7 +20,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	private $error;
 	private $useragent;
 	private $headers;
-	private $storage;
 	private $compiler;
 	public $compiler_class = 'BSSmartyCompiler';
 
@@ -37,16 +36,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->error_reporting = E_ALL ^ E_NOTICE;
 		$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
-
-		$storage = BSClassLoader::getInstance()->getObject(
-			BS_SMARTY_CACHE_STORAGE,
-			'SmartyCacheStorage'
-		);
-		if (!$storage->initialize($this)) {
-			$storage = new BSDefaultSmartyCacheStorage;
-			$storage->initialize($this);
-		}
-		$this->storage = $storage;
 	}
 
 	/**

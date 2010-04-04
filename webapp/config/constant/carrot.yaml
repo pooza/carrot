@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.77
+  ver: 2.3.78
   bts:
     url: http://redmine.carrot-framework.org/projects/show/carrot
 
@@ -181,10 +181,6 @@ service:
 session:
   storage: default
   regenerate_id: no
-smarty:
-  cache:
-    storage: default
-    life_time: 300
 smtp:
   host: localhost
   check_addresses: no
