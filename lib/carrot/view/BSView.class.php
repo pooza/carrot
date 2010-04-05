@@ -174,7 +174,7 @@ class BSView extends BSHTTPResponse {
 		}
 
 		$this->setCacheControl(false);
-		if (!BSUser::getInstance()->isAdministrator()) {
+		if (!BSUser::getInstance()->getCredentials()->count()) {
 			$this->setCacheControl(true);
 		} else if ($this->useragent->hasBug('cache_control')) {
 			if ($this->request->isSSL() || !$this->isHTML()) {
@@ -198,7 +198,7 @@ class BSView extends BSHTTPResponse {
 	 */
 	public function setCacheControl ($mode) {
 		if (!!$mode) {
-			$this->setHeader('Cache-Control', 'private');
+			$this->setHeader('Cache-Control', 'private, max-age=60');
 			$this->setHeader('Pragma', 'private');
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
