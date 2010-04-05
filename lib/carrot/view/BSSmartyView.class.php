@@ -54,7 +54,7 @@ class BSSmartyView extends BSView {
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
 			$this->renderer->registerDirectory($dir);
 		}
-		if ($file = $this->getDefaultTemplateFile()) {
+		if ($file = $this->getDefaultTemplate()) {
 			$this->renderer->setTemplate($file);
 		}
 	}
@@ -62,10 +62,10 @@ class BSSmartyView extends BSView {
 	/**
 	 * 規定のテンプレートを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param BSTemplateFile テンプレートファイル
 	 */
-	public function getDefaultTemplateFile () {
+	protected function getDefaultTemplate () {
 		$names = array(
 			$this->getAction()->getName() . '.' . $this->getNameSuffix(),
 			$this->getAction()->getName(),
