@@ -194,7 +194,7 @@ class BSView extends BSHTTPResponse {
 	 * キャッシュ制御を設定
 	 *
 	 * @access public
-	 * @param Boolean $mode キャッシュONならTrue
+	 * @param boolean $mode キャッシュONならTrue
 	 */
 	public function setCacheControl ($mode) {
 		if (!!$mode) {

@@ -25,7 +25,7 @@ class BSSmartyMail extends BSMail {
 		$renderer->addOutputFilter('mail');
 		if ($module = BSController::getInstance()->getModule()) {
 			if ($dir = $module->getDirectory('templates')) {
-				$renderer->setTemplatesDirectory($dir);
+				$renderer->registerDirectory($dir);
 			}
 		}
 		$renderer->setAttribute('date', BSDate::getNow());

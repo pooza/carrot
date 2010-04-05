@@ -52,7 +52,7 @@ class BSSmartyView extends BSView {
 		}
 
 		if ($dir = $this->controller->getModule()->getDirectory('templates')) {
-			$this->renderer->setTemplatesDirectory($dir);
+			$this->renderer->registerDirectory($dir);
 		}
 		if ($file = $this->getDefaultTemplateFile()) {
 			$this->renderer->setTemplate($file);
