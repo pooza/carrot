@@ -339,21 +339,20 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			return new BSTemplateFile($name->getPath());
 		} else if (BSUtility::isPathAbsolute($name)) {
 			return new BSTemplateFile($name);
-		} else {
-			$name = mb_eregi_replace('\\.tpl$', '', $name);
-			$names = new BSArray($name);
-			if ($this->getUserAgent()) {
-				if ($this->getUserAgent()->isMobile()) {
-					$names[] = $name . '.mobile';
-				}
-				$names[] = $name . '.' . $this->getUserAgent()->getType();
-				$names->sort(BSArray::SORT_KEY_DESC);
+		}
+		$name = mb_eregi_replace('\\.tpl$', '', $name);
+		$names = new BSArray($name);
+		if ($this->getUserAgent()) {
+			if ($this->getUserAgent()->isMobile()) {
+				$names[] = $name . '.mobile';
 			}
-			foreach ($this->getDirectories() as $directory) {
-				foreach ($names as $name) {
-					if ($file = $directory->getEntry($name, 'BSTemplateFile')) {
-						return $file;
-					}
+			$names[] = $name . '.' . $this->getUserAgent()->getType();
+			$names->sort(BSArray::SORT_KEY_DESC);
+		}
+		foreach ($this->getDirectories() as $directory) {
+			foreach ($names as $name) {
+				if ($file = $directory->getEntry($name, 'BSTemplateFile')) {
+					return $file;
 				}
 			}
 		}
