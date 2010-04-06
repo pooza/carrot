@@ -225,9 +225,11 @@ abstract class BSRequest extends BSHTTPRequest {
 	 */
 	public function getHost () {
 		if (!$this->host) {
-			$this->host = new BSHost(
-				$this->controller->getAttribute('REMOTE_ADDR')
-			);
+			foreach (array('X-FORWARDED-FOR', 'REMOTE_ADDR') as $name) {
+				if (!BSString::isBlank($host = $this->controller->getAttribute($name))) {
+					return $this->host = new BSHost($host);
+				}
+			}
 		}
 		return $this->host;
 	}
