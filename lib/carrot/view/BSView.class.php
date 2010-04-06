@@ -174,7 +174,7 @@ class BSView extends BSHTTPResponse {
 		}
 
 		$this->setCacheControl(false);
-		if (!BSUser::getInstance()->getCredentials()->count()) {
+		if ($this->user->isGuest()) {
 			$this->setCacheControl(true);
 		} else if ($this->useragent->hasBug('cache_control')) {
 			if ($this->request->isSSL() || !$this->isHTML()) {

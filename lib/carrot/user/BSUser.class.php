@@ -270,6 +270,16 @@ class BSUser extends BSParameterHolder {
 	public function isAuthor () {
 		return $this->hasCredential(BSAuthorRole::CREDENTIAL);
 	}
+
+	/**
+	 * ゲストユーザーか？
+	 *
+	 * @access public
+	 * @return boolean ゲストユーザーならばTrue
+	 */
+	public function isGuest () {
+		return !$this->getCredentials()->count();
+	}
 }
 
 /* vim:set tabstop=4: */
