@@ -198,8 +198,11 @@ class BSView extends BSHTTPResponse {
 	 */
 	public function setCacheControl ($mode) {
 		if (!!$mode) {
-			$this->setHeader('Cache-Control', 'private, max-age=60');
-			$this->setHeader('Pragma', 'private');
+			$value = new BSStringFormat('%s, max-age=%d');
+			$value[] = BS_APP_HTTP_CACHE_MODE;
+			$value[] = BS_APP_HTTP_CACHE_SECONDS;
+			$this->setHeader('Cache-Control', $value->getContents());
+			$this->setHeader('Pragma', BS_APP_HTTP_CACHE_MODE);
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
 			$this->setHeader('Pragma', 'no-cache');

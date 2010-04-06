@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.79
+  ver: 2.3.80
 
 admin:
   email:
@@ -24,6 +24,9 @@ app:
   basic_auth:
     uid:
     password:
+  http_cache:
+    mode: private
+    seconds: 60
 author:
   name:
   email:
