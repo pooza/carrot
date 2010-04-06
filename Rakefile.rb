@@ -128,18 +128,6 @@ namespace :var do
       system 'sudo rm var/serialized/*'
     end
 
-    namespace :docomo_agents do
-      desc 'DoCoMoの端末リストを取得'
-      task :fetch do
-        sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
-      end
-
-      desc 'DoCoMoの端末リストを更新'
-      task :update do
-        sh 'svn update webapp/config/docomo_atents.xml'
-      end
-    end
-
     def keep_types
       types = []
       ['carrot', 'package', 'application'].each do |name|
@@ -182,24 +170,14 @@ end
 
 namespace :ajaxzip2 do
   desc 'ajaxzip2を初期化'
-  task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data', :json, :clear_temp]
-
-  desc '郵便番号辞書の更新'
-  task :refresh => [:clear, :json, :clear_temp]
-
-  desc '郵便番号辞書をクリア'
-  task :clear => [:clear_temp, :clear_json]
+  task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data', :json, :clean]
 
   task :json => ['lib/ajaxzip2/data/ken_all.csv'] do
     sh 'cd lib/ajaxzip2; ./csv2jsonzip.pl data/ken_all.csv'
   end
 
-  task :clear_temp do
+  task :clean do
     system 'rm lib/ajaxzip2/data/ken_all.*'
-  end
-
-  task :clear_json do
-    system 'rm lib/ajaxzip2/data/*.json'
   end
 
   file 'www/carrotlib/js/ajaxzip2/data' do
@@ -219,7 +197,19 @@ namespace :ajaxzip2 do
   end
 end
 
-namespace :distribution do
+namespace :docomo do
+  desc 'DoCoMoの端末リストを取得'
+  task :fetch do
+    sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
+  end
+
+  desc 'DoCoMoの端末リストを更新'
+  task :update do
+    sh ' update webapp/config/docomo_atents.xml'
+  end
+end
+
+namespace :svn do
   desc '全ファイルのsvn属性を設定'
   task :pset do
     system 'svn pset svn:ignore \'*\' var/*'
