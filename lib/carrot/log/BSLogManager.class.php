@@ -106,13 +106,18 @@ class BSLogManager implements IteratorAggregate {
 	 * @static
 	 */
 	static public function formatMessage ($message, $priority) {
-		$message = array(
-			'[' . date('Y-m-d H:i:s') . ']',
-			'[' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ']', //BSRequest::getHostは使わない
-			'[' . $priority . ']',
-			$message,
-		);
-		return implode(' ', $message);
+		// 初期化中のエラーでログが吐かれることも想定し、標準関数のみで実装。
+		foreach (array('HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR') as $name) {
+			if (isset($_SEERVER[$name]) && ($host = $_SEERVER[$name])) {
+				$message = array(
+					'[' . date('Y-m-d H:i:s') . ']',
+					'[' . gethostbyaddr($host) . ']', 
+					'[' . $priority . ']',
+					$message,
+				);
+				return implode(' ', $message);
+			}
+		}
 	}
 }
 
