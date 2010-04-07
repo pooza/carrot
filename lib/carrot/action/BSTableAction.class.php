@@ -83,14 +83,12 @@ abstract class BSTableAction extends BSAction {
 	 * @return BSArray テーブルの内容
 	 */
 	protected function getRows () {
-		if (!$this->isShowable()) {
-			return array();
-		}
-
 		if (!$this->rows) {
 			$this->rows = new BSArray;
-			foreach ($this->getTable() as $record) {
-				$this->rows[] = $record->getAssignValue();
+			if ($this->isShowable()) {
+				foreach ($this->getTable() as $record) {
+					$this->rows[] = $record->getAssignValue();
+				}
 			}
 		}
 		return $this->rows;

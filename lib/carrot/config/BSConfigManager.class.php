@@ -27,7 +27,7 @@ class BSConfigManager {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSSerializeHandler インスタンス
+	 * @return BSConfigManager インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
