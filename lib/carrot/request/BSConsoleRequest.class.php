@@ -12,30 +12,15 @@
  */
 class BSConsoleRequest extends BSRequest {
 	private $options;
-	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->options = new BSArray;
 		$this->addOption(BSController::MODULE_ACCESSOR);
 		$this->addOption(BSController::ACTION_ACCESSOR);
 		$this->parse();
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSConsoleRequest インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
 	}
 
 	/**

@@ -11,21 +11,6 @@
  * @version $Id$
  */
 class BSWebController extends BSController {
-	static private $instance;
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSWebController インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * @access public

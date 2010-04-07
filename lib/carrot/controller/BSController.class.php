@@ -15,6 +15,7 @@ abstract class BSController {
 	protected $host;
 	protected $headers;
 	protected $actions;
+	static private $instance;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
 	const ACTION_REGISTER_LIMIT = 20;
@@ -53,11 +54,14 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getInstance () {
-		if (PHP_SAPI == 'cli') {
-			return BSConsoleController::getInstance();
-		} else {
-			return BSWebController::getInstance();
+		if (!self::$instance) {
+			if (PHP_SAPI == 'cli') {
+				self::$instance = new BSConsoleController;
+			} else {
+				self::$instance = new BSWebController;
+			}
 		}
+		return self::$instance;
 	}
 
 	/**

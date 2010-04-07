@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSConsoleController extends BSController {
-	static private $instance;
 
 	/**
 	 * @access protected
@@ -21,20 +20,6 @@ class BSConsoleController extends BSController {
 		if (BSString::isBlank($this->request[self::MODULE_ACCESSOR])) {
 			$this->request[self::MODULE_ACCESSOR] = 'Console';
 		}
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSConsoleController インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
 	}
 
 	/**

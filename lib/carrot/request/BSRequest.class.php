@@ -19,6 +19,13 @@ abstract class BSRequest extends BSHTTPRequest {
 	private $session;
 	private $attributes;
 	private $errors;
+	static private $instance;
+
+	/**
+	 * @access protected
+	 */
+	protected function __construct () {
+	}
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -28,11 +35,14 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @static
 	 */
 	static public function getInstance () {
-		if (PHP_SAPI == 'cli') {
-			return BSConsoleRequest::getInstance();
-		} else {
-			return BSWebRequest::getInstance();
+		if (!self::$instance) {
+			if (PHP_SAPI == 'cli') {
+				self::$instance = new BSConsoleRequest;
+			} else {
+				self::$instance = new BSWebRequest;
+			}
 		}
+		return self::$instance;
 	}
 
 	/**
