@@ -46,7 +46,6 @@ namespace :var do
 
   namespace :images do
     namespace :cache do
-      desc 'イメージキャッシュを初期化'
       task :init => ['www/carrotlib/images/cache']
 
       desc 'イメージキャッシュをクリア'
@@ -60,7 +59,6 @@ namespace :var do
     end
 
     namespace :favicon do
-      desc 'faviconを初期化'
       task :init => ['www/carrotlib/images/favicon']
 
       file 'www/carrotlib/images/favicon' do
@@ -70,7 +68,6 @@ namespace :var do
   end
 
   namespace :css do
-    desc 'cssキャッシュを初期化'
     task :init => ['www/carrotlib/css/cache']
 
     desc 'cssキャッシュをクリア'
@@ -84,7 +81,6 @@ namespace :var do
   end
 
   namespace :js do
-    desc 'jsキャッシュを初期化'
     task :init => ['www/carrotlib/js/cache']
 
     desc 'jsキャッシュをクリア'
@@ -98,8 +94,8 @@ namespace :var do
   end
 
   namespace :classes do
-    desc 'クラスファイルをリロード'
-    task :init do
+    desc 'クラスヒント情報をクリア'
+    task :clear do
       sh 'rm var/serialized/BSClassLoader.*'
     end
   end
