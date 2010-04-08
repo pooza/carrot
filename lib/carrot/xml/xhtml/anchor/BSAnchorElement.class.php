@@ -34,6 +34,23 @@ class BSAnchorElement extends BSXHTMLElement {
 		}
 		$this->setAttribute('href', $url);
 	}
+
+	/**
+	 * 対象をラップして返す
+	 *
+	 * @access public
+	 * @param BSXMLElement $element 対象要素
+	 * @param BSHTTPRedirector $url リンク先
+	 * @return BSAnchorElement 自身
+	 */
+	public function wrap (BSXMLElement $element, BSHTTPRedirector $url) {
+		$this->addElement($element);
+		$this->setURL($url);
+		if (!$this->useragent->isMobile() && $url->isForeign()) {
+			$this->setAttribute('target', '_blank');
+		}
+		return $this;
+	}
 }
 
 /* vim:set tabstop=4: */
