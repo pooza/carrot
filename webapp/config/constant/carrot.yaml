@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.82
+  ver: 2.3.83
 
 admin:
   email:
@@ -109,6 +109,9 @@ module:
   secure:
     module: Default
     action: NotFound
+  empty_site:
+    module: Default
+    action: EmptySite
 movie:
   video_codec: flv
   audio_codec: libfaac
