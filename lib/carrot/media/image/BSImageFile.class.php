@@ -182,7 +182,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 *
 	 * @access protected
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSScriptElement 要素
 	 */
 	protected function getScriptElement (BSParameterHolder $params) {
 		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
@@ -193,7 +193,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 *
 	 * @access protected
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSObjectElement 要素
 	 */
 	protected function getObjectElement (BSParameterHolder $params) {
 		throw new BSMediaException($this . 'はgetObjectElementに対応していません。');

@@ -17,18 +17,18 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params) {
-		$element = new BSDivisionElement;
-		$element->registerStyleClass($params['style_class']);
-		$element->setStyles($this->getStyles($params));
-		$object = $element->addElement(new BSQuickTimeObjectElement);
+		$container = new BSDivisionElement;
+		$container->registerStyleClass($params['style_class']);
+		$container->setStyles($this->getStyles($params));
+		$object = $container->addElement(new BSQuickTimeObjectElement);
 		$object->setAttribute('type', $this->getType());
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
 		$object->setURL($this->getMediaURL($params));
-		return $element;
+		return $container;
 	}
 
 	/**

@@ -77,23 +77,23 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params) {
-		$root = new BSDivisionElement;
-		$root->registerStyleClass($params['style_class']);
+		$container = new BSDivisionElement;
+		$container->registerStyleClass($params['style_class']);
 		if ($params['mode'] == 'noscript') {
-			$root->setStyles($this->getStyles($params));
-			$root->addElement($this->getObjectElement($params));
+			$container->setStyles($this->getStyles($params));
+			$container->addElement($this->getObjectElement($params));
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
 				$params['container_id'] = $this->createContainerID();
-				$container = $root->addElement(new BSDivisionElement);
-				$container->setID($params['container_id']);
+				$inner = $container->addElement(new BSDivisionElement);
+				$inner->setID($params['container_id']);
 			}
-			$root->addElement($this->getScriptElement($params));
+			$container->addElement($this->getScriptElement($params));
 		}
-		return $root;
+		return $container;
 	}
 
 	/**
@@ -149,7 +149,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 *
 	 * @access protected
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSScriptElement 要素
 	 * @abstract
 	 */
 	abstract protected function getScriptElement (BSParameterHolder $params);
@@ -159,7 +159,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 *
 	 * @access protected
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @return BSObjectElement 要素
 	 * @abstract
 	 */
 	abstract protected function getObjectElement (BSParameterHolder $params);
