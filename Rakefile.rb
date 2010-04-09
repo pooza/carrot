@@ -95,7 +95,7 @@ namespace :var do
 
   namespace :classes do
     desc 'クラスヒント情報をクリア'
-    task :clear do
+    task :clean do
       sh 'rm var/serialized/BSClassLoader.*'
     end
   end
