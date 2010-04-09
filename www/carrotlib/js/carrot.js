@@ -78,7 +78,7 @@ if (!Number.prototype.suppressZero) {
   }
 }
 
-Event.observe(window, 'load', function () {
+document.observe('dom:loaded', function () {
   try {
     AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
   } catch (e) {

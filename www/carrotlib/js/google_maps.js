@@ -6,7 +6,7 @@
  * <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
  * <script src="/carrotlib/js/google_maps.js" type="text/javascript"></script>
  * <script type="text/javascript">
- * Event.observe(window, 'load', function () {ldelim}
+ * document.observe('dom:loaded', function () {ldelim}
  *   handleGoogleMaps($('map'), {$geocode.lat|default:0}, {$geocode.lng|default:0});
  * {rdelim});
  * </script>

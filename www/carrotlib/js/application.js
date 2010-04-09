@@ -6,6 +6,6 @@
  * @version $Id$
  */
 
-Event.observe(window, 'load', function () {
+document.observe('dom:loaded', function () {
   //alert('追加分の処理');
 });

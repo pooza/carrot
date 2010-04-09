@@ -21,7 +21,7 @@
  *   </dl>
  * </div>
  * <script type="text/javascript">
- * Event.observe(window, 'load', function () {
+ * document.observe('dom:loaded', function () {
  *   new UserMenu('sample1'); //#usermenu_sample1に対応
  *   new UserMenu('sample2'); //#usermenu_sample2に対応
  * });
