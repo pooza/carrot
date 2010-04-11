@@ -16,6 +16,7 @@ carrot:
     - protocalendar/lang_ja
     - usermenu
     - elevator
+    - jsProgressBarHandler
     - flowplayer-3.1.4.min
     - carrot
     - application
