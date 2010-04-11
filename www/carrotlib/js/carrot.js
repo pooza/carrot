@@ -61,9 +61,8 @@ function putSmartTag (tag, field, name, params) {
 function handleUploadProgress (element) {
   var progress = new JS_BRAMUS.jsProgressBar(element, 0);
   function updateProgress (request) {
-    var json;
-    if (json = request.responseText) {
-      eval('json=' + json);
+    if (request.responseText) {
+      var json = request.responseText.evalJSON();
       progress.setPercentage(json.current / json.total * 100);
     }
   }
