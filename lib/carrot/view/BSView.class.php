@@ -258,7 +258,7 @@ class BSView extends BSHTTPResponse {
 			return;
 		}
 		if (headers_sent()) {
-			throw new BSHTTPException('レスポンスヘッダを送信できません。');
+			throw new BSViewException('レスポンスヘッダを送信できません。');
 		}
 		header($header);
 	}
