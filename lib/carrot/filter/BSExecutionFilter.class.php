@@ -47,7 +47,7 @@ class BSExecutionFilter extends BSFilter {
 	private function executeView ($name) {
 		$view = $this->action->getView($name);
 		if (!$view->initialize()) {
-			throw new BSInitializationException($view . 'が初期化できません。');
+			throw new BSViewException($view . 'が初期化できません。');
 		}
 		$view->execute();
 		$view->render();

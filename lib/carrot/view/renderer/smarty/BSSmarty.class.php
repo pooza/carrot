@@ -369,7 +369,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			if (!$this->compiler->initialize($this)) {
 				$message = new BSStringFormat('%sが初期化できません。');
 				$message[] = $this->compiler_class;
-				throw new BSInitializationException($message);
+				throw new BSViewException($message);
 			}
 		}
 		return $this->compiler;

@@ -49,7 +49,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 		if (!$this->date) {
 			$message = new BSStringFormat('%sの対象日付が設定されていません。');
 			$message[] = get_class($this);
-			throw new BSInitializationException($message);
+			throw new BSConfigException($message);
 		}
 		return $this->date;
 	}
@@ -142,7 +142,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 * @param mixed 要素
 	 */
 	public function offsetSet ($key, $value) {
-		throw new BSInitializationException(get_class($this) . 'は更新できません。');
+		throw new BadFunctionCallException(get_class($this) . 'は更新できません。');
 	}
 
 	/**
@@ -152,7 +152,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 * @param string $key 添え字
 	 */
 	public function offsetUnset ($key) {
-		throw new BSInitializationException(get_class($this) . 'は更新できません。');
+		throw new BadFunctionCallException(get_class($this) . 'は更新できません。');
 	}
 
 	/**
