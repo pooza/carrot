@@ -217,22 +217,17 @@ namespace :svn do
         system 'find . ' + extension_arg + ' | xargs svn pset svn:mime-type ' + type
       end
       if (type == nil) || (/^text\// =~ type)
-        system 'find . -maxdepth 1 ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
-        system 'find bin ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
-        system 'find share ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
-        system 'find webapp ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
-        system 'find www ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
-        system 'find lib/carrot ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
+        system 'find . ' + extension_arg + ' | xargs svn pset svn:eol-style LF'
       end
       system 'find . ' + extension_arg + ' | xargs svn pdel svn:executable'
     end
     ['pl', 'rb'].each do |extension|
       extension_arg = '-name \'*.' + extension + '\''
-      system 'find lib -mindepth 2 ' + extension_arg + ' | xargs svn pset svn:executable ON'
+      system 'find lib ' + extension_arg + ' | xargs svn pset svn:executable ON'
     end
     ['pl', 'rb', 'php'].each do |extension|
       extension_arg = '-name \'*.' + extension + '\''
-      system 'find bin -maxdepth 1 ' + extension_arg + ' | xargs svn pset svn:executable ON'
+      system 'find bin ' + extension_arg + ' | xargs svn pset svn:executable ON'
     end
   end
 
