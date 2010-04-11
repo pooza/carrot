@@ -103,6 +103,10 @@ class BSFormElement extends BSXHTMLElement {
 	public function setAttachable ($flag) {
 		if ($flag) {
 			$this->setAttribute('enctype', self::ATTACHABLE_TYPE);
+			if (extension_loaded('apc')) {
+				ini_set('apc.rfc1867', 1);
+				$this->addHiddenField('APC_UPLOAD_PROGRESS', BS_UPLOAD_PROGRESS_KEY);
+			}
 		} else {
 			$this->removeAttribute('enctype');
 		}
