@@ -197,8 +197,6 @@ class BSCalendar implements IteratorAggregate {
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSIterator イテレータ
 	 */

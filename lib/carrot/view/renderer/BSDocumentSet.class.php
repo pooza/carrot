@@ -340,8 +340,6 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSIterator イテレータ
 	 */

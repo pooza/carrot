@@ -119,8 +119,6 @@ class BSValidateManager implements IteratorAggregate {
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSIterator イテレータ
 	 */

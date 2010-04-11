@@ -209,8 +209,6 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSIterator イテレータ
 	 */

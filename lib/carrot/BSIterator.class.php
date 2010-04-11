@@ -154,8 +154,6 @@ class BSIterator implements Iterator, Countable {
 	}
 
 	/**
-	 * 要素数を返す
-	 *
 	 * @access public
 	 * @return integer 要素数
 	 */

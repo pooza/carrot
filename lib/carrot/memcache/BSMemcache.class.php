@@ -176,8 +176,6 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	}
 
 	/**
-	 * 要素が存在するか？
-	 *
 	 * @access public
 	 * @param string $key 添え字
 	 * @return boolean 要素が存在すればTrue
@@ -187,8 +185,6 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	}
 
 	/**
-	 * 要素を返す
-	 *
 	 * @access public
 	 * @param string $key 添え字
 	 * @return mixed 要素
@@ -198,8 +194,6 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	}
 
 	/**
-	 * 要素を設定
-	 *
 	 * @access public
 	 * @param string $key 添え字
 	 * @param mixed 要素
@@ -209,8 +203,6 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	}
 
 	/**
-	 * 要素を削除
-	 *
 	 * @access public
 	 * @param string $key 添え字
 	 */

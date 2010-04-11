@@ -459,8 +459,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSTableIterator イテレータ
 	 */
@@ -536,8 +534,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * レコード数を返す
-	 *
 	 * @access public
 	 * @return integer レコード数
 	 */

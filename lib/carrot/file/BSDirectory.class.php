@@ -282,8 +282,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * イテレータを返す
-	 *
 	 * @access public
 	 * @return BSDirectoryIterator イテレータ
 	 */
