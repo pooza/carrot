@@ -193,7 +193,7 @@ string:
     force_convert: no
 upload:
   progress:
-    key: upload_progress_key
+    key: progress_key
 xmpp:
   host: talk.google.com
   port: 5222

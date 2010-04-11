@@ -30,8 +30,8 @@
  
  	// Default Options
 		var defaultOptions = {
-			animate		: true,										// Animate the progress? - default: true
-			showText	: true,										// show text with percentage in next to the progressbar? - default : true
+			animate		: false,										// Animate the progress? - default: true
+			showText	: false,										// show text with percentage in next to the progressbar? - default : true
 			width		: 120,										// Width of the progressbar - don't forget to adjust your image too!!!
 			boxImage	: '/carrotlib/images/js_progressbar_handler/percentImage.png',	// boxImage : image around the progress bar
 			barImage	: '/carrotlib/images/js_progressbar_handler/percentImage_back.png',	// Image to use in the progressbar. Can be an array of images too.

@@ -58,6 +58,24 @@ function putSmartTag (tag, field, name, params) {
   }
 }
 
+function handleUploadProgress (element) {
+  var progress = new JS_BRAMUS.jsProgressBar(element, 0);
+  function updateProgress (request) {
+    var json;
+    if (json = request.responseText) {
+      eval('json=' + json);
+      progress.setPercentage(json.current / json.total * 100);
+    }
+  }
+  new PeriodicalExecuter(function () {
+    new Ajax.Request('/UploadProgress', {
+      method: 'get',
+      parameters: 'd=' + new Date().getTime(),
+      onComplete: updateProgress
+    });
+  }, 1);
+}
+
 // SafariのString.trim対応
 if (!String.prototype.trim) {
   String.prototype.trim = function () {

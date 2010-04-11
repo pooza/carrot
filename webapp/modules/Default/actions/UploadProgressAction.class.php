@@ -9,9 +9,14 @@
  */
 class UploadProgressAction extends BSAction {
 	public function execute () {
+		$result = new BSArray(apc_fetch('upload_' . BS_UPLOAD_PROGRESS_KEY));
+		if ($result['total'] == $result['current']) {
+			$result->clear();
+		}
 		$renderer = new BSJSONRenderer;
-		$renderer->setContents(apc_fetch(BS_UPLOAD_PROGRESS_KEY));
-		return $this->request->setAttribute('renderer', $renderer);
+		$renderer->setContents($result);
+		$this->request->setAttribute('renderer', $renderer);
+		return BSView::SUCCESS;
 	}
 
 	public function validate () {
