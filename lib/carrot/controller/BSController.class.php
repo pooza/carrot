@@ -65,6 +65,13 @@ abstract class BSController {
 	}
 
 	/**
+	 * @access public
+	 */
+	public function __clone () {
+		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	}
+
+	/**
 	 * ディスパッチ
 	 *
 	 * @access public

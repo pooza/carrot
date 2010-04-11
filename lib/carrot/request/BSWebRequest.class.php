@@ -20,13 +20,6 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
-	}
-
-	/**
 	 * メソッドを設定
 	 *
 	 * @access public

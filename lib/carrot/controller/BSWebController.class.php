@@ -13,13 +13,6 @@
 class BSWebController extends BSController {
 
 	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
-	}
-
-	/**
 	 * リダイレクト
 	 *
 	 * @access public

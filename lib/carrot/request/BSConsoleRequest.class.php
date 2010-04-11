@@ -24,13 +24,6 @@ class BSConsoleRequest extends BSRequest {
 	}
 
 	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
-	}
-
-	/**
 	 * コマンドラインパーサオプションを追加
 	 *
 	 * @access public

@@ -41,19 +41,17 @@ class BSUser extends BSParameterHolder {
 	/**
 	 * シングルトンインスタンスを返す
 	 *
-	 * ケータイからのリクエストの場合は、BSMobileUserを返す。
-	 *
 	 * @access public
 	 * @return BSUser インスタンス
 	 * @static
 	 */
 	static public function getInstance () {
-		if (BSRequest::getInstance()->isMobile()) {
-			return BSMobileUser::getInstance();
-		}
-
 		if (!self::$instance) {
-			self::$instance = new self;
+			if (BSRequest::getInstance()->isMobile()) {
+				self::$instance = new BSMobileUser;
+			} else {
+				self::$instance = new self;
+			}
 		}
 		return self::$instance;
 	}

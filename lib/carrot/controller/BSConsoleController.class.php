@@ -21,13 +21,6 @@ class BSConsoleController extends BSController {
 			$this->request[self::MODULE_ACCESSOR] = 'Console';
 		}
 	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
-	}
 }
 
 /* vim:set tabstop=4: */

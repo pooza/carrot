@@ -11,21 +11,6 @@
  * @version $Id$
  */
 class BSMobileUser extends BSUser {
-	static private $instance;
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSMobileUser インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * ログイン
