@@ -23,11 +23,7 @@ class BSSmartyView extends BSView {
 		$this->action = $action;
 		$this->nameSuffix = $suffix;
 
-		if ($renderer) {
-			if (!($renderer instanceof BSSmarty)) {
-				throw new BSViewException(get_class($renderer) . 'をセットできません。');
-			}
-		} else {
+		if (!$renderer) {
 			$renderer = new BSSmarty;
 		}
 		$this->setRenderer($renderer);
@@ -46,6 +42,10 @@ class BSSmartyView extends BSView {
 	 *   BSMIMEUtility::WITH_HEADER ヘッダも修正
 	 */
 	public function setRenderer (BSRenderer $renderer, $flags = BSMIMEUtility::WITH_HEADER) {
+		if (!($renderer instanceof BSSmarty)) {
+			throw new BSViewException(get_class($renderer) . 'をセットできません。');
+		}
+
 		parent::setRenderer($renderer, $flags);
 		if (!$this->useragent->initializeView($this)) {
 			throw new BSViewException('ビューを初期化できません。');
