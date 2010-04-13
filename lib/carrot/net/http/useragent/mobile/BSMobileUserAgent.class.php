@@ -120,9 +120,13 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 *
 	 * @access public
 	 * @return BSArray 画面情報
-	 * @abstract
 	 */
-	abstract public function getDisplayInfo ();
+	public function getDisplayInfo () {
+		return new BSArray(array(
+			'width' => BS_IMAGE_MOBILE_SIZE_WIDTH,
+			'height' => BS_IMAGE_MOBILE_SIZE_HEIGHT,
+		));
+	}
 
 	/**
 	 * 添付可能か？

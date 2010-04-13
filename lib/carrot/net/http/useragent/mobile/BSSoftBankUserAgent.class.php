@@ -63,10 +63,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	public function getDisplayInfo () {
 		$controller = BSController::getInstance();
 		if (BSString::isBlank($info = $controller->getAttribute('X-JPHONE-DISPLAY'))) {
-			return new BSArray(array(
-				'width' => BS_IMAGE_MOBILE_SIZE_WIDTH,
-				'height' => BS_IMAGE_MOBILE_SIZE_HEIGHT,
-			));
+			return parent::getDisplayInfo();
 		}
 		$info = BSString::explode('*', $info);
 
