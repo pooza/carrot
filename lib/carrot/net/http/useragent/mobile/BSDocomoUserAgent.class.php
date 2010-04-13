@@ -18,7 +18,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct($name);
-		$this->attributes['query']['guid'] = 'ON';
 		$this->attributes['is_foma'] = $this->isFOMA();
 	}
 
@@ -63,6 +62,18 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 */
 	public function isLegacy () {
 		return !$this->isFOMA();
+	}
+
+	/**
+	 * クエリーパラメータを返す
+	 *
+	 * @access public
+	 * @return BSWWWFormRenderer
+	 */
+	public function getQuery () {
+		$query = parent::getQuery();
+		$query['guid'] = 'ON';
+		return $query;
 	}
 
 	/**

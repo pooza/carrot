@@ -203,7 +203,7 @@ class BSWebRequest extends BSRequest {
 	 */
 	public function getUserAgentName () {
 		if (BS_DEBUG || ($this->user && $this->user->isAdministrator())) {
-			if (!BSString::isBlank($name = $this[BSRequest::USER_AGENT_ACCESSOR])) {
+			if (!BSString::isBlank($name = $this[BSUserAgent::ACCESSOR])) {
 				return $name;
 			}
 		}

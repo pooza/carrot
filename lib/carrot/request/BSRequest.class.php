@@ -12,7 +12,6 @@
  * @abstract
  */
 abstract class BSRequest extends BSHTTPRequest {
-	const USER_AGENT_ACCESSOR = 'ua';
 	protected $version = null;
 	private $host;
 	private $useragent;

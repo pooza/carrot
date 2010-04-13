@@ -16,6 +16,7 @@ abstract class BSUserAgent implements BSAssignable {
 	protected $attributes;
 	protected $bugs;
 	static private $denied;
+	const ACCESSOR = 'ua';
 
 	/**
 	 * @access public
@@ -145,7 +146,17 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return BSWWWFormRenderer
 	 */
 	public function getQuery () {
-		return new BSWWWFormRenderer;
+		$query = new BSWWWFormRenderer;
+		if (BS_DEBUG || BSUser::getInstance()->isAdministrator()) {
+			$request = BSRequest::getInstance();
+			if (!BSString::isBlank($name = $request[self::ACCESSOR])) {
+				$query[self::ACCESSOR] = $name;
+			}
+			if (!!$request['preview']) {
+				$query['preview'] = 1;
+			}
+		}
+		return $query;
 	}
 
 	/**
@@ -288,8 +299,6 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		$this->attributes['query'] = $this->getQuery();
-		$this->attributes['query_params'] = $this->getQuery()->getContents();
 		return $this->attributes;
 	}
 

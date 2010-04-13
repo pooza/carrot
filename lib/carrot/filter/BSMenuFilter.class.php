@@ -66,6 +66,12 @@ class BSMenuFilter extends BSFilter {
 				$values['credential'] = $module->getCredential();
 			}
 		}
+		if (!BSString::isBlank($values['href'])) {
+			$url = BSURL::getInstance();
+			$url['path'] = $values['href'];
+			$url->setParameters($this->request->getUserAgent()->getQuery());
+			$values['href'] = $url->getFullPath();
+		}
 		if ($this->user->hasCredential($values['credential'])) {
 			return $values;
 		}

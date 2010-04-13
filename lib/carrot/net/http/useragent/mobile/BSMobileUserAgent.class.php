@@ -13,7 +13,6 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
-	private $query;
 	const DEFAULT_DISPLAY_WIDTH = 240;
 	const DEFAULT_DISPLAY_HEIGHT = 320;
 
@@ -27,7 +26,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$this->attributes['id'] = $this->getID();
 		$this->attributes['is_attachable'] = $this->isAttachable();
 		$this->attributes['display'] = $this->getDisplayInfo();
-		$this->attributes['query'] = new BSArray;
 	}
 
 	/**
@@ -63,18 +61,10 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return BSWWWFormRenderer
 	 */
 	public function getQuery () {
-		if (!$this->query) {
-			$this->query = new BSWWWFormRenderer;
-			$this->query->setParameters($this->attributes['query']);
-
-			$session = BSRequest::getInstance()->getSession();
-			$this->query[$session->getName()] = $session->getID();
-			if (BS_DEBUG) {
-				$this->query[BSRequest::USER_AGENT_ACCESSOR] = $this->getName();
-				$this->query['mobile_agent_id'] = $this->getID();
-			}
-		}
-		return $this->query;
+		$query = parent::getQuery();
+		$session = BSRequest::getInstance()->getSession();
+		$query[$session->getName()] = $session->getID();
+		return $query;
 	}
 
 	/**
