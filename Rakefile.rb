@@ -201,7 +201,7 @@ namespace :docomo do
 
   desc 'DoCoMoの端末リストを更新'
   task :update do
-    sh ' update webapp/config/docomo_atents.xml'
+    sh 'svn update webapp/config/docomo_atents.xml'
   end
 end
 
