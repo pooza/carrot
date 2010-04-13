@@ -107,7 +107,7 @@ class BSWebRequest extends BSRequest {
 			$this->headers = new BSArray;
 			if (extension_loaded('http')) {
 				$headers = http_get_request_headers();
-			} else if (function_exists('apache_request_headers')) {
+			} else if (BSString::isContain('apache', PHP_SAPI)) {
 				$headers = apache_request_headers();
 			} else {
 				$headers = array();
