@@ -13,8 +13,6 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
-	const DEFAULT_DISPLAY_WIDTH = 240;
-	const DEFAULT_DISPLAY_HEIGHT = 320;
 
 	/**
 	 * @access public

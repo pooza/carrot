@@ -57,6 +57,9 @@ home:
   href: /index.html
 image:
   mobile:
+    size:
+      width: 240
+      height: 320
     type:
       docomo: image/jpeg
       au: image/png

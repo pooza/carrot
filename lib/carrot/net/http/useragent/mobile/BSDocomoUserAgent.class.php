@@ -89,8 +89,8 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 			}
 		}
 		return new BSArray(array(
-			'width' => self::DEFAULT_DISPLAY_WIDTH,
-			'height' => self::DEFAULT_DISPLAY_HEIGHT,
+			'width' => BS_IMAGE_MOBILE_SIZE_WIDTH,
+			'height' => BS_IMAGE_MOBILE_SIZE_HEIGHT,
 		));
 	}
 
