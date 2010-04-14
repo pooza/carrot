@@ -28,6 +28,11 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
 		$object->setURL($this->getMediaURL($params));
+		foreach (array('kioskmode') as $key) {
+			if ($params->hasParameter($key)) {
+				$object->setParameter($key, $params[$key]);
+			}
+		}
 		return $container;
 	}
 

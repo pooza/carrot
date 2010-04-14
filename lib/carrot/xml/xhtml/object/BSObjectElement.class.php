@@ -45,11 +45,11 @@ class BSObjectElement extends BSXHTMLElement {
 	/**
 	 * param要素を加える
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $name 名前
 	 * @param string $value 値
 	 */
-	protected function setParameter ($name, $value) {
+	public function setParameter ($name, $value) {
 		foreach ($this->elements as $index => $element) {
 			if (($element->getName() == 'param') && ($element->getAttribute('name') == $name)) {
 				$this->elements->removeParameter($index);
