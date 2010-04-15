@@ -17,16 +17,18 @@ function denyTakeOut (selector_name) {
       element.galleryimg = 'no';
     }
 
-    var cover = document.createElement('img');
-    cover.src = '/carrotlib/images/spacer.gif';
-    Element.setStyle(cover, {
-      'left': element.offsetLeft + 'px',
-      'top': element.offsetTop + 'px',
-      'width': element.width + 'px',
-      'height': element.height + 'px',
-      'position': 'absolute'
-    });
-    element.parentNode.appendChild(cover);
+    if (Prototype.Browser.MobileSafari) {
+      var cover = document.createElement('img');
+      cover.src = '/carrotlib/images/spacer.gif';
+      Element.setStyle(cover, {
+        'left': element.offsetLeft + 'px',
+        'top': element.offsetTop + 'px',
+        'width': element.width + 'px',
+        'height': element.height + 'px',
+        'position': 'absolute'
+      });
+      element.parentNode.appendChild(cover);
+    }
   }
 
   if (!selector_name) {
