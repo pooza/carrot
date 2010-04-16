@@ -45,8 +45,6 @@ debug: yes
 ffmpeg:
   dir: /usr/local
 file:
-  magic:
-    file: /etc/httpd/magic
   types:
     file: /etc/httpd/mime.types
 flash:

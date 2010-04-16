@@ -12,7 +12,6 @@
  */
 class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	private $typesFile;
-	private $magicFile;
 	private $suffixes;
 	static private $instance;
 	const DEFAULT_TYPE = 'application/octet-stream';
@@ -62,22 +61,6 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 			}
 		}
 		return $this->typesFile;
-	}
-
-	/**
-	 * magicファイルを返す
-	 *
-	 * @access private
-	 * @return BSFile magicファイル
-	 */
-	private function getMagicFile () {
-		if (!$this->magicFile) {
-			$this->magicFile = new BSFile(BS_FILE_MAGIC_FILE);
-			if (!$this->magicFile->isReadable()) {
-				throw new BSConfigException($file . 'を開くことができません。');
-			}
-		}
-		return $this->magicFile;
 	}
 
 	/**
