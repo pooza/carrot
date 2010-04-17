@@ -12,6 +12,7 @@
  */
 class BSTwitterService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'twitter.com';
+	private $account;
 
 	/**
 	 * @access public
@@ -28,12 +29,29 @@ class BSTwitterService extends BSCurlHTTP {
 	}
 
 	/**
+	 * アカウントを返す
+	 *
+	 * @access public
+	 * @return BSTwitterAccount アカウント
+	 */
+	public function getAccount () {
+		if (!$this->account) {
+			$account = BSString::explode(':', $this->getAttribute('userpwd'));
+			$response = $this->sendGetRequest('/users/show/' . $account[0] . '.json');
+			$json = new BSJSONRenderer;
+			$json->setContents($response->getRenderer()->getContents());
+			$this->account = new BSTwitterAccount($json);
+		}
+		return $this->account;
+	}
+
+	/**
 	 * 最近のつぶやきを返す
 	 *
 	 * @access public
 	 * @return BSJSONRenderer JSON文書
 	 */
-	public function getRecentTweets () {
+	public function getUserTimeline () {
 		$response = $this->sendGetRequest('/statuses/user_timeline.json');
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
@@ -47,7 +65,7 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @param string $tweet つぶやき
 	 */
 	public function tweet ($tweet) {
-		$this->sendPostRequest('/statuses/update.xml', array('status' => $tweet));
+		$this->sendPostRequest('/statuses/update.json', array('status' => $tweet));
 	}
 
 	/**
