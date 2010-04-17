@@ -43,7 +43,7 @@ class BSTwitterAccount {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('Twitterアカウント "%d"', $this->getScreenName());
+		return sprintf('Twitterアカウント "%s"', $this->getScreenName());
 	}
 }
 
