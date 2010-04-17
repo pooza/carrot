@@ -104,13 +104,13 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	/**
 	 * Google Static Maps APIのURLを返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $address 住所等
 	 * @param BSArray $params パラメータ配列
 	 * @return BSURL URL
 	 * @see http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
 	 */
-	public function getStaticImageURL ($address, BSArray $params) {
+	protected function getStaticImageURL ($address, BSArray $params) {
 		$constants = BSConstantHandler::getInstance();
 		foreach (array('width', 'height', 'zoom') as $key) {
 			if (BSString::isBlank($$key = $params[$key])) {

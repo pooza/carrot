@@ -69,10 +69,11 @@ class BSCurlHTTP extends BSHTTP {
 
 		$response = new BSHTTPResponse;
 		$response->setURL($url);
-		$contents = BSString::explode( //空行で区切る
-			self::LINE_SEPARATOR . self::LINE_SEPARATOR,
-			curl_exec($this->getEngine())
-		);
+		if (($contents = curl_exec($this->getEngine())) === false) {
+			throw new BSHTTPException($url . 'へ送信できません。');
+		}
+
+		$contents = BSString::explode(self::LINE_SEPARATOR . self::LINE_SEPARATOR, $contents);
 		$response->setContents($contents->shift());
 		$response->setBody($contents->shift());
 
