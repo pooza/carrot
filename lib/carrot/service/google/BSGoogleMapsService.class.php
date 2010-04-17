@@ -150,18 +150,15 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$address = $params['address'];
 		$params->removeParameter('address');
 
-		$container = new BSDivisionElement;
-		$anchor = $container->addElement(new BSAnchorElement);
-		$anchor->setURL(self::getURL($address, $this->useragent));
-		$caption = $container->addElement(new BSDivisionElement);
-		$caption->setBody($address);
-
-		$image = $anchor->addElement(new BSImageElement);
+		$image = new BSImageElement;
 		$file = $this->getImageFile($geocode, $params);
 		$url = BSFileUtility::getURL('maps');
 		$url['path'] .= $file->getName();
 		$image->setURL($url);
 
+		$container = new BSDivisionElement;
+		$anchor = $container->addElement(new BSAnchorElement);
+		$anchor->link($image, self::getURL($address, $this->useragent));
 		return $container;
 	}
 
