@@ -32,7 +32,7 @@ class BSFlashObjectElement extends BSObjectElement {
 	 * URLを設定
 	 *
 	 * @access public
-	 * @param BSHTTPRedirector $url FlashムービーのURL
+	 * @param BSHTTPRedirector $url メディアのURL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
 		$this->setAttribute('data', $url->getContents());
