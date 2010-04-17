@@ -31,6 +31,7 @@ namespace :var do
     :chmod,
     'images:cache:init',
     'images:favicon:init',
+    'images:maps:init',
     'css:init',
     'js:init',
   ]
@@ -63,6 +64,14 @@ namespace :var do
 
       file 'www/carrotlib/images/favicon' do
         sh 'ln -s ../../../var/favicon www/carrotlib/images/favicon'
+      end
+    end
+
+    namespace :maps do
+      task :init => ['www/carrotlib/images/maps']
+
+      file 'www/carrotlib/images/maps' do
+        sh 'ln -s ../../../var/maps www/carrotlib/images/maps'
       end
     end
   end

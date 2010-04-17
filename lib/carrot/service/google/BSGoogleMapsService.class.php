@@ -74,20 +74,49 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 *
 	 * @access public
 	 * @param string $address 住所等
-	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSImageFile 画像ファイル
+	 */
+	public function getStaticImageFile ($address, BSUserAgent $useragent = null) {
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
+		}
+		$params = new BSArray;
+
+		$dir = BSFileUtility::getDirectory('maps');
+		$name = BSCrypt::getDigest(array($address, $params->join('|'), $useragent->isMobile()));
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			if($useragent->isMobile()) {
+				$params['maptype'] = 'mobile';
+				$params['width'] = $useragent->getDisplayInfo()->getParameter('width');
+				$params['height'] = BSNumeric::round($params['width'] * 0.75);
+			}
+			$image = new BSImage;
+			$image->setImage($this->getStaticImageURL($address, $params)->fetch());
+
+			$file = $dir->createEntry($name, 'BSImageFile');
+			$file->setRenderer($image);
+			$file->save();
+		}
+		return $file;
+	}
+
+	/**
+	 * Google Static Maps APIのURLを返す
+	 *
+	 * @access public
+	 * @param string $address 住所等
+	 * @param BSArray $params パラメータ配列
 	 * @return BSURL URL
 	 * @see http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
 	 */
-	public function getStaticMapsURL ($address, BSParameterHolder $params = null) {
-		$params = new BSArray($params);
-
+	public function getStaticImageURL ($address, BSArray $params) {
 		$constants = BSConstantHandler::getInstance();
 		foreach (array('width', 'height', 'zoom') as $key) {
-			if ($$key = $params[$key]) {
-				$params->removeParameter($key);
-			} else {
+			if (BSString::isBlank($$key = $params[$key])) {
 				$$key = $constants['service_google_maps_static_' . $key];
 			}
+			$params->removeParameter($key);
 		}
 
 		$geocode = $this->getGeocode($address);
@@ -95,6 +124,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$url['host'] = self::DEFAULT_HOST;
 		$url['path'] = '/staticmap';
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
+		$url->setParameter('format', 'jpeg');
 		$url->setParameter('center', $geocode->format());
 		$url->setParameter('markers', $geocode->format());
 		$url->setParameter('zoom', $zoom);

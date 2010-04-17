@@ -80,6 +80,10 @@ log:
     month: 3
 man:
   parent: share
+maps:
+  parent: var
+  suffix: .gif
+  href: /carrotlib/images/maps/
 menu:
   parent: config
 modules:
