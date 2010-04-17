@@ -13,12 +13,8 @@
 function smarty_function_map ($params, &$smarty) {
 	$params = new BSArray($params);
 	$service = new BSGoogleMapsService;
-	if (!$geocode = $service->getGeocode($params['addr'])) {
-		throw new BSGeocodeException('ジオコードが取得できません。');
-	}
-
-	$params['id'] = 'map_' . BSCrypt::getDigest($params['addr']);
-	$element = BSGoogleMapsService::getScriptElement($geocode, $params);
+	$service->setUserAgent($smarty->getUserAgent());
+	$element = $service->getElement($params['addr'], $params);
 	return $element->getContents();
 }
 

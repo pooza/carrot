@@ -32,40 +32,14 @@ class BSMapTag extends BSSmartTag {
 	 */
 	public function execute ($body) {
 		try {
-			if ($this->getUserAgent()->isMobile()) {
-				$element = $this->getMobileAnchorElement();
-			} else {
-				$element = $this->getAjaxDivisionElement();
-			}
+			$service = new BSGoogleMapsService;
+			$service->setUserAgent($this->getUserAgent());
+			$element = $service->getElement($this->tag[1], $this->getQueryParameters());
 			$replace = $element->getContents();
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());
 		}
 		return str_replace($this->getContents(), $replace, $body);
-	}
-
-	private function getMobileAnchorElement () {
-		$url = BSGoogleMapsService::getURL($this->tag[1], $this->getUserAgent());
-		$element = new BSAnchorElement;
-		$element->setBody($this->tag[1]);
-		$element->setURL($url);
-		return $element;
-	}
-
-	private function getAjaxDivisionElement () {
-		$params = new BSArray($this->getQueryParameters());
-		$params['id'] = 'map_' . BSCrypt::getDigest($this->tag[1]);
-		return BSGoogleMapsService::getScriptElement($this->getGeocode(), $params);
-	}
-
-	private function getGeocode () {
-		if (!$this->geocode) {
-			$service = new BSGoogleMapsService;
-			if (!$this->geocode = $service->getGeocode($this->tag[1])) {
-				throw new BSGeocodeException('ジオコードが取得できません。');
-			}
-		}
-		return $this->geocode;
 	}
 }
 

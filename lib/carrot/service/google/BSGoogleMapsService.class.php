@@ -12,6 +12,7 @@
  */
 class BSGoogleMapsService extends BSCurlHTTP {
 	private $table;
+	private $useragent;
 	const DEFAULT_HOST = 'maps.google.com';
 
 	/**
@@ -24,6 +25,74 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$host = new BSHost(self::DEFAULT_HOST);
 		}
 		parent::__construct($host, $port);
+		$this->useragent = BSRequest::getInstance()->getUserAgent();
+	}
+
+	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		$this->useragent = $useragent;
+	}
+
+	/**
+	 * 要素を返す
+	 *
+	 * @access public
+	 * @param string $address 住所等
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSDivisionElement
+	 */
+	public function getElement ($address, BSParameterHolder $params = null) {
+		$params = new BSArray($params);
+		$params['address'] = $address;
+		if (!$params['zoom']) {
+			$params['zoom'] = BS_SERVICE_GOOGLE_MAPS_ZOOM;
+		}
+
+		if (!$geocode = $this->getGeocode($address)) {
+			$message = new BSStringFormat('"%s" のジオコードが取得できません。');
+			$message[] = $address;
+			throw new BSGeocodeException($message);
+		}
+
+		if ($this->useragent->isMobile()) {
+			$params->removeParameter('width');
+			$params->removeParameter('height');
+			return $this->getImageElement($geocode, $params);
+		} else {
+			return $this->getScriptElement($geocode, $params);
+		}
+	}
+
+	/**
+	 * script要素を返す
+	 *
+	 * @access protected
+	 * @param BSGeocodeEntry $geocode ジオコード
+	 * @param BSArray $params パラメータ配列
+	 * @return BSDivisionElement
+	 */
+	protected function getScriptElement (BSGeocodeEntry $geocode, BSArray $params) {
+		$container = new BSDivisionElement;
+		$inner = $container->addElement(new BSDivisionElement);
+		$script = $container->addElement(new BSScriptElement);
+
+		$inner->setID('map_' . BSCrypt::getDigest($params['address']));
+		$inner->setStyle('width', $params['width']);
+		$inner->setStyle('height', $params['height']);
+		$inner->setBody('Loading...');
+
+		$statement = new BSStringFormat('handleGoogleMaps($(%s), %f, %f, %d);');
+		$statement[] = BSJavaScriptUtility::quote($inner->getID());
+		$statement[] = $geocode['lat'];
+		$statement[] = $geocode['lng'];
+		$statement[] = $params['zoom'];
+		$script->setBody($statement->getContents());
+		return $container;
 	}
 
 	/**
@@ -43,7 +112,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		return $entry;
 	}
 
-	private function queryGeocode ($address) {
+	protected function queryGeocode ($address) {
 		$params = new BSWWWFormRenderer;
 		$params['q'] = $address;
 		$params['output'] = 'json';
@@ -62,7 +131,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		}
 	}
 
-	private function getTable () {
+	protected function getTable () {
 		if (!$this->table) {
 			$this->table = new BSGeocodeEntryHandler;
 		}
@@ -70,30 +139,46 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	/**
-	 * Google Static Maps APIのURLを返す
+	 * img要素を返す
 	 *
-	 * @access public
-	 * @param string $address 住所等
-	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @access protected
+	 * @param BSGeocodeEntry $geocode ジオコード
+	 * @param BSArray $params パラメータ配列
+	 * @return BSDivisionElement
+	 */
+	protected function getImageElement (BSGeocodeEntry $geocode, BSArray $params) {
+		$address = $params['address'];
+		$params->removeParameter('address');
+
+		$container = new BSDivisionElement;
+		$anchor = $container->addElement(new BSAnchorElement);
+		$anchor->setURL(self::getURL($address, $this->useragent));
+		$caption = $container->addElement(new BSDivisionElement);
+		$caption->setBody($address);
+
+		$image = $anchor->addElement(new BSImageElement);
+		$file = $this->getImageFile($geocode, $params);
+		$url = BSFileUtility::getURL('maps');
+		$url['path'] .= $file->getName();
+		$image->setURL($url);
+
+		return $container;
+	}
+
+	/**
+	 * 地図画像ファイルを返す
+	 *
+	 * @access protected
+	 * @param BSGeocodeEntry $geocode ジオコード
+	 * @param BSArray $params パラメータ配列
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getStaticImageFile ($address, BSUserAgent $useragent = null) {
-		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-		}
-		$params = new BSArray;
-
+	protected function getImageFile (BSGeocodeEntry $geocode, BSArray $params) {
 		$dir = BSFileUtility::getDirectory('maps');
-		$name = BSCrypt::getDigest(array($address, $params->join('|'), $useragent->isMobile()));
+		$name = BSCrypt::getDigest(array($geocode->format(), $params->join('|')));
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			if($useragent->isMobile()) {
-				$params['maptype'] = 'mobile';
-				$params['width'] = $useragent->getDisplayInfo()->getParameter('width');
-				$params['height'] = BSNumeric::round($params['width'] * 0.75);
-			}
 			$image = new BSImage;
-			$image->setImage($this->getStaticImageURL($address, $params)->fetch());
-
+			$image->setImage($this->getImageURL($geocode, $params)->fetch());
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setRenderer($image);
 			$file->save();
@@ -105,30 +190,26 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * Google Static Maps APIのURLを返す
 	 *
 	 * @access protected
-	 * @param string $address 住所等
+	 * @param BSGeocodeEntry $geocode ジオコード
 	 * @param BSArray $params パラメータ配列
 	 * @return BSURL URL
 	 * @see http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
 	 */
-	protected function getStaticImageURL ($address, BSArray $params) {
-		$constants = BSConstantHandler::getInstance();
-		foreach (array('width', 'height', 'zoom') as $key) {
-			if (BSString::isBlank($$key = $params[$key])) {
-				$$key = $constants['service_google_maps_static_' . $key];
-			}
-			$params->removeParameter($key);
-		}
+	protected function getImageURL (BSGeocodeEntry $geocode, BSArray $params) {
+		$info = $this->useragent->getDisplayInfo();
+		$size = new BSStringFormat('%dx%d');
+		$size[] = $info['width'];
+		$size[] = BSNumeric::round($info['width'] * 0.75);
 
-		$geocode = $this->getGeocode($address);
 		$url = BSURL::getInstance();
 		$url['host'] = self::DEFAULT_HOST;
 		$url['path'] = '/staticmap';
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
-		$url->setParameter('format', 'jpeg');
+		$url->setParameter('format', BS_SERVICE_GOOGLE_MAPS_FORMAT);
+		$url->setParameter('maptype', 'mobile');
 		$url->setParameter('center', $geocode->format());
 		$url->setParameter('markers', $geocode->format());
-		$url->setParameter('zoom', $zoom);
-		$url->setParameter('size', $width . 'x' . $height);
+		$url->setParameter('size', $size->getContents());
 		foreach ($params as $key => $value) {
 			$url->setParameter($key, $value);
 		}
@@ -136,43 +217,15 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	/**
-	 * script要素を返す
-	 *
-	 * @access public
-	 * @param BSGeocodeEntry $geocode ジオコード
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSDivisionElement
-	 * @static
-	 */
-	static public function getScriptElement (BSGeocodeEntry $geocode, BSParameterHolder $params) {
-		$element = new BSDivisionElement;
-		$inner = $element->addElement(new BSDivisionElement);
-		$script = $element->addElement(new BSScriptElement);
-
-		$inner->setID($params['id']);
-		$inner->setStyle('width', $params['width']);
-		$inner->setStyle('height', $params['height']);
-		$inner->setBody('Loading...');
-
-		$statement = new BSStringFormat('handleGoogleMaps($(%s), %f, %f);');
-		$statement[] = BSJavaScriptUtility::quote($params['id']);
-		$statement[] = $geocode['lat'];
-		$statement[] = $geocode['lng'];
-		$script->setBody($statement->getContents());
-
-		return $element;
-	}
-
-	/**
 	 * サイトを直接開くURLを返す
 	 *
 	 * @access public
-	 * @param string $addr 住所
+	 * @param string $address 住所等
 	 * @param string BSUserAgent $useragent 対象ブラウザ
 	 * @return BSHTTPURL
 	 * @static
 	 */
-	static public function getURL ($addr, BSUserAgent $useragent = null) {
+	static public function getURL ($address, BSUserAgent $useragent = null) {
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
@@ -184,7 +237,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		} else {
 			$url['host'] = self::DEFAULT_HOST;
 		}
-		$url->setParameter('q', $addr);
+		$url->setParameter('q', $address);
 		return $url;
 	}
 }

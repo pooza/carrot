@@ -7,7 +7,7 @@
  * <script src="/carrotlib/js/google_maps.js" type="text/javascript"></script>
  * <script type="text/javascript">
  * document.observe('dom:loaded', function () {ldelim}
- *   handleGoogleMaps($('map'), {$geocode.lat|default:0}, {$geocode.lng|default:0});
+ *   handleGoogleMaps($('map'), {$geocode.lat|default:0}, {$geocode.lng|default:0}, 18);
  * {rdelim});
  * </script>
  *
@@ -15,10 +15,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-function handleGoogleMaps (container, lat, lng) {
+function handleGoogleMaps (container, lat, lng, zoom) {
   var point = new google.maps.LatLng(lat, lng);
   var map = new google.maps.Map(container, {
-    zoom: 17,
+    zoom: zoom,
     center: point,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
