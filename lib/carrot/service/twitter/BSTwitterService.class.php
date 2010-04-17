@@ -11,8 +11,6 @@
  * @version $Id$
  */
 class BSTwitterService extends BSCurlHTTP {
-	private $uid;
-	private $password;
 	const DEFAULT_HOST = 'twitter.com';
 
 	/**
@@ -30,66 +28,44 @@ class BSTwitterService extends BSCurlHTTP {
 	}
 
 	/**
-	 * ユーザーIDを返す
+	 * 最近のつぶやきを返す
 	 *
 	 * @access public
-	 * @return string ユーザーID
+	 * @return BSArray つぶやきの配列
 	 */
-	public function getUserID () {
-		return $this->uid;
-	}
-
-	/**
-	 * ユーザーIDを設定
-	 *
-	 * @access public
-	 * @param string $id ユーザーID又はメールアドレス
-	 */
-	public function setUserID ($id) {
-		$this->uid = $id;
-	}
-
-	/**
-	 * パスワードを返す
-	 *
-	 * @access public
-	 * @return string パスワード
-	 */
-	public function getPassword () {
-		return $this->password;
-	}
-
-	/**
-	 * パスワードを設定
-	 *
-	 * @access public
-	 * @param string $password パスワード
-	 */
-	public function setPassword ($password) {
-		$this->password = $password;
-	}
-
-	/**
-	 * 最新ステータスを返す
-	 *
-	 * @access public
-	 * @return BSTwitterStatus ステータス
-	 */
-	public function getStatus () {
+	public function getRecentTweets () {
 		$response = $this->sendGetRequest('/statuses/user_timeline.xml');
 		$xml = new BSXMLDocument;
 		$xml->setContents($response->getRenderer()->getContents());
-		return new BSTwitterStatus($xml->getElement('status'));
+
+		$tweets = new BSArray;
+		foreach ($xml as $element) {
+			$tweet = new BSArray;
+			foreach (array('created_at', 'id', 'text', 'truncated') as $name) {
+				if ($field = $element->getElement($name)) {
+					$tweet[$name] = $field->getBody();
+				}
+			}
+			if ($tweet['truncated'] == 'false') {
+				$tweet['date'] = BSDate::getInstance($tweet['created_at']);
+				$tweet['body'] = $tweet['text'];
+				$tweet->removeParameter('truncated');
+				$tweet->removeParameter('created_at');
+				$tweet->removeParameter('text');
+				$tweets[$tweet['id']] = $tweet;
+			}
+		}
+		return $tweets;
 	}
 
 	/**
-	 * ステータスを設定
+	 * つぶやく
 	 *
 	 * @access public
-	 * @param string $status ステータス
+	 * @param string $tweet つぶやき
 	 */
-	public function setStatus ($status) {
-		$this->sendPostRequest('/statuses/update.xml', array('status' => $status));
+	public function tweet ($tweet) {
+		$this->sendPostRequest('/statuses/update.xml', array('status' => $tweet));
 	}
 
 	/**
@@ -100,17 +76,13 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGetRequest ($path = '/') {
-		if (!$this->getUserID()) {
-			throw new BSTwitterException('ユーザーID又はメールアドレスが未定義です。');
-		} else if (!$this->getPassword()) {
-			throw new BSTwitterException('パスワードが未定義です。');
+		if (BSString::isBlank($this->getAttribute('userpwd'))) {
+			throw new BSTwitterException('認証情報が未定義です。');
 		}
-
 		try {
-			$this->setAttribute('userpwd', $this->getUserID() . ':' . $this->getPassword());
 			return parent::sendGetRequest($path);
 		} catch (BSHTTPException $e) {
-			$message = new BSStringFormat('認証エラーが発生した為、%sが実行できません。');
+			$message = new BSStringFormat('認証エラーが発生した為、 "%s" をGETできません。');
 			$message[] = $path;
 			throw new BSTwitterException($message);
 		}
@@ -125,17 +97,13 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPostRequest ($path = '/', $params = array()) {
-		if (BSString::isBlank($this->getUserID())) {
-			throw new BSTwitterException('ユーザーID又はメールアドレスが未定義です。');
-		} else if (BSString::isBlank($this->getPassword())) {
-			throw new BSTwitterException('パスワードが未定義です。');
+		if (BSString::isBlank($this->getAttribute('userpwd'))) {
+			throw new BSTwitterException('認証情報が未定義です。');
 		}
-
 		try {
-			$this->setAttribute('userpwd', $this->getUserID() . ':' . $this->getPassword());
 			return parent::sendPostRequest($path, $params);
 		} catch (BSHTTPException $e) {
-			$message = new BSStringFormat('認証エラーが発生した為、%sが実行できません。');
+			$message = new BSStringFormat('認証エラーが発生した為、 "%s" をPOSTできません。');
 			$message[] = $path;
 			throw new BSTwitterException($message);
 		}
@@ -144,10 +112,10 @@ class BSTwitterService extends BSCurlHTTP {
 	/**
 	 * 追加分リクエストヘッダを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @return string[] 追加分リクエストヘッダ
 	 */
-	private function getRequestHeaders () {
+	protected function getRequestHeaders () {
 		return array(
 			'X-Twitter-Client' => BSController::getName('en'),
 		);

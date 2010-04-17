@@ -230,7 +230,7 @@ namespace :svn do
       end
       system 'find . ' + extension_arg + ' | xargs svn pdel svn:executable'
     end
-    ['pl', 'rb'].each do |extension|
+    ['pl', 'rb', 'cgi'].each do |extension|
       extension_arg = '-name \'*.' + extension + '\''
       system 'find lib ' + extension_arg + ' | xargs svn pset svn:executable ON'
     end

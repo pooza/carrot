@@ -11,9 +11,22 @@
  * @version $Id$
  */
 class BSCurlHTTP extends BSHTTP {
-	private $engine;
-	private $attributes = array();
-	private $ssl = false;
+	protected $engine;
+	protected $attributes;
+	protected $ssl = false;
+
+	/**
+	 * @access public
+	 * @param mixed $host ホスト
+	 * @param integer $port ポート
+	 * @param string $protocol プロトコル
+	 *   BSNetworkService::TCP
+	 *   BSNetworkService::UDP
+	 */
+	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
+		parent::__construct($host, $port, $protocol);
+		$this->attributes = new BSArray;
+	}
 
 	/**
 	 * HEADリクエスト
@@ -134,13 +147,23 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	/**
-	 * 全ての属性を返す
+	 * 属性を返す
 	 *
 	 * @access public
-	 * @return mixed[] 全ての属性
+	 * @param string $name 属性名
+	 * @return mixed 属性値
 	 */
-	public function getAttributes () {
-		return $this->attributes;
+	public function getAttribute ($name) {
+		$names = array(
+			'curlopt_' . $name,
+			'curl_' . $name,
+			$name,
+		);
+		foreach ($names as $name) {
+			if ($this->attributes->hasParameter($name)) {
+				return $this->attributes[$name];
+			}
+		}
 	}
 
 	/**
