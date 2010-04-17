@@ -36,14 +36,14 @@ class BSAnchorElement extends BSXHTMLElement {
 	}
 
 	/**
-	 * 対象をラップして返す
+	 * 対象にリンクを設定
 	 *
 	 * @access public
 	 * @param BSXMLElement $element 対象要素
 	 * @param BSHTTPRedirector $url リンク先
 	 * @return BSAnchorElement 自身
 	 */
-	public function wrap (BSXMLElement $element, BSHTTPRedirector $url) {
+	public function link (BSXMLElement $element, BSHTTPRedirector $url) {
 		$this->addElement($element);
 		$this->setURL($url);
 		if (!$this->useragent->isMobile() && $url->isForeign()) {
