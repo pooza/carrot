@@ -31,7 +31,7 @@ class BSQuickTimeObjectElement extends BSObjectElement {
 	 * URLを設定
 	 *
 	 * @access public
-	 * @param BSHTTPRedirector $url FlashムービーのURL
+	 * @param BSHTTPRedirector $url 動画のURL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
 		$this->setParameter('src', $url->getContents());

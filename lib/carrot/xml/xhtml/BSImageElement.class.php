@@ -72,17 +72,14 @@ class BSImageElement extends BSXHTMLElement {
 			case 'border':
 			case 'class':
 			case 'style':
-				break;
+				return parent::setAttribute($name, $value);
 			case 'alt':
 				return $this->setAlt($value);
 			case 'href':
 			case 'url':
 			case 'src':
 				return $this->setURL($value);
-			default:
-				return;
 		}
-		parent::setAttribute($name, $value);
 	}
 }
 
