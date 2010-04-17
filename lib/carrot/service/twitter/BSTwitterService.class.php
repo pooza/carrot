@@ -31,31 +31,13 @@ class BSTwitterService extends BSCurlHTTP {
 	 * 最近のつぶやきを返す
 	 *
 	 * @access public
-	 * @return BSArray つぶやきの配列
+	 * @return BSJSONRenderer JSON文書
 	 */
 	public function getRecentTweets () {
-		$response = $this->sendGetRequest('/statuses/user_timeline.xml');
-		$xml = new BSXMLDocument;
-		$xml->setContents($response->getRenderer()->getContents());
-
-		$tweets = new BSArray;
-		foreach ($xml as $element) {
-			$tweet = new BSArray;
-			foreach (array('created_at', 'id', 'text', 'truncated') as $name) {
-				if ($field = $element->getElement($name)) {
-					$tweet[$name] = $field->getBody();
-				}
-			}
-			if ($tweet['truncated'] == 'false') {
-				$tweet['date'] = BSDate::getInstance($tweet['created_at']);
-				$tweet['body'] = $tweet['text'];
-				$tweet->removeParameter('truncated');
-				$tweet->removeParameter('created_at');
-				$tweet->removeParameter('text');
-				$tweets[$tweet['id']] = $tweet;
-			}
-		}
-		return $tweets;
+		$response = $this->sendGetRequest('/statuses/user_timeline.json');
+		$json = new BSJSONRenderer;
+		$json->setContents($response->getRenderer()->getContents());
+		return $json;
 	}
 
 	/**

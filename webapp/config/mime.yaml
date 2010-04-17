@@ -29,7 +29,7 @@ types:
   jpg: image/jpeg
   jpeg: image/jpeg
   js: text/javascript
-  json: text/javascript
+  json: application/json
   mime: message/rfc822
   mov: video/quicktime
   mp3: audio/mpeg
