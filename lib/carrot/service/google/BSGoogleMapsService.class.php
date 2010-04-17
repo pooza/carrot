@@ -95,8 +95,8 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$url['host'] = self::DEFAULT_HOST;
 		$url['path'] = '/staticmap';
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
-		$url->setParameter('center', $geocode['lat'] . ',' . $geocode['lng']);
-		$url->setParameter('markers', $geocode['lat'] . ',' . $geocode['lng']);
+		$url->setParameter('center', $geocode->format());
+		$url->setParameter('markers', $geocode->format());
 		$url->setParameter('zoom', $zoom);
 		$url->setParameter('size', $width . 'x' . $height);
 		foreach ($params as $key => $value) {
