@@ -13,6 +13,7 @@
 class BSTwitterService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'twitter.com';
 	private $account;
+	private $suffix = BS_SERVICE_TWITTER_SUFFIX;
 
 	/**
 	 * @access public
@@ -36,8 +37,8 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	public function getAccount () {
 		if (!$this->account) {
-			$account = BSString::explode(':', $this->getAttribute('userpwd'));
-			$response = $this->sendGetRequest('/users/show/' . $account[0] . '.json');
+			$auth = BSString::explode(':', $this->getAttribute('userpwd'));
+			$response = $this->sendGetRequest('/users/show/' . $auth[0] . $this->suffix);
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
 			$this->account = new BSTwitterAccount($json);
@@ -52,7 +53,7 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSJSONRenderer JSON文書
 	 */
 	public function getUserTimeline () {
-		$response = $this->sendGetRequest('/statuses/user_timeline.json');
+		$response = $this->sendGetRequest('/statuses/user_timeline' . $this->suffix);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
 		return $json;
@@ -65,7 +66,7 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @param string $tweet つぶやき
 	 */
 	public function tweet ($tweet) {
-		$this->sendPostRequest('/statuses/update.json', array('status' => $tweet));
+		$this->sendPostRequest('/statuses/update' . $this->suffix, array('status' => $tweet));
 	}
 
 	/**

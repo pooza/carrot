@@ -183,6 +183,8 @@ service:
     analytics:
       id:
       beacon_href: /carrotlib/php/ga.php
+  twitter:
+    suffix: .json
 session:
   storage: default
   regenerate_id: no
