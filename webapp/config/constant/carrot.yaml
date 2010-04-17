@@ -178,6 +178,10 @@ service:
   google:
     maps:
       api_key: ABQIAAAATsMwobOX_2h6mtmVGXYj7hRDPMaTZsAqlqCvYqUSXVpA0IN8hBR3QFfr0mhWyh4H99uEfkf2XzBZyA
+      static:
+        width: 320
+        height: 240
+        zoom: 17
     analytics:
       id:
       beacon_href: /carrotlib/php/ga.php

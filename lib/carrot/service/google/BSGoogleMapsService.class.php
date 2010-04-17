@@ -70,6 +70,42 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	/**
+	 * Google Static Maps APIのURLを返す
+	 *
+	 * @access public
+	 * @param string $address 住所等
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSURL URL
+	 * @see http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
+	 */
+	public function getStaticMapsURL ($address, BSParameterHolder $params = null) {
+		$params = new BSArray($params);
+
+		$constants = BSConstantHandler::getInstance();
+		foreach (array('width', 'height', 'zoom') as $key) {
+			if ($$key = $params[$key]) {
+				$params->removeParameter($key);
+			} else {
+				$$key = $constants['service_google_maps_static_' . $key];
+			}
+		}
+
+		$geocode = $this->getGeocode($address);
+		$url = BSURL::getInstance();
+		$url['host'] = self::DEFAULT_HOST;
+		$url['path'] = '/staticmap';
+		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
+		$url->setParameter('center', $geocode['lat'] . ',' . $geocode['lng']);
+		$url->setParameter('markers', $geocode['lat'] . ',' . $geocode['lng']);
+		$url->setParameter('zoom', $zoom);
+		$url->setParameter('size', $width . 'x' . $height);
+		foreach ($params as $key => $value) {
+			$url->setParameter($key, $value);
+		}
+		return $url;
+	}
+
+	/**
 	 * script要素を返す
 	 *
 	 * @access public
