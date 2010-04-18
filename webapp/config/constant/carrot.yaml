@@ -27,6 +27,7 @@ app:
   http_cache:
     mode: private
     seconds: 60
+    send_expires: no
 author:
   name:
   email:

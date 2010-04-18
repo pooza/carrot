@@ -85,10 +85,7 @@ class BSCurlHTTP extends BSHTTP {
 		if (($contents = curl_exec($this->getEngine())) === false) {
 			throw new BSHTTPException($url . 'へ送信できません。');
 		}
-
-		$contents = BSString::explode(self::LINE_SEPARATOR . self::LINE_SEPARATOR, $contents);
-		$response->setContents($contents->shift());
-		$response->setBody($contents->shift());
+		$response->setContents($contents);
 
 		if (!$response->validate()) {
 			$message = new BSStringFormat('不正なレスポンスです。 (%d %s)');
