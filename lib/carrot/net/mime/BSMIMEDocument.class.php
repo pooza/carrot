@@ -231,7 +231,6 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @access public
 	 */
 	public function setContents ($contents) {
-		$this->contents = $contents;
 		try {
 			$delimiter = self::LINE_SEPARATOR . self::LINE_SEPARATOR;
 			$contents = BSString::explode($delimiter, $contents);

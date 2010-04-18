@@ -51,6 +51,8 @@ favicon:
   parent: var
   suffix: .png
   href: /carrotlib/images/favicon/
+  purge:
+    day: 7
 ffmpeg:
   constant: yes
 font:
@@ -61,6 +63,8 @@ images:
 image_cache:
   parent: var
   href: /carrotlib/images/cache/
+  purge:
+    day: 7
 js:
   parent: carrotlib
   suffix: .js
@@ -84,6 +88,8 @@ maps:
   parent: var
   suffix: .gif
   href: /carrotlib/images/maps/
+  purge:
+    month: 1
 menu:
   parent: config
 modules:
@@ -130,6 +136,11 @@ tmp:
   parent: var
   purge:
     day: 7
+twitter_account:
+  parent: var
+  suffix: .png
+  purge:
+    day: 1
 var:
   constant: yes
 webapp:

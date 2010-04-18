@@ -41,7 +41,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$response = $this->sendGetRequest('/users/show/' . $auth[0] . $this->suffix);
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
-			$this->account = new BSTwitterAccount($json);
+			$this->account = new BSTwitterAccount($json->getResult());
 		}
 		return $this->account;
 	}

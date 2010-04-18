@@ -18,30 +18,6 @@ class BSHTTPResponse extends BSMIMEDocument {
 	const STATUS_PATTERN = '^HTTP/([[:digit:]]+\\.[[:digit:]]+) ([[:digit:]]{3}) (.*)$';
 
 	/**
-	 * 出力内容を設定
-	 *
-	 * @param string $contents 出力内容
-	 * @access public
-	 */
-	public function setContents ($contents) {
-		$this->contents = $contents;
-		try {
-			$contents = BSString::explode("\n\n", $contents);
-			foreach ($contents as $index => $value) {
-				if (mb_ereg(self::STATUS_PATTERN, $value)) {
-					$this->parseHeaders($value);
-					$contents->removeParameter($index);
-				} else {
-					break;
-				}
-			}
-			$this->parseBody($contents->join("\n\n"));
-		} catch (Exception $e) {
-			throw new BSHTTPException('HTTPレスポンスがパースできません。');
-		}
-	}
-
-	/**
 	 * ヘッダ部をパース
 	 *
 	 * @access protected

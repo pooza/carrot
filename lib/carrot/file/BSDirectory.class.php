@@ -204,7 +204,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			$date = BSDate::getNow()->setAttribute('month', '-1');
 		}
 		foreach ($this as $entry) {
-			if ($entry->isDirectory() || $entry->isIgnore() || $entry->isDotted()) {
+			if ($entry->isIgnore() || $entry->isDotted()) {
 				continue;
 			}
 			if ($entry->getUpdateDate()->isPast($date)) {
@@ -212,7 +212,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			}
 		}
 
-		$message = new BSStringFormat('%s内の、%s以前のファイルを削除しました。');
+		$message = new BSStringFormat('%s内の、%s以前のエントリーを削除しました。');
 		$message[] = $this;
 		$message[] = $date->format('Y/n/j');
 		BSLogManager::getInstance()->put($message, $this);
