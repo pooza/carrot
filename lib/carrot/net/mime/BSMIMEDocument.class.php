@@ -293,6 +293,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 				if ($header['main_type'] == 'text') {
 					$renderer = new BSPlainTextRenderer;
 					$renderer->setLineSeparator(self::LINE_SEPARATOR);
+					$body = BSString::convertLineSeparator($body);
 					if ($encoding = $header['charset']) {
 						$renderer->setEncoding($encoding);
 						$body = BSString::convertEncoding($body, 'utf-8', $encoding);
