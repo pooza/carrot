@@ -25,6 +25,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 */
 	protected function parseHeaders ($headers) {
 		$this->getHeaders()->clear();
+		$headers = BSString::convertLineSeparator($headers);
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (mb_ereg(self::STATUS_PATTERN, $line, $matches)) {
 				$this->version = $matches[1];

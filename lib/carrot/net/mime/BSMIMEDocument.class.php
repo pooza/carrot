@@ -231,14 +231,19 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @access public
 	 */
 	public function setContents ($contents) {
-		try {
-			$delimiter = self::LINE_SEPARATOR . self::LINE_SEPARATOR;
-			$contents = BSString::explode($delimiter, $contents);
-			$this->parseHeaders($contents->shift());
-			$this->parseBody($contents->join($delimiter));
-		} catch (Exception $e) {
-			throw new BSMIMEException('MIME文書がパースできません。');
+		foreach (array(self::LINE_SEPARATOR, "\n") as $separator) {
+			$delimiter = $separator . $separator;
+			try {
+				$parts = BSString::explode($delimiter, $contents);
+				if (1 < $parts->count()) {
+					$this->parseHeaders($parts->shift());
+					$this->parseBody($parts->join($delimiter));
+					return;
+				}
+			} catch (Exception $e) {
+			}
 		}
+		throw new BSMIMEException('MIME文書がパースできません。');
 	}
 
 	/**

@@ -21,6 +21,10 @@ class BSConsoleRequest extends BSRequest {
 		$this->addOption(BSController::MODULE_ACCESSOR);
 		$this->addOption(BSController::ACTION_ACCESSOR);
 		$this->parse();
+
+		if (BSString::isBlank($this[BSController::MODULE_ACCESSOR])) {
+			$this[BSController::MODULE_ACCESSOR] = 'Console';
+		}
 	}
 
 	/**
@@ -45,10 +49,9 @@ class BSConsoleRequest extends BSRequest {
 		foreach ($this->options as $option) {
 			$config[] = $option['name'] . ':';
 		}
-		$config = $config->join('');
 
 		$this->clear();
-		$this->setParameters(getopt($config));
+		$this->setParameters(getopt($config->join('')));
 	}
 
 	/**
