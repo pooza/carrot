@@ -52,7 +52,10 @@ class BSHost implements BSAssignable {
 
 		$this->setAttribute('ip', $address);
 		if (!$this->ipv4->validateIP($address)) {
-			throw new BSNetException($this . 'を名前解決できません。');
+			$message = '"%s"(%s) を名前解決できません。';
+			$message[] = $this;
+			$message[] = $address;
+			throw new BSNetException($message);
 		}
 	}
 
