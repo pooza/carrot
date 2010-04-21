@@ -52,7 +52,7 @@ class BSHost implements BSAssignable {
 
 		$this->setAttribute('ip', $address);
 		if (!$this->ipv4->validateIP($address)) {
-			$message = '"%s"(%s) を名前解決できません。';
+			$message = new BSStringFormat('"%s"(%s) を名前解決できません。');
 			$message[] = $this;
 			$message[] = $address;
 			throw new BSNetException($message);
@@ -83,9 +83,14 @@ class BSHost implements BSAssignable {
 	 * @param string $name FQDNホスト名
 	 */
 	public function setName ($name) {
+		// ポート番号が付記されていたら、取り除く。
+		$parts = BSString::explode(':', $name);
+		$name = $parts[0];
+
 		if (BSString::isBlank($address = gethostbyname($name))) {
 			throw new BSNetException($name . 'は正しくないFQDN名です。');
 		}
+
 		$this->name = $name;
 		$this->setAddress($address);
 	}

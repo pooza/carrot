@@ -12,6 +12,7 @@
  */
 class BSHostMIMEHeader extends BSMIMEHeader {
 	private $host;
+	private $port;
 
 	/**
 	 * 実体を返す
@@ -44,7 +45,9 @@ class BSHostMIMEHeader extends BSMIMEHeader {
 	protected function parse () {
 		parent::parse();
 		try {
-			$this->host = new BSHost($this->contents);
+			$parts = BSString::explode(':', $this->contents);
+			$this->host = new BSHost($parts[0]);
+			$this->port = $parts[1];
 		} catch (BSNetException $e) {
 		}
 	}
