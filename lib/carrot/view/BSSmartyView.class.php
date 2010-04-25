@@ -30,6 +30,7 @@ class BSSmartyView extends BSView {
 
 		$this->setHeader('Content-Script-Type', BSMIMEType::getType('js'));
 		$this->setHeader('Content-Style-Type', BSMIMEType::getType('css'));
+		$this->setHeader('X-Frame-Options', 'deny');
 	}
 
 	/**
