@@ -1,5 +1,7 @@
 /**
- * ロールオーバーJavaScript （DreamWeaver用）
+ * ロールオーバーJavaScript （DreamWeaverにバンドルされているもの）
+ *
+ * rollover.jsか、jQueryによる実装を推奨。
  *
  * @package org.carrot-framework
  * @version $Id$
