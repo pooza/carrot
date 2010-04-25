@@ -41,7 +41,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 			$element = new BSXMLElement;
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
-				$message = new BSString('%s (%s)');
+				$message = new BSStringFormat('%s (%s)');
 				$message[] = $this['element_error'];
 				$message[] = $this->invalidNode;
 				throw new BSXMLException($message);
@@ -67,21 +67,26 @@ class BSHTMLFragmentValidator extends BSValidator {
 					return false;
 				}
 			}
-		} else {
-			$tags = $this->getAllowedTags();
-			if (!!$tags->count() && !$tags->isContain($element->getName())) {
+		}
+
+		$tags = $this->getAllowedTags();
+		if (!!$tags->count() && !$tags->isContain($element->getName())) {
+			$this->invalidNode = $element->getName() . '要素';
+			return false;
+		}
+		if (!$this->isJavaScriptAllowed()) {
+			if (BSString::toLower($element->getName()) == 'script') {
 				$this->invalidNode = $element->getName() . '要素';
 				return false;
 			}
-			if (!$this->isJavaScriptAllowed()) {
-				foreach ($element->getAttributes() as $name => $value) {
-					if (mb_eregi('^on', $name) || mb_eregi('javascript:', $value)) {
-						$this->invalidNode = sprintf('%s要素/%s属性', $element->getName(), $name);
-						return false;
-					}
+			foreach ($element->getAttributes() as $name => $value) {
+				if (mb_eregi('^on', $name) || mb_eregi('javascript:', $value)) {
+					$this->invalidNode = sprintf('%s要素/%s属性', $element->getName(), $name);
+					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 
