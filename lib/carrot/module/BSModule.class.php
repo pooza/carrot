@@ -314,7 +314,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		}
 
 		try {
-			return BSTableHandler::getInstance($params['class'])->getRecord($params['id']);
+			if ($table = BSTableHandler::getInstance($params['class'])) {
+				return $table->getRecord($params['id']);
+			}
 		} catch (Exception $e) {
 		}
 	}

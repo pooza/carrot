@@ -10,8 +10,11 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable {
+class BSTwitterAccount
+	implements BSImageContainer, BSSerializable, BSAssignable, BSHTTPRedirector {
+
 	protected $id;
+	protected $url;
 	protected $profile;
 	protected $tweets;
 	static private $service;
@@ -209,18 +212,6 @@ class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable
 	}
 
 	/**
-	 * アサインすべき値を返す
-	 *
-	 * @access public
-	 * @return mixed アサインすべき値
-	 */
-	public function getAssignValue () {
-		$values = clone $this->profile;
-		$values['tweets'] = $this->tweets;
-		return $values;
-	}
-
-	/**
 	 * シリアライズ時の値を返す
 	 *
 	 * @access public
@@ -229,6 +220,44 @@ class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable
 	public function getSerialized () {
 		$date = BSDate::getNow()->setAttribute('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
 		return BSController::getInstance()->getAttribute($this, $date);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		$values = clone $this->profile;
+		$values['timeline_url'] = $this->getURL()->getContents();
+		$values['tweets'] = $this->tweets;
+		return $values;
+	}
+
+	/**
+	 * リダイレクト対象
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		if (!$this->url) {
+			$this->url = BSURL::getInstance();
+			$this->url['host'] = BSTwitterService::DEFAULT_HOST;
+			$this->url['path'] = '/' . $this->getScreenName();
+		}
+		return $this->url;
+	}
+
+	/**
+	 * リダイレクト
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function redirect () {
+		return BSController::getInstance()->redirect($this);
 	}
 
 	/**
