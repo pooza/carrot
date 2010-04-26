@@ -29,10 +29,15 @@ class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable
 		$this->tweets = new BSArray;
 		foreach ((array)$this->getSerialized() as $entry) {
 			$tweet = new BSArray($entry);
-			$this->tweets[] = $tweet;
 			if (!$this->profile) {
 				$this->profile = new BSArray($tweet['user']);
 			}
+
+			$url = BSURL::getInstance();
+			$url['host'] = BSTwitterService::DEFAULT_HOST;
+			$url['path'] = '/' . $this->getScreenName() . '/status/' . $entry['id'];
+			$tweet['url'] = $url->getContents();
+			$this->tweets[] = $tweet;
 		}
 	}
 
@@ -44,7 +49,7 @@ class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable
 	public function __call ($method, $values) {
 		if (mb_ereg('^get([[:upper:]][[:alnum:]]+)$', $method, $matches)) {
 			$name = BSString::underscorize($matches[1]);
-			if (isset($this->profile[$name])) {
+			if (!BSString::isBlank($this->profile[$name])) {
 				return $this->profile[$name];
 			}
 		} 
