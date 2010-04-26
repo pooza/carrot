@@ -398,11 +398,21 @@ class BSImageCacheHandler {
 				}
 			}
 		}
+
 		if (BSString::isBlank($params['size'])) {
 			$params['size'] = 'thumbnail';
 		}
-
-		return BSController::getInstance()->getModule()->searchRecord($params);
+		if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
+			return $record;
+		}
+		try {
+			$class = $params['class'];
+			return new $class($params['id']);
+		} catch (Exception $e) {
+			$message = new BSStringFormat('コンテナが取得できません。(%s)');
+			$message[] = $e->getMessage();
+			throw new BSImageException($message);
+		}
 	}
 
 	/**
