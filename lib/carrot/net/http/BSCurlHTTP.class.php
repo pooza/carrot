@@ -13,6 +13,8 @@
 class BSCurlHTTP extends BSHTTP {
 	protected $engine;
 	protected $attributes;
+	protected $uid;
+	protected $password;
 	protected $ssl = false;
 
 	/**
@@ -201,6 +203,8 @@ class BSCurlHTTP extends BSHTTP {
 		if (BSString::isBlank($password)) {
 			return;
 		}
+		$this->uid = $uid;
+		$this->password = $password;
 		$this->setAttribute('userpwd', $uid . ':' . BSCrypt::getInstance()->decrypt($password));
 	}
 

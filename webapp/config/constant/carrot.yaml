@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.93
+  ver: 2.3.94
 
 admin:
   email:
@@ -186,6 +186,7 @@ service:
       beacon_href: /carrotlib/php/ga.php
   twitter:
     suffix: .json
+    minutes: 5
 session:
   storage: default
   regenerate_id: no

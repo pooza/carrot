@@ -10,15 +10,30 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTwitterAccount implements BSImageContainer {
-	private $profile;
+class BSTwitterAccount implements BSImageContainer, BSSerializable, BSAssignable {
+	protected $id;
+	protected $profile;
+	protected $tweets;
+	static private $service;
 
 	/**
 	 * @access public
-	 * @param mixed[] $profile status要素
+	 * @param mixed $id ユーザーID,スクリーンネーム等
 	 */
-	public function __construct ($profile = null) {
-		$this->profile = $profile;
+	public function __construct ($id) {
+		$this->id = $id;
+		if (!$this->getSerialized()) {
+			$this->serialize();
+		}
+
+		$this->tweets = new BSArray;
+		foreach ((array)$this->getSerialized() as $entry) {
+			$tweet = new BSArray($entry);
+			$this->tweets[] = $tweet;
+			if (!$this->profile) {
+				$this->profile = new BSArray($tweet['user']);
+			}
+		}
 	}
 
 	/**
@@ -36,6 +51,16 @@ class BSTwitterAccount implements BSImageContainer {
 		$message = new BSStringFormat('仮想メソッド"%s"は未定義です。');
 		$message[] = $method;
 		throw new BadFunctionCallException($message);
+	}
+
+	/**
+	 * 最近のつぶやきを返す
+	 *
+	 * @access public
+	 * @return BSArray 最近のつぶやき
+	 */
+	public function getTweets () {
+		return $this->tweets;
 	}
 
 	/**
@@ -154,11 +179,72 @@ class BSTwitterAccount implements BSImageContainer {
 	}
 
 	/**
+	 * 属性名へシリアライズ
+	 *
+	 * @access public
+	 * @return string 属性名
+	 */
+	public function serializeName () {
+		return get_class($this) . '.' . $this->id;
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		$response = self::getService()->sendGetRequest(
+			'/statuses/user_timeline/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
+		);
+
+		$json = new BSJSONRenderer;
+		$json->setContents($response->getRenderer()->getContents());
+		BSController::getInstance()->setAttribute($this, $json->getResult());
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		$values = clone $this->profile;
+		$values['tweets'] = $this->tweets;
+		return $values;
+	}
+
+	/**
+	 * シリアライズ時の値を返す
+	 *
+	 * @access public
+	 * @return mixed シリアライズ時の値
+	 */
+	public function getSerialized () {
+		$date = BSDate::getNow()->setAttribute('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
+		return BSController::getInstance()->getAttribute($this, $date);
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('Twitterアカウント "%s"', $this->getScreenName());
+		return sprintf('Twitterアカウント "%s"', $this->id);
+	}
+
+	/**
+	 * サービスへの接続を返す
+	 *
+	 * @access public
+	 * @return BSTwitterService サービス
+	 */
+	static protected function getService () {
+		if (!self::$service) {
+			self::$service = new BSTwitterService;
+		}
+		return self::$service;
 	}
 }
 

@@ -12,8 +12,6 @@
  */
 class BSTwitterService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'twitter.com';
-	private $account;
-	private $suffix = BS_SERVICE_TWITTER_SUFFIX;
 
 	/**
 	 * @access public
@@ -30,46 +28,6 @@ class BSTwitterService extends BSCurlHTTP {
 	}
 
 	/**
-	 * アカウントを返す
-	 *
-	 * @access public
-	 * @return BSTwitterAccount アカウント
-	 */
-	public function getAccount () {
-		if (!$this->account) {
-			$auth = BSString::explode(':', $this->getAttribute('userpwd'));
-			$response = $this->sendGetRequest('/users/show/' . $auth[0] . $this->suffix);
-			$json = new BSJSONRenderer;
-			$json->setContents($response->getRenderer()->getContents());
-			$this->account = new BSTwitterAccount($json->getResult());
-		}
-		return $this->account;
-	}
-
-	/**
-	 * 最近のつぶやきを返す
-	 *
-	 * @access public
-	 * @return BSJSONRenderer JSON文書
-	 */
-	public function getUserTimeline () {
-		$response = $this->sendGetRequest('/statuses/user_timeline' . $this->suffix);
-		$json = new BSJSONRenderer;
-		$json->setContents($response->getRenderer()->getContents());
-		return $json;
-	}
-
-	/**
-	 * つぶやく
-	 *
-	 * @access public
-	 * @param string $tweet つぶやき
-	 */
-	public function tweet ($tweet) {
-		$this->sendPostRequest('/statuses/update' . $this->suffix, array('status' => $tweet));
-	}
-
-	/**
 	 * GETリクエスト
 	 *
 	 * @access public
@@ -77,9 +35,6 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGetRequest ($path = '/') {
-		if (BSString::isBlank($this->getAttribute('userpwd'))) {
-			throw new BSTwitterException('認証情報が未定義です。');
-		}
 		try {
 			return parent::sendGetRequest($path);
 		} catch (BSHTTPException $e) {
