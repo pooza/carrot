@@ -16,8 +16,6 @@ abstract class BSController {
 	protected $headers;
 	protected $actions;
 	static private $instance;
-	const MODULE_ACCESSOR = 'm';
-	const ACTION_ACCESSOR = 'a';
 	const ACTION_REGISTER_LIMIT = 20;
 
 	/**
@@ -77,10 +75,10 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function dispatch () {
-		if (BSString::isBlank($module = $this->request[self::MODULE_ACCESSOR])) {
+		if (BSString::isBlank($module = $this->request[BSRequest::MODULE_ACCESSOR])) {
 			$module = BS_MODULE_DEFAULT_MODULE;
 		}
-		if (BSString::isBlank($action = $this->request[self::ACTION_ACCESSOR])) {
+		if (BSString::isBlank($action = $this->request[BSRequest::ACTION_ACCESSOR])) {
 			$action = BS_MODULE_DEFAULT_ACTION;
 		}
 
@@ -118,7 +116,7 @@ abstract class BSController {
 			if ($action = $this->getAction()) {
 				return $action->getModule();
 			}
-			$name = $this->request[self::MODULE_ACCESSOR];
+			$name = $this->request[BSRequest::MODULE_ACCESSOR];
 		}
 		return BSModule::getInstance($name);
 	}

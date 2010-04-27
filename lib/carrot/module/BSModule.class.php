@@ -198,8 +198,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function setParameterCache (BSArray $params) {
 		$this->params = clone $params;
-		$this->params->removeParameter(BSController::MODULE_ACCESSOR);
-		$this->params->removeParameter(BSController::ACTION_ACCESSOR);
+		$this->params->removeParameter(BSRequest::MODULE_ACCESSOR);
+		$this->params->removeParameter(BSRequest::ACTION_ACCESSOR);
 		$this->user->setAttribute($this->getParameterCacheName(), $this->params);
 	}
 

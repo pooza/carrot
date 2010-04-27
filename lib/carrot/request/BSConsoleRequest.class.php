@@ -18,12 +18,12 @@ class BSConsoleRequest extends BSRequest {
 	 */
 	protected function __construct () {
 		$this->options = new BSArray;
-		$this->addOption(BSController::MODULE_ACCESSOR);
-		$this->addOption(BSController::ACTION_ACCESSOR);
+		$this->addOption(self::MODULE_ACCESSOR);
+		$this->addOption(self::ACTION_ACCESSOR);
 		$this->parse();
 
-		if (BSString::isBlank($this[BSController::MODULE_ACCESSOR])) {
-			$this[BSController::MODULE_ACCESSOR] = 'Console';
+		if (BSString::isBlank($this[self::MODULE_ACCESSOR])) {
+			$this[self::MODULE_ACCESSOR] = 'Console';
 		}
 	}
 

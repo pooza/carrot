@@ -19,6 +19,8 @@ abstract class BSRequest extends BSHTTPRequest {
 	private $attributes;
 	private $errors;
 	static private $instance;
+	const MODULE_ACCESSOR = 'm';
+	const ACTION_ACCESSOR = 'a';
 
 	/**
 	 * @access protected
