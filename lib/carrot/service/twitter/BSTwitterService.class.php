@@ -11,6 +11,8 @@
  * @version $Id$
  */
 class BSTwitterService extends BSCurlHTTP {
+	protected $requestToken;
+	protected $accessToken;
 	const DEFAULT_HOST = 'twitter.com';
 
 	/**
@@ -25,6 +27,50 @@ class BSTwitterService extends BSCurlHTTP {
 		parent::__construct($host, $port);
 		$this->setAttribute('httpauth', CURLAUTH_BASIC);
 		$this->setAttribute('httpheader', $this->getRequestHeaders());
+
+		if ($tokens = BSUser::getInstance()->getAttribute(get_class($this))) {
+			foreach ($tokens as $key => $value) {
+				$this->$key = $value;
+			}
+		}
+	}
+
+	public function __destruct () {
+		$this->save();
+	}
+
+	public function getOAuthURL () {
+		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		$oauth = new TwitterOAuth(
+			BS_SERVICE_TWITTER_CONSUMER_KEY,
+			BS_SERVICE_TWITTER_CONSUMER_SECRET
+		);
+		$this->requestToken = $oauth->getRequestToken();
+
+		return BSURL::getInstance($oauth->getAuthorizeURL($this->requestToken['oauth_token']));
+	}
+
+	public function login ($verifier) {
+		if (!$this->requestToken) {
+			return false;
+		}
+
+		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		$oauth = new TwitterOAuth(
+			BS_SERVICE_TWITTER_CONSUMER_KEY,
+			BS_SERVICE_TWITTER_CONSUMER_SECRET,
+			$this->requestToken['oauth_token'],
+			$this->requestToken['oauth_token_secret']
+		);
+		$this->accessToken = $oauth->getAccessToken($verifier);
+	}
+
+	public function save () {
+		$values = array();
+		foreach (array('requestToken', 'accessToken') as $key) {
+			$values[$key] = $this->$key;
+		}
+		BSUser::getInstance()->setAttribute(get_class($this), $values);
 	}
 
 	/**

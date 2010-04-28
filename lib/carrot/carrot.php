@@ -30,7 +30,13 @@ function __autoload ($name) {
  */
 function handleError ($errno, $errstr, $errfile, $errline) {
 	if ($errno & error_reporting()) {
-		throw new RuntimeException($errstr, $errno);
+		$message = sprintf(
+			'%s (file:%s line:%d)',
+			$errstr,
+			str_replace(BS_ROOT_DIR . '/', '', $errfile),
+			$errline
+		);
+		throw new RuntimeException($message, $errno);
 	}
 }
 

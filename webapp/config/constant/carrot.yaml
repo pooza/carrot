@@ -186,6 +186,9 @@ service:
       id:
       beacon_href: /carrotlib/php/ga.php
   twitter:
+    consumer:
+      key: bQh2Ak7g2yZtDjbinI4lAA
+      secret: mtmQKomIEytBrUu7K2YxxyFK8T5h9H03EsAT7xryg
     suffix: .json
     minutes: 5
 session:
