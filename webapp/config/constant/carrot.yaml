@@ -28,7 +28,7 @@ app:
     mode: private
     seconds: 60
     send_expires: no
-  force_ssl: no
+  force_https: no
 author:
   name:
   email:

@@ -118,18 +118,23 @@ class BSTwitterAccount
 	 */
 	public function getImageFile ($size = 'icon') {
 		$dir = BSFileUtility::getDirectory('twitter_account');
-		$name = $this->getImageFileBaseName();
-		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			if (!$icon = $this->getIcon()) {
-				return null;
+		if ($file = $dir->getEntry($this->getImageFileBaseName(), 'BSImageFile')) {
+			$date = BSDate::getNow()->setAttribute('hour', '-1');
+			if (!$file->getUpdateDate()->isPast($date)) {
+				return $file;
 			}
-
-			$file = BSFileUtility::getTemporaryFile('png', 'BSImageFile');
-			$file->setEngine($icon);
-			$file->save();
-			$file->setName($name);
-			$file->moveTo($dir);
+			$file->clearImageCache($size);
+			$file->delete();
 		}
+
+		if (!$icon = $this->getIcon()) {
+			return null;
+		}
+		$file = BSFileUtility::getTemporaryFile('png', 'BSImageFile');
+		$file->setEngine($icon);
+		$file->save();
+		$file->setName($this->getImageFileBaseName());
+		$file->moveTo($dir);
 		return $file;
 	}
 
