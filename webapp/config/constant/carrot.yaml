@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.95
+  ver: 2.3.96
 
 admin:
   email:
@@ -28,6 +28,7 @@ app:
     mode: private
     seconds: 60
     send_expires: no
+  force_ssl: no
 author:
   name:
   email:

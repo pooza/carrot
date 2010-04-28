@@ -172,7 +172,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean SSL環境ならTrue
 	 */
 	public function isSSL () {
-		return !!$this->controller->getAttribute('HTTPS');
+		return BS_APP_FORCE_HTTPS || $this->controller->getAttribute('HTTPS');
 	}
 
 	/**
