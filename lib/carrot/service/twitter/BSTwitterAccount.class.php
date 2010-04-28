@@ -72,6 +72,23 @@ class BSTwitterAccount
 	}
 
 	/**
+	 * つぶやく
+	 *
+	 * @access public
+	 * @param string $message メッセージ
+	 * @return BSJSONRenderer 結果文書
+	 */
+	public function tweet ($message) {
+		$response = self::getService()->sendPostRequest(
+			'/statuses/update' . BS_SERVICE_TWITTER_SUFFIX,
+			new BSArray(array('status' => $message))
+		);
+		$json = new BSJSONRenderer;
+		$json->setContents($response->getRenderer()->getContents());
+		return $json;
+	}
+
+	/**
 	 * プロフィールアイコン画像を返す
 	 *
 	 * @access public
