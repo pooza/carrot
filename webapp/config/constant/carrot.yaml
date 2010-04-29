@@ -172,6 +172,7 @@ serialize:
   serializer: JSON
   keep:
     - BSCounter.*
+    - BSTwitterService.*
 service:
   bitly:
     version: 2.0.1

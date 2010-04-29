@@ -38,13 +38,6 @@ class BSTwitterService extends BSCurlHTTP implements BSSerializable, BSAssignabl
 	}
 
 	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		$this->serialize();
-	}
-
-	/**
 	 * OAuth認証ページのURLを返す
 	 *
 	 * @access public
@@ -58,6 +51,7 @@ class BSTwitterService extends BSCurlHTTP implements BSSerializable, BSAssignabl
 		);
 		$this->requestToken = new BSArray($oauth->getRequestToken());
 		$this->accessToken = null;
+		$this->serialize();
 
 		return BSURL::getInstance($oauth->getAuthorizeURL($this->requestToken['oauth_token']));
 	}
@@ -81,6 +75,7 @@ class BSTwitterService extends BSCurlHTTP implements BSSerializable, BSAssignabl
 			$this->requestToken['oauth_token_secret']
 		);
 		$this->accessToken = new BSArray($oauth->getAccessToken($verifier));
+		$this->serialize();
 	}
 
 	/**
