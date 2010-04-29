@@ -137,6 +137,7 @@ class BSTwitterService extends BSCurlHTTP implements BSSerializable, BSAssignabl
 		);
 
 		$response = new BSHTTPResponse;
+		$response->setStatus($this->getOAuth()->http_code);
 		$response->getRenderer()->setContents($contents);
 		foreach ($this->getOAuth()->http_header as $key => $value) {
 			$key = str_replace('_', '-', $key);
