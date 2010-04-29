@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSTwitterService extends BSCurlHTTP implements BSSerializable {
+class BSTwitterService extends BSCurlHTTP implements BSSerializable, BSAssignable {
 	protected $requestToken;
 	protected $accessToken;
 	private $oauth;
@@ -198,6 +198,19 @@ class BSTwitterService extends BSCurlHTTP implements BSSerializable {
 	 */
 	public function getSerialized () {
 		return BSController::getInstance()->getAttribute($this);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return new BSArray(array(
+			'request_token' => $this->requestToken,
+			'access_token' => $this->accessToken,
+		));
 	}
 
 	/**

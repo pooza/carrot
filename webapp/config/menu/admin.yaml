@@ -10,6 +10,7 @@
   module: AdminUtility
   action: Backup
 - module: AdminMemcache
+- module: AdminTwitter
 - module: DevelopTableReport
 - title: アクセスログ解析
   href: /awstats/awstats.pl
