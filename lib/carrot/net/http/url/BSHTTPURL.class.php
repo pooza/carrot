@@ -222,16 +222,11 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
-		if ($file = $this->getImageFile()) {
-			$url = BSFileUtility::getURL('favicon');
-			$url['path'] .= $file->getName();
-			return new BSArray(array(
-				'width' => $file->getEngine()->getWidth(),
-				'height' => $file->getEngine()->getHeight(),
-				'type' => $file->getEngine()->getType(),
-				'url' => $url->getContents(),
-				'alt' => $this->getID(),
-			));
+		if ($file = $this->getImageFile($size)) {
+			$caches = BSImageCacheHandler::getInstance();
+			$info = $caches->getImageInfo($file, $size, $pixel, $flags);
+			$info['alt'] = $this->getID();
+			return $info;
 		}
 	}
 
