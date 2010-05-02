@@ -30,7 +30,6 @@ namespace :var do
   task :init => [
     :chmod,
     'images:cache:init',
-    'images:maps:init',
     'css:init',
     'js:init',
   ]
@@ -55,14 +54,6 @@ namespace :var do
 
       file 'www/carrotlib/images/cache' do
         sh 'ln -s ../../../var/image_cache www/carrotlib/images/cache'
-      end
-    end
-
-    namespace :maps do
-      task :init => ['www/carrotlib/images/maps']
-
-      file 'www/carrotlib/images/maps' do
-        sh 'ln -s ../../../var/maps www/carrotlib/images/maps'
       end
     end
   end
