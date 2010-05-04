@@ -176,7 +176,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	public function fetch ($class = 'BSCurlHTTP') {
 		try {
 			$http = new $class($this['host']);
-			$response = $http->sendGetRequest($this->getFullPath());
+			$response = $http->sendGET($this->getFullPath());
 			return $response->getRenderer()->getContents();
 		} catch (BSException $e) {
 			throw new BSHTTPException($this . 'を取得できません。');

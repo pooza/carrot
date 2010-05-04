@@ -45,7 +45,7 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 	public function getShortURL (BSHTTPRedirector $url) {
 		$request = $this->createAPIURL('shorten');
 		$request->setParameter('longUrl', $url->getContents());
-		$response = $this->sendGetRequest($request->getFullPath());
+		$response = $this->sendGET($request->getFullPath());
 
 		$json = new BSJSONSerializer;
 		$result = $json->decode($response->getRenderer()->getContents());

@@ -118,7 +118,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$params['output'] = 'json';
 		$params['key'] = BS_SERVICE_GOOGLE_MAPS_API_KEY;
 		$path = '/maps/geo?' . $params->getContents();
-		$response = $this->sendGetRequest($path);
+		$response = $this->sendGET($path);
 
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode($response->getBody());
@@ -172,7 +172,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$dir = BSFileUtility::getDirectory('maps');
 		$name = BSCrypt::getDigest(array($geocode->format(), $params->join('|')));
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			$response = $this->sendGetRequest($this->getImageQuery($geocode, $params));
+			$response = $this->sendGET($this->getImageQuery($geocode, $params));
 			$image = new BSImage;
 			$image->setImage($response->getRenderer()->getContents());
 			$file = $dir->createEntry($name, 'BSImageFile');

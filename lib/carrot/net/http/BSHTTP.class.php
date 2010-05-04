@@ -19,7 +19,7 @@ class BSHTTP extends BSSocket {
 	 * @param string $path パス
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendHeadRequest ($path = '/') {
+	public function sendHEAD ($path = '/') {
 		$url = BSURL::getInstance();
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
@@ -37,7 +37,7 @@ class BSHTTP extends BSSocket {
 	 * @param string $path パス
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path = '/') {
+	public function sendGET ($path = '/') {
 		$url = BSURL::getInstance();
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;
@@ -56,7 +56,7 @@ class BSHTTP extends BSSocket {
 	 * @param string[] $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path = '/', $params = array()) {
+	public function sendPOST ($path = '/', $params = array()) {
 		$url = BSURL::getInstance();
 		$url['host'] = $this->getHost();
 		$url['path'] = $path;

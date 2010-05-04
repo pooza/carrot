@@ -39,7 +39,7 @@ class BSMovableTypeBlogService {
 		$values['entry_id'] = $entry;
 		$values['post'] = true;
 		$http = new BSCurlHTTP($url['host']);
-		$http->sendPostRequest($url->getFullPath(), $values);
+		$http->sendPOST($url->getFullPath(), $values);
 
 		$message = new BSStringFormat('%sにコメントを送信しました。');
 		$message[] = $url;

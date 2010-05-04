@@ -37,7 +37,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @param string $path パス
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendHeadRequest ($path = '/') {
+	public function sendHEAD ($path = '/') {
 		$this->setAttribute('nobody', true);
 		return $this->execute($path);
 	}
@@ -49,7 +49,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @param string $path パス
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path = '/') {
+	public function sendGET ($path = '/') {
 		$this->setAttribute('httpget', true);
 		return $this->execute($path);
 	}
@@ -62,7 +62,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @param string[] $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path = '/', $params = array()) {
+	public function sendPOST ($path = '/', $params = array()) {
 		$renderer = new BSWWWFormRenderer;
 		$renderer->setParameters($params);
 

@@ -53,13 +53,13 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @param string $path パス
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGetRequest ($path = '/') {
+	public function sendGET ($path = '/') {
 		if (!BSString::isContain('.', $path)) {
 			$path .= BS_SERVICE_TWITTER_SUFFIX;
 		}
 
 		if (!$this->oauth) {
-			return parent::sendGetRequest($path);
+			return parent::sendGET($path);
 		}
 
 		$url = BSURL::getInstance('https://' . self::DEFAULT_HOST);
@@ -75,7 +75,7 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @param string[] $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPostRequest ($path = '/', $params = null) {
+	public function sendPOST ($path = '/', $params = null) {
 		if (!BSString::isContain('.', $path)) {
 			$path .= BS_SERVICE_TWITTER_SUFFIX;
 		}
@@ -84,7 +84,7 @@ class BSTwitterService extends BSCurlHTTP {
 		}
 
 		if (!$this->oauth) {
-			return parent::sendPostRequest($path, $params);
+			return parent::sendPOST($path, $params);
 		}
 
 		$url = BSURL::getInstance('https://' . self::DEFAULT_HOST);
