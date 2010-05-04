@@ -359,27 +359,29 @@ class BSTwitterAccount
 		$response = $this->getService()->sendGetRequest(
 			'/statuses/user_timeline/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
 		);
-
-		$values = array(
-			'profile' => null,
-			'tweets' => array(),
-		);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
 
-		foreach ($json->getResult() as $entry) {
-			$tweet = new BSArray($entry);
-			if (!$values['profile']) {
-				$values['profile'] = $tweet['user'];
+		$values = array('profile' => null, 'tweets' => array());
+		if ($entries = $json->getResult()) {
+			foreach ($entries as $entry) {
+				$tweet = new BSArray($entry);
+				if (!$values['profile']) {
+					$values['profile'] = $tweet['user'];
+				}
+				$tweet->removeParameter('user');
+				$url = BSURL::getInstance('http://' . BSTwitterService::DEFAULT_HOST);
+				$url['path'] = '/' . $this->getScreenName() . '/status/' . $entry['id'];
+				$tweet['url'] = $url->getContents();
+				$values['tweets'][] = $tweet->getParameters();
 			}
-			$tweet->removeParameter('user');
-
-			$url = BSURL::getInstance('http://' . BSTwitterService::DEFAULT_HOST);
-			$url['path'] = '/' . $this->getScreenName() . '/status/' . $entry['id'];
-			$tweet['url'] = $url->getContents();
-			$values['tweets'][] = $tweet->getParameters();
+		} else {
+			$response = $this->getService()->sendGetRequest(
+				'/users/show/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
+			);
+			$json->setContents($response->getRenderer()->getContents());
+			$values['profile'] = $json->getResult();
 		}
-
 		BSController::getInstance()->setAttribute($this, $values);
 	}
 
