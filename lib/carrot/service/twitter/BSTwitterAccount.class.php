@@ -375,7 +375,7 @@ class BSTwitterAccount
 				$tweet['url'] = $url->getContents();
 				$values['tweets'][] = $tweet->getParameters();
 			}
-		} else {
+		} else { //ツイートがひとつもない場合は、プロフィールを取得
 			$response = $this->getService()->sendGetRequest(
 				'/users/show/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
 			);
