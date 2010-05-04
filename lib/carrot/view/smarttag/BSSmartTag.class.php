@@ -21,7 +21,8 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 */
 	public function __construct ($contents) {
 		$this->contents = '[[' . $contents . ']]';
-		$this->tag = BSString::explode(':', $contents);
+		$this->tag = BSString::explode(':', str_replace('\\:', '__COLON__', $contents));
+		$this->tag[1] = str_replace('__COLON__', ':', $this->tag[1]);
 	}
 
 	/**
