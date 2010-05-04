@@ -114,6 +114,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 			$tags = new BSArray;
 		}
 		$tags[] = 'Generic';
+		$tags->uniquize();
 
 		foreach (BSString::eregMatchAll('\\[\\[([^\\]]+)\\]\\]', $text) as $matches) {
 			foreach ($tags as $tag) {
