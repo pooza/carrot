@@ -92,7 +92,7 @@ class BSString {
 				$value[$key] = self::unsanitize($item);
 			}
 		} else {
-			$value = htmlspecialchars_decode($value, ENT_QUOTES);
+			$value = html_entity_decode($value, ENT_QUOTES);
 		}
 		return $value;
 	}
@@ -421,10 +421,9 @@ class BSString {
 				$value[$key] = self::stripTags($item);
 			}
 		} else {
+			$value = self::unsanitize($value);
 			$value = strip_tags($value);
-			foreach (BSString::eregMatchAll('\\[\\[[^\\]]+\\]\\]', $value) as $matches) {
-				$value = str_replace($matches[0], null, $value);
-			}
+			$value = BSSmartTag::parse($value);
 		}
 		return $value;
 	}
