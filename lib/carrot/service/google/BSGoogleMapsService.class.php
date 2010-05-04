@@ -189,7 +189,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @param BSGeocodeEntry $geocode ジオコード
 	 * @param BSArray $params パラメータ配列
 	 * @return BSString クエリー文字列
-	 * @see http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
+	 * @link http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
 	 */
 	protected function getImageQuery (BSGeocodeEntry $geocode, BSArray $params) {
 		$info = $this->useragent->getDisplayInfo();

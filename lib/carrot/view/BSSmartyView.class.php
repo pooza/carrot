@@ -9,7 +9,6 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
- * @link http://ozaki.kyoichi.jp/mojavi3/smarty.html 参考
  */
 class BSSmartyView extends BSView {
 

@@ -46,7 +46,7 @@ function handleError ($errno, $errstr, $errfile, $errline) {
  * @access public
  * @param mixed[] $values 保護の対象
  * @return mixed[] サニタイズ後の配列
- * @see http://www.peak.ne.jp/support/phpcyber/ 参考
+ * @link http://www.peak.ne.jp/support/phpcyber/ 参考
  */
 function protect ($values) {
 	if (is_array($values)) {
@@ -87,7 +87,7 @@ function p ($var) {
  * ここから処理開始
  */
 
-// @see http://www.peak.ne.jp/support/phpcyber/ 参考
+// @link http://www.peak.ne.jp/support/phpcyber/ 参考
 $_GET = protect($_GET);
 $_POST = protect($_POST);
 $_COOKIE = protect($_COOKIE);
