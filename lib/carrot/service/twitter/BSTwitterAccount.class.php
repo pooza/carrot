@@ -17,7 +17,11 @@ class BSTwitterAccount
 	protected $url;
 	protected $profile;
 	protected $tweets;
-	static private $service;
+	protected $requestToken;
+	protected $accessToken;
+	private $oauth;
+	private $service;
+	private $record;
 
 	/**
 	 * @access public
@@ -25,22 +29,19 @@ class BSTwitterAccount
 	 */
 	public function __construct ($id) {
 		$this->id = $id;
+		if ($record = $this->getRecord()) {
+			$this->accessToken = $record->getAttributes();
+		}
+
 		if (!$this->getSerialized()) {
 			$this->serialize();
 		}
+		$serialized = $this->getSerialized();
 
+		$this->profile = new BSArray($serialized['profile']);
 		$this->tweets = new BSArray;
-		foreach ((array)$this->getSerialized() as $entry) {
-			$tweet = new BSArray($entry);
-			if (!$this->profile) {
-				$this->profile = new BSArray($tweet['user']);
-			}
-
-			$url = BSURL::getInstance();
-			$url['host'] = BSTwitterService::DEFAULT_HOST;
-			$url['path'] = '/' . $this->getScreenName() . '/status/' . $entry['id'];
-			$tweet['url'] = $url->getContents();
-			$this->tweets[] = $tweet;
+		foreach ($serialized['tweets'] as $tweet) {
+			$this->tweets[] = new BSArray($tweet);
 		}
 	}
 
@@ -56,9 +57,100 @@ class BSTwitterAccount
 				return $this->profile[$name];
 			}
 		} 
-		$message = new BSStringFormat('仮想メソッド"%s"は未定義です。');
-		$message[] = $method;
-		throw new BadFunctionCallException($message);
+	}
+
+	/**
+	 * レコードを返す
+	 *
+	 * @access protected
+	 * @return BSTwitterAccountEntry レコード
+	 */
+	protected function getRecord () {
+		if (!$this->record) {
+			$table = new BSTwitterAccountEntryHandler;
+			foreach (array('id', 'screen_name') as $field) {
+				$values = array($field, $this->id);
+				if ($this->record = $table->getRecord($values)) {
+					return $this->record;
+				}
+			}
+		}
+		return $this->record;
+	}
+
+	/**
+	 * サービスへの接続を返す
+	 *
+	 * @access protected
+	 * @return BSTwitterService サービス
+	 */
+	protected function getService () {
+		if (!$this->service) {
+			$this->service = new BSTwitterService;
+			if ($oauth = $this->getOAuth()) {
+				$this->service->setOAuth($oauth);
+			}
+		}
+		return $this->service;
+	}
+
+	/**
+	 * OAuthオブジェクトを返す
+	 *
+	 * @access protected
+	 * @return TwitterOAuth
+	 */
+	protected function getOAuth () {
+		if (!$this->oauth && !BSString::isBlank($this->accessToken['oauth_token'])) {
+			BSUtility::includeFile('twitteroauth/twitteroauth.php');
+			$this->oauth = new TwitterOAuth(
+				BS_SERVICE_TWITTER_CONSUMER_KEY,
+				BS_SERVICE_TWITTER_CONSUMER_SECRET,
+				$this->accessToken['oauth_token'],
+				$this->accessToken['oauth_token_secret']
+			);
+		}
+		return $this->oauth;
+	}
+
+	/**
+	 * OAuth認証ページのURLを返す
+	 *
+	 * @access public
+	 * @return BSHTTPURL 認証ページのURL
+	 */
+	public function getOAuthURL () {
+		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		$oauth = new TwitterOAuth(
+			BS_SERVICE_TWITTER_CONSUMER_KEY,
+			BS_SERVICE_TWITTER_CONSUMER_SECRET
+		);
+		$this->requestToken = new BSArray($oauth->getRequestToken());
+		$this->accessToken = null;
+		return BSURL::getInstance($oauth->getAuthorizeURL($this->requestToken['oauth_token']));
+	}
+
+	/**
+	 * OAuth認証
+	 *
+	 * @access public
+	 * @param string $verifier 認証ページが返したトークン
+	 */
+	public function login ($verifier) {
+		if (!$this->requestToken) {
+			return false;
+		}
+
+		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		$oauth = new TwitterOAuth(
+			BS_SERVICE_TWITTER_CONSUMER_KEY,
+			BS_SERVICE_TWITTER_CONSUMER_SECRET,
+			$this->requestToken['oauth_token'],
+			$this->requestToken['oauth_token_secret']
+		);
+		$this->accessToken = new BSArray($oauth->getAccessToken($verifier));
+
+$this->serialize();
 	}
 
 	/**
@@ -79,7 +171,7 @@ class BSTwitterAccount
 	 * @return BSJSONRenderer 結果文書
 	 */
 	public function tweet ($message) {
-		$response = self::getService()->sendPostRequest(
+		$response = $this->getService()->sendPostRequest(
 			'/statuses/update' . BS_SERVICE_TWITTER_SUFFIX,
 			new BSArray(array('status' => $message))
 		);
@@ -224,13 +316,31 @@ class BSTwitterAccount
 	 * @access public
 	 */
 	public function serialize () {
-		$response = self::getService()->sendGetRequest(
+		$response = $this->getService()->sendGetRequest(
 			'/statuses/user_timeline/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
 		);
 
+		$values = array(
+			'profile' => null,
+			'tweets' => array(),
+		);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
-		BSController::getInstance()->setAttribute($this, $json->getResult());
+
+		foreach ($json->getResult() as $entry) {
+			$tweet = new BSArray($entry);
+			if (!$values['profile']) {
+				$values['profile'] = $tweet['user'];
+			}
+			$tweet->removeParameter('user');
+
+			$url = BSURL::getInstance('http://' . BSTwitterService::DEFAULT_HOST);
+			$url['path'] = '/' . $this->getScreenName() . '/status/' . $entry['id'];
+			$tweet['url'] = $url->getContents();
+			$values['tweets'][] = $tweet->getParameters();
+		}
+
+		BSController::getInstance()->setAttribute($this, $values);
 	}
 
 	/**
@@ -288,19 +398,6 @@ class BSTwitterAccount
 	 */
 	public function __toString () {
 		return sprintf('Twitterアカウント "%s"', $this->id);
-	}
-
-	/**
-	 * サービスへの接続を返す
-	 *
-	 * @access public
-	 * @return BSTwitterService サービス
-	 */
-	static protected function getService () {
-		if (!self::$service) {
-			self::$service = new BSTwitterService;
-		}
-		return self::$service;
 	}
 }
 

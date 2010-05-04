@@ -33,6 +33,7 @@ author:
   name:
   email:
   password:
+  twitter: 
 awstats:
   daily: yes
   server_name_aliases:
@@ -157,6 +158,8 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
   serialize:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
+  twitter:
+    dsn: sqlite:%BS_VAR_DIR%/db/twitter.sqlite3
 pictogram:
 pgsql:
   dir: /usr/local
@@ -172,7 +175,6 @@ serialize:
   serializer: JSON
   keep:
     - BSCounter.*
-    - BSTwitterService.*
 service:
   bitly:
     version: 2.0.1

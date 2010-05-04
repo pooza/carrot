@@ -12,6 +12,7 @@
  */
 class BSAuthorRole implements BSRole {
 	protected $credentials;
+	protected $twitterAccount;
 	static protected $instance;
 	const CREDENTIAL = 'Author';
 
@@ -61,6 +62,19 @@ class BSAuthorRole implements BSRole {
 	 */
 	public function getMailAddress ($language = 'ja') {
 		return BSMailAddress::getInstance(BS_AUTHOR_EMAIL, self::getName($language));
+	}
+
+	/**
+	 * Twitterアカウントを返す
+	 *
+	 * @access public
+	 * @return BSTwitterAccount アカウント
+	 */
+	public function getTwitterAccount () {
+		if (!$this->twitterAccount && !BSString::isBlank(BS_AUTHOR_TWITTER)) {
+			$this->twitterAccount = new BSTwitterAccount(BS_AUTHOR_TWITTER);
+		}
+		return $this->twitterAccount;
 	}
 
 	/**
