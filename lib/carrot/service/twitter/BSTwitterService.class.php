@@ -72,16 +72,14 @@ class BSTwitterService extends BSCurlHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @param string[] $params パラメータの配列
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPOST ($path = '/', $params = null) {
+	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
 		if (!BSString::isContain('.', $path)) {
 			$path .= BS_SERVICE_TWITTER_SUFFIX;
 		}
-		if ($params) {
-			$params = new BSArray;
-		}
+		$params = new BSArray($params);
 
 		if (!$this->oauth) {
 			return parent::sendPOST($path, $params);

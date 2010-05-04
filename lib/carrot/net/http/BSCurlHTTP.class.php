@@ -59,10 +59,10 @@ class BSCurlHTTP extends BSHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @param string[] $params パラメータの配列
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPOST ($path = '/', $params = array()) {
+	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
 		$renderer = new BSWWWFormRenderer;
 		$renderer->setParameters($params);
 

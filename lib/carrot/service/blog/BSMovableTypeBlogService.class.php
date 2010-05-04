@@ -32,9 +32,9 @@ class BSMovableTypeBlogService {
 	 *
 	 * @access public
 	 * @param integer $entry エントリーID
-	 * @param string[] $values パラメータ
+	 * @param BSArray $values パラメータ
 	 */
-	public function postComment ($entry, $values) {
+	public function postComment ($entry, BSArray $values) {
 		$url = $this->getURL('comment');
 		$values['entry_id'] = $entry;
 		$values['post'] = true;
