@@ -110,8 +110,9 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 */
 	static public function parse ($text, BSArray $tags = null, BSParameterHolder $params = null) {
 		if (!$tags) {
-			$tags = new BSArray(array('Generic'));
+			$tags = new BSArray;
 		}
+		$tags[] = 'Generic';
 
 		foreach (BSString::eregMatchAll('\\[\\[([^\\]]+)\\]\\]', $text) as $matches) {
 			foreach ($tags as $tag) {
