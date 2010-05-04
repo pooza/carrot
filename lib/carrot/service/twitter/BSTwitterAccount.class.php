@@ -102,13 +102,13 @@ class BSTwitterAccount
 	 * @return TwitterOAuth
 	 */
 	protected function getOAuth () {
-		if (!$this->oauth && !BSString::isBlank($this->accessToken['oauth_token'])) {
+		if (!$this->oauth && ($token = $this->getAccessToken())) {
 			BSUtility::includeFile('twitteroauth/twitteroauth.php');
 			$this->oauth = new TwitterOAuth(
 				BS_SERVICE_TWITTER_CONSUMER_KEY,
 				BS_SERVICE_TWITTER_CONSUMER_SECRET,
-				$this->accessToken['oauth_token'],
-				$this->accessToken['oauth_token_secret']
+				$token['oauth_token'],
+				$token['oauth_token_secret']
 			);
 		}
 		return $this->oauth;
@@ -160,6 +160,7 @@ class BSTwitterAccount
 		if (!$this->requestToken) {
 			return false;
 		}
+		$this->logout();
 
 		BSUtility::includeFile('twitteroauth/twitteroauth.php');
 		$oauth = new TwitterOAuth(
@@ -170,9 +171,6 @@ class BSTwitterAccount
 		);
 		$this->accessToken = new BSArray($oauth->getAccessToken($verifier));
 
-		if ($record = $this->getRecord()) {
-			$record->delete();
-		}
 		$table = new BSTwitterAccountEntryHandler;
 		$values = array(
 			'id' => $this->accessToken['user_id'],
@@ -181,6 +179,18 @@ class BSTwitterAccount
 			'oauth_token_secret' => $this->accessToken['oauth_token_secret'],
 		);
 		$table->createRecord($values);
+	}
+
+	/**
+	 * ログアウト
+	 *
+	 * @access public
+	 */
+	public function logout () {
+		if ($record = $this->getRecord()) {
+			$record->delete();
+		}
+		$this->accessToken = new BSArray;
 	}
 
 	/**
