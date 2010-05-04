@@ -139,7 +139,7 @@ class BSCurlHTTP extends BSHTTP {
 			$this->setAttribute('maxredirs', 32);
 			$this->setAttribute('ssl_verifypeer', false);
 
-			if ($this->host->getName() == BSController::getInstance()->getHost()->getName()) {
+			if (!$this->host->isForeign(BSController::getInstance()->getHost())) {
 				$this->setAuth(BS_APP_BASIC_AUTH_UID, BS_APP_BASIC_AUTH_PASSWORD);
 			}
 		}
