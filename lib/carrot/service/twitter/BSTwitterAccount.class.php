@@ -194,6 +194,21 @@ class BSTwitterAccount
 	}
 
 	/**
+	 * OAuthで認証されているか？
+	 *
+	 * @access public
+	 * @return boolean 認証されていたらTrue
+	 */
+	public function isAuthenticated () {
+		try {
+			$response = $this->getService()->sendGetRequest('/account/verify_credentials');
+			return ($response->getStatus() == 200);
+		} catch (BSHTTPException $e) {
+			return false;
+		}
+	}
+
+	/**
 	 * 最近のつぶやきを返す
 	 *
 	 * @access public
@@ -212,7 +227,7 @@ class BSTwitterAccount
 	 */
 	public function tweet ($message) {
 		$response = $this->getService()->sendPostRequest(
-			'/statuses/update' . BS_SERVICE_TWITTER_SUFFIX,
+			'/statuses/update',
 			new BSArray(array('status' => $message))
 		);
 		$json = new BSJSONRenderer;
@@ -356,9 +371,7 @@ class BSTwitterAccount
 	 * @access public
 	 */
 	public function serialize () {
-		$response = $this->getService()->sendGetRequest(
-			'/statuses/user_timeline/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
-		);
+		$response = $this->getService()->sendGetRequest('/statuses/user_timeline/' . $this->id);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
 
@@ -376,9 +389,7 @@ class BSTwitterAccount
 				$values['tweets'][] = $tweet->getParameters();
 			}
 		} else { //ツイートがひとつもない場合は、プロフィールを取得
-			$response = $this->getService()->sendGetRequest(
-				'/users/show/' . $this->id . BS_SERVICE_TWITTER_SUFFIX
-			);
+			$response = $this->getService()->sendGetRequest('/users/show/' . $this->id);
 			$json->setContents($response->getRenderer()->getContents());
 			$values['profile'] = $json->getResult();
 		}

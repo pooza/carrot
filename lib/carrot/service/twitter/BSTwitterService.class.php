@@ -54,6 +54,10 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGetRequest ($path = '/') {
+		if (!BSString::isContain('.', $path)) {
+			$path .= BS_SERVICE_TWITTER_SUFFIX;
+		}
+
 		if (!$this->oauth) {
 			return parent::sendGetRequest($path);
 		}
@@ -72,6 +76,9 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPostRequest ($path = '/', $params = null) {
+		if (!BSString::isContain('.', $path)) {
+			$path .= BS_SERVICE_TWITTER_SUFFIX;
+		}
 		if ($params) {
 			$params = new BSArray;
 		}
@@ -100,6 +107,14 @@ class BSTwitterService extends BSCurlHTTP {
 			$response->setHeader($key, $value);
 		}
 		return $response;
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('Twitterサービス "%s"', $this->getName());
 	}
 }
 

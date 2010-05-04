@@ -90,7 +90,8 @@ class BSCurlHTTP extends BSHTTP {
 		$response->setContents($contents);
 
 		if (!$response->validate()) {
-			$message = new BSStringFormat('不正なレスポンスです。 (%d %s)');
+			$message = new BSStringFormat('%sからのレスポンスが不正です。 (%d %s)');
+			$message[] = $this;
 			$message[] = $response->getStatus();
 			$message[] = $response->getError();
 			throw new BSHTTPException($message);

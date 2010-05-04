@@ -10,7 +10,7 @@
 class SummaryAction extends BSAction {
 	public function execute () {
 		$account = BSAuthorRole::getInstance()->getTwitterAccount();
-		if ($token = $account->getAccessToken()) {
+		if ($account->isAuthenticated()) {
 			$this->request->setAttribute('account', $account);
 		} else {
 			$values = array('url' => $account->getOAuthURL()->getContents());
