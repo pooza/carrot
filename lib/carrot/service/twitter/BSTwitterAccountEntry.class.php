@@ -11,6 +11,16 @@
  * @version $Id$
  */
 class BSTwitterAccountEntry extends BSRecord {
+
+	/**
+	 * 削除可能か？
+	 *
+	 * @access protected
+	 * @return boolean 削除可能ならTrue
+	 */
+	protected function isDeletable () {
+		return true;
+	}
 }
 
 /* vim:set tabstop=4: */

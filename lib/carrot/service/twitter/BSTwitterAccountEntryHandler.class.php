@@ -23,6 +23,16 @@ class BSTwitterAccountEntryHandler extends BSTableHandler {
 	}
 
 	/**
+	 * サロゲートキーを持つテーブルか？
+	 *
+	 * @access protected
+	 * @return boolean サロゲートキーを持つならTrue
+	 */
+	protected function hasSurrogateKey () {
+		return false;
+	}
+
+	/**
 	 * テーブル名を返す
 	 *
 	 * @access public

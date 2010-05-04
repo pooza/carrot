@@ -29,9 +29,6 @@ class BSTwitterAccount
 	 */
 	public function __construct ($id) {
 		$this->id = $id;
-		if ($record = $this->getRecord()) {
-			$this->accessToken = $record->getAttributes();
-		}
 
 		if (!$this->getSerialized()) {
 			$this->serialize();
@@ -42,6 +39,10 @@ class BSTwitterAccount
 		$this->tweets = new BSArray;
 		foreach ($serialized['tweets'] as $tweet) {
 			$this->tweets[] = new BSArray($tweet);
+		}
+
+		if ($token = BSUser::getInstance()->getAttribute(get_class($this))) {
+			$this->requestToken = new BSArray($token);
 		}
 	}
 
@@ -69,7 +70,7 @@ class BSTwitterAccount
 		if (!$this->record) {
 			$table = new BSTwitterAccountEntryHandler;
 			foreach (array('id', 'screen_name') as $field) {
-				$values = array($field, $this->id);
+				$values = array($field => $this->id);
 				if ($this->record = $table->getRecord($values)) {
 					return $this->record;
 				}
@@ -126,8 +127,27 @@ class BSTwitterAccount
 			BS_SERVICE_TWITTER_CONSUMER_SECRET
 		);
 		$this->requestToken = new BSArray($oauth->getRequestToken());
-		$this->accessToken = null;
+		BSUser::getInstance()->setAttribute(get_class($this), $this->requestToken);
+
 		return BSURL::getInstance($oauth->getAuthorizeURL($this->requestToken['oauth_token']));
+	}
+
+	/**
+	 * OAuthの認証済みアクセストークンを返す
+	 *
+	 * @access public
+	 * @return BSArray 認証済みアクセストークン
+	 */
+	public function getAccessToken () {
+		if (!$this->accessToken && ($record = $this->getRecord())) {
+			$this->accessToken = new BSArray(array(
+				'user_id' => $record['id'],
+				'screen_name' => $record['screen_name'],
+				'oauth_token' => $record['oauth_token'],
+				'oauth_token_secret' => $record['oauth_token_secret'],
+			));
+		}
+		return $this->accessToken;
 	}
 
 	/**
@@ -150,7 +170,17 @@ class BSTwitterAccount
 		);
 		$this->accessToken = new BSArray($oauth->getAccessToken($verifier));
 
-$this->serialize();
+		if ($record = $this->getRecord()) {
+			$record->delete();
+		}
+		$table = new BSTwitterAccountEntryHandler;
+		$values = array(
+			'id' => $this->accessToken['user_id'],
+			'screen_name' => $this->accessToken['screen_name'],
+			'oauth_token' => $this->accessToken['oauth_token'],
+			'oauth_token_secret' => $this->accessToken['oauth_token_secret'],
+		);
+		$table->createRecord($values);
 	}
 
 	/**

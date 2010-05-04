@@ -9,13 +9,11 @@
  */
 class SummaryAction extends BSAction {
 	public function execute () {
-		$service = new BSTwitterService;
-		$this->request->setAttribute('service', $service);
-
-		if ($account = $service->getAccount()) {
+		$account = BSAuthorRole::getInstance()->getTwitterAccount();
+		if ($token = $account->getAccessToken()) {
 			$this->request->setAttribute('account', $account);
 		} else {
-			$values = array('url' => $service->getOAuthURL()->getContents());
+			$values = array('url' => $account->getOAuthURL()->getContents());
 			$this->request->setAttribute('oauth', $values);
 		}
 		return BSView::SUCCESS;

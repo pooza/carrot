@@ -9,8 +9,8 @@
  */
 class LoginAction extends BSAction {
 	public function execute () {
-		$service = new BSTwitterService;
-		$service->login($this->request['verifier']);
+		$account = BSAuthorRole::getInstance()->getTwitterAccount();
+		$account->login($this->request['verifier']);
 		return $this->getModule()->redirect();
 	}
 }
