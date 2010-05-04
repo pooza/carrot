@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage service.twitter
+ * @subpackage service.twitter.database
  */
 
 /**
