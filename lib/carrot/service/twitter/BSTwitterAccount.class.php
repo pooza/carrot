@@ -72,7 +72,7 @@ class BSTwitterAccount
 			foreach (array('id', 'screen_name') as $field) {
 				$values = array($field => $this->id);
 				if ($this->record = $table->getRecord($values)) {
-					return $this->record;
+					break;
 				}
 			}
 		}
