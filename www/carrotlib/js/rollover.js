@@ -5,7 +5,7 @@
  *
  * @package org.carrot-framework
  * @version $Id$
- * @see http://d.hatena.ne.jp/kazeburo/20051227/p1
+ * @link http://d.hatena.ne.jp/kazeburo/20051227/p1
  */
 
 var RollOverImage = Class.create();
