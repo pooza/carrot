@@ -17,6 +17,6 @@ carrot:
     - usermenu
     - elevator
     - jsProgressBarHandler
-    - flowplayer-3.1.4.min
+    - flowplayer-3.2.0
     - carrot
     - application

@@ -121,8 +121,10 @@ movie:
   audio_codec: libfaac
   flv:
     player:
-      height: 24
-      href: /carrotlib/swf/flowplayer-3.1.5.swf
+      height: 0
+      href: /carrotlib/swf/flowplayer-3.2.0.swf
+      control_bar:
+        href: /carrotlib/swf/flowplayer.controls-3.2.0.swf
   wmv:
     player:
       clsid: 6BF52A52-394A-11d3-B153-00C04F79FAA6

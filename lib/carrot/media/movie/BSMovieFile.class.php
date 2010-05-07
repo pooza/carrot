@@ -154,7 +154,8 @@ class BSMovieFile extends BSMediaFile {
 			),
 			'plugins' => array(
 				'controls' => array(
-					'height' => BS_MOVIE_FLV_PLAYER_HEIGHT,
+					'url' => BS_MOVIE_FLV_PLAYER_CONTROL_BAR_HREF,
+					'opacity' => 0.9,
 					'fullscreen' => ($params['mode'] != 'noscript'),
 				),
 			),
