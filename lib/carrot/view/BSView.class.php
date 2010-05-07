@@ -207,6 +207,7 @@ class BSView extends BSHTTPResponse {
 				$date['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
 				$this->setHeader('Expires', $date->format(DATE_RFC1123));
 			}
+			$this->setHeader('Pragma', BS_APP_HTTP_CACHE_MODE);
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
 			$this->setHeader('Pragma', 'no-cache');
