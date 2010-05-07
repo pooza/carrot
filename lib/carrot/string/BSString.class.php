@@ -92,7 +92,7 @@ class BSString {
 				$value[$key] = self::unsanitize($item);
 			}
 		} else {
-			$value = html_entity_decode($value, ENT_QUOTES);
+			$value = htmlspecialchars_decode($value, ENT_QUOTES);
 		}
 		return $value;
 	}
@@ -421,7 +421,7 @@ class BSString {
 				$value[$key] = self::stripTags($item);
 			}
 		} else {
-			$value = self::unsanitize($value);
+			$value = html_entity_decode($value, ENT_QUOTES);
 			$value = strip_tags($value);
 			$value = BSSmartTag::parse($value);
 		}
