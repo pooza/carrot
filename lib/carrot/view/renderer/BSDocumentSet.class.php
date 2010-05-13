@@ -173,17 +173,24 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 */
 	protected function register ($entry) {
 		if (is_string($entry)) {
-			if (!$dir = $this->getSourceDirectory()) {
-				throw new BSConfigException($this . 'のソースディレクトリが未定義です。');
+			$name = $entry;
+			$dirs = new BSArray;
+			$dirs['webapp'] = clone BSFileUtility::getDirectory('webapp');
+			if ($dir = $this->getSourceDirectory()) {
+				$dirs[] = $dir;
+				$dirs['webapp']->setDefaultSuffix($dir->getDefaultSuffix());
 			}
-			if (!$entry = $dir->getEntry($entry, $this->getDocumentClass())) {
-				return;
+			foreach ($dirs as $dir) {
+				if ($entry = $dir->getEntry($name, $this->getDocumentClass())) {
+					break;
+				}
 			}
 		}
+
 		if ($entry instanceof BSSerializable) {
 			$this->documents[] = $entry;
 		} else {
-			$this->error = $entry . 'が読み込めません。' . $entry->getError();
+			$this->error = $entry . 'が読み込めません。';
 		}
 	}
 
