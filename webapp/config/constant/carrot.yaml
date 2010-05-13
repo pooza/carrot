@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.98
+  ver: 2.3.99
 
 admin:
   email:
@@ -37,6 +37,9 @@ author:
 awstats:
   daily: yes
   server_name_aliases:
+cookie:
+  checker:
+    hours: 6
 crypt:
   salt: carrot
   engine: blowfish
