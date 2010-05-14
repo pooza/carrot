@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSGoogleAnalyticsService implements BSAssignable {
+	private $id;
 	static private $instance;
 
 	/**
@@ -47,10 +48,23 @@ class BSGoogleAnalyticsService implements BSAssignable {
 	 * @return string アカウントID
 	 */
 	public function getID () {
-		if (BSString::isBlank($id = BS_SERVICE_GOOGLE_ANALYTICS_ID)) {
-			throw new BSConfigException('GoogleAnalyticsのアカウントIDが未定義です。');
+		if (!$this->id) {
+			if (BSString::isBlank($id = BS_SERVICE_GOOGLE_ANALYTICS_ID)) {
+				throw new BSConfigException('GoogleAnalyticsのアカウントIDが未定義です。');
+			}
+			$this->id = $id;
 		}
-		return $id;
+		return $this->id;
+	}
+
+	/**
+	 * アカウントIDを設定
+	 *
+	 * @access public
+	 * @param string $id アカウントID
+	 */
+	public function setID ($id) {
+		$this->id = $id;
 	}
 
 	/**

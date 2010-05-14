@@ -11,7 +11,12 @@
  * @version $Id$
  */
 function smarty_function_analytics ($params, &$smarty) {
-	return BSGoogleAnalyticsService::getInstance()->getTrackingCode();
+	$params = new BSArray($params);
+	$service = BSGoogleAnalyticsService::getInstance();
+	if ($id = $params['id']) {
+		$service->setID($id);
+	}
+	return $service->getTrackingCode();
 }
 
 /* vim:set tabstop=4: */
