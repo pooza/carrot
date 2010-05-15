@@ -125,7 +125,7 @@ movie:
   flv:
     player:
       height: 0
-      href: /carrotlib/swf/flowplayer-3.2.0.swf
+      href: /carrotlib/swf/flowplayer-3.2.1.swf
       control_bar:
         href: /carrotlib/swf/flowplayer.controls-3.2.0.swf
   wmv:
