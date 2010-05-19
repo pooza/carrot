@@ -421,7 +421,7 @@ class BSString {
 				$value[$key] = self::stripTags($item);
 			}
 		} else {
-			$value = html_entity_decode($value, ENT_QUOTES);
+			$value = html_entity_decode($value, ENT_QUOTES, 'utf-8');
 			$value = strip_tags($value);
 			$value = BSSmartTag::parse($value);
 		}
