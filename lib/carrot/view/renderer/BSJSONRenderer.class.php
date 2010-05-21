@@ -11,17 +11,17 @@
  * @version $Id$
  */
 class BSJSONRenderer implements BSRenderer {
-	private $serializer;
-	private $contents;
-	private $result;
+	protected $serializer;
+	protected $contents;
+	protected $result;
 
 	/**
 	 * シリアライザーを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @return BSJSONSerializer
 	 */
-	private function getSerializer () {
+	protected function getSerializer () {
 		if (!$this->serializer) {
 			$this->serializer = new BSJSONSerializer;
 		}
