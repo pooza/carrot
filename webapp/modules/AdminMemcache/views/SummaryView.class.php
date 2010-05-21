@@ -1,15 +1,15 @@
 <?php
 /**
- * NotFoundErrorビュー
+ * SummaryViewビュー
  *
  * @package org.carrot-framework
- * @subpackage Default
+ * @subpackage AdminMemcache
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class NotFoundErrorView extends BSSmartyView {
+class SummaryView extends BSSmartyView {
 	public function execute () {
-		$this->setStatus(404);
+		$this->setAttribute('styleset', 'carrot.Detail');
 	}
 }
 

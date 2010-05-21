@@ -1,15 +1,15 @@
 <?php
 /**
- * SummarySuccessViewビュー
+ * EmptySiteビュー
  *
  * @package org.carrot-framework
- * @subpackage AdminMemcache
+ * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class SummarySuccessView extends BSSmartyView {
+class EmptySiteView extends BSSmartyView {
 	public function execute () {
-		$this->setAttribute('styleset', 'carrot.Detail');
+		$this->setStatus(404);
 	}
 }
 

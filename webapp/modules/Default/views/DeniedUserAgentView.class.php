@@ -1,15 +1,15 @@
 <?php
 /**
- * TableSuccessビュー
+ * DeniedUserAgentビュー
  *
  * @package org.carrot-framework
- * @subpackage DevelopTableReport
+ * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class TableSuccessView extends BSSmartyView {
+class DeniedUserAgentView extends BSSmartyView {
 	public function execute () {
-		$this->setAttribute('styleset', 'carrot.Detail');
+		$this->setStatus(400);
 	}
 }
 

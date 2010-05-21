@@ -1,15 +1,15 @@
 <?php
 /**
- * DefaultSuccessビュー
+ * CookieDisabledビュー
  *
  * @package org.carrot-framework
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class DefaultSuccessView extends BSSmartyView {
+class CookieDisabledView extends BSSmartyView {
 	public function execute () {
-		$this->setTemplate($this->request['document']);
+		$this->setStatus(400);
 	}
 }
 
