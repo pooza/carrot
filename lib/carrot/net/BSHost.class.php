@@ -46,8 +46,8 @@ class BSHost implements BSAssignable {
 	 * @param string $address IPアドレス
 	 */
 	public function setAddress ($address) {
-		// ポート番号が付記されていたら、取り除く。
-		$parts = BSString::explode(':', $address);
+		// アドレスが列挙されていたり、ポート番号が付記されていたら、取り除く。
+		$parts = mb_split('[:,]', $address);
 		$address = $parts[0];
 
 		$this->setAttribute('ip', $address);
