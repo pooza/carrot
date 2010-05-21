@@ -36,8 +36,29 @@ class BSSMTPMailSender extends BSMailSender {
 	public function send (BSMail $mail) {
 		$smtp = self::getServer();
 		$smtp->setMail($mail);
-		$smtp->send();
-		$this->putLog($mail);
+		$response = $smtp->send();
+		$this->putLog($mail, $response);
+	}
+
+	/**
+	 * 送信ログを出力する
+	 *
+	 * @access protected
+	 * @param BSMail $mail 対象メール
+	 * @param string $response レスポンス行
+	 */
+	protected function putLog (BSMail $mail, $response = null) {
+		$recipients = new BSArray;
+		foreach ($mail->getRecipients() as $email) {
+			$recipients[] = $email->getContents();
+		}
+
+		$message = new BSStringFormat('%sから%s宛に、メールを送信しました。(%s)');
+		$message[] = $mail->getHeader('From')->getEntity()->getContents();
+		$message[] = $recipients->join(',');
+		$message[] = $response;
+
+		BSLogManager::getInstance()->put($message, $this);
 	}
 
 	/**
