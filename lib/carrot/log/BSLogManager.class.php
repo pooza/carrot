@@ -112,7 +112,7 @@ class BSLogManager implements IteratorAggregate {
 
 				$message = array(
 					'[' . date('Y-m-d H:i:s') . ']',
-					'[' . $name . ']', 
+					'[' . $host . ']', 
 					'[' . $priority . ']',
 					$message,
 				);
