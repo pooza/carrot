@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSSMTPMailSender {
+class BSSMTPMailSender extends BSMailSender {
 	static private $smtp;
 
 	/**
@@ -37,6 +37,7 @@ class BSSMTPMailSender {
 		$smtp = self::getServer();
 		$smtp->setMail($mail);
 		$smtp->send();
+		$this->putLog($mail);
 	}
 
 	/**

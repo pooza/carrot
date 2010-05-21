@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.100
+  ver: 2.3.101
 
 admin:
   email:
@@ -94,7 +94,7 @@ log:
       - BSMailException
       - BSFileException
 mail:
-  sender: smtp
+  sender: sendmail
 memcache:
   daemon_name: memcached
   host: localhost

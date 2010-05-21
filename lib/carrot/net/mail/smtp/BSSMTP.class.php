@@ -29,6 +29,7 @@ class BSSMTP extends BSSocket {
 		}
 		parent::__construct($host, $port, $protocol);
 		$this->setMail(new BSMail);
+		$this->keywords = new BSArray;
 	}
 
 	/**
@@ -45,7 +46,9 @@ class BSSMTP extends BSSocket {
 			$message[] = $this->getPrevLine();
 			throw new BSMailException($message);
 		}
-		$this->keywords = $this->getLines();
+		while (!BSString::isBlank($line = $this->getLine())) {
+			$this->keywords[] = $line;
+		}
 	}
 
 	/**
@@ -106,7 +109,6 @@ class BSSMTP extends BSSocket {
 		} catch (BSMailException $e) {
 			throw new BSMailException($this->getMail() . 'を送信できません。');
 		}
-		BSLogManager::getInstance()->put($this->getSentMessage(), $this);
 		return $this->getPrevLine();
 	}
 
@@ -136,26 +138,6 @@ class BSSMTP extends BSSocket {
 		} else {
 			return clone $this->getMail()->getRecipients();
 		}
-	}
-
-	/**
-	 * 送信成功時のメッセージを返す
-	 *
-	 * @access protected
-	 * @return BSStringFormat メッセージ
-	 */
-	protected function getSentMessage () {
-		$recipients = new BSArray;
-		foreach ($this->getRecipients() as $email) {
-			$recipients[] = $email->getContents();
-		}
-
-		$message = new BSStringFormat('%sから%s宛に、%sを送信しました。 (%s)');
-		$message[] = $this->getFrom()->getContents();
-		$message[] = $recipients->join(',');
-		$message[] = $this->getMail();
-		$message[] = $this->getPrevLine();
-		return $message;
 	}
 
 	/**
