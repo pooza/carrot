@@ -49,6 +49,7 @@
   <F-05A color="1" depth="65536" height="352" width="240" />
   <F-06A color="1" depth="16777216" height="352" width="240" />
   <F-07A color="1" depth="262144" height="256" width="240" />
+  <F-07B color="1" depth="16777216" height="648" width="480" />
   <F-08A color="1" depth="262144" height="648" width="480" />
   <F-09A color="1" depth="16777216" height="648" width="480" />
   <F-10A color="1" depth="262144" height="330" width="240" />
@@ -124,6 +125,7 @@
   <N-03A color="1" depth="262144" height="320" width="240" />
   <N-03B color="1" depth="262144" height="640" width="480" />
   <N-04A color="1" depth="262144" height="320" width="240" />
+  <N-04B color="1" depth="16777216" height="640" width="480" />
   <N-05A color="1" depth="262144" height="320" width="240" />
   <N-06A color="1" depth="262144" height="640" width="480" />
   <N-07A color="1" depth="262144" height="640" width="480" />
@@ -199,6 +201,7 @@
   <P-03A color="1" depth="262144" height="350" width="240" />
   <P-03B color="1" depth="262144" height="331" width="240" />
   <P-04A color="1" depth="262144" height="350" width="240" />
+  <P-04B color="1" depth="262144" height="662" width="480" />
   <P-05A color="1" depth="262144" height="350" width="240" />
   <P-06A color="1" depth="262144" height="350" width="240" />
   <P-07A color="1" depth="262144" height="662" width="480" />
@@ -279,6 +282,7 @@
   <SH-06A color="1" depth="16777216" height="592" width="480" />
   <SH-06B color="1" depth="16777216" height="646" width="480" />
   <SH-07A color="1" depth="16777216" height="592" width="480" />
+  <SH-07B color="1" depth="16777216" height="656" width="480" />
   <SH-08A color="1" depth="16777216" height="592" width="480" />
   <SH2101V color="1" depth="65536" height="600" width="800" />
   <SH251I color="1" depth="65536" height="130" width="120" />
