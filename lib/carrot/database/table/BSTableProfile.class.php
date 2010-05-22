@@ -114,7 +114,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	public function getRecordClassNames () {
 		try {
-			$name = BSString::pascalize($this->getName());
+			$name = BSClassLoader::getInstance()->getClass($this->getName());
 			return new BSArray(BSClassLoader::getParentClasses($name));
 		} catch (Exception $e) {
 			return new BSArray;
