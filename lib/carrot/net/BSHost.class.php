@@ -11,21 +11,33 @@
  * @version $Id$
  */
 class BSHost implements BSAssignable {
-	protected $ipv4;
 	protected $name;
+	protected $address;
 
 	/**
 	 * @access public
 	 * @param string $address ホスト名又はIPアドレス
 	 */
 	public function __construct ($address) {
-		require_once('Net/IPv4.php');
-		$this->ipv4 = new Net_IPv4;
+		// アドレスが列挙されていたり、ポート番号が付記されていたら、取り除く。
+		$parts = mb_split('[:,]', $address);
+		$address = $parts[0];
 
 		if (mb_ereg('^[.[:digit:]]+$', $address)) {
-			$this->setAddress($address);
+			if (!long2ip(ip2long($address))) {
+				throw new BSNetException($address . 'を名前解決できません。');
+			}
+			$this->address = $address;
+			if (BS_NET_RESOLVABLE) {
+				$this->name = gethostbyaddr($address);
+			} else {
+				$this->name = $address;
+			}
 		} else {
-			$this->setName($address);
+			$this->name = $address;
+			if (BSString::isBlank($this->address = gethostbyname($this->name))) {
+				throw new BSNetException($name . 'は正しくないFQDN名です。');
+			}
 		}
 	}
 
@@ -36,27 +48,7 @@ class BSHost implements BSAssignable {
 	 * @return string IPアドレス
 	 */
 	public function getAddress () {
-		return $this->getAttribute('ip');
-	}
-
-	/**
-	 * IPアドレスを設定
-	 *
-	 * @access public
-	 * @param string $address IPアドレス
-	 */
-	public function setAddress ($address) {
-		// アドレスが列挙されていたり、ポート番号が付記されていたら、取り除く。
-		$parts = mb_split('[:,]', $address);
-		$address = $parts[0];
-
-		$this->setAttribute('ip', $address);
-		if (!$this->ipv4->validateIP($address)) {
-			$message = new BSStringFormat('"%s"(%s) を名前解決できません。');
-			$message[] = $this;
-			$message[] = $address;
-			throw new BSNetException($message);
-		}
+		return $this->address;
 	}
 
 	/**
@@ -66,33 +58,7 @@ class BSHost implements BSAssignable {
 	 * @return string FQDNホスト名
 	 */
 	public function getName () {
-		if (!$this->name) {
-			if (BS_NET_RESOLVABLE) {
-				$this->name = gethostbyaddr($this->getAddress());
-			} else {
-				$this->name = $this->getAddress();
-			}
-		}
 		return $this->name;
-	}
-
-	/**
-	 * ホスト名を設定
-	 *
-	 * @access public
-	 * @param string $name FQDNホスト名
-	 */
-	public function setName ($name) {
-		// ポート番号が付記されていたら、取り除く。
-		$parts = BSString::explode(':', $name);
-		$name = $parts[0];
-
-		if (BSString::isBlank($address = gethostbyname($name))) {
-			throw new BSNetException($name . 'は正しくないFQDN名です。');
-		}
-
-		$this->name = $name;
-		$this->setAddress($address);
 	}
 
 	/**
@@ -107,40 +73,6 @@ class BSHost implements BSAssignable {
 		} catch (BSNetException $e) {
 			return false;
 		}
-	}
-
-	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param mixed 属性
-	 */
-	public function getAttribute ($name) {
-		return $this->ipv4->$name;
-	}
-
-	/**
-	 * 属性を設定
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param mixed $value 値
-	 */
-	public function setAttribute ($name, $value) {
-		$this->ipv4->$name = $value;
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return mixed[] 全ての属性
-	 */
-	public function getAttributes () {
-		$values = get_object_vars($this->ipv4);
-		$values['name'] = $this->getName();
-		return $values;
 	}
 
 	/**
@@ -164,7 +96,7 @@ class BSHost implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return $this->getAttributes();
+		return get_object_vars($this);
 	}
 
 	/**
