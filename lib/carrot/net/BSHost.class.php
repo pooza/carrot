@@ -86,7 +86,7 @@ class BSHost implements BSAssignable {
 		if (!$host) {
 			$host = BSController::getInstance()->getHost();
 		}
-		return ($this->getAddress() != $host->getAddress());
+		return ($this->getName() != $host->getName());
 	}
 
 	/**
