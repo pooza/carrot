@@ -50,6 +50,16 @@ class BSNetwork extends BSHost {
 	}
 
 	/**
+	 * ブロードキャストアドレスを返す
+	 *
+	 * @access public
+	 * @return string ブロードキャストアドレス
+	 */
+	public function getBroadcastAddress () {
+		return $this->broadcast;
+	}
+
+	/**
 	 * ネットワーク内のノードか？
 	 *
 	 * @access public

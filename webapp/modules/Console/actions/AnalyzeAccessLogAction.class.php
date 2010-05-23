@@ -29,8 +29,8 @@ class AnalyzeAccessLogAction extends BSAction {
 			foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
 				$networks[] = sprintf(
 					'%s-%s',
-					$network->getAttribute('network'),
-					$network->getAttribute('broadcast')
+					$network->getAddress(),
+					$network->getBroadcastAddress()
 				);
 			}
 			$this->awstatsConfig['admin_networks'] = $networks->join(' ');
