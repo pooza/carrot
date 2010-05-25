@@ -124,6 +124,7 @@ abstract class BSUserAgent implements BSAssignable {
 		$view->setAttribute('credentials', BSUser::getInstance()->getCredentials());
 		$view->setAttribute('client_host', BSRequest::getInstance()->getHost());
 		$view->setAttribute('server_host', BSController::getInstance()->getHost());
+		$view->setAttribute('has_proxy_server', $view->hasProxyServer());
 		$view->setAttribute('is_ssl', BSRequest::getInstance()->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
 		return true;
