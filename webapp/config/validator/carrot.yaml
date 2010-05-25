@@ -79,6 +79,8 @@ longtext:
   class: BSStringValidator
   params:
     max: 65536
+mobile_image_size:
+  class: BSMobileImageSizeValidator
 movie:
   class: BSMovieValidator
 music:
