@@ -35,9 +35,7 @@ class BSHost implements BSAssignable {
 			}
 		} else {
 			$this->name = $address;
-			if (BSString::isBlank($this->address = gethostbyname($this->name))) {
-				throw new BSNetException($name . 'は正しくないFQDN名です。');
-			}
+			$this->address = gethostbyname($this->name);
 		}
 	}
 
