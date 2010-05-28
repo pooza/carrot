@@ -13,6 +13,7 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
+	const DEFAULT_NAME = 'DoCoMo/2.0';
 
 	/**
 	 * @access public
