@@ -69,7 +69,12 @@ class BSMenuFilter extends BSFilter {
 		if (!BSString::isBlank($values['href'])) {
 			$url = BSURL::getInstance();
 			$url['path'] = $values['href'];
-			$url->setParameters($this->request->getUserAgent()->getQuery());
+			if(BSString::isBlank($value = $url->getParameter(BSUserAgent::ACCESSOR))) {
+				$useragent = $this->request->getUserAgent();
+			} else {
+				$useragent = BSUserAgent::getInstance($value);
+			}
+			$url->setParameters($useragent->getQuery());
 			$values['href'] = $url->getFullPath();
 		}
 		if ($this->user->hasCredential($values['credential'])) {
