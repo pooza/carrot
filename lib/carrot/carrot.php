@@ -82,7 +82,6 @@ function p ($var) {
 	}
 }
 
-
 /*
  * ここから処理開始
  */
@@ -154,4 +153,3 @@ if (BS_DEBUG) {
 }
 
 /* vim:set tabstop=4: */
-

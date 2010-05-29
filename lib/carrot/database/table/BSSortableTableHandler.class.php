@@ -97,4 +97,3 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 }
 
 /* vim:set tabstop=4: */
-

@@ -15,7 +15,6 @@
 class BSContactURL extends BSURL {
 	private $query;
 
-
 	/**
 	 * @access protected
 	 * @param mixed $contents URL

@@ -15,4 +15,3 @@ function smarty_outputfilter_trim ($source, &$smarty) {
 }
 
 /* vim:set tabstop=4: */
-

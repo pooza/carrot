@@ -16,4 +16,3 @@ function smarty_outputfilter_encoding ($source, &$smarty) {
 }
 
 /* vim:set tabstop=4: */
-

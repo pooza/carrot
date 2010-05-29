@@ -21,4 +21,3 @@ function smarty_outputfilter_mail ($source, &$smarty) {
 }
 
 /* vim:set tabstop=4: */
-

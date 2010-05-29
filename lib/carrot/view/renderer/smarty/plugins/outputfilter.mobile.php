@@ -16,4 +16,3 @@ function smarty_outputfilter_mobile ($source, &$smarty) {
 }
 
 /* vim:set tabstop=4: */
-

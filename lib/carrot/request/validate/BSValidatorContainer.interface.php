@@ -21,4 +21,3 @@ interface BSValidatorContainer {
 }
 
 /* vim:set tabstop=4: */
-

@@ -128,4 +128,3 @@ class BSValidateManager implements IteratorAggregate {
 }
 
 /* vim:set tabstop=4: */
-
