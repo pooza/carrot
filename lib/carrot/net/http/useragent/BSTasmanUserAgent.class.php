@@ -13,10 +13,10 @@
 class BSTasmanUserAgent extends BSUserAgent {
 
 	/**
-	 * @access public
+	 * @access protected
 	 * @param string $name ユーザーエージェント名
 	 */
-	public function __construct ($name = null) {
+	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['platform'] = 'Macintosh';
 	}

@@ -19,10 +19,10 @@ abstract class BSUserAgent implements BSAssignable {
 	const ACCESSOR = 'ua';
 
 	/**
-	 * @access public
+	 * @access protected
 	 * @param string $name ユーザーエージェント名
 	 */
-	public function __construct ($name = null) {
+	protected function __construct ($name = null) {
 		$this->attributes = new BSArray;
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
@@ -53,14 +53,15 @@ abstract class BSUserAgent implements BSAssignable {
 	 * 規定タイプ名を返す
 	 *
 	 * @access public
-	 * @param string $useragent UserAgent名
+	 * @param string $name UserAgent名
 	 * @return string タイプ名
 	 * @static
 	 */
-	static public function getDefaultType ($useragent) {
+	static public function getDefaultType ($name) {
 		foreach (self::getTypes() as $type) {
-			$instance = BSClassLoader::getInstance()->getObject($type, 'UserAgent');
-			if (mb_ereg($instance->getPattern(), $useragent)) {
+			$class = BSClassLoader::getInstance()->getClass($type, 'UserAgent');
+			$instance = new $class;
+			if (mb_ereg($instance->getPattern(), $name)) {
 				return $type;
 			}
 		}

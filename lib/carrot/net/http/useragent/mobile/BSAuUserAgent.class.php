@@ -13,10 +13,10 @@
 class BSAuUserAgent extends BSMobileUserAgent {
 
 	/**
-	 * @access public
+	 * @access protected
 	 * @param string $name ユーザーエージェント名
 	 */
-	public function __construct ($name = null) {
+	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->bugs['multipart_form'] = true;
 		$this->attributes['is_wap2'] = $this->isWAP2();
