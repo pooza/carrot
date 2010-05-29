@@ -39,13 +39,21 @@ class BSMobileImageSizeValidator extends BSValidator {
 	public function execute ($value) {
 		$total = strlen($value);
 		foreach (BSString::eregMatchAll('<img [^>]*src="([^"]+)"[^>]*/>', $value) as $matches) {
-			$image = BSImageCacheHandler::getInstance()->getThumbnail(
-				BSFileUtility::getDirectory('www')->getEntry($matches[1], 'BSImageFile'),
-				null,
-				BS_IMAGE_MOBILE_SIZE_WIDTH,
-				BSImageCacheHandler::WIDTH_FIXED
-			);
-			$total += $image->getSize();
+			if ($url = BSURL::getInstance($matches[1])) {
+				$href = $url['path'];
+			} else {
+				$href = $matches[1];
+			}
+
+			if ($file = BSFileUtility::getDirectory('www')->getEntry($href, 'BSImageFile')) {
+				$image = BSImageCacheHandler::getInstance()->getThumbnail(
+					$file,
+					null,
+					BS_IMAGE_MOBILE_SIZE_WIDTH,
+					BSImageCacheHandler::WIDTH_FIXED
+				);
+				$total += $image->getSize();
+			}
 		}
 		if (($this['size'] * 1024) < $total) {
 			$this->error = $this['size_error'];
