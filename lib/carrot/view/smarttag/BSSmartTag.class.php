@@ -120,6 +120,9 @@ abstract class BSSmartTag extends BSParameterHolder {
 			foreach ($tags as $tag) {
 				$class = BSClassLoader::getInstance()->getClass($tag, 'Tag');
 				$tag = new $class($matches[1]);
+				if ($useragent = $params['useragent']) {
+					$tag->setUserAgent($useragent);
+				}
 				if ($tag->isMatched()) {
 					$tag->setParameters($params);
 					$text = $tag->execute($text);

@@ -62,6 +62,7 @@ class BSObjectElement extends BSXHTMLElement {
 		$param->setEmptyElement(true);
 		$param->setAttribute('name', $name);
 		$param->setAttribute('value', $value);
+		$param->setAttribute('valuetype', 'data');
 
 		if ($this->inner) {
 			$this->inner->setAttribute($name, $value);

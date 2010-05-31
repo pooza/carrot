@@ -31,49 +31,33 @@ class BSFlashFile extends BSMediaFile {
 	}
 
 	/**
-	 * ムービー表示用のXHTML要素を返す
+	 * 表示用のXHTML要素を返す
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params) {
-		if ($params['flash_light']) {
-			return $this->getFlashLightElement($params);
+	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
-
-		$constants = BSConstantHandler::getInstance();
-		foreach (array('player_ver', 'installer_href') as $key) {
-			if (BSString::isBlank($params[$key])) {
-				$params[$key] = $constants['flash_' . $key];
+		if ($useragent->isMobile()) {
+			$container = new BSDivisionElement;
+			$object = $container->addElement(new BSFlashLightObjectElement);
+			$object->setURL($this->getMediaURL($params));
+			$object->setAttribute('id', 'swf' . $this->getID());
+			$anchor = $container->addElement(new BSDivisionElement);
+			$anchor = $anchor->addElement(new BSAnchorElement);
+			$anchor->setAttribute('iswf', 'swf' . $this->getID());
+			$anchor->setURL($this->getMediaURL($params));
+			if (BSString::isBlank($label = $params['label'])) {
+				$label = 'FlashLight表示';
 			}
+			$anchor->setBody($label);
+			return $container;
 		}
 		return parent::getElement($params);
-	}
-
-	/**
-	 * FlashLight表示用のXHTML要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSDivisionElement 要素
-	 */
-	public function getFlashLightElement (BSParameterHolder $params) {
-		$container = new BSDivisionElement;
-		$object = $container->addElement(new BSFlashLightObjectElement);
-		$object->setURL($this->getMediaURL($params));
-		$object->setAttribute('id', 'swf' . $this->getID());
-		$anchor = $container->addElement(new BSDivisionElement);
-		$anchor = $anchor->addElement(new BSAnchorElement);
-		$anchor->setAttribute('iswf', 'swf' . $this->getID());
-		$anchor->setURL($this->getMediaURL($params));
-
-		if (BSString::isBlank($params['label'])) {
-			$params['label'] = 'FlashLight表示';
-		}
-		$anchor->setBody($params['label']);
-
-		return $container;
 	}
 
 	/**
@@ -90,8 +74,8 @@ class BSFlashFile extends BSMediaFile {
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
-		$body[] = BSJavaScriptUtility::quote($params['player_ver']);
-		$body[] = BSJavaScriptUtility::quote($params['installer_path']);
+		$body[] = BSJavaScriptUtility::quote(BS_FLASH_PLAYER_VER);
+		$body[] = BSJavaScriptUtility::quote(BS_FLASH_INSTALLER_HREF);
 		$body[] = BSJavaScriptUtility::quote(null);
 		$body[] = BSJavaScriptUtility::quote(array('wmode' => 'transparent'));
 		$element->setBody($body->getContents());

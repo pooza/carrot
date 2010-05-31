@@ -130,6 +130,22 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * ムービー表示用のXHTML要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSDivisionElement 要素
+	 */
+	public function getMovieElement (BSParameterHolder $params) {
+		$container = new BSDivisionElement;
+		$container->addElement($anchor = new BSAnchorElement);
+		$anchor->setURL($params['url']);
+		$anchor->setBody($params['label']);
+		return $container;
+	}
+
+	/**
 	 * 添付可能か？
 	 *
 	 * @access public

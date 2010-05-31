@@ -11,12 +11,16 @@
  * @version $Id$
  */
 class BSAuUserAgent extends BSMobileUserAgent {
+	const DEFAULT_NAME = 'KDDI';
 
 	/**
 	 * @access protected
 	 * @param string $name ユーザーエージェント名
 	 */
 	protected function __construct ($name = null) {
+		if (BSString::isBlank($name)) {
+			$name = self::DEFAULT_NAME;
+		}
 		parent::__construct($name);
 		$this->bugs['multipart_form'] = true;
 		$this->attributes['is_wap2'] = $this->isWAP2();
@@ -72,6 +76,27 @@ class BSAuUserAgent extends BSMobileUserAgent {
 			'width' => (int)$info[0],
 			'height' => (int)$info[1],
 		));
+	}
+
+	/**
+	 * ムービー表示用のXHTML要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSDivisionElement 要素
+	 */
+	public function getMovieElement (BSParameterHolder $params) {
+		$container = new BSDivisionElement;
+		$object = $container->addElement(new BSObjectElement);
+		$object->setAttribute('type', $params['type']);
+		$object->setAttribute('standby', $params['title']);
+		$object->setAttribute('copyright', 'no');
+		$object->setAttribute('data', $params['url']);
+		$object->setParameter('disposition', 'devmpzz');
+		$object->setParameter('size', $params['size']);
+		$object->setParameter('title', $params['title']);
+		return $container;
 	}
 
 	/**

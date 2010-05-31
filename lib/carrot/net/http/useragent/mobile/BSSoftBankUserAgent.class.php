@@ -11,12 +11,16 @@
  * @version $Id$
  */
 class BSSoftBankUserAgent extends BSMobileUserAgent {
+	const DEFAULT_NAME = 'SoftBank';
 
 	/**
 	 * @access protected
 	 * @param string $name ユーザーエージェント名
 	 */
 	protected function __construct ($name = null) {
+		if (BSString::isBlank($name)) {
+			$name = self::DEFAULT_NAME;
+		}
 		parent::__construct($name);
 		$this->attributes['is_3gc'] = $this->is3GC();
 	}

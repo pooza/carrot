@@ -158,15 +158,14 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	}
 
 	/**
-	 * XHTML要素を返す
-	 *
-	 * 通常はBSImageCacheHandlerを利用すること。
+	 * 表示用のXHTML要素を返す
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSXMLElement 要素
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params) {
+	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		$params = new BSArray($params);
 		$element = new BSImageElement;
 		$element->setURL($this->getMediaURL($params));

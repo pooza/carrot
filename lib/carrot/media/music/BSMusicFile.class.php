@@ -60,13 +60,14 @@ class BSMusicFile extends BSMediaFile {
 	}
 
 	/**
-	 * ムービー表示用のXHTML要素を返す
+	 * 表示用のXHTML要素を返す
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params) {
+	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		$container = new BSDivisionElement;
 		$container->setAttribute('width', $this['width']);
 		$container->setAttribute('height', $this['height']);
