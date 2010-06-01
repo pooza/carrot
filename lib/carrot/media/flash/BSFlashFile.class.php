@@ -46,10 +46,10 @@ class BSFlashFile extends BSMediaFile {
 			$container = new BSDivisionElement;
 			$object = $container->addElement(new BSFlashLightObjectElement);
 			$object->setURL($this->getMediaURL($params));
-			$object->setAttribute('id', 'swf' . $this->getID());
+			$object->setID('swf' . $this->getID());
 			$anchor = $container->addElement(new BSDivisionElement);
 			$anchor = $anchor->addElement(new BSAnchorElement);
-			$anchor->setAttribute('iswf', 'swf' . $this->getID());
+			$anchor->setAttribute('iswf', $object->getID());
 			$anchor->setURL($this->getMediaURL($params));
 			if (BSString::isBlank($label = $params['label'])) {
 				$label = 'FlashLight表示';
