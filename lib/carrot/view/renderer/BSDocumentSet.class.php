@@ -168,10 +168,10 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	/**
 	 * 登録
 	 *
-	 * @access protected
+	 * @access public
 	 * @param mixed $entry エントリー
 	 */
-	protected function register ($entry) {
+	public function register ($entry) {
 		if (is_string($entry)) {
 			$name = $entry;
 			$dirs = new BSArray;
@@ -227,9 +227,9 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	/**
 	 * 送信内容を更新
 	 *
-	 * @access protected
+	 * @access public
 	 */
-	protected function updateContents () {
+	public function updateContents () {
 		$cache = $this->getCacheFile();
 		if ((BSString::isBlank($cache->getContents()) && !!$this->documents->count())
 			|| $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
