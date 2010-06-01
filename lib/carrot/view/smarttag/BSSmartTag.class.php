@@ -26,6 +26,22 @@ abstract class BSSmartTag extends BSParameterHolder {
 	}
 
 	/**
+	 * パラメータを設定
+	 *
+	 * @access public
+	 * @param string $name パラメータ名
+	 * @param mixed $value 値
+	 */
+	public function setParameter ($name, $value) {
+		switch ($name) {
+			case 'useragent':
+				return $this->setUserAgent($value);
+			default:
+				return parent::setParameter($name, $value);
+		}
+	}
+
+	/**
 	 * 対象UserAgentを返す
 	 *
 	 * @access public
@@ -120,9 +136,6 @@ abstract class BSSmartTag extends BSParameterHolder {
 			foreach ($tags as $tag) {
 				$class = BSClassLoader::getInstance()->getClass($tag, 'Tag');
 				$tag = new $class($matches[1]);
-				if ($useragent = $params['useragent']) {
-					$tag->setUserAgent($useragent);
-				}
 				if ($tag->isMatched()) {
 					$tag->setParameters($params);
 					$text = $tag->execute($text);
