@@ -20,7 +20,7 @@ function smarty_function_css_cache ($params, &$smarty) {
 	$element = new BSXHTMLElement('link');
 	$element->setEmptyElement(true);
 	$element->setAttribute('rel', 'stylesheet');
-	$element->setAttribute('type', BSMIMEType::getType('css'));
+	$element->setAttribute('type', $styleset->getType());
 	$element->setAttribute('charset', 'utf-8');
 	$element->setAttribute('href', $styleset->getURL()->getContents());
 	return $element->getContents();

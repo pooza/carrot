@@ -65,9 +65,9 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 *
 	 * @access protected
 	 * @return BSDirectory ソースディレクトリ
+	 * @abstract
 	 */
-	protected function getSourceDirectory () {
-	}
+	abstract protected function getSourceDirectory ();
 
 	/**
 	 * キャッシュディレクトリを返す
@@ -172,7 +172,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 * @param mixed $entry エントリー
 	 */
 	public function register ($entry) {
-		if (!($entry instanceof BSSerializable)) {
+		if (is_string($entry)) {
 			$dir = $this->getSourceDirectory();
 			if ($file = $dir->getEntry($entry, $this->getDocumentClass())) {
 				$entry = $file;
