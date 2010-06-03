@@ -43,6 +43,20 @@ class BSJavaScriptSet extends BSDocumentSet {
 	}
 
 	/**
+	 * リダイレクト対象
+	 *
+	 * URLを加工するケースが多い為、毎回生成する。
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		$url = BSFileUtility::getURL('js_cache');
+		$url['path'] .= $this->getCacheFile()->getName();
+		return $url;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

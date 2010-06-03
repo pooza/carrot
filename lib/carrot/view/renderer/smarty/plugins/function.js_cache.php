@@ -16,16 +16,9 @@ function smarty_function_js_cache ($params, &$smarty) {
 		$params['name'] = 'carrot';
 	}
 
-	if (!$jsset = new BSJavaScriptSet($params['name'])) {
-		return;
-	}
-
-	$url = BSFileUtility::getURL('js_cache');
-	$url['path'] .= $jsset->getCacheFile()->getName();
-
+	$jsset = new BSJavaScriptSet($params['name']);
 	$element = new BSScriptElement;
-	$element->setAttribute('src', $url->getContents());
-
+	$element->setAttribute('src', $jsset->getURL()->getContents());
 	return $element->getContents();
 }
 

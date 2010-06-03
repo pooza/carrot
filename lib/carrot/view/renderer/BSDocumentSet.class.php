@@ -13,7 +13,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
+abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, IteratorAggregate {
 	private $name;
 	private $error;
 	private $type;
@@ -21,7 +21,9 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	private $updateDate;
 	private $documents;
 	private $contents;
+	private $url;
 	private $optimized = true;
+	static protected $entries;
 
 	/**
 	 * @access protected
@@ -34,8 +36,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 		$this->name = $name;
 		$this->documents = new BSArray;
 
-		$entries = $this->getEntries();
-		if ($files = $entries[$name]['files']) {
+		if (($entry = $this->getEntries()->getParameter($name)) && ($files = $entry['files'])) {
 			foreach ($files as $file) {
 				$this->register($file);
 			}
@@ -45,8 +46,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 			}
 			$this->register($name);
 		}
-
-		$this->updateContents();
+		$this->update();
 	}
 
 	/**
@@ -172,21 +172,12 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 * @param mixed $entry エントリー
 	 */
 	public function register ($entry) {
-		if (is_string($entry)) {
-			$name = $entry;
-			$dirs = new BSArray;
-			$dirs['webapp'] = clone BSFileUtility::getDirectory('webapp');
-			if ($dir = $this->getSourceDirectory()) {
-				$dirs[] = $dir;
-				$dirs['webapp']->setDefaultSuffix($dir->getDefaultSuffix());
-			}
-			foreach ($dirs as $dir) {
-				if ($entry = $dir->getEntry($name, $this->getDocumentClass())) {
-					break;
-				}
+		if (!($entry instanceof BSSerializable)) {
+			$dir = $this->getSourceDirectory();
+			if ($file = $dir->getEntry($entry, $this->getDocumentClass())) {
+				$entry = $file;
 			}
 		}
-
 		if ($entry instanceof BSSerializable) {
 			$this->documents[] = $entry;
 		} else {
@@ -229,7 +220,7 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	 *
 	 * @access public
 	 */
-	public function updateContents () {
+	public function update () {
 		$cache = $this->getCacheFile();
 		if ((BSString::isBlank($cache->getContents()) && !!$this->documents->count())
 			|| $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
@@ -249,6 +240,31 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 			BSLogManager::getInstance()->put($this . 'を更新しました。', $this);
 		}
 		$this->contents = $cache->getContents();
+	}
+
+	/**
+	 * 登録されている書類セットを配列で返す
+	 *
+	 * @access protected
+	 * @return BSArray 登録内容
+	 */
+	protected function getEntries () {
+		if (!self::$entries) {
+			self::$entries = new BSArray;
+		}
+		if (!self::$entries[get_class($this)]) {
+			self::$entries[get_class($this)] = $entries = new BSArray;
+			foreach ($this->getSourceDirectory() as $file) {
+				$entries[$file->getBaseName()] = new BSArray;
+			}
+			foreach ($this->getConfigFiles() as $file) {
+				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
+					$entries[$key] = new BSArray($values);
+				}
+			}
+			$entries->sort();
+		}
+		return self::$entries[get_class($this)];
 	}
 
 	/**
@@ -307,51 +323,33 @@ abstract class BSDocumentSet implements BSTextRenderer, IteratorAggregate {
 	}
 
 	/**
-	 * 登録内容を返す
-	 *
-	 * @access protected
-	 * @access string $prefix 登録名のプレフィックス
-	 * @return BSArray 登録内容
-	 */
-	protected function getEntries ($prefix = null) {
-		$entries = new BSArray;
-		foreach ($this->getSourceDirectory() as $file) {
-			$entries[$file->getBaseName()] = new BSArray;
-		}
-		foreach ($this->getConfigFiles() as $file) {
-			foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
-				$entries[$key] = new BSArray($values);
-			}
-		}
-
-		if (!BSString::isBlank($prefix)) {
-			$pattern = '^' . $prefix . '\\.?';
-			foreach ($entries as $key => $entry) {
-				if (!mb_ereg($pattern, $key)) {
-					$entries->removeParameter($key);
-				}
-			}
-		}
-		return $entries->sort();
-	}
-
-	/**
-	 * 登録名を返す
-	 *
-	 * @access public
-	 * @access string $prefix 登録名のプレフィックス
-	 * @return BSArray 登録名
-	 */
-	public function getEntryNames ($prefix = null) {
-		return $this->getEntries($prefix)->getKeys();
-	}
-
-	/**
 	 * @access public
 	 * @return BSIterator イテレータ
 	 */
 	public function getIterator () {
 		return new BSIterator($this->documents);
+	}
+
+	/**
+	 * リダイレクト対象
+	 *
+	 * URLを加工するケースが多い為、毎回生成する。
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function getURL () {
+		throw new BSViewException(get_class($this) . '::getURLが未実装です。');
+	}
+
+	/**
+	 * リダイレクト
+	 *
+	 * @access public
+	 * @return string ビュー名
+	 */
+	public function redirect () {
+		return $this->getURL()->redirect();
 	}
 
 	/**
