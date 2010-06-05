@@ -46,7 +46,9 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 			}
 			$this->register($name);
 		}
-		$this->update();
+		if (!!$this->documents->count()) {
+			$this->update();
+		}
 	}
 
 	/**
