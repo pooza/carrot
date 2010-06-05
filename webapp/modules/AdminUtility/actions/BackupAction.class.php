@@ -19,7 +19,7 @@ class BackupAction extends BSAction {
 		} catch (BSFileException $e) {
 			$message = new BSStringFormat('バックアップに失敗しました。 (%s)');
 			$message[] = $e->getMessage();
-			$this->request->setError('bsutility', $message->getContents());
+			$this->request->setError('bsutility', $message);
 			return $this->handleError();
 		}
 	}
