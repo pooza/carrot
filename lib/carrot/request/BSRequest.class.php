@@ -215,6 +215,9 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param mixed $value 値
 	 */
 	public function setError ($name, $value) {
+		if ($value instanceof BSStringFormat) {
+			$value = $value->getContents();
+		}
 		$this->getErrors()->setParameter($name, $value);
 	}
 
