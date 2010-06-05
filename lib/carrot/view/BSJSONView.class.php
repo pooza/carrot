@@ -43,7 +43,11 @@ class BSJSONView extends BSView {
 	 */
 	public function setRenderer (BSRenderer $renderer, $flags = BSMIMEUtility::WITH_HEADER) {
 		if (!($renderer instanceof BSResultJSONRenderer)) {
-			$renderer = new BSResultJSONRenderer;
+			$dest = new BSResultJSONRenderer;
+			if ($renderer instanceof BSJSONRenderer) {
+				$dest->setContents(new BSArray($renderer->getResult()));
+			}
+			$renderer = $dest;
 		}
 		parent::setRenderer($renderer, $flags);
 	}
