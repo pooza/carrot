@@ -229,6 +229,26 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
+	 * シンボリックリンクを作成
+	 *
+	 * @access public
+	 * @param BSDirectory $dir 作成先ディレクトリ
+	 * @param string $name リンクのファイル名。空欄の場合は、元ファイルと同じ。
+	 * @return BSDirectoryEntry リンク先
+	 */
+	public function createLink (BSDirectory $dir, $name = null) {
+		if (BSString::isBlank($name)) {
+			$name = $this->getName();
+		}
+
+		if ($file = $dir->getEntry($name)) {
+			throw new BSFileException($file . 'が既に存在します。');
+		}
+		symlink($this->getPath(), $dir->getPath() . DIRECTORY_SEPARATOR . $name);
+		return $dir->getEntry($name);
+	}
+
+	/**
 	 * 親ディレクトリを返す
 	 *
 	 * @access public
