@@ -9,7 +9,7 @@
  */
 class PictogramAction extends BSAction {
 	public function execute () {
-		$this->request->setAttribute('pictograms', BSPictogram::getPictogramNames());
+		$this->request->setAttribute('pictograms', BSPictogram::getPictogramImageInfos());
 		return BSView::INPUT;
 	}
 }

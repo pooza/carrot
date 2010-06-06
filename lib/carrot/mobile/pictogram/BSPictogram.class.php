@@ -293,6 +293,31 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		$codes = new BSArray($config['codes']);
 		return $codes->getKeys();
 	}
+
+	/**
+	 * 絵文字の画像ファイルを全て返す
+	 *
+	 * @access public
+	 * @return BSArray 絵文字名
+	 * @static
+	 */
+	static public function getPictogramImageInfos () {
+		$controller = BSController::getInstance();
+		$key = __CLASS__ . '.' . __FUNCTION__;
+		if (!$controller->getAttribute($key)) {
+			$urls = new BSArray;
+			foreach (self::getPictograms() as $pictogram) {
+				$imageinfo = $pictogram->getImageInfo();
+				foreach ($pictogram->getNames() as $name) {
+					$urls[$name] = new BSArray;
+					$urls[$name]['name'] = $name;
+					$urls[$name]['image'] = $imageinfo;
+				}
+			}
+			$controller->setAttribute($key, $urls);
+		}
+		return $controller->getAttribute($key);
+	}
 }
 
 /* vim:set tabstop=4: */

@@ -19,11 +19,13 @@
 
 	<table>
 
-{foreach from=$pictograms item='pictogram'}
+{foreach from=$pictograms item='picto'}
 		<tr>
-			<td width="15" align="center">{picto name=$pictogram}</td>
+			<td width="15" align="center">
+				<img src="{$picto.image.url}" width="{$picto.image.width}" height="{$picto.image.height}" alt="{$picto.image.alt}" />
+			</td>
 			<td width="180">
-				<a href="javascript:void(putSmartTag('picto',window.opener.$('{$params.field|default:'body'}'),'{$pictogram}'))">{$pictogram}</a>
+				<a href="javascript:void(putSmartTag('picto',window.opener.$('{$params.field|default:'body'}'),'{$picto.name}'))">{$picto.name}</a>
 			</td>
 		</tr>
 {/foreach}
