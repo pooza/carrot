@@ -12,7 +12,7 @@ Subject: [{const name='app_name_ja'}] {$priority}
 
 
 クライアントホスト:
-{$client_host.ip}
+{$client_host.address}
 {$client_host.name|default:'(名前解決に失敗)'}
 
 ブラウザ:
