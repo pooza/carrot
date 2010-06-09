@@ -19,7 +19,8 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	const SORT_DESC = 'dsc';
 	const WITHOUT_DOTTED = 1;
 	const WITHOUT_IGNORE = 2;
-	const WITHOUT_ALL_IGNORE = 3;
+	const WITHOUT_ALL_IGNORE = 4;
+	const WITH_RECURSIVE = 8;
 
 	/**
 	 * @access public
@@ -35,10 +36,10 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	/**
 	 * パスを設定
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $path パス
 	 */
-	public function setPath ($path) {
+	protected function setPath ($path) {
 		parent::setPath(rtrim($path, '/'));
 	}
 
@@ -167,6 +168,35 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
+	 * コピー
+	 *
+	 * 再帰的にコピーを行う。ドットファイル等は対象に含まない。
+	 *
+	 * @access public
+	 * @param BSDirectory $dir コピー先ディレクトリ
+	 * @return BSFile コピーされたファイル
+	 */
+	public function copyTo (BSDirectory $dir) {
+		$name = $this->getName();
+		if ($dir->getPath() == $this->getDirectory()->getPath()) {
+			while ($dir->getEntry($name)) {
+				if (mb_ereg('^(.*)([0-9]+)$', $name, $matches)) {
+					$name = $matches[1] . ($matches[2] + 1);
+				} else {
+					$name .= '2';
+				}
+			}
+		}
+		if (!$dest = $dir->getEntry($name)) {
+			$dest = $dir->createDirectory($name);
+		}
+		foreach ($this->getEntryNames(self::WITHOUT_IGNORE) as $name) {
+			$this->getEntry($name)->copyTo($dest);
+		}
+		return $dest;
+	}
+
+	/**
 	 * 削除
 	 *
 	 * @access public
@@ -279,6 +309,28 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			$this->zip->close();
 		}
 		return $this->zip;
+	}
+
+	/**
+	 * ファイルモード（パーミッション）を設定
+	 *
+	 * @access public
+	 * @param integer $mode ファイルモード
+	 * @param integer $flags フラグのビット列
+	 *   self::WITH_RECURSIVE 再帰的に
+	 */
+	public function setMode ($mode, $flags = null) {
+		parent::setMode($mode);
+		if ($flags & self::WITH_RECURSIVE) {
+			foreach ($this->getEntryNames($flags) as $name) {
+				$entry = $this->getEntry($name);
+				if ($entry->isDirectory()) {
+					$entry->setMode($mode, $flags);
+				} else {
+					$entry->setMode($mode);
+				}
+			}
+		}
 	}
 
 	/**

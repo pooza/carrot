@@ -99,10 +99,10 @@ abstract class BSDirectoryEntry {
 	/**
 	 * パスを設定
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $path パス
 	 */
-	public function setPath ($path) {
+	protected function setPath ($path) {
 		if (!BSUtility::isPathAbsolute($path)) {
 			$message = new BSStringFormat('パス"%s"が正しくありません。');
 			$message[] = $path;
@@ -149,6 +149,22 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException($this . 'を移動できません。');
 		}
 		$this->setPath($path);
+	}
+
+	/**
+	 * コピー
+	 *
+	 * @access public
+	 * @param BSDirectory $dir コピー先ディレクトリ
+	 * @return BSFile コピーされたファイル
+	 */
+	public function copyTo (BSDirectory $dir) {
+		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
+		if (!copy($this->getPath(), $path)) {
+			throw new BSFileException($this . 'をコピーできません。');
+		}
+		$class = get_class($this);
+		return new $class($path);
 	}
 
 	/**
