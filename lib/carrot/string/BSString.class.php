@@ -273,6 +273,31 @@ class BSString {
 	}
 
 	/**
+	 * 名前をインクリメント
+	 *
+	 * 末尾が数値ならインクリメント。そうでなければ末尾に "2" を加える。
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function increment ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::underscorize($item);
+			}
+		} else {
+			if (mb_ereg('^(.*)([0-9]+)$', $value, $matches)) {
+				$value = $matches[1] . ($matches[2] + 1);
+			} else {
+				$value .= '2';
+			}
+		}
+		return $value;
+	}
+
+	/**
 	 * 全て大文字にして返す
 	 *
 	 * @access public

@@ -168,6 +168,17 @@ abstract class BSDirectoryEntry {
 	}
 
 	/**
+	 * ドットファイル等を削除
+	 *
+	 * @access public
+	 */
+	public function clearIgnoreFiles () {
+		if ($this->isIgnore() || $this->isDotted()) {
+			$this->delete();
+		}
+	}
+
+	/**
 	 * サフィックスを返す
 	 *
 	 * @access public
@@ -257,10 +268,11 @@ abstract class BSDirectoryEntry {
 			$name = $this->getName();
 		}
 
-		if ($file = $dir->getEntry($name)) {
-			throw new BSFileException($file . 'が既に存在します。');
+		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $name;
+		if (is_link($path)) {
+			unlink($path);
 		}
-		symlink($this->getPath(), $dir->getPath() . DIRECTORY_SEPARATOR . $name);
+		symlink($this->getPath(), $path);
 		return $dir->getEntry($name);
 	}
 
@@ -342,8 +354,9 @@ abstract class BSDirectoryEntry {
 	 *
 	 * @access public
 	 * @param integer $mode ファイルモード
+	 * @param integer $flags フラグのビット列
 	 */
-	public function setMode ($mode) {
+	public function setMode ($mode, $flags = null) {
 		if (!$this->isWritable() || !chmod($this->getPath(), $mode)) {
 			throw new BSFileException($this . 'のファイルモードを変更できません。');
 		}

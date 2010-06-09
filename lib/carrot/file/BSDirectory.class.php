@@ -180,18 +180,14 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$name = $this->getName();
 		if ($dir->getPath() == $this->getDirectory()->getPath()) {
 			while ($dir->getEntry($name)) {
-				if (mb_ereg('^(.*)([0-9]+)$', $name, $matches)) {
-					$name = $matches[1] . ($matches[2] + 1);
-				} else {
-					$name .= '2';
-				}
+				$name = BSString::increment($name);
 			}
 		}
 		if (!$dest = $dir->getEntry($name)) {
 			$dest = $dir->createDirectory($name);
 		}
-		foreach ($this->getEntryNames(self::WITHOUT_IGNORE) as $name) {
-			$this->getEntry($name)->copyTo($dest);
+		foreach ($this as $entry) {
+			$entry->copyTo($dest);
 		}
 		return $dest;
 	}
@@ -221,6 +217,18 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			}
 			$this->getEntry($entry)->delete();
 		}
+	}
+
+	/**
+	 * ドットファイル等を削除
+	 *
+	 * @access public
+	 */
+	public function clearIgnoreFiles () {
+		foreach ($this as $entry) {
+			$entry->clearIgnoreFiles();
+		}
+		parent::clearIgnoreFiles();
 	}
 
 	/**
@@ -322,13 +330,8 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	public function setMode ($mode, $flags = null) {
 		parent::setMode($mode);
 		if ($flags & self::WITH_RECURSIVE) {
-			foreach ($this->getEntryNames($flags) as $name) {
-				$entry = $this->getEntry($name);
-				if ($entry->isDirectory()) {
-					$entry->setMode($mode, $flags);
-				} else {
-					$entry->setMode($mode);
-				}
+			foreach ($this as $entry) {
+				$entry->setMode($mode, $flags);
 			}
 		}
 	}
