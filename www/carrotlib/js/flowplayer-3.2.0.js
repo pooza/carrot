@@ -1358,7 +1358,7 @@ if (typeof jQuery == 'function') {
 					var fo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.7");
 					ver = fo && fo.GetVariable("$version");	 
 				} catch(err) {
-						
+					ver = '0.0.0';
 				} 
 			}
 			
