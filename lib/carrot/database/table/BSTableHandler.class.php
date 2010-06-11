@@ -266,6 +266,20 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * 上位のレコードを返す
+	 *
+	 * @access public
+	 * @param integer $limit 件数
+	 * @return BSTableHandler 上位のレコード
+	 */
+	public function getRecent ($limit) {
+		$table = clone $this;
+		$table->setPage(1);
+		$table->setPageSize($limit);
+		return $table;
+	}
+
+	/**
 	 * テーブルは存在するか？
 	 *
 	 * @access public

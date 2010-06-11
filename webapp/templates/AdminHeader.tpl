@@ -36,7 +36,7 @@ body {ldelim}background: url(/carrotlib/images/background/test.gif) repeat-y;{rd
 </div>
 <script type="text/javascript">
 document.observe('dom:loaded', function () {ldelim}
-  new Elevator($('Menu'), 10, 10, 10);
+  new Elevator($('Menu'), 10, 30, 10);
 {rdelim});
 </script>
 {/if}

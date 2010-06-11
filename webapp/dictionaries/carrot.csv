@@ -7,6 +7,7 @@ date,日付
 directories,ディレクトリ
 email,メールアドレス
 format,形式
+google_analytics_id,Google Analytics ID
 hide,非表示
 id,ID
 log,ログ
@@ -22,7 +23,9 @@ remote_host,リモートホスト
 serialize_entry,シリアライズエントリー
 session_entry,セッションエントリー
 show,表示
+site,サイト
 status,状態
 time,タイムスタンプ
+twitter_id,Twitter ID
 update_date,更新日
 user_agent,ユーザーエージェント
