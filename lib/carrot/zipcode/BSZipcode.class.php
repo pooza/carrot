@@ -45,29 +45,15 @@ class BSZipcode implements BSAssignable {
 	}
 
 	/**
-	 * JSONファイルを返す
-	 *
-	 * @access public
-	 * @return BSFile JSONファイル
-	 */
-	public function getFile () {
-		if (!$this->file) {
-			$dir = BSFileUtility::getDirectory('zipcode');
-			$this->file = $dir->getEntry('zip-' . $this->major);
-		}
-		return $this->file;
-	}
-
-	/**
 	 * 住所情報を取得する
 	 *
 	 * @access private
 	 * @return BSArray 住所情報
 	 */
 	private function getInfo () {
-		if (!$this->info && $this->getFile()) {
-			$serializer = new BSJSONSerializer;
-			$addresses = new BSArray($serializer->decode($this->getFile()->getContents()));
+		if (!$this->info) {
+			$service = new BSAjaxZip3Service;
+			$addresses = $service->getAddresses($this->major);
 			if ($info = $addresses[$this->major. $this->minor]) {
 				$this->info = new BSArray($info);
 			}

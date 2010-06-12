@@ -181,6 +181,9 @@ serialize:
   keep:
     - BSCounter.*
 service:
+  ajaxzip3:
+    zipdata:
+      href: /svn/trunk/ajaxzip3/zipdata/
   bitly:
     version: 2.0.1
     login: carrotfw
