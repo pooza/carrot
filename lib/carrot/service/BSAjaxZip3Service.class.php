@@ -9,6 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
+ * @link http://code.google.com/p/ajaxzip3/
  */
 class BSAjaxZip3Service extends BSCurlHTTP {
 	const DEFAULT_HOST = 'ajaxzip3.googlecode.com';
