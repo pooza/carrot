@@ -9,7 +9,7 @@ carrot:
     - prototype
     - scriptaculous/effects
     - scriptaculous/builder
-    - ajaxzip2/ajaxzip2
+    - ajaxzip3
     - lightbox
     - prototabs
     - protocalendar/protocalendar

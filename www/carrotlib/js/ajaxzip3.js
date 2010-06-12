@@ -1,8 +1,11 @@
 /* ================================================================ *
-    ajaxzip2.js ---- AjaxZip2 郵便番号→住所変換ライブラリ
+    ajaxzip3.js ---- AjaxZip3 郵便番号→住所変換ライブラリ
+
+    Copyright (c) 2008 Ninkigumi Co.,Ltd.
+    http://code.google.com/p/ajaxzip3/
 
     Copyright (c) 2006-2007 Kawasaki Yusuke <u-suke [at] kawa.net>
-    http://www.kawa.net/works/ajax/ajaxzip2/ajaxzip2.html
+    http://www.kawa.net/works/ajax/AjaxZip2/AjaxZip2.html
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
@@ -26,12 +29,20 @@
     OTHER DEALINGS IN THE SOFTWARE.
 * ================================================================ */
 
-AjaxZip2 = function () {};
-AjaxZip2.VERSION = '2.10';
-AjaxZip2.JSONDATA = 'ajaxzip2/data';
-AjaxZip2.CACHE = [];
-AjaxZip2.prev = '';
-AjaxZip2.PREFMAP = [
+AjaxZip3 = function(){};
+AjaxZip3.VERSION = '0.4';
+AjaxZip3.JSONDATA = 'http://ajaxzip3.googlecode.com/svn/trunk/ajaxzip3/zipdata';
+AjaxZip3.CACHE = [];
+AjaxZip3.prev = '';
+AjaxZip3.nzip = '';
+AjaxZip3.fzip1 = '';
+AjaxZip3.fzip2 = '';
+AjaxZip3.fpref = '';
+AjaxZip3.addr = '';
+AjaxZip3.fstrt = '';
+AjaxZip3.farea = '';
+
+AjaxZip3.PREFMAP = [
     null,       '北海道',   '青森県',   '岩手県',   '宮城県',
     '秋田県',   '山形県',   '福島県',   '茨城県',   '栃木県',
     '群馬県',   '埼玉県',   '千葉県',   '東京都',   '神奈川県',
@@ -43,48 +54,61 @@ AjaxZip2.PREFMAP = [
     '福岡県',   '佐賀県',   '長崎県',   '熊本県',   '大分県',
     '宮崎県',   '鹿児島県', '沖縄県'
 ];
-AjaxZip2.zip2addr = function ( azip1, apref, aaddr, azip2, astrt, aarea ) {
-    var fzip1 = AjaxZip2.getElementByName(azip1);
-    var fzip2 = AjaxZip2.getElementByName(azip2,fzip1);
-    var fpref = AjaxZip2.getElementByName(apref,fzip1);
-    var faddr = AjaxZip2.getElementByName(aaddr,fzip1);
-    var fstrt = AjaxZip2.getElementByName(astrt,fzip1);
-    var farea = AjaxZip2.getElementByName(aarea,fzip1);
-    if ( ! fzip1 ) return;
-    if ( ! fpref ) return;
-    if ( ! faddr ) return;
+AjaxZip3.zip2addr = function ( azip1, azip2, apref, aaddr, astrt, aarea ) {
+    AjaxZip3.fzip1 = AjaxZip3.getElementByName(azip1);
+    AjaxZip3.fzip2 = AjaxZip3.getElementByName(azip2,AjaxZip3.fzip1);
+    AjaxZip3.fpref = AjaxZip3.getElementByName(apref,AjaxZip3.fzip1);
+    AjaxZip3.faddr = AjaxZip3.getElementByName(aaddr,AjaxZip3.fzip1);
+    AjaxZip3.fstrt = AjaxZip3.getElementByName(astrt,AjaxZip3.fzip1);
+    AjaxZip3.farea = AjaxZip3.getElementByName(aarea,AjaxZip3.fzip1);
+    if ( ! AjaxZip3.fzip1 ) return;
+    if ( ! AjaxZip3.fpref ) return;
+    if ( ! AjaxZip3.faddr ) return;
 
     // 郵便番号を数字のみ7桁取り出す
-    var vzip = fzip1.value;
-    if ( fzip2 && fzip2.value ) vzip += fzip2.value;
-    if ( ! vzip ) return;
-    var nzip = '';
-    for( var i=0; i<vzip.length; i++ ) {
-        var chr = vzip.charCodeAt(i);
-        if ( chr < 48 ) continue;
-        if ( chr > 57 ) continue;
-        nzip += vzip.charAt(i);
-    }
-    if ( nzip.length < 7 ) return;
+//    var zipoptimize = function(AjaxZip3.fzip1, AjaxZip3.fzip2){
+        var vzip = AjaxZip3.fzip1.value;
+        if ( AjaxZip3.fzip2 && AjaxZip3.fzip2.value ) vzip += AjaxZip3.fzip2.value;
+        if ( ! vzip ) return;
+        AjaxZip3.nzip = '';
+        for( var i=0; i<vzip.length; i++ ) {
+            var chr = vzip.charCodeAt(i);
+            if ( chr < 48 ) continue;
+            if ( chr > 57 ) continue;
+            AjaxZip3.nzip += vzip.charAt(i);
+        }
+        if ( AjaxZip3.nzip.length < 7 ) return;
+//    };
 
     // 前回と同じ値＆フォームならキャンセル
-    var uniq = nzip+fzip1.name+fpref.name+faddr.name;
-    if ( fzip1.form ) uniq += fzip1.form.id+fzip1.form.name+fzip1.form.action;
-    if ( fzip2 ) uniq += fzip2.name;
-    if ( fstrt ) uniq += fstrt.name;
-    if ( uniq == AjaxZip2.prev ) return;
-    AjaxZip2.prev = uniq;
+    var uniqcheck = function(){
+        var uniq = AjaxZip3.nzip+AjaxZip3.fzip1.name+AjaxZip3.fpref.name+AjaxZip3.faddr.name;
+        if ( AjaxZip3.fzip1.form ) uniq += AjaxZip3.fzip1.form.id+AjaxZip3.fzip1.form.name+AjaxZip3.fzip1.form.action;
+        if ( AjaxZip3.fzip2 ) uniq += AjaxZip3.fzip2.name;
+        if ( AjaxZip3.fstrt ) uniq += AjaxZip3.fstrt.name;
+        if ( uniq == AjaxZip3.prev ) return;
+        AjaxZip3.prev = uniq;
+    };
 
-    // JSON取得後のコールバック関数
-    var func1 = function ( data ) {
-        var array = data[nzip];
+
+    // 郵便番号上位3桁でキャッシュデータを確認
+    var zip3 = AjaxZip3.nzip.substr(0,3);
+    var data = AjaxZip3.CACHE[zip3];
+    if ( data ) return AjaxZip3.callback( data );
+
+    AjaxZip3.zipjsonpquery();
+
+};
+
+AjaxZip3.callback = function(data){
+        var array = data[AjaxZip3.nzip];
         // Opera バグ対策：0x00800000 を超える添字は +0xff000000 されてしまう
-        var opera = (nzip-0+0xff000000)+"";
+        var opera = (AjaxZip3.nzip-0+0xff000000)+"";
         if ( ! array && data[opera] ) array = data[opera];
         if ( ! array ) return;
         var pref_id = array[0];                 // 都道府県ID
         if ( ! pref_id ) return;
-        var jpref = AjaxZip2.PREFMAP[pref_id];  // 都道府県名
+        var jpref = AjaxZip3.PREFMAP[pref_id];  // 都道府県名
         if ( ! jpref ) return;
         var jcity = array[1];
         if ( ! jcity ) jcity = '';              // 市区町村名
@@ -93,46 +117,46 @@ AjaxZip2.zip2addr = function ( azip1, apref, aaddr, azip2, astrt, aarea ) {
         var jstrt = array[3];
         if ( ! jstrt ) jstrt = '';              // 番地
 
-        var cursor = faddr;
+        var cursor = AjaxZip3.faddr;
         var jaddr = jcity;                      // 市区町村名
 
-        if ( fpref.type == 'select-one' || fpref.type == 'select-multiple' ) {
+        if ( AjaxZip3.fpref.type == 'select-one' || AjaxZip3.fpref.type == 'select-multiple' ) {
             // 都道府県プルダウンの場合
-            var opts = fpref.options;
+            var opts = AjaxZip3.fpref.options;
             for( var i=0; i<opts.length; i++ ) {
                 var vpref = opts[i].value;
                 var tpref = opts[i].text;
                 opts[i].selected = ( vpref == pref_id || vpref == jpref || tpref == jpref );
             }
         } else {
-            if ( fpref.name == faddr.name ) {
+            if ( AjaxZip3.fpref.name == AjaxZip3.faddr.name ) {
                 // 都道府県名＋市区町村名＋町域名合体の場合
                 jaddr = jpref + jaddr;
             } else {
                 // 都道府県名テキスト入力の場合
-                fpref.value = jpref;
+                AjaxZip3.fpref.value = jpref;
             }
         }
-        if ( farea ) {
-            cursor = farea;
-            farea.value = jarea;
+        if ( AjaxZip3.farea ) {
+            cursor = AjaxZip3.farea;
+            AjaxZip3.farea.value = jarea;
         } else {
             jaddr += jarea;
         }
-        if ( fstrt ) {
-            cursor = fstrt;
-            if ( faddr.name == fstrt.name ) {
+        if ( AjaxZip3.fstrt ) {
+            cursor = AjaxZip3.fstrt;
+            if ( AjaxZip3.faddr.name == AjaxZip3.fstrt.name ) {
                 // 市区町村名＋町域名＋番地合体の場合
                 jaddr = jaddr + jstrt;
             } else if ( jstrt ) {
                 // 番地テキスト入力欄がある場合
-                fstrt.value = jstrt;
+                AjaxZip3.fstrt.value = jstrt;
             }
         }
-        faddr.value = jaddr;
+        AjaxZip3.faddr.value = jaddr;
 
         // patch from http://iwa-ya.sakura.ne.jp/blog/2006/10/20/050037
-        // update http://www.kawa.net/works/ajax/ajaxzip2/ajaxzip2.html#com-2006-12-15T04:41:22Z
+        // update http://www.kawa.net/works/ajax/AjaxZip2/AjaxZip2.html#com-2006-12-15T04:41:22Z
         if ( ! cursor ) return;
         if ( ! cursor.value ) return;
         var len = cursor.value.length;
@@ -144,47 +168,12 @@ AjaxZip2.zip2addr = function ( azip1, apref, aaddr, azip2, astrt, aarea ) {
         } else if (cursor.setSelectionRange) {
             cursor.setSelectionRange(len,len);
         }
-    };
 
-    // 郵便番号上位3桁でキャッシュデータを確認
-    var zip3 = nzip.substr(0,3);
-    var data = AjaxZip2.CACHE[zip3];
-    if ( data ) return func1( data );
-
-    // JSONファイルを受信する
-    var url = AjaxZip2.JSONDATA+'/zip-'+zip3+'.json';
-
-    if ( window.Ajax && Ajax.Request ) {
-        // JSONファイル受信後のコールバック関数（Prototype.JS用）
-        var func2 = function (req) {
-            if ( ! req ) return;
-            if ( ! req.responseText ) return;
-            var json = AjaxZip2.getResponseText( req );
-            data = eval('('+json+')');
-            AjaxZip2.CACHE[zip3] = data;
-            func1( data );
-        };
-        var opt = {
-            method: 'GET',
-            asynchronous: true,
-            onComplete: func2
-        };
-        new Ajax.Request( url, opt );
-    }
-    else if ( window.jQuery ) {
-        // JSONファイル受信後のコールバック関数（jQuery用）
-        var func3 = function (data) {
-            if ( ! data ) return;
-            AjaxZip2.CACHE[zip3] = data;
-            func1( data );
-        };
-        jQuery.getJSON( url, func3 );
-    }
 };
 
 // Safari 文字化け対応
 // http://kawa.at.webry.info/200511/article_9.html
-AjaxZip2.getResponseText = function ( req ) {
+AjaxZip3.getResponseText = function ( req ) {
     var text = req.responseText;
     if ( navigator.appVersion.indexOf('KHTML') > -1 ) {
         var esc = escape( text );
@@ -196,7 +185,7 @@ AjaxZip2.getResponseText = function ( req ) {
 }
 
 // フォームnameから要素を取り出す
-AjaxZip2.getElementByName = function ( elem, sibling ) {
+AjaxZip3.getElementByName = function ( elem, sibling ) {
     if ( typeof(elem) == 'string' ) {
         var list = document.getElementsByName(elem);
         if ( ! list ) return null;
@@ -213,3 +202,18 @@ AjaxZip2.getElementByName = function ( elem, sibling ) {
     }
     return elem;
 }
+
+AjaxZip3.zipjsonpquery = function(){
+    var url = AjaxZip3.JSONDATA+'/zip-'+AjaxZip3.nzip.substr(0,3)+'.js';
+    var scriptTag = document.createElement("script");
+    scriptTag.setAttribute("type", "text/javascript");
+    scriptTag.setAttribute("src", url);
+    scriptTag.setAttribute("charset", "UTF-8");
+    document.getElementsByTagName("head").item(0).appendChild(scriptTag);
+   };
+
+function zipdata(data){
+    AjaxZip3.callback(data);
+};
+
+

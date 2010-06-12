@@ -155,35 +155,6 @@ namespace :awstats do
   end
 end
 
-namespace :ajaxzip2 do
-  desc 'ajaxzip2を初期化'
-  task :init => ['www/carrotlib/js/ajaxzip2/data', 'lib/ajaxzip2/data', :json, :clean]
-
-  task :json => ['lib/ajaxzip2/data/ken_all.csv'] do
-    sh 'cd lib/ajaxzip2; ./csv2jsonzip.pl data/ken_all.csv'
-  end
-
-  task :clean do
-    system 'rm lib/ajaxzip2/data/ken_all.*'
-  end
-
-  file 'www/carrotlib/js/ajaxzip2/data' do
-    sh 'ln -s ../../../../var/zipcode www/carrotlib/js/ajaxzip2/data'
-  end
-
-  file 'lib/ajaxzip2/data' do
-    sh 'ln -s ../../var/zipcode lib/ajaxzip2/data'
-  end
-
-  file 'lib/ajaxzip2/data/ken_all.csv' => ['lib/ajaxzip2/data/ken_all.lzh'] do
-    sh 'cd lib/ajaxzip2/data; lha x ken_all.lzh'
-  end
-
-  file 'lib/ajaxzip2/data/ken_all.lzh' do
-    sh 'cd lib/ajaxzip2/data; wget http://www.post.japanpost.jp/zipcode/dl/kogaki/lzh/ken_all.lzh'
-  end
-end
-
 namespace :docomo do
   desc 'DoCoMoの端末リストを取得'
   task :fetch do

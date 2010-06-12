@@ -97,7 +97,8 @@ if (!Number.prototype.suppressZero) {
 
 document.observe('dom:loaded', function () {
   try {
-    AjaxZip2.JSONDATA = '/carrotlib/js/ajaxzip2/data';
+    AjaxZip3.JSONDATA = document.location.protocol
+      + '//ajaxzip3.googlecode.com/svn/trunk/ajaxzip3/zipdata';
   } catch (e) {
   }
 });

@@ -229,6 +229,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			$entry->clearIgnoreFiles();
 		}
 		parent::clearIgnoreFiles();
+		$this->entries = null;
 	}
 
 	/**
