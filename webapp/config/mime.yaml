@@ -6,6 +6,7 @@
 
 types:
   3gp: video/3gpp
+  3g2: video/3gpp2
   aac: audio/x-aac
   aif: audio/x-aiff
   aifc: audio/x-aiff

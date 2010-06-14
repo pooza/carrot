@@ -40,6 +40,10 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function analyzeType () {
 		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
+			if (BSString::isContain('Video: mpeg4', $this->output)
+				&& BSString::isContain('Audio: samr', $this->output)) {
+				return BSMIMEType::getType('3g2');
+			}
 			foreach (array('wmv', 'mpeg') as $type) {
 				if (BSString::isContain('Video: ' . $type, $this->output)) {
 					return BSMIMEType::getType($type);
@@ -201,6 +205,8 @@ class BSMovieFile extends BSMediaFile {
 			return;
 		}
 		switch ($file->getType()) {
+			case BSMIMEType::getType('3g2'):
+				return parent::search($file, 'BS3GPP2MovieFile');
 			case BSMIMEType::getType('3gp'):
 				return parent::search($file, 'BS3GPMovieFile');
 			case BSMIMEType::getType('mov'):
