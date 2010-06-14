@@ -5,12 +5,12 @@
  */
 
 /**
- * 3GP動画ファイル
+ * 3GPP2動画ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BS3GPMovieFile extends BSQuickTimeMovieFile {
+class BS3GPP2MovieFile extends BSQuickTimeMovieFile {
 
 	/**
 	 * 表示用のXHTML要素を返す
@@ -40,7 +40,7 @@ class BS3GPMovieFile extends BSQuickTimeMovieFile {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf('3GPP動画ファイル "%s"', $this->getShortPath());
+		return sprintf('3GPP2動画ファイル "%s"', $this->getShortPath());
 	}
 }
 

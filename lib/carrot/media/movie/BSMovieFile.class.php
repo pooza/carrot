@@ -208,7 +208,7 @@ class BSMovieFile extends BSMediaFile {
 			case BSMIMEType::getType('3g2'):
 				return parent::search($file, 'BS3GPP2MovieFile');
 			case BSMIMEType::getType('3gp'):
-				return parent::search($file, 'BS3GPMovieFile');
+				return parent::search($file, 'BS3GPPMovieFile');
 			case BSMIMEType::getType('mov'):
 				return parent::search($file, 'BSQuickTimeMovieFile');
 			case BSMIMEType::getType('mpeg'):
