@@ -20,7 +20,6 @@ class BSFlashLightObjectElement extends BSFlashObjectElement {
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		BSXHTMLElement::__construct($name, $useragent);
 		$this->setAttribute('type', BSMIMEType::getType('swf'));
-		$this->setAttribute('declare', 'declare');
 	}
 
 	/**

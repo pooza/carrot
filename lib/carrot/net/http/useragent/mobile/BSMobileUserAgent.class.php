@@ -155,7 +155,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 */
 	public function getFlashElement (BSParameterHolder $params) {
 		$container = new BSDivisionElement;
-		$object = $container->addElement(new BSFlashObjectElement);
+		$object = $container->addElement(new BSFlashLightObjectElement);
 		$object->setURL($params['url']);
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
