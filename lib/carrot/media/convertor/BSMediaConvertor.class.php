@@ -36,9 +36,10 @@ abstract class BSMediaConvertor {
 	 *
 	 * @access public
 	 * @return string サフィックス
-	 * @abstract
 	 */
-	abstract public function getSuffix ();
+	public function getSuffix () {
+		return '.' . BSString::toLower($this->getName());
+	}
 
 	/**
 	 * 変換後のクラス名
@@ -84,14 +85,9 @@ abstract class BSMediaConvertor {
 			$command->addValue($file->getPath());
 			$command->addValue('2>&1', null);
 			$this->output = $command->getResult()->join("\n");
-
-			$message = new BSStringFormat('%sを変換しました。(%s)');
-			$message[] = $source;
-			$message[] = $command->getContents();
-			BSLogManager::getInstance()->put($message, $this);
-			BSLogManager::getInstance()->put($this->output, $this);
+			BSLogManager::getInstance()->put($source . 'を変換しました。', $this);
 		}
-		return BSMediaFile::search($file, $this->getClass());
+		return BSUtility::executeMethod($this->getClass(), 'search', array($file));
 	}
 
 	/**

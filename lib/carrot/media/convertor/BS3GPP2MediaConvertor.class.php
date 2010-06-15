@@ -13,17 +13,6 @@
 class BS3GPP2MediaConvertor extends BSMediaConvertor {
 
 	/**
-	 * 変換して返す
-	 *
-	 * @access public
-	 * @param BSMovieFile $source 変換後ファイル
-	 * @return BSMediaFile 変換後ファイル
-	 */
-	public function execute (BSMediaFile $source) {
-		return BSMovieFile::search(parent::execute($source));
-	}
-
-	/**
 	 * 変換後ファイルのサフィックス
 	 *
 	 * @access public
