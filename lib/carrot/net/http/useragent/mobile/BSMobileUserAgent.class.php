@@ -146,6 +146,23 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * Flash表示用のXHTML要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSDivisionElement 要素
+	 */
+	public function getFlashElement (BSParameterHolder $params) {
+		$container = new BSDivisionElement;
+		$object = $container->addElement(new BSFlashObjectElement);
+		$object->setURL($params['url']);
+		$object->setAttribute('width', $params['width']);
+		$object->setAttribute('height', $params['height']);
+		return $container;
+	}
+
+	/**
 	 * 添付可能か？
 	 *
 	 * @access public

@@ -43,19 +43,8 @@ class BSFlashFile extends BSMediaFile {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
 		if ($useragent->isMobile()) {
-			$container = new BSDivisionElement;
-			$object = $container->addElement(new BSFlashLightObjectElement);
-			$object->setURL($this->getMediaURL($params));
-			$object->setID('swf' . $this->getID());
-			$anchor = $container->addElement(new BSDivisionElement);
-			$anchor = $anchor->addElement(new BSAnchorElement);
-			$anchor->setAttribute('iswf', $object->getID());
-			$anchor->setURL($this->getMediaURL($params));
-			if (BSString::isBlank($label = $params['label'])) {
-				$label = 'FlashLight表示';
-			}
-			$anchor->setBody($label);
-			return $container;
+			$params['url'] = $this->getMediaURL($params);
+			return $useragent->getFlashElement($params);
 		}
 		return parent::getElement($params);
 	}
