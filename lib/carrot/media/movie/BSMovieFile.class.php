@@ -33,7 +33,7 @@ class BSMovieFile extends BSMediaFile {
 	/**
 	 * ファイルの内容から、メディアタイプを返す
 	 *
-	 * fileinfoだけでは、wmvを認識できないことがある。
+	 * fileinfoだけでは認識できないメディアタイプがある。
 	 *
 	 * @access public
 	 * @return string メディアタイプ
