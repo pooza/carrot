@@ -25,6 +25,25 @@ class BSMusicFile extends BSMediaFile {
 	}
 
 	/**
+	 * ファイルの内容から、メディアタイプを返す
+	 *
+	 * fileinfoだけでは認識できないメディアタイプがある。
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function analyzeType () {
+		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
+			foreach (array('wma') as $type) {
+				if (BSString::isContain('Audio: ' . $type, $this->output)) {
+					return BSMIMEType::getType($type);
+				}
+			}
+		}
+		return $type;
+	}
+
+	/**
 	 * プレイヤーの高さを返す
 	 *
 	 * @access public
@@ -41,22 +60,8 @@ class BSMusicFile extends BSMediaFile {
 	 * @return BSMusicFile 変換後ファイル
 	 */
 	public function convert () {
-		$file = BSFileUtility::getTemporaryFile('mp3', 'BSMusicFile');
-		if ($this->getType() == BSMIMEType::getType('mp3')) {
-			$duplicated = $this->copyTo($file->getDirectory());
-			$duplicated->rename($file->getName());
-			$file = $duplicated;
-		} else {
-			$command = self::getCommandLine();
-			$command->addValue('-y');
-			$command->addValue('-i');
-			$command->addValue($this->getPath());
-			$command->addValue($file->getPath());
-			$command->addValue('2>&1', null);
-			$this->output = $command->getResult()->join("\n");
-			BSLogManager::getInstance()->put($this . 'をmp3に変換しました。', $this);
-		}
-		return new self($file->getPath());
+		$convertor = new BSMP3MediaConvertor;
+		return $convertor->execute($this);
 	}
 
 	/**

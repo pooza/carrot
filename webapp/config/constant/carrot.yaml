@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.112
+  ver: 2.3.113
 
 admin:
   email:
@@ -50,6 +50,25 @@ date:
 debug: yes
 ffmpeg:
   dir: /usr/local
+  convert:
+    flv:
+      video_codec: flv
+      audio_codec: libfaac
+    3gp:
+      video_codec: mpeg4
+      audio_codec: libfaac
+      size: qcif
+      frame_rate: 15
+      force: yes
+      limit_size: 204800
+    3g2:
+      video_codec: mpeg4
+      audio_codec: libfaac
+      size: qcif
+      frame_rate: 15
+      force: yes
+      limit_size: 204800
+    mp3:
 file:
   types:
     file: /etc/httpd/mime.types
@@ -120,8 +139,6 @@ module:
     module: Default
     action: EmptySite
 movie:
-  video_codec: flv
-  audio_codec: libfaac
   flv:
     player:
       height: 0

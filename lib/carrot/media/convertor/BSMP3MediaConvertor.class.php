@@ -1,0 +1,47 @@
+<?php
+/**
+ * @package org.carrot-framework
+ * @subpackage media.convertor
+ */
+
+/**
+ * MP3への変換
+ *
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ * @version $Id$
+ */
+class BSMP3MediaConvertor extends BSMediaConvertor {
+
+	/**
+	 * 変換して返す
+	 *
+	 * @access public
+	 * @param BSMovieFile $source 変換後ファイル
+	 * @return BSMediaFile 変換後ファイル
+	 */
+	public function execute (BSMediaFile $source) {
+		return BSMusicFile::search(parent::execute($source));
+	}
+
+	/**
+	 * 変換後ファイルのサフィックス
+	 *
+	 * @access public
+	 * @return string サフィックス
+	 */
+	public function getSuffix () {
+		return '.mp3';
+	}
+
+	/**
+	 * 変換後のクラス名
+	 *
+	 * @access public
+	 * @return string クラス名
+	 */
+	public function getClass () {
+		return 'BSMusicFile';
+	}
+}
+
+/* vim:set tabstop=4: */

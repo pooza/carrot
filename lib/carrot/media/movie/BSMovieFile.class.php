@@ -71,26 +71,8 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSMovieFile 変換後ファイル
 	 */
 	public function convert () {
-		$file = BSFileUtility::getTemporaryFile('flv', 'BSMovieFile');
-		if ($this->getType() == BSMIMEType::getType('flv')) {
-			$duplicated = $this->copyTo($file->getDirectory());
-			$duplicated->rename($file->getName());
-			$file = $duplicated;
-		} else {
-			$command = self::getCommandLine();
-			$command->addValue('-y');
-			$command->addValue('-i');
-			$command->addValue($this->getPath());
-			$command->addValue('-vcodec');
-			$command->addValue(BS_MOVIE_VIDEO_CODEC);
-			$command->addValue('-acodec');
-			$command->addValue(BS_MOVIE_AUDIO_CODEC);
-			$command->addValue($file->getPath());
-			$command->addValue('2>&1', null);
-			$this->output = $command->getResult()->join("\n");
-			BSLogManager::getInstance()->put($this . 'をflvに変換しました。', $this);
-		}
-		return new self($file->getPath());
+		$convertor = new BSFLVMediaConvertor;
+		return $convertor->execute($this);
 	}
 
 	/**
