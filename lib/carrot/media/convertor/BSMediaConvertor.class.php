@@ -17,6 +17,18 @@ abstract class BSMediaConvertor {
 	protected $output;
 
 	/**
+	 * @access public
+	 */
+	public function __construct () {
+		$this->config = new BSArray;
+		foreach (self::getOptions() as $name => $option) {
+			if ($value = $this->getConstant($name)) {
+				$this->config[$option] = $value;
+			}
+		}
+	}
+
+	/**
 	 * コンバータの名前を返す
 	 *
 	 * @access public
@@ -78,7 +90,7 @@ abstract class BSMediaConvertor {
 			$command->addValue('-y');
 			$command->addValue('-i');
 			$command->addValue($source->getPath());
-			foreach ($this->getConfig() as $key => $value) {
+			foreach ($this->config as $key => $value) {
 				$command->addValue('-' . $key);
 				$command->addValue($value);
 			}
@@ -99,43 +111,56 @@ abstract class BSMediaConvertor {
 	 * @return boolean 強制的に実行するならTrue
 	 */
 	protected function isForceExecutable () {
-		return !!$this->getConstant(ltrim($this->getSuffix(), '.') . '_force');
+		return !!$this->getConstant('force');
 	}
 
 	/**
 	 * 全ての設定値を返す
 	 *
-	 * @access protected
-	 * @return BSArray 全ての設定値
+	 * @access public
+	 * @param string $name 設定値の名前
+	 * @param string $value 設定値
 	 */
-	protected function getConfig () {
-		if (!$this->config) {
-			$this->config = new BSArray;
-			$names =  new BSArray(array(
-				'vcodec' => 'video_codec',
-				'acodec' => 'audio_codec',
-				's' => 'size',
-				'r' => 'frame_rate',
-				'fs' => 'limit_size',
-			));
-			foreach ($names as $key => $name) {
-				if ($value = $this->getConstant(ltrim($this->getSuffix(), '.') . '_' . $name)) {
-					$this->config[$key] = $value;
-				}
-			}
+	public function setConfig ($name, $value) {
+		if ($option = self::getOptions()->getParameter($name)) {
+			$this->config[$option] = $value;
+		} else if (self::getOptions()->isContain($name)) {
+			$this->config[$name] = $value;
 		}
-		return $this->config;
 	}
 
 	/**
 	 * 定数を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $name 定数名
 	 * @return string 定数値
 	 */
-	protected function getConstant ($name) {
-		return BSConstantHandler::getInstance()->getParameter('ffmpeg_convert_' . $name);
+	public function getConstant ($name) {
+		$name = new BSArray(array(
+			'ffmpeg',
+			'convert',
+			ltrim($this->getSuffix(), '.'),
+			$name,
+		));
+		return BSConstantHandler::getInstance()->getParameter($name->join('_'));
+	}
+
+	/**
+	 * オプション一式を返す
+	 *
+	 * @access protected
+	 * @return BSArray オプション一式
+	 * @static
+	 */
+	static protected function getOptions () {
+		return  new BSArray(array(
+			'video_codec' => 'vcodec',
+			'audio_codec' => 'acodec',
+			'size' => 's',
+			'frame_rate' => 'r',
+			'max_file_size' => 'fs',
+		));
 	}
 }
 

@@ -60,14 +60,15 @@ ffmpeg:
       size: qcif
       frame_rate: 15
       force: yes
-      limit_size: 204800
+      mobile:
+        softbank:
+          max_file_size: 256
     3g2:
       video_codec: mpeg4
       audio_codec: libfaac
       size: qcif
       frame_rate: 15
       force: yes
-      limit_size: 204800
     mp3:
 file:
   types:
