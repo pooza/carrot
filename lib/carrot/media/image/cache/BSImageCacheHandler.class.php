@@ -387,26 +387,21 @@ class BSImageCacheHandler {
 	 * @return BSImageContainer 画像コンテナ
 	 */
 	public function getContainer (BSParameterHolder $params) {
-		if (!BSString::isBlank($params['src'])) {
-			if (BSUtility::isPathAbsolute($params['src'])) {
-				return new BSImageFile($params['src']);
-			}
-			foreach (array('images', 'www', 'root') as $name) {
-				$dir = BSFileUtility::getDirectory($name);
-				if ($entry = $dir->getEntry($params['src'], 'BSImageFile')) {
-					return $entry;
-				}
-			}
+		$params = new BSArray($params);
+		if (BSString::isBlank($class = $params['class'])) {
+			$params['class'] = $class = 'BSImageFile';
 		}
-
 		if (BSString::isBlank($params['size'])) {
 			$params['size'] = 'thumbnail';
+		}
+
+		if (($href = $params['src']) && ($file = BSView::searchPublicFile($href, $params))) {
+			return $file;
 		}
 		if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
 			return $record;
 		}
 		try {
-			$class = $params['class'];
 			return new $class($params['id']);
 		} catch (Exception $e) {
 			$message = new BSStringFormat('コンテナが取得できません。(%s)');

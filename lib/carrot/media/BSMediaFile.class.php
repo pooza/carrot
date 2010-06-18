@@ -259,17 +259,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			}
 			return null;
 		} 
-
-		if (BSUtility::isPathAbsolute($path = $file)) {
-			return new $class($path);
-		} else {
-			foreach (array('carrotlib', 'www', 'root') as $dir) {
-				$dir = BSFileUtility::getDirectory($dir);
-				if ($entry = $dir->getEntry($path, $class)) {
-					return $entry;
-				}
-			}
-		}
+		$params = new BSArray;
+		$params['class'] = $class;
+		return BSView::searchPublicFile($file, $params);
 	}
 }
 
