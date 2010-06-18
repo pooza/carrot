@@ -393,9 +393,8 @@ class BSImageCacheHandler {
 		}
 
 		if (($href = $params['src']) && ($file = BSView::searchPublicFile($href, $params))) {
-			return $file;
-		}
-		if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
+			return new BSImageFile($file->getPath());
+		} else if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
 			return $record;
 		}
 		try {
