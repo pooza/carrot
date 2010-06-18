@@ -87,11 +87,11 @@ abstract class BSMediaConvertor {
 			$file = $duplicated;
 		} else {
 			$command = BSMediaFile::getCommandLine();
-			$command->addValue('-y');
-			$command->addValue('-i');
+			$command->addValue('-y', null);
+			$command->addValue('-i', null);
 			$command->addValue($source->getPath());
 			foreach ($this->config as $key => $value) {
-				$command->addValue('-' . $key);
+				$command->addValue('-' . $key, null);
 				$command->addValue($value);
 			}
 			$command->addValue($file->getPath());
@@ -160,7 +160,21 @@ abstract class BSMediaConvertor {
 			'size' => 's',
 			'frame_rate' => 'r',
 			'max_file_size' => 'fs',
+			'padding_top' => 'paddtop',
+			'padding_bottom' => 'padbottom',
 		));
+	}
+
+	/**
+	 * 偶数化
+	 *
+	 * @access public
+	 * @param string $num 対象数値
+	 * @return integer 偶数化した数値
+	 * @static
+	 */
+	static public function evenize ($num) {
+		return BSNumeric::round($num / 2) * 2;
 	}
 }
 

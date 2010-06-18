@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.113
+  ver: 2.3.114
 
 admin:
   email:
@@ -57,8 +57,9 @@ ffmpeg:
     3gp:
       video_codec: mpeg4
       audio_codec: libfaac
-      size: qcif
-      frame_rate: 15
+      width: 176
+      height: 144
+      frame_rate: 10
       force: yes
       mobile:
         softbank:
@@ -66,9 +67,10 @@ ffmpeg:
     3g2:
       video_codec: mpeg4
       audio_codec: libfaac
-      size: qcif
-      frame_rate: 15
       force: yes
+      width: 176
+      height: 144
+      frame_rate: 10
     mp3:
 file:
   types:

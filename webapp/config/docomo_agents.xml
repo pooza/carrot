@@ -52,6 +52,7 @@
   <F-07A color="1" depth="262144" height="256" width="240" />
   <F-07B color="1" depth="16777216" height="648" width="480" />
   <F-08A color="1" depth="262144" height="648" width="480" />
+  <F-08B color="1" depth="262144" height="648" width="480" />
   <F-09A color="1" depth="16777216" height="648" width="480" />
   <F-10A color="1" depth="262144" height="330" width="240" />
   <F2051 color="1" depth="65536" height="182" width="176" />
@@ -207,6 +208,7 @@
   <P-04A color="1" depth="262144" height="350" width="240" />
   <P-04B color="1" depth="262144" height="662" width="480" />
   <P-05A color="1" depth="262144" height="350" width="240" />
+  <P-05B color="1" depth="262144" height="331" width="240" />
   <P-06A color="1" depth="262144" height="350" width="240" />
   <P-07A color="1" depth="262144" height="662" width="480" />
   <P-08A color="1" depth="262144" height="662" width="480" />

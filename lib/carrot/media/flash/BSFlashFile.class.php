@@ -28,6 +28,7 @@ class BSFlashFile extends BSMediaFile {
 		$this->attributes['height'] = $info[1];
 		$this->attributes['height_full'] = $info[1];
 		$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
+		$this->attributes['aspect'] = $this['width'] / $this['height'];
 	}
 
 	/**
