@@ -243,9 +243,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @static
 	 */
 	static public function search ($file, $class = 'BSFile') {
-		if ($file instanceof BSFile) {
-			return new $class($file->getPath());
-		}
 		if (BSArray::isArray($file)) {
 			$params = new BSArray($file);
 			if (!BSString::isBlank($path = $params['src'])) {
@@ -258,7 +255,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 				}
 			}
 			return null;
-		} 
+		}
+
 		$params = new BSArray;
 		$params['class'] = $class;
 		return BSView::searchPublicFile($file, $params);

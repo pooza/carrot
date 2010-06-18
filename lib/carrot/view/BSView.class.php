@@ -279,18 +279,20 @@ class BSView extends BSHTTPResponse {
 	 * 公開領域にあるファイルを検索
 	 *
 	 * @access public
-	 * @param string $href パス
+	 * @param mixed $file ファイル又はパス
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSFile ファイル
 	 * @static
 	 */
-	static public function searchPublicFile ($href, BSParameterHolder $params = null) {
+	static public function searchPublicFile ($file, BSParameterHolder $params = null) {
 		$params = new BSArray($params);
 		if (BSString::isBlank($class = $params['class'])) {
 			$class = 'BSFile';
 		}
-		if (BSUtility::isPathAbsolute($href)) {
-			return new $class($href);
+		if ($file instanceof BSFile) {
+			return new $class($file->getPath());
+		} else if (BSUtility::isPathAbsolute($file)) {
+			return new $class($file);
 		}
 
 		$names = new BSArray(array('images', 'carrotlib', 'www', 'root'));
@@ -300,7 +302,7 @@ class BSView extends BSHTTPResponse {
 		foreach ($names as $name) {
 			try {
 				$dir = BSFileUtility::getDirectory($name);
-				if ($entry = $dir->getEntry($href, $class)) {
+				if ($entry = $dir->getEntry($file, $class)) {
 					return $entry;
 				}
 			} catch (BSFileException $e) {
