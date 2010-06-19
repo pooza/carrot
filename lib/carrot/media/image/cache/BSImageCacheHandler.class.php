@@ -398,10 +398,10 @@ class BSImageCacheHandler {
 				return $file;
 			}
 		}
-		if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
-			if ($record instanceof BSImageContainer) {
-				return $record;
-			}
+
+		$finder = new BSRecordFinder($params);
+		if (($record = $finder->execute()) instanceof BSImageContainer) {
+			return $record;
 		}
 
 		$class = $params['class'];

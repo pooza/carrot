@@ -29,7 +29,8 @@ function smarty_function_movie ($params, &$smarty) {
 			return $file[$mode];
 		default:
 			if (BSString::isBlank($params['href_prefix'])) {
-				if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
+				$finder = new BSRecordFinder($params);
+				if ($record = $finder->execute()) {
 					$url = BSFileUtility::getURL('movies');
 					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
 					$params['href_prefix'] = $url['path'];

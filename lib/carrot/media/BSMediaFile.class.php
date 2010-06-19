@@ -248,8 +248,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			if (!BSString::isBlank($path = $params['src'])) {
 				return self::search($path, $class);
 			}
-			$module = BSController::getInstance()->getModule();
-			if ($record = $module->searchRecord($params)) {
+
+			$finder = new BSRecordFinder($params);
+			if (($record = $finder->execute()) && ($record instanceof BSAttachmentContainer)) {
 				if ($attachment = $record->getAttachment($params['size'])) {
 					return new $class($attachment->getPath());
 				}
