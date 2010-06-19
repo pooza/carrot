@@ -16,18 +16,19 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	private $type;
 	private $encoding;
 	private $template;
-	private $directories;
 	private $error;
 	private $useragent;
 	private $headers;
 	private $compiler;
+	private $finder;
 	public $compiler_class = 'BSSmartyCompiler';
 
 	/**
 	 * @access public
 	 */
 	public function __construct() {
-		$this->directories = new BSArray;
+		$this->finder = new BSFileFinder('BSTemplateFile');
+		$this->finder->clearDirectories();
 		$this->compile_dir = BSFileUtility::getPath('compile');
 		$this->plugins_dir = array();
 		$this->plugins_dir[] = BSFileUtility::getPath('local_lib') . '/smarty';
@@ -41,26 +42,15 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * テンプレートディレクトリを全て返す
-	 *
-	 * @access public
-	 * @return BSArray テンプレートディレクトリの配列
-	 */
-	public function getDirectories () {
-		return $this->directories;
-	}
-
-	/**
 	 * テンプレートディレクトリを設定
 	 *
 	 * @access public
 	 * @param BSDirectory $dir テンプレートディレクトリ
-	 * @param boolean $priority 優先順位 (BSArray::POSITION_TOP|BSArray::POSITION_BOTTOM)
 	 */
-	public function registerDirectory (BSDirectory $dir, $priority = BSArray::POSITION_TOP) {
+	public function registerDirectory (BSDirectory $dir) {
 		$dir->setDefaultSuffix('.tpl');
-		$this->directories->setParameter(null, $dir, $priority);
-		$this->template_dir = $this->directories->getIterator()->getFirst()->getPath();
+		$this->finder->registerDirectory($dir);
+		$this->template_dir = $dir->getPath();
 	}
 
 	/**
@@ -184,6 +174,12 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
+
+		$this->finder->clearSuffixes();
+		if ($useragent->isMobile()) {
+			$this->finder->registerSuffix('mobile');
+		}
+		$this->finder->registerSuffix($useragent->getType());
 	}
 
 	/**
@@ -335,18 +331,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return BSTemplateFile 実テンプレートファイル
 	 */
 	public function searchTemplate ($name) {
-		$finder = new BSFileFinder('BSTemplateFile');
-		$finder->clearDirectories();
-		foreach ($this->getDirectories() as $dir) {
-			$finder->registerDirectory($dir);
-		}
-		if ($useragent = $this->getUserAgent()) {
-			if ($useragent->isMobile()) {
-				$finder->registerSuffix('mobile');
-			}
-			$finder->registerSuffix($useragent->getType());
-		}
-		return $finder->execute($name);
+		return $this->finder->execute($name);
 	}
 
 	/**
