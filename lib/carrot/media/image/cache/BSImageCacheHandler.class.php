@@ -403,14 +403,12 @@ class BSImageCacheHandler {
 				return $record;
 			}
 		}
-		try {
-			$class = $params['class'];
-			return new $class($params['id']);
-		} catch (Exception $e) {
-			$message = new BSStringFormat('コンテナが取得できません。(%s)');
-			$message[] = $e->getMessage();
-			throw new BSImageException($message);
+
+		$class = $params['class'];
+		if (($container = new $class($params['id'])) instanceof BSImageContainer) {
+			return $container;
 		}
+		throw new BSImageException('コンテナが取得できません。');
 	}
 
 	/**
