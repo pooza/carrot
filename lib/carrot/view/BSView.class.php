@@ -274,41 +274,6 @@ class BSView extends BSHTTPResponse {
 		}
 		header($header);
 	}
-
-	/**
-	 * 公開領域にあるファイルを検索
-	 *
-	 * @access public
-	 * @param mixed $file ファイル又はパス
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSFile ファイル
-	 * @static
-	 */
-	static public function searchPublicFile ($file, BSParameterHolder $params = null) {
-		$params = new BSArray($params);
-		if (BSString::isBlank($class = $params['class'])) {
-			$class = 'BSFile';
-		}
-		if ($file instanceof BSFile) {
-			return new $class($file->getPath());
-		} else if (BSUtility::isPathAbsolute($file)) {
-			return new $class($file);
-		}
-
-		$names = new BSArray(array('images', 'carrotlib', 'www', 'root'));
-		if (!BSString::isBlank($dir = $params['dir'])) {
-			$names->unshift($dir);
-		}
-		foreach ($names as $name) {
-			try {
-				$dir = BSFileUtility::getDirectory($name);
-				if ($entry = $dir->getEntry($file, $class)) {
-					return $entry;
-				}
-			} catch (BSFileException $e) {
-			}
-		}
-	}
 }
 
 /* vim:set tabstop=4: */

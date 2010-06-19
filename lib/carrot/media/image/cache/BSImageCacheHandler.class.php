@@ -392,8 +392,9 @@ class BSImageCacheHandler {
 			$params['size'] = 'thumbnail';
 		}
 
-		if (($href = $params['src']) && ($file = BSView::searchPublicFile($href, $params))) {
-			return new BSImageFile($file->getPath());
+		$finder = new BSFileFinder('BSImageFile');
+		if ($file = $filder->execute($params['src'])) {
+			return $file;
 		} else if ($record = BSController::getInstance()->getModule()->searchRecord($params)) {
 			return $record;
 		}

@@ -256,10 +256,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			}
 			return null;
 		}
-
-		$params = new BSArray;
-		$params['class'] = $class;
-		return BSView::searchPublicFile($file, $params);
+		$finder = new BSFileFinder($class);
+		return $filder->execute($file);
 	}
 }
 
