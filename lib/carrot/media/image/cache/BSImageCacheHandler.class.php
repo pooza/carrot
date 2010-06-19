@@ -392,7 +392,7 @@ class BSImageCacheHandler {
 			$params['size'] = 'thumbnail';
 		}
 
-		if ($path = $params['src']) {
+		if (!BSString::isBlank($path = $params['src'])) {
 			$finder = new BSFileFinder('BSImageFile');
 			if ($file = $finder->execute($path)) {
 				return $file;
@@ -400,15 +400,12 @@ class BSImageCacheHandler {
 		}
 
 		$finder = new BSRecordFinder($params);
-		if (($record = $finder->execute()) instanceof BSImageContainer) {
-			return $record;
+		if (!($container = $finder->execute()) && ($class = $params['class'])) {
+			$container = new $class($params['id']);
 		}
-
-		$class = $params['class'];
-		if (($container = new $class($params['id'])) instanceof BSImageContainer) {
+		if ($container && ($container instanceof BSImageContainer)) {
 			return $container;
 		}
-		throw new BSImageException('コンテナが取得できません。');
 	}
 
 	/**
