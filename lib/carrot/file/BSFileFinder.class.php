@@ -81,7 +81,7 @@ class BSFileFinder {
 	 * @param string $suffix 拡張子
 	 */
 	public function registerSuffix ($suffix) {
-		$this->suffixes[] = '.' . ltrim($suffix, '.');
+		$this->suffixes->unshift('.' . ltrim($suffix, '.'));
 	}
 
 	/**
