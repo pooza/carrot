@@ -95,11 +95,12 @@ class BSFileUtility {
 	 * @access public
 	 * @param BSDirectory $dir ディレクトリ
 	 * @param string $basename ベースファイル名
+	 * @param string $class 出力クラス名
 	 * @return BSFile 添付ファイル
 	 * @static
 	 */
-	static public function searchAttachment (BSDirectory $dir, $basename) {
-		$finder = new BSFileFinder;
+	static public function searchAttachment (BSDirectory $dir, $basename, $class = 'BSFile') {
+		$finder = new BSFileFinder($class);
 		$finder->clearDirectories();
 		$finder->registerDirectory($dir);
 		$finder->registerAllAttachableSuffixes();
