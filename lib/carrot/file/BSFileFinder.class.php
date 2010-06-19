@@ -18,6 +18,7 @@ class BSFileFinder {
 
 	/**
 	 * @access public
+	 * @param string $class 出力クラス
 	 */
 	public function __construct ($class = 'BSFile') {
 		$this->directories = new BSArray;
