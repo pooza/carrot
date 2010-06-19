@@ -54,7 +54,7 @@ types:
   tgz: application/x-gzip
   tif: image/tiff
   tiff: image/tiff
-  tpl:
+  tpl: text/x-smarty-template
   ttf: application/x-truetype-font
   txt: text/plain
   wma: audio/x-ms-wma
