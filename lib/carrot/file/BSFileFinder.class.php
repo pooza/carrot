@@ -12,6 +12,7 @@
  */
 class BSFileFinder {
 	private $directories;
+	private $suffixes;
 	private $pattern;
 	private $outputClass;
 
@@ -20,6 +21,8 @@ class BSFileFinder {
 	 */
 	public function __construct ($class = 'BSFile') {
 		$this->directories = new BSArray;
+		$this->suffixes = new BSArray;
+		$this->suffixes[] = null;
 		foreach (array('images', 'carrotlib', 'www', 'root') as $name) {
 			$this->registerDirectory($name);
 		}
@@ -41,8 +44,10 @@ class BSFileFinder {
 			return new $class($path);
 		}
 		foreach ($this->directories as $dir) {
-			if ($found = $dir->getEntry($file, $this->getOutputClass())) {
-				return $found;
+			foreach ($this->suffixes as $suffix) {
+				if ($found = $dir->getEntry($file . $suffix, $this->getOutputClass())) {
+					return $found;
+				}
 			}
 		}
 	}
@@ -67,6 +72,48 @@ class BSFileFinder {
 	 */
 	public function clearDirectories () {
 		$this->directories->clear();
+	}
+
+	/**
+	 * 検索対象拡張子を登録
+	 *
+	 * @access public
+	 * @param string $suffix 拡張子
+	 */
+	public function registerSuffix ($suffix) {
+		$this->suffixes[] = '.' . ltrim($suffix, '.');
+	}
+
+	/**
+	 * 検索対象拡張子を登録
+	 *
+	 * @access public
+	 * @param BSParameterHolder $suffixes 拡張子の配列
+	 */
+	public function registerSuffixes (BSParameterHolder $suffixes) {
+		foreach ($suffixes as $suffix) {
+			$this->registerSuffix($suffix);
+		}
+		$this->suffixes->uniquize();
+	}
+
+	/**
+	 * 添付可能な全ての拡張子を登録
+	 *
+	 * @access public
+	 */
+	public function registerAllAttachableSuffixes () {
+		$this->registerSuffixes(BSMIMEType::getAttachableTypes()->getFlipped());
+	}
+
+	/**
+	 * 検索対象拡張子をクリア
+	 *
+	 * @access public
+	 */
+	public function clearSuffixes () {
+		$this->suffixes->clear();
+		$this->suffixes[] = null;
 	}
 
 	/**

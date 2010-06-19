@@ -99,11 +99,11 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function searchAttachment (BSDirectory $dir, $basename) {
-		foreach (BSMIMEType::getAttachableTypes() as $suffix => $type) {
-			if ($file = $dir->getEntry($basename . $suffix)) {
-				return $file;
-			}
-		}
+		$finder = new BSFileFinder;
+		$finder->clearDirectories();
+		$finder->registerDirectory($dir);
+		$finder->registerAllAttachableSuffixes();
+		return $finder->execute($basename);
 	}
 
 	/**
