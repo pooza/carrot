@@ -14,6 +14,14 @@ class BSRecordFinder extends BSParameterHolder {
 	private $table;
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($params = array()) {
+		$this->setParameters($params);
+	}
+
+	/**
 	 * 検索実行
 	 *
 	 * @access public
@@ -27,6 +35,7 @@ class BSRecordFinder extends BSParameterHolder {
 		if (($table = $this->getTable())
 			&& ($record = $table->getRecord($id))
 			&& ($record instanceof BSRecord)) {
+
 			return $record;
 		}
 	}
