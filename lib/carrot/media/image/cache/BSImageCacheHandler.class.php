@@ -394,6 +394,9 @@ class BSImageCacheHandler {
 
 		if (!BSString::isBlank($path = $params['src'])) {
 			$finder = new BSFileFinder('BSImageFile');
+			if ($dir = $params['dir']) {
+				$finder->registerDirectory($dir);
+			}
 			if ($file = $finder->execute($path)) {
 				return $file;
 			}
