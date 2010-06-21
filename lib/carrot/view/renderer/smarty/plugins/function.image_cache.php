@@ -15,6 +15,9 @@
 function smarty_function_image_cache ($params, &$smarty) {
 	$caches = BSImageCacheHandler::getInstance();
 	$params = new BSArray($params);
+	if (BSString::isBlank($params['size'])) {
+		$params['size'] = 'thumbnail';
+	}
 	$flags = $caches->convertFlags($params['flags']);
 	if (!$container = $caches->getContainer($params)) {
 		return null;

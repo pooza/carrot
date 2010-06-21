@@ -388,9 +388,6 @@ class BSImageCacheHandler {
 	 */
 	public function getContainer (BSParameterHolder $params) {
 		$params = new BSArray($params);
-		if (BSString::isBlank($params['size'])) {
-			$params['size'] = 'thumbnail';
-		}
 
 		if (!BSString::isBlank($path = $params['src'])) {
 			$finder = new BSFileFinder('BSImageFile');

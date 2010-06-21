@@ -12,6 +12,7 @@
  */
 class BSRecordFinder extends BSParameterHolder {
 	private $table;
+	private $record;
 
 	/**
 	 * @access public
@@ -29,22 +30,32 @@ class BSRecordFinder extends BSParameterHolder {
 	 * @return BSRecord レコード
 	 */
 	public function execute ($id = null) {
-		if (!$id) {
-			$id = $this['id'];
-		}
-		if (($table = $this->getTable())
-			&& ($record = $table->getRecord($id))
-			&& ($record instanceof BSRecord)) {
-
+		if (($record = $this->getRecord($id)) && ($record instanceof BSRecord)) {
 			return $record;
 		}
+	}
+
+	private function getRecord ($id) {
+		if (!$this->record) {
+			if (!$id) {
+				$id = $this['id'];
+			}
+			if (($table = $this->getTable()) && ($record = $table->getRecord($id))) {
+				$this->record = $record;
+			} else if (BSString::isBlank($this['class'])) {
+				$module = BSController::getInstance()->getModule();
+				$this->record = $module->getRecord();
+			}
+		}
+		return $this->record;
 	}
 
 	private function getTable () {
 		if (!$this->table) {
 			try {
 				if (BSString::isBlank($this['class'])) {
-					$this->table = BSController::getInstance()->getModule()->getTable();
+					$module = BSController::getInstance()->getModule();
+					$this->table = $module->getTable();
 				} else {
 					$this->table = BSTableHandler::getInstance($this['class']);
 				}
