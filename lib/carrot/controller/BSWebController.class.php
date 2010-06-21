@@ -26,7 +26,13 @@ class BSWebController extends BSController {
 			$url = BSURL::getInstance();
 			$url['path'] = $redirectTo;
 		}
-		$url->setParameters($this->request->getUserAgent()->getQuery());
+
+		$useragent = $this->request->getUserAgent();
+		$url->setParameters($useragent->getQuery());
+		if ($useragent->hasBug('cache_control')) {
+			$url->setParameter('at', BSNumeric::getRandom());
+		}
+
 		$this->setHeader('Location', $url->getContents());
 		return BSView::NONE;
 	}
