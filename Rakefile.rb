@@ -12,12 +12,12 @@ require 'webapp/config/Rakefile.local'
 
 namespace :production do
   desc '運用環境の構築'
-  task :init => ['var:init', 'database:init', 'local:init']
+  task :init => ['var:init', 'local:init']
 end
 
 namespace :development do
   desc '開発環境の構築'
-  task :init => ['var:init', 'database:init', 'local:init', 'phpdoc:init']
+  task :init => ['var:init', 'local:init', 'phpdoc:init']
 end
 
 namespace :database do
@@ -94,9 +94,10 @@ namespace :var do
   namespace :config do
     desc '設定キャッシュをクリア'
     task :clean do
+      patterns = Constants.new['BS_SERIALIZE_KEEP']
       Dir.glob(File.expand_path('var/serialized/*')).each do |path|
         is_delete = true
-        keep_types.each do |pattern|
+        patterns.each do |pattern|
           if File.fnmatch?(pattern, File.basename(path))
             is_delete = false
             break
@@ -113,17 +114,6 @@ namespace :var do
     task :clean_all do
       system 'sudo rm var/cache/*'
       system 'sudo rm var/serialized/*'
-    end
-
-    def keep_types
-      types = []
-      ['carrot', 'package', 'application'].each do |name|
-        begin
-          types += YAML.load_file('webapp/config/constant/' + name + '.yaml')['serialize']['keep']
-        rescue
-        end
-      end
-      return types
     end
   end
 end
@@ -195,5 +185,39 @@ namespace :svn do
 
   def media_types
     return YAML.load_file('webapp/config/mime.yaml')['types']
+  end
+end
+
+class Constants
+  def initialize
+    @constants = Hash.new
+    ['carrot', 'package', 'application', server_name].each do |name|
+      begin
+        path = 'webapp/config/constant/' + name + '.yaml';
+        @constants.update(flatten('BS', YAML.load_file(path), '_'))
+      rescue
+      end
+    end
+  end
+
+  def [] (name)
+    return @constants[name.upcase]
+  end
+
+  def flatten (prefix, node, glue)
+    contents = Hash.new
+    if node.instance_of?(Hash)
+      node.each do |key, value|
+        key = prefix + glue + key
+        contents.update(flatten(key, value, glue))
+      end
+    else
+      contents[prefix.upcase] = node
+    end
+    return contents
+  end
+
+  def server_name
+    return File.basename(File.dirname(File.expand_path(__FILE__)))
   end
 end

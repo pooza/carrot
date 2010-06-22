@@ -24,8 +24,8 @@ class BSFileFinder {
 		$this->directories = new BSArray;
 		$this->suffixes = new BSArray;
 		$this->suffixes[] = null;
-		foreach (array('images', 'carrotlib', 'www', 'root') as $name) {
-			$this->registerDirectory($name);
+		foreach (BSController::getInstance()->getSearchDirectories() as $dir) {
+			$this->registerDirectory($dir);
 		}
 		$this->setOutputClass($class);
 	}

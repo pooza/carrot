@@ -13,6 +13,22 @@
 class BSWebController extends BSController {
 
 	/**
+	 * 検索対象ディレクトリを返す
+	 *
+	 * @access public
+	 * @return BSArray ディレクトリの配列
+	 */
+	public function getSearchDirectories () {
+		if (!$this->searchDirectories) {
+			$this->searchDirectories = new BSArray;
+			foreach (array('images', 'carrotlib', 'www', 'root') as $name) {
+				$this->searchDirectories[] = BSFileUtility::getDirectory($name);
+			}
+		}
+		return $this->searchDirectories;
+	}
+
+	/**
 	 * リダイレクト
 	 *
 	 * @access public
