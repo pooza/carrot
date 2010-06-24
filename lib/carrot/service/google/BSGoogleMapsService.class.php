@@ -113,6 +113,10 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	protected function queryGeocode ($address) {
+		if ($info = BSGeocodeEntryHandler::parse($address)) {
+			return $info;
+		}
+
 		$params = new BSWWWFormRenderer;
 		$params['q'] = $address;
 		$params['output'] = 'json';

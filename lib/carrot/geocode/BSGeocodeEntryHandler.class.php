@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSGeocodeEntryHandler extends BSTableHandler {
+	const PATTERN = '^((lat|lng)=[[:digit:]]+\\.[[:digit:]]+([ ,]+)?)+$';
 
 	/**
 	 * レコード追加可能か？
@@ -71,6 +72,26 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 			'lat' => 'float',
 			'lng' => 'float',
 		));
+	}
+
+	/**
+	 * Geocode文字列をパースして、配列を返す
+	 *
+	 * "lat=0.00,lng=0.00" の様な文字列。
+	 *
+	 * @access public
+	 * @return BSArray Geocode情報
+	 * @static
+	 */
+	static function parse ($value) {
+		if (mb_ereg(self::PATTERN, $value)) {
+			$info = new BSArray;
+			foreach(mb_split('[ ,]+', $address) as $entry) {
+				$entry = BSString::explode('=', $entry);
+				$info[$entry[0]] = $entry[1];
+			}
+			return $info;
+		}
 	}
 }
 
