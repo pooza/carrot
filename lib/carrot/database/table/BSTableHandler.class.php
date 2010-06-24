@@ -369,14 +369,12 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		}
 
 		$db = $this->getDatabase();
-		$query = BSSQL::getInsertQueryString($this->getName(), $values, $db);
-		$db->exec($query);
+		$db->exec(BSSQL::getInsertQueryString($this, $values, $db));
 		if ($this->hasSurrogateKey()) {
 			$id = $db->lastInsertId($db->getSequenceName($this->getName(), $this->getKeyField()));
 		} else {
 			$id = $values[$this->getKeyField()];
 		}
-
 		$this->setExecuted(false);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$message = new BSStringFormat('%s(%d)を作成しました。');
