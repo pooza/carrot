@@ -83,7 +83,7 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 	 * @return BSArray Geocode情報
 	 * @static
 	 */
-	static function parse ($value) {
+	static public function parse ($value) {
 		if (mb_ereg(self::PATTERN, $value)) {
 			$info = new BSArray;
 			foreach(mb_split('[ ,]+', $address) as $entry) {
