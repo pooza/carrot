@@ -77,6 +77,9 @@ class BSSQL {
 		if (!$db) {
 			$db = BSDatabase::getInstance();
 		}
+		if ($table instanceof BSTableHandler) {
+			$table = $table->getName();
+		}
 		if (is_array($values)) {
 			$values = new BSArray($values);
 		} else if ($values instanceof BSParameterHolder) {
@@ -110,6 +113,9 @@ class BSSQL {
 		if (!$db) {
 			$db = BSDatabase::getInstance();
 		}
+		if ($table instanceof BSTableHandler) {
+			$table = $table->getName();
+		}
 
 		if (is_array($values)) {
 			$values = new BSArray($values);
@@ -137,6 +143,9 @@ class BSSQL {
 	static public function getDeleteQueryString ($table, $criteria) {
 		if (BSString::isBlank($criteria = self::getCriteriaString($criteria))) {
 			throw new BSDatabaseException('抽出条件がありません。');
+		}
+		if ($table instanceof BSTableHandler) {
+			$table = $table->getName();
 		}
 		return sprintf('DELETE %s %s', self::getFromString($table), $criteria);
 	}

@@ -98,19 +98,18 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
 
-		$fields = $this->getTable()->getProfile()->getFields();
-		$field = $this->getTable()->getUpdateDateField();
-		if ($fields[$field]) {
-			$values[$field] = BSDate::getNow('Y-m-d H:i:s');
+		$values = new BSArray($values);
+		$db = $this->getDatabase();
+		$table = $this->getTable();
+		$fields = $table->getProfile()->getFields();
+		if ($fields[$table->getUpdateDateField()]) {
+			$values[$table->getUpdateDateField()] = BSDate::getNow('Y-m-d H:i:s');
+		}
+		if (!$values->count()) {
+			return;
 		}
 
-		$query = BSSQL::getUpdateQueryString(
-			$this->getTable()->getName(),
-			$values,
-			$this->getCriteria(),
-			$this->getDatabase()
-		);
-		$this->getDatabase()->exec($query);
+		$db->exec(BSSQL::getUpdateQueryString($table, $values, $this->getCriteria(), $db));
 		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
 			$this->clearSerialized();
@@ -135,8 +134,6 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 	/**
 	 * 更新日付のみ更新
 	 *
-	 * updateメソッドを適切にオーバーライドする必要あり。
-	 *
 	 * @access public
 	 */
 	public function touch () {
@@ -155,10 +152,10 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
 
-		$query = BSSQL::getDeleteQueryString($this->getTable()->getName(), $this->getCriteria());
-		$this->getDatabase()->exec($query);
+		$this->getDatabase()->exec(
+			BSSQL::getDeleteQueryString($this->getTable(), $this->getCriteria())
+		);
 		$this->clearSerialized();
-
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$message = new BSStringFormat('%sを削除しました。');
 			$message[] = $this;
