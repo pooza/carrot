@@ -67,7 +67,7 @@ class BSSQL {
 	 * INSERTクエリー文字列を返す
 	 *
 	 * @access public
-	 * @param string $table テーブル名
+	 * @param mixed $table テーブル名又はテーブル
 	 * @param mixed $values フィールドの値
 	 * @param BSDatabase $db 対象データベース
 	 * @return string クエリー文字列
@@ -99,7 +99,7 @@ class BSSQL {
 	 * UPDATEクエリー文字列を返す
 	 *
 	 * @access public
-	 * @param string $table テーブル名
+	 * @param mixed $table テーブル名又はテーブル
 	 * @param mixed $values フィールドの値
 	 * @param mixed $criteria 抽出条件
 	 * @param BSDatabase $db 対象データベース
@@ -135,7 +135,7 @@ class BSSQL {
 	 * DELETEクエリー文字列を返す
 	 *
 	 * @access public
-	 * @param string $table テーブル名
+	 * @param mixed $table テーブル名又はテーブル
 	 * @param mixed $criteria 抽出条件
 	 * @return string クエリー文字列
 	 * @static
@@ -174,10 +174,13 @@ class BSSQL {
 	 * DROP TABLEクエリー文字列を返す
 	 *
 	 * @access public
-	 * @param string $table テーブル名
+	 * @param mixed $table テーブル名又はテーブル
 	 * @static
 	 */
 	static public function getDropTableQueryString ($table) {
+		if ($table instanceof BSTableHandler) {
+			$table = $table->getName();
+		}
 		return sprintf('DROP TABLE %s', $table);
 	}
 
