@@ -41,7 +41,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function analyzeType () {
 		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
-			if (BSString::isBlank($this->output)) {
+			if (!$this->attributes->count()) {
 				$this->analyze();
 			}
 			if (mb_ereg('Audio: [ ,[:alnum:]]*(amr|aac)', $this->output)

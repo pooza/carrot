@@ -23,7 +23,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	public function __construct ($path) {
 		parent::__construct($path);
 		$this->attributes = new BSArray;
-		$this->analyze();
 	}
 
 	/**
@@ -176,6 +175,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
+		if (!$this->attributes->count()) {
+			$this->analyze();
+		}
 		return $this->isReadable() && $this->attributes->count();
 	}
 
