@@ -11,7 +11,9 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
+abstract class BSRecord
+	implements ArrayAccess, BSSerializable, BSAssignable, BSAttachmentContainer {
+
 	private $attributes;
 	private $table;
 	private $criteria;
@@ -241,6 +243,93 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable {
 	 */
 	public function getCreateDate () {
 		return BSDate::getInstance($this[$this->getTable()->getCreateDateField()]);
+	}
+
+	/**
+	 * 添付ファイルの情報を返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return string[] 添付ファイルの情報
+	 */
+	public function getAttachmentInfo ($name = null) {
+		if ($file = $this->getAttachment($name)) {
+			$info = new BSArray;
+			$info['path'] = $file->getPath();
+			$info['size'] = $file->getSize();
+			$info['type'] = $file->getType();
+			if (!BSString::isBlank($filename = $this->getAttachmentFileName($name))) {
+				$info['filename'] = $filename;
+			}
+			if ($url = $this->getAttachmentURL($name)) {
+				$info['url'] = $url->getContents();
+			}
+			return $info;
+		}
+	}
+
+	/**
+	 * 添付ファイルを返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return BSFile 添付ファイル
+	 */
+	public function getAttachment ($name = null) {
+		$finder = new BSFileFinder;
+		$finder->clearDirectories();
+		$finder->registerDirectory($this->getTable()->getDirectory());
+		$finder->registerAllAttachableSuffixes();
+		return $finder->execute($this->getAttachmentBaseName($name));
+	}
+
+	/**
+	 * 添付ファイルを設定
+	 *
+	 * @access public
+	 * @param BSFile $file 添付ファイル
+	 * @param string $name 名前
+	 */
+	public function setAttachment (BSFile $file, $name = null) {
+		if ($old = $this->getAttachment($name)) {
+			$old->delete();
+		}
+		$file->setMode(0666);
+		$suffix = BSMIMEType::getSuffix($file->analyzeType());
+		$file->rename($this->getAttachmentBaseName($name) . $suffix);
+		$file->moveTo($this->getTable()->getDirectory());
+		$this->touch();
+	}
+
+	/**
+	 * 添付ファイルベース名を返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return string 添付ファイルベース名
+	 */
+	public function getAttachmentBaseName ($name = null) {
+		return sprintf('%06d_%s', $this->getID(), $name);
+	}
+
+	/**
+	 * 添付ファイルのダウンロード時の名を返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return string 添付ファイルベース名
+	 */
+	public function getAttachmentFileName ($name = null) {
+	}
+
+	/**
+	 * 添付ファイルのURLを返す
+	 *
+	 * @access public
+	 * @param string $name 名前
+	 * @return BSURL 添付ファイルURL
+	 */
+	public function getAttachmentURL ($name = null) {
 	}
 
 	/**
