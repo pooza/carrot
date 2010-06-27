@@ -52,14 +52,15 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		$command->addValue($this->getPath());
 		$command->addValue('2>&1', null);
 		$this->output = $command->getResult()->join("\n");
-
 		if (mb_ereg('Duration: ([.:[:digit:]]+),', $this->output, $matches)) {
-			$this->attributes['duration'] = $matches[1];
+			$this->getAttributes()->setParameter('duration', $matches[1]);
 			$sec = BSString::explode(':', $matches[1]);
-			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
+			$this->getAttributes()->setParameter(
+				'seconds',
+				($sec[0] * 3600) + ($sec[1] * 60) + $sec[2]
+			);
 		}
-
-		$this->attributes['type'] = $this->analyzeType();
+		$this->getAttributes()->setParameter('type', $this->analyzeType());
 	}
 
 	/**

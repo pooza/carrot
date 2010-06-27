@@ -298,7 +298,6 @@ abstract class BSRecord
 		$suffix = BSMIMEType::getSuffix($file->analyzeType());
 		$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		$file->moveTo($this->getTable()->getDirectory());
-		$this->touch();
 	}
 
 	/**

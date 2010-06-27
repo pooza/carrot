@@ -41,14 +41,17 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function analyzeType () {
 		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
+			if (BSString::isBlank($this->output)) {
+				$this->analyze();
+			}
 			if (mb_ereg('Audio: [ ,[:alnum:]]*(amr|aac)', $this->output)
 				&& BSString::isContain('Video: mpeg4', $this->output)) {
 				//3GPPの場合は BSMIMEType::DEFAULT_TYPE にマッチしない為、3GPP2で確定。
 				return BSMIMEType::getType('3g2');
 			}
-			foreach (array('wmv', 'mpeg') as $type) {
-				if (BSString::isContain('Video: ' . $type, $this->output)) {
-					return BSMIMEType::getType($type);
+			foreach (array('wmv', 'mpeg') as $movietype) {
+				if (BSString::isContain('Video: ' . $movietype, $this->output)) {
+					return BSMIMEType::getType($movietype);
 				}
 			}
 		}
