@@ -19,25 +19,6 @@ class BSSQL {
 	}
 
 	/**
-	 * 文字列をクォート
-	 *
-	 * 極力使わない。
-	 * BSCriteriaSet等、クォート処理をラップした機能を使用すること。
-	 *
-	 * @access public
-	 * @param string $str クォートの対象
-	 * @param BSDatabase $db データベース
-	 * @return string クォートされた文字列
-	 * @static
-	 */
-	static public function quote ($str, BSDatabase $db = null) {
-		if (!$db) {
-			$db = BSDatabase::getInstance();
-		}
-		return $db->quote($str);
-	}
-
-	/**
 	 * SELECTクエリー文字列を返す
 	 *
 	 * @access public
