@@ -50,7 +50,7 @@ class BSURLValidator extends BSValidator {
 			if (!$this->getSchemes()->isContain($url['scheme'])) {
 				$this->error = $this['scheme_error'];
 			}
-		} catch (BSNetException $e) {
+		} catch (Exception $e) {
 			$this->error = $this['net_error'];
 		}
 		return BSString::isBlank($this->error);
