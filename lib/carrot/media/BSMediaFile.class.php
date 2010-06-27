@@ -17,6 +17,15 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected $types;
 
 	/**
+	 * @access public
+	 * @param string $path パス
+	 */
+	public function __construct ($path) {
+		parent::__construct($path);
+		$this->attributes = new BSArray;
+	}
+
+	/**
 	 * 属性を返す
 	 *
 	 * @access public
@@ -24,7 +33,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return mixed 属性
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -34,10 +43,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return BSArray 全ての属性
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-			$this->analyze();
-		}
 		return $this->attributes;
 	}
 
@@ -53,14 +58,11 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		$command->addValue('2>&1', null);
 		$this->output = $command->getResult()->join("\n");
 		if (mb_ereg('Duration: ([.:[:digit:]]+),', $this->output, $matches)) {
-			$this->getAttributes()->setParameter('duration', $matches[1]);
+			$this->attributes['duration'] = $matches[1];
 			$sec = BSString::explode(':', $matches[1]);
-			$this->getAttributes()->setParameter(
-				'seconds',
-				($sec[0] * 3600) + ($sec[1] * 60) + $sec[2]
-			);
+			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
-		$this->getAttributes()->setParameter('type', $this->analyzeType());
+		$this->attributes['type'] = $this->analyzeType();
 	}
 
 	/**
@@ -70,7 +72,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return $this->getAttributes()->getParameter('type');
+		return $this->attributes['type'];
 	}
 
 	/**
@@ -173,7 +175,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		return $this->isReadable() && $this->getAttributes()->count();
+		return $this->isReadable() && $this->attributes->count();
 	}
 
 	/**
@@ -192,7 +194,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return boolean 要素が存在すればTrue
 	 */
 	public function offsetExists ($key) {
-		return $this->getAttributes()->hasParameter($key);
+		return $this->attributes->hasParameter($key);
 	}
 
 	/**
