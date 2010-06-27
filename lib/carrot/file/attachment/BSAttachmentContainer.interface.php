@@ -53,7 +53,7 @@ interface BSAttachmentContainer {
 	 *
 	 * @access public
 	 * @param string $name 名前
-	 * @return string 添付ファイルベース名
+	 * @return string ダウンロード時ファイル名
 	 */
 	public function getAttachmentFileName ($name = null);
 
