@@ -73,6 +73,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
+		if (BSString::isBlank($this->attributes['type'])) {
+			$this->analyze();
+		}
 		return $this->attributes['type'];
 	}
 
