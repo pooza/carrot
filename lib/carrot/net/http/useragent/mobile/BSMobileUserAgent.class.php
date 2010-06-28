@@ -13,7 +13,6 @@
  */
 abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
 	private $carrier;
-	private $pearDriver;
 	const DEFAULT_NAME = 'DoCoMo/2.0';
 
 	/**
@@ -129,30 +128,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 			'width' => BS_IMAGE_MOBILE_SIZE_WIDTH,
 			'height' => BS_IMAGE_MOBILE_SIZE_HEIGHT,
 		));
-	}
-
-	/**
-	 * Net_UserAgent_Mobileを返す
-	 *
-	 * @access public
-	 * @return Net_UserAgent_Mobile
-	 */
-	public function getPEARDriver () {
-		if (!$this->pearDriver) {
-			require_once 'Net/UserAgent/Mobile.php';
-			$this->pearDriver = Net_UserAgent_Mobile::factory($this->getName());
-		}
-		return $this->pearDriver;
-	}
-
-	/**
-	 * GPSプロバイダを返す
-	 *
-	 * @access public
-	 * @return Net_UserAgent_Mobile_GPS_Provider
-	 */
-	public function getGPSProvider () {
-		return $this->getCarrier()->getGPSProvider($this);
 	}
 
 	/**

@@ -36,6 +36,22 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 			'vf',
 		));
 	}
+
+	/**
+	 * GPS情報を取得するリンクを返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象リンク
+	 * @param string $label ラベル
+	 * @return BSAnchorElement リンク
+	 */
+	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		$element = new BSAnchorElement;
+		//$urlはURLエンコードしない
+		$element->setURL('location:auto?url=' . $url->getURL()->getContents());
+		$element->setBody($label);
+		return $element;
+	}
 }
 
 /* vim:set tabstop=4: */

@@ -20,11 +20,7 @@ function smarty_function_carrot_url ($params, &$smarty) {
 	}
 
 	if ($useragent = $smarty->getUserAgent()) {
-		$query = new BSArray($useragent->getQuery());
-		if ($url->isForeign()) {
-			$query->removeParameter(BSRequest::getInstance()->getSession()->getName());
-		}
-		$url->setParameters($query);
+		$url = $useragent->modifyURL($url);
 	}
 
 	return $url->getContents();

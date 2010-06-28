@@ -262,6 +262,23 @@ abstract class BSUserAgent implements BSAssignable {
 	}
 
 	/**
+	 * 外向けURLを調整して返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象URL
+	 * @return string エンコード済みファイル名
+	 */
+	public function modifyURL (BSHTTPRedirector $url) {
+		$url = $url->getURL();
+		$query = new BSArray($this->getQuery());
+		if ($url->isForeign()) {
+			$query->removeParameter(BSRequest::getInstance()->getSession()->getName());
+		}
+		$url->setParameters($query);
+		return $url;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

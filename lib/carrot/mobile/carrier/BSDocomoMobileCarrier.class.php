@@ -69,6 +69,22 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 	}
 
 	/**
+	 * GPS情報を取得するリンクを返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象リンク
+	 * @param string $label ラベル
+	 * @return BSAnchorElement リンク
+	 */
+	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		$element = new BSAnchorElement;
+		$element->setURL($url);
+		$element->setBody($label);
+		$element->setAttribute('lcs', 'lcs');
+		return $element;
+	}
+
+	/**
 	 * 絵文字ディレクトリの名前を返す
 	 *
 	 * @access protected

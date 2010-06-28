@@ -12,22 +12,16 @@
  */
 function smarty_function_gps_link ($params, &$smarty) {
 	$params = new BSArray($params);
-	if (BSString::isBlank($params['contents'])) {
-		$url = BSURL::getInstance($params, 'carrot');
-	} else {
-		$url = BSURL::getInstance($params['contents']);
-	}
-
 	if (($useragent = $smarty->getUserAgent()) && $useragent->isMobile()) {
-		$query = new BSArray($useragent->getQuery());
-		if ($url->isForeign()) {
-			$query->removeParameter(BSRequest::getInstance()->getSession()->getName());
+		if (BSString::isBlank($params['contents'])) {
+			$url = BSURL::getInstance($params, 'carrot');
+		} else {
+			$url = BSURL::getInstance($params['contents']);
 		}
-		$url->setParameters($query);
+		$url = $useragent->modifyURL($url);
 
-		$gps = $useragent->getGPSProvider();
-		$info = new BSArray($gps->getGPSLink($url->getContents(), $params['label']));
-		return $info['tag'];
+		$element = $useragent->getCarrier()->getGPSAnchorElement($url, $params['label']);
+		return $element->getContents();
 	}
 }
 

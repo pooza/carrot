@@ -56,6 +56,29 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	protected function getPictogramDirectoryName () {
 		return 'e';
 	}
+
+	/**
+	 * GPS情報を取得するリンクを返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象リンク
+	 * @param string $label ラベル
+	 * @return BSAnchorElement リンク
+	 */
+	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		$query = new BSWWWFormRenderer;
+		$query['url'] = $url->getURL()->getContents();
+		$query['ver'] = 1;
+		$query['datum'] = 0;
+		$query['unit'] = 0;
+		$query['acry'] = 0;
+		$query['number'] = 0;
+
+		$element = new BSAnchorElement;
+		$element->setURL('device:gpsone?' . $query->getContents());
+		$element->setBody($label);
+		return $element;
+	}
 }
 
 /* vim:set tabstop=4: */
