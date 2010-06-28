@@ -26,6 +26,7 @@ define('MPC_TO_CHARSET_UTF8', 'UTF-8');
 abstract class BSMobileCarrier {
 	protected $attributes;
 	protected $mpc;
+	protected $gpsProvider;
 	protected $pictogramDirectory;
 	static private $instances;
 	const MPC_IMAGE = 'IMG';
@@ -135,6 +136,21 @@ abstract class BSMobileCarrier {
 			$this->mpc->setImagePath(BSFileUtility::getURL('pictogram')->getAttribute('path'));
 		}
 		return $this->mpc;
+	}
+
+	/**
+	 * GPSプロバイダを返す
+	 *
+	 * @access public
+	 * @param BSMobileUserAgent $useragent 端末
+	 * @return Net_UserAgent_Mobile_GPS_Provider GPSプロバイダ
+	 */
+	public function getGPSProvider (BSMobileUserAgent $useragent) {
+		if (!$this->gpsProvider) {
+			require_once 'Net/UserAgent/Mobile/GPS.php';
+			$this->gpsProvider = Net_UserAgent_Mobile_GPS::factory($useragent->getPEARDriver());
+		}
+		return $this->gpsProvider;
 	}
 
 	/**
