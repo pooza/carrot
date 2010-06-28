@@ -99,15 +99,6 @@ class BSFileFinder {
 	}
 
 	/**
-	 * 添付可能な全ての拡張子を登録
-	 *
-	 * @access public
-	 */
-	public function registerAllAttachableSuffixes () {
-		$this->registerSuffixes(BSMIMEType::getAttachableTypes()->getFlipped());
-	}
-
-	/**
 	 * 検索対象拡張子をクリア
 	 *
 	 * @access public

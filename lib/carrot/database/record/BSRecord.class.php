@@ -277,7 +277,7 @@ abstract class BSRecord
 		$finder = new BSFileFinder;
 		$finder->clearDirectories();
 		$finder->registerDirectory($this->getTable()->getDirectory());
-		$finder->registerAllAttachableSuffixes();
+		$finder->registerSuffixes(BSMIMEType::getAttachableSuffixes());
 		return $finder->execute($this->getAttachmentBaseName($name));
 	}
 

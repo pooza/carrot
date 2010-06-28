@@ -21,7 +21,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param string $class レンダラーのクラス名
 	 */
 	public function __construct ($path, $class = self::DEFAULT_RENDERER_CLASS) {
-		parent::__construct($path);
+		$this->setPath($path);
 		$this->rendererClass = $class;
 	}
 

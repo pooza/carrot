@@ -21,8 +21,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param string $path パス
 	 */
 	public function __construct ($path) {
-		parent::__construct($path);
+		$this->setPath($path);
 		$this->attributes = new BSArray;
+		$this->analyze();
 	}
 
 	/**

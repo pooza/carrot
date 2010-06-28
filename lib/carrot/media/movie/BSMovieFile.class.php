@@ -23,8 +23,8 @@ class BSMovieFile extends BSMediaFile {
 			$this->attributes['frame_rate'] = (float)$matches[1];
 		}
 		if (mb_ereg(' ([[:digit:]]{2,4})x([[:digit:]]{2,4})', $this->output, $matches)) {
-			$this->attributes['width'] = $matches[1];
-			$this->attributes['height'] = $matches[2];
+			$this->attributes['width'] = (int)$matches[1];
+			$this->attributes['height'] = (int)$matches[2];
 			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();
 			$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
 			$this->attributes['aspect'] = $this['width'] / $this['height'];

@@ -172,9 +172,29 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 		$types = new BSArray;
 		$config = BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile());
 		foreach ($config['types'] as $key => $value) {
-			$types['.' . $key] = $value;
+			if ($key && $value) {
+				$types['.' . $key] = $value;
+			}
 		}
 		return $types;
+	}
+
+	/**
+	 * アップロード可能なサフィックスを返す
+	 *
+	 * @access public
+	 * @return BSArray サフィックスの配列
+	 * @static
+	 */
+	static public function getAttachableSuffixes () {
+		$suffixes = self::getAttachableTypes()->getFlipped();
+		$config = BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile());
+		foreach ($config['suffixes'] as $key => $value) {
+			if ($key && $value) {
+				$suffixes[$key] = '.' . $value;
+			}
+		}
+		return $suffixes;
 	}
 
 	/**
