@@ -86,12 +86,27 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 	static public function parse ($value) {
 		if (mb_ereg(self::PATTERN, $value)) {
 			$info = new BSArray;
-			foreach(mb_split('[ ,]+', $address) as $entry) {
+			foreach(mb_split('[ ,]+', $value) as $entry) {
 				$entry = BSString::explode('=', $entry);
 				$info[$entry[0]] = $entry[1];
 			}
 			return $info;
 		}
+	}
+
+	/**
+	 * 小数点以下60進数の値を10進数に変換
+	 *
+	 * @access public
+	 * @param string $dms 小数点以下が60進数である座標値
+	 * @return float 10進数に変換された座標値
+	 * @link http://d.hatena.ne.jp/Xephy/20100209/1265743457 参考
+	 * @static
+	 */
+	static public function dms2deg ($dms) {
+		$dms = array_pad(explode('.', $dms), 4, '0');
+		$deg = $dms[0] + $dms[1] / 60 + ($dms[2].'.'.$dms[3]) / 3600;
+		return round($deg, 9);
 	}
 }
 

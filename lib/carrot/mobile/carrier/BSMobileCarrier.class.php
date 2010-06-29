@@ -149,6 +149,22 @@ abstract class BSMobileCarrier {
 	abstract public function getGPSAnchorElement (BSHTTPRedirector $url, $label);
 
 	/**
+	 * GPS情報を返す
+	 *
+	 * @access public
+	 * @return BSArray GPS情報
+	 */
+	public function getGPSInfo () {
+		$request = BSRequest::getInstance();
+		if ($request['lat'] && $request['lon']) {
+			return new BSArray(array(
+				'lat' => BSGeocodeEntryHandler::dms2deg($request['lat']),
+				'lng' => BSGeocodeEntryHandler::dms2deg($request['lon']),
+			));
+		}
+	}
+
+	/**
 	 * キャリア名の別名を返す
 	 *
 	 * @access public

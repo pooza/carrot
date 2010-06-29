@@ -15,6 +15,12 @@ function smarty_function_map ($params, &$smarty) {
 	try {
 		$service = new BSGoogleMapsService;
 		$service->setUserAgent($smarty->getUserAgent());
+		if ($params['lat'] && $params['lng']) {
+			$addr = new BSStringFormat('lat=%s,lng=%s');
+			$addr[] = $params['lat'];
+			$addr[] = $params['lng'];
+			$params['addr'] = $addr->getContents();
+		}
 		$element = $service->getElement($params['addr'], $params);
 	} catch (Exception $e) {
 		$element = new BSDivisionElement;

@@ -54,6 +54,22 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 		$element->setBody($label);
 		return $element;
 	}
+
+	/**
+	 * GPS情報を返す
+	 *
+	 * @access public
+	 * @return BSArray GPS情報
+	 */
+	public function getGPSInfo () {
+		$pos = BSRequest::getInstance()->getParameter('pos');
+		if (mb_ereg('[NS]([\\.[:digit:]]+)[EW]([\\.[:digit:]]+)', $pos, $matches)) {
+			return new BSArray(array(
+				'lat' => BSGeocodeEntryHandler::dms2deg($matches[1]),
+				'lng' => BSGeocodeEntryHandler::dms2deg($matches[2]),
+			));
+		}
+	}
 }
 
 /* vim:set tabstop=4: */
