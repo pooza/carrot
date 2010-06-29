@@ -77,6 +77,9 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 	 * @return BSAnchorElement リンク
 	 */
 	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		$url = clone $url->getURL();
+		$url['query'] = null;
+
 		$element = new BSAnchorElement;
 		$element->setURL($url);
 		$element->setBody($label);

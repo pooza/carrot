@@ -46,9 +46,11 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 	 * @return BSAnchorElement リンク
 	 */
 	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		$url = clone $url->getURL();
+		$url['query'] = null;
+
 		$element = new BSAnchorElement;
-		//$urlはURLエンコードしない
-		$element->setURL('location:auto?url=' . $url->getURL()->getContents());
+		$element->setURL('location:auto?url=' . $url->getContents());
 		$element->setBody($label);
 		return $element;
 	}
