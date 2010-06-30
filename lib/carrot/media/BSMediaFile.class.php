@@ -48,6 +48,16 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return true;
+	}
+
+	/**
 	 * ファイルを解析
 	 *
 	 * @access protected

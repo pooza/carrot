@@ -50,6 +50,16 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * ファイルの内容から、メディアタイプを返す
 	 *
 	 * @access public
@@ -60,6 +70,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			return null;
 		}
 
+		if (!$this->isBinary()) {
+			return $this->getType();
+		}
 		if (extension_loaded('fileinfo') && defined('FILEINFO_MIME_TYPE')) {
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			return $finfo->file($this->getPath());

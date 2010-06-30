@@ -15,21 +15,6 @@ class BSTemplateFile extends BSFile {
 	private $compiled;
 
 	/**
-	 * ファイルの内容から、メディアタイプを返す
-	 *
-	 * テキストファイルの分析は出来ない。getTypeの戻り値をそのまま返す。
-	 *
-	 * @access public
-	 * @return string メディアタイプ
-	 */
-	public function analyzeType () {
-		if (!$this->isExists()) {
-			return null;
-		}
-		return $this->getType();
-	}
-
-	/**
 	 * テンプレートエンジンを設定
 	 *
 	 * @access public
