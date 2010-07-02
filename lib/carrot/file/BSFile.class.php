@@ -19,8 +19,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	private $handle;
 	private $error;
 	const LINE_SEPARATOR = "\n";
-	const COMPRESSED_SUFFIX = '.gz';
-	const COMPRESSED_TYPE = 'application/x-gzip';
 
 	/**
 	 * @access public
@@ -321,11 +319,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return boolean gzip圧縮されていたらTrue
 	 */
 	public function isCompressed () {
-		try {
-			return ($this->analyzeType() == self::COMPRESSED_TYPE);
-		} catch (Exception $e) {
-			return ($this->getSuffix() == self::COMPRESSED_SUFFIX);
-		}
+		return ($this->getSuffix() == '.gz');
 	}
 
 	/**
