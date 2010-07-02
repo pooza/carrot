@@ -70,6 +70,9 @@ types:
 
 # 上記で複数の拡張子が割り当てられているMIMEタイプに対し、既定の拡張子を設定。
 suffixes:
+  application/vnd.ms-excel: xls
+  application/vnd.ms-powerpoint: ppt
+  application/vnd.ms-word: doc
   application/xml: xml
   application/x-gzip: gz
   audio/mpeg: mp3

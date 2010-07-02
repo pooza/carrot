@@ -18,6 +18,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	private $size;
 	private $handle;
 	private $error;
+	private $binary = false;
 	const LINE_SEPARATOR = "\n";
 
 	/**
@@ -54,7 +55,17 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return boolean バイナリファイルならTrue
 	 */
 	public function isBinary () {
-		return false;
+		return $this->binary;
+	}
+
+	/**
+	 * バイナリファイルかどうかのフラグを設定
+	 *
+	 * @access public
+	 * @param boolean $flag バイナリファイルならTrue
+	 */
+	public function setBinary ($flag) {
+		return $this->binary = !!$flag;
 	}
 
 	/**

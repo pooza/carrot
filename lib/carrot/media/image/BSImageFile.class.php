@@ -22,6 +22,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 */
 	public function __construct ($path, $class = self::DEFAULT_RENDERER_CLASS) {
 		$this->setPath($path);
+		$this->attributes = new BSArray;
 		$this->rendererClass = $class;
 	}
 
@@ -57,6 +58,16 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 		$this->attributes['height'] = $this->getRenderer()->getHeight();
 		$this->attributes['height_full'] = $this->getRenderer()->getHeight();
 		$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
+	}
+
+	/**
+	 * 削除
+	 *
+	 * @access public
+	 */
+	public function delete () {
+		$this->clearImageCache();
+		parent::delete();
 	}
 
 	/**
@@ -148,9 +159,9 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 
 		foreach (array('jpeg', 'gif', 'png') as $suffix) {
 			if ($this->getRenderer()->getType() == BSMIMEType::getType($suffix)) {
+				$this->clearImageCache();
 				$function = 'image' . $suffix;
 				$function($this->getRenderer()->getGDHandle(), $this->getPath());
-				$this->clearImageCache();
 				return;
 			}
 		}
