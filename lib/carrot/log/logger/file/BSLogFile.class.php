@@ -14,6 +14,16 @@ class BSLogFile extends BSFile {
 	private $entries = array();
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * ログの内容を返す
 	 *
 	 * @access public

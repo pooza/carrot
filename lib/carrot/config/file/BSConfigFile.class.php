@@ -16,6 +16,16 @@ class BSConfigFile extends BSFile {
 	private $cache;
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * 設定パーサーを返す
 	 *
 	 * @access public

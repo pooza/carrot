@@ -13,6 +13,16 @@
 class BSJavaScriptFile extends BSFile {
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public

@@ -15,6 +15,16 @@ class BSTemplateFile extends BSFile {
 	private $compiled;
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * テンプレートエンジンを設定
 	 *
 	 * @access public

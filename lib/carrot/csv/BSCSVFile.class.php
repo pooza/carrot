@@ -38,6 +38,16 @@ class BSCSVFile extends BSFile {
 	}
 
 	/**
+	 * バイナリファイルか？
+	 *
+	 * @access public
+	 * @return boolean バイナリファイルならTrue
+	 */
+	public function isBinary () {
+		return false;
+	}
+
+	/**
 	 * CSVエンジンを返す
 	 *
 	 * @access public
