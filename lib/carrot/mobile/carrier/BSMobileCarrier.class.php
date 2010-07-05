@@ -248,6 +248,17 @@ abstract class BSMobileCarrier {
 	}
 
 	/**
+	 * デコメールの形式を返す
+	 *
+	 * @access public
+	 * @return string デコメールの形式
+	 */
+	public function getDecorationMailType () {
+		$constants = BSConstantHandler::getInstance();
+		return $constants['DECORATION_MAIL_TYPE_' . $this->getName()];
+	}
+
+	/**
 	 * 全てのキャリア名を返す
 	 *
 	 * @access public

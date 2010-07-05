@@ -125,8 +125,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return string デコメールの形式
 	 */
 	public function getDecorationMailType () {
-		$constants = BSConstantHandler::getInstance();
-		return $constants['DECORATION_MAIL_TYPE_' . $this->getCarrier()->getName()];
+		return $this->getModule()->getDecorationMailType();
 	}
 
 	/**

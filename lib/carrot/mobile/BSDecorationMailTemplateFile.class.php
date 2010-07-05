@@ -40,11 +40,11 @@ class BSDecorationMailTemplateFile extends BSFile {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		$types = new BSArray(array(
-			BSMIMEType::getType('.dmt'),
-			BSMIMEType::getType('.khm'),
-			BSMIMEType::getType('.hmt'),
-		));
+		$types = new BSArray;
+		foreach (BSMobileCarrier::getNames() as $name) {
+			$types[] = BSMobileCarrier::getInstance($name)->getDecorationMailType();
+		}
+
 		if (!$types->isContain($type)) {
 			$message = new BSStringFormat('MIMEタイプ "%s" は、正しくありません。');
 			$message[] = $type;
