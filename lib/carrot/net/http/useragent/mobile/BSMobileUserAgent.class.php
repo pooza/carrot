@@ -119,6 +119,17 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * デコメールの形式を返す
+	 *
+	 * @access public
+	 * @return string デコメールの形式
+	 */
+	public function getDefaultImageType () {
+		$constants = BSConstantHandler::getInstance();
+		return $constants['DECORATION_MAIL_TYPE_' . $this->getCarrier()->getName()];
+	}
+
+	/**
 	 * 画面情報を返す
 	 *
 	 * @access public

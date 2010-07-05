@@ -186,10 +186,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getSuffix () {
 		if (!$this->suffix) {
-			$name = BSString::explode('.', $this->getName());
-			if (1 < $name->count()) {
-				$this->suffix = '.' . $name->getIterator()->getLast();
-			}
+			$this->suffix = BSFileUtility::getSuffix($this->getName());
 		}
 		return $this->suffix;
 	}

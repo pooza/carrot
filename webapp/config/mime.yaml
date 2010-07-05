@@ -15,6 +15,7 @@ types:
   css: text/css
   csv: text/csv
   dat: application/octet-stream
+  dmt: application/x-decomail-template
   doc: application/vnd.ms-word
   docx: application/vnd.openxmlformats-officedocument.wordprocessingml.document
   eml: message/rfc822
@@ -23,6 +24,7 @@ types:
   gif: image/gif
   gz: application/x-gzip
   h264: video/quicktime
+  hmt: application/x-htmlmail-template
   htm: text/html
   html: text/html
   ico: image/vnd.microsoft.icon
@@ -31,6 +33,7 @@ types:
   jpeg: image/jpeg
   js: text/javascript
   json: application/json
+  khm: application/x-kddi-htmlmail
   mime: message/rfc822
   mov: video/quicktime
   mp3: audio/mpeg

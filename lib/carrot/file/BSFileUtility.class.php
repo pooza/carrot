@@ -78,6 +78,35 @@ class BSFileUtility {
 	}
 
 	/**
+	 * 拡張子を返す
+	 *
+	 * @access public
+	 * @param string $name ファイル名、またはパス
+	 * @return string 拡張子
+	 * @static
+	 */
+	static public function getSuffix ($name) {
+		$parts = BSString::explode('.', $name);
+		if (1 < $parts->count()) {
+			return '.' . $parts->getIterator()->getLast();
+		}
+	}
+
+	/**
+	 * ファイル名の拡張子から、規定のMIMEタイプを返す
+	 *
+	 * BSMIMEType::getTypeのエイリアス
+	 *
+	 * @access public
+	 * @param string $name ファイル名、またはパス
+	 * @return string MIMEタイプ
+	 * @static
+	 */
+	static public function getDefaultType ($name) {
+		return BSMIMEType::getType($name);
+	}
+
+	/**
 	 * 名前がドットから始まるか？
 	 *
 	 * @access public
