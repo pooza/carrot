@@ -40,17 +40,28 @@ class BSDecorationMailTemplateFile extends BSFile {
 	 * @param string $type メディアタイプ
 	 */
 	public function setType ($type) {
-		$types = new BSArray;
-		foreach (BSMobileCarrier::getNames() as $name) {
-			$types[] = BSMobileCarrier::getInstance($name)->getDecorationMailType();
-		}
-
-		if (!$types->isContain($type)) {
+		if (!self::getTypes()->isContain($type)) {
 			$message = new BSStringFormat('MIMEタイプ "%s" は、正しくありません。');
 			$message[] = $type;
 			throw new BSMobileException($message);
 		}
 		$this->type = $type;
+	}
+
+	/**
+	 * 利用可能なメディアタイプを返す
+	 *
+	 * @access public
+	 * @return BSArray メディアタイプ
+	 */
+	static public function getTypes () {
+		$types = new BSArray;
+		$suffixes = BSMIMEType::getInstance()->getSuffixes();
+		foreach (BSMobileCarrier::getNames() as $name) {
+			$type = BSMobileCarrier::getInstance($name)->getDecorationMailType();
+			$types[$suffixes[$type]] = $type;
+		}
+		return $types;
 	}
 }
 
