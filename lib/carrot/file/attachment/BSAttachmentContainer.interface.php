@@ -42,11 +42,11 @@ interface BSAttachmentContainer {
 	/**
 	 * 添付ファイルベース名を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $name 名前
 	 * @return string 添付ファイルベース名
 	 */
-	public function getAttachmentBaseName ($name = null);
+	protected function getAttachmentBaseName ($name);
 
 	/**
 	 * 添付ファイルのダウンロード時の名を返す

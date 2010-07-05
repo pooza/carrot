@@ -13,6 +13,14 @@
 interface BSImageContainer {
 
 	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 * @param string $size
+	 */
+	public function clearImageCache ($size = null);
+
+	/**
 	 * 画像の情報を返す
 	 *
 	 * @access public
@@ -35,11 +43,11 @@ interface BSImageContainer {
 	/**
 	 * 画像ファイルベース名を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $size サイズ名
 	 * @return string 画像ファイルベース名
 	 */
-	public function getImageFileBaseName ($size = null);
+	protected function getImageFileBaseName ($size);
 
 	/**
 	 * コンテナのIDを返す

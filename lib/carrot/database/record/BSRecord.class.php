@@ -11,8 +11,8 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSRecord
-	implements ArrayAccess, BSSerializable, BSAssignable, BSAttachmentContainer {
+abstract class BSRecord implements ArrayAccess,
+	BSSerializable, BSAssignable, BSAttachmentContainer, BSImageContainer {
 
 	private $attributes;
 	private $table;
@@ -301,11 +301,11 @@ abstract class BSRecord
 	/**
 	 * 添付ファイルベース名を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $name 名前
 	 * @return string 添付ファイルベース名
 	 */
-	public function getAttachmentBaseName ($name = null) {
+	protected function getAttachmentBaseName ($name) {
 		return sprintf('%06d_%s', $this->getID(), $name);
 	}
 
@@ -330,6 +330,73 @@ abstract class BSRecord
 	 * @return BSURL 添付ファイルURL
 	 */
 	public function getAttachmentURL ($name = null) {
+	}
+
+	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 * @param string $size
+	 */
+	public function clearImageCache ($size = 'thumbnail') {
+		BSImageCacheHandler::getInstance()->removeThumbnail($this, $size);
+	}
+
+	/**
+	 * 画像の情報を返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセルサイズ
+	 * @param integer $flags フラグのビット列
+	 * @return BSArray 画像の情報
+	 */
+	public function getImageInfo ($size = 'thumbnail', $pixel = null, $flags = null) {
+		return BSImageCacheHandler::getInstance()->getImageInfo($this, $size, $pixel, $flags);
+	}
+
+	/**
+	 * 画像ファイルを返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @return BSImageFile 画像ファイル
+	 */
+	public function getImageFile ($size = 'thumbnail') {
+		foreach (BSImage::getSuffixes() as $suffix) {
+			$name = $this->getImageFileBaseName($size) . $suffix;
+			if ($file = $this->getTable()->getDirectory()->getEntry($name, 'BSImageFile')) {
+				return $file;
+			}
+		}
+	}
+
+	/**
+	 * 画像ファイルを設定する
+	 *
+	 * @access public
+	 * @param BSImageFile $file 画像ファイル
+	 * @param string $size サイズ名
+	 */
+	public function setImageFile (BSImageFile $file, $size = 'thumbnail') {
+		if ($old = $this->getImageFile($size)) {
+			$old->delete();
+		}
+		$file->setMode(0666);
+		$file->rename($this->getImageFileBaseName($size));
+		$file->moveTo($this->getTable()->getDirectory());
+		$this->clearImageCache($size);
+	}
+
+	/**
+	 * 画像ファイルベース名を返す
+	 *
+	 * @access protected
+	 * @param string $size サイズ名
+	 * @return string 画像ファイルベース名
+	 */
+	protected function getImageFileBaseName ($size) {
+		return sprintf('%06d_%s', $this->getID(), $size);
 	}
 
 	/**

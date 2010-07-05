@@ -282,7 +282,7 @@ class BSTwitterAccount
 	 */
 	public function getImageFile ($size = 'icon') {
 		$dir = BSFileUtility::getDirectory('twitter_account');
-		if ($file = $dir->getEntry($this->getImageFileBaseName(), 'BSImageFile')) {
+		if ($file = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile')) {
 			$date = BSDate::getNow()->setAttribute('hour', '-1');
 			if (!$file->getUpdateDate()->isPast($date)) {
 				return $file;
@@ -297,7 +297,7 @@ class BSTwitterAccount
 		$file = BSFileUtility::getTemporaryFile('png', 'BSImageFile');
 		$file->setEngine($icon);
 		$file->save();
-		$file->setName($this->getImageFileBaseName());
+		$file->setName($this->getImageFileBaseName($size));
 		$file->moveTo($dir);
 		return $file;
 	}
@@ -316,11 +316,11 @@ class BSTwitterAccount
 	/**
 	 * 画像ファイルベース名を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @param string $size サイズ名
 	 * @return string 画像ファイルベース名
 	 */
-	public function getImageFileBaseName ($size = 'icon') {
+	protected function getImageFileBaseName ($size) {
 		return sprintf('%010d_%s', $this->getID(), $size);
 	}
 
