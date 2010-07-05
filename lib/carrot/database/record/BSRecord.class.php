@@ -301,11 +301,11 @@ abstract class BSRecord implements ArrayAccess,
 	/**
 	 * 添付ファイルベース名を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $name 名前
 	 * @return string 添付ファイルベース名
 	 */
-	protected function getAttachmentBaseName ($name) {
+	public function getAttachmentBaseName ($name) {
 		return sprintf('%06d_%s', $this->getID(), $name);
 	}
 
@@ -391,11 +391,11 @@ abstract class BSRecord implements ArrayAccess,
 	/**
 	 * 画像ファイルベース名を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $size サイズ名
 	 * @return string 画像ファイルベース名
 	 */
-	protected function getImageFileBaseName ($size) {
+	public function getImageFileBaseName ($size) {
 		return sprintf('%06d_%s', $this->getID(), $size);
 	}
 

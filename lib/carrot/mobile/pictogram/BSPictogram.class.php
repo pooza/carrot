@@ -168,6 +168,15 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	}
 
 	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 * @param string $size
+	 */
+	public function clearImageCache ($size = null) {
+	}
+
+	/**
 	 * 画像の情報を返す
 	 *
 	 * @access public
@@ -219,11 +228,11 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	/**
 	 * 画像ファイルベース名を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $size サイズ名
 	 * @return string 画像ファイルベース名
 	 */
-	protected function getImageFileBaseName ($size) {
+	public function getImageFileBaseName ($size) {
 		return $this->getID();
 	}
 
