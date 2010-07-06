@@ -157,6 +157,17 @@ abstract class BSRecord implements ArrayAccess,
 		$this->getDatabase()->exec(
 			BSSQL::getDeleteQueryString($this->getTable(), $this->getCriteria())
 		);
+		foreach ($this->getTable()->getImageNames() as $field) {
+			if ($file = $this->getImageFile($field)) {
+				$file->delete();
+			}
+			$this->clearImageCache($field);
+		}
+		foreach ($this->getTable()->getAttachmentNames() as $field) {
+			if ($file = $this->getAttachment($field)) {
+				$file->delete();
+			}
+		}
 		$this->clearSerialized();
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$message = new BSStringFormat('%sを削除しました。');
@@ -330,6 +341,25 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSURL 添付ファイルURL
 	 */
 	public function getAttachmentURL ($name = null) {
+	}
+
+	/**
+	 * 添付ファイルをまとめて設定
+	 *
+	 * @access public
+	 * @param BSWebRequest $request リクエスト
+	 */
+	public function setAttachments (BSWebRequest $request) {
+		foreach ($this->getTable()->getImageNames() as $name) {
+			if ($info = $request[$name]) {
+				$this->setImageFile(new BSImageFile($info['tmp_name']), $name);
+			}
+		}
+		foreach ($this->getTable()->getAttachmentNames() as $name) {
+			if ($info = $request[$name]) {
+				$this->setAttachment(new BSFile($info['tmp_name']), $name);
+			}
+		}
 	}
 
 	/**
@@ -556,7 +586,20 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSArray ファイル属性の配列
 	 */
 	protected function getFullAttributes () {
-		return $this->getAttributes();
+		$values = $this->getAttributes();
+		if ($url = $this->getURL()) {
+			$values['url'] = $url->getContents();
+		}
+		foreach ($this->getTable()->getImageNames() as $field) {
+			$values['has_' . $field] = !!$this->getImageFile($field);
+		}
+		foreach ($this->getTable()->getAttachmentNames() as $field) {
+			if ($this->getAttachment($field)) {
+				$values['has_' . $field] = true;
+				$values[$field] = $this->getAttachmentInfo($field);
+			}
+		}
+		return $values;
 	}
 
 	/**

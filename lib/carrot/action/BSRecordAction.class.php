@@ -113,6 +113,7 @@ abstract class BSRecordAction extends BSAction {
 		} else {
 			$this->getRecord()->update($this->getRecordValues());
 		}
+		$this->getRecord()->setAttachments($this->request);
 	}
 
 	/**

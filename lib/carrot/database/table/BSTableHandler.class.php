@@ -806,6 +806,28 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * 画像のサイズ名を全てを返す
+	 *
+	 * @access public
+	 * @return BSArray 画像のサイズ名
+	 * @static
+	 */
+	static public function getImageNames () {
+		return new BSArray;
+	}
+
+	/**
+	 * 添付ファイル名を全てを返す
+	 *
+	 * @access public
+	 * @return BSArray 添付ファイル名
+	 * @static
+	 */
+	static public function getAttachmentNames () {
+		return new BSArray;
+	}
+
+	/**
 	 * テーブルハンドラを返す
 	 *
 	 * @access public
