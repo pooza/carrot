@@ -27,6 +27,9 @@ class BS3GPP2MovieFile extends BSQuickTimeMovieFile {
 		if ($useragent->isMobile()) {
 			$params = new BSArray($params);
 			$params['url'] = $this->getMediaURL($params)->getContents();
+			if (BSString::isBlank($params['type'])) {
+				$params['type'] = $this->getType();
+			}
 			if (BSString::isBlank($params['label'])) {
 				$params['label'] = $this->getBaseName();
 			}

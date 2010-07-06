@@ -90,7 +90,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 		$container = new BSDivisionElement;
 		$object = $container->addElement(new BSObjectElement);
 		$object->setAttribute('type', $params['type']);
-		$object->setAttribute('standby', $params['title']);
+		$object->setAttribute('standby', $params['label']);
 		$object->setAttribute('copyright', 'no');
 		$object->setAttribute('data', $params['url']);
 		$object->setParameter('disposition', 'devmpzz');

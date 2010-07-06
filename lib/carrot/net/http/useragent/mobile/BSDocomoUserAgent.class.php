@@ -96,31 +96,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * ムービー表示用のXHTML要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @param BSUserAgent $useragent 対象ブラウザ
-	 * @return BSDivisionElement 要素
-	 */
-	public function getMovieElement (BSParameterHolder $params) {
-		$container = new BSDivisionElement;
-		$object = $container->addElement(new BSObjectElement);
-		$object->setAttribute('declare', 'declare');
-		$object->setAttribute('type', $params['type']);
-		$object->setAttribute('data', $params['url']);
-		$object->setID('3gp_' . BSCrypt::getDigest($params['url']));
-		$anchor = $container->addElement(new BSDivisionElement);
-		$anchor = $anchor->addElement(new BSAnchorElement);
-		$anchor->setAttribute('href', '#' . $object->getID());
-		if (BSString::isBlank($label = $params['label'])) {
-			$label = '3GP表示';
-		}
-		$anchor->setBody($label);
-		return $container;
-	}
-
-	/**
 	 * 規定の画像形式を返す
 	 *
 	 * @access public
