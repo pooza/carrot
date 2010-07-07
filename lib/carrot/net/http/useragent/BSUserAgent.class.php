@@ -11,7 +11,7 @@
  * @version $Id$
  * @abstract
  */
-abstract class BSUserAgent implements BSAssignable {
+abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	private $type;
 	protected $attributes;
 	protected $bugs;
@@ -26,6 +26,7 @@ abstract class BSUserAgent implements BSAssignable {
 		$this->attributes = new BSArray;
 		$this->attributes['name'] = $name;
 		$this->attributes['type'] = $this->getType();
+		$this->attributes['type_lower'] = BSString::toLower($this->getType());
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
@@ -189,7 +190,7 @@ abstract class BSUserAgent implements BSAssignable {
 	 * @return boolean バグがあるならTrue
 	 */
 	public function hasBug ($name) {
-		return ($this->bugs[$name] || $this->bugs['general']);
+		return !!$this->bugs[$name];
 	}
 
 	/**
@@ -309,6 +310,41 @@ abstract class BSUserAgent implements BSAssignable {
 	 */
 	public function getDefaultImageType () {
 		return BS_IMAGE_THUMBNAIL_TYPE;
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return $this->attributes->hasParameter($key);
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->attributes[$key];
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		throw new BSUserAgentException('属性を更新できません。');
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		throw new BSUserAgentException('属性を削除できません。');
 	}
 
 	/**
