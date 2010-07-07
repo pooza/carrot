@@ -112,14 +112,15 @@ abstract class BSRecord implements ArrayAccess,
 		}
 
 		$db->exec(BSSQL::getUpdateQueryString($table, $values, $this->getCriteria(), $db));
+		if ($record = $this->getParent()) {
+			$record->touch();
+		}
 		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
 			$this->clearSerialized();
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
-			$message = new BSStringFormat('%sを更新しました。');
-			$message[] = $this;
-			$this->getDatabase()->putLog($message);
+			$this->getDatabase()->putLog($this . 'を更新しました。');
 		}
 	}
 
@@ -154,6 +155,9 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
 
+		if ($record = $this->getParent()) {
+			$record->touch();
+		}
 		$this->getDatabase()->exec(
 			BSSQL::getDeleteQueryString($this->getTable(), $this->getCriteria())
 		);
@@ -170,9 +174,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		$this->clearSerialized();
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
-			$message = new BSStringFormat('%sを削除しました。');
-			$message[] = $this;
-			$this->getDatabase()->putLog($message);
+			$this->getDatabase()->putLog($this . 'を削除しました。');
 		}
 	}
 
@@ -214,6 +216,18 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function getDatabase () {
 		return $this->getTable()->getDatabase();
+	}
+
+	/**
+	 * 親レコードを返す
+	 *
+	 * 適切にオーバーライドするば、update等の動作が少し利口に。
+	 *
+	 * @access public
+	 * @return BSRecord 親レコード
+	 */
+	public function getParent () {
+		return null;
 	}
 
 	/**
