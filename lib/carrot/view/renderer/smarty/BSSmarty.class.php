@@ -174,6 +174,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
+		$this->setAttribute('useragent', null);
 
 		$this->finder->clearSuffixes();
 		if ($useragent->isMobile()) {

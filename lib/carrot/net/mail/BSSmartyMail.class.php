@@ -31,7 +31,6 @@ class BSSmartyMail extends BSMail {
 		$renderer->setAttribute('date', BSDate::getNow());
 		$renderer->setAttribute('client_host', BSRequest::getInstance()->getHost());
 		$renderer->setAttribute('server_host', BSController::getInstance()->getHost());
-		$renderer->setAttribute('useragent', BSRequest::getInstance()->getUserAgent());
 		return $renderer;
 	}
 
