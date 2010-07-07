@@ -79,10 +79,10 @@ abstract class BSSortableRecord extends BSRecord {
 	/**
 	 * 同種のレコードを返す
 	 *
-	 * @access public
-	 * @return SortableTableHandler テーブル
+	 * @access protected
+	 * @return BSSortableTableHandler テーブル
 	 */
-	public function getSimilars () {
+	protected function getSimilars () {
 		if (!$this->similars) {
 			$this->similars = BSTableHandler::getInstance(get_class($this));
 			if ($record = $this->getParent()) {
