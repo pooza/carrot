@@ -190,26 +190,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSImage favicon画像
 	 */
 	public function getFavicon () {
-		try {
-			$url = clone $this;
-			$url['path'] = '/favicon.ico';
-
-			BSUtility::includeFile('class.ico');
-			$ico = new Ico($url->getContents());
-			$ico->setBackgroundTransparent(true);
-			$image = new BSImage;
-			if (!$resource = $ico->getIcon(0)) {
-				return null;
-			}
-			$image->setImage($resource);
-			$image->setType(BSMIMEType::getType('png'));
-
-			return $image;
-		} catch (BSHTTPException $e) {
-			return null;
-		} catch (BSImageException $e) {
-			return null;
-		}
+		$service = new BSGoogleFaviconsService;
+		return $service->getFavicon($this);
 	}
 
 	/**
@@ -218,7 +200,10 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = null) {
+	public function clearImageCache ($size = 'favicon') {
+		if ($file = $this->getImageFile($size)) {
+			$file->clearImageCache();
+		}
 	}
 
 	/**
@@ -247,20 +232,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSImageFile 画像ファイル
 	 */
 	public function getImageFile ($size = 'favicon') {
-		$dir = BSFileUtility::getDirectory('favicon');
-		$name = $this->getImageFileBaseName($size);
-		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			if (!$favicon = $this->getFavicon()) {
-				return null;
-			}
-
-			$file = BSFileUtility::getTemporaryFile('png', 'BSImageFile');
-			$file->setEngine($favicon);
-			$file->save();
-			$file->setName($name);
-			$file->moveTo($dir);
-		}
-		return $file;
+		$service = new BSGoogleFaviconsService;
+		return $service->getImageFile($this['host']);
 	}
 
 	/**

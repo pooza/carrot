@@ -22,10 +22,6 @@ class UploadProgressAction extends BSAction {
 	public function validate () {
 		return extension_loaded('apc');
 	}
-
-	public function handleError () {
-		return $this->controller->getAction('not_found')->forward();
-	}
 }
 
 /* vim:set tabstop=4: */

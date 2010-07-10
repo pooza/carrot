@@ -263,7 +263,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @return string 画像ファイルベース名
 	 */
 	public function getImageFileBaseName ($size) {
-		$this->getBaseName();
+		return $this->getBaseName();
 	}
 
 	/**

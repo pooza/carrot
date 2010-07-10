@@ -60,6 +60,9 @@ class BSJSONView extends BSView {
 	public function render () {
 		$params = $this->renderer->getParameters();
 		$params['status'] = $this->getStatus();
+		$params['module'] = $this->getModule()->getName();
+		$params['action'] = $this->getAction()->getName();
+		$params['params'] = $this->request->getParameters();
 		if ($this->request->hasErrors()) {
 			$params['errors'] = $this->request->getErrors();
 		}

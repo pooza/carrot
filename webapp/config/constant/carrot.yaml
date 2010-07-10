@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.131
+  ver: 2.3.132
 
 admin:
   email:
@@ -190,8 +190,10 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
   twitter:
     dsn: sqlite:%BS_VAR_DIR%/db/twitter.sqlite3
-pictogram:
 pgsql:
+  dir: /usr/local
+pictogram:
+png2ico:
   dir: /usr/local
 proctools:
   dir: /usr/local

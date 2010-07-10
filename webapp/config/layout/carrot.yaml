@@ -104,6 +104,8 @@ mysql:
   constant: yes
 pictogram:
   parent: images
+png2ico:
+  constant: yes
 proctools:
   constant: yes
 pgsql:
