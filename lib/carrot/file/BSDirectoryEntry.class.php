@@ -14,6 +14,7 @@
 abstract class BSDirectoryEntry {
 	protected $name;
 	protected $path;
+	protected $id;
 	private $suffix;
 	private $basename;
 	private $shortPath;
@@ -21,13 +22,19 @@ abstract class BSDirectoryEntry {
 	protected $directory;
 
 	/**
-	 * inodeを返す
+	 * ユニークなファイルIDを返す
 	 *
 	 * @access public
 	 * @return integer ID
 	 */
 	public function getID () {
-		return fileinode($this->getPath());
+		if (!$this->id) {
+			$this->id = BSCrypt::getDigest(new BSArray(array(
+				fileinode($this->getPath()),
+				$this->getUpdateDate()->format('YmdHis'),
+			)));
+		}
+		return $this->id;
 	}
 
 	/**
