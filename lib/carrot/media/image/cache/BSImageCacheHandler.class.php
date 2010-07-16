@@ -324,7 +324,11 @@ class BSImageCacheHandler {
 	 * @return string サムネイル名
 	 */
 	private function getEntryName (BSImageContainer $record, $size) {
-		return BSCrypt::getDigest(array(get_class($record), $record->getID(), $size));
+		return BSCrypt::getDigest(array(
+			get_class($record),
+			$record->getID(),
+			$size
+		));
 	}
 
 	/**
