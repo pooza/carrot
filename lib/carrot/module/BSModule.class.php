@@ -196,7 +196,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @access public
 	 * @param BSArray $params 検索条件キャッシュ
 	 */
-	public function setParameterCache (BSArray $params) {
+	public function cacheParameters (BSArray $params) {
 		$this->params = clone $params;
 		$this->params->removeParameter(BSRequest::MODULE_ACCESSOR);
 		$this->params->removeParameter(BSRequest::ACTION_ACCESSOR);
