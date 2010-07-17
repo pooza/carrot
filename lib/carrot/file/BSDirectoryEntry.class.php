@@ -14,7 +14,7 @@
 abstract class BSDirectoryEntry {
 	protected $name;
 	protected $path;
-	private $id;
+	protected $id;
 	private $suffix;
 	private $basename;
 	private $shortPath;
@@ -29,11 +29,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getID () {
 		if (!$this->id) {
-			$this->id = BSCrypt::getDigest(new BSArray(array(
-				fileinode($this->getPath()),
-				$this->getCreateDate()->format('YmdHis'),
-				$this->getUpdateDate()->format('YmdHis'),
-			)));
+			$this->id = BSCrypt::getDigest(array($this->getPath(), fileinode($this->getPath())));
 		}
 		return $this->id;
 	}

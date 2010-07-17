@@ -208,7 +208,7 @@ class BSImageCacheHandler {
 			$info['height'] = $image->getHeight();
 			$info['alt'] = $record->getLabel();
 			$info['type'] = $image->getType();
-			$info['pixel_size'] = $info['width'] . '×' . $string[] = $info['height'];
+			$info['pixel_size'] = $info['width'] . '×' . $info['height'];
 			return $info;
 		} catch (BSImageException $e) {
 		}

@@ -39,6 +39,25 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
+	 * ユニークなファイルIDを返す
+	 *
+	 * @access public
+	 * @return integer ID
+	 */
+	public function getID () {
+		if (!$this->id) {
+			$this->id = BSCrypt::getDigest(array(
+				$this->getPath(),
+				$this->getType(),
+				$this->getSize(),
+				fileinode($this->getPath()),
+				$this->getUpdateDate()->format('YmdHis'),
+			));
+		}
+		return $this->id;
+	}
+
+	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public
