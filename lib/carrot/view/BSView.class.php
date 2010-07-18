@@ -43,11 +43,9 @@ class BSView extends BSHTTPResponse {
 	public function __get ($name) {
 		switch ($name) {
 			case 'controller':
-				return BSController::getInstance();
 			case 'request':
-				return BSRequest::getInstance();
 			case 'user':
-				return BSUser::getInstance();
+				return BSUtility::executeMethod($name, 'getInstance');
 			case 'useragent':
 				return BSRequest::getInstance()->getUserAgent();
 			case 'translator':

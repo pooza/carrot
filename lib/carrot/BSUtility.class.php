@@ -83,7 +83,10 @@ class BSUtility {
 	 * @return mixed メソッドの返値
 	 * @static
 	 */
-	static public function executeMethod ($object, $method, $values) {
+	static public function executeMethod ($object, $method, $values = array()) {
+		if (is_string($object)) {
+			$object = BSClassLoader::getInstance()->getClass($object);
+		}
 		if (!method_exists($object, $method)) {
 			$message = new BSStringFormat('クラス "%s" のメソッド "%s" が未定義です。');
 			$message[] = get_class($object);
