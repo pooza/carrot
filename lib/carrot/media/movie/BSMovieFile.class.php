@@ -167,7 +167,6 @@ class BSMovieFile extends BSMediaFile {
 			$container->addElement($image);
 		} else {
 			$container->setBody($params['label']);
-			$container->registerStyleClass('other_txt');
 		}
 		return $container;
 	}
