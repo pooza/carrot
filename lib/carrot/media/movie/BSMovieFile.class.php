@@ -99,6 +99,10 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		if ($params['mode'] == 'shadowbox') {
+			return $this->getShadowboxElement($params);
+		}
+
 		$container = parent::getElement($params);
 		if ($inner = $container->getElement('div')) { //Gecko対応
 			$inner->setStyles($this->getStyles($params));
@@ -138,6 +142,33 @@ class BSMovieFile extends BSMediaFile {
 		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
 		$element->setFlashVar('config', $this->getPlayerConfig($params));
 		return $element;
+	}
+
+	/**
+	 * Shadowboxへのリンク要素を返す
+	 *
+	 * @access protected
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSShadowboxAnchorElement 要素
+	 */
+	protected function getShadowboxElement (BSParameterHolder $params) {
+		$container = new BSShadowboxAnchorElement;
+		$container->setWidth($params['width']);
+		$container->setHeight($params['height']);
+		$container->setURL($this->getMediaURL($params));
+		if ($info = $params['thumbnail']) {
+			$info = new BSArray($info);
+			$image = new BSImageElement;
+			$image->setAttribute('width', $info['width']);
+			$image->setAttribute('height', $info['height']);
+			$image->setAttribute('alt', $info['alt']);
+			$image->setURL($info['url']);
+			$container->addElement($image);
+		} else {
+			$container->setBody($params['label']);
+			$container->registerStyleClass('other_txt');
+		}
+		return $container;
 	}
 
 	/**

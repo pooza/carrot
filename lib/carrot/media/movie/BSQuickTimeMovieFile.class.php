@@ -21,6 +21,10 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		if ($params['mode'] == 'shadowbox') {
+			return $this->getShadowboxElement($params);
+		}
+
 		$container = new BSDivisionElement;
 		$container->registerStyleClass($params['style_class']);
 		$container->setStyles($this->getStyles($params));
