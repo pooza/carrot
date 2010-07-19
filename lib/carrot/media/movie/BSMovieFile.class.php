@@ -163,6 +163,7 @@ class BSMovieFile extends BSMediaFile {
 			$image->setAttribute('height', $info['height']);
 			$image->setAttribute('alt', $info['alt']);
 			$image->setURL($info['url']);
+			$image->registerStyleClass('deny_take_out');
 			$container->addElement($image);
 		} else {
 			$container->setBody($params['label']);
