@@ -35,6 +35,9 @@ class BSMusicValidator extends BSValidator {
 			$file = new BSMusicFile($value['tmp_name']);
 			if (!$file->isExists() || !$file->validate()) {
 				$this->error = $this['invalid_error'];
+				if (!BSString::isBlank($error = $file->getError())) {
+					$this->error .= '(' . $error . ')';
+				}
 			}
 		} catch (Exception $e) {
 			$this->error = $this['invalid_error'];

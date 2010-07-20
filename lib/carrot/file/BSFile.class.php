@@ -13,11 +13,11 @@ ini_set('auto_detect_line_endings', true);
  * @version $Id$
  */
 class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
+	protected $error;
 	private $mode;
 	private $lines;
 	private $size;
 	private $handle;
-	private $error;
 	private $binary = false;
 	const LINE_SEPARATOR = "\n";
 

@@ -15,6 +15,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected $attributes;
 	protected $output;
 	protected $types;
+	protected $error;
 
 	/**
 	 * @access public
@@ -68,6 +69,13 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		$command->addValue($this->getPath());
 		$command->addValue('2>&1', null);
 		$this->output = $command->getResult()->join("\n");
+
+		if (mb_ereg('Error .*$', $this->output, $matches)) {
+			$this->attributes['type'] = BSMIMEType::DEFAULT_TYPE;
+			$this->error = $matches[0];
+			return;
+		}
+
 		if (mb_ereg('Duration: ([.:[:digit:]]+),', $this->output, $matches)) {
 			$this->attributes['duration'] = $matches[1];
 			$sec = BSString::explode(':', $matches[1]);
@@ -193,16 +201,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			$this->analyze();
 		}
 		return $this->isReadable() && $this->attributes->count();
-	}
-
-	/**
-	 * エラーメッセージを返す
-	 *
-	 * @access public
-	 * @return string エラーメッセージ
-	 */
-	public function getError () {
-		return ' 正しいメディアファイルではありません。';
 	}
 
 	/**
