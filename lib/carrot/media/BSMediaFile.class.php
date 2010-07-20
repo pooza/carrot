@@ -15,7 +15,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected $attributes;
 	protected $output;
 	protected $types;
-	protected $error;
 
 	/**
 	 * @access public
