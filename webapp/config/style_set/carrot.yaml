@@ -18,6 +18,7 @@ carrot.Detail:
     - protocalendar
     - prototabs
     - lightbox
+    - color_picker
     - application
 
 carrot.LoginForm:
