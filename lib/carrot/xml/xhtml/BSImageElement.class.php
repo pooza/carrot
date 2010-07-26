@@ -70,6 +70,7 @@ class BSImageElement extends BSXHTMLElement {
 			case 'width':
 			case 'height':
 			case 'border':
+			case 'align':
 			case 'class':
 			case 'style':
 				return parent::setAttribute($name, $value);
