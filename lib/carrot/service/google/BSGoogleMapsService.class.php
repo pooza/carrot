@@ -159,8 +159,17 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$image = new BSImageElement;
 		$image->setURL(BSURL::getInstance($info['url']));
 		$container = new BSDivisionElement;
-		$anchor = $container->addElement(new BSAnchorElement);
-		$anchor->link($image, self::getURL($address, $this->useragent));
+		if (BSString::isBlank($label = $params['label'])) {
+			$anchor = $container->addElement(new BSAnchorElement);
+			$anchor->link($image, self::getURL($address, $this->useragent));
+		} else {
+			$container->addElement($image);
+			$labelContainer = $container->addElement(new BSDivisionElement);
+			$labelContainer->setAttribute('align', 'center');
+			$anchor = $labelContainer->addElement(new BSAnchorElement);
+			$anchor->setBody($label);
+			$anchor->setURL(self::getURL($address, $this->useragent));
+		}
 		return $container;
 	}
 
