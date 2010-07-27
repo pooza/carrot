@@ -24,7 +24,7 @@ Control.ColorPicker.prototype = {
     this.options = Object.extend({
        IMAGE_BASE : "/carrotlib/images/color_picker/"
     }, options || {});
-    this.swatch = $(this.options.swatch) || this.field;
+    this.swatch = $(this.options.swatch) || $(this.field.id + '_swatch') || this.field;
     this.rgb = {};
     this.hsv = {};
     this.isOpen = false;
@@ -45,7 +45,7 @@ Control.ColorPicker.prototype = {
           '<div id="colorpicker-bg-overlay" style="z-index: 1002;"></div>' +
           '<div id="colorpicker-selector"><img src="' + this.options.IMAGE_BASE + 'select.gif" width="11" height="11" alt="" /></div></div>' +
           '<div id="colorpicker-hue-container"><img src="' + this.options.IMAGE_BASE + 'hue.png" id="colorpicker-hue-bg-img"><div id="colorpicker-hue-slider"><div id="colorpicker-hue-thumb"><img src="' + this.options.IMAGE_BASE + 'hline.png"></div></div></div>' + 
-          '<div id="colorpicker-footer"><span id="colorpicker-value">#<input type="text" onclick="this.select()" id="colorpicker-value-input" name="colorpicker-value" value=""></input></span><button id="colorpicker-okbutton">OK</button></div>'
+          '<div id="colorpicker-footer"><span id="colorpicker-value">#<input type="text" size="6" maxlength="6" onclick="this.select()" id="colorpicker-value-input" name="colorpicker-value" value="" class="english"></input></span><button id="colorpicker-okbutton">OK</button></div>'
         document.body.appendChild(control);
       }
       Control.ColorPicker.CONTROL = {
@@ -86,6 +86,7 @@ Control.ColorPicker.prototype = {
     this.updateOnClickPickerListener = this.updateSelector.bindAsEventListener(this);
 
     Event.observe(this.swatch, "click", this.toggleOnClickListener);
+    Event.observe(this.field, "click", this.toggleOnClickListener);
     Event.observe(this.field, "change", this.updateOnChangeListener);
     Event.observe(this.control.input, "change", this.updateOnChangeListener);
 

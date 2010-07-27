@@ -19,10 +19,15 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		$url = BSURL::getInstance($params['contents']);
 	}
 
-	if ($useragent = $smarty->getUserAgent()) {
+	if (!BSString::isBlank($name = $params['ua'])) {
+		$useragent = BSUserAgent::getInstance($name);
+		$url->setParameter(BSUserAgent::ACCESSOR, $name);
+	} else {
+		$useragent = $smarty->getUserAgent();
+	}
+	if ($useragent) {
 		$url = $useragent->modifyURL($url);
 	}
-
 	return $url->getContents();
 }
 

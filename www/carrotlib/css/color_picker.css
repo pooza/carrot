@@ -4,7 +4,7 @@
 #colorpicker {
   position: absolute;
   width: 145px;
-  height: 135px;
+  height: 145px;
   overflow: hidden;
   background: #F9F9F9;
   border: 2px #C0C0C0 outset;
@@ -103,20 +103,24 @@
 
 #colorpicker-value,
 #colorpicker-value-input {
-  font-size: 9px !important;
-  font-family: Helvetica, Verdana, Sans-Serif;
-  height: 10px;
+  font-size: 12px !important;
 }
 
 #colorpicker-value-input {
-  width: 40px;
+  width: 50px;
 }
 #colorpicker-okbutton {
   float: right;
   padding: 0 10px;
   background: #3366FF;
-  font-size: 10px;
+  font-size: 12px;
   font-family: Tahoma, Helvetica, Sans-Serif;
   border: 1px solid #666666;
   color: #ffffff;
+}
+
+button.swatch {
+  width: 1em;
+  height: 1em;
+  border: 1px outset #666;
 }
