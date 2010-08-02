@@ -4148,7 +4148,7 @@ K.options = {
      *
      * @type    {Number}
      */
-    overlayOpacity: 0.5,
+    overlayOpacity: 0.8,
 
     /**
      * The duration (in seconds) to use for resizing animations.
