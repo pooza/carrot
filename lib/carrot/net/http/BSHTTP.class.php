@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSHTTP extends BSSocket {
+	const VERSION_HEADER_NAME = 'X-Carrot-Version';
 
 	/**
 	 * HEADリクエスト
@@ -83,6 +84,7 @@ class BSHTTP extends BSSocket {
 		}
 
 		$request->setHeader('User-Agent', BSController::getFullName('en'));
+		$request->setHeader(self::VERSION_HEADER_NAME, BSController::getVersion());
 		$this->putLine($request->getContents());
 
 		$response = new BSHTTPResponse;
