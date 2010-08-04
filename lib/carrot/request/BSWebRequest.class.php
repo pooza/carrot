@@ -206,7 +206,7 @@ class BSWebRequest extends BSRequest {
 	 * @return boolean Flash環境ならTrue
 	 */
 	public function isCarrot () {
-		return !!$this->getHeader(BSHTTP::VERSION_HEADER_NAME);
+		return BSString::isContain(BS_CARROT_NAME, $this->getUserAgent()->getName());
 	}
 
 	/**

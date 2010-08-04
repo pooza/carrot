@@ -132,15 +132,12 @@ class BSCurlHTTP extends BSHTTP {
 
 			$this->engine = curl_init();
 			$this->setAttribute('autoreferer', true);
-			$this->setAttribute('useragent', BSController::getFullName('en'));
+			$this->setAttribute('useragent', BS_CARROT_NAME . ' ' . BS_CARROT_VER);
 			$this->setAttribute('followlocation', true);
 			$this->setAttribute('header', true);
 			$this->setAttribute('returntransfer', true);
 			$this->setAttribute('maxredirs', 32);
 			$this->setAttribute('ssl_verifypeer', false);
-			$this->setAttribute('httpheader', array(
-				self::VERSION_HEADER_NAME => BSController::getVersion(),
-			));
 			if (!$this->host->isForeign()) {
 				$this->setAuth(BS_APP_BASIC_AUTH_UID, BS_APP_BASIC_AUTH_PASSWORD);
 			}
