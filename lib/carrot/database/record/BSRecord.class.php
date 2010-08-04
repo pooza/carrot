@@ -452,10 +452,11 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function getLabel ($language = 'ja') {
 		foreach (array('name', 'label', 'title') as $name) {
-			foreach (array('', '_' . $language) as $suffix) {
-				$name .= $suffix;
-				if (!BSString::isBlank($label = $this[$name])) {
-					return $label;
+			foreach (array(null, $this->getTable()->getName() . '_') as $prefix) {
+				foreach (array(null, '_' . $language) as $suffix) {
+					if (!BSString::isBlank($label = $this[$prefix . $name . $suffix])) {
+						return $label;
+					}
 				}
 			}
 		}
