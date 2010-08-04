@@ -311,7 +311,13 @@ abstract class BSController {
 	 * @static
 	 */
 	static public function getFullName ($lang = 'ja') {
-		return self::getName($lang) . ' ' . self::getVersion();
+		return sprintf(
+			'%s %s (Powered by %s %s)',
+			self::getName($lang),
+			self::getVersion(),
+			BS_CARROT_NAME,
+			BS_CARROT_VER
+		);
 	}
 }
 

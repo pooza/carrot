@@ -82,7 +82,7 @@ class BSHTTP extends BSSocket {
 			throw new BSHTTPException($this . 'は既に開いています。');
 		}
 
-		$request->setHeader('User-Agent', BS_CARROT_NAME . ' ' . BS_CARROT_VER);
+		$request->setHeader('User-Agent', BSController::getFullName('en'));
 		$this->putLine($request->getContents());
 
 		$response = new BSHTTPResponse;
