@@ -154,8 +154,8 @@ class BSWebRequest extends BSRequest {
 	public function isEnableCookie () {
 		return (!$this->isAjax()
 			&& !$this->isFlash()
-			&& !$this->isMobile()
 			&& !$this->isCarrot()
+			&& !$this->isMobile()
 		);
 	}
 

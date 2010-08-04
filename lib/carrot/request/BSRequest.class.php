@@ -397,6 +397,16 @@ abstract class BSRequest extends BSHTTPRequest {
 	public function isFlash () {
 		return false;
 	}
+
+	/**
+	 * Carrot環境か？
+	 *
+	 * @access public
+	 * @return boolean Flash環境ならTrue
+	 */
+	public function isCarrot () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */
