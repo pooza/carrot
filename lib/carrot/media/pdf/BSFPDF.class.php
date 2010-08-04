@@ -165,7 +165,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @return string ヘッダの内容
 	 */
 	protected function getHeaderContents () {
-		return BSController::getName();
+		return BSController::getInstance()->getName();
 	}
 
 	/**

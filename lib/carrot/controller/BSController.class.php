@@ -282,39 +282,17 @@ abstract class BSController {
 	}
 
 	/**
-	 * アプリケーション名を返す
-	 *
-	 * @access public
-	 * @param string $lang 言語
-	 * @return string アプリケーション名
-	 */
-	static public function getName ($lang = 'ja') {
-		return self::getInstance()->getAttribute('app_name_' . $lang);
-	}
-
-	/**
-	 * アプリケーションのバージョンを返す
-	 *
-	 * @access public
-	 * @return string バージョン
-	 */
-	static public function getVersion () {
-		return BS_APP_VER;
-	}
-
-	/**
 	 * バージョン番号込みのアプリケーション名を返す
 	 *
 	 * @access public
 	 * @param string $lang 言語
 	 * @return string アプリケーション名
-	 * @static
 	 */
-	static public function getFullName ($lang = 'ja') {
+	public function getName ($lang = 'ja') {
 		return sprintf(
 			'%s %s (Powered by %s %s)',
-			self::getName($lang),
-			self::getVersion(),
+			$this->getAttribute('app_name_' . $lang),
+			BS_APP_VER,
 			BS_CARROT_NAME,
 			BS_CARROT_VER
 		);

@@ -23,7 +23,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 		$this->setNamespace($this->namespace);
 		$this->setAttribute('version', $this->version);
 		$this->setDate(BSDate::getNow());
-		$this->createElement('generator', BSController::getFullName('ja'));
+		$this->createElement('generator', BSController::getInstance()->getName());
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}

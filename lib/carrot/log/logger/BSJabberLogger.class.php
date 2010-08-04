@@ -81,7 +81,7 @@ class BSJabberLogger extends BSLogger {
 	 */
 	private function send ($message, $priority) {
 		$message = array(
-			'[' . BSController::getInstance()->getName() . ']',
+			'[' . BS_APP_NAME_JA . ']',
 			'[' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ']', //BSRequest::getHostは使わない
 			'[' . $priority . ']',
 			$message,
