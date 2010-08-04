@@ -136,7 +136,9 @@ abstract class BSSortableRecord extends BSRecord {
 		$rank = 0;
 		foreach ($ids as $id) {
 			$rank ++;
-			$this->getSimilars()->getRecord($id)->setRank($rank);
+			if ($record = $this->getSimilars()->getRecord($id)) {
+				$record->setRank($rank);
+			}
 		}
 	}
 
