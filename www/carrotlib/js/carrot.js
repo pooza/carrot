@@ -101,8 +101,4 @@ document.observe('dom:loaded', function () {
       + '//ajaxzip3.googlecode.com/svn/trunk/ajaxzip3/zipdata';
   } catch (e) {
   }
-  try {
-    Shadowbox.init({autoplayMovies: false});
-  } catch (e) {
-  }
 });
