@@ -31,7 +31,7 @@ function openPictogramPallet (id) {
 function putSmartTag (tag, field, name, params) {
   var tag = '[[' + tag;
   if (name) {
-    tag += ':' + name.gsub(':', '&#58;').gsub('[', '&#91;').gsub(']', '&#93;');
+    tag += ':' + name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
     if (params) {
       var encoded = [];
       for(var key in params) {
