@@ -72,7 +72,7 @@ class BSAdministratorRole implements BSRole {
 	 * @return string 名前
 	 */
 	public function getName ($language = 'ja') {
-		return BSController::getInstance()->getName($language) . ' 管理者';
+		return BSController::getInstance()->getAttribute('app_name_' . $language) . ' 管理者';
 	}
 
 	/**

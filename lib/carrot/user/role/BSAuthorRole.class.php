@@ -86,7 +86,7 @@ class BSAuthorRole implements BSRole {
 	 */
 	public function getName ($language = 'ja') {
 		if (BSString::isBlank($name = BS_AUTHOR_NAME)) {
-			$name = BSController::getInstance()->getName($language);
+			$name = BSController::getInstance()->getAttribute('app_name_' . $language);
 		}
 		return $name;
 	}
@@ -109,9 +109,10 @@ class BSAuthorRole implements BSRole {
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return !BSString::isBlank(BS_AUTHOR_PASSWORD)
+		return (!BSString::isBlank(BS_AUTHOR_PASSWORD)
 			&& !BSString::isBlank($password)
-			&& BSCrypt::getInstance()->auth(BS_AUTHOR_PASSWORD, $password);
+			&& BSCrypt::getInstance()->auth(BS_AUTHOR_PASSWORD, $password)
+		);
 	}
 
 	/**
