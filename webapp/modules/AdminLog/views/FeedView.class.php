@@ -16,7 +16,7 @@ class FeedView extends BSView {
 
 	public function execute () {
 		$this->renderer->setTitle($this->controller->getHost()->getName());
-		$this->renderer->setDescription(BSController::getName() . 'の管理ログ');
+		$this->renderer->setDescription(BS_APP_NAME_JA . 'の管理ログ');
 		$this->renderer->setLink($this->getModule('AdminLog'));
 		foreach ($this->request->getAttribute('entries') as $log) {
 			$entry = $this->renderer->createEntry();
