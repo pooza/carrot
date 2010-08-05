@@ -126,9 +126,10 @@ class BSAdministratorRole implements BSRole {
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return !BSString::isBlank(BS_ADMIN_PASSWORD)
+		return (!BSString::isBlank(BS_ADMIN_PASSWORD)
 			&& !BSString::isBlank($password)
-			&& BSCrypt::getInstance()->auth(BS_ADMIN_PASSWORD, $password);
+			&& BSCrypt::getInstance()->auth(BS_ADMIN_PASSWORD, $password)
+		);
 	}
 
 	/**
