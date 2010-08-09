@@ -22,7 +22,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	static protected function connect ($name) {
 		$constants = BSConstantHandler::getInstance();
-		$db = new BSSQLiteDatabase($constants['PDO_' . $name . '_DSN']);
+		$db = new self($constants['PDO_' . $name . '_DSN']);
 		$db->setName($name);
 		return $db;
 	}
@@ -34,7 +34,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	protected function parseDSN () {
 		parent::parseDSN();
-		mb_ereg('^sqlite:(.+)$', $this['dsn'], $matches);
+		mb_ereg('^sqlite:(.+)$', $this->getDSN(), $matches);
 		$this->attributes['file'] = new BSFile($matches[1]);
 	}
 

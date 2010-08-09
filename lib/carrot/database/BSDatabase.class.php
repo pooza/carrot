@@ -127,11 +127,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @access protected
 	 */
 	protected function parseDSN () {
-		$constants = BSConstantHandler::getInstance();
 		$this->attributes['connection_name'] = $this->getName();
-		$this->attributes['dsn'] = $constants['PDO_' . $this->getName() . '_DSN'];
-		$this->attributes['uid'] = $constants['PDO_' . $this->getName() . '_UID'];
-		$this->attributes['password'] = $constants['PDO_' . $this->getName() . '_PASSWORD'];
+		$this->attributes['dsn'] = $this->getConstant('dsn');
+		$this->attributes['uid'] = $this->getConstant('uid');
+		$this->attributes['password'] = $this->getConstant('password');
 		$this->attributes['dbms'] = $this->getDBMS();
 		$this->attributes['version'] = $this->getVersion();
 		$this->attributes['encoding'] = $this->getEncoding();
@@ -291,11 +290,11 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	/**
 	 * クエリーログを使用するか？
 	 *
-	 * @access private
+	 * @access protected
 	 * @return boolean クエリーログを使用するならTrue
 	 */
-	private function isLoggable () {
-		return BSController::getInstance()->getAttribute('PDO_' . $this->getName() . '_LOGGABLE');
+	protected function isLoggable () {
+		return !!$this->getConstant('loggable');
 	}
 
 	/**
@@ -308,6 +307,18 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function getSequenceName ($table, $field = 'id') {
 		return null;
+	}
+
+	/**
+	 * 定数を返す
+	 *
+	 * @access public
+	 * @param string $name 定数名
+	 * @return string 定数
+	 */
+	public function getConstant ($name) {
+		$constants = BSConstantHandler::getInstance();
+		return $constants['PDO_' . $this->getName() . '_' . $name];
 	}
 
 	/**
@@ -414,10 +425,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	/**
 	 * DBMSを返す
 	 *
-	 * @access private
-	 * @return string DBMS
+	 * @access protected
+	 * @return string DBMS名
 	 */
-	private function getDBMS () {
+	protected function getDBMS () {
 		if (!mb_ereg('^BS([[:alpha:]]+)Database$', get_class($this), $matches)) {
 			throw new BSDatabaseException(get_class($this) . 'のDBMS名が正しくありません。');
 		}

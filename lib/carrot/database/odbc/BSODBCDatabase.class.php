@@ -23,7 +23,7 @@ class BSODBCDatabase extends BSDatabase {
 	static protected function connect ($name) {
 		foreach (self::getPasswords($name) as $password) {
 			try {
-				$db = new BSODBCDatabase(
+				$db = new self(
 					$constants['PDO_' . $name . '_DSN'],
 					$constants['PDO_' . $name . '_UID'],
 					$password
