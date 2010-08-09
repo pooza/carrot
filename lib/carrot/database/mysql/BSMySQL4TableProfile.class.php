@@ -5,12 +5,12 @@
  */
 
 /**
- * MySQL4.0テーブルのプロフィール
+ * MySQL4.x以前のテーブルのプロフィール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSMySQL40TableProfile extends BSMySQLTableProfile {
+class BSMySQL4TableProfile extends BSMySQLTableProfile {
 
 	/**
 	 * テーブルのフィールドリストを配列で返す

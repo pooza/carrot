@@ -98,7 +98,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	public function getTableProfile ($table) {
 		if ($this->getVersion() < 5.0) {
-			return new BSMySQL40TableProfile($table, $this);
+			return new BSMySQL4TableProfile($table, $this);
 		} else {
 			return parent::getTableProfile($table);
 		}
