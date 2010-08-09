@@ -14,6 +14,18 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	private $file;
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($contents, $name = 'default') {
+		parent::__construct($contents, $name);
+		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+)$', $contents, $matches);
+		$this['host'] = new BSHost($matches[1]);
+		$this['database_name'] = $matches[2];
+		$this['config_file'] = $this->getFile();
+	}
+
+	/**
 	 * データベースに接続して返す
 	 *
 	 * @access public
@@ -43,20 +55,6 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	}
 
 	/**
-	 * DSNをパースしてパラメータに格納
-	 *
-	 * @access protected
-	 */
-	protected function parse () {
-		parent::parse();
-
-		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+)$', $this->getContents(), $matches);
-		$this['host'] = new BSHost($matches[1]);
-		$this['database_name'] = $matches[2];
-		$this['config_file'] = $this->getFile();
-	}
-
-	/**
 	 * 設定ファイルを返す
 	 *
 	 * @access private
@@ -65,7 +63,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	private function getFile () {
 		if (!$this->file) {
 			$dir = BSFileUtility::getDirectory('config');
-			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
+			foreach (array('my.cnf.ini', 'my.cnf', 'my.ini') as $name) {
 				if ($this->file = $dir->getEntry($name, 'BSConfigFile')) {
 					break;
 				}

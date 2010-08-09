@@ -13,6 +13,16 @@
 class BSSQLiteDataSourceName extends BSDataSourceName {
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($contents, $name = 'default') {
+		parent::__construct($contents, $name);
+		mb_ereg('^sqlite:(.+)$', $contents, $matches);
+		$this['file'] = new BSFile($matches[1]);
+	}
+
+	/**
 	 * データベースに接続して返す
 	 *
 	 * @access public
@@ -20,17 +30,6 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 	 */
 	public function getDatabase () {
 		return new BSSQLiteDatabase($this->getContents());
-	}
-
-	/**
-	 * DSNをパースしてパラメータに格納
-	 *
-	 * @access protected
-	 */
-	protected function parse () {
-		parent::parse();
-		mb_ereg('^sqlite:(.+)$', $this->getContents(), $matches);
-		$this['file'] = new BSFile($matches[1]);
 	}
 }
 

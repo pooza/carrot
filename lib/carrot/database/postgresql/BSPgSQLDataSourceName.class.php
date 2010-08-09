@@ -13,24 +13,13 @@
 class BSPgSQLDataSourceName extends BSDataSourceName {
 
 	/**
-	 * データベースに接続して返す
-	 *
 	 * @access public
-	 * @return BSDatabase データベース
+	 * @param mixed[] $params 要素の配列
 	 */
-	public function getDatabase () {
-		return new BSPostgreSQLDatabase($this->getContents());
-	}
+	public function __construct ($contents, $name = 'default') {
+		parent::__construct($contents, $name);
 
-	/**
-	 * DSNをパースしてパラメータに格納
-	 *
-	 * @access protected
-	 */
-	protected function parse () {
-		parent::parse();
-
-		mb_ereg('^pgsql:(.+)$', $this->getContents(), $matches);
+		mb_ereg('^pgsql:(.+)$', $contents, $matches);
 		foreach (mb_split(' +', $matches[1]) as $config) {
 			$config = BSString::explode('=', $config);
 			switch ($config[0]) {
@@ -45,6 +34,16 @@ class BSPgSQLDataSourceName extends BSDataSourceName {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * データベースに接続して返す
+	 *
+	 * @access public
+	 * @return BSDatabase データベース
+	 */
+	public function getDatabase () {
+		return new BSPostgreSQLDatabase($this->getContents());
 	}
 }
 

@@ -12,17 +12,17 @@
  * @abstract
  */
 abstract class BSDataSourceName extends BSParameterHolder {
-	private $name;
-	private $contents;
 
 	/**
 	 * @access public
 	 * @param mixed[] $params 要素の配列
 	 */
 	public function __construct ($contents, $name = 'default') {
-		$this->contents = $contents;
-		$this->name = $name;
-		$this->parse();
+		$this['connection_name'] = $name;
+		$this['dsn'] = $contents;
+		$this['uid'] = $this->getConstant('uid');
+		$this['password'] = $this->getConstant('password');
+		$this['loggable'] = !!$this->getConstant('loggable');
 	}
 
 	/**
@@ -32,7 +32,7 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return string DSN名
 	 */
 	public function getName () {
-		return $this->name;
+		return $this['connection_name'];
 	}
 
 	/**
@@ -42,7 +42,7 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return string 内容
 	 */
 	public function getContents () {
-		return $this->contents;
+		return $this['dsn'];
 	}
 
 	/**
@@ -64,24 +64,11 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	protected function getPasswords () {
 		$constants = BSConstantHandler::getInstance();
 		$passwords = new BSArray;
-		if (!BSString::isBlank($password = $this->getConstant('password'))) {
+		if (!BSString::isBlank($password = $this['password'])) {
 			$passwords[] = BSCrypt::getInstance()->decrypt($password);
 		}
 		$passwords[] = $password;
 		return $passwords;
-	}
-
-	/**
-	 * DSNをパースしてパラメータに格納
-	 *
-	 * @access protected
-	 */
-	protected function parse () {
-		$this['connection_name'] = $this->getName();
-		$this['dsn'] = $this->getContents();
-		$this['uid'] = $this->getConstant('uid');
-		$this['password'] = $this->getConstant('password');
-		$this['loggable'] = !!$this->getConstant('loggable');
 	}
 
 	/**
@@ -92,7 +79,9 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return string 定数
 	 */
 	public function getConstant ($name) {
-		return BSConstantHandler::getInstance()->getParameter('PDO_' . $this->name . '_' . $name);
+		return BSConstantHandler::getInstance()->getParameter(
+			'PDO_' . $this->getName() . '_' . $name
+		);
 	}
 }
 
