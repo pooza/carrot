@@ -40,18 +40,6 @@ class BSODBCDatabase extends BSDatabase {
 	}
 
 	/**
-	 * 文字列をクォート
-	 *
-	 * @access public
-	 * @param string $string 対象文字列
-	 * @param string $type クォートのタイプ
-	 * @return string クォート後の文字列
-	 */
-	public function quote ($string, $type = PDO::PARAM_STR) {
-		return '\'' . addslashes($string) . '\'';
-	}
-
-	/**
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public

@@ -70,12 +70,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	static protected function getPasswords ($name) {
 		$constants = BSConstantHandler::getInstance();
 		$passwords = new BSArray;
-		$password = $constants['PDO_' . $name . '_PASSWORD'];
-		$passwords[] = $password;
-
-		if (!BSString::isBlank($password)) {
+		if (!BSString::isBlank($password = $constants['PDO_' . $name . '_PASSWORD'])) {
 			$passwords[] = BSCrypt::getInstance()->decrypt($password);
 		}
+		$passwords[] = $password;
 		return $passwords;
 	}
 
