@@ -71,7 +71,6 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		}
 		return $this->file;
 	}
-
 }
 
 /* vim:set tabstop=4: */
