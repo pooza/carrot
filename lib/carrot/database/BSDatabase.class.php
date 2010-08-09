@@ -12,9 +12,8 @@
  * @abstract
  */
 abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
-	protected $attributes;
 	protected $tables;
-	private $name;
+	protected $dsn;
 	static private $instances;
 	const WITHOUT_LOGGING = 1;
 	const WITHOUT_SERIALIZE = 2;
@@ -32,20 +31,14 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			self::$instances = new BSArray;
 		}
 		if (!self::$instances[$name]) {
-			$constants = BSConstantHandler::getInstance();
-			if (mb_ereg('^([[:alnum:]]+):', $constants['PDO_' . $name . '_DSN'], $matches)) {
-				switch ($matches[1]) {
-					case 'mysql':
-						return self::$instances[$name] = BSMySQLDatabase::connect($name);
-					case 'pgsql':
-						return self::$instances[$name] = BSPostgreSQLDatabase::connect($name);
-					case 'sqlite':
-						return self::$instances[$name] = BSSQLiteDatabase::connect($name);
-					case 'odbc':
-						return self::$instances[$name] = BSODBCDatabase::connect($name);
+			$dsn = BSConstantHandler::getInstance()->getParameter('PDO_' . $name . '_DSN');
+			if (mb_ereg('^([[:alnum:]]+):', $dsn, $matches)) {
+				$class = BSClassLoader::getInstance()->getClass($matches[1], 'DataSourceName');
+				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->getDatabase())) {
+					$db->setDSN($dsn);
+					return self::$instances[$name] = $db;
 				}
 			}
-
 			$message = new BSStringFormat('"%s"のDSNが適切ではありません。');
 			$message[] = $name;
 			throw new BSDatabaseException($message);
@@ -61,23 +54,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * パスワードの候補を配列で返す
-	 *
-	 * @access protected
-	 * @name string $name データベース名
-	 * @return BSArray パスワードの候補
-	 */
-	static protected function getPasswords ($name) {
-		$constants = BSConstantHandler::getInstance();
-		$passwords = new BSArray;
-		if (!BSString::isBlank($password = $constants['PDO_' . $name . '_PASSWORD'])) {
-			$passwords[] = BSCrypt::getInstance()->decrypt($password);
-		}
-		$passwords[] = $password;
-		return $passwords;
-	}
-
-	/**
 	 * テーブル名のリストを配列で返す
 	 *
 	 * @access public
@@ -87,6 +63,19 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	abstract public function getTableNames ();
 
 	/**
+	 * DSNを設定
+	 *
+	 * @access public
+	 * @param BSDataSourceName $dsn DSN
+	 */
+	public function setDSN (BSDataSourceName $dsn) {
+		$this->dsn = $dsn;
+		$this->dsn['dbms'] = $this->getDBMS();
+		$this->dsn['version'] = $this->getVersion();
+		$this->dsn['encoding'] = $this->getEncoding();
+	}
+
+	/**
 	 * 属性値を返す
 	 *
 	 * @access public
@@ -94,7 +83,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->dsn[$name];
 	}
 
 	/**
@@ -104,11 +93,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return BSArray 属性
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-			$this->parseDSN();
-		}
-		return $this->attributes;
+		return $this->dsn;
 	}
 
 	/**
@@ -116,24 +101,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 *
 	 * @access public
 	 * @return string DSN
+	 * @final
 	 */
-	public function getDSN () {
-		return $this['dsn'];
-	}
-
-	/**
-	 * DSNをパースしてプロパティに格納
-	 *
-	 * @access protected
-	 */
-	protected function parseDSN () {
-		$this->attributes['connection_name'] = $this->getName();
-		$this->attributes['dsn'] = $this->getConstant('dsn');
-		$this->attributes['uid'] = $this->getConstant('uid');
-		$this->attributes['password'] = $this->getConstant('password');
-		$this->attributes['dbms'] = $this->getDBMS();
-		$this->attributes['version'] = $this->getVersion();
-		$this->attributes['encoding'] = $this->getEncoding();
+	final public function getDSN () {
+		return $this->getAttributes();
 	}
 
 	/**
@@ -177,9 +148,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$message[] = $this->getError();
 			$message[] = $query;
 			throw new BSDatabaseException($message);
-		}
-		if (BS_PDO_QUERY_LOG_ENABLE) {
-			$this->putLog($query);
 		}
 		return $r;
 	}
@@ -233,24 +201,11 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	/**
 	 * データベースのインスタンス名を返す
 	 *
-	 * DSNにおける「データベース名」のことではなく、
-	 * BSDatabaseクラスのフライウェイトインスタンスとしての名前のこと。
-	 *
 	 * @access public
 	 * @return string インスタンス名
 	 */
 	public function getName () {
-		return $this->name;
-	}
-
-	/**
-	 * データベースのインスタンス名を設定
-	 *
-	 * @access public
-	 * @return string インスタンス名
-	 */
-	public function setName ($name) {
-		$this->name = $name;
+		return $this->dsn->getName();
 	}
 
 	/**
@@ -294,7 +249,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return boolean クエリーログを使用するならTrue
 	 */
 	protected function isLoggable () {
-		return !!$this->getConstant('loggable');
+		return !!$this->getAttribute('loggable');
 	}
 
 	/**
@@ -307,18 +262,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function getSequenceName ($table, $field = 'id') {
 		return null;
-	}
-
-	/**
-	 * 定数を返す
-	 *
-	 * @access public
-	 * @param string $name 定数名
-	 * @return string 定数
-	 */
-	public function getConstant ($name) {
-		$constants = BSConstantHandler::getInstance();
-		return $constants['PDO_' . $this->getName() . '_' . $name];
 	}
 
 	/**
@@ -451,7 +394,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return boolean 要素が存在すればTrue
 	 */
 	public function offsetExists ($key) {
-		return $this->attributes->hasParameter($key);
+		return $this->dsn->hasParameter($key);
 	}
 
 	/**

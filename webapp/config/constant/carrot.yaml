@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.3.143
+  ver: 2.4.0
 
 admin:
   email:
@@ -79,7 +79,7 @@ ffmpeg:
     mp3:
 file:
   types:
-    file: /etc/httpd/mime.types
+    file: /usr/local/apache2/conf/mime.types
 flash:
   player_ver: 9.0.0
   installer:
@@ -177,10 +177,8 @@ package:
   name:
   ver:
 pdo:
-  query_log:
-    enable: no
   default:
-    dsn: sqlite:%BS_VAR_DIR%/db/db.sqlite3
+    dsn: sqlite:%BS_VAR_DIR%/db/default.sqlite3
     loggable: yes
   geocode:
     dsn: sqlite:%BS_VAR_DIR%/db/geocode.sqlite3

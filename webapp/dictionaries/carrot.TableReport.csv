@@ -9,5 +9,6 @@ encoding,エンコード
 encoding_name,エンコード名
 file,ファイル
 host,ホスト
+loggable,ログ可
 port,ポート
 version,バージョン

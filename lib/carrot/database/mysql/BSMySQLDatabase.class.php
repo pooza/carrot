@@ -11,78 +11,7 @@
  * @version $Id$
  */
 class BSMySQLDatabase extends BSDatabase {
-	static private $configFile;
-
-	/**
-	 * 接続
-	 *
-	 * @access protected
-	 * @name string $name データベース名
-	 * @return BSMySQLDatabase インスタンス
-	 * @static
-	 */
-	static protected function connect ($name) {
-		$constants = BSConstantHandler::getInstance();
-		$params = array();
-		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = self::getConfigFile())) {
-			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
-		}
-
-		foreach (self::getPasswords($name) as $password) {
-			try {
-				$db = new self(
-					$constants['PDO_' . $name . '_DSN'],
-					$constants['PDO_' . $name . '_UID'],
-					$password,
-					$params
-				);
-				$db->setName($name);
-				if (!$params) {
-					$db->exec('SET NAMES ' . $db->getEncodingName());
-				}
-				return $db;
-			} catch (Exception $e) {
-			}
-		}
-
-		$message = new BSStringFormat('データベース "%s" に接続できません。');
-		$message[] = $name;
-		throw new BSDatabaseException($message);
-	}
-
-	/**
-	 * 設定ファイルを返す
-	 *
-	 * @access private
-	 * @return BSConfigFile 設定ファイル
-	 * @static
-	 */
-	static private function getConfigFile () {
-		if (!self::$configFile) {
-			$dir = BSFileUtility::getDirectory('config');
-			foreach (array('my.cnf', 'my.cnf.ini', 'my.ini') as $name) {
-				if (self::$configFile = $dir->getEntry($name, 'BSConfigFile')) {
-					break;
-				}
-			}
-		}
-		return self::$configFile;
-	}
-
-	/**
-	 * DSNをパースしてプロパティに格納
-	 *
-	 * @access protected
-	 */
-	protected function parseDSN () {
-		parent::parseDSN();
-		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+)$', $this->getDSN(), $matches);
-		$this->attributes['host'] = new BSHost($matches[1]);
-		$this->attributes['port'] = $this->getDefaultPort();
-		$this->attributes['database_name'] = $matches[2];
-		$this->attributes['encoding_name'] = $this->getEncodingName();
-		$this->attributes['config_file'] = self::getConfigFile();
-	}
+	private $version;
 
 	/**
 	 * テーブル名のリストを配列で返す
@@ -168,7 +97,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return BSTableProfile テーブルのプロフィール
 	 */
 	public function getTableProfile ($table) {
-		if ($this['version'] < 5.0) {
+		if ($this->getVersion() < 5.0) {
 			return new BSMySQL40TableProfile($table, $this);
 		} else {
 			return parent::getTableProfile($table);
@@ -182,8 +111,11 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return float バージョン
 	 */
 	protected function getVersion () {
-		$result = PDO::query('SELECT version() AS ver')->fetch();
-		return $result['ver'];
+		if (!$this->version) {
+			$result = PDO::query('SELECT version() AS ver')->fetch();
+			$this->version = $result['ver'];
+		}
+		return $this->version;
 	}
 
 	/**
@@ -193,7 +125,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return boolean 4.0以前ならTrue
 	 */
 	public function isLegacy () {
-		return ($this['version'] < 4.1);
+		return ($this->getVersion() < 4.1);
 	}
 
 	/**
@@ -221,12 +153,12 @@ class BSMySQLDatabase extends BSDatabase {
 	/**
 	 * MySQLのエンコード名を返す
 	 *
-	 * @access private
+	 * @access public
 	 * @return string MySQLのエンコード名
 	 */
-	private function getEncodingName () {
+	public function getEncodingName () {
 		$names = self::getEncodings()->getFlipped();
-		return $names[$this['encoding']];
+		return $names[$this->getEncoding()];
 	}
 
 	/**
@@ -242,16 +174,6 @@ class BSMySQLDatabase extends BSDatabase {
 		$encodings['ujis'] = 'euc-jp';
 		$encodings['utf8'] = 'utf-8';
 		return $encodings;
-	}
-
-	/**
-	 * 規定のポート番号を返す
-	 *
-	 * @access public
-	 * @return integer port
-	 */
-	public function getDefaultPort () {
-		return 3306;
 	}
 }
 

@@ -13,47 +13,6 @@
 class BSPostgreSQLDatabase extends BSDatabase {
 
 	/**
-	 * 接続
-	 *
-	 * @access protected
-	 * @name string $name データベース名
-	 * @return BSPostgreSQLDatabase インスタンス
-	 * @static
-	 */
-	static protected function connect ($name) {
-		$constants = BSConstantHandler::getInstance();
-		$db = new self($constants['PDO_' . $name . '_DSN']);
-		$db->setName($name);
-		return $db;
-	}
-
-	/**
-	 * DSNをパースしてプロパティに格納
-	 *
-	 * @access protected
-	 */
-	protected function parseDSN () {
-		parent::parseDSN();
-		$this->attributes['port'] = $this->getDefaultPort();
-
-		mb_ereg('^pgsql:(.+)$', $this->getDSN(), $matches);
-		foreach (mb_split(' +', $matches[1]) as $config) {
-			$config = BSString::explode('=', $config);
-			switch ($config[0]) {
-				case 'host':
-					$this->attributes['host'] = new BSHost($config[1]);
-					break;
-				case 'dbname':
-					$this->attributes['database_name'] = $config[1];
-					break;
-				case 'user':
-					$this->attributes['uid'] = $config[1];
-					break;
-			}
-		}
-	}
-
-	/**
 	 * 命名規則に従い、シーケンス名を返す
 	 *
 	 * @access public
@@ -135,16 +94,6 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	protected function getVersion () {
 		$result = PDO::query('SELECT version() AS ver')->fetch();
 		return $result['ver'];
-	}
-
-	/**
-	 * 規定のポート番号を返す
-	 *
-	 * @access public
-	 * @return integer port
-	 */
-	public function getDefaultPort () {
-		return 5432;
 	}
 }
 
