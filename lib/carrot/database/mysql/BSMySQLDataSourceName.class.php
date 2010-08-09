@@ -28,7 +28,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 
 		foreach ($this->getPasswords() as $password) {
 			try {
-				$db = new BSMySQLDatabase($this['dsn'], $this['uid'], $this['password'], $params);
+				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password, $params);
 				$this['encoding_name'] = $db->getEncodingName();
 				if (!$params) {
 					$db->exec('SET NAMES ' . $this['encoding_name']);
