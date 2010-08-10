@@ -15,9 +15,9 @@ abstract class BSTest {
 	private $errors;
 
 	/**
-	 * @access private
+	 * @access public
 	 */
-	private function __construct () {
+	public function __construct () {
 		$this->errors = new BSArray;
 	}
 
@@ -40,11 +40,12 @@ abstract class BSTest {
 	public function assert ($name, $assertion) {
 		try {
 			if (!$assertion) {
-				$this->setError($name);
+				return $this->setError($name);
 			}
 		} catch (Exception $e) {
-			$this->setError($name, $e->getMessage());
+			return $this->setError($name, $e->getMessage());
 		}
+		print '  ' . $name . " OK\n";
 	}
 
 	/**
@@ -60,6 +61,7 @@ abstract class BSTest {
 			'assert' => $name,
 			'message' => $message,
 		));
+		print '  ' . $name . ' NG ' . $message . " !!!!!!!!!!\n";
 	}
 
 	/**

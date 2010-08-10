@@ -76,9 +76,12 @@ class BSTestManager implements IteratorAggregate {
 	 */
 	public function execute () {
 		foreach ($this as $test) {
+			print "\n" . get_class($test) . ":\n";
 			$test->execute();
 			$this->errors->merge($test->getErrors());
 		}
+		print "\n============\n";
+		print $this->errors->count() . " errors\n";
 		return !$this->errors->count();
 	}
 
