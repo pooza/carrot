@@ -261,6 +261,9 @@ class BSImageCacheHandler {
 		$prefix = '';
 		if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
 			$prefix = 'w';
+			if (!$pixel) {
+				$pixel = $useragent->getDisplayInfo()->getParameter('width');
+			}
 		} else if ($flags & self::WITHOUT_SQUARE) {
 			$prefix = 's';
 		} else if ($flags & self::WIDTH_FIXED) {
