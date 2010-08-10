@@ -177,12 +177,12 @@ class BSClassLoader {
 	/**
 	 * ファイル名からクラス名を返す
 	 *
-	 * @access private
+	 * @access public
 	 * @param string $filename ファイル名
 	 * @return string クラス名
 	 * @static
 	 */
-	static private function extractClass ($filename) {
+	static public function extractClass ($filename) {
 		require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
 		if (BSUtility::isPathAbsolute($filename)) {
 			$filename = basename($filename);

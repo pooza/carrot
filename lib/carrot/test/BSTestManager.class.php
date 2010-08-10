@@ -21,6 +21,14 @@ class BSTestManager implements IteratorAggregate {
 	private function __construct () {
 		$this->tests = new BSArray;
 		$this->errors = new BSArray;
+
+		$dirs = new BSArray(array(
+			BSFileUtility::getDirectory('tests'),
+			BSFileUtility::getDirectory('local_tests'),
+		));
+		foreach ($dirs as $dir) {
+			$this->tests->merge($this->load($dir));
+		}
 	}
 
 	/**
@@ -42,6 +50,20 @@ class BSTestManager implements IteratorAggregate {
 	 */
 	public function __clone () {
 		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	}
+
+	private function load (BSDirectory $dir) {
+		$tests = new BSArray;
+		foreach ($dir as $entry) {
+			if ($entry->isDirectory()) {
+				$tests->merge($this->load($entry));
+			} else {
+				require_once($entry->getPath());
+				$class = BSClassLoader::extractClass($entry->getPath());
+				$tests[] = new $class;
+			}
+		}
+		return $tests;
 	}
 
 	/**
