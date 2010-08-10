@@ -30,6 +30,17 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
+	 * DSNを設定
+	 *
+	 * @access public
+	 * @param BSDataSourceName $dsn DSN
+	 */
+	public function setDSN (BSDataSourceName $dsn) {
+		parent::setDSN($dsn);
+		$this->dsn['encoding_name'] = $this->getEncodingName();
+	}
+
+	/**
 	 * クエリーをエンコード
 	 *
 	 * @access protected
