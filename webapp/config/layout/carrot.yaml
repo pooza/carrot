@@ -77,6 +77,9 @@ lib:
 local_lib:
   parent: webapp
   name: lib
+local_test:
+  parent: webapp
+  name: test
 log:
   parent: var
   class: BSLogDirectory
@@ -134,6 +137,8 @@ swf:
 templates:
   parent: webapp
   suffix: .tpl
+test:
+  parent: root
 tmp:
   parent: var
   purge:
