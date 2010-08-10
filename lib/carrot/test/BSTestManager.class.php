@@ -55,12 +55,14 @@ class BSTestManager implements IteratorAggregate {
 	private function load (BSDirectory $dir) {
 		$tests = new BSArray;
 		foreach ($dir as $entry) {
-			if ($entry->isDirectory()) {
-				$tests->merge($this->load($entry));
-			} else {
-				require_once($entry->getPath());
-				$class = BSClassLoader::extractClass($entry->getPath());
-				$tests[] = new $class;
+			if (!$entry->isIgnore()) {
+				if ($entry->isDirectory()) {
+					$tests->merge($this->load($entry));
+				} else if ($entry->isFile()) {
+					require_once($entry->getPath());
+					$class = BSClassLoader::extractClass($entry->getPath());
+					$tests[] = new $class;
+				}
 			}
 		}
 		return $tests;
