@@ -14,7 +14,6 @@ class BSUtilityTest extends BSTest {
 	 * 実行
 	 *
 	 * @access public
-	 * @return boolean 成功ならTrue
 	 */
 	public function execute () {
 		$this->assert('isPathAbsolute_1', BSUtility::isPathAbsolute('/etc/hosts'));

@@ -25,6 +25,12 @@ namespace :database do
   task :init => ['local:init']
 end
 
+desc 'テストを実行'
+task :test do
+  uid = Constants.new['BS_APP_PROCESS_UID']
+  sh 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
+end
+
 namespace :var do
   desc 'varディレクトリを初期化'
   task :init => [

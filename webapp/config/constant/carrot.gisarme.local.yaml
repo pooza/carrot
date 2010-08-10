@@ -21,6 +21,10 @@ pdo:
     uid: root
     password:
 
+app:
+  process:
+    uid: www
+
 mysql:
   dir: /opt/local/lib/mysql5
 

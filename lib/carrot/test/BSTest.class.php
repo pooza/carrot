@@ -25,7 +25,6 @@ abstract class BSTest {
 	 * 実行
 	 *
 	 * @access public
-	 * @return boolean 成功ならTrue
 	 * @abstract
 	 */
 	abstract public function execute ();
