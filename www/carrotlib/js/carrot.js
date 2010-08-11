@@ -6,83 +6,117 @@
  * @version $Id$
  */
 
-function redirect (m, a, id) {
-  var url = '/' + m + '/' + a;
-  if (id) {
-    url += '/' + id;
-  }
-  window.location.href = url;
-}
+var CarrotLib = {
+  redirect: function (module, action, id) {
+    var url = '/' + module + '/' + action;
+    if (id) {
+      url += '/' + id;
+    }
+    window.location.href = url;
+  },
 
-function confirmDelete (m, a, recordType, id) {
-  if (confirm('この' + recordType + 'を削除しますか？')) {
-    redirect(m, a, id);
-  }
-}
+  confirmDelete: function (module, a, recordType, id) {
+    if (confirm('この' + recordType + 'を削除しますか？')) {
+      CarrotLib.redirect(module, action, id);
+    }
+  },
 
-function openPictogramPallet (id) {
-  window.open(
-    '/AdminUtility/Pictogram?field=' + id,
-    'pictogram',
-    'width=240,height=300,scrollbars=yes'
-  );
-}
+  openPictogramPallet: function (id) {
+    window.open(
+      '/AdminUtility/Pictogram?field=' + id,
+      'pictogram',
+      'width=240,height=300,scrollbars=yes'
+    );
+  },
 
-function putSmartTag (tag, field, name, params) {
-  var tag = '[[' + tag;
-  if (name) {
-    tag += ':' + name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
-    if (params) {
-      var encoded = [];
-      for(var key in params) {
-        if (params[key] != null) {
-          encoded.push(key + '=' + encodeURIComponent(params[key]));
+  putSmartTag: function (tag, field, name, params) {
+    var tag = '[[' + tag;
+    if (name) {
+      tag += ':' + name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
+      if (params) {
+        var encoded = [];
+        for(var key in params) {
+          if (params[key] != null) {
+            encoded.push(key + '=' + encodeURIComponent(params[key]));
+          }
+        }
+        if (0 < encoded.length) {
+          tag += ':' + encoded.join(';');
         }
       }
-      if (0 < encoded.length) {
-        tag += ':' + encoded.join(';');
+    }
+    tag += ']]';
+    if (Prototype.Browser.IE) {
+      field.focus();
+      field.document.selection.createRange().text = tag;
+    } else {
+      var position = field.selectionStart;
+      field.value = field.value.substr(0, position)
+        + tag
+        + field.value.substr(field.selectionEnd, field.value.length);
+      field.selectionStart = position + tag.length;
+      field.selectionEnd = field.selectionStart;
+    }
+  },
+
+  handleUploadProgress: function (element) {
+    var progress = new JS_BRAMUS.jsProgressBar(element, 0);
+    function updateProgress (request) {
+      if (request.responseText) {
+        var json = request.responseText.evalJSON();
+        progress.setPercentage(json.current / json.total * 100);
       }
     }
-  }
-  tag += ']]';
-  if (Prototype.Browser.IE) {
-    field.focus();
-    field.document.selection.createRange().text = tag;
-  } else {
-    var position = field.selectionStart;
-    field.value = field.value.substr(0, position)
-      + tag
-      + field.value.substr(field.selectionEnd, field.value.length);
-    field.selectionStart = position + tag.length;
-    field.selectionEnd = field.selectionStart;
-  }
-}
+    new PeriodicalExecuter(function () {
+      new Ajax.Request('/UploadProgress', {
+        method: 'get',
+        parameters: 'd=' + new Date().getTime(),
+        onComplete: updateProgress
+      });
+    }, 1);
+  },
 
-function handleUploadProgress (element) {
-  var progress = new JS_BRAMUS.jsProgressBar(element, 0);
-  function updateProgress (request) {
-    if (request.responseText) {
-      var json = request.responseText.evalJSON();
-      progress.setPercentage(json.current / json.total * 100);
+  denyTakeOut: function (selector_name) {
+    var doNothing = function () {return false;}
+    var configureElement = function (element) {
+      if (!element.oncontextmenu) {
+        element.oncontextmenu = doNothing;
+        element.onselectstart = doNothing;
+        element.onmousedown = doNothing;
+        element.unselectable = 'on';
+        element.galleryimg = 'no';
+      }
+      if (Prototype.Browser.MobileSafari) {
+        var cover = document.createElement('img');
+        cover.src = '/carrotlib/images/spacer.gif';
+        Element.setStyle(cover, {
+          'left': element.offsetLeft + 'px',
+          'top': element.offsetTop + 'px',
+          'width': element.width + 'px',
+          'height': element.height + 'px',
+          'position': 'absolute'
+        });
+        element.parentNode.appendChild(cover);
+      }
     }
-  }
-  new PeriodicalExecuter(function () {
-    new Ajax.Request('/UploadProgress', {
-      method: 'get',
-      parameters: 'd=' + new Date().getTime(),
-      onComplete: updateProgress
-    });
-  }, 1);
-}
+  
+    if (!selector_name) {
+      selector_name = '.deny_take_out';
+    }
+    var elements = $$(selector_name);
+    for (var i = 0 ; i < elements.length ; i ++) {
+      configureElement(elements[i]);
+    }
+  },
 
-// SafariのString.trim対応
+  initialized: true
+};
+
 if (!String.prototype.trim) {
   String.prototype.trim = function () {
     return this.replace(/^[ ]+|[ ]+$/g, '');
   }
 }
-
-// ゼロサプレス
 if (!Number.prototype.suppressZero) {
   Number.prototype.suppressZero = function (n) {
     var str = '';
