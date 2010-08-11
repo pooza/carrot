@@ -37,6 +37,11 @@ body {ldelim}background: url(/carrotlib/images/background/test.gif) repeat-y;{rd
 <script type="text/javascript">
 document.observe('dom:loaded', function () {ldelim}
   new Elevator($('Menu'), 10, 30, 10);
+  new PeriodicalExecuter(function () {ldelim}
+    new Ajax.Request('/Ping', {ldelim}
+      method: 'get'
+    {rdelim});
+  {rdelim}, 300);
 {rdelim});
 </script>
 {/if}
