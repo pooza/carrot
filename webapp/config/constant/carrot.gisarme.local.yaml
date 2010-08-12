@@ -14,16 +14,16 @@ admin:
   networks:
     - 192.168.102.0/24
 
+app:
+  process:
+    uid: www
+
 pdo:
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
-
-app:
-  process:
-    uid: www
 
 mysql:
   dir: /opt/local/lib/mysql5
