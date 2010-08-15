@@ -69,7 +69,7 @@ class BSImagickImage extends BSImage {
 		$header = new BSContentTypeMIMEHeader;
 		$header->setContents(BS_IMAGE_THUMBNAIL_TYPE);
 
-		$converted = clone $this->imagick;
+		$converted = clone $this->getImagick();
 		$converted->setImageFormat($header['sub_type']);
 		$image = new BSImage;
 		$image->setType($header->getContents());
@@ -94,7 +94,12 @@ class BSImagickImage extends BSImage {
 	 * @param string $type メディアタイプ又は拡張子
 	 */
 	public function setType ($type) {
-		throw new BSImageException('BSImagickImage::setTypeは未実装です。');
+		if (BSString::isBlank($suffix = BSMIMEType::getSuffix($type))) {
+			$message = new BSStringFormat('"%s"は正しくないMIMEタイプです。');
+			$message[] = $type;
+			throw new BSImageException($message);
+		}
+		$this->imagick->setImageFormat(ltrim($suffix, '.'));
 	}
 
 	/**

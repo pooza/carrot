@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.0
+  ver: 2.4.1
 
 admin:
   email:
@@ -193,8 +193,6 @@ pdo:
 pgsql:
   dir: /usr/local
 pictogram:
-png2ico:
-  dir: /usr/local
 proctools:
   dir: /usr/local
 request:
