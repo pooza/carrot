@@ -10,25 +10,18 @@ $KCODE = 'u'
 require 'yaml'
 require 'webapp/config/Rakefile.local'
 
-namespace :production do
-  desc '運用環境の構築'
-  task :init => ['var:init', 'local:init']
-end
-
-namespace :development do
-  desc '開発環境の構築'
-  task :init => ['var:init', 'local:init', 'phpdoc:init']
-end
-
-namespace :database do
-  desc 'データベースを初期化'
-  task :init => ['local:init']
-end
+desc 'インストールを実行'
+task :install => ['var:init', 'local:init']
 
 desc 'テストを実行'
 task :test do
   uid = Constants.new['BS_APP_PROCESS_UID']
   sh 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
+end
+
+namespace :database do
+  desc 'データベースを初期化'
+  task :init => ['local:init']
 end
 
 namespace :var do
@@ -152,12 +145,12 @@ namespace :awstats do
 end
 
 namespace :docomo do
-  desc 'DoCoMoの端末リストを取得'
+  desc 'docomoの端末リストを取得'
   task :fetch do
     sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
   end
 
-  desc 'DoCoMoの端末リストを更新'
+  desc 'docomoの端末リストを更新'
   task :update do
     sh 'svn update webapp/config/docomo_atents.xml'
   end
