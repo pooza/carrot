@@ -117,7 +117,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
-			$this->clearSerialized();
+			$this->serialize();
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->putLog($this . 'を更新しました。');
@@ -172,7 +172,7 @@ abstract class BSRecord implements ArrayAccess,
 				$file->delete();
 			}
 		}
-		$this->clearSerialized();
+		BSController::getInstance()->removeAttribute($this);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->putLog($this . 'を削除しました。');
 		}
@@ -583,15 +583,6 @@ abstract class BSRecord implements ArrayAccess,
 		} else {
 			return BSController::getInstance()->getAttribute($this);
 		}
-	}
-
-	/**
-	 * シリアライズを削除
-	 *
-	 * @access public
-	 */
-	public function clearSerialized () {
-		BSController::getInstance()->removeAttribute($this);
 	}
 
 	/**
