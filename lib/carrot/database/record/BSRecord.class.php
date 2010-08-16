@@ -117,7 +117,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
-			$this->serialize();
+			BSController::getInstance()->removeAttribute($this);
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->putLog($this . 'を更新しました。');
