@@ -19,17 +19,20 @@ class BSSmartyView extends BSView {
 	 * @param BSRenderer $renderer レンダラー
 	 */
 	public function __construct (BSAction $action, $suffix, BSRenderer $renderer = null) {
-		$this->action = $action;
-		$this->nameSuffix = $suffix;
-
-		if (!$renderer) {
-			$renderer = new BSSmarty;
-		}
-		$this->setRenderer($renderer);
+		parent::__construct($action, $suffix, $renderer);
 
 		$this->setHeader('Content-Script-Type', BSMIMEType::getType('js'));
 		$this->setHeader('Content-Style-Type', BSMIMEType::getType('css'));
-		$this->setHeader('X-Frame-Options', 'deny');
+	}
+
+	/**
+	 * 規定のレンダラーを生成して返す
+	 *
+	 * @access protected
+	 * @return BSRenderer レンダラー
+	 */
+	protected function createDefaultRenderer () {
+		return new BSSmarty;
 	}
 
 	/**

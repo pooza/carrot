@@ -30,9 +30,12 @@ class BSView extends BSHTTPResponse {
 		$this->nameSuffix = $suffix;
 
 		if (!$renderer) {
-			$renderer = new BSRawRenderer;
+			$renderer = $this->createDefaultRenderer();
 		}
 		$this->setRenderer($renderer);
+
+		$this->setHeader('X-Frame-Options', 'deny');
+		$this->setHeader('X-Content-Type-Options', 'nosniff');
 	}
 
 	/**
@@ -105,6 +108,16 @@ class BSView extends BSHTTPResponse {
 	 */
 	public function getNameSuffix () {
 		return $this->nameSuffix;
+	}
+
+	/**
+	 * 規定のレンダラーを生成して返す
+	 *
+	 * @access protected
+	 * @return BSRenderer レンダラー
+	 */
+	protected function createDefaultRenderer () {
+		return new BSRawRenderer;
 	}
 
 	/**
