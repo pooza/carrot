@@ -74,7 +74,7 @@ class BSImageValidator extends BSValidator {
 			}
 			$file = new BSImageFile($name);
 			$image = $file->getRenderer();
-		} catch (BSException $e) {
+		} catch (Exception $e) {
 			$this->error = $this['types_error'];
 			return false;
 		}

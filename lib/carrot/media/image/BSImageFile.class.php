@@ -162,7 +162,6 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 
 		$this->clearImageCache();
 		$this->setContents($this->getRenderer()->getContents());
-		$this->renderer = null;
 	}
 
 	/**

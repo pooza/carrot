@@ -131,7 +131,7 @@ class BSImageCacheHandler {
 			return null;
 		}
 		try {
-			return $file->getEngine();
+			return $file->getRenderer();
 		} catch (BSImageException $e) {
 			$file->delete();
 			BSLogManager::getInstance()->put($file . 'を削除しました。');
@@ -165,7 +165,7 @@ class BSImageCacheHandler {
 		}
 		$file->setEngine($this->convertImage($record, $pixel, $contents, $flags));
 		$file->save();
-		return $file->getEngine();
+		return $file->getRenderer();
 	}
 
 	/**
