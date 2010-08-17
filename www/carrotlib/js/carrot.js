@@ -15,7 +15,7 @@ var CarrotLib = {
     window.location.href = url;
   },
 
-  confirmDelete: function (module, a, recordType, id) {
+  confirmDelete: function (module, action, recordType, id) {
     if (confirm('この' + recordType + 'を削除しますか？')) {
       CarrotLib.redirect(module, action, id);
     }
