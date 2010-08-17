@@ -84,7 +84,7 @@ class BSImagickImage extends BSImage {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return $this->imagick->getImageMimeType();
+		return $this->getImagick()->getImageMimeType();
 	}
 
 	/**
@@ -99,7 +99,8 @@ class BSImagickImage extends BSImage {
 			$message[] = $type;
 			throw new BSImageException($message);
 		}
-		$this->imagick->setImageFormat(ltrim($suffix, '.'));
+		$this->getImagick()->setImageFormat(ltrim($suffix, '.'));
+		$this->type = $type;
 	}
 
 	/**
