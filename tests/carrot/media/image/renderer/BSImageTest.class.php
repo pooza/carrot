@@ -18,8 +18,17 @@ class BSImageTest extends BSTest {
 	public function execute () {
 		$this->assert('getTypes', BSImage::getTypes()->isContain('image/jpeg'));
 		$this->assert('getSuffixes', BSImage::getSuffixes()->isContain('.gif'));
-		$this->assert('__construct', $image = new BSImage);
-		$this->assert('getType', mb_ereg('^image\\/', $image->getType()));
+
+		$dir = BSFileUtility::getDirectory('root');
+		$src = $dir->getEntry('www/carrotlib/images/button/pictogram.gif', 'BSImageFile');
+		$dest = BSFileUtility::getTemporaryFile('gif', 'BSImageFile');
+		$dest->setContents($src->getContents());
+		$this->assert('getType', $dest->getType() == 'image/gif');
+		$dest->getRenderer()->resize(57, 57);
+		$dest->save();
+		$this->assert('getWidth', $dest->getRenderer()->getWidth() == 57);
+		$this->assert('getHeight', $dest->getRenderer()->getHeight() == 57);
+		$dest->delete();
 	}
 }
 

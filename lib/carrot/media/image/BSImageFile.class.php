@@ -83,14 +83,16 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 			}
 			$info = getimagesize($this->getPath());
 
-			foreach (array('jpeg', 'gif', 'png') as $suffix) {
-				if ($info['mime'] == BSMIMEType::getType($suffix)) {
-					$class = BSClassLoader::getInstance()->getClass($this->rendererClass);
-					$this->renderer = new $class($info[0], $info[1]);
-					$this->renderer->setType($info['mime']);
-					$function = 'imagecreatefrom' . $suffix;
-					$this->renderer->setImage($function($this->getPath()));
-					return $this->renderer;
+			if ($this->rendererClass != 'BSImagickImage') {
+				foreach (array('jpeg', 'gif', 'png') as $suffix) {
+					if ($info['mime'] == BSMIMEType::getType($suffix)) {
+						$class = BSClassLoader::getInstance()->getClass($this->rendererClass);
+						$this->renderer = new $class($info[0], $info[1]);
+						$this->renderer->setType($info['mime']);
+						$function = 'imagecreatefrom' . $suffix;
+						$this->renderer->setImage($function($this->getPath()));
+						return $this->renderer;
+					}
 				}
 			}
 			if (extension_loaded('imagick')) {
@@ -160,6 +162,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 
 		$this->clearImageCache();
 		$this->setContents($this->getRenderer()->getContents());
+		$this->renderer = null;
 	}
 
 	/**
