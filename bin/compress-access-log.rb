@@ -7,7 +7,7 @@
 # @version $Id$
 
 GZIP_CMD = '/usr/bin/gzip'
-LOG_DIR = '/var/log/httpd'
+LOG_DIR = '/home/*/logs'
 
 require 'date'
 

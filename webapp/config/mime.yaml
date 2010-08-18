@@ -54,6 +54,7 @@ types:
   pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
   qt: video/quicktime
   rb:
+  sh: application/x-sh
   sql:
   swf: application/x-shockwave-flash
   tgz: application/x-gzip
