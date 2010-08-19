@@ -49,7 +49,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 *
 	 * @access public
 	 * @param BSHTTPRedirector $url 対象URL
-	 * @return string エンコード済みファイル名
+	 * @return BSURL 調整されたURL
 	 */
 	public function modifyURL (BSHTTPRedirector $url) {
 		$url = parent::modifyURL($url);

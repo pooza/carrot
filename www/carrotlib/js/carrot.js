@@ -32,7 +32,9 @@ var CarrotLib = {
   putSmartTag: function (tag, field, name, params) {
     var tag = '[[' + tag;
     if (name) {
-      tag += ':' + name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
+      name = name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
+      name = name.gsub('：', '\\:').gsub('［', '\\[').gsub('］', '\\]'); //全角
+      tag += ':' + name;
       if (params) {
         var encoded = [];
         for(var key in params) {
