@@ -208,7 +208,7 @@ class BSView extends BSHTTPResponse {
 	 * @return boolean 有効ならTrue
 	 */
 	public function hasProxyServer () {
-		return (BS_APP_HTTP_CACHE_MODE == 'public');
+		return BSController::getInstance()->hasProxyServer();
 	}
 
 	/**

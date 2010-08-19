@@ -224,6 +224,16 @@ abstract class BSController {
 	}
 
 	/**
+	 * プロキシサーバが有効か
+	 *
+	 * @access public
+	 * @return boolean 有効ならTrue
+	 */
+	public function hasProxyServer () {
+		return false;
+	}
+
+	/**
 	 * タイムリミットを設定
 	 *
 	 * @access public

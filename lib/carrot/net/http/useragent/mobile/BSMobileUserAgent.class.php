@@ -45,6 +45,21 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * 外向けURLを調整して返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象URL
+	 * @return string エンコード済みファイル名
+	 */
+	public function modifyURL (BSHTTPRedirector $url) {
+		$url = parent::modifyURL($url);
+		if (BSController::getInstance()->hasProxyServer()) {
+			$url->setParameter('guid', 'ON');
+		}
+		return $url;
+	}
+
+	/**
 	 * セッションハンドラを生成して返す
 	 *
 	 * @access public
