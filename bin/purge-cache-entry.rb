@@ -6,10 +6,10 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @version $Id$
 
-PATTERN = '/home/*/proxy/*'
-COMMAND = '/usr/local/apache2/bin/htcacheclean'
+PURGE_DIR = '/home/*/proxy/*'
+PURGE_CMD = '/usr/local/apache2/bin/htcacheclean'
 LIMIT = '512M'
 
-Dir.glob(PATTERN).each do |path|
-  system(COMMAND + ' -n -t -p' + path + ' -l' + LIMIT)
+Dir.glob(PURGE_DIR).each do |path|
+  system(PURGE_CMD + ' -n -t -p' + path + ' -l' + LIMIT)
 end
