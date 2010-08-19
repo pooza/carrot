@@ -318,6 +318,7 @@ abstract class BSRecord implements ArrayAccess,
 			$old->delete();
 		}
 		$file->setMode(0666);
+		$file->setBinary(true);
 		$suffix = BSMIMEType::getSuffix($file->analyzeType());
 		$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		$file->moveTo($this->getTable()->getDirectory());

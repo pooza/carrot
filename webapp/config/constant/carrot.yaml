@@ -193,6 +193,8 @@ pdo:
 pgsql:
   dir: /usr/local
 pictogram:
+png2ico:
+  dir: /usr/local
 proctools:
   dir: /usr/local
 request:
