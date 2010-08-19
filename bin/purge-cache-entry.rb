@@ -7,9 +7,9 @@
 # @version $Id$
 
 PATTERN = '/home/*/proxy/*'
-APACHE_PREFIX = '/usr/local'
+COMMAND = '/usr/local/apache2/bin/htcacheclean'
 LIMIT = '512M'
 
 Dir.glob(PATTERN).each do |path|
-  system(APACHE_PREFIX + '/apache2/bin/htcacheclean -n -t -p' + path + ' -l' + LIMIT)
+  system(COMMAND + ' -n -t -p' + path + ' -l' + LIMIT)
 end
