@@ -81,12 +81,15 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$inner = $container->addElement(new BSDivisionElement);
 		$script = $container->addElement(new BSScriptElement);
 
-		$inner->setID('map_' . BSCrypt::getDigest($params['address']));
+		if (BSString::isBlank($id = $params['container_id'])) {
+			$id = 'map_' . BSCrypt::getDigest($params['address']);
+		}
+		$inner->setID($id);
 		$inner->setStyle('width', $params['width']);
 		$inner->setStyle('height', $params['height']);
 		$inner->setBody('Loading...');
 
-		$statement = new BSStringFormat('handleGoogleMaps($(%s), %f, %f, %d);');
+		$statement = new BSStringFormat('CarrotMapsLib.handleMap($(%s), %f, %f, %d);');
 		$statement[] = BSJavaScriptUtility::quote($inner->getID());
 		$statement[] = $geocode['lat'];
 		$statement[] = $geocode['lng'];

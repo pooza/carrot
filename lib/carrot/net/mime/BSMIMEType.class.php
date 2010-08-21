@@ -57,7 +57,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 		if (!$this->typesFile) {
 			$this->typesFile = new BSFile(BS_FILE_TYPES_FILE);
 			if (!$this->typesFile->isReadable()) {
-				throw new BSConfigException($file . 'を開くことができません。');
+				throw new BSConfigException($this->typesFile . 'を開くことができません。');
 			}
 		}
 		return $this->typesFile;
