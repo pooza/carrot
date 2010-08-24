@@ -249,7 +249,11 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		} else {
 			$url['host'] = self::DEFAULT_HOST;
 		}
-		$url->setParameter('q', $address);
+
+		$service = new self;
+		if ($geocode = $service->getGeocode($address)) {
+			$url->setParameter('ll', $geocode->format());
+		}
 		return $url;
 	}
 }
