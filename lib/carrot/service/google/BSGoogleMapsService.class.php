@@ -253,6 +253,8 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$service = new self;
 		if ($geocode = $service->getGeocode($address)) {
 			$url->setParameter('ll', $geocode->format());
+		} else {
+			$url->setParameter('q', $address);
 		}
 		return $url;
 	}
