@@ -83,6 +83,35 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
+	 * データベース関数を返す
+	 *
+	 * @access public
+	 * @param string $name 関数名
+	 * @param string $value 値
+	 * @param boolean $quotes クォートする
+	 * @return string 関数の記述
+	 */
+	public function getFunction ($name, $value, $quotes = false) {
+		switch ($name) {
+			case 'year':
+				$func = new BSStringFormat('strftime(\'%%Y\', %s)');
+				break;
+			case 'month':
+				$func = new BSStringFormat('strftime(\'%%m\', %s)');
+				break;
+			default:
+				return parent::getFunction($name, $value, $quotes);
+		}
+
+		if (!!$quotes) {
+			$func[] = $this->quote($value);
+		} else {
+			$func[] = $value;
+		}
+		return $func->getContents();
+	}
+
+	/**
 	 * バージョンを返す
 	 *
 	 * @access protected
