@@ -44,9 +44,8 @@ function smarty_function_image_cache ($params, &$smarty) {
 				$element = $element->wrap($anchor);
 				$element->setImageGroup($params['group']);
 				$element->setCaption($info['alt']);
-				$imagesFull = $smarty->getUserAgent()->createImageManager($params['flags_full']);
 				$element->setImage(
-					$record, $params['size'], $params['pixel_full'], $imagesFull->getFlag()
+					$record, $params['size'], $params['pixel_full'], $params['flags_full']
 				);
 				break;
 		}

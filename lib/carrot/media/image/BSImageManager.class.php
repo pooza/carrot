@@ -405,6 +405,7 @@ class BSImageManager {
 	 */
 	public function getElement (BSArray $info) {
 		$element = new BSImageElement;
+		$element->setUserAgent($this->getUserAgent());
 		$element->setAttributes($info);
 		return $element;
 	}

@@ -193,6 +193,19 @@ class BSXHTMLElement extends BSXMLElement {
 		}
 		parent::setAttribute($name, $value);
 	}
+
+	/**
+	 * 上位のタグでくくって返す
+	 *
+	 * @access public
+	 * @param BSXMLElement $parent 上位の要素
+	 * @return BSXMLElement 上位の要素
+	 */
+	public function wrap (BSXMLElement $parent) {
+		$parent = parent::wrap($parent);
+		$parent->setUserAgent($this->useragent);
+		return $parent;
+	}
 }
 
 /* vim:set tabstop=4: */
