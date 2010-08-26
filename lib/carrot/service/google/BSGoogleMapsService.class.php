@@ -157,7 +157,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$address = $params['address'];
 		$params->removeParameter('address');
 		$file = $this->getImageFile($geocode, $params);
-		$info = $file->getImageInfo('roadmap', null, BSImageCacheHandler::FORCE_GIF);
+		$info = $file->getImageInfo('roadmap', null, BSImageManager::FORCE_GIF);
 
 		$image = new BSImageElement;
 		$image->setURL(BSURL::getInstance($info['url']));

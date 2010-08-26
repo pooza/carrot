@@ -212,7 +212,8 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param string $size
 	 */
 	public function clearImageCache ($size = null) {
-		BSImageCacheHandler::getInstance()->removeThumbnail($this, $size);
+		$images = new BSImageManager;
+		$images->removeThumbnail($this, $size);
 	}
 
 	/**
@@ -225,7 +226,8 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
-		return BSImageCacheHandler::getInstance()->getImageInfo($this, $size, $pixel, $flags);
+		$images = new BSImageManager;
+		return $images->getImageInfo($this, $size, $pixel, $flags);
 	}
 
 	/**

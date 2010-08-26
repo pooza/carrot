@@ -281,6 +281,19 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * 画像マネージャを生成して返す
+	 *
+	 * @access public
+	 * @param integer $flags フラグのビット列
+	 * @return BSImageManager 画像マネージャ
+	 */
+	public function createImageManager ($flags = null) {
+		$images = new BSImageManager($flags);
+		$images->setUserAgent($this);
+		return $images;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

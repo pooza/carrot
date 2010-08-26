@@ -275,8 +275,8 @@ class BSTwitterAccount
 	 */
 	public function getImageInfo ($size = 'icon', $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile()) {
-			$caches = BSImageCacheHandler::getInstance();
-			$info = $caches->getImageInfo($file, $size, $pixel, $flags);
+			$images = new BSImageManager;
+			$info = $images->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getLabel();
 			return $info;
 		}

@@ -217,8 +217,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile($size)) {
-			$caches = BSImageCacheHandler::getInstance();
-			$info = $caches->getImageInfo($file, $size, $pixel, $flags);
+			$images = new BSImageManager;
+			$info = $images->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getID();
 			return $info;
 		}

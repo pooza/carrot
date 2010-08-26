@@ -391,7 +391,8 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $size
 	 */
 	public function clearImageCache ($size = 'thumbnail') {
-		BSImageCacheHandler::getInstance()->removeThumbnail($this, $size);
+		$images = new BSImageManager;
+		$images->removeThumbnail($this, $size);
 	}
 
 	/**
@@ -404,7 +405,8 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = 'thumbnail', $pixel = null, $flags = null) {
-		return BSImageCacheHandler::getInstance()->getImageInfo($this, $size, $pixel, $flags);
+		$images = new BSImageManager;
+		return $images->getImageInfo($this, $size, $pixel, $flags);
 	}
 
 	/**

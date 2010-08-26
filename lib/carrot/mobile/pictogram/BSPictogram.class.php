@@ -122,8 +122,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		if ($useragent->isMobile()) {
 			return $this->getNumericReference();
 		} else {
-			$caches = BSImageCacheHandler::getInstance();
-			return $caches->getElement($this->getImageInfo())->getContents();
+			$images = new BSImageManager;
+			return $images->getElement($this->getImageInfo())->getContents();
 		}
 	}
 
