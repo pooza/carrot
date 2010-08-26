@@ -22,7 +22,7 @@ class BSImageManager {
 
 	/**
 	 * @access public
-	 * @param integer $flags フラグのビット列
+	 * @param mixed $flags フラグのビット列、又は配列
 	 */
 	public function __construct ($flags = null) {
 		$this->setFlags($flags);
@@ -65,27 +65,34 @@ class BSImageManager {
 	 * 規定のフラグを設定
 	 *
 	 * @access public
-	 * @param integer $flags フラグのビット列
+	 * @param mixed $flags フラグのビット列、又は配列
 	 */
 	public function setFlags ($flags) {
 		if (BSString::isBlank($flags)) {
 			return;
-		} else if (!is_numeric($flags)) {
-			if (!BSArray::isArray($values = $flags)) {
-				$values = BSString::explode(',', $values);
+		} else if (is_numeric($flags)) {
+			$this->setFlag($flags);
+		} else {
+			if (!BSArray::isArray($flags)) {
+				$flags = BSString::explode(',', $flags);
 			}
-			$constants = BSConstantHandler::getInstance();
-			$flags = 0;
-			foreach (($values = BSString::toUpper($values)) as $value) {
-				if (BSString::isBlank($flag = $constants['BSImageManager::' . $value])) {
-					$message = new BSStringFormat('BSImageManager::%sが未定義です。');
-					$message[] = $value;
-					throw new BSImageException($message);
-				}
-				$flags |= $flag;
+			foreach ($flags as $flag) {
+				$this->setFlag($flag);
 			}
 		}
-		$this->flags |= $flags;
+	}
+
+	private function setFlag ($flag) {
+		if (is_numeric($flag)) {
+			$constants = BSConstantHandler::getInstance();
+			$value = BSString::toUpper($flag);
+			if (BSString::isBlank($flag = $constants['BSImageManager::' . $value])) {
+				$message = new BSStringFormat('BSImageManager::%sが未定義です。');
+				$message[] = $value;
+				throw new BSImageException($message);
+			}
+		}
+		$this->flags |= $flag;
 	}
 
 	/**
