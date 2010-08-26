@@ -172,6 +172,13 @@ abstract class BSRecord implements ArrayAccess,
 				$file->delete();
 			}
 		}
+		foreach ($this->getTable()->getChildClasses() as $class) {
+			$table = BSTableHandler::getInstance($class);
+			$table->getCriteria($this->getTable()->getName() . '_id', $this);
+			foreach ($table as $record) {
+				$record->delete();
+			}
+		}
 		BSController::getInstance()->removeAttribute($this);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->putLog($this . 'を削除しました。');

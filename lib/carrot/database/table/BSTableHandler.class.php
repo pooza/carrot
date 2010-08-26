@@ -844,6 +844,17 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * 子クラスを返す
+	 *
+	 * @access public
+	 * @return BSArray 子クラス名の配列
+	 * @static
+	 */
+	public function getChildClasses () {
+		return new BSArray;
+	}
+
+	/**
 	 * 全ステータスを返す
 	 *
 	 * @access public
