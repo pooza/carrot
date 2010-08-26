@@ -220,3 +220,32 @@ class Constants
     return File.basename(File.dirname(File.expand_path(__FILE__)))
   end
 end
+
+class DSN
+  def initialize (name)
+    @name = name
+    @dsn = Constants.new['BS_PDO_' + name + '_DSN']
+    dsn = @dsn.split(':')
+    @scheme = dsn[0]
+    @db = dsn[1].sub!('%BS_VAR_DIR%', 'var')
+  end
+
+  def install
+    raise 'invalid scheme: ' + @scheme if @scheme != 'sqlite'
+    sh 'sudo rm ' + @db if File.exists?(@db)
+    sh 'sqlite3 "' + @db + '" < ' + self.schema_file
+    sh 'chmod 666 ' + @db
+  end
+
+  def schema_file
+    ['_init', ''].each do |suffix|
+      ['.sqlite.sql', '.sql'].each do |extension|
+        path = 'share/sql/' + @name.downcase + suffix + extension
+        if File.exists?(path)
+          return path
+        end
+      end
+    end
+    raise 'invalid schema file'
+  end
+end
