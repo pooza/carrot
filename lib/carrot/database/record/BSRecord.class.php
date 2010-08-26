@@ -155,6 +155,13 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
 
+		foreach ($this->getTable()->getChildClasses() as $class) {
+			$table = BSTableHandler::getInstance($class);
+			$table->getCriteria($this->getTable()->getName() . '_id', $this);
+			foreach ($table as $record) {
+				$record->delete();
+			}
+		}
 		if ($record = $this->getParent()) {
 			$record->touch();
 		}
@@ -170,13 +177,6 @@ abstract class BSRecord implements ArrayAccess,
 		foreach ($this->getTable()->getAttachmentNames() as $field) {
 			if ($file = $this->getAttachment($field)) {
 				$file->delete();
-			}
-		}
-		foreach ($this->getTable()->getChildClasses() as $class) {
-			$table = BSTableHandler::getInstance($class);
-			$table->getCriteria($this->getTable()->getName() . '_id', $this);
-			foreach ($table as $record) {
-				$record->delete();
 			}
 		}
 		BSController::getInstance()->removeAttribute($this);
