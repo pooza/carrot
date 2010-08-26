@@ -104,6 +104,10 @@ image:
   thumbnail:
     bgcolor: black
     type: image/png
+  apple_icon:
+    pixels: 57
+  favicon:
+    pixels: 16
 languages:
   - ja
 log:

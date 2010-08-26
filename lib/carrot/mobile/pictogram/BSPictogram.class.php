@@ -16,7 +16,6 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private $codes;
 	private $names;
 	private $imagefile;
-	private $imageinfo;
 	private $element;
 	static private $instances;
 
@@ -316,11 +315,11 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		if (!$controller->getAttribute($key)) {
 			$urls = new BSArray;
 			foreach (self::getPictograms() as $pictogram) {
-				$imageinfo = $pictogram->getImageInfo();
+				$info = $pictogram->getImageInfo();
 				foreach ($pictogram->getNames() as $name) {
 					$urls[$name] = new BSArray;
 					$urls[$name]['name'] = $name;
-					$urls[$name]['image'] = $imageinfo;
+					$urls[$name]['image'] = $info;
 				}
 			}
 			$controller->setAttribute($key, $urls);
