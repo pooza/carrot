@@ -83,7 +83,7 @@ class BSImageManager {
 	}
 
 	private function setFlag ($flag) {
-		if (is_numeric($flag)) {
+		if (!is_numeric($flag)) {
 			$constants = BSConstantHandler::getInstance();
 			$value = BSString::toUpper($flag);
 			if (BSString::isBlank($flag = $constants['BSImageManager::' . $value])) {

@@ -31,12 +31,12 @@ class BSXHTMLElement extends BSXMLElement {
 
 		$this->styles = new BSCSSSelector;
 		$this->styleClasses = new BSArray;
-
 		parent::__construct($name);
+
 		if ($useragent) {
-			$this->useragent = $useragent;
+			$this->setUserAgent($useragent);
 		} else {
-			$this->useragent = BSRequest::getInstance()->getUserAgent();
+			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 		}
 	}
 
@@ -53,6 +53,26 @@ class BSXHTMLElement extends BSXMLElement {
 			}
 		}
 		return $this->tag;
+	}
+
+	/**
+	 * 対象UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent 対象UserAgent
+	 */
+	public function getUserAgent () {
+		return $this->useragent;
+	}
+
+	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		$this->useragent = $useragent;
 	}
 
 	/**
