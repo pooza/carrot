@@ -63,8 +63,6 @@ images:
 image_cache:
   parent: var
   href: /carrotlib/images/cache/
-  purge:
-    day: 7
 js:
   parent: carrotlib
   suffix: .js
@@ -142,7 +140,7 @@ tests:
 tmp:
   parent: var
   purge:
-    day: 7
+    day: 3
 twitter_account:
   parent: var
   suffix: .png
