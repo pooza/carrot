@@ -135,7 +135,7 @@ class BSString {
 				$value[$key] = self::convertAlphabet($item, $format);
 			}
 		} else {
-			foreach (self::eregMatchAll('[[:alpha:]]+', $value) as $matches) {
+			foreach (self::eregMatchAll('[［］｛｝（）[:alnum:]]+', $value) as $matches) {
 				$value = str_replace($matches[0], mb_convert_kana($matches[0], 'a'), $value);
 			}
 		}
