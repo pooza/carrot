@@ -219,9 +219,11 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			return new BSEmptyView($this, null);
 		}
 
-		$class = 'BSSmartyView';
-		if ($this->request->hasAttribute('renderer')) {
-			$class = 'BSView';
+		if (BSString::isBlank($class = $this->getConfig('view'))) {
+			$class = 'BSSmartyView';
+			if ($this->request->hasAttribute('renderer')) {
+				$class = 'BSView';
+			}
 		}
 		if ($dir = $this->getModule()->getDirectory('views')) {
 			foreach (array($name, null) as $suffix) {
