@@ -303,10 +303,17 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if (!$this->configFiles) {
 			$this->configFiles = new BSArray;
 		}
-		if (!$this->configFiles[$name] && $this->getDirectory('config')) {
-			$this->configFiles[$name] = BSConfigManager::getConfigFile(
-				$this->getDirectory('config')->getPath() . DIRECTORY_SEPARATOR . $name
-			);
+		if (!$this->configFiles[$name]) {
+			$finder = new BSFileFinder;
+			$finder->clearDirectories();
+			$finder->registerDirectory($this->getDirectory());
+			if ($dir = $this->getDirectory('config')) {
+				$finder->registerDirectory($dir);
+			}
+			$finder->registerSuffix('yaml');
+			$finder->registerSuffix('ini');
+			$finder->setOutputClass('BSConfigFile');
+			$this->configFiles[$name] = $finder->execute($name);
 		}
 		return $this->configFiles[$name];
 	}
@@ -333,10 +340,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSConfigFile バリデーション設定ファイル
 	 */
 	public function getValidationFile ($name) {
-		if (!$dir = $this->getDirectory('validate')) {
-			return null;
+		if ($dir = $this->getDirectory('validate')) {
+			return BSConfigManager::getConfigFile($dir->getPath() . DIRECTORY_SEPARATOR . $name);
 		}
-		return BSConfigManager::getConfigFile($dir->getPath() . DIRECTORY_SEPARATOR . $name);
 	}
 
 	/**

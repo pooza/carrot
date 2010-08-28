@@ -70,7 +70,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @return BSConfigFile 設定ファイル
 	 */
 	private function getConfigFile () {
-		return BSConfigManager::getInstance()->getConfigFile('mime');
+		return BSConfigManager::getConfigFile('mime');
 	}
 
 	/**
