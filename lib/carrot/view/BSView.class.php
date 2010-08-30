@@ -186,9 +186,11 @@ class BSView extends BSHTTPResponse {
 
 		$this->setCacheControl(false);
 		if ($this->user->isGuest()) {
-			$this->setCacheControl(true);
-		} else if ($this->useragent->hasBug('cache_control')) {
-			if ($this->request->isSSL() || !$this->isHTML()) {
+			if ($this->useragent->hasBug('cache_control')) {
+				if (!$this->request->isSSL() && $this->isHTML()) {
+					$this->setCacheControl(true);
+				}
+			} else {
 				$this->setCacheControl(true);
 			}
 		}
@@ -232,6 +234,7 @@ class BSView extends BSHTTPResponse {
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
 			$this->setHeader('Pragma', 'no-cache');
+			$this->removeHeader('Expires');
 		}
 	}
 
