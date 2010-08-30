@@ -4,8 +4,6 @@
  * @subpackage file
  */
 
-ini_set('auto_detect_line_endings', true);
-
 /**
  * ファイル
  *
@@ -217,6 +215,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			throw new BSFileException($this . 'は既に開かれています。');
 		}
 
+		ini_set('auto_detect_line_endings', true);
 		if (!$this->handle = fopen($this->getPath(), $mode)) {
 			$this->handle = null;
 			$this->mode = null;
