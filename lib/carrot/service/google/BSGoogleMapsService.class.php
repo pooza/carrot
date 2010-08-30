@@ -164,14 +164,14 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$container = new BSDivisionElement;
 		if (BSString::isBlank($label = $params['label'])) {
 			$anchor = $container->addElement(new BSAnchorElement);
-			$anchor->link($image, self::getURL($address, $this->useragent));
+			$anchor->link($image, self::getURL($address, $this->useragent, $params));
 		} else {
 			$container->addElement($image);
 			$labelContainer = $container->addElement(new BSDivisionElement);
 			$labelContainer->setAttribute('align', 'center');
 			$anchor = $labelContainer->addElement(new BSAnchorElement);
 			$anchor->setBody($label);
-			$anchor->setURL(self::getURL($address, $this->useragent));
+			$anchor->setURL(self::getURL($address, $this->useragent, $params));
 		}
 		return $container;
 	}
@@ -234,10 +234,11 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @access public
 	 * @param string $address 住所等
 	 * @param string BSUserAgent $useragent 対象ブラウザ
+	 * @param BSArray $params パラメータ配列
 	 * @return BSHTTPURL
 	 * @static
 	 */
-	static public function getURL ($address, BSUserAgent $useragent = null) {
+	static public function getURL ($address, BSUserAgent $useragent = null, $params = null) {
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
@@ -253,9 +254,12 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$service = new self;
 		if ($geocode = $service->getGeocode($address)) {
 			$url->setParameter('ll', $geocode->format());
-		} else {
-			$url->setParameter('q', $address);
 		}
+
+		if ($params['zoom']) {
+			$url->setParameter('z', $params['zoom']);
+		}
+
 		return $url;
 	}
 }
