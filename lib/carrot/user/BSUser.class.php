@@ -196,6 +196,7 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function logout () {
 		$this->id = null;
+		$this->clearCredentials();
 		$this->getSession()->write(__CLASS__, null);
 	}
 
