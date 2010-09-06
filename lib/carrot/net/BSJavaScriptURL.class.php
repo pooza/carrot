@@ -1,28 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.mail
+ * @subpackage net
  */
 
 /**
- * 連絡先URL
- *
- * mailtoとかtelとか。
+ * JavaScriptのURL
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSContactURL extends BSURL {
-	private $query;
-
-	/**
-	 * @access protected
-	 * @param mixed $contents URL
-	 */
-	protected function __construct ($contents = null) {
-		$this->query = new BSWWWFormRenderer;
-		parent::__construct($contents);
-	}
+class BSJavaScriptURL extends BSURL {
 
 	/**
 	 * 内容を返す
@@ -33,9 +21,6 @@ class BSContactURL extends BSURL {
 	public function getContents () {
 		if (!$this->contents) {
 			$this->contents = $this['scheme'] . ':' . $this['path'];
-			if ($this->query->count()) {
-				$this->contents .= '?' . $this->query->getContents();
-			}
 		}
 		return $this->contents;
 	}
@@ -53,9 +38,6 @@ class BSContactURL extends BSURL {
 			case 'scheme':
 			case 'path':
 				$this->attributes[$name] = $value;
-				break;
-			case 'query':
-				$this->query->setContents($value);
 				break;
 		}
 		$this->contents = null;

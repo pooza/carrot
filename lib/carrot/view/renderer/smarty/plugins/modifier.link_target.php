@@ -15,7 +15,10 @@ function smarty_modifier_link_target ($value) {
 		return $value;
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
-	} else if (!BSString::isBlank($value) && ($url = BSURL::getInstance($value))) {
+	} else if (!BSString::isBlank($value)
+		&& ($url = BSURL::getInstance($value))
+		&& ($url instanceof BSHTTPURL)) {
+
 		if ($url->isForeign()) {
 			return '_blank';
 		}

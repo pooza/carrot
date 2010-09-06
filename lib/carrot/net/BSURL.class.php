@@ -57,6 +57,8 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 			case 'tel':
 			case 'skype':
 				return new BSContactURL($params);
+			case 'javascript':
+				return new BSJavaScriptURL($params);
 			default:
 				return new $class($params);
 		}
