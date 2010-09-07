@@ -15,6 +15,7 @@ class BSUser extends BSParameterHolder {
 	private $attributes;
 	private $credentials;
 	static private $instance;
+	const COOKIE = 1;
 
 	/**
 	 * @access protected
@@ -77,9 +78,17 @@ class BSUser extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $name 属性名
+	 * @param integer $flags フラグのビット列
+	 *   self::COOKIE cookieのみ
 	 * @return mixed 属性値
 	 */
-	public function getAttribute ($name) {
+	public function getAttribute ($name, $flags = null) {
+		if ($flags & self::COOKIE) {
+			if (isset($_COOKIE[$name])) {
+				return $_COOKIE[$name];
+			}
+			return null;
+		}
 		return $this->attributes[$name];
 	}
 
