@@ -101,11 +101,15 @@ class BSUser extends BSParameterHolder {
 	 * @param string $name 属性名
 	 * @param mixed $value 属性値
 	 * @param BSDate $expire 期限
+	 * @param string $domain 対象ドメイン
 	 */
-	public function setAttribute ($name, $value, BSDate $expire = null) {
+	public function setAttribute ($name, $value, BSDate $expire = null, $domain = null) {
 		$this->attributes[(string)$name] = $value;
 		if ($expire) {
-			setcookie((string)$name, $value, $expire->getTimestamp(), '/');
+			if (BSString::isBlank($domain)) {
+				$domain = BSController::getInstance()->getHost()->getName();
+			}
+			setcookie((string)$name, $value, $expire->getTimestamp(), '/', $domain, false, true);
 		}
 	}
 

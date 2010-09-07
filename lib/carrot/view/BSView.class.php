@@ -225,7 +225,7 @@ class BSView extends BSHTTPResponse {
 			$value[] = BS_APP_HTTP_CACHE_MODE;
 			$value[] = BS_APP_HTTP_CACHE_SECONDS;
 			$this->setHeader('Cache-Control', $value->getContents());
-			if (BS_APP_HTTP_CACHE_SEND_EXPIRES || $this->hasProxyServer()) {
+			if (BS_APP_HTTP_CACHE_SEND_EXPIRES) {
 				$date = BSDate::getNow();
 				$date['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
 				$this->setHeader('Expires', $date->format(DATE_RFC1123, BSDate::GMT));
