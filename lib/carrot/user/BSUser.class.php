@@ -290,7 +290,12 @@ class BSUser extends BSParameterHolder {
 	 * @return boolean ゲストユーザーならばTrue
 	 */
 	public function isGuest () {
-		return !$this->getCredentials()->count();
+		foreach ($this->getCredentials() as $credential) {
+			if (!!$credential) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
 
