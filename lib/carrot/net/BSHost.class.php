@@ -13,6 +13,7 @@
 class BSHost implements BSAssignable {
 	protected $name;
 	protected $address;
+	protected $domain;
 
 	/**
 	 * @access public
@@ -71,6 +72,21 @@ class BSHost implements BSAssignable {
 		} catch (BSNetException $e) {
 			return false;
 		}
+	}
+
+	/**
+	 * 親ドメインを返す
+	 *
+	 * @access public
+	 * @return string 親ドメイン
+	 */
+	public function getDomain () {
+		if (!$this->domain) {
+			$name = BSString::explode('.', $this->getName());
+			$name->shift();
+			$this->domain = $name->join('.');
+		}
+		return $this->domain;
 	}
 
 	/**
