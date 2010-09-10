@@ -216,6 +216,9 @@ class BSWebRequest extends BSRequest {
 	 * @return string リモートホストのUserAgent名
 	 */
 	public function getUserAgentName () {
+		if (!!$this[BSTridentUserAgent::FORCE_MODE_ACCESSOR]) {
+			return BSTridentUserAgent::DEFAULT_NAME;
+		}
 		if (BS_DEBUG || ($this->user && $this->user->isAdministrator())) {
 			if (!BSString::isBlank($name = $this[BSUserAgent::ACCESSOR])) {
 				return $name;

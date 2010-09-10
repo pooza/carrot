@@ -158,6 +158,9 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 			if (!BSString::isBlank($name = $request[self::ACCESSOR])) {
 				$query[self::ACCESSOR] = $name;
 			}
+			if (!!$request[BSTridentUserAgent::FORCE_MODE_ACCESSOR]) {
+				$query[BSTridentUserAgent::FORCE_MODE_ACCESSOR] = 1;
+			}
 			if (!!$request['preview']) {
 				$query['preview'] = 1;
 			}
