@@ -29,6 +29,8 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$this->attributes['type'] = $this->getType();
 		$this->attributes['type_lower'] = BSString::toLower($this->getType());
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
+		$this->attributes['is_mobile'] = $this->isMobile();
+		$this->attributes['is_smartphone'] = $this->isSmartPhone();
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
 		$this->bugs = new BSArray;
@@ -242,6 +244,16 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * スマートフォンか？
+	 *
+	 * @access public
+	 * @return boolean スマートフォンならTrue
+	 */
+	public function isSmartPhone () {
+		return false;
+	}
+
+	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public
@@ -399,6 +411,9 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		return new BSArray(array(
 			'Trident',
 			'Gecko',
+			'iPhone',
+			'Android',
+			'iPad',
 			'WebKit',
 			'Opera',
 			'Tasman',
