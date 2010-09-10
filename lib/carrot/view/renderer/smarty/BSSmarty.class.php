@@ -179,6 +179,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->finder->clearSuffixes();
 		if ($useragent->isMobile()) {
 			$this->finder->registerSuffix('mobile');
+		} else if ($useragent->isSmartPhone()) {
+			$this->finder->registerSuffix('smartphone');
 		}
 		$this->finder->registerSuffix($useragent->getType());
 	}
