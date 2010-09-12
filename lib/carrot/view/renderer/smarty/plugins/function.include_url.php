@@ -23,9 +23,7 @@ function smarty_function_include_url ($params, &$smarty) {
 	}
 
 	if (!$url['host']->isForeign(BSController::getInstance()->getHost())) {
-		if ($useragent = $smarty->getUserAgent()) {
-			$url->setParameters($useragent->getQuery());
-		}
+		$url->setUserAgent($smarty->getUserAgent());
 	}
 	return $url->fetch();
 }
