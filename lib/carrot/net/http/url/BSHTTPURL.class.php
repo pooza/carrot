@@ -12,6 +12,7 @@
  */
 class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	private $fullpath;
+	private $useragent;
 	private $query;
 	private $shortURL;
 	private $dirty = false;
@@ -164,6 +165,38 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function setParameters ($params) {
 		$this->query->setParameters($params);
+	}
+
+	/**
+	 * 対象UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent 対象UserAgent
+	 */
+	public function getUserAgent () {
+		return $this->useragent;
+	}
+
+	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		if ($this->useragent) {
+			if ($this->useragent === $useragent) {
+				return;
+			}
+			throw new BSUserAgentException('対象URLは設定済みです。');
+		}
+
+		$this->useragent = $useragent;
+		$this->setParameters($useragent->getQuery());
+		if ($this->isForeign()) {
+			$this->query->removeParameter(BSRequest::getInstance()->getSession()->getName());
+		}
+		return $url;
 	}
 
 	/**

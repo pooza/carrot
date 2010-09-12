@@ -18,7 +18,7 @@ function smarty_function_gps_link ($params, &$smarty) {
 		} else {
 			$url = BSURL::getInstance($params['contents']);
 		}
-		$url = $useragent->modifyURL($url);
+		$url->setUserAgent($useragent);
 
 		$element = $useragent->getCarrier()->getGPSAnchorElement($url, $params['label']);
 		return $element->getContents();

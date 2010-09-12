@@ -281,23 +281,6 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * 外向けURLを調整して返す
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $url 対象URL
-	 * @return BSURL 調整されたURL
-	 */
-	public function modifyURL (BSHTTPRedirector $url) {
-		$url = $url->getURL();
-		$query = new BSArray($this->getQuery());
-		if ($url->isForeign()) {
-			$query->removeParameter(BSRequest::getInstance()->getSession()->getName());
-		}
-		$url->setParameters($query);
-		return $url;
-	}
-
-	/**
 	 * 画像マネージャを生成して返す
 	 *
 	 * @access public

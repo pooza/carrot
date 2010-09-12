@@ -26,7 +26,7 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		$useragent = $smarty->getUserAgent();
 	}
 	if ($useragent) {
-		$url = $useragent->modifyURL($url);
+		$url->setUserAgent($useragent);
 	}
 	return $url->getContents();
 }
