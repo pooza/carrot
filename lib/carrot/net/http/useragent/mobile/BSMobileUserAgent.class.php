@@ -44,21 +44,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
-	 * 外向けURLを調整して返す
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $url 対象URL
-	 * @return BSURL 調整されたURL
-	 */
-	public function modifyURL (BSHTTPRedirector $url) {
-		$url = parent::modifyURL($url);
-		if (BSController::getInstance()->hasProxyServer()) {
-			$url->setParameter('guid', 'ON');
-		}
-		return $url;
-	}
-
-	/**
 	 * セッションハンドラを生成して返す
 	 *
 	 * @access public
@@ -78,6 +63,9 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$query = parent::getQuery();
 		$session = BSRequest::getInstance()->getSession();
 		$query[$session->getName()] = $session->getID();
+		if (BSController::getInstance()->hasProxyServer()) {
+			$query['guid'] = 'ON';
+		}
 		return $query;
 	}
 
