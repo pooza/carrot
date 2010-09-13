@@ -157,32 +157,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * 抽出条件を返す
-	 *
-	 * getCriteriaのエイリアス
-	 *
-	 * @access public
-	 * @return BSCriteriaSet 抽出条件
-	 * final
-	 */
-	final public function getWhere () {
-		return $this->getCriteria();
-	}
-
-	/**
-	 * 抽出条件文字列を設定
-	 *
-	 * setCriteriaのエイリアス
-	 *
-	 * @access public
-	 * @param mixed $criteria 配列または文字列による抽出条件
-	 * @final
-	 */
-	final public function setWhere ($criteria) {
-		$this->setCriteria($criteria);
-	}
-
-	/**
 	 * ソート順文字列を返す
 	 *
 	 * @access public
@@ -318,21 +292,22 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getRecord ($key) {
 		if (!BSArray::isArray($key)) {
-			$key = array($this->getKeyField() => $key);
+			$key = new BSArray(array($this->getKeyField() => $key));
 		}
 
+		$class = $this->getRecordClass();
+		$record = new $class($this);
+		if ($record->isSerializable() && ($cache = $this->getRecordCache($record, $key))) {
+			return $record->initialize($cache);
+		}
 		if ($this->isExecuted()) {
-			foreach ($this->getResult() as $record) {
-				$match = true;
+			foreach ($this->getResult() as $row) {
 				foreach ($key as $field => $value) {
-					if ($record[$field] != $value) {
-						$match = false;
+					if ($row[$field] != $value) {
+						continue 2;
 					}
 				}
-				if ($match) {
-					$class = $this->getRecordClass();
-					return new $class($this, $record);
-				}
+				return $record->initialize($row);
 			}
 		} else {
 			$table = clone $this;
@@ -341,8 +316,15 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			}
 			if ($table->count() == 1) {
 				$table->query();
-				$class = $this->getRecordClass();
-				return new $class($this, $table->result[0]);
+				return $record->initialize($table->result[0]);
+			}
+		}
+	}
+	private function getRecordCache (BSRecord $record, BSArray $key) {
+		if ($id = $key[$this->getKeyField()]) {
+			$name = sprintf('%s.%08d', get_class($record), $id);
+			if ($data = BSController::getInstance()->getAttribute($name)) {
+				return $data['_attributes'];
 			}
 		}
 	}
