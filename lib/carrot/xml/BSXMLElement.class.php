@@ -368,7 +368,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param boolean $mode RAWモード
 	 */
 	public function setRawMode ($mode) {
-		$this->raw = $mode;
+		$this->raw = !!$mode;
 		$this->body = null;
 		$this->contents = null;
 	}
