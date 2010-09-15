@@ -291,7 +291,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return BSRecord レコード
 	 */
 	public function getRecord ($key) {
-		if (!BSArray::isArray($key)) {
+		if (is_array($key)) {
+			$key = new BSArray($key);
+		} else if ($key instanceof BSParameterHolder) {
+			$key = new BSArray($key->getParameters());
+		} else {
 			$key = new BSArray(array($this->getKeyField() => $key));
 		}
 
