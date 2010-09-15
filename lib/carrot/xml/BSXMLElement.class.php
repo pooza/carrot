@@ -263,8 +263,8 @@ class BSXMLElement implements IteratorAggregate {
 	public function getContents () {
 		if (!$this->contents) {
 			$this->contents = '<' . $this->getName();
-			if ($this->attributes->count()) {
-				foreach ($this->attributes as $key => $value) {
+			foreach ($this->attributes as $key => $value) {
+				if (!BSString::isBlank($value)) {
 					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
 				}
 			}
