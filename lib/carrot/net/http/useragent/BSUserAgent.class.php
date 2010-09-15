@@ -132,6 +132,9 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$view->setAttribute('has_proxy_server', $view->hasProxyServer());
 		$view->setAttribute('is_ssl', BSRequest::getInstance()->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
+		$view->setAttribute('session', new BSArray(array(
+			'id' => BSRequest::getInstance()->getSession()->getID(),
+		)));
 		return true;
 	}
 
