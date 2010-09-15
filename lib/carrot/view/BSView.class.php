@@ -34,7 +34,7 @@ class BSView extends BSHTTPResponse {
 		}
 		$this->setRenderer($renderer);
 
-		$this->setHeader('X-Frame-Options', 'deny');
+		$this->setHeader('X-Frame-Options', 'sameorigin');
 		$this->setHeader('X-Content-Type-Options', 'nosniff');
 	}
 
