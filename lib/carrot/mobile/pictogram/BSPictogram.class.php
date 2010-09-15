@@ -17,6 +17,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private $names;
 	private $imagefile;
 	private $element;
+	private $imageinfo;
 	static private $instances;
 
 	/**
