@@ -52,6 +52,16 @@ class BSImageManager {
 	}
 
 	/**
+	 * 規定の最大幅を返す
+	 *
+	 * @access public
+	 * @return integer 規定の最大幅
+	 */
+	public function getDefaultWidth () {
+		return $this->getUserAgent()->getDisplayInfo()->getParameter('width');
+	}
+
+	/**
 	 * 規定フラグを返す
 	 *
 	 * @access public
@@ -290,11 +300,9 @@ class BSImageManager {
 	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
 		$flags |= $this->flags;
 		$prefix = '';
-		if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
+		if (!$pixel && ($width = $this->getDefaultWidth())) {
 			$prefix = 'w';
-			if (!$pixel) {
-				$pixel = $useragent->getDisplayInfo()->getParameter('width');
-			}
+			$pixel = $width;
 		} else if ($flags & self::WITHOUT_SQUARE) {
 			$prefix = 's';
 		} else if ($flags & self::WIDTH_FIXED) {
@@ -343,9 +351,8 @@ class BSImageManager {
 			} else {
 				$image->resizeSquare($pixel);
 			}
-		} else if (($useragent = $this->getUserAgent()) && $useragent->isMobile()) {
-			$info = $useragent->getDisplayInfo();
-			$image->resizeWidth($info['width']);
+		} else if ($width = $this->getDefaultWidth()) {
+			$image->resizeWidth($width);
 		}
 		return $image;
 	}

@@ -298,6 +298,16 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 */
+	public function getDisplayInfo () {
+		return new BSArray;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

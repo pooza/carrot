@@ -23,6 +23,18 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	}
 
 	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 */
+	public function getDisplayInfo () {
+		return new BSArray(array(
+			'width' => 480,
+		));
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
