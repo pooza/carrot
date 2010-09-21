@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.15
+  ver: 2.4.16
 
 admin:
   email:
@@ -244,6 +244,8 @@ sqlite3:
 string:
   mobile:
     force_convert: no
+    softbank:
+      raw_output: no
 upload:
   progress:
     key: progress_key

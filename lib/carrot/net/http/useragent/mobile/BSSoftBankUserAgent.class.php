@@ -26,6 +26,21 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
+	 * ビューを初期化
+	 *
+	 * @access public
+	 * @param BSSmartyView 対象ビュー
+	 * @return boolean 成功時にTrue
+	 */
+	public function initializeView (BSSmartyView $view) {
+		parent::initializeView($view);
+		if (BS_STRING_MOBILE_SOFTBANK_RAW_OUTPUT) {
+			$view->getRenderer()->setEncoding('utf8');
+		}
+		return true;
+	}
+
+	/**
 	 * 端末IDを返す
 	 *
 	 * @access public
