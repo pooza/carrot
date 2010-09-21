@@ -103,7 +103,7 @@ class BSTwitterAccount
 	 */
 	protected function getOAuth () {
 		if (!$this->oauth && ($token = $this->getAccessToken())) {
-			BSUtility::includeFile('twitteroauth/twitteroauth.php');
+			BSUtility::includeFile('twitteroauth');
 			$this->oauth = new TwitterOAuth(
 				BS_SERVICE_TWITTER_CONSUMER_KEY,
 				BS_SERVICE_TWITTER_CONSUMER_SECRET,
@@ -121,7 +121,7 @@ class BSTwitterAccount
 	 * @return BSHTTPURL 認証ページのURL
 	 */
 	public function getOAuthURL () {
-		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		BSUtility::includeFile('twitteroauth');
 		$oauth = new TwitterOAuth(
 			BS_SERVICE_TWITTER_CONSUMER_KEY,
 			BS_SERVICE_TWITTER_CONSUMER_SECRET
@@ -162,7 +162,7 @@ class BSTwitterAccount
 		}
 		$this->logout();
 
-		BSUtility::includeFile('twitteroauth/twitteroauth.php');
+		BSUtility::includeFile('twitteroauth');
 		$oauth = new TwitterOAuth(
 			BS_SERVICE_TWITTER_CONSUMER_KEY,
 			BS_SERVICE_TWITTER_CONSUMER_SECRET,
