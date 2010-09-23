@@ -48,7 +48,9 @@ class BSUser extends BSParameterHolder {
 	 */
 	static public function getInstance () {
 		if (!self::$instance) {
-			if (BSRequest::getInstance()->isMobile()) {
+			if (!BSString::isBlank($class = BS_USER_CLASS)) {
+				self::$instance = new $class;
+			} else if (BSRequest::getInstance()->isMobile()) {
 				self::$instance = new BSMobileUser;
 			} else {
 				self::$instance = new self;

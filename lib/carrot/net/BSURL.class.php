@@ -272,8 +272,15 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @return string URLエンコードされた文字列
 	 * @static
 	 */
-	static public function encode ($str) {
-		return urlencode($str);
+	static public function encode ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::encode($item);
+			}
+		} else {
+			$value = urlencode($value);
+		}
+		return $value;
 	}
 }
 
