@@ -173,6 +173,17 @@ class BSImagickImage extends BSImage {
 	}
 
 	/**
+	 * 重ね合わせ
+	 *
+	 * @access public
+	 * @param BSImage $image 重ねる画像
+	 * @param BSCoordinate $coord 貼り付け先の起点座標
+	 */
+	public function overlay (BSImage $image, BSCoordinate $coord = null) {
+		throw new BSImageException('BSImagickImage::overlayは未実装です。');
+	}
+
+	/**
 	 * サイズ変更
 	 *
 	 * @access public

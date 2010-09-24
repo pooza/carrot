@@ -1,6 +1,7 @@
 <?php
 /**
- * @package jp.co.fine-support.maid
+ * @package org.carrot-framework
+ * @subpackage service.oauth
  */
 
 /**
