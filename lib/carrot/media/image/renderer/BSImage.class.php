@@ -307,6 +307,26 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
+	 * 重ね合わせ
+	 *
+	 * @access public
+	 * @param BSImage $image 重ねる画像
+	 * @param BSCoordinate $coord 貼り付け先の起点座標
+	 */
+	public function overlay (BSImage $image, BSCoordinate $coord = null) {
+		if (!$coord) {
+			$coord = $this->getCoordinate(0, 0);
+		}
+		imagecopy(
+			$this->getGDHandle(),
+			$image->getGDHandle(),
+			$coord->getX(), $coord->getY(),
+			0, 0,
+			$image->getWidth(), $image->getHeight()
+		);
+	}
+
+	/**
 	 * フォントを返す
 	 *
 	 * @access public
