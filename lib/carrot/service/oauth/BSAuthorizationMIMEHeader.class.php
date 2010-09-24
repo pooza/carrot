@@ -26,7 +26,7 @@ class BSAuthorizationMIMEHeader extends BSMIMEHeader {
 			foreach (BSString::explode(',', $contents) as $field) {
 				$field = trim($field);
 				if (mb_ereg('([^=]+)="([^"]+)"', $field, $matches)) {
-					$this[$matches[1]] = $matches[2];
+					$this[$matches[1]] = urldecode($matches[2]);
 				}
 			}
 		}
