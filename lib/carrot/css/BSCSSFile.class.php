@@ -48,7 +48,7 @@ class BSCSSFile extends BSFile {
 	 * @access public
 	 */
 	public function serialize () {
-		BSUtility::includeFile('Minify/CSS/Compressor.php');
+		BSUtility::includeFile('Minify/CSS/Compressor');
 		$contents = Minify_CSS_Compressor::process($this->getContents());
 		BSController::getInstance()->setAttribute($this, $contents);
 	}
