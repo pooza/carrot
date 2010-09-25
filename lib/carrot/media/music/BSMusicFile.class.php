@@ -76,6 +76,7 @@ class BSMusicFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$this->resizeByWidth($params, $useragent);
 		$container = new BSDivisionElement;
 		$container->setAttribute('width', $this['width']);
 		$container->setAttribute('height', $this['height']);

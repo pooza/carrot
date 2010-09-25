@@ -173,6 +173,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$this->resizeByWidth($params, $useragent);
 		$params = new BSArray($params);
 		$element = new BSImageElement;
 		$element->setURL($this->getMediaURL($params));
