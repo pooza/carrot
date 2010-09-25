@@ -40,6 +40,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$this->resizeByWidth($params, $useragent);
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}

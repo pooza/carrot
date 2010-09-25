@@ -32,7 +32,7 @@ function smarty_function_flash ($params, &$smarty) {
 					$params['href_prefix'] = $url['path'];
 				}
 			}
-			return $file->getElement($params)->getContents();
+			return $file->getElement($params, $smarty->getUserAgent())->getContents();
 	}
 }
 
