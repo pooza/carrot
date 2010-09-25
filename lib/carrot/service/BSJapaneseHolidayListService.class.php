@@ -108,7 +108,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 			$xml->setContents($response->getRenderer()->getContents());
 			return $xml;
 		} catch (Exception $e) {
-			throw new BSHTTPException('祝日が取得できません。');
+			throw new BBServiceException('祝日が取得できません。');
 		}
 	}
 
@@ -164,7 +164,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	public function serialize () {
 		if (!$result = $this->query()->getElement('result')) {
-			throw new BSXMLException('result要素がありません。');
+			throw new BBServiceException('result要素がありません。');
 		}
 		$holidays = new BSArray;
 		foreach ($result as $element) {

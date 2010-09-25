@@ -319,7 +319,7 @@ class BSTwitterAccount
 	 * @param string $size サイズ名
 	 */
 	public function setImageFile (BSImageFile $file, $size = 'icon') {
-		throw new BSImageException($this . 'の画像ファイルを設定できません。');
+		throw new BBServiceException($this . 'の画像ファイルを設定できません。');
 	}
 
 	/**

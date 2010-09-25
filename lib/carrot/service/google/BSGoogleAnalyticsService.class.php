@@ -50,7 +50,7 @@ class BSGoogleAnalyticsService implements BSAssignable {
 	public function getID () {
 		if (!$this->id) {
 			if (BSString::isBlank($id = BS_SERVICE_GOOGLE_ANALYTICS_ID)) {
-				throw new BSConfigException('GoogleAnalyticsのアカウントIDが未定義です。');
+				throw new BBServiceException('GoogleAnalyticsのアカウントIDが未定義です。');
 			}
 			$this->id = $id;
 		}

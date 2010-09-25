@@ -1,16 +1,16 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage service.blog
+ * @subpackage service
  */
 
 /**
- * Blog例外
+ * サービス例外
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSBlogException extends BSServiceException {
+class BSServiceException extends BSException {
 }
 
 /* vim:set tabstop=4: */

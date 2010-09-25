@@ -56,7 +56,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		if (!$geocode = $this->getGeocode($address)) {
 			$message = new BSStringFormat('"%s" のジオコードが取得できません。');
 			$message[] = $address;
-			throw new BSGeocodeException($message);
+			throw new BBServiceException($message);
 		}
 
 		if ($this->useragent->isMobile()) {
