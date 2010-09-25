@@ -13,6 +13,7 @@
 class BSCurlHTTP extends BSHTTP {
 	protected $engine;
 	protected $attributes;
+	protected $headers;
 	protected $uid;
 	protected $password;
 	protected $ssl = false;
@@ -28,6 +29,7 @@ class BSCurlHTTP extends BSHTTP {
 	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
 		parent::__construct($host, $port, $protocol);
 		$this->attributes = new BSArray;
+		$this->headers = new BSArray;
 	}
 
 	/**
@@ -81,6 +83,12 @@ class BSCurlHTTP extends BSHTTP {
 	protected function execute ($path) {
 		$url = $this->createRequestURL($path);
 		$this->setAttribute('url', $url->getContents());
+
+		$headers = array();
+		foreach ($this->headers as $header) {
+			$headers[] = $header->format(BSMIMEHeader::WITHOUT_CRLF);
+		}
+		$this->setAttribute('httpheader', $headers);
 
 		$response = new BSHTTPResponse;
 		$response->setURL($url);
@@ -190,6 +198,16 @@ class BSCurlHTTP extends BSHTTP {
 				return;
 			}
 		}
+	}
+
+	/**
+	 * ヘッダを設定
+	 *
+	 * @access public
+	 * @param BSMIMEHeader $header ヘッダ
+	 */
+	public function setHeader (BSMIMEHeader $header) {
+		$this->headers[$name] = $header;
 	}
 
 	/**

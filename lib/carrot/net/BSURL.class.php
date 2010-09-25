@@ -282,6 +282,25 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 		}
 		return $value;
 	}
+
+	/**
+	 * 文字列をURLデコード
+	 *
+	 * @access public
+	 * @param string $value 対象文字列
+	 * @return string URLデコードされた文字列
+	 * @static
+	 */
+	static public function decode ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::decode($item);
+			}
+		} else {
+			$value = urldecode($value);
+		}
+		return $value;
+	}
 }
 
 /* vim:set tabstop=4: */
