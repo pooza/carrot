@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.19
+  ver: 2.4.20
 
 admin:
   email:
@@ -137,6 +137,7 @@ module:
     - Admin
     - User
     - Develop
+    - Console
   default:
     module: Default
     action: Default
