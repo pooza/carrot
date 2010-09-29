@@ -143,6 +143,32 @@ class BSString {
 	}
 
 	/**
+	 * 機種依存文字等を置き換え
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 * @link http://php.nekosuke.com/000056.htm 参考
+	 */
+	static public function convertWrongCharacters ($value) {
+		if (BSArray::isArray($value)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertWrongCharacters($item, $format);
+			}
+		} else {
+			$search = array();
+			$replace = array();
+			foreach (BSConfigManager::getInstance()->compile('wrong_characters') as $rule) {
+				eval('$search[] = "' . $rule['search'] . '";');
+				$replace[] = $rule['replace'];
+			}
+			$value = str_replace($search, $replace, $value);
+		}
+		return $value;
+	}
+
+	/**
 	 * 改行を標準化
 	 *
 	 * @access public
