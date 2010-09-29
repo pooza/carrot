@@ -154,7 +154,7 @@ class BSString {
 	static public function convertWrongCharacters ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
-				$value[$key] = self::convertWrongCharacters($item, $format);
+				$value[$key] = self::convertWrongCharacters($item);
 			}
 		} else {
 			$search = array();

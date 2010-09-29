@@ -18,6 +18,11 @@ class BSStringTest extends BSTest {
 	public function execute () {
 		$string = BSString::convertWrongCharacters('㈱㈲');
 		$this->assert('convertWrongCharacters', $string == '(株)(有)');
+
+		$file = BSFileUtility::getDirectory('sample')->getEntry('dirty.csv', 'BSCSVFile');
+		$records = BSString::convertWrongCharacters($file->getEngine()->getRecords());
+		$this->assert('convertWrongCharacters', $records[0][1] == '(有)');
+		$this->assert('convertWrongCharacters', $records[2][0] == '(2)');
 	}
 }
 

@@ -118,6 +118,8 @@ request:
     day: 7
 root:
   constant: yes
+sample:
+  parent: share
 sendmail:
   constant: yes
 serialized:
