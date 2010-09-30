@@ -86,7 +86,7 @@ class BSCurlHTTP extends BSHTTP {
 
 		$headers = array();
 		foreach ($this->headers as $header) {
-			$headers[] = $header->format(BSMIMEHeader::WITHOUT_CRLF);
+			$headers[] = $header->getName() . ': ' . $header->getContents();
 		}
 		$this->setAttribute('httpheader', $headers);
 
@@ -207,7 +207,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @param BSMIMEHeader $header ヘッダ
 	 */
 	public function setHeader (BSMIMEHeader $header) {
-		$this->headers[$name] = $header;
+		$this->headers[$header->getName()] = $header;
 	}
 
 	/**

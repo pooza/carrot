@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSAuthorizationMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Authorization';
 	private $signature;
 
 	/**
