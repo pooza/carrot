@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.21
+  ver: 2.4.22
 
 admin:
   email:
@@ -257,3 +257,6 @@ xmpp:
   port: 5222
   server: gmail.com
   ssl: yes
+view::
+  frame_options: sameorigin
+  content_type_options: nosniff
