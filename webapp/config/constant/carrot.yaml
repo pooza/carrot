@@ -257,6 +257,6 @@ xmpp:
   port: 5222
   server: gmail.com
   ssl: yes
-view::
+view:
   frame_options: sameorigin
   content_type_options: nosniff
