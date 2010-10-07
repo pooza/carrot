@@ -105,7 +105,7 @@ class BSOAuthSignature extends BSParameterHolder {
 	public function setMethod ($method) {
 		$this->method = BSString::toUpper($method);
 		if (!BSHTTPRequest::isValidMethod($this->method)) {
-			throw new BBServiceException($this->method . 'は正しくないメソッドです。');
+			throw new BSServiceException($this->method . 'は正しくないメソッドです。');
 		}
 	}
 

@@ -226,6 +226,9 @@ class BSTwitterAccount
 	 * @return BSJSONRenderer 結果文書
 	 */
 	public function tweet ($message) {
+		if ($message instanceof BSStringFormat) {
+			$message = $message->getContents();
+		}
 		$response = $this->getService()->sendPOST(
 			'/statuses/update',
 			new BSArray(array('status' => $message))
@@ -319,7 +322,7 @@ class BSTwitterAccount
 	 * @param string $size サイズ名
 	 */
 	public function setImageFile (BSImageFile $file, $size = 'icon') {
-		throw new BBServiceException($this . 'の画像ファイルを設定できません。');
+		throw new BSServiceException($this . 'の画像ファイルを設定できません。');
 	}
 
 	/**
