@@ -111,6 +111,9 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @return string 訳語
 	 */
 	public function translate ($string, $name = null, $language = null) {
+		if (BSString::isBlank($string)) {
+			return null;
+		}
 		if (BSString::isBlank($language)) {
 			$language = $this->getLanguage();
 		}

@@ -127,6 +127,8 @@ $configure->compile('constant/package');
 $configure->compile('constant/carrot');
 
 set_error_handler('handleError');
+mb_internal_encoding('utf-8');
+mb_regex_encoding('utf-8');
 date_default_timezone_set(BS_DATE_TIMEZONE);
 ini_set('realpath_cache_size', '128K');
 ini_set('log_errors', 1);

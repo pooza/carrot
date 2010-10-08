@@ -529,9 +529,11 @@ class BSString {
 	 */
 	static public function eregMatchAll ($pattern, $subject) {
 		$matches = new BSArray;
-		mb_ereg_search_init($subject, $pattern);
-		while ($regs = mb_ereg_search_regs()) {
-			$matches[] = new BSArray($regs);
+		if (!BSString::isBlank($pattern) && !BSString::isBlank($subject)) {
+			mb_ereg_search_init($subject, $pattern);
+			while ($regs = mb_ereg_search_regs()) {
+				$matches[] = new BSArray($regs);
+			}
 		}
 		return $matches;
 	}
