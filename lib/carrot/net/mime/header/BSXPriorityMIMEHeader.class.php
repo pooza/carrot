@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSXPriorityMIMEHeader extends BSMIMEHeader {
+	protected $name = 'X-Priority';
 
 	/**
 	 * 内容を設定

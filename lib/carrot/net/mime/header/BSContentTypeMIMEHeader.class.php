@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSContentTypeMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Content-Type';
 
 	/**
 	 * 内容を設定

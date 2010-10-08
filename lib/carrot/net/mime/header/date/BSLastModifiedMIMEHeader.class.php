@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSLastModifiedMIMEHeader extends BSDateMIMEHeader {
+	protected $name = 'Last-Modified';
 }
 
 /* vim:set tabstop=4: */

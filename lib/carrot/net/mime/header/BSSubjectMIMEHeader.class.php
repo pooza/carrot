@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSSubjectMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Subject';
 
 	/**
 	 * 内容を返す

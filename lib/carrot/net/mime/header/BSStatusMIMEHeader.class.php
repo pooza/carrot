@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSStatusMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Status';
 
 	/**
 	 * 内容を設定

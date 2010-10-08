@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSContentTransferEncodingMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Content-Transfer-Encoding';
 
 	/**
 	 * 内容を設定

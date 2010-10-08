@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSMessageIdMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Message-ID';
 	private $id;
 
 	/**

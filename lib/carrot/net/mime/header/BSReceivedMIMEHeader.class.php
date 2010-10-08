@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSReceivedMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Received';
 	private $servers;
 
 	/**

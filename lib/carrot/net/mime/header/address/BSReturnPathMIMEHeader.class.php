@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSReturnPathMIMEHeader extends BSAddressMIMEHeader {
+	protected $name = 'Return-Path';
 
 	/**
 	 * ヘッダの内容からパラメータを抜き出す

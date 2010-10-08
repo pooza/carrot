@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSHostMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Host';
 	private $host;
 	private $port;
 

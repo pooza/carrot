@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSContentDispositionMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Content-Disposition';
 
 	/**
 	 * ヘッダの内容からパラメータを抜き出す

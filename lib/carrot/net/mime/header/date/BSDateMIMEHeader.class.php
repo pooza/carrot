@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSDateMIMEHeader extends BSMIMEHeader {
+	protected $name = 'Date';
 	private $date;
 
 	/**

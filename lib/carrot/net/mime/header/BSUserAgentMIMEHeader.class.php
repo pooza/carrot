@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSUserAgentMIMEHeader extends BSMIMEHeader {
+	protected $name = 'User-Agent';
 	private $useragent;
 
 	/**

@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSFromMIMEHeader extends BSAddressMIMEHeader {
+	protected $name = 'From';
 }
 
 /* vim:set tabstop=4: */

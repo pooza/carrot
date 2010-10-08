@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSBccMIMEHeader extends BSAddressesMIMEHeader {
+	protected $name = 'Bcc';
 
 	/**
 	 * 可視か？

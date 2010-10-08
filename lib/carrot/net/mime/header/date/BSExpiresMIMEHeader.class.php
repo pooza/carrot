@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSExpiresMIMEHeader extends BSDateMIMEHeader {
+	protected $name = 'Expires';
 }
 
 /* vim:set tabstop=4: */
