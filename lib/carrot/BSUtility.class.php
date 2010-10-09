@@ -49,6 +49,21 @@ class BSUtility {
 	}
 
 	/**
+	 * 真偽値を文字列で返す
+	 *
+	 * @access public
+	 * @param boolean $bool 対象
+	 * @return string "true"又は"false"
+	 * @static
+	 */
+	static public function bool2str ($bool) {
+		if (!!$bool) {
+			return 'true';
+		}
+		return 'false';
+	}
+
+	/**
 	 * エラーチェックなしでインクルード
 	 *
 	 * @access public

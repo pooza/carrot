@@ -235,6 +235,8 @@ class BSTwitterAccount
 		);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
+
+		BSLogManager::getInstance()->put($this . 'がツイートしました。', $this->getService());
 		return $json;
 	}
 
