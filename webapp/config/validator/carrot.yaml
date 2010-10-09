@@ -85,6 +85,8 @@ movie:
   class: BSMovieValidator
 music:
   class: BSMusicValidator
+ng_word:
+  class: BSNGWordValidator
 number:
   class: BSNumberValidator
 password:
