@@ -623,36 +623,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * 月の配列を返す
-	 *
-	 * @access public
-	 * @return integer[] 月の配列
-	 * @static
-	 */
-	static public function getMonths () {
-		$months = array();
-		foreach (range(1, 12) as $month) {
-			$months[$month] = $month;
-		}
-		return $months;
-	}
-
-	/**
-	 * 日の配列を返す
-	 *
-	 * @access public
-	 * @return integer[] 日の配列
-	 * @static
-	 */
-	static public function getDays () {
-		$days = array();
-		foreach (range(1, 31) as $day) {
-			$days[$day] = $day;
-		}
-		return $days;
-	}
-
-	/**
 	 * 配列の中から、最も新しい日付を返す
 	 *
 	 * @access public

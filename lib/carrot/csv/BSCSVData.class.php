@@ -12,7 +12,7 @@
  * @link http://www.din.or.jp/~ohzaki/perl.htm#CSV2Values 参考
  * @version $Id$
  */
-class BSCSVData implements BSTextRenderer, IteratorAggregate {
+class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	protected $contents;
 	protected $records;
 	protected $encoding = 'sjis-win';
@@ -249,6 +249,14 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate {
 	 */
 	public function setFieldSeparator ($separator) {
 		$this->fieldSeparator = $separator;
+	}
+
+	/**
+	 * @access public
+	 * @return integer レコード数
+	 */
+	public function count () {
+		return $this->records->count();
 	}
 
 	/**

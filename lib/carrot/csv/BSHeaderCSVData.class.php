@@ -39,7 +39,7 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @access public
 	 * @param BSArray $fields 見出し
 	 */
-	public function setFieldNames (BSarray $fields) {
+	public function setFieldNames (BSArray $fields) {
 		$fields = BSString::convertEncoding($fields);
 		$fields = $this->trimRecord($fields);
 		$this->fields = $fields;
