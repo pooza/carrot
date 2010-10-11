@@ -22,7 +22,7 @@ class BSMailAddressValidator extends BSValidator {
 		$this['domain'] = false;
 		$this['domain_error'] = '正しいドメインではない様です。';
 		$this['mobile_allowed'] = true;
-		$this['mobile_allowed_error'] = '携帯電話用のアドレスは使用できません。';
+		$this['mobile_allowed_error'] = 'ケータイ用のアドレスは使用できません。';
 		$this['invalid_error'] = '正しいメールアドレスではありません。';
 		return parent::initialize($params);
 	}

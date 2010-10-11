@@ -5,7 +5,7 @@
  */
 
 /**
- * Docomo 携帯電話キャリア
+ * Docomo ケータイキャリア
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$

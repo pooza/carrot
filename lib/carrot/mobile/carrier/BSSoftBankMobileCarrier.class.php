@@ -5,7 +5,7 @@
  */
 
 /**
- * SoftBank 携帯電話キャリア
+ * SoftBank ケータイキャリア
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$

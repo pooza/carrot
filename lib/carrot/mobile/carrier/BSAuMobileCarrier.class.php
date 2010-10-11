@@ -5,7 +5,7 @@
  */
 
 /**
- * Au 携帯電話キャリア
+ * Au ケータイキャリア
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$

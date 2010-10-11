@@ -17,7 +17,7 @@ define('MPC_TO_CHARSET_SJIS', 'SJIS');
 define('MPC_TO_CHARSET_UTF8', 'UTF-8');
 
 /**
- * 携帯電話キャリア
+ * ケータイキャリア
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
