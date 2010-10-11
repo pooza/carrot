@@ -49,9 +49,11 @@ class BSFlashFile extends BSMediaFile {
 			return $useragent->getFlashElement($params);
 		}
 		$container = parent::getElement($params);
-		if ($params['thumbnail'] && ($inner = $container->getElement('div'))) {
+		if (($info = $params['thumbnail']) && ($inner = $container->getElement('div'))) {
+			$info = new BSArray($info);
 			$image = new BSImageElement;
-			$image->setAttributes($params['thumbnail']);
+			$image->setAttributes($info);
+			$image->registerStyleClass('deny_take_out');
 			$inner->addElement($image);
 		}
 		return $container;

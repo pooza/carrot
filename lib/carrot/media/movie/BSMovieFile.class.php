@@ -160,10 +160,7 @@ class BSMovieFile extends BSMediaFile {
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
-			$image->setAttribute('width', $info['width']);
-			$image->setAttribute('height', $info['height']);
-			$image->setAttribute('alt', $info['alt']);
-			$image->setURL($info['url']);
+			$image->setAttributes($info);
 			$image->registerStyleClass('deny_take_out');
 			$container->addElement($image);
 		} else {
