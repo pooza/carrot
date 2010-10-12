@@ -36,7 +36,11 @@ class BSStringFormat extends BSArray {
 	 * @return string 内容
 	 */
 	public function getContents () {
-		return call_user_func_array('sprintf', $this->getParameters());
+		try {
+			return call_user_func_array('sprintf', $this->getParameters());
+		} catch (Exception $e) {
+			return $this->join(', ');
+		}
 	}
 
 	/**
