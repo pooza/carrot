@@ -12,10 +12,10 @@
  */
 class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	protected $error;
+	protected $handle;
 	private $mode;
 	private $lines;
 	private $size;
-	private $handle;
 	private $binary = false;
 	const LINE_SEPARATOR = "\n";
 
@@ -203,7 +203,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $mode モード
 	 */
 	public function open ($mode = 'r') {
-		if (!in_array($mode, array('r', 'a', 'w'))) {
+		if (!in_array($mode, array('r', 'a', 'w', 'rb', 'ab', 'wb'))) {
 			$message = new BSStringFormat('モード "%s" が正しくありません。');
 			$message[] = $mode;
 			throw new BSFileException($message);
@@ -247,7 +247,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $str 書き込む内容
 	 */
 	public function putLine ($str = '', $separator = self::LINE_SEPARATOR) {
-		if (!$this->isOpened() || !in_array($this->mode, array('w', 'a'))) {
+		if (!$this->isOpened() || !in_array($this->mode, array('w', 'a', 'wb', 'ab'))) {
 			throw new BSFileException($this . 'はw又はaモードで開かれていません。');
 		}
 
@@ -266,7 +266,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getLine ($length = 4096) {
 		if ($this->isOpened()) {
-			if ($this->mode != 'r') {
+			if (in_array($this->mode, array('r', 'rb'))) {
 				throw new BSFileException($this . 'はrモードで開かれていません。');
 			}
 		} else {
