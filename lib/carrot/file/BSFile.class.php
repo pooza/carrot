@@ -203,11 +203,11 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $mode モード
 	 */
 	public function open ($mode = 'r') {
-		if (!in_array($mode, array('r', 'a', 'w', 'rb', 'ab', 'wb'))) {
+		if (!in_array($mode[0], array('r', 'a', 'w'))) {
 			$message = new BSStringFormat('モード "%s" が正しくありません。');
 			$message[] = $mode;
 			throw new BSFileException($message);
-		} else if (($mode == 'r') && !$this->isExists()) {
+		} else if (($mode[0] == 'r') && !$this->isExists()) {
 			throw new BSFileException($this . 'が存在しません。');
 		} else if ($this->isCompressed()) {
 			throw new BSFileException($this . 'はgzip圧縮されています。');
@@ -247,7 +247,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $str 書き込む内容
 	 */
 	public function putLine ($str = '', $separator = self::LINE_SEPARATOR) {
-		if (!$this->isOpened() || !in_array($this->mode, array('w', 'a', 'wb', 'ab'))) {
+		if (!$this->isOpened() || !in_array($this->mode[0], array('w', 'a'))) {
 			throw new BSFileException($this . 'はw又はaモードで開かれていません。');
 		}
 
@@ -266,7 +266,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getLine ($length = 4096) {
 		if ($this->isOpened()) {
-			if (in_array($this->mode, array('r', 'rb'))) {
+			if ($this->mode[0] != 'r') {
 				throw new BSFileException($this . 'はrモードで開かれていません。');
 			}
 		} else {
