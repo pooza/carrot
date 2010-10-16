@@ -185,7 +185,7 @@ class BSView extends BSHTTPResponse {
 		}
 
 		$this->setCacheControl(false);
-		if ($this->user->isGuest()) {
+		if ($this->isCacheable() && $this->user->isGuest()) {
 			if ($this->useragent->hasBug('cache_control')) {
 				if (!$this->request->isSSL() && $this->isHTML()) {
 					$this->setCacheControl(true);
@@ -201,6 +201,16 @@ class BSView extends BSHTTPResponse {
 		foreach ($this->getHeaders() as $name => $header) {
 			self::putHeader($header->format(BSMIMEHeader::WITHOUT_CRLF));
 		}
+	}
+
+	/**
+	 * HTTPキャッシュ有効か
+	 *
+	 * @access public
+	 * @return boolean 有効ならTrue
+	 */
+	public function isCacheable () {
+		return true;
 	}
 
 	/**
