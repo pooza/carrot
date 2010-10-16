@@ -184,16 +184,7 @@ class BSView extends BSHTTPResponse {
 			$this->setHeader($key, $value);
 		}
 
-		$this->setCacheControl(false);
-		if ($this->isCacheable() && $this->user->isGuest()) {
-			if ($this->useragent->hasBug('cache_control')) {
-				if (!$this->request->isSSL() && $this->isHTML()) {
-					$this->setCacheControl(true);
-				}
-			} else {
-				$this->setCacheControl(true);
-			}
-		}
+		$this->setCacheControl($this->isCacheable());
 
 		if ($header = $this->getHeader('status')) {
 			self::putHeader('HTTP/' . $this->getVersion() . ' ' . $header->getContents());
@@ -210,7 +201,16 @@ class BSView extends BSHTTPResponse {
 	 * @return boolean 有効ならTrue
 	 */
 	public function isCacheable () {
-		return true;
+		if ($this->user->isGuest()) {
+			if ($this->useragent->hasBug('cache_control')) {
+				if (!$this->request->isSSL() && $this->isHTML()) {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
