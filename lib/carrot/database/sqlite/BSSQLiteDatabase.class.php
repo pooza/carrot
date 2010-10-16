@@ -112,6 +112,16 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 
 	/**
+	 * 外部キーが有効か？
+	 *
+	 * @access public
+	 * @return boolean 有効ならTrue
+	 */
+	public function hasForeignKey () {
+		return false;
+	}
+
+	/**
 	 * バージョンを返す
 	 *
 	 * @access protected

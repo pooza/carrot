@@ -170,11 +170,13 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'を削除することはできません。');
 		}
 
-		foreach ($this->getTable()->getChildClasses() as $class) {
-			$table = BSTableHandler::getInstance($class);
-			$table->getCriteria($this->getTable()->getName() . '_id', $this);
-			foreach ($table as $record) {
-				$record->delete();
+		if (!$this->getDatabase()->hasForeignKey()) {
+			foreach ($this->getTable()->getChildClasses() as $class) {
+				$table = BSTableHandler::getInstance($class);
+				$table->getCriteria($this->getTable()->getName() . '_id', $this);
+				foreach ($table as $record) {
+					$record->delete();
+				}
 			}
 		}
 		if ($record = $this->getParent()) {
@@ -243,7 +245,7 @@ abstract class BSRecord implements ArrayAccess,
 	/**
 	 * 親レコードを返す
 	 *
-	 * 適切にオーバーライドするば、update等の動作が少し利口に。
+	 * 適切にオーバーライドすれば、update等の動作が少し利口に。
 	 *
 	 * @access public
 	 * @return BSRecord 親レコード

@@ -424,6 +424,16 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * 外部キーが有効か？
+	 *
+	 * @access public
+	 * @return boolean 有効ならTrue
+	 */
+	public function hasForeignKey () {
+		return true;
+	}
+
+	/**
 	 * アサインすべき値を返す
 	 *
 	 * @access public
