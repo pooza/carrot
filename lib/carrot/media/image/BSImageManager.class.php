@@ -245,20 +245,17 @@ class BSImageManager {
 		$name = get_class($this) . '.' . BSCrypt::getDigest(array(
 			get_class($record), $record->getID(), $date->format(), $size, $pixel, $flags,
 		));
-		if ($info = BSController::getInstance()->getAttribute($name)) {
-			$info = new BSArray($info);
-		} else {
-			if (!$image = $this->getThumbnail($record, $size, $pixel, $flags)) {
-				return null;
-			}
-			$info = new BSArray;
+		$info = new BSArray;
+		if ($values = BSController::getInstance()->getAttribute($name, $date)) {
+			$info->setParameters($values);
+		} else if ($image = $this->getThumbnail($record, $size, $pixel, $flags)) {
 			$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
 			$info['width'] = $image->getWidth();
 			$info['height'] = $image->getHeight();
 			$info['alt'] = $record->getLabel();
 			$info['type'] = $image->getType();
 			$info['pixel_size'] = $info['width'] . '×' . $info['height'];
-			BSController::getInstance()->setAttribute($name, $info, $date);
+			BSController::getInstance()->setAttribute($name, $info);
 		}
 		return $info;
 	}
