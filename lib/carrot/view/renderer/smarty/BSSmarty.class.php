@@ -440,7 +440,9 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			$message[] = $source;
 			throw new BSViewException($message);
 		}
-		return parent::_get_auto_filename($base, $source, $id);
+		$source = str_replace(BS_WEBAPP_DIR, '', $source);
+		$source = str_replace(DIRECTORY_SEPARATOR, '%', $source);
+		return $base . DIRECTORY_SEPARATOR . $source;
 	}
 }
 
