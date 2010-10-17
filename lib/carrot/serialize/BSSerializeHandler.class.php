@@ -119,12 +119,7 @@ class BSSerializeHandler {
 		} else if ($value instanceof BSParameterHolder) {
 			$value = $value->getParameters();
 		}
-
-		$serialized = $this->getStorage()->setAttribute($this->serializeName($name), $value);
-		$message = new BSStringFormat('%sのシリアライズをキャッシュしました。 (%sB)');
-		$message[] = $name;
-		$message[] = BSNumeric::getBinarySize(strlen($serialized));
-		BSLogManager::getInstance()->put($message, $this->getStorage());
+		$this->getStorage()->setAttribute($this->serializeName($name), $value);
 	}
 
 	/**
