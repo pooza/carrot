@@ -13,6 +13,7 @@
 class BSTemplateFile extends BSFile {
 	private $engine;
 	private $compiled;
+	private $body;
 
 	/**
 	 * バイナリファイルか？
@@ -41,7 +42,10 @@ class BSTemplateFile extends BSFile {
 	 * @return string コンパイル結果
 	 */
 	public function compile () {
-		return $this->engine->fetch($this->getPath());
+		if (!$this->body) {
+			$this->body = $this->engine->fetch($this->getPath());
+		}
+		return $this->body;
 	}
 
 	/**

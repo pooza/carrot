@@ -22,6 +22,9 @@ function smarty_block_form ($params, $contents, &$smarty) {
 	if (!!$params['send_submit_values']) {
 		$form->addSubmitFields();
 	}
+	if ($params['onsubmit']) {
+		$form->setAttribute('onsubmit', $params['onsubmit']);
+	}
 	$form->setMethod($params['method']);
 	if ($params['attachable'] && (!$useragent->isMobile() || $useragent->isAttachable())) {
 		$form->setAttachable(true);
