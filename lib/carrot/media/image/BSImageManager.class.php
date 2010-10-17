@@ -243,7 +243,7 @@ class BSImageManager {
 
 		$flags |= $this->flags;
 		$name = get_class($this) . '.' . BSCrypt::getDigest(array(
-			get_class($record), $record->getID(), $date->format(), $size, $pixel, $flags,
+			get_class($record), $record->getID(), $size, $pixel, $flags,
 		));
 		$info = new BSArray;
 		if ($values = BSController::getInstance()->getAttribute($name, $date)) {
