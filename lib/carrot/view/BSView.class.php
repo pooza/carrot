@@ -134,11 +134,11 @@ class BSView extends BSHTTPResponse {
 		}
 
 		$this->setHeader('content-type', BSMIMEUtility::getContentType($this->renderer));
-		$this->setHeader('content-length', $this->renderer->getSize());
+		//$this->setHeader('content-length', $this->renderer->getSize());
 
 		$this->putHeaders();
 		mb_http_output('pass');
-		print $this->renderer->getContents();
+		echo $this->renderer->getContents();
 	}
 
 	/**
