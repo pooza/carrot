@@ -359,6 +359,16 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 
 	/**
+	 * スマートフォン環境か？
+	 *
+	 * @access public
+	 * @return boolean スマートフォン環境ならTrue
+	 */
+	public function isSmartPhone () {
+		return false;
+	}
+
+	/**
 	 * コマンドライン環境か？
 	 *
 	 * @access public

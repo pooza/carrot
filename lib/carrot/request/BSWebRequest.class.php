@@ -170,6 +170,16 @@ class BSWebRequest extends BSRequest {
 	}
 
 	/**
+	 * スマートフォン環境か？
+	 *
+	 * @access public
+	 * @return boolean スマートフォン環境ならTrue
+	 */
+	public function isSmartPhone () {
+		return $this->getUserAgent()->isSmartPhone();
+	}
+
+	/**
 	 * SSL環境か？
 	 *
 	 * @access public
