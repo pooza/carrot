@@ -201,16 +201,12 @@ class BSView extends BSHTTPResponse {
 	 * @return boolean 有効ならTrue
 	 */
 	public function isCacheable () {
-		if ($this->user->isGuest()) {
-			if ($this->useragent->hasBug('cache_control')) {
-				if (!$this->request->isSSL() && $this->isHTML()) {
-					return true;
-				}
-			} else {
+		if ($this->useragent->hasBug('cache_control')) {
+			if ($this->request->isSSL() || !$this->isHTML()) {
 				return true;
 			}
 		}
-		return false;
+		return $this->user->isGuest();
 	}
 
 	/**
