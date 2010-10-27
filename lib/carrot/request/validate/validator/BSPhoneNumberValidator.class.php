@@ -9,15 +9,16 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
+ * @link http://www.soumu.go.jp/main_sosiki/joho_tsusin/top/tel_number/ 電話番号の桁数について
  */
 class BSPhoneNumberValidator extends BSValidator {
 	const PATTERN = '^[[:digit:]]{2,4}-[[:digit:]]{2,4}-[[:digit:]]{3,4}$';
-	const PATTERN_LOOSE = '^[-[:digit:]]{8,14}$';
+	const PATTERN_LOOSE = '^[-[:digit:]]{10,14}$';
 
 	/**
 	 * 対象文字列から電話番号を返す
 	 *
-	 * fiedlsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
+	 * fieldsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
 	 *
 	 * @access private
 	 * @param string $value 対象文字列
