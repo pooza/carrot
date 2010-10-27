@@ -153,9 +153,17 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSShadowboxAnchorElement 要素
 	 */
 	protected function getShadowboxElement (BSParameterHolder $params) {
+		$params = new BSArray($params);
+		if (!$params['width_movie']) {
+			$params['width_movie'] = $params['width'];
+		}
+		if (!$params['height_movie']) {
+			$params['height_movie'] = $params['height'];
+		}
+
 		$container = new BSShadowboxAnchorElement;
-		$container->setWidth($params['width']);
-		$container->setHeight($params['height']);
+		$container->setWidth($params['width_movie']);
+		$container->setHeight($params['height_movie']);
 		$container->setURL($this->getMediaURL($params));
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
