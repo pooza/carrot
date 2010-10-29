@@ -102,7 +102,9 @@ class BSCurlHTTP extends BSHTTP {
 			$message[] = $this;
 			$message[] = $response->getStatus();
 			$message[] = $response->getError();
-			throw new BSHTTPException($message);
+			$exception = new BSHTTPException($message);
+			$exception->setResponse($response);
+			throw $exception;
 		}
 		return $response;
 	}
