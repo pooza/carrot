@@ -46,7 +46,7 @@ class BSAnchorElement extends BSXHTMLElement {
 	public function link (BSXMLElement $element, BSHTTPRedirector $url) {
 		$this->addElement($element);
 		$this->setURL($url);
-		if (!$this->useragent->isMobile() && $url->isForeign()) {
+		if ($url->isForeign()) {
 			$this->setAttribute('target', '_blank');
 		}
 		return $this;
