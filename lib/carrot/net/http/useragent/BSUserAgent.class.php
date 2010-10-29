@@ -33,6 +33,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$this->attributes['is_smartphone'] = $this->isSmartPhone();
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
+		$this->attributes['is_attachable'] = $this->isAttachable();
 		$this->bugs = new BSArray;
 	}
 
@@ -108,6 +109,16 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 添付可能か？
+	 *
+	 * @access public
+	 * @return boolean 添付可能ならTrue
+	 */
+	public function isAttachable () {
+		return true;
 	}
 
 	/**

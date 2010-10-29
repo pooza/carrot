@@ -22,7 +22,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->attributes['id'] = $this->getID();
-		$this->attributes['is_attachable'] = $this->isAttachable();
 		$this->attributes['display'] = $this->getDisplayInfo();
 		$this->attributes['gps'] = $this->getCarrier()->getGPSInfo();
 	}
