@@ -158,10 +158,6 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @param mixed $classes クラス名、又はその配列
 	 */
 	public function registerStyleClass ($classes) {
-		if ($this->useragent->isMobile()) {
-			return;
-		}
-
 		if (!BSArray::isArray($classes)) {
 			$classes = mb_split('(,| +)', $classes);
 		}

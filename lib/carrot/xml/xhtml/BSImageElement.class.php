@@ -52,9 +52,6 @@ class BSImageElement extends BSXHTMLElement {
 	 * @param string $value alt文字列
 	 */
 	public function setAlt ($value) {
-		if ($this->useragent->isMobile()) {
-			return;
-		}
 		$this->attributes['alt'] = $value;
 	}
 
