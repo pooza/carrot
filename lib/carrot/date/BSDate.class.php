@@ -646,21 +646,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * 年の配列を返す
-	 *
-	 * @access public
-	 * @return integer[] 年の配列
-	 * @static
-	 */
-	static public function getYears () {
-		$years = array();
-		foreach (range(BSDate::getNow('Y'), 1900) as $year) {
-			$years[$year] = $year;
-		}
-		return $years;
-	}
-
-	/**
 	 * 元号の配列を返す
 	 *
 	 * @access public
