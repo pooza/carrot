@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.32
+  ver: 2.4.33
 
 admin:
   email:
@@ -247,6 +247,8 @@ string:
     force_convert: no
     softbank:
       raw_output: no
+unzip:
+  dir: /usr
 upload:
   progress:
     key: progress_key

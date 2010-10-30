@@ -148,6 +148,8 @@ twitter_account:
   suffix: .png
   purge:
     day: 1
+unzip:
+  constant: yes
 var:
   constant: yes
 webapp:

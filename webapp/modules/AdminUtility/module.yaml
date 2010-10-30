@@ -11,6 +11,8 @@ module:
 actions:
   Backup:
     title: バックアップ
+  Restore:
+    title: リストア
   Pictogram:
     title: 絵文字入力
   GetGeocode:

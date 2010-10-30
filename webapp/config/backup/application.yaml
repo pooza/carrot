@@ -7,4 +7,4 @@
 databases:
   - default
 directories:
-  #- log
+classes:

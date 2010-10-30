@@ -98,6 +98,48 @@ class BSBackupManager {
 		$zip->close();
 		return $zip;
 	}
+
+	/**
+	 * ZIPアーカイブファイルをリストア
+	 *
+	 * @access public
+	 * @param BSFile $file アーカイブファイル
+	 */
+	public function restore (BSFile $file) {
+		$this->clearRecords();
+
+		$zip = new BSZipArchive;
+		$zip->open($file->getPath());
+		$dir = BSFileUtility::getDirectory('tmp')->createDirectory(BSUtility::getUniqueID());
+		$zip->extractTo($dir);
+
+		foreach ($this->config['databases'] as $name) {
+			if ($file = $dir->getEntry($name . '.sqlite3')) {
+				$file->moveTo(BSFileUtility::getDirectory('db'));
+			}
+		}
+		foreach ($this->config['directories'] as $name) {
+			if (($src = $dir->getEntry($name)) && ($dest = BSFileUtility::getDirectory($name))) {
+				foreach ($src as $file) {
+					if (!$file->isIgnore()) {
+						$file->moveTo($dest);
+					}
+				}
+			}
+		}
+
+		$zip->close();
+		$dir->delete();
+	}
+
+	private function clearRecords () {
+		foreach ($this->config['classes'] as $class) {
+			$table = BSTableHandler::getInstance($class);
+			foreach ($table as $record) {
+				$record->delete();
+			}
+		}
+	}
 }
 
 /* vim:set tabstop=4: */
