@@ -106,8 +106,6 @@ class BSBackupManager {
 	 * @param BSFile $file アーカイブファイル
 	 */
 	public function restore (BSFile $file) {
-		$this->clearRecords();
-
 		$zip = new BSZipArchive;
 		$zip->open($file->getPath());
 		$dir = BSFileUtility::getDirectory('tmp')->createDirectory(BSUtility::getUniqueID());
@@ -130,15 +128,7 @@ class BSBackupManager {
 
 		$zip->close();
 		$dir->delete();
-	}
-
-	private function clearRecords () {
-		foreach ($this->config['classes'] as $class) {
-			$table = BSTableHandler::getInstance($class);
-			foreach ($table as $record) {
-				$record->delete();
-			}
-		}
+		BSConfigManager::getInstance()->clearCache();
 	}
 }
 

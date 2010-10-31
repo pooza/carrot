@@ -41,7 +41,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	protected function dump () {
 		$command = $this->getCommandLine();
-		$command->addValue('.dump');
+		$command->push('.dump');
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
@@ -68,7 +68,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'sqlite3') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('sqlite3'));
-		$command->addValue($this['file']->getPath());
+		$command->push($this['file']->getPath());
 		return $command;
 	}
 

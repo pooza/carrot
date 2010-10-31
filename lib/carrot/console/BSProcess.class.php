@@ -38,7 +38,7 @@ class BSProcess {
 	 */
 	static public function getID ($name) {
 		$command = new BSCommandLine('bin/pgrep');
-		$command->addValue($name);
+		$command->push($name);
 		$command->setDirectory(BSFileUtility::getDirectory('proctools'));
 		if ($command->hasError()) {
 			$message = new BSStringFormat('実行時エラーです。(%s)');
@@ -78,7 +78,7 @@ class BSProcess {
 	 */
 	static public function isExists ($pid) {
 		$command = new BSCommandLine('/bin/ps');
-		$command->addValue('ax');
+		$command->push('ax');
 		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());
 		}

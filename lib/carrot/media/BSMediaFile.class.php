@@ -64,9 +64,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 */
 	protected function analyze () {
 		$command = self::getCommandLine();
-		$command->addValue('-i');
-		$command->addValue($this->getPath());
-		$command->addValue('2>&1', null);
+		$command->setStderrRedirectable();
+		$command->push('-i', null);
+		$command->push($this->getPath());
 		$this->output = $command->getResult()->join("\n");
 
 		if (mb_ereg('Error .*$', $this->output, $matches)) {

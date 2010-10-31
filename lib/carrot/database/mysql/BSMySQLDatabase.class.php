@@ -79,11 +79,11 @@ class BSMySQLDatabase extends BSDatabase {
 	private function getCommandLine ($command = 'mysql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
-		$command->addValue('--host=' . $this['host']->getAddress());
-		$command->addValue('--user=' . $this['uid']);
-		$command->addValue($this['database_name']);
+		$command->push('--host=' . $this['host']->getAddress());
+		$command->push('--user=' . $this['uid']);
+		$command->push($this['database_name']);
 		if (!BSString::isBlank($password = $this['password'])) {
-			$command->addValue('--password=' . $password);
+			$command->push('--password=' . $password);
 		}
 		return $command;
 	}

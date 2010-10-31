@@ -74,9 +74,9 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 		}
 		$command = new BSCommandLine('bin/unzip');
 		$command->setDirectory(BSFileUtility::getDirectory('unzip'));
-		$command->addValue($this->getFile()->getPath());
-		$command->addValue('-d');
-		$command->addValue($path);
+		$command->push($this->getFile()->getPath());
+		$command->push('-d');
+		$command->push($path);
 		$command->execute();
 		return true;
 	}

@@ -18,6 +18,7 @@ class BSCommandLine {
 	private $result;
 	private $returnCode = 0;
 	private $background = false;
+	private $stderrRedirectable = false;
 	private $sleepSeconds = 0;
 	const WITH_QUOTE = 1;
 
@@ -65,11 +66,26 @@ class BSCommandLine {
 	 * @param integer $flags フラグのビット列
 	 *   self::WITH_QUOTE クォートする
 	 */
-	public function addValue ($value, $flags = self::WITH_QUOTE) {
+	public function push ($value, $flags = self::WITH_QUOTE) {
 		if ($flags & self::WITH_QUOTE) {
 			$value =  self::quote($value);
 		}
 		$this->params[] = $value;
+	}
+
+	/**
+	 * 値を末尾に加える
+	 *
+	 * pushのエイリアス
+	 *
+	 * @access public
+	 * @param string $value 値
+	 * @param integer $flags フラグのビット列
+	 *   self::WITH_QUOTE クォートする
+	 * @final
+	 */
+	final public function addValue ($value, $flags = self::WITH_QUOTE) {
+		$this->push($value, $flags);
 	}
 
 	/**
@@ -123,6 +139,26 @@ class BSCommandLine {
 	}
 
 	/**
+	 * stderrはリダイレクト可能か？
+	 *
+	 * @access public
+	 * @return boolean バックグラウンド実行ならTrue
+	 */
+	public function isStderrRedirectable () {
+		return $this->stderrRedirectable;
+	}
+
+	/**
+	 * stderrをリダイレクト可能に設定
+	 *
+	 * @access public
+	 * @param boolean $mode リダイレクト可能ならTrue
+	 */
+	public function setStderrRedirectable ($mode = true) {
+		$this->stderrRedirectable = $mode;
+	}
+
+	/**
 	 * コマンドを実行
 	 *
 	 * @access public
@@ -161,6 +197,8 @@ class BSCommandLine {
 
 		if ($this->isBackground()) {
 			$contents[] = '> /dev/null &';
+		} else if ($this->isStderrRedirectable()) {
+			$contents[] = '2>&1';
 		}
 
 		return $contents->join(' ');
