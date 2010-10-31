@@ -78,6 +78,23 @@ class BSConfigManager {
 	}
 
 	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 */
+	public function clearCache () {
+		foreach (array('serialized', 'cache', 'image_cache') as $name) {
+			if ($dir = BSFileUtility::getDirectory($name)) {
+				$command = new BSCommandLine('rm'); //強制的に削除
+				$command->setStderrRedirectable();
+				$command->push('-R');
+				$command->push($dir->getPath() . '/*', null);
+				$command->execute();
+			}
+		}
+	}
+
+	/**
 	 * 設定ファイルを返す
 	 *
 	 * @access public
