@@ -182,8 +182,6 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		}
 		if ($entry instanceof BSSerializable) {
 			$this->documents[] = $entry;
-		} else {
-			$this->error = $entry . 'が読み込めません。';
 		}
 	}
 
