@@ -171,6 +171,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 
 		if (!$this->getDatabase()->hasForeignKey()) {
+/*
 			foreach ($this->getTable()->getChildClasses() as $class) {
 				$table = BSTableHandler::getInstance($class);
 				$table->getCriteria($this->getTable()->getName() . '_id', $this);
@@ -178,6 +179,7 @@ abstract class BSRecord implements ArrayAccess,
 					$record->delete();
 				}
 			}
+*/
 		}
 		if ($record = $this->getParent()) {
 			$record->touch();
