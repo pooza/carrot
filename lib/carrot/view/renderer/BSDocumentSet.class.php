@@ -180,10 +180,9 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 				$entry = $file;
 			}
 		}
-		if (!($entry instanceof BSSerializable)) {
-			return;
+		if ($entry instanceof BSSerializable) {
+			$this->documents[] = $entry;
 		}
-		$this->documents[] = $entry;
 	}
 
 	/**
