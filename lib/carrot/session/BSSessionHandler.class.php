@@ -126,7 +126,7 @@ class BSSessionHandler implements BSUserIdentifier {
 	 * セッションが成立している時点で認証は困難、或いは不要と思われる。
 	 *
 	 * @access public
-	 * @params string $password パスワード
+	 * @param string $password パスワード
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {

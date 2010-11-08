@@ -14,7 +14,7 @@ class BSException extends Exception {
 	/**
 	 * @access public
 	 * $param string $message メッセージ
-	 * @param int $code コード
+	 * @param integer $code コード
 	 * @param Exception $prev 直前の例外。例外の連結に使用。
 	 */
 	public function __construct ($message = null, $code = 0, Exception $prev = null) {

@@ -212,7 +212,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * パスワードを用いず、端末個体認証を行う。
 	 *
 	 * @access public
-	 * @params string $password パスワード
+	 * @param string $password パスワード
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {

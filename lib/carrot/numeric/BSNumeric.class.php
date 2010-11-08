@@ -35,7 +35,7 @@ class BSNumeric {
 	 *
 	 * @access public
 	 * @param float $num 処理対象の数値
-	 * @param int $digits 処理対象が小数であったときの有効桁数、既定値は2。
+	 * @param integer $digits 処理対象が小数であったときの有効桁数、既定値は2。
 	 * @return string カンマ区切りされた数値
 	 * @static
 	 */

@@ -66,7 +66,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	 * @access public
 	 * @param mixed $path 展開先パス、又はディレクトリ
 	 * @param mixed $entries 対象エントリー名、又はその配列。
-	 * @return bool 正常終了時はtrue。
+	 * @return boolean 正常終了時はtrue。
 	 */
 	public function extractTo ($path, $entries = null) {
 		if ($path instanceof BSDirectory) {

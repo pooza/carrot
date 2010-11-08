@@ -105,7 +105,7 @@ class BSAuthorRole implements BSRole {
 	 * 認証
 	 *
 	 * @access public
-	 * @params string $password パスワード
+	 * @param string $password パスワード
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
