@@ -276,10 +276,10 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	/**
 	 * 抽出条件を生成して返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return BSCriteriaSet 抽出条件
 	 */
-	public function createCriteriaSet () {
+	protected function createCriteriaSet () {
 		return $this->getDatabase()->createCriteriaSet();
 	}
 
