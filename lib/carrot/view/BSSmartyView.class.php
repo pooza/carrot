@@ -60,6 +60,9 @@ class BSSmartyView extends BSView {
 		if ($file = $this->getDefaultTemplate()) {
 			$this->renderer->setTemplate($file);
 		}
+		if (BS_VIEW_MOBILE_XHTML && $this->request->getRealUserAgent()->isMobile()) {
+			$this->renderer->setType(BSMIMEType::getType('xhtml'));
+		}
 	}
 
 	/**

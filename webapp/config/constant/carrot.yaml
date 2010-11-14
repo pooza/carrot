@@ -262,3 +262,5 @@ xmpp:
 view:
   frame_options: sameorigin
   content_type_options: nosniff
+  mobile:
+    xhtml: no
