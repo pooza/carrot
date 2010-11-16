@@ -37,10 +37,6 @@ abstract class BSController {
 			case 'request':
 			case 'user':
 				return BSUtility::executeMethod($name, 'getInstance');
-			default:
-				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
-				$message[] = $name;
-				throw new BadFunctionCallException($message);
 		}
 	}
 

@@ -42,10 +42,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 					return $table->getDatabase();
 				}
 				return BSDatabase::getInstance();
-			default:
-				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
-				$message[] = $name;
-				throw new BadFunctionCallException($message);
 		}
 	}
 

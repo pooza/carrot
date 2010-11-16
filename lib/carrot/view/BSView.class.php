@@ -53,10 +53,6 @@ class BSView extends BSHTTPResponse {
 				return BSRequest::getInstance()->getUserAgent();
 			case 'translator':
 				return BSTranslateManager::getInstance();
-			default:
-				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
-				$message[] = $name;
-				throw new BadFunctionCallException($message);
 		}
 	}
 

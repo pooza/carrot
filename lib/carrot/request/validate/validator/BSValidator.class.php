@@ -35,10 +35,6 @@ abstract class BSValidator extends BSParameterHolder {
 				return BSUtility::executeMethod($name, 'getInstance');
 			case 'manager':
 				return BSValidateManager::getInstance();
-			default:
-				$message = new BSStringFormat('仮想プロパティ"%s"は未定義です。');
-				$message[] = $name;
-				throw new BadFunctionCallException($message);
 		}
 	}
 
