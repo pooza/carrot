@@ -62,7 +62,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		$query = parent::getQuery();
 		$session = BSRequest::getInstance()->getSession();
 		$query[$session->getName()] = $session->getID();
-		if (BSController::getInstance()->hasProxyServer()) {
+		if (BSController::getInstance()->hasServerSideCache()) {
 			$query['guid'] = 'ON';
 		}
 		return $query;

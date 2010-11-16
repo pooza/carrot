@@ -210,16 +210,6 @@ class BSView extends BSHTTPResponse {
 	}
 
 	/**
-	 * プロキシサーバが有効か
-	 *
-	 * @access public
-	 * @return boolean 有効ならTrue
-	 */
-	public function hasProxyServer () {
-		return BSController::getInstance()->hasProxyServer();
-	}
-
-	/**
 	 * キャッシュ制御を設定
 	 *
 	 * @access public
@@ -231,16 +221,15 @@ class BSView extends BSHTTPResponse {
 			$value[] = BS_APP_HTTP_CACHE_MODE;
 			$value[] = BS_APP_HTTP_CACHE_SECONDS;
 			$this->setHeader('Cache-Control', $value->getContents());
-			if (BS_APP_HTTP_CACHE_SEND_EXPIRES) {
-				$date = BSDate::getNow();
-				$date['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
-				$this->setHeader('Expires', $date->format(DATE_RFC1123));
-			}
+
+			$date = BSDate::getNow();
+			$date['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
+			$this->setHeader('Expires', $date->format(DATE_RFC1123));
 			$this->setHeader('Pragma', BS_APP_HTTP_CACHE_MODE);
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
+			$this->setHeader('Expires', 0);
 			$this->setHeader('Pragma', 'no-cache');
-			$this->removeHeader('Expires');
 		}
 	}
 

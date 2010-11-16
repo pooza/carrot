@@ -129,24 +129,29 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	 * @return boolean 成功時にTrue
 	 */
 	public function initializeView (BSSmartyView $view) {
+		$controller = BSController::getInstance();
+		$request = BSRequest::getInstance();
+		$user = BSUser::getInstance();
+
 		$view->getRenderer()->setUserAgent($this);
 		$view->getRenderer()->addModifier('sanitize');
 		$view->getRenderer()->addOutputFilter('trim');
-		$view->setAttributes(BSRequest::getInstance()->getAttributes());
+		$view->setAttributes($request->getAttributes());
 		$view->setAttribute('module', $view->getModule());
 		$view->setAttribute('action', $view->getAction());
-		$view->setAttribute('errors', BSRequest::getInstance()->getErrors());
-		$view->setAttribute('params', BSRequest::getInstance()->getParameters());
-		$view->setAttribute('credentials', BSUser::getInstance()->getCredentials());
-		$view->setAttribute('client_host', BSRequest::getInstance()->getHost());
-		$view->setAttribute('server_host', BSController::getInstance()->getHost());
-		$view->setAttribute('has_proxy_server', $view->hasProxyServer());
-		$view->setAttribute('is_ssl', BSRequest::getInstance()->isSSL());
+		$view->setAttribute('errors', $request->getErrors());
+		$view->setAttribute('params', $request->getParameters());
+		$view->setAttribute('credentials', $user->getCredentials());
+		$view->setAttribute('client_host', $request->getHost());
+		$view->setAttribute('server_host', $controller->getHost());
+		$view->setAttribute('has_proxy_server', $controller->hasServerSideCache());
+		$view->setAttribute('has_server_side_cache', $controller->hasServerSideCache());
+		$view->setAttribute('is_ssl', $request->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
-		$view->setAttribute('session', new BSArray(array(
-			'name' => BSRequest::getInstance()->getSession()->getName(),
-			'id' => BSRequest::getInstance()->getSession()->getID(),
-		)));
+		$view->setAttribute('session', array(
+			'name' => $request->getSession()->getName(),
+			'id' => $request->getSession()->getID(),
+		));
 		return true;
 	}
 

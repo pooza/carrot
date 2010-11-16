@@ -224,12 +224,12 @@ abstract class BSController {
 	}
 
 	/**
-	 * プロキシサーバが有効か
+	 * サーバサイドキャッシュが有効か
 	 *
 	 * @access public
 	 * @return boolean 有効ならTrue
 	 */
-	public function hasProxyServer () {
+	public function hasServerSideCache () {
 		return false;
 	}
 
