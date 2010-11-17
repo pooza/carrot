@@ -16,7 +16,11 @@ function smarty_function_analytics ($params, &$smarty) {
 	if ($id = $params['id']) {
 		$service->setID($id);
 	}
-	return $service->getTrackingCode();
+
+	try {
+		return $service->getTrackingCode();
+	} catch (Exception $e) {
+	}
 }
 
 /* vim:set tabstop=4: */
