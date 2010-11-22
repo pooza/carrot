@@ -72,7 +72,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$module = new self($name);
 			$class = $name . 'Module';
 			if ($file = $module->getDirectory()->getEntry($class . '.class.php')) {
-				require_once($file->getPath());
+				require $file->getPath();
 				$class = BSClassLoader::getInstance()->getClass($class);
 				$module = new $class($name);
 			}
@@ -363,7 +363,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$this->actions = new BSArray;
 		}
 		if (!$this->actions[$name]) {
-			require_once($file->getPath());
+			require $file->getPath();
 			$class = BSClassLoader::getInstance()->getClass($class);
 			$this->actions[$name] = new $class($this);
 		}

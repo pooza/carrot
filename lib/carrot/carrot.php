@@ -12,10 +12,10 @@
  * @param string $name クラス名
  */
 function __autoload ($name) {
-	require_once(BS_LIB_DIR . '/carrot/BSClassLoader.class.php');
+	require_once BS_LIB_DIR . '/carrot/BSClassLoader.class.php';
 	$classes = BSClassLoader::getInstance()->getClasses();
 	if (isset($classes[strtolower($name)])) {
-		require_once($classes[strtolower($name)]);
+		require $classes[strtolower($name)];
 	}
 }
 

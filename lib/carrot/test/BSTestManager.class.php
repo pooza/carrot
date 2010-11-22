@@ -59,7 +59,7 @@ class BSTestManager implements IteratorAggregate {
 				if ($entry->isDirectory()) {
 					$tests->merge($this->load($entry));
 				} else if ($entry->isFile()) {
-					require_once($entry->getPath());
+					require $entry->getPath();
 					$class = BSClassLoader::extractClass($entry->getPath());
 					$tests[] = new $class;
 				}

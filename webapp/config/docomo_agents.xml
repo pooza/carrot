@@ -40,10 +40,13 @@
   <ER209I color="" depth="2" height="72" width="120" />
   <F-01A color="1" depth="16777216" height="352" width="240" />
   <F-01B color="1" depth="16777216" height="648" width="480" />
+  <F-01C color="1" depth="16777216" height="656" width="480" />
   <F-02A color="1" depth="262144" height="352" width="240" />
   <F-02B color="1" depth="262144" height="648" width="480" />
+  <F-02C color="1" depth="16777216" height="656" width="480" />
   <F-03A color="1" depth="16777216" height="352" width="240" />
   <F-03B color="1" depth="262144" height="648" width="480" />
+  <F-03C color="1" depth="16777216" height="656" width="480" />
   <F-04A color="1" depth="262144" height="352" width="240" />
   <F-04B color="1" depth="16777216" height="648" width="480" />
   <F-05A color="1" depth="65536" height="352" width="240" />
@@ -127,6 +130,7 @@
   <N-01C color="1" depth="16777216" height="650" width="480" />
   <N-02A color="1" depth="262144" height="320" width="240" />
   <N-02B color="1" depth="262144" height="640" width="480" />
+  <N-02C color="1" depth="16777216" height="650" width="480" />
   <N-03A color="1" depth="262144" height="320" width="240" />
   <N-03B color="1" depth="262144" height="640" width="480" />
   <N-04A color="1" depth="262144" height="320" width="240" />
@@ -205,6 +209,7 @@
   <NM850IG color="1" depth="65536" height="144" width="176" />
   <P-01A color="1" depth="262144" height="350" width="240" />
   <P-01B color="1" depth="262144" height="662" width="480" />
+  <P-01C color="1" depth="262144" height="331" width="240" />
   <P-02A color="1" depth="262144" height="350" width="240" />
   <P-02B color="1" depth="262144" height="662" width="480" />
   <P-02C color="1" depth="262144" height="662" width="480" />
@@ -284,8 +289,10 @@
   <SA800I color="1" depth="65536" height="252" width="240" />
   <SH-01A color="1" depth="16777216" height="320" width="240" />
   <SH-01B color="1" depth="16777216" height="646" width="480" />
+  <SH-01C color="1" depth="16777216" height="656" width="480" />
   <SH-02A color="1" depth="16777216" height="320" width="240" />
   <SH-02B color="1" depth="16777216" height="646" width="480" />
+  <SH-02C color="1" depth="16777216" height="656" width="480" />
   <SH-03A color="1" depth="16777216" height="320" width="240" />
   <SH-03B color="1" depth="16777216" height="592" width="480" />
   <SH-04A color="1" depth="16777216" height="320" width="240" />

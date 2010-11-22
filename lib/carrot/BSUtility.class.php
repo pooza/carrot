@@ -28,10 +28,14 @@ class BSUtility {
 	static public function isPathAbsolute ($path) {
 		if ($path[0] == DIRECTORY_SEPARATOR) {
 			return true;
-		} else if (strpos($path, '..') !== false) {
+		}
+		if (strpos($path, '..') !== false) {
 			return false;
 		}
-		return !!mb_ereg('^[[:alpha:]]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
+		if (DIRECTORY_SEPARATOR != '/') { // Windows環境
+			return !!mb_ereg('^[[:alpha:]]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
+		}
+		return false;
 	}
 
 	/**
@@ -84,7 +88,7 @@ class BSUtility {
 		}
 
 		ini_set('display_errors', 0);
-		require_once($file->getPath());
+		require_once $file->getPath();
 		ini_restore('display_errors');
 	}
 

@@ -58,7 +58,7 @@ class BSConfigManager {
 		if (!$file->isReadable()) {
 			throw new BSConfigException($file . 'が読めません。');
 		}
-		return require($file->compile()->getPath());
+		return require $file->compile()->getPath();
 	}
 
 	/**

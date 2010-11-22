@@ -22,8 +22,8 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @access public
 	 */
 	public function __construct () {
-		require_once('PHPExcel.php');
-		require_once('PHPExcel/Writer/Excel5.php');
+		require_once 'PHPExcel.php';
+		require_once 'PHPExcel/Writer/Excel5.php';
 		$this->engine = new PHPExcel;
 		$this->engine->setActiveSheetIndex(0);
 		BSController::getInstance()->setTimeLimit(0);

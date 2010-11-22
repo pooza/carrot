@@ -151,7 +151,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @access public
 	 */
 	public function setNow () {
-		$this->setTimestamp(time());
+		$this->setTimestamp($_SERVER['REQUEST_TIME']);
 	}
 
 	/**

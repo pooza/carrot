@@ -183,7 +183,7 @@ class BSClassLoader {
 	 * @static
 	 */
 	static public function extractClass ($filename) {
-		require_once(BS_LIB_DIR . '/carrot/BSUtility.class.php');
+		require_once BS_LIB_DIR . '/carrot/BSUtility.class.php';
 		if (BSUtility::isPathAbsolute($filename)) {
 			$filename = basename($filename);
 		}
