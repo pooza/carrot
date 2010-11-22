@@ -22,6 +22,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $table;
 	protected $params;
 	protected $recordClass;
+	protected $controller;
+	protected $request;
+	protected $user;
 	static private $instances;
 	static private $prefixes = array();
 
@@ -31,6 +34,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	protected function __construct ($name) {
 		$this->name = $name;
+		$this->controller = BSController::getInstance();
+		$this->request = BSRequest::getInstance();
+		$this->user = BSUser::getInstance();
 		if (!$this->getDirectory()) {
 			throw new BSModuleException($this . 'のディレクトリが見つかりません。');
 		}
@@ -39,20 +45,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		}
 		if ($file = $this->getConfigFile('filters')) {
 			$this->config['filters'] = $file->getResult();
-		}
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'controller':
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
 		}
 	}
 

@@ -17,6 +17,9 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	protected $config;
 	protected $module;
 	protected $methods;
+	protected $controller;
+	protected $request;
+	protected $user;
 
 	/**
 	 * @access public
@@ -24,6 +27,9 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function __construct (BSModule $module) {
 		$this->module = $module;
+		$this->controller = BSController::getInstance();
+		$this->request = BSRequest::getInstance();
+		$this->user = BSUser::getInstance();
 	}
 
 	/**
@@ -33,10 +39,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function __get ($name) {
 		switch ($name) {
-			case 'controller':
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
 			case 'database':
 				if ($table = $this->getModule()->getTable()) {
 					return $table->getDatabase();
