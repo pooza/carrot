@@ -14,11 +14,6 @@ class BSView extends BSHTTPResponse {
 	protected $nameSuffix;
 	protected $action;
 	protected $version = '1.0';
-	protected $controller;
-	protected $request;
-	protected $user;
-	protected $useragent;
-	protected $translator;
 	const NONE = null;
 	const ERROR = 'Error';
 	const INPUT = 'Input';
@@ -33,11 +28,6 @@ class BSView extends BSHTTPResponse {
 	public function __construct (BSAction $action, $suffix, BSRenderer $renderer = null) {
 		$this->action = $action;
 		$this->nameSuffix = $suffix;
-		$this->controller = BSController::getInstance();
-		$this->request = BSRequest::getInstance();
-		$this->user = BSUser::getInstance();
-		$this->useragent = $this->request->getUserAgent();
-		$this->translator = BSTranslateManager::getInstance();
 
 		if (!$renderer) {
 			$renderer = $this->createDefaultRenderer();
@@ -46,6 +36,24 @@ class BSView extends BSHTTPResponse {
 
 		$this->setHeader('X-Frame-Options', BS_VIEW_FRAME_OPTIONS);
 		$this->setHeader('X-Content-Type-Options', BS_VIEW_CONTENT_TYPE_OPTIONS);
+	}
+
+	/**
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'controller':
+			case 'request':
+			case 'user':
+				return BSUtility::executeMethod($name, 'getInstance');
+			case 'useragent':
+				return BSRequest::getInstance()->getUserAgent();
+			case 'translator':
+				return BSTranslateManager::getInstance();
+		}
 	}
 
 	/**

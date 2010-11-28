@@ -12,7 +12,6 @@
  */
 class BSValidateManager implements IteratorAggregate {
 	private $fields;
-	private $request;
 	static private $instance;
 
 	/**
@@ -20,7 +19,6 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	private function __construct () {
 		$this->fields = new BSArray;
-		$this->request = BSRequest::getInstance();
 	}
 
 	/**
@@ -42,6 +40,18 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	public function __clone () {
 		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	}
+
+	/**
+	 * @access public
+	 * @param string $name プロパティ名
+	 * @return mixed 各種オブジェクト
+	 */
+	public function __get ($name) {
+		switch ($name) {
+			case 'request':
+				return BSUtility::executeMethod($name, 'getInstance');
+		}
 	}
 
 	/**
