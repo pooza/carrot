@@ -169,6 +169,25 @@ class BSString {
 	}
 
 	/**
+	 * 機種依存文字等が含まれているか？
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列
+	 * @return boolean 機種依存文字が含まれていたらTrue
+	 * @static
+	 * @link http://php.nekosuke.com/000056.htm 参考
+	 */
+	static public function isContainWrongCharacter ($value) {
+		foreach (BSConfigManager::getInstance()->compile('wrong_characters') as $rule) {
+			eval('$search = "' . $rule['search'] . '";');
+			if (self::isContain($value, $search)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * 改行を標準化
 	 *
 	 * @access public

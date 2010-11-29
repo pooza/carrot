@@ -248,6 +248,18 @@ abstract class BSMobileCarrier {
 	}
 
 	/**
+	 * 文字列に絵文字が含まれているか？
+	 *
+	 * @access public
+	 * @param string $body 対象文字列
+	 * @return boolean 絵文字が含まれていればTrue
+	 */
+	public function isContainPictogram ($body) {
+		$this->getMPC()->setString($body);
+		return !!$this->getMPC()->count();
+	}
+
+	/**
 	 * デコメールの形式を返す
 	 *
 	 * @access public
