@@ -19,7 +19,17 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 * @return boolean スマートフォンならTrue
 	 */
 	public function isSmartPhone () {
-		return true;
+		return !$this->isTablet();
+	}
+
+	/**
+	 * タブレット型か？
+	 *
+	 * @access public
+	 * @return boolean タブレット型ならTrue
+	 */
+	public function isTablet () {
+		return BSString::isContain('Tablet', $this->getName());
 	}
 
 	/**
@@ -29,9 +39,11 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		return new BSArray(array(
-			'width' => 480,
-		));
+		$info = new BSArray;
+		if (!$this->isTablet()) {
+			$info['width'] = 480;
+		}
+		return $info;
 	}
 
 	/**
