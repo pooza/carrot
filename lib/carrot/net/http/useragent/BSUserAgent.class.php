@@ -430,6 +430,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 			'Trident',
 			'Gecko',
 			'iPhone',
+			'AndroidTablet',
 			'Android',
 			'iPad',
 			'WebKit',
