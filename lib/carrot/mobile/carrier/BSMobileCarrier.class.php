@@ -255,8 +255,17 @@ abstract class BSMobileCarrier {
 	 * @return boolean 絵文字が含まれていればTrue
 	 */
 	public function isContainPictogram ($body) {
-		$this->getMPC()->setString($body);
-		return !!$this->getMPC()->count();
+		$values = new BSArray(array(
+			BSString::convertEncoding($body, 'sjis-win'),
+			BSString::convertEncoding($body, 'utf-8'),
+		));
+		foreach ($values as $value) {
+			$this->getMPC()->setString($value);
+			if (!!$this->getMPC()->count()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
