@@ -40,7 +40,6 @@ abstract class BSImageAnchorElement extends BSAnchorElement {
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
-	 *   self::WITHOUT_BROWSER_CACHE クエリー末尾に乱数を加え、ブラウザキャッシュを無効にする
 	 *   self::WIDTH_FIXED 幅固定
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
