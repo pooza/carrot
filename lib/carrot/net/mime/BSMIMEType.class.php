@@ -11,7 +11,6 @@
  * @version $Id$
  */
 class BSMIMEType extends BSParameterHolder implements BSSerializable {
-	private $typesFile;
 	private $suffixes;
 	static private $instance;
 	const DEFAULT_TYPE = 'application/octet-stream';
@@ -48,32 +47,6 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	}
 
 	/**
-	 * mime.typesファイルを返す
-	 *
-	 * @access private
-	 * @return BSFile mime.typesファイル
-	 */
-	private function getTypesFile () {
-		if (!$this->typesFile) {
-			$this->typesFile = new BSFile(BS_FILE_TYPES_FILE);
-			if (!$this->typesFile->isReadable()) {
-				throw new BSConfigException($this->typesFile . 'を開くことができません。');
-			}
-		}
-		return $this->typesFile;
-	}
-
-	/**
-	 * 設定ファイルを返す
-	 *
-	 * @access private
-	 * @return BSConfigFile 設定ファイル
-	 */
-	private function getConfigFile () {
-		return BSConfigManager::getConfigFile('mime');
-	}
-
-	/**
 	 * パラメータを返す
 	 *
 	 * @access public
@@ -100,15 +73,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @access public
 	 */
 	public function serialize () {
-		foreach ($this->getTypesFile()->getLines() as $line) {
-			$line = mb_ereg_replace('#.*$', '', $line);
-			$line = mb_split('[[:blank:]]+', $line);
-			for ($i = 1 ; $i < count($line) ; $i ++) {
-				$this[BSString::toLower($line[$i])] = $line[0];
-			}
-		}
-
-		$config = BSConfigManager::getInstance()->compile($this->getConfigFile());
+		$config = BSConfigManager::getInstance()->compile('mime');
 		foreach ($config['types'] as $key => $value) {
 			if (BSString::isBlank($value)) {
 				$this->removeParameter($key);
@@ -116,7 +81,6 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 				$this[BSString::toLower($key)] = $value;
 			}
 		}
-
 		BSController::getInstance()->setAttribute($this, $this->getParameters());
 	}
 
@@ -127,11 +91,10 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		$date = BSDate::getNewest(new BSArray(array(
-			$this->getTypesFile()->getUpdateDate(),
-			$this->getConfigFile()->getUpdateDate(),
-		)));
-		return BSController::getInstance()->getAttribute($this, $date);
+		return BSController::getInstance()->getAttribute(
+			$this,
+			BSConfigManager::getConfigFile('mime')->getUpdateDate()
+		);
 	}
 
 	/**
@@ -144,7 +107,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 		if (!$this->suffixes) {
 			$types = new BSArray($this->params);
 			$this->suffixes = $types->getFlipped();
-			$config = BSConfigManager::getInstance()->compile($this->getConfigFile());
+			$config = BSConfigManager::getInstance()->compile('mime');
 			$this->suffixes->setParameters($config['suffixes']);
 			foreach ($this->suffixes as $type => $suffix) {
 				$this->suffixes[$type] = '.' . $suffix;
@@ -170,7 +133,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 */
 	static public function getAttachableTypes () {
 		$types = new BSArray;
-		$config = BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile());
+		$config = BSConfigManager::getInstance()->compile('mime');
 		foreach ($config['types'] as $key => $value) {
 			if ($key && $value) {
 				$types['.' . $key] = $value;
@@ -188,7 +151,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 */
 	static public function getAttachableSuffixes () {
 		$suffixes = self::getAttachableTypes()->getFlipped();
-		$config = BSConfigManager::getInstance()->compile(self::getInstance()->getConfigFile());
+		$config = BSConfigManager::getInstance()->compile('mime');
 		foreach ($config['suffixes'] as $key => $value) {
 			if ($key && $value) {
 				$suffixes[$key] = '.' . $value;

@@ -78,9 +78,6 @@ ffmpeg:
       height: 144
       frame_rate: 10
     mp3:
-file:
-  types:
-    file: /usr/local/apache2/conf/mime.types
 flash:
   player_ver: 9.0.0
   installer:
