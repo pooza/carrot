@@ -14,30 +14,6 @@ class BSZipcodeValidator extends BSValidator {
 	const PATTERN = '^([[:digit:]]{3})-([[:digit:]]{4})$';
 
 	/**
-	 * 対象文字列から郵便番号を返す
-	 *
-	 * fiedlsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
-	 *
-	 * @access private
-	 * @param string $value 対象文字列
-	 * @return BSZipcode 郵便番号
-	 */
-	private function getZipcode ($value) {
-		if ($fields = $this['fields']) {
-			$value = new BSArray;
-			foreach ($fields as $field) {
-				$value[] = $this->request[$field];
-			}
-			$value = $value->join('-');
-		}
-
-		try {
-			return new BSZipcode($value);
-		} catch (BSZipcodeException $e) {
-		}
-	}
-
-	/**
 	 * 初期化
 	 *
 	 * @access public
@@ -45,7 +21,6 @@ class BSZipcodeValidator extends BSValidator {
 	 */
 	public function initialize ($params = array()) {
 		$this['fields'] = array();
-		$this['address'] = true;
 		$this['invalid_error'] = '正しい郵便番号ではありません。';
 		return parent::initialize($params);
 	}
@@ -58,20 +33,17 @@ class BSZipcodeValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!mb_ereg(self::PATTERN, $value) || (!$zipcode = $this->getZipcode($value))) {
+		if ($fields = $this['fields']) {
+			$value = new BSArray;
+			foreach ($fields as $field) {
+				$value[] = $this->request[$field];
+			}
+			$value = $value->join('-');
+		}
+		if (!mb_ereg(self::PATTERN, $value)) {
 			$this->error = $this['invalid_error'];
 			return false;
 		}
-
-		if ($this['address']) {
-			try {
-				$address = $zipcode->getAddress();
-			} catch (BSZipcodeException $e) {
-				$this->error = $this['invalid_error'];
-				return false;
-			}
-		}
-
 		return true;
 	}
 }
