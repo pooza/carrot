@@ -11,29 +11,9 @@
  * @version $Id$
  * @link http://www.soumu.go.jp/main_sosiki/joho_tsusin/top/tel_number/ 電話番号の桁数について
  */
-class BSPhoneNumberValidator extends BSValidator {
+class BSPhoneNumberValidator extends BSRegexValidator {
 	const PATTERN = '^[[:digit:]]{2,4}-[[:digit:]]{2,4}-[[:digit:]]{3,4}$';
 	const PATTERN_LOOSE = '^[-[:digit:]]{10,14}$';
-
-	/**
-	 * 対象文字列から電話番号を返す
-	 *
-	 * fieldsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
-	 *
-	 * @access private
-	 * @param string $value 対象文字列
-	 * @return string 電話番号
-	 */
-	private function getPhoneNumber ($value) {
-		if ($fields = $this['fields']) {
-			$value = new BSArray;
-			foreach ($fields as $field) {
-				$value[] = $this->request[$field];
-			}
-			$value = $value->join('-');
-		}
-		return $value;
-	}
 
 	/**
 	 * 初期化
@@ -42,10 +22,21 @@ class BSPhoneNumberValidator extends BSValidator {
 	 * @param string[] $params パラメータ配列
 	 */
 	public function initialize ($params = array()) {
-		$this['fields'] = array();
+		if (!isset($params['loose'])) {
+			$params['loose'] = false;
+		}
+
+		$this['match'] = true;
 		$this['invalid_error'] = '正しくありません。';
-		$this['loose'] = false;
-		return parent::initialize($params);
+		$this['fields'] = array();
+		BSValidator::initialize($params);
+
+		if (!!$this['loose']) {
+			$this['pattern'] = self::PATTERN_LOOSE;
+		} else {
+			$this['pattern'] = self::PATTERN;
+		}
+		return true;
 	}
 
 	/**
@@ -56,18 +47,14 @@ class BSPhoneNumberValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!!$this['loose']) {
-			if (!mb_ereg(self::PATTERN_LOOSE, $value)) {
-				$this->error = $this['invalid_error'];
-				return false;
+		if ($fields = $this['fields']) {
+			$values = new BSArray;
+			foreach ($fields as $field) {
+				$values[] = $this->request[$field];
 			}
-		} else {
-			if (!mb_ereg(self::PATTERN, $this->getPhoneNumber($value))) {
-				$this->error = $this['invalid_error'];
-				return false;
-			}
+			$value = $values->join('-');
 		}
-		return true;
+		return parent::execute($value);
 	}
 }
 

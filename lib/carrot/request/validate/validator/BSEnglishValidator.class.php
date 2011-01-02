@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSEnglishValidator extends BSRegexValidator {
+	const PATTERN = '^[\\n[:ascii:]]*$';
 
 	/**
 	 * 初期化
@@ -21,7 +22,7 @@ class BSEnglishValidator extends BSRegexValidator {
 	public function initialize ($params = array()) {
 		$this['match'] = true;
 		$this['match_error'] = '使用出来ない文字が含まれています。';
-		$this['pattern'] = '^[\\n[:ascii:]]*$';
+		$this['pattern'] = self::PATTERN;
 		return BSValidator::initialize($params);
 	}
 }

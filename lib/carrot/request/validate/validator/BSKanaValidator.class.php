@@ -11,6 +11,7 @@
  * @version $Id$
  */
 class BSKanaValidator extends BSRegexValidator {
+	const PATTERN = '^[ぁ-んァ-ンヴー\\n[:digit:]]*$';
 
 	/**
 	 * 初期化
@@ -21,7 +22,7 @@ class BSKanaValidator extends BSRegexValidator {
 	public function initialize ($params = array()) {
 		$this['match'] = true;
 		$this['match_error'] = '使用出来ない文字が含まれています。';
-		$this['pattern'] = "^[ぁ-んァ-ンヴー\\n[:digit:]]*$";
+		$this['pattern'] = self::PATTERN;
 		return BSValidator::initialize($params);
 	}
 }

@@ -37,10 +37,13 @@ namespace :var do
     sh 'chmod 777 var/*'
   end
 
-  desc 'varディレクトリをクリア'
-  task :clean do
-    sh 'sudo rm -R var/*/*'
-  end
+  desc '各種キャッシュをクリア'
+  task :clean => [
+    'config:clean',
+    'css:clean',
+    'js:clean',
+    'images:cache:clean',
+  ]
 
   namespace :images do
     namespace :cache do
@@ -150,10 +153,8 @@ namespace :docomo do
     sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
   end
 
-  desc 'docomoの端末リストを更新'
-  task :update do
-    sh 'svn update webapp/config/docomo_atents.xml'
-  end
+  desc 'docomoの端末リストを取得'
+  task :update => [:fetch]
 end
 
 namespace :svn do

@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @version $Id$
  */
-class BSZipcodeValidator extends BSValidator {
+class BSZipcodeValidator extends BSRegexValidator {
 	const PATTERN = '^([[:digit:]]{3})-([[:digit:]]{4})$';
 
 	/**
@@ -20,9 +20,11 @@ class BSZipcodeValidator extends BSValidator {
 	 * @param string[] $params パラメータ配列
 	 */
 	public function initialize ($params = array()) {
+		$this['match'] = true;
+		$this['invalid_error'] = '正しくありません。';
+		$this['pattern'] = self::PATTERN;
 		$this['fields'] = array();
-		$this['invalid_error'] = '正しい郵便番号ではありません。';
-		return parent::initialize($params);
+		return BSValidator::initialize($params);
 	}
 
 	/**
@@ -34,17 +36,13 @@ class BSZipcodeValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if ($fields = $this['fields']) {
-			$value = new BSArray;
+			$values = new BSArray;
 			foreach ($fields as $field) {
-				$value[] = $this->request[$field];
+				$values[] = $this->request[$field];
 			}
-			$value = $value->join('-');
+			$value = $values->join('-');
 		}
-		if (!mb_ereg(self::PATTERN, $value)) {
-			$this->error = $this['invalid_error'];
-			return false;
-		}
-		return true;
+		return parent::execute($value);
 	}
 }
 
