@@ -46,10 +46,17 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 	 * 更新Pingをまとめて送る
 	 *
 	 * @access public
-	 * @param BSHTTPRedirector $url ホームページとして申告するURL
+	 * @param BSParameterHolder $params パラメータ配列。以下の要素を含むこと。
+	 *   weblogname   ブログ名
+	 *   weblogurl    ブログURL
+	 *   changeurl    更新されるURL（通常はweblogurlと同じ）
+	 *   categoryname フィードのURL ("categoryname"なのにURLを指定するのは、仕様原文ママ)
 	 * @static
+	 * @link http://www.xmlrpc.com/weblogsCom 仕様...だが情報量少なすぎて参考にならず
+	 * @link http://tech.ppmz.com/2006/08/phpweblogupdateping_2_ping.html 参考
+	 * @Link http://isnot.jp/?p=XML-RPC%A1%F8%B9%B9%BF%B7Ping%A4%CE%C1%F7%BF%AE 参考
 	 */
-	static public function sendPings (BSHTTPRedirector $url = null) {
+	static public function sendPings (BSParameterHolder $params) {
 		$config = BSConfigManager::getInstance()->compile('blog');
 		if (!isset($config['ping']['urls'])) {
 			throw new BSBlogException('更新Pingの送信先を取得できません。');
@@ -57,17 +64,19 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 		$urls = new BSArray($config['ping']['urls']);
 
 		$request = new BSBlogUpdatePingRequest;
-		$request->registerParameter(BS_APP_NAME_JA);
-		if (BSString::isBlank($url)) {
-			$request->registerParameter(BS_ROOT_URL);
-		} else {
-			$request->registerParameter($url->getURL()->getContents());
+		foreach (array('weblogname', 'weblogurl', 'changeurl', 'categoryname') as $field) {
+			if (BSString::isBlank($value = $params[$field])) {
+				$message = new BSStringFormat('更新Pingの%sパラメータが空欄です。');
+				$message[] = $field;
+				throw new BSBlogException($message);
+			}
+			$request->registerParameter($value);
 		}
 
 		foreach ($urls as $url) {
 			try {
 				$url = BSURL::getInstance($url);
-				$server = new BSBlogUpdatePingService($url['host']);
+				$server = new self($url['host']);
 				$server->sendPing($url->getFullPath(), $request);
 			} catch (Exception $e) {
 			}
