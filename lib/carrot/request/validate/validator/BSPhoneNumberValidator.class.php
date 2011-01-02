@@ -25,18 +25,15 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 		if (!isset($params['loose'])) {
 			$params['loose'] = false;
 		}
+		if (!!$params['loose']) {
+			$params['pattern'] = self::PATTERN_LOOSE;
+		}
 
 		$this['match'] = true;
 		$this['invalid_error'] = '正しくありません。';
 		$this['fields'] = array();
-		BSValidator::initialize($params);
-
-		if (!!$this['loose']) {
-			$this['pattern'] = self::PATTERN_LOOSE;
-		} else {
-			$this['pattern'] = self::PATTERN;
-		}
-		return true;
+		$this['pattern'] = self::PATTERN;
+		return BSValidator::initialize($params);
 	}
 
 	/**
