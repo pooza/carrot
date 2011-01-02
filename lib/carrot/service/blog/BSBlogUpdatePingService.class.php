@@ -31,6 +31,11 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 
 		try {
 			$response = $this->execute($href);
+			$xml = new SimpleXMLElement($response->getRenderer()->getContents());
+			$element = $xml->params->param->value->struct;
+			if ($element->member[0]->value->boolean->__toString() !== '0') {
+				throw new BSBlogException($element->member[1]->value->string->__toString());
+			}
 			$message = new BSStringFormat('%sへ更新Pingを送信しました。');
 			$message[] = $url->getContents();
 			BSLogManager::getInstance()->put($message, $this);

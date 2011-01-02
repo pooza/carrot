@@ -24,6 +24,16 @@ class BSBlogUpdatePingRequest extends BSXMLDocument {
 	}
 
 	/**
+	 * メディアタイプを返す
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function getType () {
+		return 'text/xml';
+	}
+
+	/**
 	 * param要素を加える
 	 *
 	 * @access public
