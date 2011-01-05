@@ -69,7 +69,7 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 		$urls = new BSArray($config['ping']['urls']);
 
 		$request = new BSBlogUpdatePingRequest;
-		foreach (array('weblogname', 'weblogurl', 'changeurl', 'categoryname') as $field) {
+		foreach (array('weblogname', 'weblogurl') as $field) {
 			if (BSString::isBlank($value = $params[$field])) {
 				$message = new BSStringFormat('更新Pingの%sパラメータが空欄です。');
 				$message[] = $field;
