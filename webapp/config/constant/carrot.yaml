@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.44
+  ver: 2.4.45
 
 admin:
   email:
@@ -175,7 +175,7 @@ mysql:
 net:
   resolvable: yes
   url:
-    shorter: bitly
+    shorter: google_url_shortner
 package:
   name:
   ver:
@@ -224,6 +224,8 @@ service:
     analytics:
       id:
       beacon_href: /carrotlib/php/ga.php
+    url_shortener:
+      api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
   twitter:
     consumer:
       key: hhXdKP3kEwvWumb1AFbTlQ

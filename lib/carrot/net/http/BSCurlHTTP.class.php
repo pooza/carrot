@@ -122,8 +122,10 @@ class BSCurlHTTP extends BSHTTP {
 		$url['path'] ='/' . ltrim($href, '/');
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
+			$url['port'] = BSNetworkService::getPort('https');
 		} else {
 			$url['scheme'] = 'http';
+			$url['port'] = BSNetworkService::getPort('http');
 		}
 		return $url;
 	}
