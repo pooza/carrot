@@ -21,7 +21,7 @@ class BSZipcodeValidator extends BSRegexValidator {
 	 */
 	public function initialize ($params = array()) {
 		$this['match'] = true;
-		$this['invalid_error'] = '正しくありません。';
+		$this['match_error'] = '正しくありません。';
 		$this['pattern'] = self::PATTERN;
 		$this['fields'] = array();
 		return BSValidator::initialize($params);

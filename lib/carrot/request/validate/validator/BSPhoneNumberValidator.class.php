@@ -30,7 +30,7 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 		}
 
 		$this['match'] = true;
-		$this['invalid_error'] = '正しくありません。';
+		$this['match_error'] = '正しくありません。';
 		$this['fields'] = array();
 		$this['pattern'] = self::PATTERN;
 		return BSValidator::initialize($params);
