@@ -465,7 +465,7 @@ class BSImage implements BSImageRenderer {
 			$types[$suffix] = BSMIMEType::getType($suffix);
 		}
 		if (extension_loaded('imagick')) {
-			foreach (array('.tiff', '.eps', '.ico') as $suffix) {
+			foreach (array('.tiff', '.eps', '.ico', '.pdf') as $suffix) {
 				$types[$suffix] = BSMIMEType::getType($suffix);
 			}
 		}
