@@ -67,6 +67,36 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 		$result = $json->decode($response->getRenderer()->getContents());
 		return BSURL::getInstance($result['id']);
 	}
+
+	/**
+	 * QRコードの画像ファイルを返す
+	 *
+	 * @access public
+	 * @param BSHTTPRedirector $url 対象URL
+	 * @return BSImageFile 画像ファイル
+	 */
+	public function getQRCodeImageFile (BSHTTPRedirector $url) {
+		$dir = BSFileUtility::getDirectory('qrcode');
+		$name = BSCrypt::getDigest($url->getContents());
+		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
+			try {
+				$url = $this->getShortURL($url);
+				$url['path'] .= '.qr';
+				$image = new BSImage;
+				$image->setType(BSMIMEType::getType('.png'));
+				$image->setImage(file_get_contents($url->getContents()));
+				$file = BSFileUtility::getTemporaryFile('.png', 'BSImageFile');
+				$file->setRenderer($image);
+				$file->save();
+				$file->setMode(0666);
+				$file->rename($name);
+				$file->moveTo($dir);
+			} catch (Exception $e) {
+				return null;
+			}
+		}
+		return $file;
+	} 
 }
 
 /* vim:set tabstop=4: */

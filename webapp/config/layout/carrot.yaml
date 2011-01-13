@@ -50,7 +50,6 @@ dump:
 favicon:
   parent: var
   suffix: .png
-  href: /carrotlib/images/favicon/
   purge:
     day: 7
 ffmpeg:
@@ -88,7 +87,6 @@ man:
 maps:
   parent: var
   suffix: .gif
-  href: /carrotlib/images/maps/
   purge:
     month: 1
 menu:
@@ -111,6 +109,9 @@ proctools:
   constant: yes
 pgsql:
   constant: yes
+qrcode:
+  parent: var
+  suffix: .png
 request:
   parent: var
   suffix: .txt

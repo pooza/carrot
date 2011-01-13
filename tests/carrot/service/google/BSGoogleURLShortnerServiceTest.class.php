@@ -20,6 +20,10 @@ class BSGoogleURLShortnerServiceTest extends BSTest {
 
 		$url = BSURL::getInstance('http://www.b-shock.co.jp/');
 		$this->assert('getShortURL', ($service->getShortURL($url) instanceof BSHTTPURL));
+		$this->assert(
+			'getQRCodeImageFile',
+			($service->getQRCodeImageFile($url) instanceof BSImageFile)
+		);
 	}
 }
 
