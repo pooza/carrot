@@ -4,8 +4,6 @@
  * @subpackage media.image.renderer
  */
 
-BSUtility::includeFile('qrcode');
-
 /**
  * QRコードレンダラー
  *
@@ -16,17 +14,7 @@ class BSQRCode implements BSImageRenderer {
 	private $gd;
 	private $data;
 	private $error;
-	private $engine;
 	private $type = BS_IMAGE_QRCODE_TYPE;
-	private $size = BS_IMAGE_QRCODE_SIZE;
-	private $margin = BS_IMAGE_QRCODE_MARGIN;
-
-	/**
-	 * @access public
-	 */
-	public function __construct () {
-		$this->engine = new QRCode;
-	}
 
 	/**
 	 * エンコード対象データを返す
@@ -76,10 +64,21 @@ class BSQRCode implements BSImageRenderer {
 	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
-		if (!is_resource($this->gd) && !BSString::isBlank($this->getData())) {
-			$data = BSString::convertEncoding($this->getData(), 'sjis-win');
-			$qr = $this->engine->getMinimumQRCode($data, QR_ERROR_CORRECT_LEVEL_L);
-			$this->gd = $qr->createImage($this->size, $this->margin);
+		if (!is_resource($this->gd) && !BSString::isBlank($data = $this->getData())) {
+			$validator = new BSURLValidator;
+			if ($validator->execute($data)) {
+				$file = BSURL::getInstance($data)->getImageFile('qr');
+				$this->gd = $file->getGDHandle();
+				$this->setType($file->getType());
+			} else {
+				BSUtility::includeFile('qrcode');
+				$engine = new QRCode;
+				$qr = $engine->getMinimumQRCode(
+					BSString::convertEncoding($data, 'sjis-win'),
+					QR_ERROR_CORRECT_LEVEL_L
+				);
+				$this->gd = $qr->createImage(BS_IMAGE_QRCODE_SIZE, BS_IMAGE_QRCODE_MARGIN);
+			}
 		}
 		return $this->gd;
 	}
