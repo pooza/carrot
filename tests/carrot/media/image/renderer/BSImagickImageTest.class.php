@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSImagickImageTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $image = new BSImagickImage());
 		$this->assert('getGDHandle', is_resource($image->getGDHandle()));

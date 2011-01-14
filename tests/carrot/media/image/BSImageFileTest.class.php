@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSImageFileTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$dir = BSFileUtility::getDirectory('root');
 		$src = $dir->getEntry('www/carrotlib/images/button/pictogram.gif', 'BSImageFile');

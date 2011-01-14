@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSPhoneNumberValidatorTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $validator = new BSPhoneNumberValidator);
 		$this->assert('execute', $validator->execute('00-0000-0000'));

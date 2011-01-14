@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSHTTPTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $http = new BSHTTP('www.b-shock.co.jp'));
 		try {

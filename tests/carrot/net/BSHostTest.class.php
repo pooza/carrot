@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSHostTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $host = new BSHost('www.b-shock.co.jp'));
 		$this->assert('getImageFile', $host->getImageFile('favicon') instanceof BSImageFile);

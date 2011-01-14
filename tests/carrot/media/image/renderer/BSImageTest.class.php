@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSImageTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('getTypes', BSImage::getTypes()->isContain('image/jpeg'));
 		$this->assert('getSuffixes', BSImage::getSuffixes()->isContain('.gif'));

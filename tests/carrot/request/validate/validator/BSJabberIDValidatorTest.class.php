@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSJabberIDValidatorTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $validator = new BSJabberIDValidator);
 		$this->assert('execute', $validator->execute('tatsuya.koishi@gmail.com'));

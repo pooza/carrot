@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSZipcodeValidatorTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $validator = new BSZipcodeValidator);
 		$this->assert('execute', $validator->execute('000-0000'));

@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSUtilityTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('isPathAbsolute_1', BSUtility::isPathAbsolute('/etc/hosts'));
 		$this->assert('isPathAbsolute_2', !BSUtility::isPathAbsolute('www/.htaccess'));

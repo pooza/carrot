@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSUserAgentTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$useragent = BSUserAgent::getInstance(null, 'default');
 		$this->assert('getInstance_Default', $useragent instanceof BSDefaultUserAgent);

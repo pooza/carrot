@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSKanaValidatorTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $validator = new BSKanaValidator);
 		$this->assert('execute', $validator->execute('アイウエオ'));

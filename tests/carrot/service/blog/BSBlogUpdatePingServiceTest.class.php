@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSBlogUpdatePingServiceTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$params = new BSArray(array(
 			'weblogname' => 'b-shock. Fortress',

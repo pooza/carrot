@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSCurlHTTPTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $http = new BSCurlHTTP('www.b-shock.co.jp'));
 		try {

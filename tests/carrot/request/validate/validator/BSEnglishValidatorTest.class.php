@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSEnglishValidatorTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('__construct', $validator = new BSEnglishValidator);
 		$this->assert('execute', $validator->execute('english'));

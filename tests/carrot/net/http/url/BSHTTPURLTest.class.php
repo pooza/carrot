@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSHTTPURLTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$this->assert('getInstance', $url = BSURL::getInstance('http://www.b-shock.co.jp/'));
 		$this->assert('getImageFile', $url->getImageFile('favicon') instanceof BSImageFile);

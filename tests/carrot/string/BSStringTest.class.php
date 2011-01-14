@@ -9,12 +9,6 @@
  * @abstract
  */
 class BSStringTest extends BSTest {
-
-	/**
-	 * 実行
-	 *
-	 * @access public
-	 */
 	public function execute () {
 		$string = BSString::convertWrongCharacters('㈱㈲');
 		$this->assert('convertWrongCharacters', $string == '(株)(有)');
