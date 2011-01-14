@@ -223,8 +223,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSImage favicon画像
 	 */
 	public function getFavicon () {
-		$service = new BSGoogleFaviconsService;
-		return $service->getFavicon($this);
+		return $this->getImageFile('favicon');
 	}
 
 	/**
@@ -265,19 +264,14 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSImageFile 画像ファイル
 	 */
 	public function getImageFile ($size = 'favicon') {
-		$service = new BSGoogleFaviconsService;
-		return $service->getImageFile($this['host']);
-	}
-
-	/**
-	 * 画像ファイルを設定する
-	 *
-	 * @access public
-	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
-	 */
-	public function setImageFile (BSImageFile $file, $size = 'favicon') {
-		throw new BSImageException($this . 'の画像ファイルを設定できません。');
+		switch ($size) {
+			case 'favicon':
+				$service = new BSGoogleFaviconsService;
+				return $service->getImageFile($this['host']);
+			case 'qr':
+				$service = new BSGoogleURLShortnerService;
+				return $service->getQRCodeImageFile($this);
+		}
 	}
 
 	/**
@@ -288,7 +282,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return string 画像ファイルベース名
 	 */
 	public function getImageFileBaseName ($size) {
-		return BSCrypt::getDigest($this->getID());
+		return $this->getID();
 	}
 
 	/**
@@ -301,7 +295,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return integer ID
 	 */
 	public function getID () {
-		return $this['host']->getName();
+		return BSCrypt::getDigest($this->getName());
 	}
 
 	/**
@@ -311,7 +305,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return string 名前
 	 */
 	public function getName () {
-		return $this->getID();
+		return $this->getContents();
 	}
 
 	/**
