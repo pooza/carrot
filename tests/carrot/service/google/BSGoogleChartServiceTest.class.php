@@ -8,12 +8,15 @@
  * @version $Id$
  * @abstract
  */
-class BSGoogleURLShortnerServiceTest extends BSTest {
+class BSGoogleChartServiceTest extends BSTest {
 	public function execute () {
-		$this->assert('__construct', $service = new BSGoogleURLShortnerService);
+		$this->assert('__construct', $service = new BSGoogleChartService);
 
 		$url = BSURL::getInstance('http://www.b-shock.co.jp/');
-		$this->assert('getShortURL', ($service->getShortURL($url) instanceof BSHTTPURL));
+		$this->assert(
+			'getQRCodeImageFile',
+			($service->getQRCodeImageFile($url->getContents()) instanceof BSImageFile)
+		);
 	}
 }
 

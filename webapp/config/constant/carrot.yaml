@@ -6,7 +6,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.45
+  ver: 2.4.46
 
 admin:
   email:
@@ -94,9 +94,7 @@ image:
       au: image/png
       softbank: image/png
   qrcode:
-    size: 2
-    margin: 4
-    type: image/png
+    size: 100
   thumbnail:
     bgcolor: black
     type: image/png

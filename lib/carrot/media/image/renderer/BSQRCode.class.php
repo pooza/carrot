@@ -14,7 +14,6 @@ class BSQRCode implements BSImageRenderer {
 	private $gd;
 	private $data;
 	private $error;
-	private $type = BS_IMAGE_QRCODE_TYPE;
 
 	/**
 	 * エンコード対象データを返す
@@ -34,7 +33,8 @@ class BSQRCode implements BSImageRenderer {
 	 */
 	public function setData ($data) {
 		$this->data = $data;
-		$this->gd = null;
+		$service = new BSGoogleChartService;
+		$this->gd = $service->getQRCodeImageFile($data)->getRenderer()->getGDHandle();
 	}
 
 	/**
@@ -44,17 +44,7 @@ class BSQRCode implements BSImageRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return $this->type;
-	}
-
-	/**
-	 * メディアタイプを設定
-	 *
-	 * @access public
-	 * @param string $type メディアタイプ
-	 */
-	public function setType ($type) {
-		$this->type = $type;
+		return BSMIMEType::getType('png');
 	}
 
 	/**
@@ -64,22 +54,6 @@ class BSQRCode implements BSImageRenderer {
 	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
-		if (!is_resource($this->gd) && !BSString::isBlank($data = $this->getData())) {
-			$validator = new BSURLValidator;
-			if ($validator->execute($data)) {
-				$file = BSURL::getInstance($data)->getImageFile('qr');
-				$this->gd = $file->getGDHandle();
-				$this->setType($file->getType());
-			} else {
-				BSUtility::includeFile('qrcode');
-				$engine = new QRCode;
-				$qr = $engine->getMinimumQRCode(
-					BSString::convertEncoding($data, 'sjis-win'),
-					QR_ERROR_CORRECT_LEVEL_L
-				);
-				$this->gd = $qr->createImage(BS_IMAGE_QRCODE_SIZE, BS_IMAGE_QRCODE_MARGIN);
-			}
-		}
 		return $this->gd;
 	}
 

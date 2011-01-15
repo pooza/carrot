@@ -25,6 +25,9 @@ carrot:
   parent: lib
 carrotlib:
   parent: www
+chart:
+  parent: var
+  suffix: .png
 config:
   parent: webapp
 compile:
@@ -109,9 +112,6 @@ proctools:
   constant: yes
 pgsql:
   constant: yes
-qrcode:
-  parent: var
-  suffix: .png
 request:
   parent: var
   suffix: .txt

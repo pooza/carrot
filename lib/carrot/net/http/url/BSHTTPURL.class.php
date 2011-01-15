@@ -269,8 +269,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 				$service = new BSGoogleFaviconsService;
 				return $service->getImageFile($this['host']);
 			case 'qr':
-				$service = new BSGoogleURLShortnerService;
-				return $service->getQRCodeImageFile($this);
+				$service = new BSGoogleChartService;
+				return $service->getQRCodeImageFile($this->getContents());
 		}
 	}
 
