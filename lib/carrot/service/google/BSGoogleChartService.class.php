@@ -32,9 +32,13 @@ class BSGoogleChartService extends BSCurlHTTP {
 	 * @param string $data 対象データ
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getQRCodeImageFile ($data, $size = BS_IMAGE_QRCODE_SIZE) {
+	public function getQRCodeImageFile ($data, $size = 0, $encoding = 'sjis-win') {
+		if (!$size) {
+			$size = BS_IMAGE_QRCODE_SIZE;
+		}
 		$params = new BSArray(array(
-			'chl' => $data,
+			'chl' => BSString::convertEncoding($data, $encoding),
+			'chld' => 'l|0',
 		));
 		return $this->getImageFile('qr', $size, $size, $params);
 	} 
