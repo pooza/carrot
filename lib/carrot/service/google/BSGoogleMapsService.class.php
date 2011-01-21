@@ -63,9 +63,14 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$params->removeParameter('width');
 			$params->removeParameter('height');
 			return $this->getImageElement($geocode, $params);
-		} else {
-			return $this->getScriptElement($geocode, $params);
 		}
+
+		$info = $this->useragent->getDisplayInfo();
+		if ($info['width'] && $params['width'] && ($info['width'] < $params['width'])) {
+			$params['width'] = $info['width'];
+		}
+
+		return $this->getScriptElement($geocode, $params);
 	}
 
 	/**

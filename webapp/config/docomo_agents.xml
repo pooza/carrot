@@ -117,6 +117,7 @@
   <KO210I color="1" depth="256" height="96" width="96" />
   <L-01B color="1" depth="262144" height="660" width="480" />
   <L-01C color="1" depth="262144" height="330" width="240" />
+  <L-03C color="1" depth="16777216" height="320" width="240" />
   <L600I color="1" depth="65536" height="189" width="170" />
   <L601I color="1" depth="65536" height="189" width="170" />
   <L602I color="1" depth="65536" height="189" width="170" />
@@ -304,6 +305,7 @@
   <SH-04C color="1" depth="16777216" height="656" width="480" />
   <SH-05A color="1" depth="16777216" height="592" width="480" />
   <SH-05B color="1" depth="16777216" height="646" width="480" />
+  <SH-05C color="1" depth="16777216" height="592" width="480" />
   <SH-06A color="1" depth="16777216" height="592" width="480" />
   <SH-06B color="1" depth="16777216" height="646" width="480" />
   <SH-07A color="1" depth="16777216" height="592" width="480" />
