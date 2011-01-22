@@ -31,6 +31,8 @@ class BSAnchorElement extends BSXHTMLElement {
 	public function setURL ($url) {
 		if ($url instanceof BSHTTPRedirector) {
 			$url = $url->getURL()->getContents();
+		} else if ($url instanceof BSURL) {
+			$url = $url->getContents();
 		}
 		$this->setAttribute('href', $url);
 	}
