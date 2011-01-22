@@ -61,6 +61,20 @@ var CarrotLib = {
     }
   },
 
+  handleGPS: function (href) {
+    navigator.geolocation.getCurrentPosition(
+      function (result) {
+        var params = {};
+        params.lat = result.coords.latitude;
+        params.lng = result.coords.longitude;
+        document.location.href = href + '?' + $H(params).toQueryString();
+      },
+      function () {
+        alert('Attempt to get location failed.');
+      }
+    );
+  },
+
   handleUploadProgress: function (element) {
     var progress = new JS_BRAMUS.jsProgressBar(element, 0);
     function updateProgress (request) {
