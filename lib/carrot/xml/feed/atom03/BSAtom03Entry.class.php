@@ -94,7 +94,7 @@ class BSAtom03Entry extends BSXMLElement implements BSFeedEntry {
 			if (!$element = $this->getElement($field)) {
 				$element = $this->createElement($field);
 			}
-			$element->setBody($date->format(DATE_RFC3339));
+			$element->setBody($date->format(DateTime::ATOM));
 		}
 	}
 

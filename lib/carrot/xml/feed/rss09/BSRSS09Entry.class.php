@@ -85,7 +85,7 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 		if (!$element = $this->getElement('pubDate')) {
 			$element = $this->createElement('pubDate');
 		}
-		$element->setBody($date->format(DATE_RFC2822));
+		$element->setBody($date->format(DateTime::RSS));
 	}
 
 	/**

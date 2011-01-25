@@ -48,7 +48,7 @@ class BSRSS10Entry extends BSRSS09Entry {
 		if (!$element = $this->getElement('dc:date')) {
 			$element = $this->createElement('dc:date');
 		}
-		$element->setBody($date->format(DATE_RFC3339));
+		$element->setBody($date->format(DateTime::W3C));
 	}
 }
 

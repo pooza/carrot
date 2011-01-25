@@ -36,7 +36,7 @@ class BSAtom10Document extends BSAtom03Document {
 		if (!$element = $this->getElement('updated')) {
 			$element = $this->createElement('updated');
 		}
-		$element->setBody($date->format(DATE_RFC3339));
+		$element->setBody($date->format(DateTime::ATOM));
 	}
 
 	/**

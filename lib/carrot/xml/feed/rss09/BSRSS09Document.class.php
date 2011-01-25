@@ -177,7 +177,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 		if (!$element = $this->getChannel()->getElement('lastBuildDate')) {
 			$element = $this->getChannel()->createElement('lastBuildDate');
 		}
-		$element->setBody($date->format(DATE_RFC2822));
+		$element->setBody($date->format(DateTime::RSS));
 	}
 
 	/**

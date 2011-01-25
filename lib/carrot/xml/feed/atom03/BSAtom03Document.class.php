@@ -190,7 +190,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 		if (!$element = $this->getElement('modified')) {
 			$element = $this->createElement('modified');
 		}
-		$element->setBody($date->format(DATE_RFC3339));
+		$element->setBody($date->format(DateTime::ATOM));
 	}
 
 	/**

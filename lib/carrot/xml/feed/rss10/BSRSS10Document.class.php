@@ -111,7 +111,7 @@ class BSRSS10Document extends BSRSS09Document {
 		if (!$element = $this->getChannel()->getElement('dc:date')) {
 			$element = $this->getChannel()->createElement('dc:date');
 		}
-		$element->setBody($date->format(DATE_RFC3339));
+		$element->setBody($date->format(DateTime::W3C));
 	}
 
 	/**
