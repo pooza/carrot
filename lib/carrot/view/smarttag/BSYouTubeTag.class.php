@@ -40,7 +40,6 @@ class BSYouTubeTag extends BSSmartTag {
 			$element = new BSYouTubeObjectElement;
 			$element->setUserAgent($this->getUserAgent());
 			$element->setMovie($this->tag[1], $params);
-
 			$element->setAttribute('width', $params['width']);
 			$element->setAttribute('height', $params['height']);
 			$replace = $element->getContents();
