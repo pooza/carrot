@@ -23,7 +23,7 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 	}
 
 	/**
-	 * サイトマップ情報を返す
+	 * 登録を加える
 	 *
 	 * @access public
 	 * @param BSHTTPRedirector $url 対象URL
