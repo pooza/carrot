@@ -66,6 +66,10 @@ class BSYouTubeService extends BSCurlHTTP {
 			$element->setMovie($id, $params);
 			$element->setAttribute('width', $params['width']);
 			$element->setAttribute('height', $params['height']);
+			if ($params['align']) {
+				$element->setStyle('width', $params['width']);
+				$element = $element->setAlignment($params['align']);
+			}
 		}
 		return $element;
 	}

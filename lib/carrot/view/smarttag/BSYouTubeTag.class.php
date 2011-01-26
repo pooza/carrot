@@ -31,10 +31,9 @@ class BSYouTubeTag extends BSSmartTag {
 	 */
 	public function execute ($body) {
 		try {
-			$params = new BSArray($this->getQueryParameters());
 			$service = new BSYouTubeService;
 			$service->setUserAgent($this->getUserAgent());
-			$element = $service->getElement($this->tag[1], $params);
+			$element = $service->getElement($this->tag[1], $this->getQueryParameters());
 			$replace = $element->getContents();
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());

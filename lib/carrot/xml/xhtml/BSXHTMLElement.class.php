@@ -169,6 +169,33 @@ class BSXHTMLElement extends BSXMLElement {
 	}
 
 	/**
+	 * コンテナの配置を設定して返す
+	 *
+	 * @access protected
+	 * @param string $value 配置
+	 * @return BSXHTMLElement ラッパー要素
+	 */
+	public function setAlignment ($value) {
+		if ($this->getUserAgent()->isMobile()) {
+			if ($container instanceof BSDivisionElement) {
+				$container = $this;
+			} else {
+				$container = $this->wrap(new BSDivisionElement);
+			}
+			$container->setAttribute('align', $value);
+		} else {
+			if ($value == 'center') {
+				$container = $this->wrap(new BSDivisionElement);
+				$container->setStyle('width', '100%');
+			} else {
+				$container = $this;
+			}
+			$container->registerStyleClass($value);
+		}
+		return $container;
+	}
+
+	/**
 	 * 内容をXMLで返す
 	 *
 	 * @access public
