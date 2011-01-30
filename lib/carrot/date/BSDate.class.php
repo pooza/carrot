@@ -8,7 +8,6 @@
  * 日付
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSDate implements ArrayAccess, BSAssignable {
 	const MON = 1;

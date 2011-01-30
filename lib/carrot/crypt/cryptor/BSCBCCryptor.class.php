@@ -10,7 +10,6 @@ BSUtility::includeFile('pear/Crypt/CBC');
  * CBC暗号
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSCBCCryptor extends Crypt_CBC implements BSCryptor {
 	private $salt;

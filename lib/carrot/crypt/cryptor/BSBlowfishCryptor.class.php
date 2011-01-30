@@ -10,7 +10,6 @@ BSUtility::includeFile('pear/Crypt/Blowfish');
  * Blowfish暗号
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSBlowfishCryptor extends Crypt_Blowfish implements BSCryptor {
 	private $salt;

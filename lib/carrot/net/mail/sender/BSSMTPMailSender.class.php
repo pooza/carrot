@@ -8,7 +8,6 @@
  * SMTPによるメール送信機能
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSSMTPMailSender extends BSMailSender {
 	static private $smtp;

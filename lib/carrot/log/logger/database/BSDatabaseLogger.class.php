@@ -8,7 +8,6 @@
  * データベース用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSDatabaseLogger extends BSLogger {
 	private $table;

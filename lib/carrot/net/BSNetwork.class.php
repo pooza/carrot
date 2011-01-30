@@ -8,7 +8,6 @@
  * サブネットワーク
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  * @link http://pear.php.net/package/Net_IPv4/ 参考
  */
 class BSNetwork extends BSHost {

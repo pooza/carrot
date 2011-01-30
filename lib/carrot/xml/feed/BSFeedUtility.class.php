@@ -10,7 +10,6 @@ require_once 'Zend/Feed.php';
  * フィードユーティリティ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSFeedUtility extends Zend_Feed {
 	const IGNORE_TITLE_PATTERN = '^(PR|AD):';

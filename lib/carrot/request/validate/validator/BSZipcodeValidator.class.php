@@ -8,7 +8,6 @@
  * 郵便番号バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSZipcodeValidator extends BSRegexValidator {
 	const PATTERN = '^([[:digit:]]{3})-([[:digit:]]{4})$';

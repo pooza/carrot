@@ -4,7 +4,6 @@
 // Multi-Byte FPDF                                       version: 1.26-kzhk
 //                                          $LastChangedRevision: 296 $
 // ※Carrot環境に合わせて一部修正
-// $Id$
 //--------------------------------------------------------------------------
 // Usage: AddMBFont(FontName,Encoding);
 //

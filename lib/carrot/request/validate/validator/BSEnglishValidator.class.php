@@ -8,7 +8,6 @@
  * 英字項目バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSEnglishValidator extends BSRegexValidator {
 	const PATTERN = '^[\\n[:ascii:]]*$';

@@ -25,7 +25,6 @@
  * {/jsonp}
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 function smarty_block_jsonp ($params, $contents, &$smarty) {
 	$params = new BSArray($params);

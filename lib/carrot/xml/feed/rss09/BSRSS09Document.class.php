@@ -8,7 +8,6 @@
  * RSS0.9x文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 	protected $version = '0.9';

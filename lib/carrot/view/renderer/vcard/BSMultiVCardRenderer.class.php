@@ -8,7 +8,6 @@
  * 複数の名刺を含むvCardレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSMultiVCardRenderer extends BSArray implements BSRenderer {
 	private $contents;

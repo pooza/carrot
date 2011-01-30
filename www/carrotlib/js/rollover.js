@@ -4,7 +4,6 @@
  * prototype.jsを使った実装。
  *
  * @package org.carrot-framework
- * @version $Id$
  * @link http://d.hatena.ne.jp/kazeburo/20051227/p1
  */
 

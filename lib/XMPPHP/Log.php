@@ -34,7 +34,6 @@
  * @author	 Stephan Wentz <JID: stephan@jabber.wentz.it>
  * @author	 Michael Garvin <JID: gar@netflint.net>
  * @copyright  2008 Nathanael C. Fritz
- * @version	$Id$
  */
 class XMPPHP_Log {
 	

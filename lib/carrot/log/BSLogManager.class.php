@@ -8,7 +8,6 @@
  * ログマネージャ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSLogManager implements IteratorAggregate {
 	private $loggers;

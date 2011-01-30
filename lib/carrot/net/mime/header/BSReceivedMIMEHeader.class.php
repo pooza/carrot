@@ -8,7 +8,6 @@
  * Receivedヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSReceivedMIMEHeader extends BSMIMEHeader {
 	protected $name = 'Received';

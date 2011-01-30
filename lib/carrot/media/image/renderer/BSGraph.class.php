@@ -10,7 +10,6 @@ BSUtility::includeFile('phplot/phplot');
  * グラフレンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSGraph extends PHPlot implements BSImageRenderer {
 	private $width;

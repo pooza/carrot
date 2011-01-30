@@ -8,7 +8,6 @@
  * ファイル用ロガー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSFileLogger extends BSLogger {
 	private $dates;

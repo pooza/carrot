@@ -3,7 +3,6 @@ awstats.confファイル テンプレート
 
 @package org.carrot-framework
 @author 小石達也 <tkoishi@b-shock.co.jp>
-@version $Id$
 *}
 LogFile="{$config.logfile}"
 SiteDomain="{$config.server_name}"

@@ -8,7 +8,6 @@
  * INI設定パーサー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSIniConfigParser implements BSConfigParser {
 	private $contents;

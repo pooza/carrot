@@ -8,7 +8,6 @@
  * SoftBankユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSSoftBankUserAgent extends BSMobileUserAgent {
 	const DEFAULT_NAME = 'SoftBank';

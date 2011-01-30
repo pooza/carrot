@@ -8,7 +8,6 @@
  * X-Mailerヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSXMailerMIMEHeader extends BSMIMEHeader {
 	protected $name = 'X-Mailer';

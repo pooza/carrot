@@ -8,7 +8,6 @@
  * Atom1.0エントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSAtom10Entry extends BSAtom03Entry {
 

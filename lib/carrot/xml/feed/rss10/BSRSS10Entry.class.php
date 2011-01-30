@@ -8,7 +8,6 @@
  * RSS1.0エントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSRSS10Entry extends BSRSS09Entry {
 

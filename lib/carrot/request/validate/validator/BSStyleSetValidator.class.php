@@ -8,7 +8,6 @@
  * スタイルセット選択バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class BSStyleSetValidator extends BSChoiceValidator {
 	protected function getChoices () {

@@ -5,7 +5,6 @@
  * @package org.carrot-framework
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 class LoginView extends BSSmartyView {
 	public function execute () {

@@ -8,7 +8,6 @@
  * BSGrooveTechnology 郵便番号検索クライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  * @link http://groovetechnology.co.jp/webservice/zipsearch/
  */
 class BSGrooveTechnologyZipcodeService extends BSCurlHTTP {

@@ -8,7 +8,6 @@
  * UserAgent種別修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
  */
 function smarty_modifier_user_agent_type ($value) {
 	if (is_array($value)) {
