@@ -10,7 +10,7 @@
  * あらゆるスマートタグにマッチし、変換せずにそのまま出力する。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSGenericTag extends BSSmartTag {
 

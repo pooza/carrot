@@ -8,7 +8,7 @@
  * URL省略修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 function smarty_modifier_truncate_url ($value, $length = 16) {
 	if (is_array($value)) {

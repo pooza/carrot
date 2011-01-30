@@ -8,7 +8,7 @@
  * HTTPSによるGETを強制するフィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSHTTPSFilter extends BSFilter {
 	public function initialize ($params = array()) {

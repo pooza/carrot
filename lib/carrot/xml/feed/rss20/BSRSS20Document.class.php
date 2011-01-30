@@ -8,7 +8,7 @@
  * RSS2.0文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSRSS20Document extends BSRSS09Document {
 	protected $version = '2.0';

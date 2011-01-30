@@ -8,7 +8,7 @@
  * vCard2.1レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 	private $contents;

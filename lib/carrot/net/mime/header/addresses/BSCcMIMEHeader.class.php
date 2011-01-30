@@ -8,7 +8,7 @@
  * CCヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSCcMIMEHeader extends BSAddressesMIMEHeader {
 	protected $name = 'Cc';

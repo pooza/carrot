@@ -8,7 +8,7 @@
  * ケータイ絵文字関数
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 function smarty_function_picto ($params, &$smarty) {
 	$pictogram = BSPictogram::getInstance($params['name']);

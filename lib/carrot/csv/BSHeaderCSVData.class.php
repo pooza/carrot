@@ -8,7 +8,7 @@
  * ヘッダ付きCSVデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSHeaderCSVData extends BSCSVData {
 	protected $fields;

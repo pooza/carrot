@@ -8,7 +8,7 @@
  * 絵文字タグ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSPictogramTag extends BSSmartTag {
 

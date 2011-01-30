@@ -10,7 +10,7 @@
  * onReadを適宜オーバライドして使用すること。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSSocketServer {
 	protected $attributes;

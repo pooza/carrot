@@ -8,7 +8,7 @@
  * 管理者ロール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSAdministratorRole implements BSRole {
 	protected $networks;

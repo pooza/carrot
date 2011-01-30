@@ -8,7 +8,7 @@
  * レコード検索
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSRecordFinder extends BSParameterHolder {
 	private $table;

@@ -8,7 +8,7 @@
  * 改行 リクエストフィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSNewLineRequestFilter extends BSRequestFilter {
 

@@ -13,7 +13,7 @@
  *     → $this->_tpl_vars['array']['var1'] = 'hoge';
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 function smarty_compiler_assign ($params, &$compiler) {
 	$params = new BSArray($compiler->_parse_attrs($params));

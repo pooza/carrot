@@ -8,7 +8,7 @@
  * 3GPP2への変換
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BS3GPP2MediaConvertor extends BSMediaConvertor {
 

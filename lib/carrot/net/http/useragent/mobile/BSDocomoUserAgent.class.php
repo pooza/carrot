@@ -8,7 +8,7 @@
  * Docomoユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
 	const DEFAULT_NAME = 'DoCoMo/2.0';

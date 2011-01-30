@@ -8,7 +8,7 @@
  * 3GPP動画ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BS3GPPMovieFile extends BSQuickTimeMovieFile {
 

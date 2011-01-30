@@ -8,7 +8,7 @@
  * Google URL Shortnerクライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	const DEFAULT_HOST = 'www.googleapis.com';

@@ -5,7 +5,7 @@
  * @package __PACKAGE__
  * @subpackage Default
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class LoginAction extends BSAction {
 	public function execute () {

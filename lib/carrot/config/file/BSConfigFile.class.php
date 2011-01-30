@@ -8,7 +8,7 @@
  * 設定ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSConfigFile extends BSFile {
 	private $config = array();

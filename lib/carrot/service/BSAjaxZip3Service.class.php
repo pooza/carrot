@@ -8,7 +8,7 @@
  * AjaxZip3クライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  * @link http://code.google.com/p/ajaxzip3/
  */
 class BSAjaxZip3Service extends BSCurlHTTP {

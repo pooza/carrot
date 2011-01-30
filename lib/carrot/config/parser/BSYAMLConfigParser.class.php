@@ -10,7 +10,7 @@ BSUtility::includeFile('spyc');
  * YAML設定パーサー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	private $contents;

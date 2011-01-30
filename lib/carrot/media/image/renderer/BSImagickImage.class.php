@@ -8,7 +8,7 @@
  * ImageMagick画像レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSImagickImage extends BSImage {
 

@@ -8,7 +8,7 @@
  * Google Chartクライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSGoogleChartService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'chart.apis.google.com';

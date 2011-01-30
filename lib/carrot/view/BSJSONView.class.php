@@ -8,7 +8,7 @@
  * API結果文書用 既定ビュー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSJSONView extends BSView {
 

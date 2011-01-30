@@ -8,7 +8,7 @@
  * 規定シリアライズストレージ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSDefaultSerializeStorage implements BSSerializeStorage {
 	private $attributes;

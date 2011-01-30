@@ -4,7 +4,7 @@
  * rollover.jsか、jQueryによる実装を推奨。
  *
  * @package org.carrot-framework
- * @version $Id$
+
  */
 
 function MM_swapImgRestore() { 

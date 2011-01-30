@@ -10,7 +10,7 @@
  * 原則的に、PHP標準の関数以外は使用してはならない。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSClassLoader {
 	private $classes = array();

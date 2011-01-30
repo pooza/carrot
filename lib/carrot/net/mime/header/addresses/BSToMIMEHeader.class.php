@@ -8,7 +8,7 @@
  * Toヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @version $Id$
+
  */
 class BSToMIMEHeader extends BSAddressesMIMEHeader {
 	protected $name = 'To';
