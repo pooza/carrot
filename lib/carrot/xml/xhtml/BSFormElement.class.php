@@ -8,7 +8,7 @@
  * form要素
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSFormElement extends BSXHTMLElement {
 	const ATTACHABLE_TYPE = 'multipart/form-data';

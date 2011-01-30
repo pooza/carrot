@@ -8,7 +8,7 @@
  * メール文面用フィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 function smarty_outputfilter_mail ($source, &$smarty) {
 	$mime = new BSMail;

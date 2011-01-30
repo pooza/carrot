@@ -8,7 +8,7 @@
  * ブログ更新Pingリクエスト
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSBlogUpdatePingRequest extends BSXMLDocument {
 	private $params;

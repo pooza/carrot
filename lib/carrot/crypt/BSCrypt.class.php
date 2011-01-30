@@ -8,7 +8,7 @@
  * 暗号化
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSCrypt {
 	private $engine;

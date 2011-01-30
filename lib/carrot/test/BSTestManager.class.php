@@ -8,7 +8,7 @@
  * テストマネージャ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSTestManager implements IteratorAggregate {
 	private $tests;

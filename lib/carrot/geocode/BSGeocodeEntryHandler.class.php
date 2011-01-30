@@ -8,7 +8,7 @@
  * ジオコード エントリーテーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSGeocodeEntryHandler extends BSTableHandler {
 	const PATTERN = '^((lat|lng)=[[:digit:]]+\\.[[:digit:]]+([ ,]+)?)+$';

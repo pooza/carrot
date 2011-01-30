@@ -8,7 +8,7 @@
  * HTTPスキーマのURL
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	private $fullpath;

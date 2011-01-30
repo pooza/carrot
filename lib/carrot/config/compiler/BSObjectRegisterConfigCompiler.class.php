@@ -8,7 +8,7 @@
  * オブジェクト登録設定コンパイラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {

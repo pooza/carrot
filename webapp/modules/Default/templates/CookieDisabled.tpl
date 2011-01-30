@@ -4,7 +4,7 @@ Cookie無効時テンプレート
 @package org.carrot-framework
 @subpackage Default
 @author 小石達也 <tkoishi@b-shock.co.jp>
-
+@version $Id$
 *}
 {include file='UserHeader'}
 Cookieが有効でない可能性があります。<br/>

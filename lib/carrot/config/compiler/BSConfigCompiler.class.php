@@ -8,7 +8,7 @@
  * 抽象設定コンパイラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 abstract class BSConfigCompiler extends BSParameterHolder {
 	private $body;

@@ -8,7 +8,7 @@
  * Google sitemap.xml サイトマップ文書
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  * @link http://www.google.com/support/webmasters/bin/answer.py?hl=ja&answer=183668
  */
 class BSSiteMapXMLDocument extends BSXMLDocument {

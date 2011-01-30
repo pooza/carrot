@@ -8,7 +8,7 @@
  * カレンダー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSCalendar implements IteratorAggregate {
 	private $dates;

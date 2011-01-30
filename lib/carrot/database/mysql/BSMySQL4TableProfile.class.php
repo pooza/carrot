@@ -8,7 +8,7 @@
  * MySQL4.x以前のテーブルのプロフィール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSMySQL4TableProfile extends BSMySQLTableProfile {
 

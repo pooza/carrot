@@ -8,7 +8,7 @@
  * XHTMLの要素
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSXHTMLElement extends BSXMLElement {
 	protected $tag;

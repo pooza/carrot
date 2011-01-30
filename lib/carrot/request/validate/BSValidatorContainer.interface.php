@@ -8,7 +8,7 @@
  * バリデート可能なクラスへのインターフェース
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 interface BSValidatorContainer {
 

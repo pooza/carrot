@@ -1,6 +1,6 @@
 <?php
 // ※Carrot環境に合わせて一部修正
-
+// $Id$
 
 /* 変換後の絵文字タイプ */
 define('MPC_TO_FOMA'    , 'FOMA');

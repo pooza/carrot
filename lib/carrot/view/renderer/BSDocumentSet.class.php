@@ -10,7 +10,7 @@
  * BSJavaScriptSet/BSStyleSetの基底クラス
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  * @abstract
  */
 abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, IteratorAggregate {

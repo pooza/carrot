@@ -8,7 +8,7 @@
  * 禁止されたUserAgent
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSDeniedUserAgentFilter extends BSFilter {
 	public function initialize ($params = array()) {

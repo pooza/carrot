@@ -3,7 +3,7 @@
 
 @package __PACKAGE__
 @author 小石達也 <tkoishi@b-shock.co.jp>
-
+@version $Id$
 *}
 <div id="Footer">
 {const name='app_name_en'} {const name='app_ver'}

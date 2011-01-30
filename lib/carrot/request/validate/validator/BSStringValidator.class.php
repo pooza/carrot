@@ -8,7 +8,7 @@
  * 文字列バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSStringValidator extends BSValidator {
 	const MAX_SIZE = 1024;

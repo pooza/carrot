@@ -8,7 +8,7 @@
  * エンコード強制変換フィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 function smarty_outputfilter_encoding ($source, &$smarty) {
 	$source = BSString::convertEncoding($source, $smarty->getEncoding(), 'utf-8');

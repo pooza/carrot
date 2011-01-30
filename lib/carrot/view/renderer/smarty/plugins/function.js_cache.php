@@ -8,7 +8,7 @@
  * JavaScriptキャッシュ関数
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 function smarty_function_js_cache ($params, &$smarty) {
 	$params = new BSArray($params);

@@ -8,7 +8,7 @@
  * Content-Transfer-Encodingヘッダ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSContentTransferEncodingMIMEHeader extends BSMIMEHeader {
 	protected $name = 'Content-Transfer-Encoding';

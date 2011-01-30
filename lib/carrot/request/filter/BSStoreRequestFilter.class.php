@@ -8,7 +8,7 @@
  * リクエストを保存するフィルタ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSStoreRequestFilter extends BSRequestFilter {
 

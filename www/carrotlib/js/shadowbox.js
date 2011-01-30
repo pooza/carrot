@@ -2,7 +2,7 @@
  * Shadowbox.js carrot対応版
  *
  * @package org.carrot-framework
-
+ * @version $Id$
  */
 
 /*!

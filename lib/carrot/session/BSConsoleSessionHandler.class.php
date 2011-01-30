@@ -10,7 +10,7 @@
  * セッション機能が必要な状況がない為、現状は単なるモック。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSConsoleSessionHandler extends BSSessionHandler {
 

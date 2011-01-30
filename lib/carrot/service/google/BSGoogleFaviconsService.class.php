@@ -8,7 +8,7 @@
  * Google faviconsクライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSGoogleFaviconsService extends BSCurlHTTP {
 	const DEFAULT_HOST = 'www.google.com';

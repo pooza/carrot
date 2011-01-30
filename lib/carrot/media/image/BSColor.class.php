@@ -8,7 +8,7 @@
  * 色
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSColor extends BSParameterHolder {
 	const DEFAULT_COLOR = 'black';

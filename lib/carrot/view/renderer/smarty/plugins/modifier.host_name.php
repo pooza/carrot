@@ -8,7 +8,7 @@
  * URLからホスト名を抽出する修飾子
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 function smarty_modifier_host_name ($value) {
 	if (is_array($value)) {

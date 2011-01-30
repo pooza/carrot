@@ -8,7 +8,7 @@
  * POP3プロトコル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSPOP3 extends BSSocket {
 	private $mails;

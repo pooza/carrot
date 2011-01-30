@@ -8,7 +8,7 @@
  * 画像ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable {
 	protected $renderer;

@@ -8,7 +8,7 @@
  * JabberIDバリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSJabberIDValidator extends BSRegexValidator {
 	const PATTERN = '^([-_.[:alnum:]]+)@(([-_.[:alnum:]]+)+[[:alpha:]]+)(/([-_[:alnum:]]+))?$';

@@ -8,7 +8,7 @@
  * 基底ビュー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSView extends BSHTTPResponse {
 	protected $nameSuffix;

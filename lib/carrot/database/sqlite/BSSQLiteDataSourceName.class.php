@@ -8,7 +8,7 @@
  * SQLite用データソース名
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSSQLiteDataSourceName extends BSDataSourceName {
 

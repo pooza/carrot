@@ -8,7 +8,7 @@
  * フリガナ項目バリデータ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSKanaValidator extends BSRegexValidator {
 	const PATTERN = '^[ぁ-んァ-ンヴー\\n[:digit:]]*$';

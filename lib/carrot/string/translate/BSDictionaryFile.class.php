@@ -8,7 +8,7 @@
  * 辞書ファイル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	private $words;

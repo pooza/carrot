@@ -8,7 +8,7 @@
  * アクション実行
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {

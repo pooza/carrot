@@ -7,7 +7,7 @@
  * 定数ハンドラ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	static private $instance;

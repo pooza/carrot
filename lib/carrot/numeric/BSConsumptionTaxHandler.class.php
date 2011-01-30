@@ -12,7 +12,7 @@
  * $price = $tax->includeTax(100, BSDate::getInstance(19890401));
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSConsumptionTaxHandler {
 	private $rates;

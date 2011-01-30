@@ -12,7 +12,7 @@ BSUtility::includeFile('fpdf/mbfpdf');
  * MBFPDFラッパー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 class BSFPDF extends MBFPDF implements BSRenderer {
 	private $error;

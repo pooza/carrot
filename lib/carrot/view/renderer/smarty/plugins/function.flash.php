@@ -8,7 +8,7 @@
  * Flashムービー関数
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
-
+ * @version $Id$
  */
 function smarty_function_flash ($params, &$smarty) {
 	$params = new BSArray($params);
