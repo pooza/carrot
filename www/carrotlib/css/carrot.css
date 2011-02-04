@@ -161,6 +161,18 @@ table th.holiday {
 	border:solid 1px gray;
 }
 
+.clearfix:after{ /*for modern browser*/
+	content:".";
+	display: block;
+	height:0px;
+	clear:both;
+	line-height:0; 
+	visibility:hidden;
+}
+.clearfix { /*for IE 5.5-7*/
+	zoom:1;
+}
+
 #Contents {
 	margin-left: 160px;
 }
