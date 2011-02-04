@@ -23,8 +23,7 @@ ol,ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-left: -20px;
-	_margin-left: 20px; /* IE6 Hack */
-	/margin-left: 20px; /* IE7 Hack */
+	/margin-left: 20px; /* IE6,IE7 */
 }
 
 h1,h2,h3,h4,h5,h6,h7 {
@@ -159,6 +158,18 @@ table th.holiday {
 	margin:6px;
 	padding:3px;
 	border:solid 1px gray;
+}
+
+.clearfix:after{ /*for modern browser*/
+	content:".";
+	display: block;
+	height:0px;
+	clear:both;
+	line-height:0; 
+	visibility:hidden;
+}
+.clearfix { /*for IE 5.5-7*/
+	zoom:1;
 }
 
 #Contents {
