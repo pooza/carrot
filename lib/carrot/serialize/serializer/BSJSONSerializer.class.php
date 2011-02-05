@@ -30,6 +30,10 @@ class BSJSONSerializer implements BSSerializer {
 	 */
 	public function encode ($value) {
 		$value = BSString::convertEncoding($value, 'utf-8');
+		if (BSArray::isArray($value)) {
+			$value = new BSArray($value);
+			$value = $value->decode();
+		}
 		return json_encode($value);
 	}
 
