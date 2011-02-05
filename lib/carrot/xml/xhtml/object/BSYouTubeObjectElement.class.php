@@ -41,6 +41,7 @@ class BSYouTubeObjectElement extends BSObjectElement {
 		$url->setParameters($params);
 
 		$this->setAttribute('data', $url->getContents());
+		$this->setParameter('movie', $url->getContents());
 	}
 }
 
