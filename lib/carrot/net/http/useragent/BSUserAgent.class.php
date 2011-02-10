@@ -278,6 +278,16 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * タブレット型か？
+	 *
+	 * @access public
+	 * @return boolean タブレット型ならTrue
+	 */
+	public function isTablet () {
+		return false;
+	}
+
+	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public

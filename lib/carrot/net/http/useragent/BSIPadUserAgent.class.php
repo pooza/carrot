@@ -21,6 +21,16 @@ class BSIPadUserAgent extends BSWebKitUserAgent {
 	}
 
 	/**
+	 * タブレット型か？
+	 *
+	 * @access public
+	 * @return boolean タブレット型ならTrue
+	 */
+	public function isTablet () {
+		return true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
