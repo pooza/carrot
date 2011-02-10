@@ -20,6 +20,6 @@ carrot:
     - yahoo.color
     - color_picker
     - jsProgressBarHandler
-    - flowplayer-3.2.0
+    - flowplayer-3.2.4
     - carrot
     - application

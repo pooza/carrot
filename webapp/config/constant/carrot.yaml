@@ -150,9 +150,9 @@ movie:
   flv:
     player:
       height: 0
-      href: /carrotlib/swf/flowplayer-3.2.1.swf
+      href: /carrotlib/swf/flowplayer-3.2.5.swf
       control_bar:
-        href: /carrotlib/swf/flowplayer.controls-3.2.0.swf
+        href: /carrotlib/swf/flowplayer.controls-3.2.3.swf
   wmv:
     player:
       clsid: 6BF52A52-394A-11d3-B153-00C04F79FAA6
