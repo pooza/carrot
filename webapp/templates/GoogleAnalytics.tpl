@@ -7,7 +7,8 @@ GoogleAnalyticsテンプレート
 
 <script type="text/javascript">
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-{$google_analytics.id}']);
+_gaq.push(['_setAccount', 'UA-{$params.id}']);
+_gaq.push(['_setDomainName', '{$params.domain}']);
 _gaq.push(['_trackPageview']);
 
 (function() {ldelim}

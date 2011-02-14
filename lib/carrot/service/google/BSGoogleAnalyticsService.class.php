@@ -9,14 +9,24 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSGoogleAnalyticsService implements BSAssignable {
-	private $id;
+class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable {
 	static private $instance;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
+		$this['id'] = BS_SERVICE_GOOGLE_ANALYTICS_ID;
+		$this['domain'] = $this->getRootDomainName();
+	}
+
+	private function getRootDomainName () {
+		$domain = BSString::explode('.', BSController::getInstance()->getHost()->getName());
+		if ($domain->shift() == 'test') {
+			$domain->shift();
+		}
+		$domain->unshift(null);
+		return $domain->join('.');
 	}
 
 	/**
@@ -47,13 +57,7 @@ class BSGoogleAnalyticsService implements BSAssignable {
 	 * @return string アカウントID
 	 */
 	public function getID () {
-		if (!$this->id) {
-			if (BSString::isBlank($id = BS_SERVICE_GOOGLE_ANALYTICS_ID)) {
-				throw new BSServiceException('GoogleAnalyticsのアカウントIDが未定義です。');
-			}
-			$this->id = $id;
-		}
-		return $this->id;
+		return $this['id'];
 	}
 
 	/**
@@ -63,7 +67,7 @@ class BSGoogleAnalyticsService implements BSAssignable {
 	 * @param string $id アカウントID
 	 */
 	public function setID ($id) {
-		$this->id = $id;
+		$this['id'] = $id;
 	}
 
 	/**
@@ -89,7 +93,7 @@ class BSGoogleAnalyticsService implements BSAssignable {
 			$renderer = new BSSmarty;
 			$renderer->setUserAgent($useragent);
 			$renderer->setTemplate('GoogleAnalytics');
-			$renderer->setAttribute('google_analytics', $this);
+			$renderer->setAttribute('params', $this);
 		}
 		return $renderer->getContents();
 	}
@@ -121,9 +125,7 @@ class BSGoogleAnalyticsService implements BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignValue () {
-		return new BSArray(array(
-			'id' => $this->getID(),
-		));
+		return $this->params;
 	}
 }
 
