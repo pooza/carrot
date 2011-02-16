@@ -11,6 +11,16 @@
  * @abstract
  */
 class BSFilterSet extends BSArray {
+	static private $executed;
+
+	/**
+	 * @access public
+	 */
+	public function __construct () {
+		if (!self::$executed) {
+			self::$executed = new BSArray;
+		}
+	}
 
 	/**
 	 * 実行
@@ -19,8 +29,11 @@ class BSFilterSet extends BSArray {
 	 */
 	public function execute () {
 		foreach ($this as $filter) {
-			if ($filter->execute()) {
-				exit;
+			if ($filter->isMultiExecutable() || !self::$executed[$filter->getName()]) {
+				if ($filter->execute()) {
+					exit;
+				}
+				self::$executed[$filter->getName()] = 1;
 			}
 		}
 	}

@@ -103,6 +103,10 @@ musics:
   suffix: .mp3
 mysql:
   constant: yes
+output:
+  parent: var
+  purge:
+    day: 7
 pictogram:
   parent: images
 png2ico:

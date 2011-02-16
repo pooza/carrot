@@ -16,6 +16,8 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	protected $config;
 	protected $module;
 	protected $methods;
+	protected $renderResource;
+	protected $renderDigest;
 
 	/**
 	 * @access public
@@ -69,6 +71,61 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			$method = 'GET';
 		}
 		return $this->getRequestMethods()->isContain($method);
+	}
+
+	/**
+	 * キャッシュできるか？
+	 *
+	 * BSRenderManagerでレンダリング結果をキャッシュできるか。
+	 *
+	 * @access public
+	 * @return boolean キャッシュできるならTrue
+	 */
+	public function isCacheable () {
+		return false;
+	}
+
+	/**
+	 * キャッシュされているか？
+	 *
+	 * BSRenderManagerでレンダリング結果がキャッシュされているか。
+	 *
+	 * @access public
+	 * @return boolean キャッシュされているならTrue
+	 */
+	public function isCached () {
+		return $this->isCacheable() && BSRenderManager::getInstance()->hasCache($this);
+	}
+
+	/**
+	 * レンダーリソースを返す
+	 *
+	 * @access public
+	 * @return string レンダーリソース
+	 */
+	public function getRenderResource () {
+		if (!$this->renderResource) {
+			$resource = new BSArray;
+			$resource[] = $this->getModule()->getName();
+			$resource[] = $this->getName();
+			$this->renderResource = $resource->join('_');
+		}
+		return $this->renderResource;
+	}
+
+	/**
+	 * レンダーダイジェストを返す
+	 *
+	 * @access public
+	 * @return string レンダーダイジェスト
+	 */
+	public function getRenderDigest () {
+		if (!$this->renderDigest) {
+			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+				$this->getName(),
+			)));
+		}
+		return $this->renderDigest;
 	}
 
 	/**

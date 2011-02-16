@@ -73,6 +73,40 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
+	 * レンダーリソースを返す
+	 *
+	 * @access public
+	 * @return string レンダーリソース
+	 */
+	public function getRenderResource () {
+		if (!$this->renderResource) {
+			$resource = new BSArray;
+			$resource[] = $this->getModule()->getName();
+			$resource[] = $this->getName();
+			$resource[] = sprintf('%08d', $this->getRecord()->getID());
+			$this->renderResource = $resource->join('_');
+		}
+		return $this->renderResource;
+	}
+
+	/**
+	 * レンダーダイジェストを返す
+	 *
+	 * @access public
+	 * @return string レンダーダイジェスト
+	 */
+	public function getRenderDigest () {
+		if (!$this->renderDigest) {
+			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+				$this->getName(),
+				$this->getRecord()->getID(),
+				$this->getRecord()->getUpdateDate()->format('YmdHis'),
+			)));
+		}
+		return $this->renderDigest;
+	}
+
+	/**
 	 * 更新レコードのフィールド値を配列で返す
 	 *
 	 * @access protected

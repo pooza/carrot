@@ -11,18 +11,24 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {
-		$view = $this->executeAction();
-		$this->executeView($view);
+		if ($this->action->isCacheable()) {
+			$manager = BSRenderManager::getInstance();
+			if ($view = $manager->getCache($this->action)) {
+				$this->doView($view);
+			} else {
+				if ($view = $this->doAction()) {
+					$manager->cache($this->doView($view));
+				} else {
+					$this->doView($view);
+				}
+			}
+		} else {
+			$this->doView($this->doAction());
+		}
 		return true;
 	}
 
-	/**
-	 * アクションを実行する
-	 *
-	 * @access private
-	 * @return string ビュー名、ビューが必要ない場合は空文字列
-	 */
-	private function executeAction () {
+	private function doAction () {
 		if ($this->action->isExecutable()) {
 			if ($file = $this->action->getValidationFile()) {
 				BSConfigManager::getInstance()->compile($file);
@@ -37,19 +43,26 @@ class BSExecutionFilter extends BSFilter {
 		}
 	}
 
-	/**
-	 * ビューを実行する
-	 *
-	 * @access private
-	 * @param integer $name ビュー名
-	 */
-	private function executeView ($name) {
-		$view = $this->action->getView($name);
+	private function doView ($view) {
+		if (!($view instanceof BSView)) {
+			$view = $this->action->getView($view);
+		}
 		if (!$view->initialize()) {
 			throw new BSViewException($view . 'が初期化できません。');
 		}
 		$view->execute();
 		$view->render();
+		return $view;
+	}
+
+	/**
+	 * 二度目も実行するか
+	 *
+	 * @access public
+	 * @return string フィルタ名
+	 */
+	public function isMultiExecutable () {
+		return true;
 	}
 }
 

@@ -23,6 +23,16 @@ class BSSecurityFilter extends BSFilter {
 			return $this->controller->getAction()->deny();
 		}
 	}
+
+	/**
+	 * 二度目も実行するか
+	 *
+	 * @access public
+	 * @return string フィルタ名
+	 */
+	public function isMultiExecutable () {
+		return true;
+	}
 }
 
 /* vim:set tabstop=4: */

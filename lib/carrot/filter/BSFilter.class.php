@@ -65,6 +65,16 @@ abstract class BSFilter extends BSParameterHolder {
 	 * @return boolean 終了ならばTrue
 	 */
 	abstract public function execute ();
+
+	/**
+	 * 二度目も実行するか
+	 *
+	 * @access public
+	 * @return string フィルタ名
+	 */
+	public function isMultiExecutable () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */

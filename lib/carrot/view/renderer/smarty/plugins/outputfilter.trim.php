@@ -10,7 +10,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_outputfilter_trim ($source, &$smarty) {
-	return trim($source);
+	$source = trim($source);
+	$source = mb_ereg_replace('[ \\t]*\\n\\t*', "\n", $source);
+	$source = mb_ereg_replace('\\n+', "\n", $source);
+	return $source;
 }
 
 /* vim:set tabstop=4: */

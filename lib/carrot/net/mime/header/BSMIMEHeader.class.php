@@ -222,6 +222,16 @@ class BSMIMEHeader extends BSParameterHolder {
 	}
 
 	/**
+	 * キャッシュ可能か？
+	 *
+	 * @access public
+	 * @return boolean キャッシュ可能ならばTrue
+	 */
+	public function isCacheable () {
+		return true;
+	}
+
+	/**
 	 * 複数行を許容するか？
 	 *
 	 * @access public

@@ -11,6 +11,16 @@
  */
 class BSExpiresMIMEHeader extends BSDateMIMEHeader {
 	protected $name = 'Expires';
+
+	/**
+	 * キャッシュ可能か？
+	 *
+	 * @access public
+	 * @return boolean キャッシュ可能ならばTrue
+	 */
+	public function isCacheable () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */
