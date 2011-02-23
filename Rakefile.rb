@@ -4,7 +4,6 @@
 #
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
-# @version $Id: Rakefile.rb 2448 2011-01-02 06:16:45Z pooza $
 
 $KCODE = 'u'
 require 'yaml'
