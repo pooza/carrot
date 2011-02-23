@@ -4,7 +4,7 @@
 #
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
-# @version $Id$
+# @version $Id: Rakefile.rb 2448 2011-01-02 06:16:45Z pooza $
 
 $KCODE = 'u'
 require 'yaml'
@@ -40,10 +40,18 @@ namespace :var do
   desc '各種キャッシュをクリア'
   task :clean => [
     'config:clean',
+    'output:clean',
     'css:clean',
     'js:clean',
     'images:cache:clean',
   ]
+
+  namespace :output do
+    desc 'レンダーキャッシュをクリア'
+    task :clean do
+      sh 'rm -R var/output/*'
+    end
+  end
 
   namespace :images do
     namespace :cache do
@@ -51,7 +59,7 @@ namespace :var do
 
       desc 'イメージキャッシュをクリア'
       task :clean do
-        sh 'sudo rm -R var/image_cache/*'
+        sh 'rm -R var/image_cache/*'
       end
 
       file 'www/carrotlib/images/cache' do
