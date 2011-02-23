@@ -156,7 +156,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 * @return string 置換された文字列
 	 * @static
 	 */
-	static protected function escape ($value) {
+	static public function escape ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::escape($item);
@@ -177,7 +177,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 * @return string 置換された文字列
 	 * @static
 	 */
-	static protected function unescape ($value) {
+	static public function unescape ($value) {
 		if (BSArray::isArray($value)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::escape($item);
