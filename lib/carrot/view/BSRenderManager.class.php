@@ -101,6 +101,15 @@ class BSRenderManager {
 		return !!$this->getResourceDirectory($action)->getEntry($action->getRenderDigest());
 	}
 
+	/**
+	 * 全てのキャッシュをクリア
+	 *
+	 * @access public
+	 */
+	public function clear () {
+		BSFileUtility::getDirectory('output')->clear();
+	}
+
 	private function getResourceDirectory (BSAction $action) {
 		$dir = BSFileUtility::getDirectory('output');
 		if (!$entry = $dir->getEntry($action->getRenderResource())) {
