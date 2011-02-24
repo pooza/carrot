@@ -15,7 +15,7 @@
 
 {include file='ErrorMessages'}
 
-{form attachable=true}
+{form  onsubmit=''attachable=true}
 	<div class="alert">現在の状態をバックアップすることを強くお勧めします。</div>
 	<input type="file" name="file" value="アップロード" />
 	<input type="submit" value="実行" />
