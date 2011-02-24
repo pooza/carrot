@@ -73,6 +73,22 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * レンダーダイジェストを返す
+	 *
+	 * @access public
+	 * @return string レンダーダイジェスト
+	 */
+	public function getRenderDigest () {
+		if (!$this->renderDigest) {
+			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+				__CLASS__,
+				$this->getVersion(),
+			)));
+		}
+		return $this->renderDigest;
+	}
+
+	/**
 	 * レガシー環境/旧機種か？
 	 *
 	 * @access public

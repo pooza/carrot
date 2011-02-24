@@ -196,6 +196,22 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	}
 
 	/**
+	 * レンダーダイジェストを返す
+	 *
+	 * @access public
+	 * @return string レンダーダイジェスト
+	 */
+	public function getRenderDigest () {
+		if (!$this->renderDigest) {
+			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+				get_class($this),
+				$this->getDisplayInfo()->getParameter('width'),
+			)));
+		}
+		return $this->renderDigest;
+	}
+
+	/**
 	 * 端末IDを返す
 	 *
 	 * @access public

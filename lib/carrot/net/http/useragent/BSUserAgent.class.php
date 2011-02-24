@@ -14,6 +14,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	private $type;
 	protected $attributes;
 	protected $bugs;
+	protected $renderDigest;
 	static private $denied;
 	const ACCESSOR = 'ua';
 	const DEFAULT_NAME = 'Mozilla/4.0';
@@ -285,6 +286,21 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	 */
 	public function isTablet () {
 		return false;
+	}
+
+	/**
+	 * レンダーダイジェストを返す
+	 *
+	 * @access public
+	 * @return string レンダーダイジェスト
+	 */
+	public function getRenderDigest () {
+		if (!$this->renderDigest) {
+			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+				__CLASS__,
+			)));
+		}
+		return $this->renderDigest;
 	}
 
 	/**

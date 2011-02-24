@@ -201,7 +201,7 @@ class BSView extends BSHTTPResponse {
 				return true;
 			}
 		}
-		return !BS_DEBUG && $this->user->isGuest();
+		return $this->user->isGuest();
 	}
 
 	/**
