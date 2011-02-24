@@ -107,6 +107,10 @@ class BSBackupManager {
 	 * @param BSFile $file アーカイブファイル
 	 */
 	public function restore (BSFile $file) {
+		if (!$this->isRestoreable()) {
+			throw new BSFileException('この環境はリストアできません。');
+		}
+
 		$zip = new BSZipArchive;
 		$zip->open($file->getPath());
 		$dir = BSFileUtility::getDirectory('tmp')->createDirectory(BSUtility::getUniqueID());
@@ -137,6 +141,21 @@ class BSBackupManager {
 		$zip->close();
 		$dir->delete();
 		BSConfigManager::getInstance()->clearCache();
+	}
+
+	/**
+	 * リストアに対応した環境か？
+	 *
+	 * @access public
+	 * @return boolean リストアに対応した環境ならTrue
+	 */
+	public function isRestoreable () {
+		foreach ($this->config['databases'] as $name) {
+			if (($db = BSDatabase::getInstance($name)) && !($db instanceof BSSQLiteDatabase)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
 

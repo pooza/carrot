@@ -22,11 +22,19 @@ class RestoreAction extends BSAction {
 	}
 
 	public function getDefaultView () {
+		$this->request->setAttribute(
+			'is_restoreable',
+			BSBackupManager::getInstance()->isRestoreable()
+		);
 		return BSView::INPUT;
 	}
 
 	public function handleError () {
 		return $this->getDefaultView();
+	}
+
+	public function validate () {
+		return parent::validate() && BSBackupManager::getInstance()->isRestoreable();
 	}
 }
 
