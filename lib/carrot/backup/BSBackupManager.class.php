@@ -79,20 +79,22 @@ class BSBackupManager {
 		$zip = new BSZipArchive;
 		$zip->open();
 		foreach ($this->config['databases'] as $name) {
-			if (!$db = BSDatabase::getInstance($name)) {
-				$message = new BSStringFormat('データベース "%s" が見つかりません。');
-				$message[] = $name;
-				throw new BSDatabaseException($message);
+			if ($db = BSDatabase::getInstance($name)) {
+				$zip->register($db->getBackupTarget());
 			}
-			$zip->register($db->getBackupTarget());
 		}
 		foreach ($this->config['directories'] as $name) {
-			if (!$dir = BSFileUtility::getDirectory($name)) {
-				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
-				$message[] = $name;
-				throw new BSFileException($message);
+			if ($dir = BSFileUtility::getDirectory($name)) {
+				$zip->register($dir, null, BSDirectory::WITHOUT_ALL_IGNORE);
 			}
-			$zip->register($dir, null, BSDirectory::WITHOUT_ALL_IGNORE);
+		}
+		$dir = BSFileUtility::getDirectory('serialized');
+		foreach (new BSArray($this->config['serializes']) as $name) {
+			foreach (array('.json', '.serialized') as $suffix) {
+				if ($entry = $dir->getEntry($name . $suffix)) {
+					$zip->register($entry);
+				}
+			}
 		}
 		$zip->close();
 		return $zip;
@@ -121,6 +123,13 @@ class BSBackupManager {
 					if (!$file->isIgnore()) {
 						$file->moveTo($dest);
 					}
+				}
+			}
+		}
+		foreach (new BSArray($this->config['serializes']) as $name) {
+			foreach (array('.json', '.serialized') as $suffix) {
+				if ($file = $dir->getEntry($name . $suffix)) {
+					$file->moveTo(BSFileUtility::getDirectory('serialized'));
 				}
 			}
 		}

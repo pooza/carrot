@@ -15,7 +15,7 @@
 
 {include file='ErrorMessages'}
 
-{form}
+{form onsubmit=''}
 	バックアップファイルをダウンロードします。<br/>
 	<input type="submit" value="実行" />
 {/form}
