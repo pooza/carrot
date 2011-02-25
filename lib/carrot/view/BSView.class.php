@@ -201,7 +201,7 @@ class BSView extends BSHTTPResponse {
 				return true;
 			}
 		}
-		return $this->user->isGuest();
+		return (BS_APP_HTTP_CACHE_MODE != 'no-cache') && $this->user->isGuest();
 	}
 
 	/**
