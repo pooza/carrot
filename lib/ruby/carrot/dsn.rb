@@ -13,7 +13,7 @@ class DSN
     @dsn = Constants.new['BS_PDO_' + name + '_DSN']
     dsn = @dsn.split(':')
     @scheme = dsn[0]
-    @db = dsn[1].sub!('%BS_VAR_DIR%', 'var')
+    @db = dsn[1].sub!('%BS_VAR_DIR%', ROOT_DIR + '/var')
   end
 
   def install
