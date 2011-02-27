@@ -6,7 +6,13 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 $KCODE = 'u'
+
+ROOT_DIR = File.dirname(File.expand_path(__FILE__))
+$LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
+
 require 'yaml'
+require 'carrot/constants'
+require 'carrot/dsn'
 require 'webapp/config/Rakefile.local'
 
 desc 'インストールを実行'
@@ -191,69 +197,7 @@ namespace :svn do
   end
 
   def media_types
-    return YAML.load_file('webapp/config/mime.yaml')['types']
+    return YAML.load_file(ROOT_DIR + '/webapp/config/mime.yaml')['types']
   end
 end
 
-class Constants
-  def initialize
-    @constants = Hash.new
-    ['carrot', 'package', 'application', server_name].each do |name|
-      begin
-        path = 'webapp/config/constant/' + name + '.yaml';
-        @constants.update(flatten('BS', YAML.load_file(path), '_'))
-      rescue
-      end
-    end
-  end
-
-  def [] (name)
-    return @constants[name.upcase]
-  end
-
-  def flatten (prefix, node, glue)
-    contents = Hash.new
-    if node.instance_of?(Hash)
-      node.each do |key, value|
-        key = prefix + glue + key
-        contents.update(flatten(key, value, glue))
-      end
-    else
-      contents[prefix.upcase] = node
-    end
-    return contents
-  end
-
-  def server_name
-    return File.basename(File.dirname(File.expand_path(__FILE__)))
-  end
-end
-
-class DSN
-  def initialize (name)
-    @name = name
-    @dsn = Constants.new['BS_PDO_' + name + '_DSN']
-    dsn = @dsn.split(':')
-    @scheme = dsn[0]
-    @db = dsn[1].sub!('%BS_VAR_DIR%', 'var')
-  end
-
-  def install
-    raise 'invalid scheme: ' + @scheme if @scheme != 'sqlite'
-    sh 'sudo rm ' + @db if File.exists?(@db)
-    sh 'sqlite3 "' + @db + '" < ' + self.schema_file
-    sh 'chmod 666 ' + @db
-  end
-
-  def schema_file
-    ['_init', ''].each do |suffix|
-      ['.sqlite.sql', '.sql'].each do |extension|
-        path = 'share/sql/' + @name.downcase + suffix + extension
-        if File.exists?(path)
-          return path
-        end
-      end
-    end
-    raise 'invalid schema file'
-  end
-end
