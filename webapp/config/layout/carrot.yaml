@@ -122,6 +122,8 @@ request:
     day: 7
 root:
   constant: yes
+ruby:
+  constant: yes
 sample:
   parent: share
 sendmail:

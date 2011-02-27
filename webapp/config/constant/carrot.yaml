@@ -200,6 +200,8 @@ proctools:
 request:
   validate:
     strict: no
+ruby:
+  dir: /usr/local
 sendmail:
   dir: /usr
 serialize:
