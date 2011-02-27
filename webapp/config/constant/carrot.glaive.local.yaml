@@ -30,6 +30,9 @@ mysql:
 pgsql:
   dir: /opt/local/lib/postgresql84
 
+php:
+  dir: /opt/local
+
 awstats:
   log_dir: /var/log/httpd/www.example.com
   server_name_aliases: 

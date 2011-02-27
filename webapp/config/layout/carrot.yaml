@@ -107,11 +107,13 @@ output:
   parent: var
 pictogram:
   parent: images
+pgsql:
+  constant: yes
+php:
+  constant: yes
 png2ico:
   constant: yes
 proctools:
-  constant: yes
-pgsql:
   constant: yes
 request:
   parent: var
