@@ -137,6 +137,8 @@ sql:
   suffix: .sql
 sqlite3:
   constant: yes
+sudo:
+  constant: yes
 swf:
   parent: carrotlib
   suffix: .swf

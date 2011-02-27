@@ -246,6 +246,8 @@ string:
     force_convert: no
     softbank:
       raw_output: no
+sudo:
+  dir: /usr
 unzip:
   dir: /usr
 upload:

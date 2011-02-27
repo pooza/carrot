@@ -5,6 +5,8 @@
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
+require 'yaml'
+
 class Constants
   def initialize
     @constants = Hash.new
