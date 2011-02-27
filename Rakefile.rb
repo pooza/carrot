@@ -54,7 +54,7 @@ namespace :var do
   namespace :output do
     desc 'レンダーキャッシュをクリア'
     task :clean do
-      sh 'rm -R var/output/*'
+      system 'rm -R var/output/*'
     end
   end
 
@@ -64,7 +64,7 @@ namespace :var do
 
       desc 'イメージキャッシュをクリア'
       task :clean do
-        sh 'rm -R var/image_cache/*'
+        system 'rm -R var/image_cache/*'
       end
 
       file 'www/carrotlib/images/cache' do
@@ -78,7 +78,7 @@ namespace :var do
 
     desc 'cssキャッシュをクリア'
     task :clean do
-      sh 'sudo rm var/css_cache/*'
+      system 'sudo rm var/css_cache/*'
     end
 
     file 'www/carrotlib/css/cache' do
@@ -91,7 +91,7 @@ namespace :var do
 
     desc 'jsキャッシュをクリア'
     task :clean do
-      sh 'sudo rm var/js_cache/*'
+      system 'sudo rm var/js_cache/*'
     end
 
     file 'www/carrotlib/js/cache' do
@@ -102,7 +102,7 @@ namespace :var do
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do
-      sh 'sudo rm var/serialized/BSClassLoader.*'
+      system 'sudo rm var/serialized/BSClassLoader.*'
     end
   end
 
