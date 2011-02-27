@@ -173,7 +173,7 @@ end
 namespace :svn do
   desc '全ファイルのsvn属性を設定'
   task :pset do
-    system 'svn pset svn:ignore \'*\' var/*'
+    sh 'svn pset svn:ignore \'*\' var/*'
     media_types.each do |extension, type|
       extension_arg = '-name \'*.' + extension + '\''
       if type == nil
