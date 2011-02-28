@@ -10,12 +10,14 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSRenderManager {
+	private $caches;
 	static private $instance;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
+		$this->caches = new BSArray;
 	}
 
 	/**
@@ -47,21 +49,27 @@ class BSRenderManager {
 	 * @return BSView キャッシュ
 	 */
 	public function getCache (BSAction $action) {
-		$dir = $this->getResourceDirectory($action);
-		if ($file = $dir->getEntry($action->getRenderDigest())) {
-			$serializer = new BSPHPSerializer;
-			$data = $serializer->decode($file->getContents());
-			$view = new BSView($action, 'Success');
-			$view->setRenderer(new BSRawRenderer);
-			$view->getRenderer()->setContents($data['contents']);
-			foreach ($data['headers'] as $key => $value) {
-				$view->setHeader($key, $value);
-			}
-			if ($header = $view->getHeader('content-type')) {
-				$view->getRenderer()->setType($header->getContents());
-			}
-			return $view;
+		if (!$this->caches[$action->getRenderResource()]) {
+			$this->caches[$action->getRenderResource()] = new BSArray;
 		}
+		if (!$this->caches[$action->getRenderResource()][$action->getRenderDigest()]) {
+			$dir = $this->getResourceDirectory($action);
+			if ($file = $dir->getEntry($action->getRenderDigest())) {
+				$serializer = new BSPHPSerializer;
+				$data = $serializer->decode($file->getContents());
+				$view = new BSView($action, 'Success');
+				$view->setRenderer(new BSRawRenderer);
+				$view->getRenderer()->setContents($data['contents']);
+				foreach ($data['headers'] as $key => $value) {
+					$view->setHeader($key, $value);
+				}
+				if ($header = $view->getHeader('content-type')) {
+					$view->getRenderer()->setType($header->getContents());
+				}
+				$this->caches[$action->getRenderResource()][$action->getRenderDigest()] = $view;
+			}
+		}
+		return $this->caches[$action->getRenderResource()][$action->getRenderDigest()];
 	}
 
 	/**
