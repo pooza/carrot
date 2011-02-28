@@ -106,7 +106,10 @@ class BSRenderManager {
 	 * @return boolean キャッシュを持っていたらTrue
 	 */
 	public function hasCache (BSAction $action) {
-		return !!$this->getResourceDirectory($action)->getEntry($action->getRenderDigest());
+		if ($this->getResourceDirectory($action)->getEntry($action->getRenderDigest())) {
+			return !BSString::isBlank($this->getCache($action)->getRenderer()->getContents());
+		}
+		return false;
 	}
 
 	/**
