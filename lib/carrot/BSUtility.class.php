@@ -25,16 +25,7 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		if ($path[0] == DIRECTORY_SEPARATOR) {
-			return true;
-		}
-		if (strpos($path, '..') !== false) {
-			return false;
-		}
-		if (DIRECTORY_SEPARATOR != '/') { // Windows環境
-			return !!mb_ereg('^[[:alpha:]]:' . preg_quote(DIRECTORY_SEPARATOR) . '.+', $path);
-		}
-		return false;
+		return ($path[0] == DIRECTORY_SEPARATOR);
 	}
 
 	/**
