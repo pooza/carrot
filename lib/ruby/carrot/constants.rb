@@ -6,11 +6,12 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 require 'yaml'
+require 'carrot/environment'
 
 class Constants
   def initialize
     @constants = Hash.new
-    ['carrot', 'package', 'application', server_name].each do |name|
+    ['carrot', 'package', 'application', Environment.name].each do |name|
       begin
         path = ROOT_DIR + '/webapp/config/constant/' + name + '.yaml';
         @constants.update(flatten('BS', YAML.load_file(path), '_'))
@@ -34,9 +35,5 @@ class Constants
       contents[prefix.upcase] = node
     end
     return contents
-  end
-
-  def server_name
-    return File.basename(ROOT_DIR)
   end
 end

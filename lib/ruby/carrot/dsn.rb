@@ -5,9 +5,13 @@
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
+require 'rubygems'
+require 'rake'
 require 'carrot/constants'
 
 class DSN
+  include FileUtils
+
   def initialize (name)
     @name = name
     @dsn = Constants.new['BS_PDO_' + name + '_DSN']
