@@ -6,7 +6,7 @@
 
 # mod_rewrite
 RewriteEngine on
-RewriteRule ^(.*/)*\.svn/ / [F,L]
+RewriteRule ^(.*/)*\.(svn|git)/ / [F,L]
 RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [L,QSA]
 RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [L,QSA]
 RewriteRule ^([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
