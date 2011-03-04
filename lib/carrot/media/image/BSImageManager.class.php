@@ -13,6 +13,7 @@ class BSImageManager {
 	private $useragent;
 	private $type;
 	private $flags = 0;
+	private $backgroundColor;
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
 	const WITHOUT_SQUARE = 8;
@@ -47,6 +48,29 @@ class BSImageManager {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
+	}
+
+	/**
+	 * 背景色を返す
+	 *
+	 * @access public
+	 * @return BSColor 背景色
+	 */
+	public function getBackgroundColor () {
+		if (!$this->backgroundColor) {
+			$this->backgroundColor = new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR);
+		}
+		return $this->backgroundColor;
+	}
+
+	/**
+	 * 背景色を設定
+	 *
+	 * @access public
+	 * @param BSColor $color 背景色
+	 */
+	public function setBackgroundColor (BSColor $color) {
+		$this->backgroundColor = $color;
 	}
 
 	/**
@@ -326,6 +350,7 @@ class BSImageManager {
 	 */
 	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
 		$image = new BSImage;
+		$image->setBackgroundColor($this->getBackgroundColor());
 		$image->setImage($contents);
 		$flags |= $this->flags;
 		if ($flags & self::FORCE_GIF) {

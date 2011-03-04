@@ -18,6 +18,7 @@ class BSImage implements BSImageRenderer {
 	protected $origin;
 	protected $font;
 	protected $fontsize;
+	protected $backgroundColor;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
@@ -35,7 +36,7 @@ class BSImage implements BSImageRenderer {
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
 		$this->setFont(BSFontManager::getInstance()->getFont());
 		$this->setFontSize(BSFontManager::DEFAULT_FONT_SIZE);
-		$this->fill($this->getCoordinate(0, 0), new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR));
+		$this->fill($this->getCoordinate(0, 0), $this->getBackgroundColor());
 	}
 
 	/**
@@ -88,6 +89,29 @@ class BSImage implements BSImageRenderer {
 			$file->delete();
 		}
 		return $this->imagick;
+	}
+
+	/**
+	 * 背景色を返す
+	 *
+	 * @access public
+	 * @return BSColor 背景色
+	 */
+	public function getBackgroundColor () {
+		if (!$this->backgroundColor) {
+			$this->backgroundColor = new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR);
+		}
+		return $this->backgroundColor;
+	}
+
+	/**
+	 * 背景色を設定
+	 *
+	 * @access public
+	 * @param BSColor $color 背景色
+	 */
+	public function setBackgroundColor (BSColor $color) {
+		$this->backgroundColor = $color;
 	}
 
 	/**

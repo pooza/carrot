@@ -43,7 +43,7 @@ class BSImagickImageResizer extends BSImageResizer {
 		}
 
 		$resized = clone $this->source->getImagick();
-		$resized->thumbnailImage($width, $height, true);
+		$resized->thumbnailImage(BSNumeric::round($width), BSNumeric::round($height), true);
 		$dest->getImagick()->compositeImage(
 			$resized,
 			Imagick::COMPOSITE_DEFAULT,

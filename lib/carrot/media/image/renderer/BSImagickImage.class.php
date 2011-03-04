@@ -39,7 +39,7 @@ class BSImagickImage extends BSImage {
 			$this->imagick->newImage(
 				$this->width,
 				$this->height,
-				new ImagickPixel(BS_IMAGE_THUMBNAIL_BGCOLOR)
+				new ImagickPixel($this->getBackgroundColor()->getContents())
 			);
 			$this->imagick->setImageFormat($header['sub_type']);
 		}
