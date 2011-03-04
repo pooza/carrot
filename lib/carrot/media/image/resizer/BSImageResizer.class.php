@@ -11,7 +11,7 @@
  */
 abstract class BSImageResizer {
 	protected $source;
-	private $backgroundColor;
+	protected $backgroundColor;
 
 	/**
 	 * @access public
