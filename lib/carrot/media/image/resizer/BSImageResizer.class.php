@@ -11,6 +11,7 @@
  */
 abstract class BSImageResizer {
 	protected $source;
+	private $backgroundColor;
 
 	/**
 	 * @access public
@@ -18,6 +19,29 @@ abstract class BSImageResizer {
 	 */
 	public function __construct (BSImage $image) {
 		$this->source = $image;
+	}
+
+	/**
+	 * 背景色を返す
+	 *
+	 * @access public
+	 * @return BSColor 背景色
+	 */
+	public function getBackgroundColor () {
+		if (!$this->backgroundColor) {
+			$this->backgroundColor = new BSColor(BS_IMAGE_THUMBNAIL_BGCOLOR);
+		}
+		return $this->backgroundColor;
+	}
+
+	/**
+	 * 背景色を設定
+	 *
+	 * @access public
+	 * @param BSColor $color 背景色
+	 */
+	public function setBackgroundColor (BSColor $color) {
+		$this->backgroundColor = $color;
 	}
 
 	/**

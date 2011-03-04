@@ -31,6 +31,7 @@ class BSImagickImageResizer extends BSImageResizer {
 	 */
 	public function execute ($width, $height) {
 		$dest = new BSImagickImage($width, $height);
+		$dest->setBackgroundColor($this->getBackgroundColor());
 		$dest->setType($this->source->getType());
 		if ($this->source->getAspect() < $dest->getAspect()) {
 			$width = $dest->getHeight() * $this->source->getAspect();

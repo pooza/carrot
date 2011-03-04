@@ -404,6 +404,7 @@ class BSImage implements BSImageRenderer {
 			if (extension_loaded($name)) {
 				$class = BSClassLoader::getInstance()->getClass($name, 'ImageResizer');
 				$resizer = new $class($this);
+				$resizer->setBackgroundColor($this->getBackgroundColor());
 				$this->setImage($resizer->execute($width, $height));
 				return;
 			}
