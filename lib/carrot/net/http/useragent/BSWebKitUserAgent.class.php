@@ -17,6 +17,8 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
+		$this->supports['html5_video_webm'] = $this->isChrome();
+		$this->supports['html5_video_h264'] = !$this->isChrome();
 		$this->supports['html5_audio_mp3'] = true;
 		$this->supports['html5_audio_aac'] = true;
 	}
@@ -29,6 +31,16 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 */
 	public function getPattern () {
 		return 'AppleWebKit';
+	}
+
+	/**
+	 * Google Chromeか？
+	 *
+	 * @access public
+	 * @return boolean Google ChromeならTrue
+	 */
+	public function isChrome () {
+		return BSString::isContain('Chrome', $this->getName());
 	}
 
 	/**

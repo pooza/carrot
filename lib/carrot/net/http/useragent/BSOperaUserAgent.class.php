@@ -17,6 +17,7 @@ class BSOperaUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
+		$this->supports['html5_video_webm'] = true;
 		$this->supports['html5_audio_ogg'] = true;
 	}
 

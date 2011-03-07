@@ -24,6 +24,7 @@ class BSTridentUserAgent extends BSUserAgent {
 		$this->bugs['cache_control'] = true;
 		$this->attributes['is_kuso'] = ($this->getVersion() < 8);
 		$this->attributes['is_ie' . floor($this->getVersion())] = true;
+		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
 	}
 
 	/**
