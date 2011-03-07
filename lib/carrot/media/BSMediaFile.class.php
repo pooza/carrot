@@ -202,22 +202,22 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	/**
 	 * script要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 * @abstract
 	 */
-	abstract protected function getScriptElement (BSParameterHolder $params);
+	abstract public function getScriptElement (BSParameterHolder $params);
 
 	/**
 	 * object要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 * @abstract
 	 */
-	abstract protected function getObjectElement (BSParameterHolder $params);
+	abstract public function getObjectElement (BSParameterHolder $params);
 
 	/**
 	 * 出力可能か？

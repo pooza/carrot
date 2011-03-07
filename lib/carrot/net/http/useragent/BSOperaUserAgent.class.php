@@ -12,6 +12,15 @@
 class BSOperaUserAgent extends BSUserAgent {
 
 	/**
+	 * @access protected
+	 * @param string $name ユーザーエージェント名
+	 */
+	protected function __construct ($name = null) {
+		parent::__construct($name);
+		$this->supports['html5_audio_ogg'] = true;
+	}
+
+	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
 	 *
 	 * @access public

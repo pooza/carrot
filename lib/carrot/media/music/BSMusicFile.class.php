@@ -79,29 +79,33 @@ class BSMusicFile extends BSMediaFile {
 		$container = new BSDivisionElement;
 		$container->setAttribute('width', $this['width']);
 		$container->setAttribute('height', $this['height']);
-		$container->addElement($this->getObjectElement($params));
+		if ($useragent->isHTML5Supported()) {
+			$container->addElement($this->getAudioElement($params));
+		} else {
+			$container->addElement($this->getObjectElement($params));
+		}
 		return $container;
 	}
 
 	/**
 	 * script要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	protected function getScriptElement (BSParameterHolder $params) {
+	public function getScriptElement (BSParameterHolder $params) {
 		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
 	}
 
 	/**
 	 * object要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	protected function getObjectElement (BSParameterHolder $params) {
+	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
 		$element->setAttribute('width', $this['width']);
@@ -111,6 +115,19 @@ class BSMusicFile extends BSMediaFile {
 		$element->setFlashVar('showstop', 1);
 		$element->setFlashVar('showvolume', 1);
 		$element->setFlashVar('showloading', 'autohide');
+		return $element;
+	}
+
+	/**
+	 * audio要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSObjectElement 要素
+	 */
+	public function getAudioElement (BSParameterHolder $params) {
+		$element = new BSAudioElement;
+		$element->registerSource($this->getMediaURL($params));
 		return $element;
 	}
 

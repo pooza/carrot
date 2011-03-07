@@ -61,11 +61,11 @@ class BSFlashFile extends BSMediaFile {
 	/**
 	 * script要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	protected function getScriptElement (BSParameterHolder $params) {
+	public function getScriptElement (BSParameterHolder $params) {
 		$element = new BSScriptElement;
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
 		$body[] = BSJavaScriptUtility::quote($this->getMediaURL($params)->getContents());
@@ -83,11 +83,11 @@ class BSFlashFile extends BSMediaFile {
 	/**
 	 * object要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	protected function getObjectElement (BSParameterHolder $params) {
+	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL($this->getMediaURL($params));
 		return $element;

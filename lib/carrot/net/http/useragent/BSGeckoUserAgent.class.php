@@ -12,6 +12,15 @@
 class BSGeckoUserAgent extends BSUserAgent {
 
 	/**
+	 * @access protected
+	 * @param string $name ユーザーエージェント名
+	 */
+	protected function __construct ($name = null) {
+		parent::__construct($name);
+		$this->supports['html5_audio_ogg'] = true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

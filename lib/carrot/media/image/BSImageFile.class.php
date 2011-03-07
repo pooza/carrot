@@ -186,22 +186,22 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	/**
 	 * script要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	protected function getScriptElement (BSParameterHolder $params) {
+	public function getScriptElement (BSParameterHolder $params) {
 		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
 	}
 
 	/**
 	 * object要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	protected function getObjectElement (BSParameterHolder $params) {
+	public function getObjectElement (BSParameterHolder $params) {
 		throw new BSMediaException($this . 'はgetObjectElementに対応していません。');
 	}
 

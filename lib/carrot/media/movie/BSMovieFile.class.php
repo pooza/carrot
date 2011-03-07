@@ -113,11 +113,11 @@ class BSMovieFile extends BSMediaFile {
 	/**
 	 * script要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	protected function getScriptElement (BSParameterHolder $params) {
+	public function getScriptElement (BSParameterHolder $params) {
 		$element = new BSScriptElement;
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
@@ -133,11 +133,11 @@ class BSMovieFile extends BSMediaFile {
 	/**
 	 * object要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	protected function getObjectElement (BSParameterHolder $params) {
+	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
 		$element->setFlashVar('config', $this->getPlayerConfig($params));

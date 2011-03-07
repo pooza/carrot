@@ -14,6 +14,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	private $type;
 	protected $attributes;
 	protected $bugs;
+	protected $supports;
 	protected $renderDigest;
 	static private $denied;
 	const ACCESSOR = 'ua';
@@ -36,6 +37,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$this->attributes['is_attachable'] = $this->isAttachable();
 		$this->attributes['is_html5_supported'] = $this->isHTML5Supported();
 		$this->bugs = new BSArray;
+		$this->supports = new BSArray;
 	}
 
 	/**
@@ -222,6 +224,17 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * サポートされているか？
+	 *
+	 * @access public
+	 * @param string $name サポート名
+	 * @return boolean サポートがあるならTrue
+	 */
+	public function hasSupport ($name) {
+		return !!$this->supports[$name];
+	}
+
+	/**
 	 * バグがあるか？
 	 *
 	 * @access public
@@ -309,6 +322,9 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		if (!$this->renderDigest) {
 			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
 				__CLASS__,
+				(int)$this->hasSupport('html5_audio_aac'),
+				(int)$this->hasSupport('html5_audio_mp3'),
+				(int)$this->hasSupport('html5_audio_ogg'),
 			)));
 		}
 		return $this->renderDigest;
