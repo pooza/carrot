@@ -20,6 +20,7 @@ class BSAudioElement extends BSXHTMLElement {
 		parent::__construct($name, $useragent);
 		$this->setAttribute('controls', 'controls');
 		$this->setAttribute('autobuffer', 'autobuffer');
+		$this->createElement('p', 'HTML5 Audioに対応したブラウザをご利用ください。');
 	}
 
 	/**
