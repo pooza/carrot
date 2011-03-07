@@ -22,6 +22,16 @@ class BSWebKitUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * HTML5対応か？
+	 *
+	 * @access public
+	 * @return boolean HTML5対応ならTrue
+	 */
+	public function isHTML5Supported () {
+		return true;
+	}
+
+	/**
 	 * アップロードボタンのラベルを返す
 	 *
 	 * @access public

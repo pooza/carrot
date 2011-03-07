@@ -24,6 +24,16 @@ class BSOperaUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * HTML5対応か？
+	 *
+	 * @access public
+	 * @return boolean HTML5対応ならTrue
+	 */
+	public function isHTML5Supported () {
+		return true;
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

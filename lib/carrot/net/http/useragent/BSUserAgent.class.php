@@ -34,6 +34,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
 		$this->attributes['is_attachable'] = $this->isAttachable();
+		$this->attributes['is_html5_supported'] = $this->isHTML5Supported();
 		$this->bugs = new BSArray;
 	}
 
@@ -108,6 +109,16 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 				}
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * HTML5対応か？
+	 *
+	 * @access public
+	 * @return boolean HTML5対応ならTrue
+	 */
+	public function isHTML5Supported () {
 		return false;
 	}
 

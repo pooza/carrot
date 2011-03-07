@@ -27,6 +27,16 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * HTML5対応か？
+	 *
+	 * @access public
+	 * @return boolean HTML5対応ならTrue
+	 */
+	public function isHTML5Supported () {
+		return 8 < $this->getVersion();
+	}
+
+	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
 	 *
 	 * @access public
