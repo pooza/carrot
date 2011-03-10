@@ -124,6 +124,19 @@ var CarrotLib = {
     }
   },
 
+  getQueryParameter: function (name) {
+    var q = location.search || location.hash;
+    if (q && q.match(/\?/)) {
+      var pairs = q.split('?')[1].split('&');
+      for (var i = 0 ; i < pairs.length ; i ++) {
+        if (pairs[i].substring(0, pairs[i].indexOf('=')) == name) {
+          return decodeURI(pairs[i].substring((pairs[i].indexOf('=') + 1)));
+        }
+      }
+    }
+    return '';
+  },
+
   // @link http://memorandum.char-aznable.com/web_design/javascript.html
   backToTop: function () {
     var x1 = x2 = x3 = 0;
