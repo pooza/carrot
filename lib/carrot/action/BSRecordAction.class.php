@@ -83,7 +83,9 @@ abstract class BSRecordAction extends BSAction {
 			$resource = new BSArray;
 			$resource[] = $this->getModule()->getName();
 			$resource[] = $this->getName();
-			$resource[] = sprintf('%08d', $this->getRecord()->getID());
+			if ($this->getRecord()) {
+				$resource[] = sprintf('%08d', $this->getRecord()->getID());
+			}
 			$this->renderResource = $resource->join('_');
 		}
 		return $this->renderResource;
