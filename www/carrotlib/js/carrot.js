@@ -137,6 +137,14 @@ var CarrotLib = {
     return '';
   },
 
+  getRecordID: function () {
+    var id;
+    if (id = location.href.split('?')[0].split('#')[0].split('/')[5]) {
+      return encodeURIComponent(id);
+    }
+    return '';
+  },
+
   // @link http://memorandum.char-aznable.com/web_design/javascript.html
   backToTop: function () {
     var x1 = x2 = x3 = 0;
