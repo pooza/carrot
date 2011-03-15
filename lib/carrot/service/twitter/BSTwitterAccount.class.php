@@ -16,6 +16,8 @@ class BSTwitterAccount
 	protected $url;
 	protected $profile;
 	protected $tweets;
+	protected $consumerKey;
+	protected $consumerSecret;
 	protected $requestToken;
 	protected $accessToken;
 	private $oauth;
@@ -104,8 +106,8 @@ class BSTwitterAccount
 		if (!$this->oauth && ($token = $this->getAccessToken())) {
 			BSUtility::includeFile('twitteroauth');
 			$this->oauth = new TwitterOAuth(
-				BS_SERVICE_TWITTER_CONSUMER_KEY,
-				BS_SERVICE_TWITTER_CONSUMER_SECRET,
+				$this->getConsumerKey(),
+				$this->getConsumerSecret(),
 				$token['oauth_token'],
 				$token['oauth_token_secret']
 			);
@@ -120,15 +122,19 @@ class BSTwitterAccount
 	 * @return BSHTTPURL 認証ページのURL
 	 */
 	public function getOAuthURL () {
-		BSUtility::includeFile('twitteroauth');
-		$oauth = new TwitterOAuth(
-			BS_SERVICE_TWITTER_CONSUMER_KEY,
-			BS_SERVICE_TWITTER_CONSUMER_SECRET
-		);
-		$this->requestToken = new BSArray($oauth->getRequestToken());
-		BSUser::getInstance()->setAttribute(get_class($this), $this->requestToken);
-
-		return BSURL::getInstance($oauth->getAuthorizeURL($this->requestToken['oauth_token']));
+		try {
+			BSUtility::includeFile('twitteroauth');
+			$oauth = new TwitterOAuth(
+				$this->getConsumerKey(),
+				$this->getConsumerSecret()
+			);
+			$this->requestToken = new BSArray($oauth->getRequestToken());
+			BSUser::getInstance()->setAttribute(get_class($this), $this->requestToken);
+			return BSURL::getInstance(
+				$oauth->getAuthorizeURL($this->requestToken['oauth_token'])
+			);
+		} catch (Exception $e) {
+		}
 	}
 
 	/**
@@ -150,6 +156,52 @@ class BSTwitterAccount
 	}
 
 	/**
+	 * コンシューマキーを返す
+	 *
+	 * @access public
+	 * @return string コンシューマキー
+	 */
+	public function getConsumerKey () {
+		if (!$this->consumerKey) {
+			$this->consumerKey = BS_SERVICE_TWITTER_CONSUMER_KEY;
+		}
+		return $this->consumerKey;
+	}
+
+	/**
+	 * コンシューマキーを設定
+	 *
+	 * @access public
+	 * @param string $value コンシューマキー
+	 */
+	public function setConsumerKey ($value) {
+		$this->consumerKey = $value;
+	}
+
+	/**
+	 * コンシューマシークレットを返す
+	 *
+	 * @access public
+	 * @return string コンシューマシークレット
+	 */
+	public function getConsumerSecret () {
+		if (!$this->consumerSecret) {
+			$this->consumerSecret = BS_SERVICE_TWITTER_CONSUMER_SECRET;
+		}
+		return $this->consumerSecret;
+	}
+
+	/**
+	 * コンシューマシークレットを設定
+	 *
+	 * @access public
+	 * @param string $value コンシューマシークレット
+	 */
+	public function setConsumerSecret ($value) {
+		$this->consumerSecret = $value;
+	}
+
+	/**
 	 * OAuth認証
 	 *
 	 * @access public
@@ -163,8 +215,8 @@ class BSTwitterAccount
 
 		BSUtility::includeFile('twitteroauth');
 		$oauth = new TwitterOAuth(
-			BS_SERVICE_TWITTER_CONSUMER_KEY,
-			BS_SERVICE_TWITTER_CONSUMER_SECRET,
+			$this->getConsumerKey(),
+			$this->getConsumerSecret(),
 			$this->requestToken['oauth_token'],
 			$this->requestToken['oauth_token_secret']
 		);
