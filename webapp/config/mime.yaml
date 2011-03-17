@@ -26,7 +26,7 @@ types:
   hmt: application/x-htmlmail-template
   htm: text/html
   html: text/html
-  ico: image/x-ico
+  ico: image/x-icon
   ini: text/x-ini-file
   jpg: image/jpeg
   jpeg: image/jpeg
