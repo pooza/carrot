@@ -83,7 +83,11 @@ class BSImagickImage extends BSImage {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return $this->getImagick()->getImageMimeType();
+		switch ($type = $this->getImagick()->getImageMimeType()) {
+			case 'image/x-ico':
+				return BSMIMEType::getType('ico');
+		}
+		return $type;
 	}
 
 	/**
