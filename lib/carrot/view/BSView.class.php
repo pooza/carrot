@@ -211,21 +211,21 @@ class BSView extends BSHTTPResponse {
 	 * @param boolean $mode キャッシュONならTrue
 	 */
 	public function setCacheControl ($mode) {
+		$expires = BSDate::getNow();
 		if (!!$mode) {
 			$value = new BSStringFormat('%s, max-age=%d');
 			$value[] = BS_APP_HTTP_CACHE_MODE;
 			$value[] = BS_APP_HTTP_CACHE_SECONDS;
 			$this->setHeader('Cache-Control', $value->getContents());
-
-			$date = BSDate::getNow();
-			$date['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
-			$this->setHeader('Expires', $date->format(DateTime::RFC1123));
 			$this->setHeader('Pragma', BS_APP_HTTP_CACHE_MODE);
+			$expires['second'] = '+' . BS_APP_HTTP_CACHE_SECONDS;
 		} else {
 			$this->setHeader('Cache-Control', 'no-cache, must-revalidate');
-			$this->setHeader('Expires', 0);
 			$this->setHeader('Pragma', 'no-cache');
+			$expires = BSDate::getNow();
+			$expires['hour'] = '-1';
 		}
+		$this->setHeader('Expires', $expires->format(DateTime::RFC1123));
 	}
 
 	/**
