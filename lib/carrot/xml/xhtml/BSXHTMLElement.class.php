@@ -32,11 +32,10 @@ class BSXHTMLElement extends BSXMLElement {
 		$this->styleClasses = new BSArray;
 		parent::__construct($name);
 
-		if ($useragent) {
-			$this->setUserAgent($useragent);
-		} else {
-			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
+		$this->setUserAgent($useragent);
 	}
 
 	/**
