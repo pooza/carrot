@@ -64,6 +64,8 @@ images:
 image_cache:
   parent: var
   href: /carrotlib/images/cache/
+image_magick:
+  constant: yes
 js:
   parent: carrotlib
   suffix: .js

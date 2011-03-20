@@ -28,6 +28,16 @@ class BSImageManager {
 	}
 
 	/**
+	 * 保存可能か？
+	 *
+	 * @access public
+	 * @return boolean 保存可能ならTrue
+	 */
+	public function isStorable () {
+		return !!BS_IMAGE_STORABLE;
+	}
+
+	/**
 	 * 対象UserAgentを返す
 	 *
 	 * @access public
@@ -114,7 +124,7 @@ class BSImageManager {
 		}
 	}
 
-	private function setFlag ($flag) {
+	protected function setFlag ($flag) {
 		if (!is_numeric($flag)) {
 			$constants = BSConstantHandler::getInstance();
 			$value = BSString::toUpper($flag);
@@ -277,7 +287,7 @@ class BSImageManager {
 	/**
 	 * サムネイルファイルを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @param integer $pixel ピクセル数
@@ -288,7 +298,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSFile サムネイルファイル
 	 */
-	private function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
+	protected function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
 		if (!$source = $record->getImageFile($size)) {
 			return null;
 		}
@@ -309,7 +319,7 @@ class BSImageManager {
 	/**
 	 * サムネイルファイルのファイル名を返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSImageContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
@@ -318,7 +328,7 @@ class BSImageManager {
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
-	private function getFileName (BSImageContainer $record, $pixel, $flags = null) {
+	protected function getFileName (BSImageContainer $record, $pixel, $flags = null) {
 		$flags |= $this->flags;
 		$prefix = '';
 		if (!$pixel && ($width = $this->getDefaultWidth())) {
@@ -337,7 +347,7 @@ class BSImageManager {
 	/**
 	 * 画像を変換して返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSImageContainer $record 対象レコード
 	 * @param integer $pixel ピクセル数
 	 * @param mixed $contents サムネイルの内容
@@ -348,7 +358,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @param BSImage サムネイル
 	 */
-	private function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
+	protected function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
 		$image = new BSImage;
 		$image->setBackgroundColor($this->getBackgroundColor());
 		$image->setImage($contents);
@@ -382,12 +392,12 @@ class BSImageManager {
 	/**
 	 * サムネイル名を生成して返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
-	private function getEntryName (BSImageContainer $record, $size) {
+	protected function getEntryName (BSImageContainer $record, $size) {
 		return BSCrypt::getDigest(array(
 			get_class($record),
 			$record->getID(),
@@ -398,12 +408,12 @@ class BSImageManager {
 	/**
 	 * サムネイルエントリーの格納ディレクトリを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSImageContainer $record 対象レコード
 	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
-	private function getEntryDirectory (BSImageContainer $record, $size) {
+	protected function getEntryDirectory (BSImageContainer $record, $size) {
 		$name = $this->getEntryName($record, $size);
 		if (!$dir = $this->getDirectory()->getEntry($name)) {
 			$dir = $this->getDirectory()->createDirectory($name);
@@ -418,10 +428,10 @@ class BSImageManager {
 	/**
 	 * ディレクトリを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param BSDirectory ディレクトリ
 	 */
-	private function getDirectory () {
+	protected function getDirectory () {
 		return BSFileUtility::getDirectory('image_cache');
 	}
 

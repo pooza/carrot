@@ -22,6 +22,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 		}
 		parent::__construct($name);
 		$this->bugs['multipart_form'] = true;
+		$this->supports['image_copyright'] = true;
 		$this->attributes['is_wap2'] = $this->isWAP2();
 	}
 

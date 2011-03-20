@@ -161,6 +161,18 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 
 		$this->clearImageCache();
 		$this->setContents($this->getRenderer()->getContents());
+
+		if (!BS_IMAGE_STORABLE) {
+			$dir = BSFileUtility::getDirectory('image_magick');
+			if ($dir->getEntry('bin/mogrify')) {
+				$command = new BSCommandLine('bin/mogrify');
+				$command->setDirectory($dir);
+				$command->addValue('-comment', true);
+				$command->addValue('kddi_copyright=on,copy="NO"');
+				$command->addValue($this->getPath());
+				$command->execute();
+			}
+		}
 	}
 
 	/**
