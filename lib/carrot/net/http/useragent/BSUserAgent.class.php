@@ -161,6 +161,7 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$view->setAttribute('has_server_side_cache', $controller->hasServerSideCache());
 		$view->setAttribute('is_ssl', $request->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
+		$view->setAttribute('is_image_storable', BS_IMAGE_STORABLE);
 		$view->setAttribute('session', array(
 			'name' => $request->getSession()->getName(),
 			'id' => $request->getSession()->getID(),
