@@ -14,8 +14,8 @@ class BSImageFileTest extends BSTest {
 		$dest = BSFileUtility::getTemporaryFile('ico');
 		$dest->setContents($src->getContents());
 		$this->assert('__construct', $dest = new BSImageFile($dest->getPath(), 'BSImagickImage'));
-		$this->assert('setType', !$dest->getRenderer()->setType('image/x-ico'));
-		$this->assert('getType', $dest->getRenderer()->getType() == 'image/x-ico');
+		$this->assert('setType', !$dest->getRenderer()->setType('image/vnd.microsoft.icon'));
+		$this->assert('getType', $dest->getRenderer()->getType() == 'image/vnd.microsoft.icon');
 		$dest->getRenderer()->resize(57, 57);
 		$this->assert('getWidth', $dest->getRenderer()->getWidth() == 57);
 		$this->assert('getHeight', $dest->getRenderer()->getHeight() == 57);

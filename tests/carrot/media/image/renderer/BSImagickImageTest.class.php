@@ -14,8 +14,8 @@ class BSImagickImageTest extends BSTest {
 		$this->assert('resize', !$image->resize(16, 16));
 		$this->assert('getWidth', $image->getWidth() == 16);
 		$this->assert('getHeight', $image->getHeight() == 16);
-		$this->assert('setType', !$image->setType('image/x-ico'));
-		$this->assert('getType', $image->getType() == 'image/x-ico');
+		$this->assert('setType', !$image->setType('image/vnd.microsoft.icon'));
+		$this->assert('getType', $image->getType() == 'image/vnd.microsoft.icon');
 	}
 }
 
