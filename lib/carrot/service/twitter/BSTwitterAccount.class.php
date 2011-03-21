@@ -448,7 +448,7 @@ class BSTwitterAccount
 					$values['profile'] = $tweet['user'];
 				}
 				$url = BSURL::getInstance('http://' . BSTwitterService::DEFAULT_HOST);
-				$url['path'] = '/' . $tweet['user']['screen_name'] . '/status/' . $entry['id'];
+				$url['path'] = '/' . $tweet['user']['screen_name'] . '/status/' . $entry['id_str'];
 				$tweet['url'] = $url->getContents();
 				$tweet->removeParameter('user');
 				$values['tweets'][] = $tweet->getParameters();
