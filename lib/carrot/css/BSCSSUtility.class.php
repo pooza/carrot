@@ -40,7 +40,8 @@ class BSCSSUtility {
 			$value = mb_ereg_replace($property . ' ?: ?[^;"]+([;"])', '\\1', $value);
 		}
 		$value = str_replace('class="MsoNormal"', null, $value);
-		$value = str_replace('style=";"', null, $value);
+		$value = str_replace('color: windowtext', null, $value);
+		$value = mb_ereg_replace(' *style="[ ;]+" *', null, $value);
 		return $value;
 	}
 }
