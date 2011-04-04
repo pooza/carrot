@@ -23,11 +23,11 @@ class BSGDImageResizer extends BSImageResizer {
 		$dest = new BSImage($width, $height);
 		$dest->setBackgroundColor($this->getBackgroundColor());
 		if ($this->source->getAspect() < $dest->getAspect()) {
-			$width = $dest->getHeight() * $this->source->getAspect();
+			$width = ceil($dest->getHeight() * $this->source->getAspect());
 			$x = BSNumeric::round(($dest->getWidth() - $width) / 2);
 			$coord = $dest->getCoordinate($x, 0);
 		} else {
-			$height = $dest->getWidth() / $this->source->getAspect();
+			$height = ceil($dest->getWidth() / $this->source->getAspect());
 			$y = BSNumeric::round(($dest->getHeight() - $height) / 2);
 			$coord = $dest->getCoordinate(0, $y);
 		}
