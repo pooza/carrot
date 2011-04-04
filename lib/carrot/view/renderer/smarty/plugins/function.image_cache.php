@@ -13,15 +13,15 @@
  */
 function smarty_function_image_cache ($params, &$smarty) {
 	$params = new BSArray($params);
-	$images = $smarty->getUserAgent()->createImageManager($params['flags']);
 	if (BSString::isBlank($params['size'])) {
 		$params['size'] = 'thumbnail';
 	}
 
-	if (($record = $images->getContainer($params))
-		&& ($info = $images->getImageInfo($record, $params['size'], $params['pixel'], $flags))) {
+	$manager = $smarty->getUserAgent()->createImageManager($params['flags']);
+	if (($record = $manager->getContainer($params))
+		&& ($info = $manager->getImageInfo($record, $params['size'], $params['pixel']))) {
 
-		$element = $images->getElement($info);
+		$element = $manager->getElement($info);
 		$element->setAttribute('align', $params['align']);
 		$element->setStyles($params['style']);
 		$element->registerStyleClass($params['style_class']);
