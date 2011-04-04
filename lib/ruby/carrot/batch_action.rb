@@ -24,8 +24,7 @@ class BatchAction < Array
         cmd.push('-' + key.to_s)
         cmd.push(value)
       end
-      puts(cmd = cmd.join(' '))
-      system(cmd)
+      system(cmd.join(' '))
     end
   end
 end
