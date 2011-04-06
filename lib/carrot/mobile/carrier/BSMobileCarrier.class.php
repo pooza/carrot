@@ -12,6 +12,7 @@
  */
 abstract class BSMobileCarrier {
 	protected $attributes;
+	protected $emoji;
 	static private $instances;
 	const DEFAULT_CARRIER = 'Docomo';
 
@@ -22,6 +23,11 @@ abstract class BSMobileCarrier {
 		$this->attributes = new BSArray;
 		mb_ereg('^BS([[:alpha:]]+)MobileCarrier$', get_class($this), $matches);
 		$this->attributes['name'] = $matches[1];
+
+		require_once 'HTML/Emoji.php';
+		$this->emoji = HTML_Emoji::getInstance(
+			BSString::toLower($this->attributes['name'])
+		);
 	}
 
 	/**
@@ -114,10 +120,12 @@ abstract class BSMobileCarrier {
 	 * 絵文字を含んだ文字列を変換する
 	 *
 	 * @access public
-	 * @param mixed $body 対象文字列, 絵文字コード, 絵文字名のいずれか
+	 * @param mixed $body 対象文字列
 	 * @return string 変換後文字列
 	 */
 	public function convertPictogram ($body) {
+		$body = $this->emoji->filter($body, 'input');
+		return $this->emoji->convertCarrier($body);
 	}
 
 	/**
@@ -128,6 +136,8 @@ abstract class BSMobileCarrier {
 	 * @return string 変換後文字列
 	 */
 	public function trimPictogram ($body) {
+		$body = $this->emoji->filter($body, 'input');
+		return $this->emoji->removeEmoji($body);
 	}
 
 	/**
@@ -138,12 +148,8 @@ abstract class BSMobileCarrier {
 	 * @return boolean 絵文字が含まれていればTrue
 	 */
 	public function isContainPictogram ($body) {
-		$values = new BSArray(array(
-			BSString::convertEncoding($body, 'sjis-win'),
-			BSString::convertEncoding($body, 'utf-8'),
-		));
-
-		return false;
+		$body = $this->emoji->filter($body, 'input');
+		return $this->emoji->hasEmoji($body);
 	}
 
 	/**
