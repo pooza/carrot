@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.65
+  ver: 2.4.66
 
 admin:
   email:
@@ -19,9 +19,6 @@ app:
   ver: unknown
   xmpp:
     jid:
-    password:
-  basic_auth:
-    uid:
     password:
   http_cache:
     mode: private

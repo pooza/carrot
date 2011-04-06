@@ -149,9 +149,6 @@ class BSCurlHTTP extends BSHTTP {
 			$this->setAttribute('returntransfer', true);
 			$this->setAttribute('maxredirs', 32);
 			$this->setAttribute('ssl_verifypeer', false);
-			if (!$this->host->isForeign()) {
-				$this->setAuth(BS_APP_BASIC_AUTH_UID, BS_APP_BASIC_AUTH_PASSWORD);
-			}
 		}
 		return $this->engine;
 	}
