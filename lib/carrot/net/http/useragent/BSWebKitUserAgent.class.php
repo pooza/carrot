@@ -44,16 +44,6 @@ class BSWebKitUserAgent extends BSUserAgent {
 	public function isChrome () {
 		return BSString::isContain('Chrome', $this->getName());
 	}
-
-	/**
-	 * アップロードボタンのラベルを返す
-	 *
-	 * @access public
-	 * @return string アップロードボタンのラベル
-	 */
-	public function getUploadButtonLabel () {
-		return 'ファイルを選択';
-	}
 }
 
 /* vim:set tabstop=4: */

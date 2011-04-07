@@ -296,16 +296,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	/**
-	 * アップロードボタンのラベルを返す
-	 *
-	 * @access public
-	 * @return string アップロードボタンのラベル
-	 */
-	public function getUploadButtonLabel () {
-		return '参照...';
-	}
-
-	/**
 	 * ダウンロード用にエンコードされたファイル名を返す
 	 *
 	 * @access public
