@@ -8,7 +8,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSArray extends BSParameterHolder implements BSAssignable {
+class BSArray extends BSParameterHolder {
 	const POSITION_TOP = true;
 	const POSITION_BOTTOM = false;
 	const SORT_KEY_ASC = 'KEY_ASC';
@@ -260,16 +260,6 @@ class BSArray extends BSParameterHolder implements BSAssignable {
 			}
 		}
 		return $values;
-	}
-
-	/**
-	 * アサインすべき値を返す
-	 *
-	 * @access public
-	 * @return mixed アサインすべき値
-	 */
-	public function getAssignValue () {
-		return $this->getParameters();
 	}
 
 	/**

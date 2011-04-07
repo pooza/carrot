@@ -9,7 +9,9 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Countable {
+abstract class BSParameterHolder
+	implements IteratorAggregate, ArrayAccess, Countable, BSAssignable {
+
 	protected $params = array();
 
 	/**
@@ -163,6 +165,16 @@ abstract class BSParameterHolder implements IteratorAggregate, ArrayAccess, Coun
 	 */
 	public function offsetUnset ($key) {
 		$this->removeParameter($key);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignValue () {
+		return $this->getParameters();
 	}
 
 	/**

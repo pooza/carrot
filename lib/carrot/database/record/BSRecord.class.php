@@ -97,6 +97,18 @@ abstract class BSRecord extends BSParameterHolder
 	}
 
 	/**
+	 * パラメータをまとめて設定
+	 *
+	 * @access public
+	 * @param mixed[] $params パラメータの配列
+	 */
+	public function setParameters ($params) {
+		foreach ($params as $name => $value) {
+			$this->params[$name] = $value;
+		}
+	}
+
+	/**
 	 * パラメータを削除
 	 *
 	 * @access public
