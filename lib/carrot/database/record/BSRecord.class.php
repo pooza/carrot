@@ -10,9 +10,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSRecord extends BSParameterHolder
-	implements BSAttachmentContainer, BSImageContainer, BSHTTPRedirector {
+abstract class BSRecord implements ArrayAccess,
+	BSSerializable, BSAssignable, BSAttachmentContainer, BSImageContainer, BSHTTPRedirector {
 
+	private $attributes;
 	private $table;
 	private $criteria;
 	private $records;
@@ -20,13 +21,14 @@ abstract class BSRecord extends BSParameterHolder
 	/**
 	 * @access public
 	 * @param BSTableHandler $table テーブルハンドラ
-	 * @param string[] $values 属性の連想配列
+	 * @param string[] $attributes 属性の連想配列
 	 */
-	public function __construct (BSTableHandler $table, $values = null) {
+	public function __construct (BSTableHandler $table, $attributes = null) {
 		$this->table = $table;
+		$this->attributes = new BSArray;
 		$this->records = new BSArray;
-		if ($values) {
-			$this->initialize($values);
+		if ($attributes) {
+			$this->initialize($attributes);
 		}
 	}
 
@@ -54,68 +56,13 @@ abstract class BSRecord extends BSParameterHolder
 	 * 属性値を初期化
 	 *
 	 * @access public
-	 * @param string[] $values 属性の連想配列
+	 * @param string[] $attributes 属性の連想配列
 	 * @return BSRecord 自分自身
 	 */
-	public function initialize ($values) {
-		$this->params = array();
-		$this->setParameters($values);
+	public function initialize ($attributes) {
+		$this->attributes->clear();
+		$this->attributes->setParameters($attributes);
 		return $this;
-	}
-
-	/**
-	 * パラメータを返す
-	 *
-	 * @access public
-	 * @param string $name パラメータ名
-	 * @return mixed パラメータ
-	 */
-	public function getParameter ($name) {
-		$name = BSString::toLower($name);
-		return parent::getParameter($name);
-	}
-
-	/**
-	 * パラメータを設定
-	 *
-	 * @access public
-	 * @param string $name パラメータ名
-	 * @param mixed $value 値
-	 */
-	public function setParameter ($name, $value) {
-		throw new BSDatabaseException('レコードの属性を直接更新することはできません。');
-	}
-
-	/**
-	 * 全てのパラメータを返す
-	 *
-	 * @access public
-	 * @return mixed[] 全てのパラメータ
-	 */
-	public function getParameters () {
-		return new BSArray($this->params);
-	}
-
-	/**
-	 * パラメータをまとめて設定
-	 *
-	 * @access public
-	 * @param mixed[] $params パラメータの配列
-	 */
-	public function setParameters ($params) {
-		foreach ($params as $name => $value) {
-			$this->params[$name] = $value;
-		}
-	}
-
-	/**
-	 * パラメータを削除
-	 *
-	 * @access public
-	 * @param string $name パラメータ名
-	 */
-	public function removeParameter ($name) {
-		throw new BSDatabaseException('レコードの属性は削除できません。');
 	}
 
 	/**
@@ -124,10 +71,9 @@ abstract class BSRecord extends BSParameterHolder
 	 * @access public
 	 * @param string $name 属性名
 	 * @return string 属性値
-	 * @final
 	 */
-	final public function getAttribute ($name) {
-		return $this->getParameter($name);
+	public function getAttribute ($name) {
+		return $this->attributes[BSString::toLower($name)];
 	}
 
 	/**
@@ -135,10 +81,9 @@ abstract class BSRecord extends BSParameterHolder
 	 *
 	 * @access public
 	 * @return BSArray 全属性値
-	 * @final
 	 */
-	final public function getAttributes () {
-		return $this->getParameters();
+	public function getAttributes () {
+		return clone $this->attributes;
 	}
 
 	/**
@@ -184,7 +129,7 @@ abstract class BSRecord extends BSParameterHolder
 		if ($record = $this->getParent()) {
 			$record->touch();
 		}
-		$this->setParameters($values);
+		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
 			BSController::getInstance()->removeAttribute($this);
 		}
@@ -558,6 +503,41 @@ abstract class BSRecord extends BSParameterHolder
 	}
 
 	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @return boolean 要素が存在すればTrue
+	 */
+	public function offsetExists ($key) {
+		return $this->attributes->hasParameter($key);
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @return mixed 要素
+	 */
+	public function offsetGet ($key) {
+		return $this->getAttribute($key);
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 * @param mixed 要素
+	 */
+	public function offsetSet ($key, $value) {
+		throw new BSDatabaseException('レコードの属性を直接更新することはできません。');
+	}
+
+	/**
+	 * @access public
+	 * @param string $key 添え字
+	 */
+	public function offsetUnset ($key) {
+		throw new BSDatabaseException('レコードの属性は削除できません。');
+	}
+
+	/**
 	 * リダイレクト対象
 	 *
 	 * @access public
@@ -638,8 +618,8 @@ abstract class BSRecord extends BSParameterHolder
 	 * @return BSArray ファイル属性の配列
 	 */
 	protected function getFullAttributes () {
-		$values = $this->params;
-		$values['_attributes'] = $this->params;
+		$values = $this->getAttributes();
+		$values['_attributes'] = $this->getAttributes();
 		if ($url = $this->getURL()) {
 			$values['url'] = $url->getContents();
 		}
