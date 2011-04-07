@@ -32,10 +32,10 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		$this->attributes['is_' . BSString::underscorize($this->getType())] = true;
 		$this->attributes['is_mobile'] = $this->isMobile();
 		$this->attributes['is_smartphone'] = $this->isSmartPhone();
+		$this->attributes['is_tablet'] = $this->isTablet();
 		$this->attributes['is_legacy'] = $this->isLegacy();
 		$this->attributes['is_denied'] = $this->isDenied();
 		$this->attributes['is_attachable'] = $this->isAttachable();
-		$this->attributes['is_html5_supported'] = $this->isHTML5Supported();
 		$this->bugs = new BSArray;
 		$this->supports = new BSArray;
 	}
@@ -111,16 +111,6 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 				}
 			}
 		}
-		return false;
-	}
-
-	/**
-	 * HTML5対応か？
-	 *
-	 * @access public
-	 * @return boolean HTML5対応ならTrue
-	 */
-	public function isHTML5Supported () {
 		return false;
 	}
 

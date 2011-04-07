@@ -17,6 +17,8 @@ class BSOperaUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
+		$this->supports['html5_video'] = true;
+		$this->supports['html5_audio'] = true;
 		$this->supports['html5_video_webm'] = true;
 		$this->supports['html5_audio_ogg'] = true;
 	}
@@ -31,16 +33,6 @@ class BSOperaUserAgent extends BSUserAgent {
 	public function encodeFileName ($name) {
 		$name = BSString::convertEncoding($name, 'utf-8');
 		return BSString::sanitize($name);
-	}
-
-	/**
-	 * HTML5対応か？
-	 *
-	 * @access public
-	 * @return boolean HTML5対応ならTrue
-	 */
-	public function isHTML5Supported () {
-		return true;
 	}
 
 	/**

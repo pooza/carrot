@@ -24,17 +24,9 @@ class BSTridentUserAgent extends BSUserAgent {
 		$this->bugs['cache_control'] = true;
 		$this->attributes['is_kuso'] = ($this->getVersion() < 8);
 		$this->attributes['is_ie' . floor($this->getVersion())] = true;
+		$this->supports['html5_audio'] = (8 < $this->getVersion());
+		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
-	}
-
-	/**
-	 * HTML5対応か？
-	 *
-	 * @access public
-	 * @return boolean HTML5対応ならTrue
-	 */
-	public function isHTML5Supported () {
-		return 8 < $this->getVersion();
 	}
 
 	/**

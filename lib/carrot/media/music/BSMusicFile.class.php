@@ -79,7 +79,7 @@ class BSMusicFile extends BSMediaFile {
 		$container = new BSDivisionElement;
 		$container->setAttribute('width', $this['width']);
 		$container->setAttribute('height', $this['height']);
-		if ($useragent->isHTML5Supported()) {
+		if ($useragent->hasSupport('html5_audio')) {
 			$container->addElement($this->getAudioElement($params));
 		} else {
 			$container->addElement($this->getObjectElement($params));
