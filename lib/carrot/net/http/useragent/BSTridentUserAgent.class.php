@@ -22,8 +22,8 @@ class BSTridentUserAgent extends BSUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->bugs['cache_control'] = true;
-		$this->attributes['is_kuso'] = ($this->getVersion() < 8);
-		$this->attributes['is_ie' . floor($this->getVersion())] = true;
+		$this['is_kuso'] = ($this->getVersion() < 8);
+		$this['is_ie' . floor($this->getVersion())] = true;
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
@@ -52,12 +52,12 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string プラットホーム
 	 */
 	public function getPlatform () {
-		if (!$this->attributes['platform']) {
+		if (!$this['platform']) {
 			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
-				$this->attributes['platform'] = $matches[2];
+				$this['platform'] = $matches[2];
 			}
 		}
-		return $this->attributes['platform'];
+		return $this['platform'];
 	}
 
 	/**
@@ -67,12 +67,12 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string バージョン
 	 */
 	public function getVersion () {
-		if (!$this->attributes['version']) {
+		if (!$this['version']) {
 			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
-				$this->attributes['version'] = $matches[1];
+				$this['version'] = $matches[1];
 			}
 		}
-		return $this->attributes['version'];
+		return $this['version'];
 	}
 
 	/**

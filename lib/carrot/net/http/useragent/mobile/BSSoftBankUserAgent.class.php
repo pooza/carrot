@@ -21,7 +21,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 			$name = self::DEFAULT_NAME;
 		}
 		parent::__construct($name);
-		$this->attributes['is_3gc'] = $this->is3GC();
+		$this['is_3gc'] = $this->is3GC();
 	}
 
 	/**

@@ -21,7 +21,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 			$name = self::DEFAULT_NAME;
 		}
 		parent::__construct($name);
-		$this->attributes['is_foma'] = $this->isFOMA();
+		$this['is_foma'] = $this->isFOMA();
 	}
 
 	/**

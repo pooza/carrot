@@ -12,6 +12,15 @@
 class BSIOSUserAgent extends BSWebKitUserAgent {
 
 	/**
+	 * @access protected
+	 * @param string $name ユーザーエージェント名
+	 */
+	protected function __construct ($name = null) {
+		parent::__construct($name);
+		$this['is_web_kit'] = true;
+	}
+
+	/**
 	 * スマートフォンか？
 	 *
 	 * @access public

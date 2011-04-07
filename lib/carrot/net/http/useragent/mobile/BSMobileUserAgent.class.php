@@ -20,9 +20,9 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
-		$this->attributes['id'] = $this->getID();
-		$this->attributes['display'] = $this->getDisplayInfo();
-		$this->attributes['gps'] = $this->getCarrier()->getGPSInfo();
+		$this['id'] = $this->getID();
+		$this['display'] = $this->getDisplayInfo();
+		$this['gps'] = $this->getCarrier()->getGPSInfo();
 	}
 
 	/**
@@ -84,10 +84,10 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return string プラットホーム
 	 */
 	public function getPlatform () {
-		if (!$this->attributes['platform']) {
-			$this->attributes['platform'] = $this->getType();
+		if (!$this['platform']) {
+			$this['platform'] = $this->getType();
 		}
-		return $this->attributes['platform'];
+		return $this['platform'];
 	}
 
 	/**

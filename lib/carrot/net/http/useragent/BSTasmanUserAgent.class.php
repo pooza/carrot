@@ -17,7 +17,7 @@ class BSTasmanUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
-		$this->attributes['platform'] = 'Macintosh';
+		$this['platform'] = 'Macintosh';
 	}
 
 	/**

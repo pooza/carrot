@@ -17,7 +17,7 @@ class BSDeniedUserAgentFilter extends BSFilter {
 	}
 
 	public function execute () {
-		if ($this->request->getUserAgent()->isDenied()) {
+		if ($this->request->getUserAgent()->isLegacy()) {
 			try {
 				$module = $this->controller->getModule($this['module']);
 				$action = $module->getAction($this['action']);
