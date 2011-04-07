@@ -39,7 +39,7 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 */
 	public function getDisplayInfo () {
 		$info = new BSArray;
-		if (!$this->isTablet()) {
+		if ($this->isSmartPhone()) {
 			$info['width'] = 480;
 		}
 		return $info;

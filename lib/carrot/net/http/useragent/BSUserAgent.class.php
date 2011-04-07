@@ -493,9 +493,8 @@ abstract class BSUserAgent implements ArrayAccess, BSAssignable {
 		return new BSArray(array(
 			'Trident',
 			'Gecko',
-			'iPhone',
 			'Android',
-			'iPad',
+			'iOS',
 			'WebKit',
 			'Opera',
 			'Tasman',

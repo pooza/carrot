@@ -1,15 +1,25 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage net.http.useragent
+ * @subpackage net.http.useragent.smartphone
  */
 
 /**
- * iPadユーザーエージェント
+ * OSユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSIPadUserAgent extends BSWebKitUserAgent {
+class BSIOSUserAgent extends BSWebKitUserAgent {
+
+	/**
+	 * スマートフォンか？
+	 *
+	 * @access public
+	 * @return boolean スマートフォンならTrue
+	 */
+	public function isSmartPhone () {
+		return !$this->isTablet();
+	}
 
 	/**
 	 * タブレット型か？
@@ -18,7 +28,21 @@ class BSIPadUserAgent extends BSWebKitUserAgent {
 	 * @return boolean タブレット型ならTrue
 	 */
 	public function isTablet () {
-		return true;
+		return BSString::isContain('iPad', $this->getName());
+	}
+
+	/**
+	 * 画面情報を返す
+	 *
+	 * @access public
+	 * @return BSArray 画面情報
+	 */
+	public function getDisplayInfo () {
+		$info = new BSArray;
+		if ($this->isSmartPhone()) {
+			$info['width'] = 480;
+		}
+		return $info;
 	}
 
 	/**
@@ -31,6 +55,7 @@ class BSIPadUserAgent extends BSWebKitUserAgent {
 		if (!$this->renderDigest) {
 			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
 				__CLASS__,
+				$this->isTablet(),
 			)));
 		}
 		return $this->renderDigest;
@@ -43,7 +68,7 @@ class BSIPadUserAgent extends BSWebKitUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'iPad;';
+		return 'i(Phone|Pod|Pad);';
 	}
 }
 
