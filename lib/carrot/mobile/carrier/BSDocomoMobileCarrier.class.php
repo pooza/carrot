@@ -30,7 +30,7 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 			$agents->sort(BSArray::SORT_KEY_DESC);
 			BSController::getInstance()->setAttribute($file, $agents);
 		}
-		$this->attributes['display_infos'] = $file->getSerialized();
+		$this['display_infos'] = $file->getSerialized();
 	}
 
 	/**

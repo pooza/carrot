@@ -139,10 +139,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	/**
 	 * 数値文字参照を返す
 	 *
-	 * @access private
+	 * @access public
 	 * @return string 数値文字参照
 	 */
-	private function getNumericReference () {
+	public function getNumericReference () {
 		$carrier = $this->getCarrier()->getName();
 		if (BSRequest::getInstance()->isMobile()) {
 			$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier()->getName();

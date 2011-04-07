@@ -10,8 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSMobileCarrier {
-	protected $attributes;
+abstract class BSMobileCarrier extends BSParameterHolder {
 	protected $emoji;
 	static private $instances;
 	const DEFAULT_CARRIER = 'Docomo';
@@ -20,14 +19,14 @@ abstract class BSMobileCarrier {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->attributes = new BSArray;
 		mb_ereg('^BS([[:alpha:]]+)MobileCarrier$', get_class($this), $matches);
-		$this->attributes['name'] = $matches[1];
+		$this['name'] = $matches[1];
 
-		require_once 'HTML/Emoji.php';
-		$this->emoji = HTML_Emoji::getInstance(
-			BSString::toLower($this->attributes['name'])
-		);
+		BSUtility::includeFile('pear/HTML/Emoji.php');
+		$this->emoji = HTML_Emoji::getInstance(BSString::toLower($this['name']));
+		$this->emoji->setConversionRule('kokogiko');
+		$this->emoji->useHalfwidthKatakana(true);
+		$this->emoji->disableEscaping();
 	}
 
 	/**
@@ -37,7 +36,7 @@ abstract class BSMobileCarrier {
 	 * @return string キャリア名
 	 */
 	public function getName () {
-		return $this->attributes['name'];
+		return $this['name'];
 	}
 
 	/**
@@ -57,27 +56,6 @@ abstract class BSMobileCarrier {
 			}
 		}
 		return self::$instances[BSString::underscorize($carrier)];
-	}
-
-	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @return string 属性値
-	 */
-	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
-	}
-
-	/**
-	 * 全ての基本属性を返す
-	 *
-	 * @access public
-	 * @return BSArray 属性の配列
-	 */
-	public function getAttributes () {
-		return $this->attributes;
 	}
 
 	/**
@@ -114,18 +92,6 @@ abstract class BSMobileCarrier {
 				'lng' => BSGeocodeEntryHandler::dms2deg($request['lon']),
 			));
 		}
-	}
-
-	/**
-	 * 絵文字を含んだ文字列を変換する
-	 *
-	 * @access public
-	 * @param mixed $body 対象文字列
-	 * @return string 変換後文字列
-	 */
-	public function convertPictogram ($body) {
-		$body = $this->emoji->filter($body, 'input');
-		return $this->emoji->convertCarrier($body);
 	}
 
 	/**

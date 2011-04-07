@@ -86,7 +86,8 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		foreach ($this->getCarrier()->getAttribute('display_infos') as $pattern => $values) {
+		$carrier = $this->getCarrier();
+		foreach ($carrier['display_infos'] as $pattern => $values) {
 			if (BSString::isContain($pattern, $this->getName(), true)) {
 				return new BSArray($values);
 			}
