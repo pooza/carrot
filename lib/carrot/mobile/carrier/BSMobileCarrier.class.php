@@ -22,7 +22,7 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 		mb_ereg('^BS([[:alpha:]]+)MobileCarrier$', get_class($this), $matches);
 		$this['name'] = $matches[1];
 
-		BSUtility::includeFile('pear/HTML/Emoji.php');
+		BSUtility::includeFile('pear/HTML/Emoji');
 		$this->emoji = HTML_Emoji::getInstance(BSString::toLower($this['name']));
 		$this->emoji->setConversionRule('kokogiko');
 		$this->emoji->useHalfwidthKatakana(true);
