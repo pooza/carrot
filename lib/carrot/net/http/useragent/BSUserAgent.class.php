@@ -11,11 +11,9 @@
  * @abstract
  */
 abstract class BSUserAgent extends BSParameterHolder {
-	private $type;
 	protected $bugs;
 	protected $supports;
 	protected $renderDigest;
-	static private $denied;
 	const ACCESSOR = 'ua';
 	const DEFAULT_NAME = 'Mozilla/4.0';
 
@@ -24,34 +22,37 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @param string $name ユーザーエージェント名
 	 */
 	protected function __construct ($name = null) {
+		$this->bugs = new BSArray;
+		$this->supports = new BSArray;
 		$this['name'] = $name;
-		$this['type'] = $this->getType();
+
+		mb_ereg('^BS([[:alnum:]]+)UserAgent$', get_class($this), $matches);
+		$this['type'] = $matches[1];
 		$this['type_lower'] = BSString::toLower($this->getType());
 		$this['is_' . BSString::underscorize($this->getType())] = true;
+
 		$this['is_mobile'] = $this->isMobile();
 		$this['is_smartphone'] = $this->isSmartPhone();
 		$this['is_tablet'] = $this->isTablet();
 		$this['is_legacy'] = $this->isLegacy();
 		$this['is_attachable'] = $this->isAttachable();
-		$this->bugs = new BSArray;
-		$this->supports = new BSArray;
 	}
 
 	/**
 	 * インスタンスを生成して返す
 	 *
 	 * @access public
-	 * @param string $useragent UserAgent名
+	 * @param string $name UserAgent名
 	 * @param string $type タイプ名
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	static public function getInstance ($useragent, $type = null) {
+	static public function getInstance ($name, $type = null) {
 		if (!$type) {
-			$type = self::getDefaultType($useragent);
+			$type = self::getDefaultType($name);
 		}
 		$class = BSClassLoader::getInstance()->getClass($type, 'UserAgent');
-		return new $class($useragent);
+		return new $class($name);
 	}
 
 	/**
@@ -219,17 +220,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @return string 属性値
-	 */
-	public function getAttribute ($name) {
-		return $this[$name];
-	}
-
-	/**
 	 * プラットホームを返す
 	 *
 	 * @access public
@@ -365,11 +355,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @return string タイプ
 	 */
 	public function getType () {
-		if (!$this->type) {
-			mb_ereg('^BS([[:alnum:]]+)UserAgent$', get_class($this), $matches);
-			$this->type = $matches[1];
-		}
-		return $this->type;
+		return $this['type'];
 	}
 
 	/**
@@ -380,23 +366,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	public function getDefaultImageType () {
 		return BS_IMAGE_THUMBNAIL_TYPE;
-	}
-
-	/**
-	 * 全てのタイプ情報を返す
-	 *
-	 * @access protected
-	 * @return BSArray 全てのタイプ情報
-	 * @static
-	 */
-	static protected function getDeniedTypes () {
-		if (!self::$denied) {
-			self::$denied = new BSArray;
-			$configure = BSConfigManager::getInstance();
-			self::$denied->setParameters($configure->compile('useragent/carrot'));
-			self::$denied->setParameters($configure->compile('useragent/application'));
-		}
-		return self::$denied;
 	}
 
 	/**
