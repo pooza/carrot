@@ -12,7 +12,7 @@ class DefaultAction extends BSAction {
 	}
 
 	public function handleError () {
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['path'] = BS_HOME_HREF;
 		return $url->redirect();
 	}

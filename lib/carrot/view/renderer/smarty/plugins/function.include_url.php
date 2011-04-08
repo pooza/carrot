@@ -13,9 +13,9 @@ function smarty_function_include_url ($params, &$smarty) {
 	$params = new BSArray($params);
 
 	if (BSString::isBlank($params['src'])) {
-		$url = BSURL::getInstance($params, 'carrot');
+		$url = BSURL::create($params, 'carrot');
 	} else {
-		$url = BSURL::getInstance($params['src']);
+		$url = BSURL::create($params['src']);
 	}
 	if (!$url) {
 		return null;

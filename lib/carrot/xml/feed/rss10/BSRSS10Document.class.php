@@ -145,7 +145,7 @@ class BSRSS10Document extends BSRSS09Document {
 					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
 						$url = $url->firstChild->wholeText;
 					}
-					$element->setLink(BSURL::getInstance($url));
+					$element->setLink(BSURL::create($url));
 				}
 				if ($values = new BSArray($entry->date())) {
 					$element->setDate(BSDate::create($values[0]));

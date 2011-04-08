@@ -57,7 +57,7 @@ class BSAtom10Document extends BSAtom03Document {
 					$link = $link[0];
 				}
 				if (!BSString::isBlank($url = $link->getDOM()->getAttribute('href'))) {
-					$element->setLink(BSURL::getInstance($url));
+					$element->setLink(BSURL::create($url));
 				}
 
 				if ($values = new BSArray($entry->updated())) {

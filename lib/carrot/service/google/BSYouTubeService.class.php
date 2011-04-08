@@ -87,7 +87,7 @@ class BSYouTubeService extends BSCurlHTTP {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
 
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		if ($useragent->isMobile()) {
 			$url['host'] = 'm.youtube.com';
 		} else {

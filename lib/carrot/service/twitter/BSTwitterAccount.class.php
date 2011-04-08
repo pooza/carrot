@@ -130,7 +130,7 @@ class BSTwitterAccount
 			);
 			$this->requestToken = new BSArray($oauth->getRequestToken());
 			BSUser::getInstance()->setAttribute(get_class($this), $this->requestToken);
-			return BSURL::getInstance(
+			return BSURL::create(
 				$oauth->getAuthorizeURL($this->requestToken['oauth_token'])
 			);
 		} catch (Exception $e) {
@@ -299,7 +299,7 @@ class BSTwitterAccount
 	 */
 	public function getIcon () {
 		try {
-			$url = BSURL::getInstance($this->profile['profile_image_url']);
+			$url = BSURL::create($this->profile['profile_image_url']);
 			$image = new BSImage;
 			$image->setImage($url->fetch());
 			$image->setType(BSMIMEType::getType('png'));
@@ -447,7 +447,7 @@ class BSTwitterAccount
 				if (!$values['profile']) {
 					$values['profile'] = $tweet['user'];
 				}
-				$url = BSURL::getInstance('http://' . BSTwitterService::DEFAULT_HOST);
+				$url = BSURL::create('http://' . BSTwitterService::DEFAULT_HOST);
 				$url['path'] = '/' . $tweet['user']['screen_name'] . '/status/' . $entry['id_str'];
 				$tweet['url'] = $url->getContents();
 				$tweet->removeParameter('user');
@@ -493,7 +493,7 @@ class BSTwitterAccount
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = BSURL::getInstance();
+			$this->url = BSURL::create();
 			$this->url['host'] = BSTwitterService::DEFAULT_HOST;
 			$this->url['path'] = '/' . $this->getScreenName();
 		}

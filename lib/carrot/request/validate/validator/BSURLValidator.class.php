@@ -45,7 +45,7 @@ class BSURLValidator extends BSValidator {
 			if (!$this['allow_fullpath'] && !mb_ereg($pattern, $value)) {
 				$this->error = $this['net_error'];
 			}
-			if (!$url = BSURL::getInstance($value)) {
+			if (!$url = BSURL::create($value)) {
 				$this->error = $this['net_error'];
 			}
 			if (!$this['allow_fullpath'] && !$this->getSchemes()->isContain($url['scheme'])) {

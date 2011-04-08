@@ -426,7 +426,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = BSURL::getInstance(null, 'carrot');
+		$url = BSURL::create(null, 'carrot');
 		$url['action'] = $this;
 		return $url;
 	}

@@ -15,7 +15,7 @@ function smarty_modifier_host_name ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)
-		&& ($url = BSURL::getInstance($value))
+		&& ($url = BSURL::create($value))
 		&& ($url instanceof BSHTTPURL)) {
 
 		return $url['host']->getName();

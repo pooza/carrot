@@ -20,7 +20,7 @@ class BSReturnPathMIMEHeader extends BSAddressMIMEHeader {
 	protected function parse () {
 		BSMIMEHeader::parse();
 		if (mb_ereg('^<?([^>]*)>?$', $this->contents, $matches)) {
-			$this->email = BSMailAddress::getInstance($matches[1]);
+			$this->email = BSMailAddress::create($matches[1]);
 		}
 	}
 }

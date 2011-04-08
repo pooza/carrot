@@ -11,7 +11,7 @@ class BSGoogleChartServiceTest extends BSTest {
 	public function execute () {
 		$this->assert('__construct', $service = new BSGoogleChartService);
 
-		$url = BSURL::getInstance('http://www.b-shock.co.jp/');
+		$url = BSURL::create('http://www.b-shock.co.jp/');
 		$this->assert(
 			'getQRCodeImageFile',
 			($service->getQRCodeImageFile($url->getContents()) instanceof BSImageFile)

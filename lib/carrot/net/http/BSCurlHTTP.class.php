@@ -116,7 +116,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @return BSHTTPURL リクエストURL
 	 */
 	protected function createRequestURL ($href) {
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] ='/' . ltrim($href, '/');
 		if ($this->isSSL()) {

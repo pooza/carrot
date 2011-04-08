@@ -20,7 +20,7 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	public function getLink () {
 		if ($element = $this->getElement('link')) {
-			return BSURL::getInstance($element->getBody());
+			return BSURL::create($element->getBody());
 		}
 	}
 

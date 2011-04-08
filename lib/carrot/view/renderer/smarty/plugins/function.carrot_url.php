@@ -13,9 +13,9 @@ function smarty_function_carrot_url ($params, &$smarty) {
 	$params = new BSArray($params);
 
 	if (BSString::isBlank($params['contents'])) {
-		$url = BSURL::getInstance($params, 'carrot');
+		$url = BSURL::create($params, 'carrot');
 	} else {
-		$url = BSURL::getInstance($params['contents']);
+		$url = BSURL::create($params['contents']);
 	}
 
 	if (!BSString::isBlank($name = $params[BSUserAgent::ACCESSOR])) {

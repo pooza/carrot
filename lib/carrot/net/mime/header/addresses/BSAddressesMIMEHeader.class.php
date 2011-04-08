@@ -52,13 +52,13 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 				if ($address instanceof BSMailAddress) {
 					$addresses[] = $address;
 				} else {
-					$addresses[] = BSMailAddress::getInstance($address);
+					$addresses[] = BSMailAddress::create($address);
 				}
 			}
 		} else {
 			$contents = BSMIMEUtility::decode($contents);
 			foreach (mb_split('[;,]', $contents) as $address) {
-				if ($address = BSMailAddress::getInstance($address)) {
+				if ($address = BSMailAddress::create($address)) {
 					$addresses[] = $address;
 				}
 			}

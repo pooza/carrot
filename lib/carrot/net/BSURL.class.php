@@ -25,7 +25,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * ファクトリインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @param string $contents URL文字列、又はパラメータ配列
@@ -33,7 +33,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @return BSURL
 	 * @static
 	 */
-	static public function getInstance ($contents = null, $class = 'http') {
+	static public function create ($contents = null, $class = 'http') {
 		if (!$class = BSClassLoader::getInstance()->getClass($class, 'URL')) {
 			throw new BSNetException('URLクラスが見つかりません。');
 		}

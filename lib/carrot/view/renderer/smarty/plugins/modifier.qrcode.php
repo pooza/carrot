@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_modifier_qrcode ($value) {
-	$url = BSURL::getInstance(null, 'carrot');
+	$url = BSURL::create(null, 'carrot');
 	$url['module'] = 'Default';
 	$url['action'] = 'QRCode';
 	$url->setParameter('value', $value);

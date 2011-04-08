@@ -119,7 +119,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function getLink () {
 		if ($element = $this->getElement('link')) {
-			return BSURL::getInstance($element->getBody());
+			return BSURL::create($element->getBody());
 		}
 	}
 
@@ -221,7 +221,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 					$link = $link[0];
 				}
 				if (!BSString::isBlank($url = $link->getDOM()->getAttribute('href'))) {
-					$element->setLink(BSURL::getInstance($url));
+					$element->setLink(BSURL::create($url));
 				}
 
 				if ($values = new BSArray($entry->modified())) {

@@ -56,7 +56,7 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 		$params = new BSArray(array(
 			'longUrl' => $url->getURL()->getContents(),
 		));
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] = '/urlshortener/v1/url';
 		$url->setParameter('key', BS_SERVICE_GOOGLE_URL_SHORTENER_API_KEY);
@@ -64,7 +64,7 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 
 		$json = new BSJSONSerializer;
 		$result = $json->decode($response->getRenderer()->getContents());
-		return BSURL::getInstance($result['id']);
+		return BSURL::create($result['id']);
 	}
 }
 

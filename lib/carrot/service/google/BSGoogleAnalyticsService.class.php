@@ -105,7 +105,7 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 	 * @return BSURL ビーコン画像のURL
 	 */
 	private function getBeaconURL () {
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['path'] = BS_SERVICE_GOOGLE_ANALYTICS_BEACON_HREF;
 		$url->setParameter('guid', 'ON');
 		$url->setParameter('utmac', 'MO-' . $this->getID());

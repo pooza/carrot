@@ -37,13 +37,13 @@ class BSMailAddress implements BSAssignable {
 	}
 
 	/**
-	 * ファクトリインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @access public
 	 * @return BSMailAddress インスタンス
 	 * @static
 	 */
-	static public function getInstance ($contents, $name = null) {
+	static public function create ($contents, $name = null) {
 		$email = new self($contents, $name);
 		if (!BSString::isBlank($email->getContents())) {
 			return $email;
@@ -88,7 +88,7 @@ class BSMailAddress implements BSAssignable {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = BSURL::getInstance('mailto:' . $this->getContents());
+			$this->url = BSURL::create('mailto:' . $this->getContents());
 		}
 		return $this->url;
 	}

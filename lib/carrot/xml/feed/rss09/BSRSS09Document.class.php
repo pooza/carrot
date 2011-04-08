@@ -119,7 +119,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function getLink () {
 		if ($element = $this->getChannel()->getElement('link')) {
-			return BSURL::getInstance($element->getBody());
+			return BSURL::create($element->getBody());
 		}
 	}
 
@@ -206,7 +206,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
 						$url = $url->firstChild->wholeText;
 					}
-					$element->setLink(BSURL::getInstance($url));
+					$element->setLink(BSURL::create($url));
 				}
 				if ($values = new BSArray($entry->pubDate())) {
 					$element->setDate(BSDate::create($values[0]));

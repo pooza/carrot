@@ -545,12 +545,12 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function getURL () {
 		if (BSString::isBlank($this['url'])) {
-			$url = BSURL::getInstance(null, 'carrot');
+			$url = BSURL::create(null, 'carrot');
 			$url['module'] = 'User' . BSString::pascalize($this->getTable()->getName());
 			$url['action'] = 'Detail';
 			$url['record'] = $this;
 		} else {
-			$url = BSURL::getInstance($this['url']);
+			$url = BSURL::create($this['url']);
 		}
 		return $url;
 	}

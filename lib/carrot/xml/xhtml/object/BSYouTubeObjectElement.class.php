@@ -35,7 +35,7 @@ class BSYouTubeObjectElement extends BSObjectElement {
 		$params->removeParameter('width');
 		$params->removeParameter('height');
 
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['host'] = BSYouTubeService::DEFAULT_HOST;
 		$url['path'] = '/v/' . $id;
 		$url->setParameters($params);

@@ -60,7 +60,7 @@ class BSAdministratorRole implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 */
 	public function getMailAddress ($language = 'ja') {
-		return BSMailAddress::getInstance(BS_ADMIN_EMAIL, self::getName($language));
+		return BSMailAddress::create(BS_ADMIN_EMAIL, self::getName($language));
 	}
 
 	/**

@@ -288,7 +288,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		if (!$this->url) {
 			$documentRoot = BSFileUtility::getPath('www');
 			if (mb_ereg('^' . $documentRoot, $this->getPath())) {
-				$this->url = BSURL::getInstance();
+				$this->url = BSURL::create();
 				$this->url['path'] = str_replace($documentRoot, '', $this->getPath()) . '/';
 			}
 		}

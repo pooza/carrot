@@ -107,7 +107,7 @@ class BSMusicFile extends BSMediaFile {
 	 */
 	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
-		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
+		$element->setURL(BSURL::create()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
 		$element->setAttribute('width', $this['width']);
 		$element->setAttribute('height', $this['height']);
 		$element->setFlashVar('mp3', $this->getMediaURL($params)->getContents());

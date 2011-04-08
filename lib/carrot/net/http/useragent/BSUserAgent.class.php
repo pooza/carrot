@@ -331,7 +331,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
 		$formatter = new BSStringFormat('CarrotLib.handleGPS(\'%s\')');
 		$formatter[] = BSURL::encode($url->getURL()->getContents());
-		$wrapper = BSURL::getInstance('javascript:' . $formatter->getContents());
+		$wrapper = BSURL::create('javascript:' . $formatter->getContents());
 
 		$element = new BSAnchorElement;
 		$element->setURL($wrapper);

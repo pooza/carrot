@@ -25,7 +25,7 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 	}
 
 	private function createAPIURL ($command) {
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] = $command;
 		$url->setParameter('version', BS_SERVICE_BITLY_VERSION);
@@ -50,7 +50,7 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 		$result = $json->decode($response->getRenderer()->getContents());
 		$result = new BSArray($result['results']);
 		$result = new BSArray($result->getIterator()->getFirst());
-		return BSURL::getInstance($result['shortUrl']);
+		return BSURL::create($result['shortUrl']);
 	}
 }
 

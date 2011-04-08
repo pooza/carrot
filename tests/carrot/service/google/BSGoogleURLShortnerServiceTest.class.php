@@ -11,7 +11,7 @@ class BSGoogleURLShortnerServiceTest extends BSTest {
 	public function execute () {
 		$this->assert('__construct', $service = new BSGoogleURLShortnerService);
 
-		$url = BSURL::getInstance('http://www.b-shock.co.jp/');
+		$url = BSURL::create('http://www.b-shock.co.jp/');
 		$this->assert('getShortURL', ($service->getShortURL($url) instanceof BSHTTPURL));
 	}
 }

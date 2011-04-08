@@ -139,7 +139,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
-		$element->setURL(BSURL::getInstance()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
+		$element->setURL(BSURL::create()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
 		$element->setFlashVar('config', $this->getPlayerConfig($params));
 		return $element;
 	}

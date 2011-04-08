@@ -136,7 +136,7 @@ class BSWebRequest extends BSRequest {
 				$url .= 's';
 			}
 			$url .= "://" . $this->controller->getHost()->getName();
-			$this->url = BSURL::getInstance($url);
+			$this->url = BSURL::create($url);
 			$this->url['path'] = $this->controller->getAttribute('REQUEST_URI');
 		}
 		return $this->url;

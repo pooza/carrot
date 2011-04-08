@@ -13,9 +13,9 @@ function smarty_function_gps_link ($params, &$smarty) {
 	$params = new BSArray($params);
 	if ($useragent = $smarty->getUserAgent()) {
 		if (BSString::isBlank($params['contents'])) {
-			$url = BSURL::getInstance($params, 'carrot');
+			$url = BSURL::create($params, 'carrot');
 		} else {
-			$url = BSURL::getInstance($params['contents']);
+			$url = BSURL::create($params['contents']);
 		}
 		$url->setUserAgent($useragent);
 		$element = $useragent->getGPSAnchorElement($url, $params['label']);

@@ -66,7 +66,7 @@ class BSMenuFilter extends BSFilter {
 			}
 		}
 		if (!BSString::isBlank($values['href'])) {
-			$url = BSURL::getInstance();
+			$url = BSURL::create();
 			$url['path'] = $values['href'];
 			if(BSString::isBlank($value = $url->getParameter(BSUserAgent::ACCESSOR))) {
 				$useragent = $this->request->getUserAgent();

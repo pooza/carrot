@@ -9,7 +9,7 @@
  */
 class BSHTTPURLTest extends BSTest {
 	public function execute () {
-		$this->assert('getInstance', $url = BSURL::getInstance('http://www.b-shock.co.jp/'));
+		$this->assert('getInstance', $url = BSURL::create('http://www.b-shock.co.jp/'));
 		$this->assert('getImageFile', $url->getImageFile('favicon') instanceof BSImageFile);
 		$this->assert('getImageFile', $url->getImageFile('qr') instanceof BSImageFile);
 		$this->assert('getImageInfo', $url->getImageInfo('favicon') instanceof BSArray);

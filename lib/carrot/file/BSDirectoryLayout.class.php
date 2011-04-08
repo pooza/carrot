@@ -108,7 +108,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 			if (BSString::isBlank($info['href'])) {
 				$info['url'] = $this->getDirectory($name)->getURL();
 			} else {
-				$info['url'] = BSURL::getInstance();
+				$info['url'] = BSURL::create();
 				$info['url']['path'] = $info['href'];
 			}
 		}

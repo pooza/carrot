@@ -169,7 +169,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$info = $file->getImageInfo('roadmap', null, BSImageManager::FORCE_GIF);
 
 		$image = new BSImageElement;
-		$image->setURL(BSURL::getInstance($info['url']));
+		$image->setURL(BSURL::create($info['url']));
 		$container = new BSDivisionElement;
 		if (BSString::isBlank($label = $params['label'])) {
 			$anchor = $container->addElement(new BSAnchorElement);
@@ -222,7 +222,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$size[] = $info['width'];
 		$size[] = BSNumeric::round($info['width'] * 0.75);
 
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		$url['host'] = self::DEFAULT_HOST;
 		$url['path'] = '/staticmap';
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
@@ -252,7 +252,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
 
-		$url = BSURL::getInstance();
+		$url = BSURL::create();
 		if ($useragent->isMobile()) {
 			$url['host'] = 'www.google.co.jp';
 			$url['path'] = '/m/local';

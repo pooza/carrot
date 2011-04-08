@@ -74,7 +74,7 @@ class BSFormElement extends BSXHTMLElement {
 			$this->setAttribute('action', $action->getURL()->getContents());
 		} else if ($action instanceof BSParameterHolder) {
 			if (BSString::isBlank($action['path'])) {
-				$this->setAction(BSURL::getInstance($action, 'carrot'));
+				$this->setAction(BSURL::create($action, 'carrot'));
 			} else {
 				$this->setAction($action['path']);
 			}

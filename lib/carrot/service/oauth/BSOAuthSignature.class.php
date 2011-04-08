@@ -20,7 +20,7 @@ class BSOAuthSignature extends BSParameterHolder {
 	 */
 	public function __construct (BSRequest $request) {
 		$this->setMethod('GET');
-		$this->setURL(BSURL::getInstance());
+		$this->setURL(BSURL::create());
 		$this->request = $request;
 		$this['oauth_signature_method'] = 'HMAC-SHA1';
 		$this['oauth_version'] = '1.0';

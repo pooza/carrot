@@ -79,7 +79,7 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 
 		foreach ($urls as $url) {
 			try {
-				$url = BSURL::getInstance($url);
+				$url = BSURL::create($url);
 				$server = new self($url['host']);
 				$server->sendPing($url->getFullPath(), $request);
 			} catch (Exception $e) {

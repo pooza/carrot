@@ -61,7 +61,7 @@ class BSTwitterService extends BSCurlHTTP {
 			return parent::sendGET($path);
 		}
 
-		$url = BSURL::getInstance('https://' . self::DEFAULT_HOST);
+		$url = BSURL::create('https://' . self::DEFAULT_HOST);
 		$url['path'] = $path;
 		return $this->sendOauthRequest($url, 'GET', new BSArray);
 	}
@@ -84,7 +84,7 @@ class BSTwitterService extends BSCurlHTTP {
 			return parent::sendPOST($path, $params);
 		}
 
-		$url = BSURL::getInstance('https://' . self::DEFAULT_HOST);
+		$url = BSURL::create('https://' . self::DEFAULT_HOST);
 		$url['path'] = $path;
 		return $this->sendOauthRequest($url, 'POST', $params);
 	}
