@@ -20,7 +20,7 @@ class BSZipcodeRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if ($value && !BSArray::isArray($value) && mb_ereg('zipcode$', $key)) {
+		if (mb_ereg('zipcode$', $key)) {
 			$value = mb_ereg_replace('[^[:digit:]]', null, $value);
 			$value = substr($value, 0, 3) . '-' . substr($value, 3, 4);
 		}

@@ -20,7 +20,7 @@ class BSMagicQuoteRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if (!BSArray::isArray($value) && get_magic_quotes_gpc()) {
+		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
 		return $value;
