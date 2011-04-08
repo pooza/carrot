@@ -117,11 +117,6 @@ png2ico:
   constant: yes
 proctools:
   constant: yes
-request:
-  parent: var
-  suffix: .txt
-  purge:
-    day: 7
 root:
   constant: yes
 ruby:
