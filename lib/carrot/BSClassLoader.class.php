@@ -57,7 +57,7 @@ class BSClassLoader {
 				foreach ($this->getClassPaths() as $path) {
 					$this->classes += $this->loadPath($path);
 				}
-				file_put_contents($this->getCachePath(), serialize($this->classes));
+				file_put_contents($this->getCachePath(), serialize($this->classes), LOCK_EX);
 			}
 		}
 		return $this->classes;

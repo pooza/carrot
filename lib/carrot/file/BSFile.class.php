@@ -320,9 +320,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function setContents ($contents) {
 		if ($this->isCompressed()) {
-			file_put_contents($this->getPath(), gzencode($contents, 9));
+			file_put_contents($this->getPath(), gzencode($contents, 9), LOCK_EX);
 		} else {
-			file_put_contents($this->getPath(), $contents);
+			file_put_contents($this->getPath(), $contents, LOCK_EX);
 		}
 	}
 
