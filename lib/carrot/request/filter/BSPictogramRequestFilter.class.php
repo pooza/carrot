@@ -22,7 +22,10 @@ class BSPictogramRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		return $this->request->getUserAgent()->getCarrier()->trimPictogram($value);
+		if (($useragent = $this->request->getUserAgent()) && $useragent->isMobile()) {
+			$value = $useragent->getCarrier()->trimPictogram($value);
+		}
+		return $value;
 	}
 }
 
