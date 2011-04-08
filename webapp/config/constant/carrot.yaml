@@ -91,7 +91,7 @@ image:
       au: image/png
       softbank: image/png
   qrcode:
-    size: 100
+    size: 80
   thumbnail:
     bgcolor: black
     type: image/png
