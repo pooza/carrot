@@ -35,7 +35,7 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 			foreach ($params as $key => $value) {
 				if (!BSString::isBlank($value)) {
 					if ($key == 'lastmod') {
-						$date = BSDate::getInstance($value);
+						$date = BSDate::create($value);
 						$value = $date->format(DateTime::W3C);
 					}
 					$element->createElement($key, $value);

@@ -77,7 +77,7 @@ class BSAtom03Entry extends BSXMLElement implements BSFeedEntry {
 	public function getDate () {
 		foreach (array('published', 'created') as $field) {
 			if ($element = $this->getElement($field)) {
-				return BSDate::getInstance($element->getBody());
+				return BSDate::create($element->getBody());
 			}
 		}
 	}

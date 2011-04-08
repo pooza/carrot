@@ -11,7 +11,7 @@ class PurgeAction extends BSAction {
 		$dirs = BSDirectoryLayout::getInstance();
 		foreach ($dirs as $name => $values) {
 			if ($values['purge']) {
-				$date = BSDate::getInstance();
+				$date = BSDate::create();
 				foreach ($values['purge'] as $key => $value) {
 					$date[$key] = '-' . $value;
 				}

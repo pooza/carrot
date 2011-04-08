@@ -73,7 +73,7 @@ class BSDatabaseLogger extends BSLogger {
 		if (!$this->dates) {
 			$this->dates = new BSArray;
 			foreach ($this->getTable()->getDates() as $date) {
-				$date = BSDate::getInstance($date);
+				$date = BSDate::create($date);
 				$month = $date->format('Y-m');
 				if (!$this->dates[$month]) {
 					$this->dates[$month] = new BSArray;

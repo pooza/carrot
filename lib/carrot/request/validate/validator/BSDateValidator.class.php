@@ -21,7 +21,7 @@ class BSDateValidator extends BSValidator {
 	 * @return BSDate 日付
 	 */
 	private function getDate ($value) {
-		$date = BSDate::getInstance(null, BSDate::NO_INITIALIZE);
+		$date = BSDate::create(null, BSDate::NO_INITIALIZE);
 		if ($fields = $this['fields']) {
 			foreach ($fields as $key => $value) {
 				$date[$key] = $this->request[$value];

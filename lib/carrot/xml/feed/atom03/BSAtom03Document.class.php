@@ -175,7 +175,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('modified')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::create($element->getBody());
 		}
 	}
 
@@ -225,7 +225,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 				}
 
 				if ($values = new BSArray($entry->modified())) {
-					$element->setDate(BSDate::getInstance($values[0]));
+					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {
 			}

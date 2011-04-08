@@ -280,7 +280,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate () {
-		return BSDate::getInstance($this[$this->getTable()->getUpdateDateField()]);
+		return BSDate::create($this[$this->getTable()->getUpdateDateField()]);
 	}
 
 	/**
@@ -290,7 +290,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSDate 作成日
 	 */
 	public function getCreateDate () {
-		return BSDate::getInstance($this[$this->getTable()->getCreateDateField()]);
+		return BSDate::create($this[$this->getTable()->getCreateDateField()]);
 	}
 
 	/**

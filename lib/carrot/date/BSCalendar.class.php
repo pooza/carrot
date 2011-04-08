@@ -163,7 +163,7 @@ class BSCalendar implements IteratorAggregate {
 	 */
 	public function setValues ($name, BSArray $values) {
 		foreach ($values as $key => $value) {
-			$this->setValue(BSDate::getInstance($key), $name, $value);
+			$this->setValue(BSDate::create($key), $name, $value);
 		}
 	}
 

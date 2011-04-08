@@ -41,7 +41,7 @@ abstract class BSLogger {
 	public function getLastDate () {
 		if ($month = $this->getDates()->getIterator()->getFirst()) {
 			if ($date = $month->getIterator()->getFirst()) {
-				return BSDate::getInstance($date);
+				return BSDate::create($date);
 			}
 		}
 	}

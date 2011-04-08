@@ -162,7 +162,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 	 */
 	public function getDate () {
 		if ($element = $this->getChannel()->getElement('lastBuildDate')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::create($element->getBody());
 		}
 	}
 
@@ -209,7 +209,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 					$element->setLink(BSURL::getInstance($url));
 				}
 				if ($values = new BSArray($entry->pubDate())) {
-					$element->setDate(BSDate::getInstance($values[0]));
+					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {
 			}

@@ -47,7 +47,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * ファクトリインスタンスを返す
+	 * インスタンスを生成して返す
 	 *
 	 * @param string $date 日付文字列
 	 * @return BSDate インスタンス
@@ -56,7 +56,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 *   self::TIMESTAMP タイムスタンプ形式
 	 * @static
 	 */
-	static public function getInstance ($date = null, $flags = null) {
+	static public function create ($date = null, $flags = null) {
 		if ($date instanceof BSDate) {
 			return $date;
 		}
@@ -305,7 +305,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		} else if (BSArray::isArray($date)) {
 			$date = self::getNewest(new BSArray($date));
 		} else if (!($date instanceof BSDate)) {
-			if (!$date = BSDate::getInstance($date)) {
+			if (!$date = self::create($date)) {
 				throw new BSDateException('日付が正しくありません。');
 			}
 		}
@@ -364,7 +364,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		return BSDate::getInstance($this->format('Ymt'));
+		return self::create($this->format('Ymt'));
 	}
 
 	/**
@@ -613,7 +613,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function getNow ($format = null) {
-		$date = self::getInstance();
+		$date = self::create();
 		if (BSString::isBlank($format)) {
 			return $date;
 		} else {
@@ -633,7 +633,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		$newest = null;
 		foreach ($dates as $date) {
 			if (!($date instanceof BSDate)) {
-				if (!$date = self::getInstance($date)) {
+				if (!$date = self::create($date)) {
 					throw new BSDateException('日付でない要素が含まれています。');
 				}
 			}
@@ -660,7 +660,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 			}
 			foreach ($config['gengo'] as $gengo) {
 				$gengo = new BSArray($gengo);
-				$gengo['start_date'] = BSDate::getInstance($gengo['start_date']);
+				$gengo['start_date'] = self::create($gengo['start_date']);
 				if (!$gengo['start_date']) {
 					continue;
 				}

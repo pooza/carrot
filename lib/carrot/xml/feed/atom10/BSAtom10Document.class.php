@@ -21,7 +21,7 @@ class BSAtom10Document extends BSAtom03Document {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('updated')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::create($element->getBody());
 		}
 	}
 
@@ -61,7 +61,7 @@ class BSAtom10Document extends BSAtom03Document {
 				}
 
 				if ($values = new BSArray($entry->updated())) {
-					$element->setDate(BSDate::getInstance($values[0]));
+					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {
 			}

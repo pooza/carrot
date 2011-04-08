@@ -96,7 +96,7 @@ class BSRSS10Document extends BSRSS09Document {
 	 */
 	public function getDate () {
 		if ($element = $this->getChannel()->getElement('dc:date')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::create($element->getBody());
 		}
 	}
 
@@ -148,7 +148,7 @@ class BSRSS10Document extends BSRSS09Document {
 					$element->setLink(BSURL::getInstance($url));
 				}
 				if ($values = new BSArray($entry->date())) {
-					$element->setDate(BSDate::getInstance($values[0]));
+					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {
 			}

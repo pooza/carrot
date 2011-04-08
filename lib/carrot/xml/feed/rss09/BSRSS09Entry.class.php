@@ -70,7 +70,7 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	 */
 	public function getDate () {
 		if ($element = $this->getElement('pubDate')) {
-			return BSDate::getInstance($element->getBody());
+			return BSDate::create($element->getBody());
 		}
 	}
 

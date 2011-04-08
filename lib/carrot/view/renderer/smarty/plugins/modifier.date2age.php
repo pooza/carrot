@@ -15,7 +15,7 @@ function smarty_modifier_date2age ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		if ($date = BSDate::getInstance($value)) {
+		if ($date = BSDate::create($value)) {
 			return $date->getAge();
 		}
 	}
