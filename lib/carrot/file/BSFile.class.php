@@ -104,7 +104,14 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		} else if (function_exists('mime_content_type')) {
 			return mime_content_type($this->getPath());
 		} else {
-			return exec('file -b --mime-type ' . $this->getPath());
+			switch (PHP_OS) {
+				case 'FreeBSD':
+				case 'Darwin':
+					return rtrim(exec('file -b --mime-type ' . $this->getPath()));
+				case 'Linux':
+				default:
+					return rtrim(exec('file -bi ' . $this->getPath()));
+			}
 		}
 	}
 
