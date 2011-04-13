@@ -3,5 +3,9 @@
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
+# mod_authz_host
+Deny from none
+
+#
 Options +ExecCGI
 AddHandler cgi-script .pl
