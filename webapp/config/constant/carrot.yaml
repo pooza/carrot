@@ -78,8 +78,6 @@ flash:
   player_ver: 9.0.0
   installer:
     href: /carrotlib/swf/expressInstall.swf
-home:
-  href: /index.html
 image:
   storable: yes
   mobile:
