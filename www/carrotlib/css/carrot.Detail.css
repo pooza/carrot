@@ -20,21 +20,3 @@ table.detail td td {
 table.detail td th {
 	width: auto;
 }
-
-table.detail .image_uploader_half {
-	float: left;
-	width: 220px;
-	height: 60px;
-	border: 1px solid #666666;
-	padding: 4px;
-	margin: 2px;
-}
-
-table.detail .image_uploader {
-	float: left;
-	width: 220px;
-	height: 250px;
-	border: 1px solid #666666;
-	padding: 4px;
-	margin: 2px;
-}
