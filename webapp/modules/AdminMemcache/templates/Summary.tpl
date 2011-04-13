@@ -8,7 +8,7 @@
 {include file='AdminHeader'}
 
 <h1>{$action.title}</h1>
-<table class="Detail">
+<table class="detail">
 
 {foreach from=$server key='key' item='value'}
 	<tr>

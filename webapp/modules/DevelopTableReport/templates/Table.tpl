@@ -16,7 +16,7 @@
 <h1>{$action.title}</h1>
 
 <h2>基本属性</h2>
-<table class="Detail">
+<table class="detail">
 	<tr>
 		<th>物理テーブル名</th>
 		<td>{$table.name}</td>

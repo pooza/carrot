@@ -5,23 +5,23 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 
-table.Detail th {
+table.detail th {
 	width: 120px;
 	text-align: left;
 }
 
-table.Detail td {
+table.detail td {
 	width: 480px;
 }
 
-table.Detail td td {
+table.detail td td {
 	width: auto;
 }
-table.Detail td th {
+table.detail td th {
 	width: auto;
 }
 
-table.Detail .image_uploader_half {
+table.detail .image_uploader_half {
 	float: left;
 	width: 220px;
 	height: 60px;
@@ -30,7 +30,7 @@ table.Detail .image_uploader_half {
 	margin: 2px;
 }
 
-table.Detail .image_uploader {
+table.detail .image_uploader {
 	float: left;
 	width: 220px;
 	height: 250px;
