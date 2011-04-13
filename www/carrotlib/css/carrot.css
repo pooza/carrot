@@ -15,6 +15,10 @@
 	line-break: strict;
 }
 
+body.debug {
+	background: url(/carrotlib/images/background/test.gif) repeat-y;
+}
+
 pre,textarea,code,tt {
 	font-family: monospace;
 }

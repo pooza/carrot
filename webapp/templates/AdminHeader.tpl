@@ -8,16 +8,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
-<title>{const name='app_name_ja'} {$title|default:$module.title}</title>
+<title>{strip}
+	{if $is_debug}[TEST]{/if}
+	{const name='app_name_ja'}
+	{$title|default:$module.title}
+{/strip}</title>
 {js_cache name=$jsset}
 {css_cache name=$styleset}
-{if $is_debug}
-<style type="text/css">
-body {ldelim}background: url(/carrotlib/images/background/test.gif) repeat-y;{rdelim}
-</style>
-{/if}
 </head>
-<body {if $body.id}id="{$body.id}"{/if}>
+<body {if $body.id}id="{$body.id}"{/if} class="{if $is_debug}debug{/if}">
 
 {if $menu}
 <div id="Menu">
@@ -34,14 +33,16 @@ body {ldelim}background: url(/carrotlib/images/background/test.gif) repeat-y;{rd
 	</ul>
 </div>
 <script type="text/javascript">
-document.observe('dom:loaded', function () {ldelim}
+{literal}
+document.observe('dom:loaded', function () {
   new Elevator($('Menu'), 10, 30, 10);
-  new PeriodicalExecuter(function () {ldelim}
-    new Ajax.Request('/Ping', {ldelim}
+  new PeriodicalExecuter(function () {
+    new Ajax.Request('/Ping', {
       method: 'get'
-    {rdelim});
-  {rdelim}, 300);
-{rdelim});
+    });
+  }, 300);
+});
+{/literal}
 </script>
 {/if}
 
