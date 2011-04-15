@@ -259,28 +259,20 @@ class BSImageManager {
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
-		try {
-			$date = $record->getUpdateDate();
-		} catch (Exception $e) {
-			$date = null;
+		$flags |= $this->flags;
+		if (!$image = $this->getThumbnail($record, $size, $pixel, $flags)) {
+			return;
 		}
 
-		$flags |= $this->flags;
-		$name = get_class($this) . '.' . BSCrypt::getDigest(array(
-			get_class($record), $record->getID(), $size, $pixel, $flags,
-		));
 		$info = new BSArray;
-		if ($values = BSController::getInstance()->getAttribute($name, $date)) {
-			$info->setParameters($values);
-		} else if ($image = $this->getThumbnail($record, $size, $pixel, $flags)) {
-			$info['url'] = $this->getURL($record, $size, $pixel, $flags)->getContents();
-			$info['width'] = $image->getWidth();
-			$info['height'] = $image->getHeight();
-			$info['alt'] = $record->getLabel();
-			$info['type'] = $image->getType();
-			$info['pixel_size'] = $info['width'] . '×' . $info['height'];
-			BSController::getInstance()->setAttribute($name, $info);
+		if ($url = $this->getURL($record, $size, $pixel, $flags)) {
+			$info['url'] = $url->getContents();
 		}
+		$info['width'] = $image->getWidth();
+		$info['height'] = $image->getHeight();
+		$info['alt'] = $record->getLabel();
+		$info['type'] = $image->getType();
+		$info['pixel_size'] = $info['width'] . '×' . $info['height'];
 		return $info;
 	}
 
