@@ -112,7 +112,7 @@ abstract class BSDirectoryEntry {
 	 * @param string $path パス
 	 */
 	protected function setPath ($path) {
-		if (!BSUtility::isPathAbsolute($path)) {
+		if (!BSUtility::isPathAbsolute($path) || BSString::isContain('../', $path)) {
 			$message = new BSStringFormat('パス"%s"が正しくありません。');
 			$message[] = $path;
 			throw new BSFileException($message);

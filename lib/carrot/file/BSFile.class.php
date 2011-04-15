@@ -295,6 +295,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if (!$this->lines) {
 			$this->lines = new BSArray;
 			if ($this->isCompressed()) {
+				if (!extension_loaded('zlib')) {
+					throw new BSFileException('zlibモジュールがロードされていません。');
+				}
 				foreach (gzfile($this->getPath()) as $line) {
 					$this->lines[] = rtrim($line);
 				}
@@ -313,6 +316,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getContents () {
 		if ($this->isCompressed()) {
+			if (!extension_loaded('zlib')) {
+				throw new BSFileException('zlibモジュールがロードされていません。');
+			}
 			return readgzfile($this->getPath());
 		} else {
 			return file_get_contents($this->getPath());
@@ -327,10 +333,12 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function setContents ($contents) {
 		if ($this->isCompressed()) {
-			file_put_contents($this->getPath(), gzencode($contents, 9), LOCK_EX);
-		} else {
-			file_put_contents($this->getPath(), $contents, LOCK_EX);
+			if (!extension_loaded('zlib')) {
+				throw new BSFileException('zlibモジュールがロードされていません。');
+			}
+			$contents = gzencode($contents, 9);
 		}
+		file_put_contents($this->getPath(), $contents, LOCK_EX);
 	}
 
 	/**
@@ -339,12 +347,14 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @access public
 	 */
 	public function compress () {
+		if (!extension_loaded('zlib')) {
+			throw new BSFileException('zlibモジュールがロードされていません。');
+		}
 		if ($this->isCompressed()) {
 			throw new BSFileException($this . 'をgzip圧縮することはできません。');
 		}
-		$contents = gzencode($this->getContents(), 9);
-		$this->setContents($contents);
-		$this->rename($this->getName() . self::COMPRESSED_SUFFIX);
+		$this->setContents(gzencode($this->getContents(), 9));
+		$this->rename($this->getName() . '.gz');
 	}
 
 	/**
