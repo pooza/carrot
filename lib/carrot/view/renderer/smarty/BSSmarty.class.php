@@ -440,8 +440,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 			throw new BSViewException($message);
 		}
 		$source = str_replace(BS_ROOT_DIR, '', $source);
-		$source = str_replace(DIRECTORY_SEPARATOR, '%', $source);
-		return $base . DIRECTORY_SEPARATOR . $source;
+		$source = str_replace('/', '%', $source);
+		return $base . '/' . $source;
 	}
 }
 

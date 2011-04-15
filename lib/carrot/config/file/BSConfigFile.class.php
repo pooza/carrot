@@ -86,8 +86,8 @@ class BSConfigFile extends BSFile {
 	 */
 	public function getCacheFile () {
 		if (!$this->cache) {
-			$name = str_replace(BS_ROOT_DIR . DIRECTORY_SEPARATOR, '', $this->getPath());
-			$name = str_replace(DIRECTORY_SEPARATOR, '.', $name);
+			$name = str_replace(BS_ROOT_DIR . '/', '', $this->getPath());
+			$name = str_replace('/', '.', $name);
 			$name = get_class($this) . '.' . $name . '.php';
 			$this->cache = new BSFile(BS_VAR_DIR . '/cache/' . $name);
 		}

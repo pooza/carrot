@@ -25,7 +25,7 @@ class BSUtility {
 	 * @static
 	 */
 	static public function isPathAbsolute ($path) {
-		return ($path[0] == DIRECTORY_SEPARATOR);
+		return ($path[0] == '/');
 	}
 
 	/**
@@ -69,7 +69,7 @@ class BSUtility {
 			$file = BSString::stripControlCharacters($file);
 			$file = mb_ereg_replace('\\.php$', '', $file) . '.php';
 			if (!self::isPathAbsolute($file)) {
-				$file = BS_LIB_DIR . DIRECTORY_SEPARATOR . $file;
+				$file = BS_LIB_DIR . '/' . $file;
 			}
 			$file = new BSFile($file);
 		}

@@ -137,7 +137,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		}
 
 		if ($this->isUploaded()) {
-			$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
+			$path = $this->getDirectory()->getPath() . '/' . basename($name);
 			if (!move_uploaded_file($this->getPath(), $path)) {
 				$message = new BSStringFormat('アップロードされた%sをリネームできません。');
 				$message[] = $this;
@@ -160,7 +160,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			throw new BSFileException($this . 'は既に開かれています。');
 		}
 		if ($this->isUploaded()) {
-			$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
+			$path = $dir->getPath() . '/' . $this->getName();
 			if (!move_uploaded_file($this->getPath(), $path)) {
 				$message = new BSStringFormat('アップロードされた%sを移動できません。');
 				$message[] = $this;
@@ -469,7 +469,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function serializeName () {
 		$name = new BSArray(get_class($this));
-		$name->merge(explode(DIRECTORY_SEPARATOR, $this->getShortPath()));
+		$name->merge(explode('/', $this->getShortPath()));
 		$name->trim();
 		return $name->join('.');
 	}

@@ -70,11 +70,11 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException($this . 'が存在しません。');
 		} else if (!$this->isWritable($this->getPath())) {
 			throw new BSFileException($this . 'をリネームできません。');
-		} else if (BSString::isContain(DIRECTORY_SEPARATOR, $name)) {
+		} else if (BSString::isContain('/', $name)) {
 			throw new BSFileException($this . 'をリネームできません。');
 		}
 
-		$path = $this->getDirectory()->getPath() . DIRECTORY_SEPARATOR . basename($name);
+		$path = $this->getDirectory()->getPath() . '/' . basename($name);
 		if (PHP_OS == 'FreeBSD') {
 			if (!@rename($this->getPath(), $path)) {
 				throw new BSFileException($this . 'をリネームできません。');
@@ -132,7 +132,7 @@ abstract class BSDirectoryEntry {
 	public function getShortPath () {
 		if (!$this->shortPath) {
 			$this->shortPath = str_replace(
-				BSFileUtility::getPath('root') . DIRECTORY_SEPARATOR,
+				BSFileUtility::getPath('root') . '/',
 				'',
 				$this->getPath()
 			);
@@ -153,7 +153,7 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException($this . 'を移動できません。');
 		}
 
-		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
+		$path = $dir->getPath() . '/' . $this->getName();
 		if (PHP_OS == 'FreeBSD') {
 			if (!@rename($this->getPath(), $path)) {
 				throw new BSFileException($this . 'を移動できません。');
@@ -174,7 +174,7 @@ abstract class BSDirectoryEntry {
 	 * @return BSFile コピーされたファイル
 	 */
 	public function copyTo (BSDirectory $dir) {
-		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $this->getName();
+		$path = $dir->getPath() . '/' . $this->getName();
 		if (!copy($this->getPath(), $path)) {
 			throw new BSFileException($this . 'をコピーできません。');
 		}
@@ -280,7 +280,7 @@ abstract class BSDirectoryEntry {
 			$name = $this->getName();
 		}
 
-		$path = $dir->getPath() . DIRECTORY_SEPARATOR . $name;
+		$path = $dir->getPath() . '/' . $name;
 		if (is_link($path)) {
 			unlink($path);
 		}

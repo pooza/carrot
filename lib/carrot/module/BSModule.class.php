@@ -336,7 +336,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getValidationFile ($name) {
 		if ($dir = $this->getDirectory('validate')) {
-			return BSConfigManager::getConfigFile($dir->getPath() . DIRECTORY_SEPARATOR . $name);
+			return BSConfigManager::getConfigFile($dir->getPath() . '/' . $name);
 		}
 	}
 

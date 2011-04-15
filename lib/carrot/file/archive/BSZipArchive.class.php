@@ -100,7 +100,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 		if (BSString::isBlank($prefix)) {
 			$path = $entry->getName();
 		} else {
-			$path = $prefix . DIRECTORY_SEPARATOR . $entry->getName();
+			$path = $prefix . '/' . $entry->getName();
 		}
 		if ($entry->isDirectory()) {
 			$this->addEmptyDir($path);
@@ -141,7 +141,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 		} else if (!($file instanceof BSFile)) {
 			$path = $file;
 			if (!BSUtility::isPathAbsolute($path)) {
-				$path = BSFileUtility::getPath('tmp') . DIRECTORY_SEPARATOR . $path;
+				$path = BSFileUtility::getPath('tmp') . '/' . $path;
 			}
 			$this->temporaryFile = false;
 			$file = new BSFile($path);

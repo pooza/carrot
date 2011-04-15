@@ -126,14 +126,14 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	public function getEntry ($name, $class = null) {
 		// "/"が含まれること許したいので、basename関数は利用出来ない。
 		$name = BSString::stripControlCharacters($name);
-		$name = str_replace('..' . DIRECTORY_SEPARATOR, '', $name);
+		$name = str_replace('../', '', $name);
 
 		if (BSString::isBlank($class)) {
 			$class = $this->getDefaultEntryClass();
 		}
 		$class = BSClassLoader::getInstance()->getClass($class);
 
-		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
+		$path = $this->getPath() . '/' . $name;
 		if ($this->hasSubDirectory() && is_dir($path)) {
 			return new BSDirectory($path);
 		} else if (is_file($path)) {
@@ -157,7 +157,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		}
 
 		$name = basename($name, $this->getDefaultSuffix());
-		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name . $this->getDefaultSuffix();
+		$path = $this->getPath() . '/' . $name . $this->getDefaultSuffix();
 
 		$class = BSClassLoader::getInstance()->getClass($class);
 		$file = new $class($path);
@@ -265,7 +265,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSDirectory 作成されたディレクトリ
 	 */
 	public function createDirectory ($name, $class = 'BSDirectory') {
-		$path = $this->getPath() . DIRECTORY_SEPARATOR . $name;
+		$path = $this->getPath() . '/' . $name;
 		if (file_exists($path)) {
 			if (!is_dir($path)) {
 				throw new BSFileException($path . 'と同名のファイルが存在します。');
