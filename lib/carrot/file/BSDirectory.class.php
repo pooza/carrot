@@ -341,26 +341,6 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 
 	/**
-	 * ファイルか？
-	 *
-	 * @access public
-	 * @return boolean ファイルならTrue
-	 */
-	public function isFile () {
-		return false;
-	}
-
-	/**
-	 * ディレクトリか？
-	 *
-	 * @access public
-	 * @return boolean ディレクトリならTrue
-	 */
-	public function isDirectory () {
-		return true;
-	}
-
-	/**
 	 * サブディレクトリを持つか？
 	 *
 	 * @access public

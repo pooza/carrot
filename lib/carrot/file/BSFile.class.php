@@ -428,26 +428,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
-	 * ファイルか？
-	 *
-	 * @access public
-	 * @return boolean ファイルならTrue
-	 */
-	public function isFile () {
-		return true;
-	}
-
-	/**
-	 * ディレクトリか？
-	 *
-	 * @access public
-	 * @return boolean ディレクトリならTrue
-	 */
-	public function isDirectory () {
-		return false;
-	}
-
-	/**
 	 * 出力可能か？
 	 *
 	 * @access public

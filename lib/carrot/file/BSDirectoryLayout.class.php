@@ -73,7 +73,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 			} else {
 				$dir = $this->getDirectory($info['parent'])->getEntry($name);
 			}
-			if (!$dir || !$dir->isDirectory()) {
+			if (!$dir || !($dir instanceof BSDirectory)) {
 				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
 				$message[] = $name;
 				throw new BSFileException($message);

@@ -102,7 +102,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 		} else {
 			$path = $prefix . '/' . $entry->getName();
 		}
-		if ($entry->isDirectory()) {
+		if ($entry instanceof BSDirectory) {
 			$this->addEmptyDir($path);
 			foreach ($entry as $node) {
 				$this->register($node, $path, $flags);

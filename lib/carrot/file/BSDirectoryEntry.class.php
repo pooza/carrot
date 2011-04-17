@@ -257,11 +257,7 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getLinkTarget () {
 		if ($this->isLink() && !$this->linkTarget) {
-			if ($this->isFile()) {
-				$class = 'BSFile';
-			} else {
-				$class = 'BSDirectory';
-			}
+			$class = get_class($this);
 			$this->linkTarget = new $class(readlink($this->getPath()));
 		}
 		return $this->linkTarget;
@@ -369,24 +365,6 @@ abstract class BSDirectoryEntry {
 			throw new BSFileException($this . 'のファイルモードを変更できません。');
 		}
 	}
-
-	/**
-	 * ファイルか？
-	 *
-	 * @access public
-	 * @return boolean ファイルならTrue
-	 * @abstract
-	 */
-	abstract public function isFile ();
-
-	/**
-	 * ディレクトリか？
-	 *
-	 * @access public
-	 * @return boolean ディレクトリならTrue
-	 * @abstract
-	 */
-	abstract public function isDirectory ();
 }
 
 /* vim:set tabstop=4: */
