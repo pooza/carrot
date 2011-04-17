@@ -19,7 +19,7 @@ class BSFileValidator extends BSValidator {
 	 * @return BSArray 許可される拡張子、全てを許可する場合は空配列
 	 */
 	private function getAllowedSuffixes () {
-		if (BSArray::isArray($this['suffixes'])) {
+		if (is_array($this['suffixes']) || ($this['suffixes'] instanceof BSParameterHolder)) {
 			$suffixes = new BSArray($this['suffixes']);
 		} else if (BSString::toUpper($this['suffixes']) == self::ATTACHABLE) {
 			$suffixes = BSMIMEType::getAttachableTypes()->getKeys();
@@ -54,7 +54,7 @@ class BSFileValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (!BSArray::isArray($value)) {
+		if (!is_array($value)) {
 			$this->error = $this['invalid_error'];
 			return false;
 		} else if (!BSString::isBlank($value['name'])) {

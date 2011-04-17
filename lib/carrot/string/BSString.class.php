@@ -28,7 +28,7 @@ class BSString {
 	 * @static
 	 */
 	static public function convertEncoding ($value, $encodingTo = null, $encodingFrom = null) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertEncoding($item, $encodingTo, $encodingFrom);
 			}
@@ -67,7 +67,7 @@ class BSString {
 	 * @static
 	 */
 	static public function sanitize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::sanitize($item);
 			}
@@ -86,7 +86,7 @@ class BSString {
 	 * @static
 	 */
 	static public function unsanitize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::unsanitize($item);
 			}
@@ -106,7 +106,7 @@ class BSString {
 	 * @static
 	 */
 	static public function convertKana ($value, $format = 'KVa') {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertKana($item, $format);
 			}
@@ -129,7 +129,7 @@ class BSString {
 	 * @static
 	 */
 	static public function convertAlphabet ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertAlphabet($item, $format);
 			}
@@ -151,7 +151,7 @@ class BSString {
 	 * @link http://php.nekosuke.com/000056.htm 参考
 	 */
 	static public function convertWrongCharacters ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertWrongCharacters($item);
 			}
@@ -196,7 +196,7 @@ class BSString {
 	 * @static
 	 */
 	static public function convertLineSeparator ($value, $separator = "\n") {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::convertLineSeparator($item, $separator);
 			}
@@ -219,7 +219,7 @@ class BSString {
 	 * @static
 	 */
 	static public function truncate ($value, $length, $suffix = '...') {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::truncate($item, $length, $suffix);
 			}
@@ -241,7 +241,7 @@ class BSString {
 	 * @static
 	 */
 	static public function capitalize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::capitalize($item);
 			}
@@ -260,7 +260,7 @@ class BSString {
 	 * @static
 	 */
 	static public function camelize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::camelize($item);
 			}
@@ -280,7 +280,7 @@ class BSString {
 	 * @static
 	 */
 	static public function pascalize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::pascalize($item);
 			}
@@ -301,7 +301,7 @@ class BSString {
 	 * @static
 	 */
 	static public function underscorize ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::underscorize($item);
 			}
@@ -327,7 +327,7 @@ class BSString {
 	 * @static
 	 */
 	static public function increment ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::underscorize($item);
 			}
@@ -350,7 +350,7 @@ class BSString {
 	 * @static
 	 */
 	static public function toUpper ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::toUpper($item);
 			}
@@ -369,7 +369,7 @@ class BSString {
 	 * @static
 	 */
 	static public function toLower ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::toLower($item);
 			}
@@ -486,7 +486,7 @@ class BSString {
 	 * @static
 	 */
 	static public function stripTags ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::stripTags($item);
 			}
@@ -507,7 +507,7 @@ class BSString {
 	 * @static
 	 */
 	static public function stripControlCharacters ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::stripControlCharacters($item);
 			}
@@ -526,7 +526,7 @@ class BSString {
 	 * @static
 	 */
 	static public function dequote ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::dequote($item);
 			}

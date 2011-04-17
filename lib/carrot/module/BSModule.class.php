@@ -260,7 +260,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function setRecordID ($id) {
 		if ($id instanceof BSRecord) {
 			$id = $id->getID();
-		} else if (BSArray::isArray($id)) {
+		} else if (is_array($id) || ($id instanceof BSParameterHolder)) {
 			$id = new BSArray($id);
 			$id = $id[$this->getTable()->getKeyField()];
 		}

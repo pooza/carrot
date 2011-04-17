@@ -43,7 +43,7 @@ class BSJSONRenderer implements BSRenderer {
 	 * @access public
 	 */
 	public function setContents ($contents) {
-		if (BSArray::isArray($contents)) {
+		if (is_array($contents) || ($contents instanceof BSParameterHolder)) {
 			$contents = new BSArray($contents);
 			$this->result = $contents->decode();
 			$contents = $this->getSerializer()->encode($this->result);

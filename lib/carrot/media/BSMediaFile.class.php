@@ -290,7 +290,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @static
 	 */
 	static public function search ($file, $class = 'BSFile') {
-		if (BSArray::isArray($file)) {
+		if (is_array($file) || ($file instanceof BSParameterHolder)) {
 			$params = new BSArray($file);
 			if (BSString::isBlank($path = $params['src'])) {
 				$finder = new BSRecordFinder($params);

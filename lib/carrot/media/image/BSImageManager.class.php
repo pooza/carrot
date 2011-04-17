@@ -115,7 +115,7 @@ class BSImageManager {
 		} else if (is_numeric($flags)) {
 			$this->setFlag($flags);
 		} else {
-			if (!BSArray::isArray($flags)) {
+			if (is_string($flags)) {
 				$flags = BSString::explode(',', $flags);
 			}
 			foreach ($flags as $flag) {

@@ -99,7 +99,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @static
 	 */
 	static public function quote ($value) {
-		if (BSArray::isArray($value) || ($value instanceof BSParameterHolder)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$body =  new BSArray;
 			foreach ($value as $key => $item) {
 				$body[] = sprintf('%s => %s', self::quote($key), self::quote($item));

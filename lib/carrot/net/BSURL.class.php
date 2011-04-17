@@ -272,7 +272,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function encode ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::encode($item);
 			}
@@ -291,7 +291,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function decode ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
 				$value[$key] = self::decode($item);
 			}

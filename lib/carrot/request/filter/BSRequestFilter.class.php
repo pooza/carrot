@@ -25,7 +25,7 @@ abstract class BSRequestFilter extends BSFilter {
 
 	public function execute () {
 		foreach ($this->request->getParameters() as $key => $value) {
-			if (!BSString::isBlank($value) && !BSArray::isArray($value)) {
+			if (!BSString::isBlank($value) && !is_array($value)) {
 				$this->request[$key] = $this->convert($key, $value);
 			}
 		}

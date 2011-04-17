@@ -156,7 +156,7 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @param mixed $classes クラス名、又はその配列
 	 */
 	public function registerStyleClass ($classes) {
-		if (!BSArray::isArray($classes)) {
+		if (!is_array($classes) && !($classes instacneof BSParameterHolder)) {
 			$classes = mb_split('(,| +)', $classes);
 		}
 		foreach ($classes as $class) {

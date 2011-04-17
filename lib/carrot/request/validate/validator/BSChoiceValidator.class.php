@@ -47,7 +47,7 @@ class BSChoiceValidator extends BSValidator {
 	protected function getChoices () {
 		$choices = new BSArray;
 		if ($config = $this['choices']) {
-			if (BSArray::isArray($config)) {
+			if (is_array($config) || ($config instanceof BSParameterHolder)) {
 				$choices->setParameters($config);
 			} else {
 				$choices = BSString::explode(',', $config);

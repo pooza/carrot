@@ -112,7 +112,7 @@ class BSSerializeHandler {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$value = new BSArray($value);
 			$value = $value->decode();
 		} else if ($value instanceof BSParameterHolder) {

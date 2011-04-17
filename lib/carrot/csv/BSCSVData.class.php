@@ -265,7 +265,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	 * @return boolean 出力可能ならTrue
 	 */
 	public function validate () {
-		if (!BSArray::isArray($this->getRecords())) {
+		if (!($this->getRecords() instanceof BSArray)) {
 			$this->error = 'データ配列が正しくありません。';
 			return false;
 		}

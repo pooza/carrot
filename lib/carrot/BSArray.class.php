@@ -175,7 +175,7 @@ class BSArray extends BSParameterHolder {
 	}
 	static private function getFlatContents ($prefix, $arg, $glue) {
 		$contents = array();
-		if (BSArray::isArray($arg)) {
+		if (is_array($arg) || ($arg instanceof BSParameterHolder)) {
 			foreach ($arg as $key => $value) {
 				if (!BSString::isBlank($prefix)) {
 					$key = $prefix . $glue . $key;
@@ -269,18 +269,6 @@ class BSArray extends BSParameterHolder {
 			}
 		}
 		return $values;
-	}
-
-	/**
-	 * 配列か？
-	 *
-	 * @access public
-	 * @param mixed $value 対象
-	 * @return boolean 配列ならTrue
-	 * @static
-	 */
-	static public function isArray ($value) {
-		return is_array($value) || ($value instanceof BSArray);
 	}
 }
 

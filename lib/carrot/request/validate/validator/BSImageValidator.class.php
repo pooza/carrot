@@ -18,11 +18,13 @@ class BSImageValidator extends BSValidator {
 	 * @return BSArray 許可されるメディアタイプ
 	 */
 	private function getAllowedTypes () {
-		if (!BSString::isBlank($this['types'])) {
-			if (BSArray::isArray($this['types'])) {
-				$types = new BSArray($this['types']);
+		if (BSString::isBlank($types = $this['types'])) {
+			return BSImage::getTypes();
+		} else {
+			if (is_array($types) || ($types instanceof BSParameterHolder)) {
+				$types = new BSArray($types);
 			} else {
-				$types = BSString::explode(',', $this['types']);
+				$types = BSString::explode(',', $types);
 			}
 
 			foreach ($types as $type) {
@@ -34,8 +36,6 @@ class BSImageValidator extends BSValidator {
 				$types[] = $type;
 			}
 			return $types;
-		} else {
-			return BSImage::getTypes();
 		}
 	}
 

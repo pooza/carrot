@@ -47,7 +47,7 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 		$addresses = $this->getEntity();
 		if ($contents instanceof BSMailAddress) {
 			$addresses[] = $contents;
-		} else if (BSArray::isArray($contents)) {
+		} else if (is_array($contents) || ($contents instanceof BSParameterHolder)) {
 			foreach ($contents as $address) {
 				if ($address instanceof BSMailAddress) {
 					$addresses[] = $address;

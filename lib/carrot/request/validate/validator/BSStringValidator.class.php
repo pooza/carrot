@@ -39,7 +39,7 @@ class BSStringValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $entry) {
 				$this->execute($entry);
 			}

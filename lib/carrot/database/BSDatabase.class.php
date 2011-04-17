@@ -216,7 +216,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return string クォート後の文字列
 	 */
 	public function quote ($value, $type = self::PARAM_STR) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$values = $value;
 			foreach ($values as $key => $value) {
 				$values[$key] = self::quote($value, $type);

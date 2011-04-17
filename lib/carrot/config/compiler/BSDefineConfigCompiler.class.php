@@ -28,7 +28,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function getConstants ($arg, $prefix = BSConstantHandler::PREFIX) {
-		if (BSArray::isArray($arg)) {
+		if (is_array($arg) || ($arg instanceof BSParameterHolder)) {
 			if (isset($arg[0])) {
 				return array(BSString::toUpper($prefix) => implode(',', $arg));
 			} else {

@@ -112,7 +112,7 @@ class BSCriteriaSet extends BSArray {
 	 * @return mixed クォートされた値
 	 */
 	public function quote ($value) {
-		if (BSArray::isArray($value)) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$ids = new BSArray;
 			foreach (new BSArray($value) as $item) {
 				$ids[] = $this->quote($item);
