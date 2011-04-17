@@ -557,28 +557,6 @@ class BSString {
 	}
 
 	/**
-	 * 文字列に変換
-	 *
-	 * @access public
-	 * @param $mixed[] $value 変換対象
-	 * @param string $fieldGlue キーと値の間に入る文字列
-	 * @param string $elementGlue 要素の間に入る文字列
-	 * @return string 変換後の文字列
-	 * @static
-	 */
-	static public function toString ($value, $fieldGlue = '', $elementGlue = ',') {
-		if (!BSArray::isArray($value)) {
-			return $value;
-		}
-
-		$elements = new BSArray;
-		foreach ($value as $key => $element) {
-			$elements[] = $key . $fieldGlue . $element;
-		}
-		return $elements->join($elementGlue);
-	}
-
-	/**
 	 * よく使うエンコード名を返す
 	 *
 	 * @access public

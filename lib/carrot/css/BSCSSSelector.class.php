@@ -37,7 +37,7 @@ class BSCSSSelector extends BSArray {
 	 * @return string 内容
 	 */
 	public function getContents () {
-		return BSString::toString($this, ':', '; ');
+		return $this->join('; ', ':');
 	}
 
 	/**

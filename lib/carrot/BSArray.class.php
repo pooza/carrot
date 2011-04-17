@@ -204,14 +204,23 @@ class BSArray extends BSParameterHolder {
 	}
 
 	/**
-	 * セパレータで結合した文字列を返す
+	 * デリミタで結合した文字列を返す
 	 *
 	 * @access public
-	 * @param string $separator セパレータ
+	 * @param string $recordGlue レコードデリミタ
+	 * @param string $fieldGlue フィールドデリミタ
 	 * @return string 結果文字列
 	 */
-	public function join ($separator = null) {
-		return implode($separator, $this->getParameters());
+	public function join ($recordGlue = null, $fieldGlue = null) {
+		if (BSString::isBlank($fieldGlue)) {
+			return implode($recordGlue, $this->getParameters());
+		} else {
+			$records = new BSArray;
+			foreach ($this as $key => $value) {
+				$records[] = $key . $fieldGlue . $value;
+			}
+			return $records->join($recordGlue);
+		}
 	}
 
 	/**
