@@ -7,6 +7,5 @@ ping:
   urls:
     - http://api.my.yahoo.co.jp/RPC2
     - http://blogsearch.google.co.jp/ping/RPC2
-    - http://blog.goo.ne.jp/XMLRPC
     - http://ping.fc2.com/
     - http://rpc.reader.livedoor.com/ping
