@@ -15,7 +15,7 @@ function smarty_modifier_user_agent_type ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		if ($useragent = BSUserAgent::getInstance($value)) {
+		if ($useragent = BSUserAgent::create($value)) {
 			return $useragent->getType();
 		}
 	}

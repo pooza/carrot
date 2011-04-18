@@ -44,7 +44,7 @@ class BSUserAgentMIMEHeader extends BSMIMEHeader {
 	protected function parse () {
 		parent::parse();
 		try {
-			$this->useragent = BSUserAgent::getInstance($this->contents);
+			$this->useragent = BSUserAgent::create($this->contents);
 		} catch (BSNetException $e) {
 		}
 	}

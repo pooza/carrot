@@ -281,7 +281,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 */
 	public function getUserAgent () {
 		if (!$this->useragent) {
-			if (!$this->useragent = BSUserAgent::getInstance($this->getUserAgentName())) {
+			if (!$this->useragent = BSUserAgent::create($this->getUserAgentName())) {
 				throw new BSUserAgentException('正しくないUserAgentです。');
 			}
 		}

@@ -47,7 +47,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @return BSUserAgent インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name, $type = null) {
+	static public function create ($name, $type = null) {
 		if (!$type) {
 			$type = self::getDefaultType($name);
 		}
