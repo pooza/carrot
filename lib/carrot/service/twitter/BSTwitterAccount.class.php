@@ -447,11 +447,11 @@ class BSTwitterAccount
 				if (!$values['profile']) {
 					$values['profile'] = $tweet['user'];
 				}
-				$url = BSURL::create('http://' . BSTwitterService::DEFAULT_HOST);
-				$url['path'] = '/' . $tweet['user']['screen_name'] . '/status/' . $entry['id_str'];
-				$tweet['url'] = $url->getContents();
+				$tweet->setParameters(BSTwitterService::createTweetURLs(
+					$tweet['id_str'], $tweet['user']['screen_name']
+				));
 				$tweet->removeParameter('user');
-				$values['tweets'][] = $tweet->getParameters();
+				$values['tweets'][$tweet['id_str']] = $tweet->getParameters();
 			}
 		} else { //ツイートがひとつもない場合は、プロフィールを取得
 			$response = $this->getService()->sendGET('/users/show/' . $this->id);

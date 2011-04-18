@@ -32,24 +32,32 @@ class BSTwitterSearchService extends BSCurlHTTP {
 	 * @return BSArray ツイートの配列
 	 */
 	public function searchTweets ($word) {
-		$tweets = new BSArray;
+		$controller = BSController::getInstance();
+		$key = get_class($this) . '.' . BSCrypt::getSHA1($word);
+		$date = BSDate::getNow()->setAttribute('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
 		try {
-			$query = new BSWWWFormRenderer;
-			$query['q'] = $word;
-			$response = $this->sendGET('/search.json?' . $query->getContents());
-			$json = new BSJSONRenderer;
-			$json->setContents($response->getRenderer()->getContents());
-
-			$result = $json->getResult();
-			foreach ($result['results'] as $entry) {
-				$entry = new BSArray($entry);
-				$entry->removeParameter('result_type');
-				$tweets[$entry['id']] = $entry;
+			if (!$controller->getAttribute($key, $date)) {
+				$tweets = new BSArray;
+				$query = new BSWWWFormRenderer;
+				$query['q'] = $word;
+				$response = $this->sendGET('/search.json?' . $query->getContents());
+				$json = new BSJSONRenderer;
+				$json->setContents($response->getRenderer()->getContents());
+				$result = $json->getResult();
+				foreach ($result['results'] as $entry) {
+					$tweet = new BSArray($entry);
+					$tweet->removeParameter('result_type');
+					$tweet->setParameters(BSTwitterService::createTweetURLs(
+						$tweet['id_str'], $tweet['from_user']
+					));
+					$tweets[$tweet['id_str']] = $tweet;
+				}
+				$controller->setAttribute($key, $tweets);
 			}
+			return new BSArray($controller->getAttribute($key));
 		} catch (Exception $e) {
-			$tweets->clear();
+			return new BSArray;
 		}
-		return $tweets;
 	}
 
 	/**

@@ -12,6 +12,7 @@
 class BSTwitterService extends BSCurlHTTP {
 	private $oauth;
 	const DEFAULT_HOST = 'twitter.com';
+	const DEFAULT_HOST_MOBILE = 'mobile.twitter.com';
 
 	/**
 	 * @access public
@@ -112,6 +113,54 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	public function __toString () {
 		return sprintf('Twitterサービス "%s"', $this->getName());
+	}
+
+	/**
+	 * ツイートのURLを返す
+	 *
+	 * @access public
+	 * @param string $id ツイートID
+	 * @param string $account アカウント名
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSHTTPURL URL
+	 * @static
+	 */
+	static public function createTweetURL ($id, $account, BSUserAgent $useragent = null) {
+		$url = BSURL::create();
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
+		}
+		if ($useragent->isMobile()) {
+			$url['host'] = self::DEFAULT_HOST_MOBILE;
+			$url['path'] = '/' . $account . '/status/' . $id;
+		} else {
+			$url['host'] = self::DEFAULT_HOST;
+			$url['path'] = '/#!/' . $account . '/status/' . $id;
+		}
+		return $url;
+	}
+
+	/**
+	 * ツイートのURLをまとめて返す
+	 *
+	 * @access public
+	 * @param string $id ツイートID
+	 * @param string $account アカウント名
+	 * @param string $prefix 要素名のプリフィックス
+	 * @return BSArray URL文字列の配列
+	 * @static
+	 */
+	static public function createTweetURLs ($id, $account, $prefix = 'url') {
+		$urls = new BSArray;
+		$useragents = new BSArray(array(
+			null => BSUserAgent::getInstance(BSUserAgent::DEFAULT_NAME),
+			'_mobile' => BSUserAgent::getInstance(BSDocomoUserAgent::DEFAULT_NAME),
+		));
+		foreach ($useragents as $suffix => $useragent) {
+			$url = self::createTweetURL($id, $account, $useragent);
+			$urls[$prefix . $suffix] = $url->getContents();
+		}
+		return $urls;
 	}
 }
 
