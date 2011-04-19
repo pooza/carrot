@@ -109,6 +109,7 @@ output:
   parent: var
 pictogram:
   parent: images
+  suffix: .gif
 pgsql:
   constant: yes
 php:

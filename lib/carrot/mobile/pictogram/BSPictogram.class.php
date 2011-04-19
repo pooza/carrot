@@ -192,7 +192,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getURL () {
 		$url = BSFileUtility::getURL('pictogram');
-		$url['path'] .= 'i/' . $this->getImageFile()->getName();
+		$url['path'] .= $this->getImageFile()->getName();
 		return $url;
 	}
 
@@ -205,8 +205,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getImageFile ($size = null) {
 		if (!$this->imagefile) {
-			$dir = BSFileUtility::getDirectory('pictogram')->getEntry('i');
-			$dir->setDefaultSuffix('.gif');
+			$dir = BSFileUtility::getDirectory('pictogram');
 			$this->imagefile = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile');
 		}
 		return $this->imagefile;
