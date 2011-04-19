@@ -205,7 +205,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getImageFile ($size = null) {
 		if (!$this->imagefile) {
-			$dir = BSMobileCarrier::getInstance()->getPictogramDirectory();
+			$dir = BSFileUtility::getDirectory('pictogram')->getEntry('i');
+			$dir->setDefaultSuffix('.gif');
 			$this->imagefile = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile');
 		}
 		return $this->imagefile;
