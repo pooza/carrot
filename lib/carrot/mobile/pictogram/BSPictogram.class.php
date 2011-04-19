@@ -62,7 +62,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return string 名前
 	 */
 	public function getName () {
-		return $this->getNames()->getParameter(0);
+		return $this->getNames()->getIterator()->getFirst();
 	}
 
 	/**
