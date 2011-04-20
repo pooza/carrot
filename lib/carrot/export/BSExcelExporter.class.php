@@ -39,7 +39,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$this->file = BSFileUtility::getTemporaryFile('xls');
+			$this->file = BSFileUtility::getTemporaryFile('.xls');
 			$this->file->setMode(0600);
 		}
 		return $this->file;

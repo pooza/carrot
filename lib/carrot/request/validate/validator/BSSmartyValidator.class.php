@@ -30,7 +30,7 @@ class BSSmartyValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$tempfile = BSFileUtility::getTemporaryFile('tpl', 'BSTemplateFile');
+		$tempfile = BSFileUtility::getTemporaryFile('.tpl', 'BSTemplateFile');
 		if (is_array($value) && isset($value['is_file']) && !!$value['is_file']) {
 			$file = new BSFile($value['tmp_name']);
 			if (!mb_check_encoding($file->getContents())) {
