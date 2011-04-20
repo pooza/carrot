@@ -123,6 +123,7 @@ class BSBackupManager {
 		}
 		foreach ($this->config['directories'] as $name) {
 			if (($src = $dir->getEntry($name)) && ($dest = BSFileUtility::getDirectory($name))) {
+				$dest->clear();
 				foreach ($src as $file) {
 					if (!$file->isIgnore()) {
 						$file->moveTo($dest);
