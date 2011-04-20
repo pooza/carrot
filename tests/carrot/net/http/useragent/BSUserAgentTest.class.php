@@ -17,6 +17,13 @@ class BSUserAgentTest extends BSTest {
 			'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
 		);
 		$this->assert('getInstance_Trident', $useragent instanceof BSTridentUserAgent);
+		$this->assert('getVersion', $useragent->getVersion() == 8);
+
+		$useragent = BSUserAgent::create(
+			'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
+		);
+		$this->assert('getInstance_Trident6', $useragent instanceof BSTridentUserAgent);
+		$this->assert('getVersion', $useragent->getVersion() == 10);
 
 		$useragent = BSUserAgent::create(
 			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9) Gecko/2008051206 Firefox/3.0'

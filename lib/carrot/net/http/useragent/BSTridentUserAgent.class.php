@@ -61,15 +61,15 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * バージョンを返す
+	 * メジャーバージョンを返す
 	 *
 	 * @access public
-	 * @return string バージョン
+	 * @return string メジャーバージョン
 	 */
 	public function getVersion () {
 		if (!$this['version']) {
 			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
-				$this['version'] = $matches[1];
+				$this['version'] = (int)$matches[1];
 			}
 		}
 		return $this['version'];
@@ -108,7 +108,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'MSIE ([[:digit:]]\\.[[:digit:]]+); ([^;]+);';
+		return 'MSIE ([[:digit:].]+); ([^;]+);';
 	}
 }
 
