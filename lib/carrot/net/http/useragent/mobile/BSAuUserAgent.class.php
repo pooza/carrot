@@ -95,8 +95,8 @@ class BSAuUserAgent extends BSMobileUserAgent {
 		$object->setParameter('disposition', 'devmpzz');
 		$object->setParameter('size', $params['size']);
 		$object->setParameter('title', $params['title']);
-		if (!BS_IMAGE_STORABLE && $useragent->hasSupport('image_copyright')) {
-			$object->setAttribute('copyright', 'no');
+		if (!BS_IMAGE_STORABLE && $this->hasSupport('image_copyright')) {
+			$object->setAttribute('copyright', 'yes');
 		}
 		return $container;
 	}
