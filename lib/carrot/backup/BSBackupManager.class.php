@@ -115,12 +115,24 @@ class BSBackupManager {
 		$zip->open($file->getPath());
 		$dir = BSFileUtility::getDirectory('tmp')->createDirectory(BSUtility::getUniqueID());
 		$zip->extractTo($dir);
+		$zip->close();
 
+		$this->restoreDatabase($dir);
+		$this->restoreDirectories($dir);
+		$this->restoreSerializes($dir);
+
+		$dir->delete();
+	}
+
+	private function restoreDatabase (BSDirectory $dir) {
 		foreach ($this->config['databases'] as $name) {
 			if ($file = $dir->getEntry($name . '.sqlite3')) {
 				$file->moveTo(BSFileUtility::getDirectory('db'));
 			}
 		}
+	}
+
+	private function restoreDirectories (BSDirectory $dir) {
 		foreach ($this->config['directories'] as $name) {
 			if (($src = $dir->getEntry($name)) && ($dest = BSFileUtility::getDirectory($name))) {
 				$dest->clear();
@@ -131,6 +143,10 @@ class BSBackupManager {
 				}
 			}
 		}
+	}
+
+	private function restoreSerializes (BSDirectory $dir) {
+		BSConfigManager::getInstance()->clearCache();
 		foreach (new BSArray($this->config['serializes']) as $name) {
 			foreach (array('.json', '.serialized') as $suffix) {
 				if ($file = $dir->getEntry($name . $suffix)) {
@@ -138,10 +154,6 @@ class BSBackupManager {
 				}
 			}
 		}
-
-		$zip->close();
-		$dir->delete();
-		BSConfigManager::getInstance()->clearCache();
 	}
 
 	/**

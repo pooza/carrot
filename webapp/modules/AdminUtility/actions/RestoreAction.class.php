@@ -12,7 +12,7 @@ class RestoreAction extends BSAction {
 			BSBackupManager::getInstance()->restore(
 				new BSFile($this->request['file']['tmp_name'])
 			);
-			return BSView::SUCCESS;
+			return $this->getDefaultView();
 		} catch (BSFileException $e) {
 			$message = new BSStringFormat('リストアに失敗しました。 (%s)');
 			$message[] = $e->getMessage();
