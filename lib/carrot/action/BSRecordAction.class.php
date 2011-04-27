@@ -59,7 +59,7 @@ abstract class BSRecordAction extends BSAction {
 							if (BSString::isBlank($name = $record->getName())) {
 								$name = '(無題)';
 							}
-							$this->title .= ':' . $name;
+							$this->title .= ':' . BSString::truncate($name, 24);
 						} else {
 							$this->title = $this->getName();
 						}
