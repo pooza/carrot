@@ -41,6 +41,16 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
+	 * テンプレートディレクトリをクリア
+	 *
+	 * @access public
+	 */
+	public function clearDirectories () {
+		$this->finder->clearDirectories();
+		$this->template_dir = '';
+	}
+
+	/**
 	 * テンプレートディレクトリを設定
 	 *
 	 * @access public
