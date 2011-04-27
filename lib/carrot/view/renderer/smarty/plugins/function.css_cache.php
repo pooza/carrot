@@ -16,13 +16,7 @@ function smarty_function_css_cache ($params, &$smarty) {
 	}
 
 	$styleset = new BSStyleSet($params['name']);
-	$element = new BSXHTMLElement('link');
-	$element->setEmptyElement(true);
-	$element->setAttribute('rel', 'stylesheet');
-	$element->setAttribute('type', $styleset->getType());
-	$element->setAttribute('charset', 'utf-8');
-	$element->setAttribute('href', $styleset->getURL()->getContents());
-	return $element->getContents();
+	return $styleset->getElement()->getContents();
 }
 
 /* vim:set tabstop=4: */

@@ -56,6 +56,20 @@ class BSJavaScriptSet extends BSDocumentSet {
 	}
 
 	/**
+	 * XHTML要素を返す
+	 *
+	 * @access public
+	 * @return BSXHTMLElement
+	 */
+	public function getElement () {
+		$element = new BSScriptElement;
+		$element->setAttribute('src', $this->getURL()->getContents());
+		$element->setAttribute('type', $this->getType());
+		$element->setAttribute('charset', $this->getEncoding());
+		return $element->getContents();
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

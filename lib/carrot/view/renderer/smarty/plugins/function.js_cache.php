@@ -16,11 +16,7 @@ function smarty_function_js_cache ($params, &$smarty) {
 	}
 
 	$jsset = new BSJavaScriptSet($params['name']);
-	$element = new BSScriptElement;
-	$element->setAttribute('src', $jsset->getURL()->getContents());
-	$element->setAttribute('type', $jsset->getType());
-	$element->setAttribute('charset', 'utf-8');
-	return $element->getContents();
+	return $jsset->getElement()->getContents();
 }
 
 /* vim:set tabstop=4: */

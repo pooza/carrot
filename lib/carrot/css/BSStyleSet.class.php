@@ -56,6 +56,22 @@ class BSStyleSet extends BSDocumentSet {
 	}
 
 	/**
+	 * XHTML要素を返す
+	 *
+	 * @access public
+	 * @return BSXHTMLElement
+	 */
+	public function getElement () {
+		$element = new BSXHTMLElement('link');
+		$element->setEmptyElement(true);
+		$element->setAttribute('rel', 'stylesheet');
+		$element->setAttribute('type', $this->getType());
+		$element->setAttribute('charset', $this->getEncoding());
+		$element->setAttribute('href', $this->getURL()->getContents());
+		return $element;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
