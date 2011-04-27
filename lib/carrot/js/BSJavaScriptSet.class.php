@@ -66,7 +66,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 		$element->setAttribute('src', $this->getURL()->getContents());
 		$element->setAttribute('type', $this->getType());
 		$element->setAttribute('charset', $this->getEncoding());
-		return $element->getContents();
+		return $element;
 	}
 
 	/**
