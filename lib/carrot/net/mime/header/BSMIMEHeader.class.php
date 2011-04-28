@@ -18,12 +18,8 @@ class BSMIMEHeader extends BSParameterHolder {
 
 	/**
 	 * @access protected
-	 * @param BSMIMEDocument $part メールパート
 	 */
-	protected function __construct (BSMIMEDocument $part = null) {
-		if ($part) {
-			$this->setPart($part);
-		}
+	protected function __construct () {
 	}
 
 	/**

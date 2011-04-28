@@ -15,9 +15,8 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 
 	/**
 	 * @access protected
-	 * @param BSMIMEDocument $part メールパート
 	 */
-	protected function __construct (BSMIMEDocument $part = null) {
+	protected function __construct () {
 		parent::__construct();
 		$this->servers = new BSArray;
 	}
