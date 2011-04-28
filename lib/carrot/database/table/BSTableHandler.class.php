@@ -820,7 +820,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return BSTableHandler テーブルハンドラ
 	 * @static
 	 */
-	static public function getInstance ($class) {
+	static public function create ($class) {
 		$table = BSClassLoader::getInstance()->getObject($class, self::CLASS_SUFFIX);
 		if (!($table instanceof BSTableHandler)) {
 			throw new BSDatabaseException($class . 'はテーブルハンドラではありません。');

@@ -41,7 +41,7 @@ abstract class BSRecord implements ArrayAccess,
 		if (mb_ereg('^get([[:upper:]][[:alnum:]]+)$', $method, $matches)) {
 			$name = $matches[1];
 			if (!$this->records->hasParameter($name)) {
-				$table = BSTableHandler::getInstance($name);
+				$table = BSTableHandler::create($name);
 				$this->records[$name] = $table->getRecord($this[$table->getName() . '_id']);
 			}
 			return $this->records[$name];
@@ -171,7 +171,7 @@ abstract class BSRecord implements ArrayAccess,
 
 		if (!$this->getDatabase()->hasForeignKey()) {
 			foreach ($this->getTable()->getChildClasses() as $class) {
-				$table = BSTableHandler::getInstance($class);
+				$table = BSTableHandler::create($class);
 				$table->getCriteria()->register($this->getTable()->getName() . '_id', $this);
 				foreach ($table as $record) {
 					$record->delete();

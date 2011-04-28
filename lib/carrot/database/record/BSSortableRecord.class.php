@@ -83,7 +83,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 */
 	protected function getSimilars () {
 		if (!$this->similars) {
-			$this->similars = BSTableHandler::getInstance(get_class($this));
+			$this->similars = BSTableHandler::create(get_class($this));
 			if ($record = $this->getParent()) {
 				$this->similars->getCriteria()->register(
 					$record->getTable()->getName() . '_id',

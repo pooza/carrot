@@ -23,7 +23,7 @@ class BSDatabaseLogger extends BSLogger {
 	 */
 	public function initialize () {
 		try {
-			$this->table = BSTableHandler::getInstance(self::TABLE_NAME);
+			$this->table = BSTableHandler::create(self::TABLE_NAME);
 			return true;
 		} catch (BSDatabaseException $e) {
 			return false;
