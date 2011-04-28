@@ -141,9 +141,7 @@ class BSMusicFile extends BSMediaFile {
 		if (!parent::validate()) {
 			return false;
 		}
-		$header = BSMIMEHeader::create('Content-Type');
-		$header->setContents($this->analyzeType());
-		return ($header['main_type'] == 'audio');
+		return (BSMIMEUtility::getMainType($this->analyzeType()) == 'audio')
 	}
 
 	/**

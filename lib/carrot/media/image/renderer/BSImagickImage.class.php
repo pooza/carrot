@@ -32,16 +32,15 @@ class BSImagickImage extends BSImage {
 	 */
 	public function getImagick () {
 		if (!$this->imagick) {
-			$header = BSMIMEHeader::create('Content-Type');
-			$header->setContents(BS_IMAGE_THUMBNAIL_TYPE);
-
 			$this->imagick = new Imagick;
 			$this->imagick->newImage(
 				$this->width,
 				$this->height,
 				new ImagickPixel($this->getBackgroundColor()->getContents())
 			);
-			$this->imagick->setImageFormat($header['sub_type']);
+			$this->imagick->setImageFormat(
+				BSMIMEUtility::getSubType(BS_IMAGE_THUMBNAIL_TYPE)
+			);
 		}
 		return $this->imagick;
 	}

@@ -286,9 +286,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 		if (!parent::validate()) {
 			return false;
 		}
-		$header = BSMIMEHeader::create('Content-Type');
-		$header->setContents($this->analyzeType());
-		return ($header['main_type'] == 'image');
+		return (BSMIMEUtility::getMainType($this->analyzeType()) == 'image')
 	}
 
 	/**

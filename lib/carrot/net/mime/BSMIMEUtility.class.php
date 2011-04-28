@@ -173,6 +173,34 @@ class BSMIMEUtility {
 	}
 
 	/**
+	 * メインタイプを返す
+	 *
+	 * @access public
+	 * @param mixed $type タイプ名
+	 * @return string メインタイプ
+	 * @static
+	 */
+	static public function getMainType ($type) {
+		$header = BSMIMEHeader::create('Content-Type');
+		$header->setContents($type);
+		return $header['main_type'];
+	}
+
+	/**
+	 * サブタイプを返す
+	 *
+	 * @access public
+	 * @param mixed $type タイプ名
+	 * @return string メインタイプ
+	 * @static
+	 */
+	static public function getSubType ($type) {
+		$header = BSMIMEHeader::create('Content-Type');
+		$header->setContents($type);
+		return $header['sub_type'];
+	}
+
+	/**
 	 * ファイル名から拡張子を返す
 	 *
 	 * 拡張子自体が引数になる場合は、ドットをつけて返す。
