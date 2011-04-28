@@ -212,7 +212,7 @@ class BSMovieFile extends BSMediaFile {
 		if (!parent::validate()) {
 			return false;
 		}
-		return (BSMIMEUtility::getMainType($this->analyzeType()) == 'video')
+		return (BSMIMEUtility::getMainType($this->analyzeType()) == 'video');
 	}
 
 	/**
