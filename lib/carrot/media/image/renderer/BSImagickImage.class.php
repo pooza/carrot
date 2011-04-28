@@ -32,7 +32,7 @@ class BSImagickImage extends BSImage {
 	 */
 	public function getImagick () {
 		if (!$this->imagick) {
-			$header = new BSContentTypeMIMEHeader;
+			$header = BSMIMEHeader::create('Content-Type');
 			$header->setContents(BS_IMAGE_THUMBNAIL_TYPE);
 
 			$this->imagick = new Imagick;
@@ -65,7 +65,7 @@ class BSImagickImage extends BSImage {
 	 * @return resource GD画像リソース
 	 */
 	public function getGDHandle () {
-		$header = new BSContentTypeMIMEHeader;
+		$header = BSMIMEHeader::create('Content-Type');
 		$header->setContents(BS_IMAGE_THUMBNAIL_TYPE);
 
 		$converted = clone $this->getImagick();

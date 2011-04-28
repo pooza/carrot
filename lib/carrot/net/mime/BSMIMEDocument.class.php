@@ -27,7 +27,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @return BSMIMEHeader ヘッダ
 	 */
 	public function getHeader ($name) {
-		$header = BSMIMEHeader::getInstance($name);
+		$header = BSMIMEHeader::create($name);
 		$name = BSString::toLower($header->getName());
 		return $this->getHeaders()->getParameter($name);
 	}
@@ -40,7 +40,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @param string $value 値
 	 */
 	public function setHeader ($name, $value) {
-		$header = BSMIMEHeader::getInstance($name);
+		$header = BSMIMEHeader::create($name);
 		if ($header->isMultiple() && $this->getHeader($name)) {
 			$header = $this->getHeader($name);
 			$header->setContents($value);

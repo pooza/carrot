@@ -212,7 +212,7 @@ class BSMovieFile extends BSMediaFile {
 		if (!parent::validate()) {
 			return false;
 		}
-		$header = new BSContentTypeMIMEHeader;
+		$header = BSMIMEHeader::create('Content-Type');
 		$header->setContents($this->analyzeType());
 		return ($header['main_type'] == 'video');
 	}
