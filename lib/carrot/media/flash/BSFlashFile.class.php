@@ -52,7 +52,6 @@ class BSFlashFile extends BSMediaFile {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
 			$image->setAttributes($info);
-			$image->registerStyleClass('deny_take_out');
 			$inner->addElement($image);
 		}
 		return $container;

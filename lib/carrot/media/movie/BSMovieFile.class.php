@@ -168,7 +168,6 @@ class BSMovieFile extends BSMediaFile {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
 			$image->setAttributes($info);
-			$image->registerStyleClass('deny_take_out');
 			$container->addElement($image);
 		} else {
 			$container->setBody($params['label']);
