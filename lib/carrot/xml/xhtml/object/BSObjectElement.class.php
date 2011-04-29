@@ -23,6 +23,21 @@ class BSObjectElement extends BSXHTMLElement {
 	}
 
 	/**
+	 * 対象UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent 対象UserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		parent::setUserAgent($useragent);
+		if (!BS_IMAGE_STORABLE) {
+			if ($useragent->hasSupport('image_copyright')) {
+				$this->setAttribute('copyright', 'yes');
+			}
+		}
+	}
+
+	/**
 	 * 属性を設定
 	 *
 	 * @access public
