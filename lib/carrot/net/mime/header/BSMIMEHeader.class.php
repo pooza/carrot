@@ -50,11 +50,10 @@ class BSMIMEHeader extends BSParameterHolder {
 	 * @return BSMIMEHeader ヘッダ
 	 */
 	static public function create ($name) {
+		$name = self::capitalize($name);
 		try {
-			$class = BSClassLoader::getInstance()->getClass(
-				str_replace('-', '', self::capitalize($name)),
-				'MIMEHeader'
-			);
+			$loader = BSClassLoader::getInstance();
+			$class = $loader->getClass(str_replace('-', '', $name), 'MIMEHeader');
 		} catch (Exception $e) {
 			$class = 'BSMIMEHeader';
 		}
