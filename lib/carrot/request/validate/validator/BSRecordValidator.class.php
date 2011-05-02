@@ -151,7 +151,7 @@ class BSRecordValidator extends BSValidator {
 			if (BSString::isBlank($class = $this['class'])) {
 				$class = $this['table'];
 			}
-			$this->table = BSTableHandler::create($class);
+			$this->table = BSTableHandler::getInstance($class);
 		}
 		return $this->table;
 	}
