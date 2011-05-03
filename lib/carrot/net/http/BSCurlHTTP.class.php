@@ -118,7 +118,7 @@ class BSCurlHTTP extends BSHTTP {
 	protected function createRequestURL ($href) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
-		$url['path'] ='/' . ltrim($href, '/');
+		$url['path'] = '/' . ltrim($href, '/');
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
 			$url['port'] = BSNetworkService::getPort('https');
