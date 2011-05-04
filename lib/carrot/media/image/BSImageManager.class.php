@@ -168,7 +168,7 @@ class BSImageManager {
 
 		$flags |= $this->flags;
 		$url = BSFileUtility::getURL('image_cache');
-		$url['path'] = $this->getEntryName($record, $size) . '/' . $file->getName();
+		$url['path'] .= $this->getEntryName($record, $size) . '/' . $file->getName();
 		return $url;
 	}
 

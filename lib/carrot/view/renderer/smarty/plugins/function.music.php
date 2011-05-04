@@ -25,7 +25,7 @@ function smarty_function_music ($params, &$smarty) {
 				$finder = new BSRecordFinder($params);
 				if ($record = $finder->execute()) {
 					$url = BSFileUtility::getURL('musics');
-					$url['path'] = $record->getTable()->getDirectory()->getName() . '/';
+					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
 					$params['href_prefix'] = $url['path'];
 				}
 			}

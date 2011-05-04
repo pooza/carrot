@@ -51,7 +51,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 	 */
 	public function getURL () {
 		$url = BSFileUtility::getURL('js_cache');
-		$url['path'] = $this->getCacheFile()->getName();
+		$url['path'] .= $this->getCacheFile()->getName();
 		return $url;
 	}
 

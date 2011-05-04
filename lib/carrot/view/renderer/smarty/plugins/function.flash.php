@@ -27,7 +27,7 @@ function smarty_function_flash ($params, &$smarty) {
 				$finder = new BSRecordFinder($params);
 				if ($record = $finder->execute()) {
 					$url = BSFileUtility::getURL('swf');
-					$url['path'] = $record->getTable()->getDirectory()->getName() . '/';
+					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
 					$params['href_prefix'] = $url['path'];
 				}
 			}
