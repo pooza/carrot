@@ -19,13 +19,9 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendHEAD ($path = '/') {
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = $path;
-
 		$request = new BSHTTPRequest;
 		$request->setMethod('HEAD');
-		$request->setURL($url);
+		$request->setURL($this->createURL($path));
 		return $this->send($request);
 	}
 
@@ -37,13 +33,9 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGET ($path = '/') {
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = $path;
-
 		$request = new BSHTTPRequest;
 		$request->setMethod('GET');
-		$request->setURL($url);
+		$request->setURL($this->createURL($path));
 		return $this->send($request);
 	}
 
@@ -56,34 +48,26 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = $path;
-
 		$request = new BSHTTPRequest;
 		$request->setMethod('POST');
 		$request->setRenderer(new BSWWWFormRenderer);
 		$request->getRenderer()->setParameters($params);
 		$request->removeHeader('Content-Transfer-Encoding');
-		$request->setURL($url);
+		$request->setURL($this->createURL($path));
 		return $this->send($request);
 	}
 
 	/**
 	 * パスからリクエストURLを生成して返す
 	 *
-	 * @param string $href パス
-	 * @param BSWWWFormRenderer $query クエリー
 	 * @access protected
+	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href, BSWWWFormRenderer $query = null) {
+	protected function createURL ($href) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] = $href;
-		if ($query) {
-			$url['query'] = $query;
-		}
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
 		} else {
@@ -121,6 +105,18 @@ class BSHTTP extends BSSocket {
 			throw $exception;
 		}
 		return $response;
+	}
+
+	/**
+	 * SSLモードか？
+	 *
+	 * SSLはサポートしない。必要ならば、BSCurlHTTPを使用すること。
+	 *
+	 * @access public
+	 * @return boolean SSLモードならTrue
+	 */
+	public function isSSL () {
+		return false;
 	}
 
 	/**

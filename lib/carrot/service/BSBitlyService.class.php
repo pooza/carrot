@@ -24,10 +24,15 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 		parent::__construct($host, $port);
 	}
 
-	private function createAPIURL ($command) {
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = $command;
+	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href) {
+		$url = parent::createURL($href);
 		$url->setParameter('version', BS_SERVICE_BITLY_VERSION);
 		$url->setParameter('login', BS_SERVICE_BITLY_LOGIN);
 		$url->setParameter('apiKey', BS_SERVICE_BITLY_API_KEY);
@@ -42,7 +47,7 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 	 * @return BSHTTPURL 短縮URL
 	 */
 	public function getShortURL (BSHTTPRedirector $url) {
-		$request = $this->createAPIURL('shorten');
+		$request = $this->createURL('shorten');
 		$request->setParameter('longUrl', $url->getContents());
 		$response = $this->sendGET($request->getFullPath());
 

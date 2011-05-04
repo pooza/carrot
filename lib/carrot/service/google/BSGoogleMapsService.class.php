@@ -124,17 +124,28 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		return $entry;
 	}
 
+	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href) {
+		$url = parent::createURL($href);
+		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
+		return $url;
+	}
+
 	protected function queryGeocode ($address) {
 		if ($info = BSGeocodeEntryHandler::parse($address)) {
 			return $info;
 		}
 
-		$params = new BSWWWFormRenderer;
-		$params['q'] = $address;
-		$params['output'] = 'json';
-		$params['key'] = BS_SERVICE_GOOGLE_MAPS_API_KEY;
-		$path = '/maps/geo?' . $params->getContents();
-		$response = $this->sendGET($path);
+		$url = $this->createURL('/maps/geo');
+		$url->setParameter('q', $address);
+		$url->setParameter('output', 'json');
+		$response = $this->sendGET($url->getFullPath());
 
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode($response->getBody());
@@ -222,10 +233,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$size[] = $info['width'];
 		$size[] = BSNumeric::round($info['width'] * 0.75);
 
-		$url = BSURL::create();
-		$url['host'] = self::DEFAULT_HOST;
-		$url['path'] = '/staticmap';
-		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
+		$url = $this->createURL('/staticmap');
 		$url->setParameter('format', BS_SERVICE_GOOGLE_MAPS_FORMAT);
 		$url->setParameter('maptype', 'mobile');
 		$url->setParameter('center', $geocode->format());

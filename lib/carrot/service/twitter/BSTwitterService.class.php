@@ -24,6 +24,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$host = new BSHost(self::DEFAULT_HOST);
 		}
 		parent::__construct($host, $port);
+		$this->setSSL(true);
 	}
 
 	/**
@@ -54,17 +55,10 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGET ($path = '/') {
-		if (!BSString::isContain('.', $path)) {
-			$path .= BS_SERVICE_TWITTER_SUFFIX;
-		}
-
 		if (!$this->oauth) {
 			return parent::sendGET($path);
 		}
-
-		$url = BSURL::create('https://' . self::DEFAULT_HOST);
-		$url['path'] = $path;
-		return $this->sendOauthRequest($url, 'GET', new BSArray);
+		return $this->sendOauthRequest($this->createURL($path), 'GET', new BSArray);
 	}
 
 	/**
@@ -76,18 +70,25 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		if (!BSString::isContain('.', $path)) {
-			$path .= BS_SERVICE_TWITTER_SUFFIX;
-		}
 		$params = new BSArray($params);
-
 		if (!$this->oauth) {
 			return parent::sendPOST($path, $params);
 		}
+		return $this->sendOauthRequest($this->createURL($path), 'POST', $params);
+	}
 
-		$url = BSURL::create('https://' . self::DEFAULT_HOST);
-		$url['path'] = $path;
-		return $this->sendOauthRequest($url, 'POST', $params);
+	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href) {
+		if (!BSString::isContain('.', $href)) {
+			$href .= BS_SERVICE_TWITTER_SUFFIX;
+		}
+		return parent::createURL($href);
 	}
 
 	private function sendOauthRequest (BSHTTPURL $url, $method, BSArray $params) {

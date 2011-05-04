@@ -46,6 +46,19 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	}
 
 	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href) {
+		$url = parent::createURL($href);
+		$url->setParameter('key', BS_SERVICE_GOOGLE_URL_SHORTENER_API_KEY);
+		return $url;
+	}
+
+	/**
 	 * 短縮URLを返す
 	 *
 	 * @access public
@@ -56,11 +69,10 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 		$params = new BSArray(array(
 			'longUrl' => $url->getURL()->getContents(),
 		));
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = '/urlshortener/v1/url';
-		$url->setParameter('key', BS_SERVICE_GOOGLE_URL_SHORTENER_API_KEY);
-		$response = $this->sendPOST($url->getFullPath(), $params);
+		$response = $this->sendPOST(
+			$this->createURL('/urlshortener/v1/url')->getFullPath(),
+			$params
+		);
 
 		$json = new BSJSONSerializer;
 		$result = $json->decode($response->getRenderer()->getContents());
