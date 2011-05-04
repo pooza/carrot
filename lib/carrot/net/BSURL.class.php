@@ -169,9 +169,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 		switch ($name) {
 			case 'scheme':
 				$this->attributes['scheme'] = $value;
-				if (BSString::isBlank($this['port'])) {
-					$this['port'] = BSNetworkService::getPort($value);
-				}
+				$this->attributes['port'] = BSNetworkService::getPort($value);
 				break;
 			case 'host':
 				if (!($value instanceof BSHost)) {
