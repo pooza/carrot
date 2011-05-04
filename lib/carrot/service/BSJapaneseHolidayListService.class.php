@@ -23,7 +23,6 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	private $date;
 	private $holidays;
 	const DEFAULT_HOST = 'www.finds.jp';
-	const PATH = '/ws/calendar.php';
 
 	/**
 	 * @access public
@@ -46,9 +45,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	public function getDate () {
 		if (!$this->date) {
-			$message = new BSStringFormat('%sの対象日付が設定されていません。');
-			$message[] = get_class($this);
-			throw new BSConfigException($message);
+			$this->setDate();
 		}
 		return $this->date;
 	}
@@ -88,25 +85,16 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	}
 
 	/**
-	 * クエリーを実行
+	 * パスからリクエストURLを生成して返す
 	 *
-	 * @access private
-	 * @return BSXMLDocument レスポンスのXML文書
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
 	 */
-	private function query () {
-		try {
-			$url = $this->createRequestURL(self::PATH);
-			$url->setParameter('y', $this->getDate()->getAttribute('year'));
-			$url->setParameter('m', $this->getDate()->getAttribute('month'));
-			$url->setParameter('t', 'h');
-			$response = $this->sendGET($url->getFullPath());
-
-			$xml = new BSXMLDocument;
-			$xml->setContents($response->getRenderer()->getContents());
-			return $xml;
-		} catch (Exception $e) {
-			throw new BSServiceException('祝日が取得できません。');
-		}
+	protected function createRequestURL ($href) {
+		$url = parent::createRequestURL($href);
+		$url->setParameter('json', 1);
+		return $url;
 	}
 
 	/**
@@ -160,19 +148,25 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 * @access public
 	 */
 	public function serialize () {
-		if (!$result = $this->query()->getElement('result')) {
-			throw new BSServiceException('result要素がありません。');
-		}
-		$holidays = new BSArray;
-		foreach ($result as $element) {
-			if ($element->getName() == 'day') {
-				$holidays->setParameter(
-					$element->getElement('mday')->getBody(),
-					$element->getElement('hname')->getBody()
-				);
+		try {
+			$url = $this->createRequestURL('/ws/calendar.php');
+			$url->setParameter('y', $this->getDate()->getAttribute('year'));
+			$url->setParameter('m', $this->getDate()->getAttribute('month'));
+			$url->setParameter('t', 'h');
+			$response = $this->sendGET($url->getFullPath());
+
+			$json = new BSJSONRenderer;
+			$json->setContents($response->getRenderer()->getContents());
+			$result = $json->getResult();
+
+			$holidays = new BSArray;
+			foreach ($result['result']['day'] as $entry) {
+				$holidays[$entry['mday']] = $entry['hname'];
 			}
+			BSController::getInstance()->setAttribute($this, $holidays);
+		} catch (Exception $e) {
+			throw new BSServiceException('祝日が取得できません。');
 		}
-		BSController::getInstance()->setAttribute($this, $holidays);
 	}
 
 	/**
