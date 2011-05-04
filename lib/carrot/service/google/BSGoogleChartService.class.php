@@ -57,11 +57,10 @@ class BSGoogleChartService extends BSCurlHTTP {
 		$dir = BSFileUtility::getDirectory('chart');
 		if (!$file = $dir->getEntry($key, 'BSImageFile')) {
 			try {
-				$query = new BSWWWFormRenderer;
-				$query['cht'] = $type;
-				$query['chs'] = $width . 'x' . $height;
-				$query->setParameters($params);
-				$response = $this->sendGET('/chart?' . $query->getContents());
+				$url = $this->createRequestURL('/chart');
+				$url->setParameter('cht', $type);
+				$url->setParameter('chs', $width . 'x' . $height);
+				$response = $this->sendGET($url->getFullPath());
 	
 				$image = new BSImage;
 				$image->setType(BSMIMEType::getType('.png'));

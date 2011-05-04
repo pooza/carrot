@@ -57,12 +57,12 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 	}
 
 	private function queryStations (BSGeocodeEntry $geocode) {
-		$params = new BSWWWFormRenderer;
-		$params['method'] = 'getStations';
-		$params['x'] = $geocode['lng'];
-		$params['y'] = $geocode['lat'];
-		$path = '/api/json?' . $params->getContents();
-		$response = $this->sendGET($path);
+		$url = $this->createRequestURL('/api/json');
+		$url->setParameter('method', 'getStations');
+		$url->setParameter('x', $geocode['lng']);
+		$url->setParameter('y', $geocode['lat']);
+		$response = $this->sendGET($url->getFullPath());
+
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode($response->getRenderer()->getContents());
 

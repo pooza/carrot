@@ -48,10 +48,10 @@ class BSGoogleFaviconsService extends BSCurlHTTP {
 		$dir = BSFileUtility::getDirectory('favicon');
 		$name = BSCrypt::getDigest($host->getName());
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			$query = new BSWWWFormRenderer;
-			$query['domain'] = $host->getName();
 			try {
-				$response = $this->sendGET('/s2/favicons?' . $query->getContents());
+				$url = $this->createRequestURL('/s2/favicons');
+				$url->setParameter('domain', $host->getName());
+				$response = $this->sendGET($url->getFullPath());
 				$image = new BSImage;
 				$image->setType(BSMIMEType::getType('.png'));
 				$image->setImage($response->getRenderer()->getContents());

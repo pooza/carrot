@@ -25,6 +25,20 @@ class BSTwitterSearchService extends BSCurlHTTP {
 	}
 
 	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createRequestURL ($href) {
+		if (!BSString::isContain('.', $href)) {
+			$href .= BS_SERVICE_TWITTER_SUFFIX;
+		}
+		return parent::createRequestURL($href);
+	}
+
+	/**
 	 * ツイートを検索
 	 *
 	 * @access public
@@ -38,9 +52,9 @@ class BSTwitterSearchService extends BSCurlHTTP {
 		try {
 			if (!$controller->getAttribute($key, $date)) {
 				$tweets = new BSArray;
-				$query = new BSWWWFormRenderer;
-				$query['q'] = $word;
-				$response = $this->sendGET('/search.json?' . $query->getContents());
+				$url = $this->createRequestURL('/search');
+				$url->setParameter('q', $word);
+				$response = $this->sendGET($url->getFullPath());
 				$json = new BSJSONRenderer;
 				$json->setContents($response->getRenderer()->getContents());
 				$result = $json->getResult();

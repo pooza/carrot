@@ -26,6 +26,19 @@ class BSGrooveTechnologyZipcodeService extends BSCurlHTTP {
 	}
 
 	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @access protected
+	 * @param string $href パス
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createRequestURL ($href) {
+		$url = parent::createRequestURL($href);
+		$url->setParameter('format', 'json');
+		return $url;
+	}
+
+	/**
 	 * 郵便番号を返す
 	 *
 	 * @access public
@@ -34,11 +47,10 @@ class BSGrooveTechnologyZipcodeService extends BSCurlHTTP {
 	 */
 	public function getZipcode ($address) {
 		try {
-			$params = new BSWWWFormRenderer;
-			$params['word'] = $address;
-			$params['format'] = 'json';
-			$path = '/ZipSearchService/v1/zipsearch?' . $params->getContents();
-			$response = $this->sendGET($path);
+			$url = $this->createRequestURL('/ZipSearchService/v1/zipsearch');
+			$url->setParameter('word', $address);
+			$response = $this->sendGET($url->getFullPath());
+
 			$serializer = new BSJSONSerializer;
 			$result = $serializer->decode($response->getRenderer()->getContents());
 			if(isset($result['zipcode']['a1'])) {
