@@ -21,7 +21,7 @@ class BSHTTP extends BSSocket {
 	public function sendHEAD ($path = '/') {
 		$request = new BSHTTPRequest;
 		$request->setMethod('HEAD');
-		$request->setURL($this->createURL($path));
+		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
 	}
 
@@ -35,7 +35,7 @@ class BSHTTP extends BSSocket {
 	public function sendGET ($path = '/') {
 		$request = new BSHTTPRequest;
 		$request->setMethod('GET');
-		$request->setURL($this->createURL($path));
+		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
 	}
 
@@ -53,7 +53,7 @@ class BSHTTP extends BSSocket {
 		$request->setRenderer(new BSWWWFormRenderer);
 		$request->getRenderer()->setParameters($params);
 		$request->removeHeader('Content-Transfer-Encoding');
-		$request->setURL($this->createURL($path));
+		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
 	}
 
@@ -64,7 +64,7 @@ class BSHTTP extends BSSocket {
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href) {
+	protected function createRequestURL ($href) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] = $href;

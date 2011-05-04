@@ -58,7 +58,7 @@ class BSTwitterService extends BSCurlHTTP {
 		if (!$this->oauth) {
 			return parent::sendGET($path);
 		}
-		return $this->sendOauthRequest($this->createURL($path), 'GET', new BSArray);
+		return $this->sendOauthRequest($this->createRequestURL($path), 'GET', new BSArray);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class BSTwitterService extends BSCurlHTTP {
 		if (!$this->oauth) {
 			return parent::sendPOST($path, $params);
 		}
-		return $this->sendOauthRequest($this->createURL($path), 'POST', $params);
+		return $this->sendOauthRequest($this->createRequestURL($path), 'POST', $params);
 	}
 
 	/**
@@ -84,11 +84,11 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href) {
+	protected function createRequestURL ($href) {
 		if (!BSString::isContain('.', $href)) {
 			$href .= BS_SERVICE_TWITTER_SUFFIX;
 		}
-		return parent::createURL($href);
+		return parent::createRequestURL($href);
 	}
 
 	private function sendOauthRequest (BSHTTPURL $url, $method, BSArray $params) {

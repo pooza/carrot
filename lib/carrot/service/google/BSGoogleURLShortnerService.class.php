@@ -52,8 +52,8 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href) {
-		$url = parent::createURL($href);
+	protected function createRequestURL ($href) {
+		$url = parent::createRequestURL($href);
 		$url->setParameter('key', BS_SERVICE_GOOGLE_URL_SHORTENER_API_KEY);
 		return $url;
 	}
@@ -70,7 +70,7 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 			'longUrl' => $url->getURL()->getContents(),
 		));
 		$response = $this->sendPOST(
-			$this->createURL('/urlshortener/v1/url')->getFullPath(),
+			$this->createRequestURL('/urlshortener/v1/url')->getFullPath(),
 			$params
 		);
 

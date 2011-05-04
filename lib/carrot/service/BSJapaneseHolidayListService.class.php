@@ -95,7 +95,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	private function query () {
 		try {
-			$url = $this->createURL(self::PATH);
+			$url = $this->createRequestURL(self::PATH);
 			$url->setParameter('y', $this->getDate()->getAttribute('year'));
 			$url->setParameter('m', $this->getDate()->getAttribute('month'));
 			$url->setParameter('t', 'h');

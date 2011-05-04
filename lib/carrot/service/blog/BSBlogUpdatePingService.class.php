@@ -19,7 +19,7 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 	 * @param BSBlogUpdatePingRequest $xml リクエスト文書
 	 */
 	public function sendPing ($href, BSBlogUpdatePingRequest $xml) {
-		$url = $this->createURL($href);
+		$url = $this->createRequestURL($href);
 
 		$request = new BSHTTPRequest;
 		$request->setURL($url);

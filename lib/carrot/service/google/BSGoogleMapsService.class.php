@@ -131,8 +131,8 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createURL ($href) {
-		$url = parent::createURL($href);
+	protected function createRequestURL ($href) {
+		$url = parent::createRequestURL($href);
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
 		return $url;
 	}
@@ -142,7 +142,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			return $info;
 		}
 
-		$url = $this->createURL('/maps/geo');
+		$url = $this->createRequestURL('/maps/geo');
 		$url->setParameter('q', $address);
 		$url->setParameter('output', 'json');
 		$response = $this->sendGET($url->getFullPath());
@@ -233,7 +233,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$size[] = $info['width'];
 		$size[] = BSNumeric::round($info['width'] * 0.75);
 
-		$url = $this->createURL('/staticmap');
+		$url = $this->createRequestURL('/staticmap');
 		$url->setParameter('format', BS_SERVICE_GOOGLE_MAPS_FORMAT);
 		$url->setParameter('maptype', 'mobile');
 		$url->setParameter('center', $geocode->format());

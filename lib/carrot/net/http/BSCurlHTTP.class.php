@@ -80,7 +80,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	protected function execute ($path) {
-		$url = $this->createURL($path);
+		$url = $this->createRequestURL($path);
 		$this->setAttribute('url', $url->getContents());
 
 		$headers = array();
