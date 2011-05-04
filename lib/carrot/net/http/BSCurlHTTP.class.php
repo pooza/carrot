@@ -80,7 +80,7 @@ class BSCurlHTTP extends BSHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	protected function execute ($path) {
-		$url = $this->createRequestURL($path);
+		$url = $this->createURL($path);
 		$this->setAttribute('url', $url->getContents());
 
 		$headers = array();
@@ -109,31 +109,12 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	/**
-	 * パスからリクエストURLを生成して返す
-	 *
-	 * @param string $href パス
-	 * @access protected
-	 * @return BSHTTPURL リクエストURL
-	 */
-	protected function createRequestURL ($href) {
-		$url = BSURL::create();
-		$url['host'] = $this->getHost();
-		$url['path'] = '/' . ltrim($href, '/');
-		if ($this->isSSL()) {
-			$url['scheme'] = 'https';
-		} else {
-			$url['scheme'] = 'http';
-		}
-		return $url;
-	}
-
-	/**
 	 * Curlエンジンを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @return handle Curlエンジン
 	 */
-	private function getEngine () {
+	protected function getEngine () {
 		if (!$this->engine) {
 			if (!extension_loaded('curl')) {
 				throw new BSHTTPException('curlモジュールがロードされていません。');

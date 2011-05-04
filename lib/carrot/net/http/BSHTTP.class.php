@@ -70,6 +70,29 @@ class BSHTTP extends BSSocket {
 	}
 
 	/**
+	 * パスからリクエストURLを生成して返す
+	 *
+	 * @param string $href パス
+	 * @param BSWWWFormRenderer $query クエリー
+	 * @access protected
+	 * @return BSHTTPURL リクエストURL
+	 */
+	protected function createURL ($href, BSWWWFormRenderer $query = null) {
+		$url = BSURL::create();
+		$url['host'] = $this->getHost();
+		$url['path'] = '/' . ltrim($href, '/');
+		if ($query) {
+			$url['query'] = $query;
+		}
+		if ($this->isSSL()) {
+			$url['scheme'] = 'https';
+		} else {
+			$url['scheme'] = 'http';
+		}
+		return $url;
+	}
+
+	/**
 	 * リクエストを実行し、結果を返す。
 	 *
 	 * @access private
