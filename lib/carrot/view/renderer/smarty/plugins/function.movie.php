@@ -31,7 +31,7 @@ function smarty_function_movie ($params, &$smarty) {
 				$finder = new BSRecordFinder($params);
 				if ($record = $finder->execute()) {
 					$url = BSFileUtility::getURL('movies');
-					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
+					$url['path'] = $record->getTable()->getDirectory()->getName() . '/';
 					$params['href_prefix'] = $url['path'];
 				}
 			}

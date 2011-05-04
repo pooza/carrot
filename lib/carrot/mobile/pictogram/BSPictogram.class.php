@@ -192,7 +192,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getURL () {
 		$url = BSFileUtility::getURL('pictogram');
-		$url['path'] .= $this->getImageFile()->getName();
+		$url['path'] = $this->getImageFile()->getName();
 		return $url;
 	}
 

@@ -80,7 +80,7 @@ class BSHTTP extends BSSocket {
 	protected function createURL ($href, BSWWWFormRenderer $query = null) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
-		$url['path'] = '/' . ltrim($href, '/');
+		$url['path'] = $href;
 		if ($query) {
 			$url['query'] = $query;
 		}
