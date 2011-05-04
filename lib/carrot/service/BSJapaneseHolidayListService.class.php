@@ -160,12 +160,13 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 			$result = $json->getResult();
 
 			$holidays = new BSArray;
-			foreach ($result['result']['day'] as $entry) {
-				$holidays[$entry['mday']] = $entry['hname'];
+			if (isset($result['result']['day']) && is_array($result['result']['day'])) {
+				foreach ($result['result']['day'] as $entry) {
+					$holidays[$entry['mday']] = $entry['hname'];
+				}
 			}
 			BSController::getInstance()->setAttribute($this, $holidays);
 		} catch (Exception $e) {
-			throw new BSServiceException('祝日が取得できません。');
 		}
 	}
 
