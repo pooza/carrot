@@ -67,7 +67,7 @@ class BSHTTP extends BSSocket {
 	protected function createRequestURL ($href) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
-		$url['path'] = $href;
+		$url['path'] = '/' . ltrim($href, '/');
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
 		} else {

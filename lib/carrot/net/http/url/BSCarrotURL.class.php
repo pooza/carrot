@@ -159,6 +159,7 @@ class BSCarrotURL extends BSHTTPURL {
 	 */
 	private function parsePath () {
 		$path = new BSArray;
+		$path[] = null;
 		$path[] = $this->getModuleName();
 		$path[] = $this->getActionName();
 		if ($id = $this->getRecordID()) {
