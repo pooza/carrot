@@ -156,13 +156,14 @@ class BSString {
 				$value[$key] = self::convertWrongCharacters($item);
 			}
 		} else {
-			$search = array();
-			$replace = array();
+			$searches = array();
+			$replaces = array();
 			foreach (BSConfigManager::getInstance()->compile('wrong_characters') as $rule) {
-				eval('$search[] = "' . $rule['search'] . '";');
-				$replace[] = $rule['replace'];
+				$searches[] = eval('return "' . $rule['search'] . '";');
+				$replaces[] = $rule['replace'];
 			}
-			$value = str_replace($search, $replace, $value);
+
+			$value = str_replace($searches, $replaces, $value);
 		}
 		return $value;
 	}
@@ -178,7 +179,7 @@ class BSString {
 	 */
 	static public function isContainWrongCharacter ($value) {
 		foreach (BSConfigManager::getInstance()->compile('wrong_characters') as $rule) {
-			eval('$search = "' . $rule['search'] . '";');
+			$search = eval('return "' . $rule['search'] . '";');
 			if (self::isContain($value, $search)) {
 				return true;
 			}
