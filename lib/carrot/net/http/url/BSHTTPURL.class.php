@@ -46,10 +46,9 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		$this->fullpath = null;
 		switch ($name) {
 			case 'path':
-				$value = '/' . ltrim($value, '/');
 				try {
 					$values = new BSArray(parse_url($value));
-					$this->attributes['path'] = $values['path'];
+					$this->attributes['path'] = '/' . ltrim($values['path'], '/');
 					$this->attributes['fragment'] = $values['fragment'];
 					$this['query'] = $values['query'];
 					$this->dirty = false;
@@ -145,6 +144,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			return;
 		}
 		$this->query[(string)$name] = $value;
+		$this->fullpath = null;
 	}
 
 	/**
@@ -165,6 +165,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function setParameters ($params) {
 		$this->query->setParameters($params);
+		$this->fullpath = null;
 	}
 
 	/**
