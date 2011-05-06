@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSGeocodeEntryHandler extends BSTableHandler {
-	const PATTERN = '^((lat|lng)=[[:digit:]]+\\.[[:digit:]]+([ ,]+)?)+$';
+	const PATTERN = '^((lat|lng|lon)=[[:digit:]]+\\.[[:digit:]]+([ ,]+)?)+$';
 
 	/**
 	 * レコード追加可能か？
@@ -53,6 +53,11 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 	public function register ($addr, BSArray $coord) {
 		$values = clone $coord;
 		$values['addr'] = $addr;
+		if (BSString::isBlank($values['lng'])) {
+			$values['lng'] = $values['lon'];
+			$values->removeParameter($values['lon']);
+		}
+
 		if ($id = $this->createRecord($values)) {
 			return $this->getRecord($id);
 		}
@@ -87,7 +92,13 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 			$info = new BSArray;
 			foreach(mb_split('[ ,]+', $value) as $entry) {
 				$entry = BSString::explode('=', $entry);
-				$info[$entry[0]] = $entry[1];
+				switch ($key = $entry[0]) {
+					case 'lon':
+					case 'lng':
+						$key = 'lng';
+						break;
+				}
+				$info[$key] = $entry[1];
 			}
 			return $info;
 		}

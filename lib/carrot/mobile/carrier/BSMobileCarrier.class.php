@@ -90,7 +90,10 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 	 */
 	public function getGPSInfo () {
 		$request = BSRequest::getInstance();
-		if ($request['lat'] && $request['lon']) {
+		if ($request['lat'] && ($request['lng'] || $request['lon'])) {
+			if (BSString::isBlank($request['lon'])) {
+				$request['lon'] = $request['lng'];
+			}
 			return new BSArray(array(
 				'lat' => BSGeocodeEntryHandler::dms2deg($request['lat']),
 				'lng' => BSGeocodeEntryHandler::dms2deg($request['lon']),

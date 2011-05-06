@@ -14,7 +14,11 @@ function smarty_function_map ($params, &$smarty) {
 	try {
 		$service = new BSGoogleMapsService;
 		$service->setUserAgent($smarty->getUserAgent());
-		if ($params['lat'] && $params['lng']) {
+		if ($params['lat'] && ($params['lng'] || $params['lon'])) {
+			if (BSString::isBlank($params['lng'])) {
+				$params['lng'] = $params['lon'];
+				$params->removeParameter('lon');
+			}
 			$addr = new BSStringFormat('lat=%s,lng=%s');
 			$addr[] = $params['lat'];
 			$addr[] = $params['lng'];
