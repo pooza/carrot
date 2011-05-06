@@ -12,6 +12,7 @@
 class BSYouTubeService extends BSCurlHTTP {
 	private $useragent;
 	const DEFAULT_HOST = 'www.youtube.com';
+	const DEFAULT_HOST_MOBILE = ''m.youtube.com'';
 
 	/**
 	 * @access public
@@ -89,7 +90,7 @@ class BSYouTubeService extends BSCurlHTTP {
 
 		$url = BSURL::create();
 		if ($useragent->isMobile()) {
-			$url['host'] = 'm.youtube.com';
+			$url['host'] = self::DEFAULT_HOST_MOBILE;
 		} else {
 			$url['host'] = self::DEFAULT_HOST;
 		}
