@@ -47,10 +47,16 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 	 */
 	public function getGPSInfo () {
 		$pos = BSRequest::getInstance()->getParameter('pos');
-		if (mb_ereg('[NS]([\\.[:digit:]]+)[EW]([\\.[:digit:]]+)', $pos, $matches)) {
+		if (mb_ereg('(N|S)([.[:digit:]]+)(E|W)([.[:digit:]]+)', $pos, $matches)) {
+			if ($matches[1] == 'S') {
+				$matches[2] *= -1;
+			}
+			if ($matches[3] == 'W') {
+				$matches[4] *= -1;
+			}
 			return new BSArray(array(
-				'lat' => BSGeocodeEntryHandler::dms2deg($matches[1]),
-				'lng' => BSGeocodeEntryHandler::dms2deg($matches[2]),
+				'lat' => BSGeocodeEntryHandler::dms2deg($matches[2]),
+				'lng' => BSGeocodeEntryHandler::dms2deg($matches[4]),
 			));
 		}
 	}
