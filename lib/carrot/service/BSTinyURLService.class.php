@@ -32,8 +32,9 @@ class BSTinyURLService extends BSCurlHTTP implements BSURLShorter {
 	 * @return BSHTTPURL 短縮URL
 	 */
 	public function getShortURL (BSHTTPRedirector $url) {
-		$path = '/api-create.php?url=' . BSURL::encode($url->getURL()->getContents());
-		$response = $this->sendGET($path);
+		$url = $this->createRequestURL('/api-create.php');
+		$url->setParameter('url', $url->getURL()->getContents());
+		$response = $this->sendGET($url->getFullPath());
 		return BSURL::create($response->getRenderer()->getContents());
 	}
 }

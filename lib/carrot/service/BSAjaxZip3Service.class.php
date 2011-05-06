@@ -33,7 +33,10 @@ class BSAjaxZip3Service extends BSCurlHTTP {
 	 * @return BSArray 住所情報
 	 */
 	public function getAddresses ($prefix) {
-		$response = $this->sendGET(BS_SERVICE_AJAXZIP3_ZIPDATA_HREF . 'zip-' . $prefix . '.js');
+		$url = $this->createRequestURL(BS_SERVICE_AJAXZIP3_ZIPDATA_HREF);
+		$url['path'] .= 'zip-' . $prefix . '.js';
+		$response = $this->sendGET($url->getFullPath());
+
 		$contents = $response->getRenderer()->getContents();
 		$contents = mb_ereg_replace('^[[:alpha:]]+\\(', null, $contents);
 		$contents = mb_ereg_replace('\\);[[:space:]]*$', null, $contents);
