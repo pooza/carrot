@@ -43,7 +43,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 					return self::$instances[$name] = $db;
 				}
 			}
-			$message = new BSStringFormat('"%s"のDSNが適切ではありません。');
+			$message = new BSStringFormat('"%s"は旧式です。');
 			$message[] = $name;
 			throw new BSDatabaseException($message);
 		}
