@@ -29,32 +29,6 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * DSNを設定
-	 *
-	 * @access public
-	 * @param BSDataSourceName $dsn DSN
-	 */
-	public function setDSN (BSDataSourceName $dsn) {
-		parent::setDSN($dsn);
-		$this->dsn['encoding_name'] = $this->getEncodingName();
-	}
-
-	/**
-	 * クエリーをエンコード
-	 *
-	 * @access protected
-	 * @param string $query クエリー文字列
-	 * @return string エンコードされたクエリー
-	 */
-	protected function encodeQuery ($query) {
-		if ($this->isLegacy()) {
-			return parent::encodeQuery($query);
-		} else {
-			return $query;
-		}
-	}
-
-	/**
 	 * ダンプ実行
 	 *
 	 * @access protected
@@ -71,11 +45,11 @@ class BSMySQLDatabase extends BSDatabase {
 	/**
 	 * コマンドラインを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $command コマンド名
 	 * @return BSCommandLine コマンドライン
 	 */
-	private function getCommandLine ($command = 'mysql') {
+	protected function getCommandLine ($command = 'mysql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
 		$command->push('--host=' . $this['host']->getAddress());
@@ -100,28 +74,6 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * テーブルのプロフィールを返す
-	 *
-	 * @access public
-	 * @param string $table テーブルの名前
-	 * @return BSTableProfile テーブルのプロフィール
-	 */
-	public function getTableProfile ($table) {
-		if (!$this->profiles) {
-			$this->profiles = new BSArray;
-		}
-		if (!$this->profiles[$name]) {
-			if ($this->getVersion() < 5.0) {
-				$class = 'BSMySQL4TableProfile';
-			} else {
-				$class = BSClassLoader::getInstance()->getClass($this['dbms'], 'TableProfile');
-			}
-			$this->profiles[$name] = new $class($name, $this);
-		}
-		return $this->profiles[$name];
-	}
-
-	/**
 	 * バージョンを返す
 	 *
 	 * @access protected
@@ -136,61 +88,13 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * バージョンは4.0以前か？
+	 * 旧式か
 	 *
 	 * @access public
-	 * @return boolean 4.0以前ならTrue
+	 * @return boolean 旧式ならTrue
 	 */
 	public function isLegacy () {
-		return ($this->getVersion() < 4.1);
-	}
-
-	/**
-	 * データベースのエンコードを返す
-	 *
-	 * @access public
-	 * @return string PHPのエンコード名
-	 */
-	public function getEncoding () {
-		if ($this->isLegacy()) {
-			$query = 'SHOW VARIABLES LIKE ' . $this->quote('character_set');
-			$result = PDO::query($query)->fetch();
-			if (!$encoding = self::getEncodings()->getParameter($result['Value'])) {
-				$message = new BSStringFormat('文字セット "%s" は使用できません。');
-				$message[] = $result['Value'];
-				throw new BSDatabaseException($message);
-			}
-			return $encoding;
-		} else {
-			// 4.1以降のMySQLでは、クライアント側エンコードに固定。
-			return 'utf-8';
-		}
-	}
-
-	/**
-	 * MySQLのエンコード名を返す
-	 *
-	 * @access public
-	 * @return string MySQLのエンコード名
-	 */
-	public function getEncodingName () {
-		$names = self::getEncodings()->getFlipped();
-		return $names[$this->getEncoding()];
-	}
-
-	/**
-	 * サポートしているエンコードを返す
-	 *
-	 * @access private
-	 * @return BSArray PHPのエンコードの配列
-	 * @static
-	 */
-	static private function getEncodings () {
-		$encodings = new BSArray;
-		$encodings['sjis'] = 'sjis';
-		$encodings['ujis'] = 'euc-jp';
-		$encodings['utf8'] = 'utf-8';
-		return $encodings;
+		return ($this->getVersion() < 5);
 	}
 }
 

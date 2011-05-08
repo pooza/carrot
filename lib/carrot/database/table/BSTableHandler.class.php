@@ -521,11 +521,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function query () {
 		$this->queryString = null;
-		$this->result = BSString::convertEncoding(
-			$this->getDatabase()->query($this->getQueryString())->fetchAll(),
-			'utf-8',
-			$this->getDatabase()->getEncoding()
-		);
+		$this->result = $this->getDatabase()->query($this->getQueryString())->fetchAll());
 		$this->setExecuted(true);
 		return $this->result;
 	}

@@ -41,7 +41,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 			try {
 				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password, $params);
 				if (!$params) {
-					$db->exec('SET NAMES ' . $db->getEncodingName());
+					$db->exec('SET NAMES utf8');
 				}
 				return $db;
 			} catch (Exception $e) {

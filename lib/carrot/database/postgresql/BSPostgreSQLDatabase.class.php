@@ -61,11 +61,11 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	/**
 	 * コマンドラインを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $command コマンド名
 	 * @return BSCommandLine コマンドライン
 	 */
-	private function getCommandLine ($command = 'psql') {
+	protected function getCommandLine ($command = 'psql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('pgsql'));
 		$command->push('--host=' . $this['host']->getAddress());

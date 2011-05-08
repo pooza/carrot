@@ -60,11 +60,11 @@ class BSSQLiteDatabase extends BSDatabase {
 	/**
 	 * コマンドラインを返す
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $command コマンド名
 	 * @return BSCommandLine コマンドライン
 	 */
-	private function getCommandLine ($command = 'sqlite3') {
+	protected function getCommandLine ($command = 'sqlite3') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('sqlite3'));
 		$command->push($this['file']->getPath());

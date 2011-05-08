@@ -36,6 +36,9 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 				$class = BSClassLoader::getInstance()->getClass($matches[1], 'DataSourceName');
 				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->getDatabase())) {
 					$db->setDSN($dsn);
+					if ($db->isLegacy()) {
+						throw new BSDatabaseException($db . 'のバージョンが古いです。');
+					}
 					return self::$instances[$name] = $db;
 				}
 			}
@@ -72,7 +75,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 		$this->dsn = $dsn;
 		$this->dsn['class'] = get_class($this);
 		$this->dsn['version'] = $this->getVersion();
-		$this->dsn['encoding'] = $this->getEncoding();
 	}
 
 	/**
@@ -113,7 +115,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @param string $query クエリー文字列
 	 */
 	public function query ($query) {
-		if (!$rs = parent::query($this->encodeQuery($query))) {
+		if (!$rs = parent::query($query)) {
 			$message = new BSStringFormat('実行不能なクエリーです。(%s) [%s]');
 			$message[] = $this->getError();
 			$message[] = $query;
@@ -131,25 +133,13 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @param string $query クエリー文字列
 	 */
 	public function exec ($query) {
-		$r = parent::exec($this->encodeQuery($query));
-		if ($r === false) {
+		if (($r = parent::exec($query)) === false) {
 			$message = new BSStringFormat('実行不能なクエリーです。(%s) [%s]');
 			$message[] = $this->getError();
 			$message[] = $query;
 			throw new BSDatabaseException($message);
 		}
 		return $r;
-	}
-
-	/**
-	 * クエリーをエンコード
-	 *
-	 * @access protected
-	 * @param string $query クエリー文字列
-	 * @return string エンコードされたクエリー
-	 */
-	protected function encodeQuery ($query) {
-		return BSString::convertEncoding($query, $this['encoding'], 'utf-8');
 	}
 
 	/**
@@ -245,6 +235,16 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	protected function isLoggable () {
 		return !!$this->getAttribute('loggable');
+	}
+
+	/**
+	 * 旧式か
+	 *
+	 * @access public
+	 * @return boolean 旧式ならTrue
+	 */
+	public function isLegacy () {
+		return false;
 	}
 
 	/**
@@ -358,16 +358,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	final public function vacuum () {
 		return $this->optimize();
-	}
-
-	/**
-	 * エンコードを返す
-	 *
-	 * @access public
-	 * @return string PHPのエンコード
-	 */
-	public function getEncoding () {
-		return 'utf-8';
 	}
 
 	/**
