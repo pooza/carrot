@@ -87,6 +87,16 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * DSNを設定
+	 *
+	 * @access public
+	 * @param BSDataSourceName $dsn DSN
+	 */
+	public function setDSN (BSDataSourceName $dsn) {
+		$this->dsn = $dsn;
+	}
+
+	/**
 	 * バージョンを返す
 	 *
 	 * @access public

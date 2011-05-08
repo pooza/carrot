@@ -36,13 +36,13 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = $this->getFile())) {
 			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
 		}
-
 		foreach ($this->getPasswords() as $password) {
 			try {
 				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password, $params);
 				if (!$params) {
 					$db->exec('SET NAMES utf8');
 				}
+				$db->setDSN($this);
 				$this['version'] = $db->getVersion();
 				return $db;
 			} catch (Exception $e) {

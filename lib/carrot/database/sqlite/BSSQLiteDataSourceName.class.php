@@ -29,6 +29,7 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 	 */
 	public function connect () {
 		$db = new BSSQLiteDatabase($this->getContents());
+		$db->setDSN($this);
 		$this['version'] = $db->getVersion();
 		return $db;
 	}
