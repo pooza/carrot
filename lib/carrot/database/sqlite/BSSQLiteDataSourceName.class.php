@@ -18,8 +18,7 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 	public function __construct ($contents, $name = 'default') {
 		parent::__construct($contents, $name);
 		mb_ereg('^sqlite:(.+)$', $contents, $matches);
-		$file = new BSFile($matches[1]);
-		$this['file'] = $file->getShortPath();
+		$this['file'] = new BSFile($matches[1]);
 	}
 
 	/**
