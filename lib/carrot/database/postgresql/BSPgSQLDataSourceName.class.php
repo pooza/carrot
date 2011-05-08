@@ -42,7 +42,9 @@ class BSPgSQLDataSourceName extends BSDataSourceName {
 	 * @return BSDatabase データベース
 	 */
 	public function connect () {
-		return new BSPostgreSQLDatabase($this->getContents());
+		$db = new BSPostgreSQLDatabase($this->getContents());
+		$this['version'] = $db->getVersion();
+		return $db;
 	}
 }
 

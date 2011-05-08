@@ -43,6 +43,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 				if (!$params) {
 					$db->exec('SET NAMES utf8');
 				}
+				$this['version'] = $db->getVersion();
 				return $db;
 			} catch (Exception $e) {
 			}

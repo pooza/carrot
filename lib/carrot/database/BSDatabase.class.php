@@ -36,7 +36,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			if (mb_ereg('^([[:alnum:]]+):', $dsn, $matches)) {
 				$class = BSClassLoader::getInstance()->getClass($matches[1], 'DataSourceName');
 				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->connect())) {
-					$db->setDSN($dsn);
 					if ($db->isLegacy()) {
 						throw new BSDatabaseException($db . 'は旧式です。');
 					}
@@ -65,18 +64,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @abstract
 	 */
 	abstract public function getTableNames ();
-
-	/**
-	 * DSNを設定
-	 *
-	 * @access public
-	 * @param BSDataSourceName $dsn DSN
-	 */
-	public function setDSN (BSDataSourceName $dsn) {
-		$this->dsn = $dsn;
-		$this->dsn['class'] = get_class($this);
-		$this->dsn['version'] = $this->getVersion();
-	}
 
 	/**
 	 * 属性値を返す
