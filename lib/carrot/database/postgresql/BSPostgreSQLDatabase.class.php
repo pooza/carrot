@@ -91,8 +91,11 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @return float バージョン
 	 */
 	protected function getVersion () {
-		$result = PDO::query('SELECT version() AS ver')->fetch();
-		return $result['ver'];
+		if (!$this->version) {
+			$result = PDO::query('SELECT version() AS ver')->fetch();
+			$this->version = $result['ver'];
+		}
+		return $this->version;
 	}
 }
 

@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMySQLDatabase extends BSDatabase {
-	private $version;
 
 	/**
 	 * テーブル名のリストを配列で返す
