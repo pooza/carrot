@@ -35,7 +35,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$dsn = BSConstantHandler::getInstance()->getParameter('PDO_' . $name . '_DSN');
 			if (mb_ereg('^([[:alnum:]]+):', $dsn, $matches)) {
 				$class = BSClassLoader::getInstance()->getClass($matches[1], 'DataSourceName');
-				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->getDatabase())) {
+				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->connect())) {
 					$db->setDSN($dsn);
 					if ($db->isLegacy()) {
 						throw new BSDatabaseException($db . 'のバージョンが古いです。');

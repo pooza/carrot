@@ -27,7 +27,7 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 	 * @access public
 	 * @return BSDatabase データベース
 	 */
-	public function getDatabase () {
+	public function connect () {
 		return new BSSQLiteDatabase($this->getContents());
 	}
 }

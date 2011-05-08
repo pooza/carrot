@@ -51,7 +51,7 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return BSDatabase データベース
 	 * @abstract
 	 */
-	abstract public function getDatabase ();
+	abstract public function connect ();
 
 	/**
 	 * パスワードの候補を配列で返す
