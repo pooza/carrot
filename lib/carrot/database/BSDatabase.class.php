@@ -89,10 +89,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	/**
 	 * バージョンを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return float バージョン
 	 */
-	protected function getVersion () {
+	public function getVersion () {
 	}
 
 	/**
