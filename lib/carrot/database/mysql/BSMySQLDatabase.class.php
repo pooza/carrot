@@ -107,11 +107,18 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return BSTableProfile テーブルのプロフィール
 	 */
 	public function getTableProfile ($table) {
-		if ($this->getVersion() < 5.0) {
-			return new BSMySQL4TableProfile($table, $this);
-		} else {
-			return parent::getTableProfile($table);
+		if (!$this->profiles) {
+			$this->profiles = new BSArray;
 		}
+		if (!$this->profiles[$name]) {
+			if ($this->getVersion() < 5.0) {
+				$class = 'BSMySQL4TableProfile';
+			} else {
+				$class = BSClassLoader::getInstance()->getClass($this['dbms'], 'TableProfile');
+			}
+			$this->profiles[$name] = new $class($name, $this);
+		}
+		return $this->profiles[$name];
 	}
 
 	/**

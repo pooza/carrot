@@ -13,6 +13,7 @@
 abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	protected $tables;
 	protected $dsn;
+	protected $profiles;
 	static private $instances;
 	const WITHOUT_LOGGING = 1;
 	const WITHOUT_SERIALIZE = 2;
@@ -69,7 +70,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function setDSN (BSDataSourceName $dsn) {
 		$this->dsn = $dsn;
-		$this->dsn['dbms'] = $this->getDBMS();
+		$this->dsn['class'] = get_class($this);
 		$this->dsn['version'] = $this->getVersion();
 		$this->dsn['encoding'] = $this->getEncoding();
 	}
@@ -93,17 +94,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function getAttributes () {
 		return $this->dsn;
-	}
-
-	/**
-	 * DSNを返す
-	 *
-	 * @access public
-	 * @return string DSN
-	 * @final
-	 */
-	final public function getDSN () {
-		return $this->getAttributes();
 	}
 
 	/**
@@ -177,12 +167,18 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * テーブルのプロフィールを返す
 	 *
 	 * @access public
-	 * @param string $table テーブルの名前
+	 * @param string $name テーブルの名前
 	 * @return BSTableProfile テーブルのプロフィール
 	 */
-	public function getTableProfile ($table) {
-		$class = BSClassLoader::getInstance()->getClass($this['dbms'], 'TableProfile');
-		return new $class($table, $this);
+	public function getTableProfile ($name) {
+		if (!$this->profiles) {
+			$this->profiles = new BSArray;
+		}
+		if (!$this->profiles[$name]) {
+			$class = BSClassLoader::getInstance()->getClass($this['dbms'], 'TableProfile');
+			$this->profiles[$name] = new $class($name, $this);
+		}
+		return $this->profiles[$name];
 	}
 
 	/**
@@ -362,19 +358,6 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	final public function vacuum () {
 		return $this->optimize();
-	}
-
-	/**
-	 * DBMSを返す
-	 *
-	 * @access protected
-	 * @return string DBMS名
-	 */
-	protected function getDBMS () {
-		if (!mb_ereg('^BS([[:alpha:]]+)Database$', get_class($this), $matches)) {
-			throw new BSDatabaseException(get_class($this) . 'のDBMS名が正しくありません。');
-		}
-		return $matches[1];
 	}
 
 	/**
