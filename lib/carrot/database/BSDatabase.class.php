@@ -163,7 +163,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$this->profiles = new BSArray;
 		}
 		if (!$this->profiles[$name]) {
-			$class = BSClassLoader::getInstance()->getClass($this['dbms'], 'TableProfile');
+			if (!mb_ereg('^(BS)?(.+)Database$', get_class($this), $matches)) {
+				throw new BSDatabaseException($this . 'のクラス名が正しくありません。');
+			}
+			$class = BSClassLoader::getInstance()->getClass($matches[2], 'TableProfile');
 			$this->profiles[$name] = new $class($name, $this);
 		}
 		return $this->profiles[$name];
