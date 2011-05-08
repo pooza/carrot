@@ -26,7 +26,7 @@
 {foreach from=$database.attributes key=key item=value}
 	<tr>
 		<th>{$key|translate:'carrot.TableReport'}</th>
-		<td>{$value}</td>
+		<td>{$value|default:'(空欄)'}</td>
 	</tr>
 {foreachelse}
 	<tr>
