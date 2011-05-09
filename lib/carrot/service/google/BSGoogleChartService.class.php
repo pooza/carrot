@@ -60,6 +60,7 @@ class BSGoogleChartService extends BSCurlHTTP {
 				$url = $this->createRequestURL('/chart');
 				$url->setParameter('cht', $type);
 				$url->setParameter('chs', $width . 'x' . $height);
+				$url->setParameters($params);
 				$response = $this->sendGET($url->getFullPath());
 	
 				$image = new BSImage;
