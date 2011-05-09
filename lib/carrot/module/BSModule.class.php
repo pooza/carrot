@@ -223,7 +223,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getTable () {
 		if (!$this->table && !BSString::isBlank($class = $this->getRecordClass())) {
-			$this->table = BSTableHandler::getInstance($class);
+			$this->table = BSTableHandler::create($class);
 		}
 		return $this->table;
 	}

@@ -56,7 +56,7 @@ class BSRecordFinder extends BSParameterHolder {
 					$module = BSController::getInstance()->getModule();
 					$this->table = $module->getTable();
 				} else {
-					$this->table = BSTableHandler::getInstance($this['class']);
+					$this->table = BSTableHandler::create($this['class']);
 				}
 			} catch (Exception $e) {
 			}

@@ -40,7 +40,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$this->setFields('*');
 
 		if (!$this->isExists() && $this->getSchema()) {
-			$this->create();
+			$this->createTable();
 		}
 	}
 
@@ -290,10 +290,8 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return BSRecord レコード
 	 */
 	public function getRecord ($key) {
-		if (is_array($key)) {
+		if (is_array($key) || ($key instanceof BSParameterHolder)) {
 			$key = new BSArray($key);
-		} else if ($key instanceof BSParameterHolder) {
-			$key = new BSArray($key->getParameters());
 		} else {
 			$key = new BSArray(array($this->getKeyField() => $key));
 		}
@@ -302,8 +300,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$record = new $class($this);
 		if ($record->isSerializable() && ($cache = $this->getRecordCache($record, $key))) {
 			return $record->initialize($cache);
-		}
-		if ($this->isExecuted()) {
+		} else if ($this->isExecuted()) {
 			foreach ($this->getResult() as $row) {
 				foreach ($key as $field => $value) {
 					if ($row[$field] != $value) {
@@ -466,9 +463,9 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	/**
 	 * テーブルを作成
 	 *
-	 * @access public
+	 * @access protected
 	 */
-	public function create () {
+	protected function createTable () {
 		if ($this->isExists()) {
 			throw new BSDatabaseException($this . 'は既に存在します。');
 		}
@@ -774,6 +771,17 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * 子クラスを返す
+	 *
+	 * @access public
+	 * @return BSArray 子クラス名の配列
+	 * @static
+	 */
+	public function getChildClasses () {
+		return new BSArray;
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */
@@ -809,30 +817,19 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
-	 * テーブルハンドラを返す
+	 * テーブルハンドラを生成して返す
 	 *
 	 * @access public
 	 * @param string $class レコード用クラス名、又はテーブル名
 	 * @return BSTableHandler テーブルハンドラ
 	 * @static
 	 */
-	static public function getInstance ($class) {
+	static public function create ($class) {
 		$table = BSClassLoader::getInstance()->getObject($class, self::CLASS_SUFFIX);
 		if (!($table instanceof BSTableHandler)) {
 			throw new BSDatabaseException($class . 'はテーブルハンドラではありません。');
 		}
 		return $table;
-	}
-
-	/**
-	 * 子クラスを返す
-	 *
-	 * @access public
-	 * @return BSArray 子クラス名の配列
-	 * @static
-	 */
-	public function getChildClasses () {
-		return new BSArray;
 	}
 
 	/**
