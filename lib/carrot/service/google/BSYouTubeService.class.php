@@ -12,7 +12,7 @@
 class BSYouTubeService extends BSCurlHTTP {
 	private $useragent;
 	const DEFAULT_HOST = 'www.youtube.com';
-	const DEFAULT_HOST_MOBILE = ''m.youtube.com'';
+	const DEFAULT_HOST_MOBILE = 'm.youtube.com';
 
 	/**
 	 * @access public
