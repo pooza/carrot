@@ -22,7 +22,6 @@ types:
   flv: video/x-flv
   gif: image/gif
   gz: application/x-gzip
-  h264: video/h264
   hmt: application/x-htmlmail-template
   htm: text/html
   html: text/html

@@ -73,6 +73,8 @@ ffmpeg:
       width: 176
       height: 144
       frame_rate: 10
+    mp4:
+    webm:
     mp3:
 flash:
   player_ver: 9.0.0
