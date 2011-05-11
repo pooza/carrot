@@ -90,10 +90,10 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	/**
 	 * テーブルクラスの継承を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return BSArray テーブルクラスの継承
 	 */
-	public function getTableClassNames () {
+	protected function getTableClasses () {
 		try {
 			$name = BSClassLoader::getInstance()->getClass(
 				$this->getName(),
@@ -108,10 +108,10 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	/**
 	 * レコードクラスの継承を返す
 	 *
-	 * @access public
+	 * @access protected
 	 * @return BSArray レコードクラスの継承
 	 */
-	public function getRecordClassNames () {
+	protected function getRecordClasses () {
 		try {
 			$name = BSClassLoader::getInstance()->getClass($this->getName());
 			return new BSArray(BSClassLoader::getParentClasses($name));
@@ -153,8 +153,8 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 		$values = array(
 			'name' => $this->getName(),
 			'name_ja' => BSTranslateManager::getInstance()->execute($this->getName(), 'ja'),
-			'table_classes' => $this->getTableClassNames(),
-			'record_classes' => $this->getRecordClassNames(),
+			'table_classes' => $this->getTableClasses(),
+			'record_classes' => $this->getRecordClasses(),
 			'constraints' => $this->getConstraints(),
 		);
 
