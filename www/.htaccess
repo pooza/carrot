@@ -6,6 +6,9 @@
 # mod_authz_host
 Deny from none
 
+# Error Document
+ErrorDocument 404 /NotFound
+
 # mod_rewrite
 RewriteEngine on
 RewriteRule ^(.*/)*\.(svn|git)/ / [F,L]
