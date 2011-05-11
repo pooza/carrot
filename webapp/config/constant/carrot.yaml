@@ -74,6 +74,16 @@ ffmpeg:
       height: 144
       frame_rate: 10
     mp4:
+      video_codec: libx264
+      audio_codec: libfaac
+      gop_length: 150
+      qp_curve_compression: 0.7
+      quantizer_min: 10
+      quantizer_max: 51
+      max_qp_step: 4
+      subq: 6
+      me_range: 16
+      i_qfactor: 0.714286
     webm:
     mp3:
 flash:

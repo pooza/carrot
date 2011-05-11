@@ -158,9 +158,20 @@ abstract class BSMediaConvertor {
 			'audio_codec' => 'acodec',
 			'size' => 's',
 			'frame_rate' => 'r',
+			'bit_rate' => 'b',
 			'max_file_size' => 'fs',
 			'padding_top' => 'paddtop',
 			'padding_bottom' => 'padbottom',
+
+			// libx264むけ
+			'gop_length' => 'g',
+			'qp_curve_compression' => 'qcomp',
+			'quantizer_min' => 'qmin',
+			'quantizer_max' => 'qmax',
+			'max_qp_step' => 'qdiff',
+			'subq' => 'subq',
+			'me_range' => 'me_range',
+			'i_qfactor' => 'i_qfactor',
 		));
 	}
 
