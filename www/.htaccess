@@ -6,8 +6,12 @@
 # mod_authz_host
 Deny from none
 
-# Error Document
+# エラーページ
 ErrorDocument 404 /NotFound
+
+# MIME
+AddType application/x-httpd-php .php
+AddType video/webm .webm
 
 # mod_rewrite
 RewriteEngine on

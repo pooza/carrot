@@ -84,10 +84,13 @@ class BSMovieFile extends BSMediaFile {
 	 * FLVに変換して返す
 	 *
 	 * @access public
+	 * @param BSMediaConvertor $convertor コンバータ
 	 * @return BSMovieFile 変換後ファイル
 	 */
-	public function convert () {
-		$convertor = new BSFLVMediaConvertor;
+	public function convert (BSMediaConvertor $convertor = null) {
+		if (!$convertor) {
+			$convertor = new BSFLVMediaConvertor;
+		}
 		return $convertor->execute($this);
 	}
 
@@ -175,6 +178,19 @@ class BSMovieFile extends BSMediaFile {
 			$container->setBody($params['label']);
 		}
 		return $container;
+	}
+
+	/**
+	 * video要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSVideoElement 要素
+	 */
+	public function getVideoElement (BSParameterHolder $params) {
+		$element = new BSVideoElement;
+		$element->registerSource($this->getMediaURL($params));
+		return $element;
 	}
 
 	/**

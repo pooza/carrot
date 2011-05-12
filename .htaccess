@@ -4,8 +4,4 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 Deny from all
-
-Options -Indexes
-
-AddType application/x-httpd-php .php
-AddType video/webm .webm
+Options -Indexes -ExecCGI

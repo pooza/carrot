@@ -123,7 +123,7 @@ class BSMusicFile extends BSMediaFile {
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSObjectElement 要素
+	 * @return BSAudioElement 要素
 	 */
 	public function getAudioElement (BSParameterHolder $params) {
 		$element = new BSAudioElement;
