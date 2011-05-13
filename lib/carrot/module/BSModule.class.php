@@ -21,6 +21,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $table;
 	protected $params;
 	protected $recordClass;
+	protected $parameterCacheKey;
+	protected $recordIDKey;
 	static private $instances;
 	static private $prefixes = array();
 
@@ -30,6 +32,9 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	protected function __construct ($name) {
 		$this->name = $name;
+		$this->parameterCacheKey = $this->createKey('ParameterCache');
+		$this->recordIDKey = $this->createKey('RecordID');
+
 		if (!$this->getDirectory()) {
 			throw new BSModuleException($this . 'のディレクトリが見つかりません。');
 		}
@@ -39,6 +44,14 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if ($file = $this->getConfigFile('filters')) {
 			$this->config['filters'] = $file->getResult();
 		}
+	}
+
+	private function createKey ($key) {
+		$name = new BSArray;
+		$name[] = get_class($this);
+		$name[] = $key;
+		$name[] = $this->getName();
+		return $name->join('_');
 	}
 
 	/**
@@ -176,7 +189,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	public function getParameterCache () {
 		if (!$this->params) {
 			$this->params = new BSArray;
-			if ($params = $this->user->getAttribute($this->getParameterCacheName())) {
+			if ($params = $this->user->getAttribute($this->parameterCacheKey)) {
 				$this->params->setParameters($params);
 			}
 		}
@@ -193,7 +206,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		$this->params = clone $params;
 		$this->params->removeParameter(BSRequest::MODULE_ACCESSOR);
 		$this->params->removeParameter(BSRequest::ACTION_ACCESSOR);
-		$this->user->setAttribute($this->getParameterCacheName(), $this->params);
+		$this->user->setAttribute($this->parameterCacheKey, $this->params);
 	}
 
 	/**
@@ -202,11 +215,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @access public
 	 */
 	public function clearParameterCache () {
-		$this->user->removeAttribute($this->getParameterCacheName());
-	}
-
-	private function getParameterCacheName () {
-		return $this->getName() . 'Criteria';
+		$this->user->removeAttribute($this->parameterCacheKey);
 	}
 
 	/**
@@ -242,7 +251,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return integer カレントレコードID
 	 */
 	public function getRecordID () {
-		return $this->user->getAttribute($this->getRecordIDName());
+		return $this->user->getAttribute($this->recordIDKey);
 	}
 
 	/**
@@ -258,7 +267,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$id = new BSArray($id);
 			$id = $id[$this->getTable()->getKeyField()];
 		}
-		$this->user->setAttribute($this->getRecordIDName(), $id);
+		$this->user->setAttribute($this->recordIDKey, $id);
 	}
 
 	/**
@@ -267,12 +276,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @access public
 	 */
 	public function clearRecordID () {
-		$this->user->removeAttribute($this->getRecordIDName());
+		$this->user->removeAttribute($this->recordIDKey);
 		$this->record = null;
-	}
-
-	private function getRecordIDName () {
-		return $this->getName() . 'ID';
 	}
 
 	/**
