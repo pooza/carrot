@@ -90,7 +90,7 @@ class BSSerializeHandler {
 	 * @return mixed 属性値
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
-		return $this->getStorage()->getAttribute($this->digestSerialized($name), $date);
+		return $this->getStorage()->getAttribute($this->createKey($name), $date);
 	}
 
 	/**
@@ -101,7 +101,7 @@ class BSSerializeHandler {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate ($name) {
-		return $this->getStorage()->getUpdateDate($this->digestSerialized($name));
+		return $this->getStorage()->getUpdateDate($this->createKey($name));
 	}
 
 	/**
@@ -118,7 +118,7 @@ class BSSerializeHandler {
 		} else if ($value instanceof BSParameterHolder) {
 			$value = $value->getParameters();
 		}
-		$this->getStorage()->setAttribute($this->digestSerialized($name), $value);
+		$this->getStorage()->setAttribute($this->createKey($name), $value);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BSSerializeHandler {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		$this->getStorage()->removeAttribute($this->digestSerialized($name));
+		$this->getStorage()->removeAttribute($this->createKey($name));
 	}
 
 	/**
@@ -138,7 +138,7 @@ class BSSerializeHandler {
 	 * @param mixed $name 属性名に用いる値
 	 * @return string 属性名
 	 */
-	public function digestSerialized ($name) {
+	public function createKey ($name) {
 		if ($name instanceof BSSerializable) {
 			return $name->digestSerialized();
 		} else if (is_object($name)) {
