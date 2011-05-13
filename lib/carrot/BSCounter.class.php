@@ -27,11 +27,11 @@ class BSCounter implements BSSerializable {
 	 * @return integer カウンターの値
 	 */
 	public function getContents () {
-		if (!$this->getUser()->hasAttribute($this->serializeName())) {
+		if (!$this->getUser()->hasAttribute($this->digestSerialized())) {
 			$this->serialize();
-			$this->getUser()->setAttribute($this->serializeName(), $this->getSerialized());
+			$this->getUser()->setAttribute($this->digestSerialized(), $this->getSerialized());
 		}
-		return $this->getUser()->getAttribute($this->serializeName());
+		return $this->getUser()->getAttribute($this->digestSerialized());
 	}
 
 	/**
@@ -40,8 +40,8 @@ class BSCounter implements BSSerializable {
 	 * @access public
 	 */
 	public function release () {
-		if ($this->getUser()->hasAttribute($this->serializeName())) {
-			$this->getUser()->removeAttribute($this->serializeName());
+		if ($this->getUser()->hasAttribute($this->digestSerialized())) {
+			$this->getUser()->removeAttribute($this->digestSerialized());
 		}
 	}
 
@@ -56,12 +56,12 @@ class BSCounter implements BSSerializable {
 	}
 
 	/**
-	 * 属性名へシリアライズ
+	 * シリアライズのダイジェストを返す
 	 *
 	 * @access public
 	 * @return string 属性名
 	 */
-	public function serializeName () {
+	public function digestSerialized () {
 		return get_class($this) . '.' . $this->name;
 	}
 

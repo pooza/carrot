@@ -19,7 +19,7 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 		$this->clearBody();
 		$line = sprintf(
 			'return BSController::getInstance()->getAttribute(%s);',
-			self::quote($file->serializeName())
+			self::quote($file->digestSerialized())
 		);
 		$this->putLine($line);
 		return $this->getBody();

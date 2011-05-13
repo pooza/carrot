@@ -121,12 +121,12 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	}
 
 	/**
-	 * 属性名へシリアライズ
+	 * シリアライズのダイジェストを返す
 	 *
 	 * @access public
 	 * @return string 属性名
 	 */
-	public function serializeName () {
+	public function digestSerialized () {
 		return get_class($this) . '.' . $this->getName();
 	}
 

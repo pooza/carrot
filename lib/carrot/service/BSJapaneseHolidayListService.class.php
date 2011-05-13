@@ -133,12 +133,12 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	}
 
 	/**
-	 * 属性名へシリアライズ
+	 * シリアライズのダイジェストを返す
 	 *
 	 * @access public
 	 * @return string 属性名
 	 */
-	public function serializeName () {
+	public function digestSerialized () {
 		return sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
 	}
 

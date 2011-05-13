@@ -576,12 +576,12 @@ abstract class BSRecord implements ArrayAccess,
 	}
 
 	/**
-	 * 属性名へシリアライズ
+	 * シリアライズのダイジェストを返す
 	 *
 	 * @access public
 	 * @return string 属性名
 	 */
-	public function serializeName () {
+	public function digestSerialized () {
 		return sprintf('%s.%08d', get_class($this), $this->getID());
 	}
 
