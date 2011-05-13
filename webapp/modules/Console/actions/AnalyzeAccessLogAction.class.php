@@ -10,12 +10,6 @@ class AnalyzeAccessLogAction extends BSAction {
 	protected $awstatsConfig;
 	private $prev;
 
-	/**
-	 * 設定値を返す
-	 *
-	 * @access private
-	 * @return BSArray 設定値
-	 */
 	private function getAWStatsConfig () {
 		if (!$this->awstatsConfig) {
 			$this->awstatsConfig = new BSArray;
@@ -44,12 +38,6 @@ class AnalyzeAccessLogAction extends BSAction {
 		return $this->awstatsConfig;
 	}
 
-	/**
-	 * 解析を実行する
-	 *
-	 * @access private
-	 * @param BSFile $file 対象ファイル
-	 */
 	private function analyze (BSFile $file = null) {
 		$command = new BSCommandLine('awstats.pl');
 		$command->setDirectory(BSFileUtility::getDirectory('awstats'));
@@ -67,12 +55,6 @@ class AnalyzeAccessLogAction extends BSAction {
 		}
 	}
 
-	/**
-	 * 昨日のアクセスログを返す
-	 *
-	 * @access private
-	 * @return BSFile 昨日のアクセスログ
-	 */
 	private function getPrevLogFile () {
 		if (!$this->prev && BS_AWSTATS_DAILY) {
 			if ($dir = BSFileUtility::getDirectory('awstats_log')) {
@@ -91,11 +73,6 @@ class AnalyzeAccessLogAction extends BSAction {
 		return $this->prev;
 	}
 
-	/**
-	 * 設定ファイルを更新
-	 *
-	 * @access private
-	 */
 	private function updateConfig () {
 		$smarty = new BSSmarty;
 		$smarty->setTemplate('awstats.conf');

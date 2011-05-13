@@ -9,12 +9,6 @@
 class BackupDatabaseAction extends BSAction {
 	private $database;
 
-	/**
-	 * 対象データベースを返す
-	 *
-	 * @access private
-	 * @return BSDatabase 対象データベース
-	 */
 	private function getDatabase () {
 		if (!$this->database) {
 			if (!$name = $this->request['d']) {
