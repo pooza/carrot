@@ -154,7 +154,7 @@ class BSCrypt {
 		}
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$value = new BSArray($value);
-			$value = $value->join('/', ':');
+			$value = $value->join("\n", "\t");
 		}
 		return hash($method, $value . $salt);
 	}
