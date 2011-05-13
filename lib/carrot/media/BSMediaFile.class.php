@@ -196,7 +196,11 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return string div要素のID
 	 */
 	protected function createContainerID () {
-		return get_class($this) . $this->getID() . BSUtility::getUniqueID();
+		return BSCrypt::getDigest(new BSArray(array(
+			get_class($this),
+			$this->getID(),
+			BSUtility::getUniqueID(),
+		)));
 	}
 
 	/**
