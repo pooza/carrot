@@ -32,7 +32,7 @@ class BSWindowsMediaMovieFile extends BSMovieFile {
 		$object->setAttribute('type', $this->getType());
 		$object->setAttribute('width', $params['width']);
 		$object->setAttribute('height', $params['height']);
-		$object->setURL($this->getMediaURL($params));
+		$object->setURL($this->createURL($params));
 		return $container;
 	}
 

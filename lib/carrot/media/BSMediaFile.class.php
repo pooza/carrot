@@ -180,7 +180,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSURL メディアURL
 	 */
-	protected function getMediaURL (BSParameterHolder $params) {
+	protected function createURL (BSParameterHolder $params) {
 		$url = BSURL::create($params['href_prefix']);
 		$url['path'] .= $this->getName() . $params['href_suffix'];
 		if (BSUser::getInstance()->isAdministrator()) {

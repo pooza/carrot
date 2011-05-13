@@ -187,7 +187,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 		$this->resizeByWidth($params, $useragent);
 		$params = new BSArray($params);
 		$element = new BSImageElement;
-		$element->setURL($this->getMediaURL($params));
+		$element->setURL($this->createURL($params));
 		$element->registerStyleClass($params['style_class']);
 		$element->setAttribute('width', $this['width']);
 		$element->setAttribute('height', $this['height']);

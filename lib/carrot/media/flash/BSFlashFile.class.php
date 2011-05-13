@@ -44,7 +44,7 @@ class BSFlashFile extends BSMediaFile {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
 		if ($useragent->isMobile()) {
-			$params['url'] = $this->getMediaURL($params);
+			$params['url'] = $this->createURL($params);
 			return $useragent->getFlashElement($params);
 		}
 		$container = parent::getElement($params);
@@ -67,7 +67,7 @@ class BSFlashFile extends BSMediaFile {
 	public function getScriptElement (BSParameterHolder $params) {
 		$element = new BSScriptElement;
 		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = BSJavaScriptUtility::quote($this->getMediaURL($params)->getContents());
+		$body[] = BSJavaScriptUtility::quote($this->createURL($params)->getContents());
 		$body[] = BSJavaScriptUtility::quote($params['container_id']);
 		$body[] = $this['width'];
 		$body[] = $this['height'];
@@ -88,7 +88,7 @@ class BSFlashFile extends BSMediaFile {
 	 */
 	public function getObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
-		$element->setURL($this->getMediaURL($params));
+		$element->setURL($this->createURL($params));
 		return $element;
 	}
 

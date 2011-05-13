@@ -113,7 +113,7 @@ class BSMusicFile extends BSMediaFile {
 		$element->setURL(BSURL::create()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
 		$element->setAttribute('width', $this['width']);
 		$element->setAttribute('height', $this['height']);
-		$element->setFlashVar('mp3', $this->getMediaURL($params)->getContents());
+		$element->setFlashVar('mp3', $this->createURL($params)->getContents());
 		$element->setFlashVar('autoload', 1);
 		$element->setFlashVar('showstop', 1);
 		$element->setFlashVar('showvolume', 1);
@@ -130,7 +130,7 @@ class BSMusicFile extends BSMediaFile {
 	 */
 	public function getAudioElement (BSParameterHolder $params) {
 		$element = new BSAudioElement;
-		$element->registerSource($this->getMediaURL($params));
+		$element->registerSource($this->createURL($params));
 		return $element;
 	}
 

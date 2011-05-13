@@ -168,7 +168,7 @@ class BSMovieFile extends BSMediaFile {
 		$container = new BSShadowboxAnchorElement;
 		$container->setWidth($params['width_movie']);
 		$container->setHeight($params['height_movie']);
-		$container->setURL($this->getMediaURL($params));
+		$container->setURL($this->createURL($params));
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
@@ -189,7 +189,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function getVideoElement (BSParameterHolder $params) {
 		$element = new BSVideoElement;
-		$element->registerSource($this->getMediaURL($params));
+		$element->registerSource($this->createURL($params));
 		return $element;
 	}
 
@@ -206,7 +206,7 @@ class BSMovieFile extends BSMediaFile {
 				'scaling' => 'fit',
 				'autoPlay' => false,
 				'autoBuffering' => true,
-				'url' => $this->getMediaURL($params)->getContents(),
+				'url' => $this->createURL($params)->getContents(),
 			),
 			'plugins' => array(
 				'controls' => array(
