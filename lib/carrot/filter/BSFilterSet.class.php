@@ -98,12 +98,6 @@ class BSFilterSet extends BSArray {
 		}
 	}
 
-	/**
-	 * フィルタセットに加える
-	 *
-	 * @access private
-	 * @param mixed $file 設定ファイル名、又はBSFileオブジェクト
-	 */
 	private function load ($file) {
 		foreach ((array)BSConfigManager::getInstance()->compile($file) as $filter) {
 			$this->register($filter);

@@ -12,12 +12,6 @@
 class BSFileValidator extends BSValidator {
 	const ATTACHABLE = 'ATTACHABLE';
 
-	/**
-	 * 許可される拡張子を返す
-	 *
-	 * @access private
-	 * @return BSArray 許可される拡張子、全てを許可する場合は空配列
-	 */
 	private function getAllowedSuffixes () {
 		if (is_array($this['suffixes']) || ($this['suffixes'] instanceof BSParameterHolder)) {
 			$suffixes = new BSArray($this['suffixes']);

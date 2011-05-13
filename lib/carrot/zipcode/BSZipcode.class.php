@@ -43,12 +43,6 @@ class BSZipcode implements BSAssignable {
 		return $this->contents;
 	}
 
-	/**
-	 * 住所情報を取得する
-	 *
-	 * @access private
-	 * @return BSArray 住所情報
-	 */
 	private function getInfo () {
 		if (!$this->info) {
 			$service = new BSAjaxZip3Service;

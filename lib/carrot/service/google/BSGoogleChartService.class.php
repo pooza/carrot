@@ -78,16 +78,6 @@ class BSGoogleChartService extends BSCurlHTTP {
 		return $file;
 	}
 
-	/**
-	 * 画像ファイル名を生成して返す
-	 *
-	 * @access private
-	 * @param string $type 種類
-	 * @param integer $witdh 幅
-	 * @param integer $height 高さ
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return string 画像ファイル名
-	 */
 	private function createKey ($type, $width, $height, BSParameterHolder $params) {
 		$values = new BSArray;
 		$values['type'] = $type;

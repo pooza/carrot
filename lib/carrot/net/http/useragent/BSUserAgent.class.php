@@ -368,13 +368,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 		return BS_IMAGE_THUMBNAIL_TYPE;
 	}
 
-	/**
-	 * 登録済みのタイプを配列で返す
-	 *
-	 * @access private
-	 * @return BSArray タイプリスト
-	 * @static
-	 */
 	static private function getTypes () {
 		return new BSArray(array(
 			'Trident',

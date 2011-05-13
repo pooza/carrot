@@ -10,13 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSBasicAuthFilter extends BSFilter {
-
-	/**
-	 * 認証
-	 *
-	 * @access private
-	 * @return 許可されたらTrue
-	 */
 	private function isAuthenticated () {
 		if (BSString::isBlank($password = $this->controller->getAttribute('PHP_AUTH_PW'))) {
 			return false;

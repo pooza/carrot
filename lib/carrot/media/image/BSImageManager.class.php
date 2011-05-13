@@ -444,7 +444,7 @@ class BSImageManager {
 	/**
 	 * パラメータ配列から画像コンテナを返す
 	 *
-	 * @access private
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSImageContainer 画像コンテナ
 	 */

@@ -47,12 +47,6 @@ class BSCoordinate {
 		return $this->y;
 	}
 
-	/**
-	 * 正しい座標か
-	 *
-	 * @access private
-	 * @return boolean 正しい座標ならTrue
-	 */
 	private function validate () {
 		if (($this->getX() < 0) || ($this->getImage()->getWidth() - 1 < $this->getX())) {
 			$message = new BSStringFormat('X座標 "%d" は領域外です。');

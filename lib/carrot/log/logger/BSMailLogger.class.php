@@ -47,13 +47,6 @@ class BSMailLogger extends BSLogger {
 		}
 	}
 
-	/**
-	 * 送信
-	 *
-	 * @access private
-	 * @param string $message ログメッセージ
-	 * @param string $priority 優先順位
-	 */
 	private function send ($message, $priority) {
 		$mail = new BSSmartyMail;
 		$mail->getRenderer()->setTemplate('BSException.mail');
@@ -62,12 +55,6 @@ class BSMailLogger extends BSLogger {
 		$mail->send();
 	}
 
-	/**
-	 * 対象パターン
-	 *
-	 * @access private
-	 * @return BSArray クラス名の配列
-	 */
 	private function getPatterns () {
 		if (!$this->patterns) {
 			$this->patterns = BSString::explode(',', BS_LOG_MAIL_PATTERNS);

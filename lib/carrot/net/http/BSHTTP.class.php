@@ -76,13 +76,6 @@ class BSHTTP extends BSSocket {
 		return $url;
 	}
 
-	/**
-	 * リクエストを実行し、結果を返す。
-	 *
-	 * @access private
-	 * @param BSHTTPRequest $request リクエスト
-	 * @return BSHTTPResponse 結果文書
-	 */
 	private function send (BSHTTPRequest $request) {
 		if ($this->isOpened()) {
 			throw new BSHTTPException($this . 'は既に開いています。');

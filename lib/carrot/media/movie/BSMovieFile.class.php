@@ -193,13 +193,6 @@ class BSMovieFile extends BSMediaFile {
 		return $element;
 	}
 
-	/**
-	 * flowplayerの設定を返す
-	 *
-	 * @access private
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return string JSONシリアライズされた設定
-	 */
 	private function getPlayerConfig (BSParameterHolder $params) {
 		$config = array(
 			'clip' => array(

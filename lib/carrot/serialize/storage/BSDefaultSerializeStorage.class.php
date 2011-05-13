@@ -23,22 +23,10 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 		return $this->getDirectory()->isWritable();
 	}
 
-	/**
-	 * シリアライザーを返す
-	 *
-	 * @access private
-	 * @param BSSerializer シリアライザー
-	 */
 	private function getSerializer () {
 		return BSSerializeHandler::getInstance()->getSerializer();
 	}
 
-	/**
-	 * ディレクトリを返す
-	 *
-	 * @access private
-	 * @param BSDictionary ディレクトリ
-	 */
 	private function getDirectory () {
 		return BSFileUtility::getDirectory('serialized');
 	}

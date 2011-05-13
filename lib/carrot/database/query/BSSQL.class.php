@@ -164,14 +164,6 @@ class BSSQL {
 		return sprintf('DROP TABLE %s', $table);
 	}
 
-	/**
-	 * フィールドリスト文字列を返す
-	 *
-	 * @access private
-	 * @param string[] $fields フィールドリストの配列
-	 * @return string フィールドリスト文字列
-	 * @static
-	 */
 	static private function getFieldsString ($fields = null) {
 		if (!($fields instanceof BSTableFieldSet)) {
 			$fields = new BSTableFieldSet($fields);
@@ -182,14 +174,6 @@ class BSSQL {
 		return $fields->getContents();
 	}
 
-	/**
-	 * テーブル文字列を返す
-	 *
-	 * @access private
-	 * @param string[] $tables テーブルの配列
-	 * @return string テーブル文字列
-	 * @static
-	 */
 	static private function getFromString ($tables) {
 		if (!($tables instanceof BSTableFieldSet)) {
 			$tables = new BSTableFieldSet($tables);
@@ -197,14 +181,6 @@ class BSSQL {
 		return 'FROM ' . $tables->getContents();
 	}
 
-	/**
-	 * 抽出条件文字列を返す
-	 *
-	 * @access private
-	 * @param mixed $criteria 抽出条件の配列
-	 * @return string 抽出条件文字列
-	 * @static
-	 */
 	static private function getCriteriaString ($criteria) {
 		if (!($criteria instanceof BSCriteriaSet)) {
 			$criteria = new BSCriteriaSet($criteria);
@@ -214,14 +190,6 @@ class BSSQL {
 		}
 	}
 
-	/**
-	 * ソート順文字列を返す
-	 *
-	 * @access private
-	 * @param string[] $order ソート順の配列
-	 * @return string ソート順文字列
-	 * @static
-	 */
 	static private function getOrderString ($order) {
 		if (!($order instanceof BSTableFieldSet)) {
 			$order = new BSTableFieldSet($order);
@@ -231,14 +199,6 @@ class BSSQL {
 		}
 	}
 
-	/**
-	 * グループ化文字列を返す
-	 *
-	 * @access private
-	 * @param string[] $order グループ化の配列
-	 * @return string グループ化文字列
-	 * @static
-	 */
 	static private function getGroupString ($group) {
 		if (!($group instanceof BSTableFieldSet)) {
 			$group = new BSTableFieldSet($group);
@@ -248,15 +208,6 @@ class BSSQL {
 		}
 	}
 
-	/**
-	 * オフセット文字列を返す
-	 *
-	 * @access private
-	 * @param integer $page ページ番号
-	 * @param integer $pagesize ページサイズ
-	 * @return string オフセット文字列
-	 * @static
-	 */
 	static private function getOffsetString ($page, $pagesize) {
 		if ($page && $pagesize) {
 			return sprintf('LIMIT %d OFFSET %d', $pagesize, ($page - 1) * $pagesize);

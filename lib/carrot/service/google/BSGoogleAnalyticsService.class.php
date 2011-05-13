@@ -98,12 +98,6 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 		return $renderer->getContents();
 	}
 
-	/**
-	 * ビーコン画像のURLを返す
-	 *
-	 * @access private
-	 * @return BSURL ビーコン画像のURL
-	 */
 	private function getBeaconURL () {
 		$url = BSURL::create();
 		$url['path'] = BS_SERVICE_GOOGLE_ANALYTICS_BEACON_HREF;

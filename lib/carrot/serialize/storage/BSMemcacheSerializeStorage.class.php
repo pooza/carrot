@@ -27,12 +27,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 		return true;
 	}
 
-	/**
-	 * シリアライザーを返す
-	 *
-	 * @access private
-	 * @param BSSerializer シリアライザー
-	 */
 	private function getSerializer () {
 		return BSSerializeHandler::getInstance()->getSerializer();
 	}
@@ -103,15 +97,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 		}
 	}
 
-	/**
-	 * エントリーを返す
-	 *
-	 * エントリーには、属性の値と更新日が含まれる
-	 *
-	 * @access private
-	 * @param string $name 属性の名前
-	 * @return BSArray エントリー
-	 */
 	private function getEntry ($name) {
 		if ($values = $this->server->get($name)) {
 			$values = $this->getSerializer()->decode($values);

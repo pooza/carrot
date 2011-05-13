@@ -126,12 +126,6 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		}
 	}
 
-	/**
-	 * 基準となるキャリアを返す
-	 *
-	 * @access private
-	 * @return BSMobileCarrier キャリア
-	 */
 	private function getCarrier () {
 		return BSMobileCarrier::getInstance(BSMobileCarrier::DEFAULT_CARRIER);
 	}

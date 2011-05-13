@@ -205,12 +205,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		$this->user->removeAttribute($this->getParameterCacheName());
 	}
 
-	/**
-	 * 検索条件キャッシュの属性名を返す
-	 *
-	 * @access private
-	 * @return string 検索条件キャッシュの属性名
-	 */
 	private function getParameterCacheName () {
 		return $this->getName() . 'Criteria';
 	}
@@ -277,12 +271,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		$this->record = null;
 	}
 
-	/**
-	 * カレントレコードIDの属性名を返す
-	 *
-	 * @access private
-	 * @return string カレントレコードIDの属性名
-	 */
 	private function getRecordIDName () {
 		return $this->getName() . 'ID';
 	}

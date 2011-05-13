@@ -152,11 +152,6 @@ class BSCarrotURL extends BSHTTPURL {
 		return $this;
 	}
 
-	/**
-	 * パスをパース
-	 *
-	 * @access private
-	 */
 	private function parsePath () {
 		$path = new BSArray;
 		$path[] = null;

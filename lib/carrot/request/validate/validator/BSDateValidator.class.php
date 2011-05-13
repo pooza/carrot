@@ -10,16 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDateValidator extends BSValidator {
-
-	/**
-	 * 対象文字列から日付を返す
-	 *
-	 * fiedlsパラメータが設定されている時はそちらを利用し、対象文字列を無視。
-	 *
-	 * @access private
-	 * @param string $value 対象文字列
-	 * @return BSDate 日付
-	 */
 	private function getDate ($value) {
 		$date = BSDate::create(null, BSDate::NO_INITIALIZE);
 		if ($fields = $this['fields']) {

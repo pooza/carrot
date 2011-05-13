@@ -49,12 +49,6 @@ class BSFont extends BSParameterHolder {
 		return $this->file;
 	}
 
-	/**
-	 * フォントマネージャを返す
-	 *
-	 * @access private
-	 * @return BSFile フォントマネージャ
-	 */
 	private function getManager () {
 		return BSFontManager::getInstance();
 	}

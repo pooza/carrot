@@ -104,12 +104,6 @@ class BSClassLoader {
 		return new $class;
 	}
 
-	/**
-	 * 検索対象ディレクトリを返す
-	 *
-	 * @access private
-	 * @return string[] 検索対象ディレクトリ
-	 */
 	private function getClassPaths () {
 		return array(
 			BS_LIB_DIR . '/carrot',
@@ -117,13 +111,6 @@ class BSClassLoader {
 		);
 	}
 
-	/**
-	 * 特定のパスに含まれるクラスを再帰的に検索して返す
-	 *
-	 * @access private
-	 * @param string $path 対象パス
-	 * @return string[] クラス名
-	 */
 	private function loadPath ($path) {
 		$iterator = new RecursiveDirectoryIterator($path);
 		$entries = array();
@@ -139,34 +126,14 @@ class BSClassLoader {
 		return $entries;
 	}
 
-	/**
-	 * キャッシュファイルのパスを返す
-	 *
-	 * @access private
-	 * @return string キャッシュファイルのパス
-	 */
 	private function getCachePath () {
 		return BS_VAR_DIR . '/serialized/' . get_class($this) . '.serialized';
 	}
 
-	/**
-	 * 定数設定ディレクトリのパスを返す
-	 *
-	 * クラスへの更新が行われているかどうかの基準
-	 *
-	 * @access private
-	 * @return string ディレクトリのパス
-	 */
 	private function getConstantPath () {
 		return BS_WEBAPP_DIR . '/config/constant';
 	}
 
-	/**
-	 * キャッシュファイルが更新されているか
-	 *
-	 * @access private
-	 * @return boolean 更新されていればTrue
-	 */
 	private function isUpdated () {
 		if (file_exists($this->getCachePath())) {
 			return filemtime($this->getConstantPath()) < filemtime($this->getCachePath());

@@ -53,12 +53,6 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		throw new BSDatabaseException($message);
 	}
 
-	/**
-	 * 設定ファイルを返す
-	 *
-	 * @access private
-	 * @return BSConfigFile 設定ファイル
-	 */
 	private function getFile () {
 		if (!$this->file) {
 			$dir = BSFileUtility::getDirectory('config');

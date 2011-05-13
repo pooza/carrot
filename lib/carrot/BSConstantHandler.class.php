@@ -100,13 +100,6 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		return false;
 	}
 
-	/**
-	 * 定数名の候補を返す
-	 *
-	 * @access private
-	 * @param string $name 定数名
-	 * @return BSArray 定数名の候補
-	 */
 	private function getSuggestedNames ($name) {
 		$names = new BSArray;
 		$names[] = $name;

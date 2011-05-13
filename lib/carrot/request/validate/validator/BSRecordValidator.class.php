@@ -59,13 +59,6 @@ class BSRecordValidator extends BSValidator {
 		return true;
 	}
 
-	/**
-	 * 該当するレコードが存在するか
-	 *
-	 * @access private
-	 * @param integer $id 対象ID
-	 * @return boolean 該当するレコードが存在するならTrue
-	 */
 	private function isExists ($id) {
 		if ($recordFound = $this->getRecord($id)) {
 			if ($this['update']) {
@@ -81,13 +74,6 @@ class BSRecordValidator extends BSValidator {
 		return false;
 	}
 
-	/**
-	 * 該当するレコードのフィールド値が適切か
-	 *
-	 * @access private
-	 * @param integer $id 対象ID
-	 * @return boolean 該当するレコードのフィールド値が適切ならTrue
-	 */
 	private function validateValues ($id) {
 		$record = $this->getRecord($id);
 		foreach ($this['valid_values'] as $field => $value) {
@@ -104,13 +90,6 @@ class BSRecordValidator extends BSValidator {
 		return true;
 	}
 
-	/**
-	 * モジュールの関数を実行し、結果を返す
-	 *
-	 * @access private
-	 * @param string $function 関数名
-	 * @return mixed 関数の戻り値。BSRecordならIDを、それ以外ならそのまま返す。
-	 */
 	private function executeModuleFunction ($function) {
 		$value = $this->controller->getModule()->$function();
 		if ($value instanceof BSRecord) {
@@ -119,13 +98,6 @@ class BSRecordValidator extends BSValidator {
 		return $value;
 	}
 
-	/**
-	 * 該当するレコードを返す
-	 *
-	 * @access private
-	 * @param integer $id 対象ID
-	 * @return BSRecord 該当するレコード
-	 */
 	private function getRecord ($id) {
 		try {
 			$values = array($this['field'] => $id);
@@ -140,12 +112,6 @@ class BSRecordValidator extends BSValidator {
 		}
 	}
 
-	/**
-	 * 対象テーブルを返す
-	 *
-	 * @access private
-	 * @return BSTableHandler 対象テーブル
-	 */
 	private function getTable () {
 		if (!$this->table) {
 			if (BSString::isBlank($class = $this['class'])) {

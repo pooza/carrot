@@ -52,13 +52,6 @@ class BSHTMLFragmentValidator extends BSValidator {
 		return true;
 	}
 
-	/**
-	 * 許可された要素と属性だけで構成されているか？
-	 *
-	 * @access private
-	 * @param BSXMLElement $element 評価対象のフラグメント
-	 * @return boolean 問題なしならTrue
-	 */
 	private function isValidElement (BSXMLElement $element) {
 		if (!!$element->getElements()->count()) {
 			foreach ($element as $child) {
@@ -89,12 +82,6 @@ class BSHTMLFragmentValidator extends BSValidator {
 		return true;
 	}
 
-	/**
-	 * 許可された要素名を配列で帰す
-	 *
-	 * @access private
-	 * @return BSArray 許可された要素名の配列
-	 */
 	private function getAllowedTags () {
 		if (!$this->allowedTags) {
 			$this->allowedTags = new BSArray;
@@ -113,12 +100,6 @@ class BSHTMLFragmentValidator extends BSValidator {
 		return $this->allowedTags;
 	}
 
-	/**
-	 * JavaScriptは許可されているか？
-	 *
-	 * @access private
-	 * @return boolean 許可されているならTrue
-	 */
 	private function isJavaScriptAllowed () {
 		return !!$this['javascript_allowed'];
 	}

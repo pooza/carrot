@@ -16,12 +16,6 @@ class BSMenuFilter extends BSFilter {
 		$this->request->setAttribute('menu', $this->getMenu());
 	}
 
-	/**
-	 * メニュー配列を返す
-	 *
-	 * @access private
-	 * @return BSArray メニュー配列
-	 */
 	private function getMenu () {
 		if (!$this->menu) {
 			$this->menu = new BSArray;
@@ -43,13 +37,6 @@ class BSMenuFilter extends BSFilter {
 		return $this->menu;
 	}
 
-	/**
-	 * メニュー項目を整形して返す
-	 *
-	 * @access private
-	 * @param string[] $values メニュー項目
-	 * @return BSArray メニュー項目
-	 */
 	private function getMenuItem ($values) {
 		$values = new BSArray($values);
 		if (!BSString::isBlank($values['module'])) {
@@ -81,12 +68,6 @@ class BSMenuFilter extends BSFilter {
 		}
 	}
 
-	/**
-	 * メニューファイルを返す
-	 *
-	 * @access private
-	 * @return BSConfigFile メニューファイル
-	 */
 	private function getMenuFile () {
 		$names = new BSArray(array(
 			$this['name'],
@@ -104,12 +85,6 @@ class BSMenuFilter extends BSFilter {
 		throw new BSConfigException($message);
 	}
 
-	/**
-	 * 呼ばれたモジュールを返す
-	 *
-	 * @access private
-	 * @return BSConfigFile メニューファイル
-	 */
 	private function getModule () {
 		return $this->controller->getModule();
 	}

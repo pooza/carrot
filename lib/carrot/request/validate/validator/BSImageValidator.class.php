@@ -10,13 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSImageValidator extends BSValidator {
-
-	/**
-	 * 許可されるメディアタイプを返す
-	 *
-	 * @access private
-	 * @return BSArray 許可されるメディアタイプ
-	 */
 	private function getAllowedTypes () {
 		if (BSString::isBlank($types = $this['types'])) {
 			return BSImage::getTypes();

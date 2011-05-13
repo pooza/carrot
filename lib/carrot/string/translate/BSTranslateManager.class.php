@@ -48,12 +48,6 @@ class BSTranslateManager implements IteratorAggregate {
 		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
-	/**
-	 * 辞書ディレクトリを返す
-	 *
-	 * @access private
-	 * @param BSDictionaryDirectory 辞書ディレクトリ
-	 */
 	private function getDirectory () {
 		return BSFileUtility::getDirectory('dictionaries');
 	}
@@ -90,12 +84,6 @@ class BSTranslateManager implements IteratorAggregate {
 		$this->dictionaries->setParameter($name, $dictionary, $priority);
 	}
 
-	/**
-	 * 辞書配列を返す
-	 *
-	 * @access private
-	 * @retnrn BSDictionary[] 辞書配列
-	 */
 	private function getDictionaries () {
 		return $this->dictionaries;
 	}

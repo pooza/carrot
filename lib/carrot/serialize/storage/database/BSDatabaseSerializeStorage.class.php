@@ -28,12 +28,6 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 		}
 	}
 
-	/**
-	 * シリアライザーを返す
-	 *
-	 * @access private
-	 * @param BSSerializer シリアライザー
-	 */
 	private function getSerializer () {
 		return BSSerializeHandler::getInstance()->getSerializer();
 	}

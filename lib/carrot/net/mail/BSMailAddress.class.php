@@ -93,12 +93,6 @@ class BSMailAddress implements BSAssignable {
 		return $this->url;
 	}
 
-	/**
-	 * ドメイン名に対応するMXレコードを返す
-	 *
-	 * @access private
-	 * @return BSArray MXレコードの配列
-	 */
 	private function getMXRecords () {
 		if (!$this->mx) {
 			getmxrr($this->getDomainName(), $this->mx);

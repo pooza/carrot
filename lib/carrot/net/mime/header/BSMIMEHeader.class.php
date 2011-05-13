@@ -62,14 +62,6 @@ class BSMIMEHeader extends BSParameterHolder {
 		return $header;
 	}
 
-	/**
-	 * キャピタライズされた文字列を返す
-	 *
-	 * @access private
-	 * @param string $name 変換対象の文字列
-	 * @return string 変換後
-	 * @static
-	 */
 	static private function capitalize ($name) {
 		$name = BSString::stripControlCharacters($name);
 		$name = BSString::explode('-', $name);

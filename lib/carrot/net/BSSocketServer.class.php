@@ -89,11 +89,6 @@ class BSSocketServer {
 		$this->start();
 	}
 
-	/**
-	 * サーバソケットを開く
-	 *
-	 * @access private
-	 */
 	private function open () {
 		$port = BSNumeric::getRandom(48557, 49150);
 		$this->name = 'tcp://0.0.0.0:' . $port;
@@ -106,11 +101,6 @@ class BSSocketServer {
 		$this->attributes['pid'] = BSProcess::getCurrentID();
 	}
 
-	/**
-	 * サーバソケットを閉じる
-	 *
-	 * @access private
-	 */
 	private function close () {
 		if (is_resource($this->server)) {
 			foreach ($this->getStreams() as $stream) {
@@ -121,11 +111,6 @@ class BSSocketServer {
 		}
 	}
 
-	/**
-	 * イベントループを実行
-	 *
-	 * @access private
-	 */
 	private function execute () {
 		set_time_limit(0);
 		$dummy = array(); //stream_selectに渡すダミー配列

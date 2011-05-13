@@ -19,12 +19,6 @@ class BSHostSecurityFilter extends BSFilter {
 		}
 	}
 
-	/**
-	 * クライアントホストによる認証
-	 *
-	 * @access private
-	 * @return 許可されたネットワーク内ならTrue
-	 */
 	private function auth () {
 		foreach (BSAdministratorRole::getInstance()->getAllowedNetworks() as $network) {
 			if ($network->isContain($this->request->getHost())) {

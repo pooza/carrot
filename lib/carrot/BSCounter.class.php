@@ -45,12 +45,6 @@ class BSCounter implements BSSerializable {
 		}
 	}
 
-	/**
-	 * carrotユーザーを返す
-	 *
-	 * @access private
-	 * @return BSUser carrotユーザー
-	 */
 	private function getUser () {
 		return BSUser::getInstance();
 	}
