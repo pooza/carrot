@@ -52,9 +52,9 @@ class BSRenderManager {
 		if (!$this->caches[$action->getRenderResource()]) {
 			$this->caches[$action->getRenderResource()] = new BSArray;
 		}
-		if (!$this->caches[$action->getRenderResource()][$action->digestRendered()]) {
+		if (!$this->caches[$action->getRenderResource()][$action->digest()]) {
 			$dir = $this->getResourceDirectory($action);
-			if ($file = $dir->getEntry($action->digestRendered())) {
+			if ($file = $dir->getEntry($action->digest())) {
 				$serializer = new BSPHPSerializer;
 				$data = $serializer->decode($file->getContents());
 				$view = new BSView($action, 'Success');
@@ -66,10 +66,10 @@ class BSRenderManager {
 				if ($header = $view->getHeader('content-type')) {
 					$view->getRenderer()->setType($header->getContents());
 				}
-				$this->caches[$action->getRenderResource()][$action->digestRendered()] = $view;
+				$this->caches[$action->getRenderResource()][$action->digest()] = $view;
 			}
 		}
-		return $this->caches[$action->getRenderResource()][$action->digestRendered()];
+		return $this->caches[$action->getRenderResource()][$action->digest()];
 	}
 
 	/**
@@ -95,7 +95,7 @@ class BSRenderManager {
 		$file->setContents($serializer->encode($cache));
 		$file->setMode(0666);
 		$file->moveTo($this->getResourceDirectory($view->getAction()));
-		$file->rename($view->getAction()->digestRendered() . '.serialized');
+		$file->rename($view->getAction()->digest() . '.serialized');
 	}
 
 	/**
@@ -106,7 +106,7 @@ class BSRenderManager {
 	 * @return boolean キャッシュを持っていたらTrue
 	 */
 	public function hasCache (BSAction $action) {
-		if ($this->getResourceDirectory($action)->getEntry($action->digestRendered())) {
+		if ($this->getResourceDirectory($action)->getEntry($action->digest())) {
 			return !BSString::isBlank($this->getCache($action)->getRenderer()->getContents());
 		}
 		return false;

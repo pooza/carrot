@@ -55,19 +55,19 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	}
 
 	/**
-	 * レンダーダイジェストを返す
+	 * レンダリング用ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string レンダーダイジェスト
+	 * @return string ダイジェスト
 	 */
-	public function digestRendered () {
-		if (!$this->renderDigest) {
-			$this->renderDigest = BSCrypt::digest(array(
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest(array(
 				__CLASS__,
 				$this->isTablet(),
 			));
 		}
-		return $this->renderDigest;
+		return $this->digest;
 	}
 
 	/**
