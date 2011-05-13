@@ -44,7 +44,7 @@ class BSCookieFilter extends BSFilter {
 	 */
 	private function getCookieName () {
 		if (!$this->cookieName) {
-			$this->cookieName = BSCrypt::getDigest($this->controller->getName('en'));
+			$this->cookieName = BSCrypt::digest($this->controller->getName('en'));
 		}
 		return $this->cookieName;
 	}

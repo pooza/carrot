@@ -140,7 +140,7 @@ class BSCrypt {
 	 * @return string ダイジェスト文字列
 	 * @static
 	 */
-	static public function getDigest ($value, $method = null, $salt = BS_CRYPT_SALT) {
+	static public function digest ($value, $method = null, $salt = BS_CRYPT_SALT) {
 		if (!extension_loaded('hash')) {
 			throw new BSCryptException('hashモジュールがロードされていません。');
 		}
@@ -154,7 +154,7 @@ class BSCrypt {
 		}
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$value = new BSArray($value);
-			$value = $value->join();
+			$value = $value->join('/', ':');
 		}
 		return hash($method, $value . $salt);
 	}
@@ -168,7 +168,7 @@ class BSCrypt {
 	 * @static
 	 */
 	static public function getMD5 ($value) {
-		return self::getDigest($value, 'md5', null);
+		return self::digest($value, 'md5', null);
 	}
 
 	/**
@@ -180,7 +180,7 @@ class BSCrypt {
 	 * @static
 	 */
 	static public function getSHA1 ($value) {
-		return self::getDigest($value, 'sha1', null);
+		return self::digest($value, 'sha1', null);
 	}
 }
 

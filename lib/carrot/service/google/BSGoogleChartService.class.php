@@ -95,9 +95,7 @@ class BSGoogleChartService extends BSCurlHTTP {
 		$values['height'] = $height;
 		$values['params'] = new BSArray($params->getParameters());
 		$serializer = new BSPHPSerializer;
-		return BSCrypt::getDigest(new BSArray(array(
-			$serializer->encode($values->decode()),
-		)));
+		return BSCrypt::digest($serializer->encode($values->decode()));
 	}
 }
 

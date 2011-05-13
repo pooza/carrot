@@ -390,10 +390,10 @@ class BSImageManager {
 	 * @return string サムネイル名
 	 */
 	protected function getEntryName (BSImageContainer $record, $size) {
-		return BSCrypt::getDigest(array(
+		return BSCrypt::digest(array(
 			get_class($record),
 			$record->getID(),
-			$size
+			$size,
 		));
 	}
 

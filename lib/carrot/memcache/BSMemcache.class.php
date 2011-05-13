@@ -170,7 +170,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @return string memcachedでの属性名
 	 */
 	protected function serializeName ($name) {
-		return BSCrypt::getDigest(array(
+		return BSCrypt::digest(array(
 			BSController::getInstance()->getHost()->getName(),
 			get_class($this),
 			$name,

@@ -296,7 +296,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return integer ID
 	 */
 	public function getID () {
-		return BSCrypt::getDigest($this->getName());
+		return BSCrypt::digest($this->getName());
 	}
 
 	/**

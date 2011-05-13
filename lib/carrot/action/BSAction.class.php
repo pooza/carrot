@@ -121,9 +121,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function getRenderDigest () {
 		if (!$this->renderDigest) {
-			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
-				$this->getName(),
-			)));
+			$this->renderDigest = BSCrypt::digest($this->getName());
 		}
 		return $this->renderDigest;
 	}

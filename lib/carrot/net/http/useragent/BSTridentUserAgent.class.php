@@ -83,10 +83,10 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function getRenderDigest () {
 		if (!$this->renderDigest) {
-			$this->renderDigest = BSCrypt::getDigest(new BSArray(array(
+			$this->renderDigest = BSCrypt::digest(array(
 				__CLASS__,
 				$this->getVersion(),
-			)));
+			));
 		}
 		return $this->renderDigest;
 	}

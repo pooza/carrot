@@ -86,7 +86,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$script = $container->addElement(new BSScriptElement);
 
 		if (BSString::isBlank($id = $params['container_id'])) {
-			$id = 'map_' . BSCrypt::getDigest($params['address']);
+			$id = 'map_' . BSCrypt::digest($params['address']);
 		}
 		$inner->setID($id);
 		$inner->setStyle('width', $params['width']);
@@ -206,7 +206,10 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 */
 	protected function getImageFile (BSGeocodeEntry $geocode, BSArray $params) {
 		$dir = BSFileUtility::getDirectory('maps');
-		$name = BSCrypt::getDigest(array($geocode->format(), $params->join('|')));
+		$name = BSCrypt::digest(array(
+			$geocode->format(),
+			$params->join('|'),
+		));
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$response = $this->sendGET($this->getImageQuery($geocode, $params));
 			$image = new BSImage;

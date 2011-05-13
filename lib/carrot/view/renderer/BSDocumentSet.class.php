@@ -89,7 +89,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		if (!$this->cacheFile) {
 			$name = $this->getName();
 			if (!BS_DEBUG) {
-				$name = BSCrypt::getDigest($name);
+				$name = BSCrypt::digest($name);
 			}
 
 			$dir = $this->getCacheDirectory();

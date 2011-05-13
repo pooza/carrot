@@ -152,7 +152,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @return string 画像ファイルベース名
 	 */
 	public function getImageFileBaseName ($size) {
-		return BSCrypt::getDigest($this->getID());
+		return BSCrypt::digest($this->getID());
 	}
 
 	/**

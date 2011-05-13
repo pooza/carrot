@@ -28,7 +28,10 @@ abstract class BSDirectoryEntry {
 	 */
 	public function getID () {
 		if (!$this->id) {
-			$this->id = BSCrypt::getDigest(array($this->getPath(), fileinode($this->getPath())));
+			$this->id = BSCrypt::digest(array(
+				$this->getPath(),
+				fileinode($this->getPath()),
+			));
 		}
 		return $this->id;
 	}

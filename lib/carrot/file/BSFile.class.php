@@ -43,7 +43,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getID () {
 		if (!$this->id) {
-			$this->id = BSCrypt::getDigest(array(
+			$this->id = BSCrypt::digest(array(
 				$this->getPath(),
 				$this->getType(),
 				$this->getSize(),

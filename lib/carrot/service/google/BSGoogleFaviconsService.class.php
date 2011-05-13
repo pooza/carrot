@@ -46,7 +46,7 @@ class BSGoogleFaviconsService extends BSCurlHTTP {
 	 */
 	public function getImageFile (BSHost $host) {
 		$dir = BSFileUtility::getDirectory('favicon');
-		$name = BSCrypt::getDigest($host->getName());
+		$name = BSCrypt::digest($host->getName());
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			try {
 				$url = $this->createRequestURL('/s2/favicons');
