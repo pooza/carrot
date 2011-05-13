@@ -18,6 +18,7 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 */
 	public function __construct ($contents, $name = 'default') {
 		$this['connection_name'] = $name;
+		$this['dbms'] = $this->getDBMS();
 		$this['dsn'] = $contents;
 		$this['uid'] = $this->getConstant('uid');
 		$this['password'] = $this->getConstant('password');
@@ -43,6 +44,15 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	public function getContents () {
 		return $this['dsn'];
 	}
+
+	/**
+	 * DBMS名を返す
+	 *
+	 * @access public
+	 * @return string DBMS名
+	 * @abstract
+	 */
+	abstract public function getDBMS ();
 
 	/**
 	 * データベースに接続して返す

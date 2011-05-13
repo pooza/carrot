@@ -33,6 +33,16 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 		$this['version'] = $db->getVersion();
 		return $db;
 	}
+
+	/**
+	 * DBMS名を返す
+	 *
+	 * @access public
+	 * @return string DBMS名
+	 */
+	public function getDBMS () {
+		return 'SQLite';
+	}
 }
 
 /* vim:set tabstop=4: */

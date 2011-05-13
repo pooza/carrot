@@ -47,6 +47,16 @@ class BSPgSQLDataSourceName extends BSDataSourceName {
 		$this['version'] = $db->getVersion();
 		return $db;
 	}
+
+	/**
+	 * DBMS名を返す
+	 *
+	 * @access public
+	 * @return string DBMS名
+	 */
+	public function getDBMS () {
+		return 'PostgreSQL';
+	}
 }
 
 /* vim:set tabstop=4: */

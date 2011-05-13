@@ -64,6 +64,16 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		}
 		return $this->file;
 	}
+
+	/**
+	 * DBMS名を返す
+	 *
+	 * @access public
+	 * @return string DBMS名
+	 */
+	public function getDBMS () {
+		return 'MySQL';
+	}
 }
 
 /* vim:set tabstop=4: */
