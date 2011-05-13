@@ -119,7 +119,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @access public
 	 * @return string レンダーダイジェスト
 	 */
-	public function getRenderDigest () {
+	public function digestRendered () {
 		if (!$this->renderDigest) {
 			$this->renderDigest = BSCrypt::digest($this->getName());
 		}

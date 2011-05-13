@@ -201,7 +201,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @access public
 	 * @return string レンダーダイジェスト
 	 */
-	public function getRenderDigest () {
+	public function digestRendered () {
 		if (!$this->renderDigest) {
 			$this->renderDigest = BSCrypt::digest(array(
 				get_class($this),

@@ -271,7 +271,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @access public
 	 * @return string レンダーダイジェスト
 	 */
-	public function getRenderDigest () {
+	public function digestRendered () {
 		if (!$this->renderDigest) {
 			$this->renderDigest = BSCrypt::digest(array(
 				__CLASS__,
