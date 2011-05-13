@@ -59,10 +59,13 @@ class BSMusicFile extends BSMediaFile {
 	 * mp3に変換して返す
 	 *
 	 * @access public
-	 * @return BSMusicFile 変換後ファイル
+	 * @param BSMediaConvertor $convertor コンバータ
+	 * @return BSMovieFile 変換後ファイル
 	 */
-	public function convert () {
-		$convertor = new BSMP3MediaConvertor;
+	public function convert (BSMediaConvertor $convertor = null) {
+		if (!$convertor) {
+			$convertor = new BSMP3MediaConvertor;
+		}
 		return $convertor->execute($this);
 	}
 
