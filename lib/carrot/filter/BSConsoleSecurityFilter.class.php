@@ -18,7 +18,7 @@ class BSConsoleSecurityFilter extends BSFilter {
 				throw new BSConsoleException($message);
 			}
 		}
-		return !$this->request->isCLI();
+		return !($this->request instanceof BSConsoleRequest);
 	}
 }
 

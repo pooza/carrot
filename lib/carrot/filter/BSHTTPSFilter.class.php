@@ -17,8 +17,8 @@ class BSHTTPSFilter extends BSFilter {
 
 	public function execute () {
 		if (!BS_DEBUG
-			&& !$this->request->isCLI()
 			&& !$this->request->isSSL()
+			&& !($this->request instanceof BSConsoleRequest)
 			&& ($this->request->getMethod() == 'GET')) {
 
 			$url = BSURL::create($this['base_url']);

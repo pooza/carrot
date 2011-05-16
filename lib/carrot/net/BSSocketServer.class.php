@@ -44,7 +44,7 @@ class BSSocketServer {
 	 * @access public
 	 */
 	public function start () {
-		if (!BSRequest::getInstance()->isCLI()) {
+		if (!(BSRequest::getInstance() instanceof BSConsoleRequest)) {
 			$message = new BSStringFormat('%sを開始できません。');
 			$message[] = get_class($this);
 			throw new BSConsoleException($message);

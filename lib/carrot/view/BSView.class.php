@@ -270,7 +270,7 @@ class BSView extends BSHTTPResponse {
 	 * @static
 	 */
 	static public function putHeader ($header) {
-		if (BSRequest::getInstance()->isCLI()) {
+		if (BSRequest::getInstance() instanceof BSConsoleRequest) {
 			return;
 		}
 		if (headers_sent()) {

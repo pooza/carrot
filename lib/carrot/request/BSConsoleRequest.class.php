@@ -54,16 +54,6 @@ class BSConsoleRequest extends BSRequest {
 	}
 
 	/**
-	 * コマンドライン環境か？
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 */
-	public function isCLI () {
-		return true;
-	}
-
-	/**
 	 * 出力内容を返す
 	 *
 	 * @access public

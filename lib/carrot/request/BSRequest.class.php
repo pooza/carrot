@@ -364,16 +364,6 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 
 	/**
-	 * コマンドライン環境か？
-	 *
-	 * @access public
-	 * @return boolean コマンドライン環境ならTrue
-	 */
-	public function isCLI () {
-		return false;
-	}
-
-	/**
 	 * SSL環境か？
 	 *
 	 * @access public
