@@ -12,16 +12,6 @@
 class BSLegacyMozillaUserAgent extends BSUserAgent {
 
 	/**
-	 * @access protected
-	 * @param string $name ユーザーエージェント名
-	 */
-	protected function __construct ($name = null) {
-		parent::__construct($name);
-		$this->bugs['css'] = true;
-		$this['is_kuso'] = true;
-	}
-
-	/**
 	 * レガシー環境/旧機種か？
 	 *
 	 * @access public

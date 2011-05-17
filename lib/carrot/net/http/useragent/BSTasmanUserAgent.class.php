@@ -12,27 +12,6 @@
 class BSTasmanUserAgent extends BSUserAgent {
 
 	/**
-	 * @access protected
-	 * @param string $name ユーザーエージェント名
-	 */
-	protected function __construct ($name = null) {
-		parent::__construct($name);
-		$this['platform'] = 'Macintosh';
-	}
-
-	/**
-	 * ダウンロード用にエンコードされたファイル名を返す
-	 *
-	 * @access public
-	 * @param string $name ファイル名
-	 * @return string エンコード済みファイル名
-	 */
-	public function encodeFileName ($name) {
-		$name = BSString::convertEncoding($name, 'sjis-win');
-		return BSString::sanitize($name);
-	}
-
-	/**
 	 * レガシー環境/旧機種か？
 	 *
 	 * @access public
