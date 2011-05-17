@@ -18,7 +18,9 @@ class BSConsoleSecurityFilter extends BSFilter {
 				throw new BSConsoleException($message);
 			}
 		}
-		return !($this->request instanceof BSConsoleRequest);
+		if (!($this->request instanceof BSConsoleRequest)) {
+			return self::EXIT;
+		}
 	}
 }
 

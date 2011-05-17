@@ -12,16 +12,16 @@
 class BSBasicAuthFilter extends BSFilter {
 	private function isAuthenticated () {
 		if (BSString::isBlank($password = $this->controller->getAttribute('PHP_AUTH_PW'))) {
-			return false;
+			return;
 		}
 		if (!BSCrypt::getInstance()->auth($this['password'], $password)) {
-			return false;
+			return;
 		}
 
 		if (!BSString::isBlank($this['user_id'])) {
 			return ($this['user_id'] == $this->controller->getAttribute('PHP_AUTH_USER'));
 		}
-		return true;
+		return self::EXIT;
 	}
 
 	public function initialize ($params = array()) {
