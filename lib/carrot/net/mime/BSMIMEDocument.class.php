@@ -20,6 +20,14 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	const LINE_SEPARATOR = "\r\n";
 
 	/**
+	 * @access public
+	 */
+	public function __construct () {
+		$this->headers = new BSArray;
+		$this->parts = new BSArray;
+	}
+
+	/**
 	 * ヘッダを返す
 	 *
 	 * @access public
@@ -29,7 +37,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	public function getHeader ($name) {
 		$header = BSMIMEHeader::create($name);
 		$name = BSString::toLower($header->getName());
-		return $this->getHeaders()->getParameter($name);
+		return $this->headers[$name];
 	}
 
 	/**
@@ -47,7 +55,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 		} else {
 			$header->setPart($this);
 			$header->setContents($value);
-			$this->getHeaders()->setParameter(BSString::toLower($header->getName()), $header);
+			$this->headers[BSString::toLower($header->getName())] = $header;
 		}
 		$this->contents = null;
 	}
@@ -76,7 +84,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function removeHeader ($name) {
 		if ($header = $this->getHeader($name)) {
-			$this->getHeaders()->removeParameter(BSString::toLower($header->getName()));
+			$this->headers->removeParameter(BSString::toLower($header->getName()));
 			$this->contents = null;
 		}
 	}
@@ -88,9 +96,6 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @return string[] ヘッダ一式
 	 */
 	public function getHeaders () {
-		if (!$this->headers) {
-			$this->headers = new BSArray;
-		}
 		return $this->headers;
 	}
 
@@ -182,9 +187,6 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @return BSArray 全てのパート
 	 */
 	public function getParts () {
-		if (!$this->parts) {
-			$this->parts = new BSArray;
-		}
 		return $this->parts;
 	}
 
@@ -214,7 +216,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			foreach ($this->getHeaders() as $header) {
+			foreach ($this->headers as $header) {
 				$this->contents .= $header->format();
 			}
 			$this->contents .= self::LINE_SEPARATOR;
@@ -262,7 +264,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @param string $headers ヘッダ部
 	 */
 	protected function parseHeaders ($headers) {
-		$this->getHeaders()->clear();
+		$this->headers->clear();
 		$headers = BSString::convertLineSeparator($headers);
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (mb_ereg('^([-[:alnum:]]+): *(.*)$', $line, $matches)) {

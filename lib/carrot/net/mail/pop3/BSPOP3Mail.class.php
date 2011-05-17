@@ -46,7 +46,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 * @return BSMIMEHeader ヘッダ
 	 */
 	public function getHeader ($name) {
-		if (!$this->getHeaders()->count()) {
+		if (!$this->headers->count()) {
 			$this->fetchHeaders();
 		}
 		return parent::getHeader($name);

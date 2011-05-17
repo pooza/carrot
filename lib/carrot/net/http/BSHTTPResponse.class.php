@@ -23,7 +23,7 @@ class BSHTTPResponse extends BSMIMEDocument {
 	 * @param string $headers ヘッダ部
 	 */
 	protected function parseHeaders ($headers) {
-		$this->getHeaders()->clear();
+		$this->headers->clear();
 		$headers = BSString::convertLineSeparator($headers);
 		foreach (BSString::explode("\n", $headers) as $line) {
 			if (mb_ereg(self::STATUS_PATTERN, $line, $matches)) {
