@@ -138,8 +138,9 @@ memcache:
 module:
   prefixes:
     - Admin
-    - User
     - Develop
+    - Agent
+    - User
     - Console
   default:
     module: Default
