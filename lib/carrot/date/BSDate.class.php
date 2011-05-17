@@ -290,7 +290,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if (!$this->validate()) {
 			throw new BSDateException('日付が初期化されていません。');
 		}
-		if ($date === null) {
+		if (BSString::isBlank($date)) {
 			$date = self::getNow();
 		} else if (is_array($date) || ($date instanceof BSArray)) {
 			$date = self::getNewest(new BSArray($date));

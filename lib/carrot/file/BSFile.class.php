@@ -397,7 +397,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return integer ファイルサイズ
 	 */
 	public function getSize () {
-		if ($this->size === null) {
+		if (BSString::isBlank($this->size)) {
 			if (!$this->isExists()) {
 				throw new BSFileException($this . 'が存在しません。');
 			}
