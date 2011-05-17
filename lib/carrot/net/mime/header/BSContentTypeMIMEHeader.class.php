@@ -53,11 +53,8 @@ class BSContentTypeMIMEHeader extends BSMIMEHeader {
 	 */
 	static public function getContentType (BSRenderer $renderer) {
 		if ($renderer instanceof BSTextRenderer) {
-			$encoding = $renderer->getEncoding();
-			if (BSString::isBlank($charset = mb_preferred_mime_name($encoding))) {
-				$message = new BSStringFormat('エンコード"%s"が正しくありません。');
-				$message[] = $encoding;
-				throw new BSMIMEException($message);
+			if (BSString::isBlank($charset = mb_preferred_mime_name($renderer->getEncoding()))) {
+				throw new BSMIMEException('利用できないエンコード名です。');
 			}
 			return sprintf('%s; charset=%s', $renderer->getType(), $charset);
 		}

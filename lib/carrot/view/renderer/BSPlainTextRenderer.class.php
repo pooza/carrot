@@ -107,6 +107,9 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 * @param string $encoding PHPのエンコード名
 	 */
 	public function setEncoding ($encoding) {
+		if (BSString::isBlank(mb_preferred_mime_name($encoding))) {
+			throw new BSViewException('利用できないエンコード名です。');
+		}
 		$this->encoding = $encoding;
 	}
 
@@ -148,7 +151,7 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 *    self::TAIL_LF 末尾に改行を追加
 	 */
 	public function setOptions ($option) {
-		$this->option += $option;
+		$this->option |= $option;
 	}
 
 	/**

@@ -207,6 +207,9 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	 * @param string $encoding PHPのエンコード名
 	 */
 	public function setEncoding ($encoding) {
+		if (BSString::isBlank(mb_preferred_mime_name($encoding))) {
+			throw new BSViewException('利用できないエンコード名です。');
+		}
 		$this->encoding = $encoding;
 	}
 
