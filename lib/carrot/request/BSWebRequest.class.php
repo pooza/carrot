@@ -54,7 +54,7 @@ class BSWebRequest extends BSRequest {
 		if (!$this->contents) {
 			$contents = new BSArray;
 			$contents[] = $this->getRequestLine();
-			foreach ($this->headers as $header) {
+			foreach ($this->getHeaders() as $header) {
 				$contents[] = $header->getName() . ': ' . $header->getContents();
 			}
 			$contents[] = null;
