@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier {
+abstract class BSMobileUserAgent extends BSUserAgent {
 	private $carrier;
 	const DEFAULT_NAME = 'DoCoMo/2.0';
 
@@ -124,7 +124,7 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 	 * @return string デコメールの形式
 	 */
 	public function getDecorationMailType () {
-		return $this->getModule()->getDecorationMailType();
+		return $this->getCarrier()->getDecorationMailType();
 	}
 
 	/**
@@ -221,39 +221,6 @@ abstract class BSMobileUserAgent extends BSUserAgent implements BSUserIdentifier
 		if (BS_DEBUG) {
 			return BSCrypt::digest(BSRequest::getInstance()->getHost()->getName());
 		}
-	}
-
-	/**
-	 * ユーザーIDを返す
-	 *
-	 * @access public
-	 * @return string ユーザーID
-	 */
-	public function getUserID () {
-		return $this->getID();
-	}
-
-	/**
-	 * 端末認証
-	 *
-	 * パスワードを用いず、端末個体認証を行う。
-	 *
-	 * @access public
-	 * @param string $password パスワード
-	 * @return boolean 正しいユーザーならTrue
-	 */
-	public function auth ($password = null) {
-		return $this->getUserID() && ($this === BSRequest::getInstance()->getUserAgent());
-	}
-
-	/**
-	 * 認証時に与えられるクレデンシャルを返す
-	 *
-	 * @access public
-	 * @return BSArray クレデンシャルの配列
-	 */
-	public function getCredentials () {
-		return new BSArray;
 	}
 }
 
