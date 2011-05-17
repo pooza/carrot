@@ -21,7 +21,6 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 * @param string $line レスポンス行
 	 */
 	public function __construct (BSPOP3 $server, $line) {
-		parent::__construct();
 		$fields = BSString::explode(' ', $line);
 		$this->id = $fields[0];
 		$this->size = $fields[1];

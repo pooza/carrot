@@ -25,7 +25,6 @@ class BSView extends BSHTTPResponse {
 	 * @param BSRenderer $renderer レンダラー
 	 */
 	public function __construct (BSAction $action, $suffix, BSRenderer $renderer = null) {
-		parent::__construct();
 		$this->action = $action;
 		$this->nameSuffix = $suffix;
 

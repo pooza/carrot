@@ -17,7 +17,6 @@ class BSMail extends BSMIMEDocument {
 	 * @access public
 	 */
 	public function __construct () {
-		parent::__construct();
 		$this->setRenderer($this->getDefaultRenderer());
 		$this->setHeader('Subject', 'untitled');
 		$this->setHeader('Date', BSDate::getNow());

@@ -195,7 +195,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * @return boolean マルチパートならばTrue
 	 */
 	public function isMultiPart () {
-		if (!!$this->parts->count()) {
+		if (!!$this->getParts()->count()) {
 			return true;
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
@@ -289,7 +289,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 			foreach ($parts as $source) {
 				$part = new BSMIMEDocument;
 				$part->setContents($source);
-				$this->parts[] = $part;
+				$this->getParts()->push($part);
 			}
 		} else {
 			if ($header = $this->getHeader('Content-Type')) {
@@ -328,7 +328,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 				$this->body .= $body;
 			}
 			if ($this->isMultiPart()) {
-				foreach ($this->parts as $part) {
+				foreach ($this->getParts() as $part) {
 					$this->body .= '--' . $this->getBoundary() . self::LINE_SEPARATOR;
 					$this->body .= $part->getContents();
 				}
@@ -364,7 +364,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	public function getEntities () {
 		if ($this->isMultiPart()) {
 			$parts = new BSArray;
-			foreach ($this->parts as $part) {
+			foreach ($this->getParts() as $part) {
 				$name = null;
 				if ($header = $part->getHeader('Content-Disposition')) {
 					$name = $header['filename'];
@@ -406,7 +406,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 			$part->setFileName($name, BSMIMEUtility::ATTACHMENT);
 		}
 
-		$this->parts[] = $part;
+		$this->getParts()->push($part);
 		$this->body = null;
 		$this->contents = null;
 
