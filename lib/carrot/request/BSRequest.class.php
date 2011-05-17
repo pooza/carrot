@@ -25,6 +25,8 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @access protected
 	 */
 	protected function __construct () {
+		$this->attributes = new BSArray;
+		$this->errors = new BSArray;
 	}
 
 	/**
@@ -71,7 +73,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @access public
 	 */
 	public function clearAttributes () {
-		$this->getAttributes()->clear();
+		$this->attributes->clear();
 	}
 
 	/**
@@ -82,7 +84,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return mixed 属性
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->attributes[$name];
 	}
 
 	/**
@@ -92,9 +94,6 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		if (!$this->attributes) {
-			$this->attributes = new BSArray;
-		}
 		return $this->attributes;
 	}
 
@@ -122,9 +121,6 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return mixed[] エラー
 	 */
 	public function getErrors () {
-		if (!$this->errors) {
-			$this->errors = new BSArray;
-		}
 		return $this->errors;
 	}
 
@@ -136,7 +132,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasAttribute ($name) {
-		return $this->getAttributes()->hasParameter($name);
+		return $this->attributes->hasParameter($name);
 	}
 
 	/**
@@ -147,7 +143,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasError ($name) {
-		return $this->getErrors()->hasParameter($name);
+		return $this->errors->hasParameter($name);
 	}
 
 	/**
@@ -157,7 +153,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasErrors () {
-		return !!$this->getErrors()->count();
+		return !!$this->errors->count();
 	}
 
 	/**
@@ -167,7 +163,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param string $name 属性名
 	 */
 	public function removeAttribute ($name) {
-		$this->getAttributes()->removeParameter($name);
+		$this->attributes->removeParameter($name);
 	}
 
 	/**
@@ -177,7 +173,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param string $name エラー名
 	 */
 	public function removeError ($name) {
-		$this->getErrors()->removeParameter($name);
+		$this->errors->removeParameter($name);
 	}
 
 	/**
@@ -188,7 +184,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		$this->getAttributes()->setParameter((string)$name, $value);
+		$this->attributes[$name] = $value;
 	}
 
 	/**
@@ -198,7 +194,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param mixed[] $attributes 属性
 	 */
 	public function setAttributes ($attributes) {
-		$this->getAttributes()->setParameters($attributes);
+		$this->attributes->setParameters($attributes);
 	}
 
 	/**
@@ -212,7 +208,7 @@ abstract class BSRequest extends BSHTTPRequest {
 		if ($value instanceof BSStringFormat) {
 			$value = $value->getContents();
 		}
-		$this->getErrors()->setParameter($name, $value);
+		$this->errors[$name] = $value;
 	}
 
 	/**
@@ -222,7 +218,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param mixed[] $errors エラー
 	 */
 	public function setErrors ($errors) {
-		$this->getErrors()->setParameters($errors);
+		$this->errors->setParameters($errors);
 	}
 
 	/**
