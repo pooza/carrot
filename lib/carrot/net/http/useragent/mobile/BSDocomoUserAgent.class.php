@@ -94,19 +94,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		}
 		return parent::getDisplayInfo();
 	}
-
-	/**
-	 * 規定の画像形式を返す
-	 *
-	 * @access public
-	 * @return string 規定の画像形式
-	 */
-	public function getDefaultImageType () {
-		if ($this->isLegacy()) {
-			return BSMIMEType::getType('gif');
-		}
-		return parent::getDefaultImageType();
-	}
 }
 
 /* vim:set tabstop=4: */
