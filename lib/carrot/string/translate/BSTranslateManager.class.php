@@ -214,7 +214,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @static
 	 */
 	static public function getLanguageNames () {
-		return self::getLanguages()->getFlipped();
+		return self::getLanguages()->createFlipped();
 	}
 
 	/**

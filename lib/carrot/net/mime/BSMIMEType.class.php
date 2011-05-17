@@ -105,7 +105,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	public function getSuffixes () {
 		if (!$this->suffixes) {
 			$types = new BSArray($this->params);
-			$this->suffixes = $types->getFlipped();
+			$this->suffixes = $types->createFlipped();
 			$config = BSConfigManager::getInstance()->compile('mime');
 			$this->suffixes->setParameters($config['suffixes']);
 			foreach ($this->suffixes as $type => $suffix) {
@@ -149,7 +149,7 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @static
 	 */
 	static public function getAttachableSuffixes () {
-		$suffixes = self::getAttachableTypes()->getFlipped();
+		$suffixes = self::getAttachableTypes()->createFlipped();
 		$config = BSConfigManager::getInstance()->compile('mime');
 		foreach ($config['suffixes'] as $key => $value) {
 			if ($key && $value) {

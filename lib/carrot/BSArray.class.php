@@ -239,7 +239,7 @@ class BSArray extends BSParameterHolder {
 	 * @access public
 	 * @return BSArray 反転した配列
 	 */
-	public function getFlipped () {
+	public function createFlipped () {
 		return new BSArray(array_flip($this->getParameters()));
 	}
 
