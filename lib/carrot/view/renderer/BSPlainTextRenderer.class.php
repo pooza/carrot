@@ -104,7 +104,7 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	 * エンコードを設定
 	 *
 	 * @access public
-	 * @param string $encoding エンコード名
+	 * @param string $encoding PHPのエンコード名
 	 */
 	public function setEncoding ($encoding) {
 		$this->encoding = $encoding;

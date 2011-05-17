@@ -34,7 +34,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function initializeView (BSSmartyView $view) {
 		parent::initializeView($view);
-		$view->getRenderer()->setEncoding($this->getDefaultEncoding());
 		$view->getRenderer()->addModifier('pictogram');
 		$view->getRenderer()->addOutputFilter('mobile');
 		$view->getRenderer()->addOutputFilter('encoding');

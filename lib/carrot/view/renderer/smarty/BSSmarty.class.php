@@ -184,6 +184,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	public function setUserAgent (BSUserAgent $useragent) {
 		$this->useragent = $useragent;
 		$this->setAttribute('useragent', null);
+		$this->setEncoding($useragent->getDefaultEncoding());
 
 		$this->finder->clearSuffixes();
 		if ($useragent->isMobile()) {
@@ -232,7 +233,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * エンコードを設定
 	 *
 	 * @access public
-	 * @param string $encoding エンコード
+	 * @param string $encoding PHPのエンコード名
 	 */
 	public function setEncoding ($encoding) {
 		$this->encoding = $encoding;
