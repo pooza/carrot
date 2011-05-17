@@ -21,7 +21,7 @@ class BSBasicAuthFilter extends BSFilter {
 		if (!BSString::isBlank($this['user_id'])) {
 			return ($this['user_id'] == $this->controller->getAttribute('PHP_AUTH_USER'));
 		}
-		return self::EXIT;
+		return BSController::COMPLETED;
 	}
 
 	public function initialize ($params = array()) {

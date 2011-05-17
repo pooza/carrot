@@ -21,7 +21,7 @@ class BSSecurityFilter extends BSFilter {
 				return $this->controller->getAction('not_found')->forward();
 			}
 			if ($this->controller->getAction()->deny()) {
-				return self::EXIT;
+				return BSController::COMPLETED;
 			}
 		}
 	}

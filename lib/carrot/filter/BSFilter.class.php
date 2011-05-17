@@ -11,7 +11,6 @@
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
-	const EXIT = true;
 
 	/**
 	 * @access public

@@ -19,7 +19,7 @@ class BSConsoleSecurityFilter extends BSFilter {
 			}
 		}
 		if (!($this->request instanceof BSConsoleRequest)) {
-			return self::EXIT;
+			return BSController::COMPLETED;
 		}
 	}
 }

@@ -24,7 +24,7 @@ class BSHTTPSFilter extends BSFilter {
 			$url = BSURL::create($this['base_url']);
 			$url['path'] = $this->controller->getAttribute('REQUEST_URI');
 			$url->redirect();
-			return self::EXIT;
+			return BSController::COMPLETED;
 		}
 	}
 }

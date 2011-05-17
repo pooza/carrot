@@ -17,6 +17,7 @@ abstract class BSController {
 	protected $searchDirectories;
 	static private $instance;
 	const ACTION_REGISTER_LIMIT = 20;
+	const COMPLETED = true;
 
 	/**
 	 * @access protected
