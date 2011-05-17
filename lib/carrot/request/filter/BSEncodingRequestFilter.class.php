@@ -20,18 +20,17 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		if ($this->request->isMobile() && BS_STRING_MOBILE_FORCE_CONVERT) {
-			return BSString::convertEncoding($value, 'utf-8', 'sjis-win');
-		} else {
-			return BSString::convertEncoding($value);
-		}
+		return BSString::convertEncoding(
+			$value,
+			'utf-8',
+			$this->request->getUserAgent()->getDefaultEncoding()
+		);
 	}
 
 	public function execute () {
-		if (ini_get('mbstring.encoding_translation') && !$this['force']) {
-			return;
+		if (!ini_get('mbstring.encoding_translation') || $this['force']) {
+			parent::execute();
 		}
-		parent::execute();
 	}
 }
 

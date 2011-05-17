@@ -368,6 +368,16 @@ abstract class BSUserAgent extends BSParameterHolder {
 		return BS_IMAGE_THUMBNAIL_TYPE;
 	}
 
+	/**
+	 * 規定のエンコードを返す
+	 *
+	 * @access public
+	 * @return string 規定のエンコード
+	 */
+	public function getDefaultEncoding () {
+		return 'utf8';
+	}
+
 	static private function getTypes () {
 		return new BSArray(array(
 			'Trident',

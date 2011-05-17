@@ -34,7 +34,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function initializeView (BSSmartyView $view) {
 		parent::initializeView($view);
-		$view->getRenderer()->setEncoding('sjis-win');
+		$view->getRenderer()->setEncoding($this->getDefaultEncoding());
 		$view->getRenderer()->addModifier('pictogram');
 		$view->getRenderer()->addOutputFilter('mobile');
 		$view->getRenderer()->addOutputFilter('encoding');
@@ -115,6 +115,16 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	public function getDefaultImageType () {
 		$constants = BSConstantHandler::getInstance();
 		return $constants['IMAGE_MOBILE_TYPE_' . $this->getCarrier()->getName()];
+	}
+
+	/**
+	 * 規定のエンコードを返す
+	 *
+	 * @access public
+	 * @return string 規定のエンコード
+	 */
+	public function getDefaultEncoding () {
+		return 'sjis-win';
 	}
 
 	/**

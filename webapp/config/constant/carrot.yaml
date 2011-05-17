@@ -251,11 +251,6 @@ smtp:
   check_addresses: no
 sqlite3:
   dir: /usr/local
-string:
-  mobile:
-    force_convert: no
-    softbank:
-      raw_output: no
 sudo:
   dir: /usr
 unzip:
