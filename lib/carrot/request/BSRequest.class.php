@@ -12,11 +12,11 @@
  */
 abstract class BSRequest extends BSHTTPRequest {
 	protected $version = null;
+	protected $attributes;
+	protected $errors;
 	private $host;
 	private $useragent;
 	private $session;
-	private $attributes;
-	private $errors;
 	static private $instance;
 	const MODULE_ACCESSOR = 'm';
 	const ACTION_ACCESSOR = 'a';
@@ -25,6 +25,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @access protected
 	 */
 	protected function __construct () {
+		parent::__construct();
 		$this->attributes = new BSArray;
 		$this->errors = new BSArray;
 	}
