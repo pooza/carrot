@@ -13,7 +13,6 @@
 abstract class BSRequest extends BSHTTPRequest {
 	protected $version = null;
 	private $host;
-	private $useragent;
 	private $session;
 	private $attributes;
 	private $errors;
@@ -272,31 +271,6 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 
 	/**
-	 * UserAgentを返す
-	 *
-	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent
-	 */
-	public function getUserAgent () {
-		if (!$this->useragent) {
-			if (!$this->useragent = BSUserAgent::create($this->getUserAgentName())) {
-				throw new BSUserAgentException('正しくないUserAgentです。');
-			}
-		}
-		return $this->useragent;
-	}
-
-	/**
-	 * UserAgent名を返す
-	 *
-	 * @access public
-	 * @return string リモートホストのUserAgent名
-	 */
-	public function getUserAgentName () {
-		return 'Console';
-	}
-
-	/**
 	 * 実際のUserAgentを返す
 	 *
 	 * エミュレート環境でも、実際のUserAgentを返す。
@@ -305,7 +279,9 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return BSUserAgent リモートホストのUserAgent
 	 */
 	public function getRealUserAgent () {
-		return $this->getUserAgent();
+		if ($header = $this->getHeader('user-agent')) {
+			$this->setUserAgent($header->getEntity());
+		}
 	}
 
 	/**

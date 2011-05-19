@@ -13,6 +13,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	protected $method;
 	protected $version = '1.0';
 	protected $url;
+	protected $useragent;
 
 	/**
 	 * httpバージョンを返す
@@ -91,6 +92,31 @@ class BSHTTPRequest extends BSMIMEDocument {
 		$line[] = $this->getURL()->getFullPath();
 		$line[] = $this->getVersion();
 		return $line->getContents();
+	}
+
+	/**
+	 * UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getUserAgent () {
+		if (!$this->useragent) {
+			if ($header = $this->getHeader('user-agent')) {
+				$this->setUserAgent($header->getEntity());
+			}
+		}
+		return $this->useragent;
+	}
+
+	/**
+	 * UserAgentを設定
+	 *
+	 * @access public
+	 * @param BSUserAgent $useragent リモートホストのUserAgent
+	 */
+	public function setUserAgent (BSUserAgent $useragent) {
+		$this->useragent = $useragent;
 	}
 
 	/**

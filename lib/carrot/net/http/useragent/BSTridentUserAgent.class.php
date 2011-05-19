@@ -7,8 +7,6 @@
 /**
  * Tridentユーザーエージェント
  *
- * Windows版 InternetExplorer 4.x以降
- *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSTridentUserAgent extends BSUserAgent {

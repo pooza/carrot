@@ -217,38 +217,6 @@ class BSWebRequest extends BSRequest {
 	public function isCarrot () {
 		return BSString::isContain(BS_CARROT_NAME, $this->getUserAgent()->getName());
 	}
-
-	/**
-	 * UserAgent名を返す
-	 *
-	 * @access public
-	 * @return string リモートホストのUserAgent名
-	 */
-	public function getUserAgentName () {
-		if (!!$this[BSTridentUserAgent::FORCE_MODE_ACCESSOR]) {
-			return BSTridentUserAgent::DEFAULT_NAME;
-		}
-		if (BS_DEBUG || ($this->user && $this->user->isAdministrator())) {
-			if (!BSString::isBlank($name = $this[BSUserAgent::ACCESSOR])) {
-				return $name;
-			}
-		}
-		return $this->controller->getAttribute('USER-AGENT');
-	}
-
-	/**
-	 * 実際のUserAgentを返す
-	 *
-	 * エミュレート環境でも、実際のUserAgentを返す。
-	 *
-	 * @access public
-	 * @return BSUserAgent リモートホストのUserAgent
-	 */
-	public function getRealUserAgent () {
-		if ($header = $this->getHeader('user-agent')) {
-			return $header->getEntity();
-		}
-	}
 }
 
 /* vim:set tabstop=4: */

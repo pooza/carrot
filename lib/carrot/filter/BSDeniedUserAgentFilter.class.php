@@ -11,6 +11,24 @@
  */
 class BSDeniedUserAgentFilter extends BSFilter {
 	public function initialize ($params = array()) {
+		if (BS_DEBUG || $this->user->isAdministrator()) {
+			if (!BSString::isBlank($name = $this[BSUserAgent::ACCESSOR])) {
+				$this->request->setUserAgent(BSUserAgent::create($name));
+			}
+		}
+
+		$names = new BSArray(array(
+			BSTridentUserAgent::ACCESSOR => BSTridentUserAgent::DEFAULT_NAME,
+			BSWebKitUserAgent::ACCESSOR => BSWebKitUserAgent::DEFAULT_NAME,
+		));
+		foreach ($names as $field => $name) {
+			if ($this->request[$field] || $this->user->getAttribute($field)) {
+				$this->user->setAttribute($field, 1);
+				$this->request->setUserAgent(BSUserAgent::create($name));
+				break;
+			}
+		}
+
 		$this['module'] = 'Default';
 		$this['action'] = 'DeniedUserAgent';
 		return parent::initialize($params);

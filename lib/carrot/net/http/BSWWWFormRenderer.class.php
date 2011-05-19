@@ -12,6 +12,21 @@
 class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 
 	/**
+	 * パラメータを設定
+	 *
+	 * @access public
+	 * @param string $name パラメータ名
+	 * @param mixed $value 値
+	 */
+	public function setParameter ($name, $value) {
+		if (BSString::isBlank($value)) {
+			$this->removeParameter($name);
+		} else {
+			parent::setParameter($name, $value);
+		}
+	}
+
+	/**
 	 * パラメータをまとめて設定
 	 *
 	 * @access public

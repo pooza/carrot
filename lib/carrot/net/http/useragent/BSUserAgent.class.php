@@ -160,19 +160,8 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	public function getQuery () {
 		$query = new BSWWWFormRenderer;
+		$request = BSRequest::getInstance();
 		if (BS_DEBUG || BSUser::getInstance()->isAdministrator()) {
-			$request = BSRequest::getInstance();
-			$names = new BSArray(array(
-				self::ACCESSOR,
-				BSTridentUserAgent::FORCE_MODE_ACCESSOR,
-			));
-			foreach ($names as $name) {
-				if (BSString::isBlank($value = $request[$name])) {
-					$query->removeParameter($name);
-				} else {
-					$query[$name] = $value;
-				}
-			}
 			$query[self::ACCESSOR] = $request[self::ACCESSOR];
 		}
 		return $query;
