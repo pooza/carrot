@@ -5,3 +5,5 @@
 
 - class: BSNullByteRequestFilter
 - class: BSMagicQuoteRequestFilter
+- class: BSFakeUserAgentFilter
+- class: BSLegacyUserAgentFilter
