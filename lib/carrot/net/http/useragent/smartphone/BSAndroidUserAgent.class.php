@@ -25,9 +25,13 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 *
 	 * @access public
 	 * @return boolean スマートフォンならTrue
+	 * @link http://googlewebmastercentral-ja.blogspot.com/2011/05/android.html
+	 * @link http://blog.fkoji.com/2011/05021907.html
 	 */
 	public function isSmartPhone () {
-		return !$this->isTablet();
+		return (BSString::isContain('Mobile', $this->getName())
+			&& !BSString::isContain('SC-01C', $this->getName()) //GALAXY Tabは例外として除外
+		);
 	}
 
 	/**
@@ -37,7 +41,7 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 * @return boolean タブレット型ならTrue
 	 */
 	public function isTablet () {
-		return BSString::isContain('Tablet', $this->getName());
+		return !$this->isSmartPhone();
 	}
 
 	/**
