@@ -81,6 +81,19 @@ class BSConsoleRequest extends BSRequest {
 	public function getRenderer () {
 		return null;
 	}
+
+	/**
+	 * UserAgentを返す
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getUserAgent () {
+		if (!$this->useragent) {
+			$this->setUserAgent(BSUserAgent::create('Console'));
+		}
+		return $this->useragent;
+	}
 }
 
 /* vim:set tabstop=4: */
