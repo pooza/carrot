@@ -10,6 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSWebKitUserAgent extends BSUserAgent {
+	const DEFAULT_NAME = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6; ja-jp) AppleWebKit';
+	const ACCESSOR = 'force_webkit';
 
 	/**
 	 * @access protected

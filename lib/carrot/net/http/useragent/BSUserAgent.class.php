@@ -173,6 +173,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 					$query[$name] = $value;
 				}
 			}
+			$query[self::ACCESSOR] = $request[self::ACCESSOR];
 		}
 		return $query;
 	}

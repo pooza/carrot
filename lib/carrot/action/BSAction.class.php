@@ -18,6 +18,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	protected $methods;
 	protected $renderResource;
 	protected $digest;
+	const ACCESSOR = 'a';
 
 	/**
 	 * @access public

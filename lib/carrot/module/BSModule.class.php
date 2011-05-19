@@ -25,6 +25,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $recordIDKey;
 	static private $instances;
 	static private $prefixes = array();
+	const ACCESSOR = 'm';
 
 	/**
 	 * @access protected
@@ -204,8 +205,8 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function cacheParameters (BSArray $params) {
 		$this->params = clone $params;
-		$this->params->removeParameter(BSRequest::MODULE_ACCESSOR);
-		$this->params->removeParameter(BSRequest::ACTION_ACCESSOR);
+		$this->params->removeParameter(BSModule::ACCESSOR);
+		$this->params->removeParameter(BSAction::ACCESSOR);
 		$this->user->setAttribute($this->parameterCacheKey, $this->params);
 	}
 

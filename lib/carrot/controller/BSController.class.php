@@ -71,10 +71,10 @@ abstract class BSController {
 	 * @access public
 	 */
 	public function dispatch () {
-		if (BSString::isBlank($module = $this->request[BSRequest::MODULE_ACCESSOR])) {
+		if (BSString::isBlank($module = $this->request[BSModule::ACCESSOR])) {
 			$module = BS_MODULE_DEFAULT_MODULE;
 		}
-		if (BSString::isBlank($action = $this->request[BSRequest::ACTION_ACCESSOR])) {
+		if (BSString::isBlank($action = $this->request[BSAction::ACCESSOR])) {
 			$action = BS_MODULE_DEFAULT_ACTION;
 		}
 
@@ -112,7 +112,7 @@ abstract class BSController {
 			if ($action = $this->getAction()) {
 				return $action->getModule();
 			}
-			$name = $this->request[BSRequest::MODULE_ACCESSOR];
+			$name = $this->request[BSModule::ACCESSOR];
 		}
 		return BSModule::getInstance($name);
 	}
