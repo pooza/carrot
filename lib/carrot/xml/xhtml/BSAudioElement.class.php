@@ -30,7 +30,7 @@ class BSAudioElement extends BSXHTMLElement {
 	 * @param BSHTTPRedirector $url メディアのURL
 	 */
 	public function registerSource (BSHTTPRedirector $url) {
-		$element = $this->addElement(new BSXHTMLElement('source'));
+		$element = $this->createElement('source');
 		$element->setEmptyElement(true);
 		$element->setAttribute('src', $url->getContents());
 	}

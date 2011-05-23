@@ -20,6 +20,16 @@ class BSDivisionElement extends BSXHTMLElement {
 	public function getTag () {
 		return 'div';
 	}
+
+	/**
+	 * div要素のコンテナを返す
+	 *
+	 * @access public
+	 * @return BSDivisionElement コンテナ要素
+	 */
+	protected function createWrapperDivision () {
+		return $this;
+	}
 }
 
 /* vim:set tabstop=4: */
