@@ -31,6 +31,10 @@ class BSScriptElement extends BSXHTMLElement {
 	 * @param string $body 本文
 	 */
 	public function setBody ($body = null) {
+		if ($body instanceof BSStringFormat) {
+			$body = $body->getContents();
+		}
+
 		BSUtility::includeFile('jsmin');
 		$body = BSString::convertEncoding($body, 'utf-8');
 		$body = JSMin::minify($body);

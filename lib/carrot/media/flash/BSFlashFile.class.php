@@ -67,16 +67,16 @@ class BSFlashFile extends BSMediaFile {
 	public function getScriptElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSScriptElement;
-		$body = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
-		$body[] = $serializer->encode($this->createURL($params)->getContents());
-		$body[] = $serializer->encode($params['container_id']);
-		$body[] = $this['width'];
-		$body[] = $this['height'];
-		$body[] = $serializer->encode(BS_FLASH_PLAYER_VER);
-		$body[] = $serializer->encode(BS_FLASH_INSTALLER_HREF);
-		$body[] = $serializer->encode(null);
-		$body[] = $serializer->encode(array('wmode' => 'transparent'));
-		$element->setBody($body->getContents());
+		$statement = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
+		$statement[] = $serializer->encode($this->createURL($params)->getContents());
+		$statement[] = $serializer->encode($params['container_id']);
+		$statement[] = $this['width'];
+		$statement[] = $this['height'];
+		$statement[] = $serializer->encode(BS_FLASH_PLAYER_VER);
+		$statement[] = $serializer->encode(BS_FLASH_INSTALLER_HREF);
+		$statement[] = $serializer->encode(null);
+		$statement[] = $serializer->encode(array('wmode' => 'transparent'));
+		$element->setBody($statement);
 		return $element;
 	}
 

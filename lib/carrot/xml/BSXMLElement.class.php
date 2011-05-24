@@ -128,12 +128,15 @@ class BSXMLElement implements IteratorAggregate {
 	public function setBody ($body = null) {
 		if (BSNumeric::isZero($body)) {
 			$this->body = 0;
-		} else if ($body) {
+		} else if (BSString::isBlank($body)) {
+			$this->body = null;
+		} else {
+			if ($body instanceof BSStringFormat) {
+				$body = $body->getContents();
+			}
 			$body = trim($body);
 			$body = BSString::convertEncoding($body, 'utf-8');
 			$this->body = $body;
-		} else {
-			$this->body = null;
 		}
 		$this->contents = null;
 	}

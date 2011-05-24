@@ -99,7 +99,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$statement[] = $geocode['lat'];
 		$statement[] = $geocode['lng'];
 		$statement[] = $params['zoom'];
-		$script->setBody($statement->getContents());
+		$script->setBody($statement);
 
 		if ($params['align']) {
 			$container->setStyle('width', $params['width']);

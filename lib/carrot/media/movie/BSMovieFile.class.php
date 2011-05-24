@@ -125,14 +125,14 @@ class BSMovieFile extends BSMediaFile {
 	public function getScriptElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSScriptElement;
-		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
-		$body[] = $serializer->encode($params['container_id']);
-		$body[] = $serializer->encode(array(
+		$statement = new BSStringFormat('flowplayer(%s, %s, %s);');
+		$statement[] = $serializer->encode($params['container_id']);
+		$statement[] = $serializer->encode(array(
 			'src' => BS_MOVIE_FLV_PLAYER_HREF,
 			'wmode' => 'transparent',
 		));
-		$body[] = $this->getPlayerConfig($params);
-		$element->setBody($body->getContents());
+		$statement[] = $this->getPlayerConfig($params);
+		$element->setBody($statement);
 		return $element;
 	}
 
