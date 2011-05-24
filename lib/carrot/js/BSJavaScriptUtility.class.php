@@ -18,17 +18,6 @@ class BSJavaScriptUtility {
 	}
 
 	/**
-	 * script要素を返す
-	 *
-	 * @access public
-	 * @return BSXMLElement script要素
-	 * @static
-	 */
-	static public function getScriptElement () {
-		return new BSScriptElement;
-	}
-
-	/**
 	 * 文字列のクォート
 	 *
 	 * @access public
