@@ -123,10 +123,11 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSScriptElement 要素
 	 */
 	public function getScriptElement (BSParameterHolder $params) {
+		$serializer = new BSJSONSerializer;
 		$element = new BSScriptElement;
 		$body = new BSStringFormat('flowplayer(%s, %s, %s);');
-		$body[] = BSJavaScriptUtility::quote($params['container_id']);
-		$body[] = BSJavaScriptUtility::quote(array(
+		$body[] = $serializer->encode($params['container_id']);
+		$body[] = $serializer->encode(array(
 			'src' => BS_MOVIE_FLV_PLAYER_HREF,
 			'wmode' => 'transparent',
 		));
@@ -209,7 +210,9 @@ class BSMovieFile extends BSMediaFile {
 				),
 			),
 		);
-		return BSJavaScriptUtility::quote($config);
+
+		$serializer = new BSJSONSerializer;
+		return $serializer->encode($config);
 	}
 
 	/**

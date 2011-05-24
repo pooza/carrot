@@ -28,9 +28,10 @@
  */
 function smarty_block_jsonp ($params, $contents, &$smarty) {
 	$params = new BSArray($params);
+	$serializer = new BSJSONSerializer;
 	$body = new BSStringFormat('%s(%s);');
 	$body[] = $params['method'];
-	$body[] = BSJavaScriptUtility::quote($contents);
+	$body[] = $serializer->encode($contents);
 	return $body->getContents();
 }
 
