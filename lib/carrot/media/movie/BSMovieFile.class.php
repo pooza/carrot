@@ -131,7 +131,7 @@ class BSMovieFile extends BSMediaFile {
 			'src' => BS_MOVIE_FLV_PLAYER_HREF,
 			'wmode' => 'transparent',
 		));
-		$statement[] = $this->getPlayerConfig($params);
+		$statement[] = $serializer->encode($this->getPlayerConfig($params));
 		$element->setBody($statement);
 		return $element;
 	}
@@ -144,9 +144,10 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSObjectElement 要素
 	 */
 	public function getObjectElement (BSParameterHolder $params) {
+		$serializer = new BSJSONSerializer;
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::create()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
-		$element->setFlashVar('config', $this->getPlayerConfig($params));
+		$element->setFlashVar('config', $serializer->encode($this->getPlayerConfig($params)));
 		return $element;
 	}
 
@@ -194,8 +195,15 @@ class BSMovieFile extends BSMediaFile {
 		return $element;
 	}
 
-	private function getPlayerConfig (BSParameterHolder $params) {
-		$config = array(
+	/**
+	 * flowplayerの設定値をPHP配列で返す
+	 *
+	 * @access protected
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return mixed[] 設定値
+	 */
+	protected function getPlayerConfig (BSParameterHolder $params) {
+		return array(
 			'clip' => array(
 				'scaling' => 'fit',
 				'autoPlay' => false,
@@ -210,9 +218,6 @@ class BSMovieFile extends BSMediaFile {
 				),
 			),
 		);
-
-		$serializer = new BSJSONSerializer;
-		return $serializer->encode($config);
 	}
 
 	/**
