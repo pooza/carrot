@@ -164,6 +164,7 @@ movie:
       href: /carrotlib/swf/flowplayer-3.2.5.swf
       control_bar:
         href: /carrotlib/swf/flowplayer.controls-3.2.3.swf
+      opacity: 0.9
   wmv:
     player:
       clsid: 6BF52A52-394A-11d3-B153-00C04F79FAA6

@@ -213,7 +213,7 @@ class BSMovieFile extends BSMediaFile {
 			'plugins' => array(
 				'controls' => array(
 					'url' => BS_MOVIE_FLV_PLAYER_CONTROL_BAR_HREF,
-					'opacity' => 0.9,
+					'opacity' => BS_MOVIE_FLV_PLAYER_OPACITY,
 					'fullscreen' => ($params['mode'] != 'noscript'),
 				),
 			),
