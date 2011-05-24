@@ -23,6 +23,20 @@ class BSScriptElement extends BSXHTMLElement {
 			$this->setAttribute('charset', 'utf-8');
 		}
 	}
+
+	/**
+	 * 本文を設定
+	 *
+	 * @access public
+	 * @param string $body 本文
+	 */
+	public function setBody ($body = null) {
+		BSUtility::includeFile('jsmin');
+		$body = BSString::convertEncoding($body, 'utf-8');
+		$body = JSMin::minify($body);
+		$this->body = $body;
+		$this->contents = null;
+	}
 }
 
 /* vim:set tabstop=4: */
