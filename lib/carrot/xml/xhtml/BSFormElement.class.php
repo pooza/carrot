@@ -19,10 +19,10 @@ class BSFormElement extends BSXHTMLElement {
 	 */
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name);
-		foreach ($this->useragent->getQuery() as $key => $value) {
+		foreach ($this->getUserAgent()->getQuery() as $key => $value) {
 			$this->addHiddenField($key, $value);
 		}
-		if (!$this->useragent->isMobile()) {
+		if (!$this->getUserAgent()->isMobile()) {
 			$this->disableMultiSubmit();
 		}
 	}

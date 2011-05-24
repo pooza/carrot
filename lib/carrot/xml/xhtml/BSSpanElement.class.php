@@ -18,7 +18,7 @@ class BSSpanElement extends BSXHTMLElement {
 	 * @return BSXHTMLElement タグ名
 	 */
 	public function getFontElement () {
-		$element = new BSXHTMLElement('font', $this->useragent);
+		$element = new BSXHTMLElement('font', $this->getUserAgent());
 		$element->setBody($this->getBody());
 		if ($color = $this->getStyle('color')) {
 			$element->setAttribute('color', $color);

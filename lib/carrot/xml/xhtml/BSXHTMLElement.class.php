@@ -172,16 +172,16 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @return BSDivisionElement ラッパー要素
 	 */
 	public function setAlignment ($value) {
-		$container = $this->createWrapperDivision();
+		$wrapper = $this->createWrapper();
 		if ($this->getUserAgent()->isMobile()) {
-			$container->setAttribute('align', $value);
+			$wrapper->setAttribute('align', $value);
 		} else {
 			if ($value == 'center') {
-				$container->setStyle('width', '100%');
+				$wrapper->setStyle('width', '100%');
 			}
-			$container->registerStyleClass($value);
+			$wrapper->registerStyleClass($value);
 		}
-		return $container;
+		return $wrapper;
 	}
 
 	/**
@@ -193,8 +193,8 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @return BSDivisionElement ラッパー要素
 	 */
 	public function setCaption ($value, $height = 32) {
-		$container = $this->createWrapperDivision();
-		$element = $container->addElement(new BSDivisionElement);
+		$wrapper = $this->createWrapper();
+		$element = $wrapper->addElement(new BSDivisionElement);
 		if ($this->getUserAgent()->isMobile()) {
 			$element->setAttribute('align', 'center');
 			$element = $element->createElement('font');
@@ -203,12 +203,12 @@ class BSXHTMLElement extends BSXMLElement {
 			$value .= '<br/><br/>';
 		} else {
 			$element->registerStyleClass('caption');
-			if ($container->getStyle('height')) {
-				$container->setStyle('height', $container->getStyle('height') + $height);
+			if ($wrapper->getStyle('height')) {
+				$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
 			}
 		}
 		$element->setBody($value);
-		return $container;
+		return $wrapper;
 	}
 
 	/**
@@ -228,8 +228,8 @@ class BSXHTMLElement extends BSXMLElement {
 			$value = BSSmartTag::parse($value, $tags, new BSArray);
 		}
 
-		$container = $this->createWrapperDivision();
-		$element = $container->addElement(new BSDivisionElement);
+		$wrapper = $this->createWrapper();
+		$element = $wrapper->addElement(new BSDivisionElement);
 		if ($this->getUserAgent()->isMobile()) {
 			$element->setAttribute('align', 'left');
 			$element = $element->createElement('font');
@@ -238,21 +238,21 @@ class BSXHTMLElement extends BSXMLElement {
 		} else {
 			$element->registerStyleClass('description');
 			$element->registerStyleClass('clearfix');
-			if ($container->getStyle('height')) {
-				$container->setStyle('height', $container->getStyle('height') + $height);
+			if ($wrapper->getStyle('height')) {
+				$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
 			}
 		}
 		$element->setBody($value);
-		return $container;
+		return $wrapper;
 	}
 
 	/**
-	 * div要素のコンテナを返す
+	 * div要素のラッパーを返す
 	 *
-	 * @access public
-	 * @return BSDivisionElement コンテナ要素
+	 * @access protected
+	 * @return BSDivisionElement ラッパー要素
 	 */
-	protected function createWrapperDivision () {
+	protected function createWrapper () {
 		return $this->wrap(new BSDivisionElement);
 	}
 
@@ -307,7 +307,7 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @return BSXMLElement 要素
 	 */
 	public function createElement ($name, $body = null) {
-		$element = $this->addElement(new BSXHTMLElement($name, $this->useragent));
+		$element = $this->addElement(new BSXHTMLElement($name, $this->getUserAgent()));
 		$element->setBody($body);
 		return $element;
 	}
@@ -321,7 +321,7 @@ class BSXHTMLElement extends BSXMLElement {
 	 */
 	public function wrap (BSXMLElement $parent) {
 		$parent = parent::wrap($parent);
-		$parent->setUserAgent($this->useragent);
+		$parent->setUserAgent($this->getUserAgent());
 		return $parent;
 	}
 }

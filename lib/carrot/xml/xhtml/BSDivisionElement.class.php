@@ -22,12 +22,12 @@ class BSDivisionElement extends BSXHTMLElement {
 	}
 
 	/**
-	 * div要素のコンテナを返す
+	 * div要素のラッパーを返す
 	 *
-	 * @access public
-	 * @return BSDivisionElement コンテナ要素
+	 * @access protected
+	 * @return BSDivisionElement ラッパー要素
 	 */
-	protected function createWrapperDivision () {
+	protected function createWrapper () {
 		return $this;
 	}
 }
