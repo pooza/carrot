@@ -229,7 +229,7 @@ class BSXMLElement implements IteratorAggregate {
 
 		$element = $this;
 		foreach ($path as $name) {
-			if (!$element = $element->createElement($name)) {
+			if (!$element = $element->getElement($name)) {
 				return;
 			}
 		}
