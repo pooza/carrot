@@ -104,6 +104,8 @@ class BSHTTPRequest extends BSMIMEDocument {
 		if (!$this->useragent) {
 			if ($header = $this->getHeader('user-agent')) {
 				$this->setUserAgent($header->getEntity());
+			} else {
+				$this->setUserAgent(BSUserAgent::create(null, 'Default'));
 			}
 		}
 		return $this->useragent;
