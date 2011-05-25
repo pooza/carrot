@@ -43,6 +43,10 @@ function UserMenu (id, options) {
   this.offImage = null;
   this.onImage = null;
 
+  if (Prototype.Browser.IE) {
+    this.speed /= 5; // IEは5倍速で
+  }
+
   if (options) {
     for (var index in options) {
       this[index] = options[index];
