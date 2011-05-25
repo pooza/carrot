@@ -186,6 +186,8 @@ abstract class BSSmartTag extends BSParameterHolder {
 			$value = str_replace('\\:', ':', $value);
 			$value = str_replace('\\[', '[', $value);
 			$value = str_replace('\\]', ']', $value);
+			$value = str_replace('\\lt', '&lt;', $value);
+			$value = str_replace('\\gt', '&gt;', $value);
 			$value = str_replace('__COLON__', ':', $value);
 			$value = str_replace('__RIGHT__', '[', $value);
 			$value = str_replace('__LEFT__', ']', $value);
