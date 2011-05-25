@@ -24,7 +24,7 @@ function smarty_function_map ($params, &$smarty) {
 			$addr[] = $params['lng'];
 			$params['addr'] = $addr->getContents();
 		}
-		$element = $service->getElement($params['addr'], $params);
+		$element = $service->createElement($params['addr'], $params);
 	} catch (Exception $e) {
 		$element = new BSDivisionElement;
 		$span = $element->addElement(new BSSpanElement);

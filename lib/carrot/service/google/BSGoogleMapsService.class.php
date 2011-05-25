@@ -45,7 +45,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSDivisionElement
 	 */
-	public function getElement ($address, BSParameterHolder $params = null) {
+	public function createElement ($address, BSParameterHolder $params = null) {
 		$params = new BSArray($params);
 		$params['address'] = $address;
 		if (!$params['zoom']) {
@@ -61,7 +61,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		if ($this->useragent->isMobile()) {
 			$params->removeParameter('width');
 			$params->removeParameter('height');
-			return $this->getImageElement($geocode, $params);
+			return $this->createImageElement($geocode, $params);
 		}
 
 		$info = $this->useragent->getDisplayInfo();
@@ -69,7 +69,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$params['width'] = $info['width'];
 		}
 
-		return $this->getScriptElement($geocode, $params);
+		return $this->createScriptElement($geocode, $params);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @param BSArray $params パラメータ配列
 	 * @return BSDivisionElement
 	 */
-	protected function getScriptElement (BSGeocodeEntry $geocode, BSArray $params) {
+	protected function createScriptElement (BSGeocodeEntry $geocode, BSArray $params) {
 		$container = new BSDivisionElement;
 		$inner = $container->addElement(new BSDivisionElement);
 		$script = $container->addElement(new BSScriptElement);
@@ -174,7 +174,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @param BSArray $params パラメータ配列
 	 * @return BSDivisionElement
 	 */
-	protected function getImageElement (BSGeocodeEntry $geocode, BSArray $params) {
+	protected function createImageElement (BSGeocodeEntry $geocode, BSArray $params) {
 		$address = $params['address'];
 		$params->removeParameter('address');
 		$file = $this->getImageFile($geocode, $params);

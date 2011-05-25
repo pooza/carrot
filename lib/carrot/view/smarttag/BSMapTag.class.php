@@ -32,7 +32,7 @@ class BSMapTag extends BSSmartTag {
 		try {
 			$service = new BSGoogleMapsService;
 			$service->setUserAgent($this->getUserAgent());
-			$element = $service->getElement($this->tag[1], $this->getQueryParameters());
+			$element = $service->createElement($this->tag[1], $this->getQueryParameters());
 			$replace = $element->getContents();
 		} catch (Exception $e) {
 			$replace = sprintf('[エラー: %s]', $e->getMessage());

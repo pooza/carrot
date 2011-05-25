@@ -183,9 +183,10 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$this->resizeByWidth($params, $useragent);
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		$params = new BSArray($params);
+		$this->resizeByWidth($params, $useragent);
+
 		$element = new BSImageElement;
 		$element->setURL($this->createURL($params));
 		$element->registerStyleClass($params['style_class']);
@@ -193,28 +194,6 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 		$element->setAttribute('height', $this['height']);
 		$element->setAttributes($params);
 		return $element;
-	}
-
-	/**
-	 * script要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSScriptElement 要素
-	 */
-	public function getScriptElement (BSParameterHolder $params) {
-		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
-	}
-
-	/**
-	 * object要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSObjectElement 要素
-	 */
-	public function getObjectElement (BSParameterHolder $params) {
-		throw new BSMediaException($this . 'はgetObjectElementに対応していません。');
 	}
 
 	/**

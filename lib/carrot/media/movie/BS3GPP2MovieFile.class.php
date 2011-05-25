@@ -19,7 +19,7 @@ class BS3GPP2MovieFile extends BSQuickTimeMovieFile {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
@@ -32,9 +32,9 @@ class BS3GPP2MovieFile extends BSQuickTimeMovieFile {
 			if (BSString::isBlank($params['label'])) {
 				$params['label'] = $this->getBaseName();
 			}
-			return $useragent->getMovieElement($params);
+			return $useragent->createMovieElement($params);
 		}
-		return parent::getElement($params, $useragent);
+		return parent::createElement($params, $useragent);
 	}
 
 	/**

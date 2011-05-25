@@ -77,28 +77,22 @@ class BSMusicFile extends BSMediaFile {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$params = new BSArray($params);
+		if (!$useragent) {
+			$useragent = BSRequest::getInstance()->getUserAgent();
+		}
 		$this->resizeByWidth($params, $useragent);
+
 		$container = new BSDivisionElement;
 		$container->setAttribute('width', $this['width']);
 		$container->setAttribute('height', $this['height']);
 		if ($useragent->hasSupport('html5_audio')) {
-			$container->addElement($this->getAudioElement($params));
+			$container->addElement($this->createAudioElement($params));
 		} else {
-			$container->addElement($this->getObjectElement($params));
+			$container->addElement($this->createObjectElement($params));
 		}
 		return $container;
-	}
-
-	/**
-	 * script要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSScriptElement 要素
-	 */
-	public function getScriptElement (BSParameterHolder $params) {
-		throw new BSMediaException($this . 'はgetScriptElementに対応していません。');
 	}
 
 	/**
@@ -108,7 +102,7 @@ class BSMusicFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	public function getObjectElement (BSParameterHolder $params) {
+	public function createObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::create()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
 		$element->setAttribute('width', $this['width']);
@@ -128,7 +122,7 @@ class BSMusicFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSAudioElement 要素
 	 */
-	public function getAudioElement (BSParameterHolder $params) {
+	public function createAudioElement (BSParameterHolder $params) {
 		$element = new BSAudioElement;
 		$element->registerSource($this->createURL($params));
 		return $element;

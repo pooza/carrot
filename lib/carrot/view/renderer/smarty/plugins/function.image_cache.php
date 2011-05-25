@@ -21,7 +21,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 	if (($record = $manager->getContainer($params))
 		&& ($info = $manager->getImageInfo($record, $params['size'], $params['pixel']))) {
 
-		$element = $manager->getElement($info);
+		$element = $manager->createElement($info);
 		$element->setAttribute('align', $params['align']);
 		$element->setStyles($params['style']);
 		$element->registerStyleClass($params['style_class']);

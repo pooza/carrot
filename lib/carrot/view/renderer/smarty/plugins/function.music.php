@@ -29,7 +29,7 @@ function smarty_function_music ($params, &$smarty) {
 					$params['href_prefix'] = $url['path'];
 				}
 			}
-			return $file->getElement($params)->getContents();
+			return $file->createElement($params)->getContents();
 	}
 }
 

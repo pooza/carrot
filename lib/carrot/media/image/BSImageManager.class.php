@@ -434,7 +434,7 @@ class BSImageManager {
 	 * @param BSArray $info getImageInfoで取得した画像情報
 	 * @return BSXMLElement img要素
 	 */
-	public function getElement (BSArray $info) {
+	public function createElement (BSArray $info) {
 		$element = new BSImageElement;
 		$element->setUserAgent($this->getUserAgent());
 		$element->setAttributes($info);

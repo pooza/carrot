@@ -19,10 +19,11 @@ class BSWindowsMediaMovieFile extends BSMovieFile {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$params = new BSArray($params);
 		$this->resizeByWidth($params, $useragent);
 		if ($params['mode'] == 'shadowbox') {
-			return $this->getShadowboxElement($params);
+			return $this->createShadowboxElement($params);
 		}
 
 		$container = new BSDivisionElement;

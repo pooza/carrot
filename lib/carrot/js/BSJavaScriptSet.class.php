@@ -61,7 +61,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 	 * @access public
 	 * @return BSXHTMLElement
 	 */
-	public function getElement () {
+	public function createElement () {
 		$element = new BSScriptElement;
 		$element->setAttribute('src', $this->getURL()->getContents());
 		$element->setAttribute('type', $this->getType());

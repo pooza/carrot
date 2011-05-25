@@ -61,7 +61,7 @@ class BSStyleSet extends BSDocumentSet {
 	 * @access public
 	 * @return BSXHTMLElement
 	 */
-	public function getElement () {
+	public function createElement () {
 		$element = new BSXHTMLElement('link');
 		$element->setEmptyElement(true);
 		$element->setAttribute('rel', 'stylesheet');

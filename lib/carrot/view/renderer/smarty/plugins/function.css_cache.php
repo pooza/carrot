@@ -16,7 +16,7 @@ function smarty_function_css_cache ($params, &$smarty) {
 	}
 
 	$styleset = new BSStyleSet($params['name']);
-	return $styleset->getElement()->getContents();
+	return $styleset->createElement()->getContents();
 }
 
 /* vim:set tabstop=4: */

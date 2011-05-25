@@ -80,7 +80,7 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 	 * @return BSAnchorElement リンク
 	 * @abstract
 	 */
-	abstract public function getGPSAnchorElement (BSHTTPRedirector $url, $label);
+	abstract public function createGPSAnchorElement (BSHTTPRedirector $url, $label);
 
 	/**
 	 * GPS情報を返す

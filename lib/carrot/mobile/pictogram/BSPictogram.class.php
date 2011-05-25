@@ -122,7 +122,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 			return $this->getNumericReference();
 		} else {
 			$images = $useragent->createImageManager();
-			return $images->getElement($this->getImageInfo())->getContents();
+			return $images->createElement($this->getImageInfo())->getContents();
 		}
 	}
 

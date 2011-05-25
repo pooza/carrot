@@ -103,20 +103,25 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$params = new BSArray($params);
 		$this->resizeByWidth($params, $useragent);
+
 		$container = new BSDivisionElement;
 		$container->registerStyleClass($params['style_class']);
 		if ($params['mode'] == 'noscript') {
 			$container->setStyles($this->getStyles($params));
-			$container->addElement($this->getObjectElement($params));
+			$element = $this->createObjectElement($params);
 		} else {
 			if (BSString::isBlank($params['container_id'])) {
 				$params['container_id'] = $this->createContainerID();
 				$inner = $container->addElement(new BSDivisionElement);
 				$inner->setID($params['container_id']);
 			}
-			$container->addElement($this->getScriptElement($params));
+			$element = $this->createScriptElement($params);
+		}
+		if ($element) {
+			$container->addElement($element);
 		}
 		return $container;
 	}
@@ -209,9 +214,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
-	 * @abstract
 	 */
-	abstract public function getScriptElement (BSParameterHolder $params);
+	public function createScriptElement (BSParameterHolder $params) {
+	}
 
 	/**
 	 * object要素を返す
@@ -219,9 +224,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
-	 * @abstract
 	 */
-	abstract public function getObjectElement (BSParameterHolder $params);
+	public function createObjectElement (BSParameterHolder $params) {
+	}
 
 	/**
 	 * 出力可能か？

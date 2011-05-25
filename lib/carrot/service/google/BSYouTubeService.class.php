@@ -45,7 +45,7 @@ class BSYouTubeService extends BSCurlHTTP {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSDivisionElement
 	 */
-	public function getElement ($id, BSParameterHolder $params = null) {
+	public function createElement ($id, BSParameterHolder $params = null) {
 		$params = new BSArray($params);
 		if ($this->useragent->isMobile()) {
 			if (BSString::isBlank($params['label'])) {

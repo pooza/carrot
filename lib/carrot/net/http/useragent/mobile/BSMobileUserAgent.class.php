@@ -157,7 +157,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getMovieElement (BSParameterHolder $params) {
+	public function createMovieElement (BSParameterHolder $params) {
 		$container = new BSDivisionElement;
 		$container->addElement($anchor = new BSAnchorElement);
 		$anchor->setURL($params['url']);
@@ -173,7 +173,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getFlashElement (BSParameterHolder $params) {
+	public function createFlashElement (BSParameterHolder $params) {
 		$container = new BSDivisionElement;
 		$object = $container->addElement(new BSFlashLightObjectElement);
 		$object->setURL($params['url']);
@@ -190,8 +190,8 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @param string $label ラベル
 	 * @return BSAnchorElement リンク
 	 */
-	public function getGPSAnchorElement (BSHTTPRedirector $url, $label) {
-		return $this->getCarrier()->getGPSAnchorElement($url, $label);
+	public function createGPSAnchorElement (BSHTTPRedirector $url, $label) {
+		return $this->getCarrier()->createGPSAnchorElement($url, $label);
 	}
 
 	/**

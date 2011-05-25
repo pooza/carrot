@@ -86,7 +86,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getMovieElement (BSParameterHolder $params) {
+	public function createMovieElement (BSParameterHolder $params) {
 		$container = new BSDivisionElement;
 		$object = $container->addElement(new BSObjectElement);
 		$object->setAttribute('type', $params['type']);

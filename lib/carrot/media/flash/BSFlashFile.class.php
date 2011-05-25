@@ -38,21 +38,22 @@ class BSFlashFile extends BSMediaFile {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$this->resizeByWidth($params, $useragent);
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$params = new BSArray($params);
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
+		$this->resizeByWidth($params, $useragent);
+
 		if ($useragent->isMobile()) {
 			$params['url'] = $this->createURL($params);
-			return $useragent->getFlashElement($params);
-		}
-		$container = parent::getElement($params);
-		if (($info = $params['thumbnail']) && ($inner = $container->getElement('div'))) {
-			$info = new BSArray($info);
-			$image = new BSImageElement;
-			$image->setAttributes($info);
-			$inner->addElement($image);
+			$container = $useragent->createFlashElement($params);
+		} else {
+			$container = parent::createElement($params);
+			if (($info = $params['thumbnail']) && ($inner = $container->getElement('div'))) {
+				$image = $inner->addElement(new BSImageElement);
+				$image->setAttributes(new BSArray($info));
+			}
 		}
 		return $container;
 	}
@@ -64,7 +65,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	public function getScriptElement (BSParameterHolder $params) {
+	public function createScriptElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSScriptElement;
 		$statement = new BSStringFormat('swfobject.embedSWF(%s,%s,%d,%d,%s,%s,%s,%s);');
@@ -87,7 +88,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	public function getObjectElement (BSParameterHolder $params) {
+	public function createObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
 		$element->setURL($this->createURL($params));
 		return $element;

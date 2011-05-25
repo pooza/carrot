@@ -102,13 +102,14 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 * @return BSDivisionElement 要素
 	 */
-	public function getElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		$params = new BSArray($params);
 		$this->resizeByWidth($params, $useragent);
 		if ($params['mode'] == 'shadowbox') {
-			return $this->getShadowboxElement($params);
+			return $this->createShadowboxElement($params);
 		}
 
-		$container = parent::getElement($params);
+		$container = parent::createElement($params);
 		if ($inner = $container->getElement('div')) { //Gecko対応
 			$inner->setStyles($this->getStyles($params));
 		}
@@ -122,7 +123,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSScriptElement 要素
 	 */
-	public function getScriptElement (BSParameterHolder $params) {
+	public function createScriptElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSScriptElement;
 		$statement = new BSStringFormat('flowplayer(%s, %s, %s);');
@@ -143,7 +144,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSObjectElement 要素
 	 */
-	public function getObjectElement (BSParameterHolder $params) {
+	public function createObjectElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::create()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
@@ -158,7 +159,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSShadowboxAnchorElement 要素
 	 */
-	protected function getShadowboxElement (BSParameterHolder $params) {
+	protected function createShadowboxElement (BSParameterHolder $params) {
 		$params = new BSArray($params);
 		if (!$params['width_movie']) {
 			$params['width_movie'] = $params['width'];
@@ -189,7 +190,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSVideoElement 要素
 	 */
-	public function getVideoElement (BSParameterHolder $params) {
+	public function createVideoElement (BSParameterHolder $params) {
 		$element = new BSVideoElement;
 		$element->registerSource($this->createURL($params));
 		return $element;
