@@ -275,7 +275,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	/**
 	 * URLを返す
 	 *
-	 * BSFileUtility::getURLから呼ばれるので、こちらを利用すること。
+	 * BSFileUtility::createURLから呼ばれるので、こちらを利用すること。
 	 *
 	 * @access public
 	 * @return BSHTTPURL URL

@@ -26,9 +26,9 @@ function smarty_function_flash ($params, &$smarty) {
 			if (BSString::isBlank($params['href_prefix'])) {
 				$finder = new BSRecordFinder($params);
 				if ($record = $finder->execute()) {
-					$url = BSFileUtility::getURL('swf');
+					$url = BSFileUtility::createURL('swf');
 					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
-					$params['href_prefix'] = $url['path'];
+					$params['href_prefix'] = $url->getContents();
 				}
 			}
 			return $file->createElement($params, $smarty->getUserAgent())->getContents();

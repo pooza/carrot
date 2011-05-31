@@ -13,15 +13,15 @@
  * @abstract
  */
 abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, IteratorAggregate {
-	private $name;
-	private $error;
-	private $type;
-	private $cacheFile;
-	private $updateDate;
-	private $documents;
-	private $contents;
-	private $url;
-	private $optimized = true;
+	protected $name;
+	protected $error;
+	protected $type;
+	protected $cacheFile;
+	protected $updateDate;
+	protected $documents;
+	protected $contents;
+	protected $url;
+	protected $optimized = true;
 	static protected $entries;
 
 	/**

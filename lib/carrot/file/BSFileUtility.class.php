@@ -51,9 +51,13 @@ class BSFileUtility {
 	 * @return BSHTTPURL URL
 	 * @static
 	 */
-	static public function getURL ($name) {
+	static public function createURL ($name, $path = '') {
 		if (self::getDirectory($name)) {
-			return BSDirectoryLayout::getInstance()->getURL($name);
+			$url = clone BSDirectoryLayout::getInstance()->getURL($name);
+			if (!BSString::isBlank($path)) {
+				$url['path'] .= $path;
+			}
+			return $url;
 		}
 	}
 

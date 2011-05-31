@@ -24,9 +24,9 @@ function smarty_function_music ($params, &$smarty) {
 			if (BSString::isBlank($params['href_prefix'])) {
 				$finder = new BSRecordFinder($params);
 				if ($record = $finder->execute()) {
-					$url = BSFileUtility::getURL('musics');
+					$url = BSFileUtility::createURL('musics');
 					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
-					$params['href_prefix'] = $url['path'];
+					$params['href_prefix'] = $url->getContents();
 				}
 			}
 			return $file->createElement($params)->getContents();
