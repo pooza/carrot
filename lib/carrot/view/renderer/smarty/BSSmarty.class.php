@@ -38,6 +38,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->registerDirectory(BSFileUtility::getDirectory('templates'));
 		$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
+		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 	}
 
 	/**
@@ -169,9 +170,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @return BSUserAgent 対象UserAgent
 	 */
 	public function getUserAgent () {
-		if (!$this->useragent) {
-			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
-		}
 		return $this->useragent;
 	}
 

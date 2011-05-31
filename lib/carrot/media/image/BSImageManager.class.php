@@ -25,6 +25,7 @@ class BSImageManager {
 	 */
 	public function __construct ($flags = null) {
 		$this->setFlags($flags);
+		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 	}
 
 	/**
@@ -44,9 +45,6 @@ class BSImageManager {
 	 * @return BSUserAgent 対象UserAgent
 	 */
 	public function getUserAgent () {
-		if (!$this->useragent) {
-			$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
-		}
 		return $this->useragent;
 	}
 
@@ -451,8 +449,7 @@ class BSImageManager {
 	 * @return BSXMLElement img要素
 	 */
 	public function createElement (BSArray $info) {
-		$element = new BSImageElement;
-		$element->setUserAgent($this->getUserAgent());
+		$element = new BSImageElement(null, $this->getUserAgent());
 		$element->setAttributes($info);
 		return $element;
 	}
