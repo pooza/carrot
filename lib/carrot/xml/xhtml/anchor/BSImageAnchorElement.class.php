@@ -47,7 +47,7 @@ abstract class BSImageAnchorElement extends BSAnchorElement {
 	 */
 	public function setImage (BSImageContainer $record, $size, $pixel = null, $flags = null) {
 		$images = $this->getUserAgent()->createImageManager($flags);
-		$this->setURL($images->getURL($record, $size, $pixel));
+		$this->setURL($images->createURL($record, $size, $pixel));
 	}
 }
 
