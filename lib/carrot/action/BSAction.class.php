@@ -419,8 +419,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	/**
 	 * リダイレクト対象
 	 *
-	 * URLを加工するケースが多い為、毎回生成する。
-	 *
 	 * @access public
 	 * @return BSURL
 	 */

@@ -54,15 +54,14 @@ class BSYouTubeService extends BSCurlHTTP {
 			$element = new BSAnchorElement;
 			$element->setAttribute('target', '_blank');
 			$element->setBody($params['label']);
-			$element->setURL(self::getURL($id, $this->useragent));
+			$element->setURL($this->createPageURL($id));
 		} else {
 			$params->removeParameter('label');
 			$info = $this->useragent->getDisplayInfo();
 			if ($info['width'] && $params['width'] && ($info['width'] < $params['width'])) {
 				$params['width'] = $info['width'];
 			}
-			$element = new BSYouTubeObjectElement;
-			$element->setUserAgent($this->useragent);
+			$element = new BSYouTubeObjectElement(null, $this->useragent);
 			$element->setMovie($id, $params);
 			$element->setAttribute('width', $params['width']);
 			$element->setAttribute('height', $params['height']);
@@ -74,29 +73,15 @@ class BSYouTubeService extends BSCurlHTTP {
 		return $element;
 	}
 
-	/**
-	 * サイトを直接開くURLを返す
-	 *
-	 * @access public
-	 * @param integer $id ビデオID
-	 * @param string BSUserAgent $useragent 対象ブラウザ
-	 * @return BSHTTPURL
-	 * @static
-	 */
-	static public function getURL ($id, BSUserAgent $useragent = null) {
-		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-		}
-
+	private function createPageURL ($id) {
 		$url = BSURL::create();
-		if ($useragent->isMobile()) {
+		if ($this->useragent->isMobile()) {
 			$url['host'] = self::DEFAULT_HOST_MOBILE;
 		} else {
 			$url['host'] = self::DEFAULT_HOST;
 		}
 		$url['path'] = '/watch';
 		$url->setParameter('v', $id);
-
 		return $url;
 	}
 }

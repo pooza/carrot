@@ -13,6 +13,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	private $table;
 	private $useragent;
 	const DEFAULT_HOST = 'maps.google.com';
+	const DEFAULT_HOST_MOBILE = 'www.google.co.jp';
 
 	/**
 	 * @access public
@@ -185,16 +186,33 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$container = new BSDivisionElement;
 		if (BSString::isBlank($label = $params['label'])) {
 			$anchor = $container->addElement(new BSAnchorElement);
-			$anchor->link($image, self::getURL($address, $this->useragent, $params));
+			$anchor->link($image, $this->createPageURL($address, $params));
 		} else {
 			$container->addElement($image);
 			$labelContainer = $container->addElement(new BSDivisionElement);
 			$labelContainer->setAttribute('align', 'center');
 			$anchor = $labelContainer->addElement(new BSAnchorElement);
 			$anchor->setBody($label);
-			$anchor->setURL(self::getURL($address, $this->useragent, $params));
+			$anchor->setURL($this->createPageURL($address, $params));
 		}
 		return $container;
+	}
+
+	private function createPageURL ($address, BSArray $params) {
+		$url = BSURL::create();
+		if ($this->useragent->isMobile()) {
+			$url['host'] = self::DEFAULT_HOST_MOBILE;
+			$url['path'] = '/m/local';
+		} else {
+			$url['host'] = self::DEFAULT_HOST;
+		}
+		if ($geocode = $this->getGeocode($address)) {
+			$url->setParameter('ll', $geocode->format());
+		}
+		if ($params['zoom']) {
+			$url->setParameter('z', $params['zoom']);
+		}
+		return $url;
 	}
 
 	/**
@@ -247,41 +265,6 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$url->setParameter($key, $value);
 		}
 		return $url->getFullPath();
-	}
-
-	/**
-	 * サイトを直接開くURLを返す
-	 *
-	 * @access public
-	 * @param string $address 住所等
-	 * @param string BSUserAgent $useragent 対象ブラウザ
-	 * @param BSArray $params パラメータ配列
-	 * @return BSHTTPURL
-	 * @static
-	 */
-	static public function getURL ($address, BSUserAgent $useragent = null, $params = null) {
-		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-		}
-
-		$url = BSURL::create();
-		if ($useragent->isMobile()) {
-			$url['host'] = 'www.google.co.jp';
-			$url['path'] = '/m/local';
-		} else {
-			$url['host'] = self::DEFAULT_HOST;
-		}
-
-		$service = new self;
-		if ($geocode = $service->getGeocode($address)) {
-			$url->setParameter('ll', $geocode->format());
-		}
-
-		if ($params['zoom']) {
-			$url->setParameter('z', $params['zoom']);
-		}
-
-		return $url;
 	}
 }
 
