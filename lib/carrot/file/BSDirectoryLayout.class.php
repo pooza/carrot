@@ -98,7 +98,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 * @param string $name ディレクトリの名前
 	 * @return BSHTTPURL URL
 	 */
-	public function getURL ($name) {
+	public function createURL ($name) {
 		if (!$info = $this[$name]) {
 			$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
 			$message[] = $name;
