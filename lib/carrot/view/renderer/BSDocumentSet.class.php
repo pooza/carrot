@@ -350,6 +350,16 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	}
 
 	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this->getURL();
+	}
+
+	/**
 	 * @access public
 	 * @return string 基本情報
 	 */

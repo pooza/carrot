@@ -30,7 +30,7 @@ class BSAuMobileCarrier extends BSMobileCarrier {
 	 * @return BSAnchorElement リンク
 	 */
 	public function createGPSAnchorElement (BSHTTPRedirector $url, $label) {
-		$url = clone $url->getURL();
+		$url = $url->createURL();
 		$url['query'] = null;
 
 		$query = new BSWWWFormRenderer;

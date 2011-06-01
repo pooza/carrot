@@ -389,6 +389,16 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	public function redirect () {
 		return BSController::getInstance()->redirect($this);
 	}
+
+	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this;
+	}
 }
 
 /* vim:set tabstop=4: */

@@ -507,7 +507,17 @@ class BSTwitterAccount
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return BSController::getInstance()->redirect($this);
+		return $this->getURL()->redirect();
+	}
+
+	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this->getURL();
 	}
 
 	/**

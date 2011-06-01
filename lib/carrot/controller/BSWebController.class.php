@@ -46,7 +46,7 @@ class BSWebController extends BSController {
 	 */
 	public function redirect ($redirectTo) {
 		if ($redirectTo instanceof BSHTTPRedirector) {
-			$url = clone $redirectTo->getURL();
+			$url = $redirectTo->createURL();
 		} else {
 			$url = BSURL::create();
 			$url['path'] = $redirectTo;

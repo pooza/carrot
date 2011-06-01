@@ -565,7 +565,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return BSController::getInstance()->redirect($this);
+		return $this->getURL()->redirect();
 	}
 
 	/**
