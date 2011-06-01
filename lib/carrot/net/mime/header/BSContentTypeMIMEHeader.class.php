@@ -44,6 +44,16 @@ class BSContentTypeMIMEHeader extends BSMIMEHeader {
 	}
 
 	/**
+	 * HTML文書か？
+	 *
+	 * @access public
+	 * @return boolean HTML文書ならTrue
+	 */
+	public function isHTML () {
+		return BSString::isContain('html', $this['sub_type']);
+	}
+
+	/**
 	 * レンダラーの完全なタイプを返す
 	 *
 	 * @access public
