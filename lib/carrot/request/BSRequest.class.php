@@ -282,6 +282,7 @@ abstract class BSRequest extends BSHTTPRequest {
 		if ($header = $this->getHeader('user-agent')) {
 			$this->setUserAgent($header->getEntity());
 		}
+		return $this->getUserAgent();
 	}
 
 	/**
