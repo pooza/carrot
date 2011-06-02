@@ -12,7 +12,7 @@
 class BSFakeUserAgentFilter extends BSFilter {
 	public function execute () {
 		if (BS_DEBUG || $this->user->isAdministrator()) {
-			if (!BSString::isBlank($name = $this[BSUserAgent::ACCESSOR])) {
+			if (!BSString::isBlank($name = $this->request[BSUserAgent::ACCESSOR])) {
 				$this->request->setUserAgent(BSUserAgent::create($name));
 				return;
 			}

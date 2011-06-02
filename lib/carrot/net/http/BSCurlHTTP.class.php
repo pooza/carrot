@@ -12,7 +12,6 @@
 class BSCurlHTTP extends BSHTTP {
 	protected $engine;
 	protected $attributes;
-	protected $headers;
 	protected $uid;
 	protected $password;
 	protected $ssl = false;
@@ -28,7 +27,6 @@ class BSCurlHTTP extends BSHTTP {
 	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
 		parent::__construct($host, $port, $protocol);
 		$this->attributes = new BSArray;
-		$this->headers = new BSArray;
 	}
 
 	/**
@@ -40,7 +38,7 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function sendHEAD ($path = '/') {
 		$this->setAttribute('nobody', true);
-		return $this->execute($path);
+		return parent::sendHEAD($path);
 	}
 
 	/**
@@ -52,7 +50,7 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function sendGET ($path = '/') {
 		$this->setAttribute('httpget', true);
-		return $this->execute($path);
+		return parent::sendGET($path);
 	}
 
 	/**
@@ -64,33 +62,27 @@ class BSCurlHTTP extends BSHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$renderer = new BSWWWFormRenderer;
-		$renderer->setParameters($params);
-
+		$request = $this->createRequest();
+		$request->setMethod('POST');
+		$request->setRenderer(new BSWWWFormRenderer);
+		$request->getRenderer()->setParameters($params);
+		$request->setURL($this->createRequestURL($path));
 		$this->setAttribute('post', true);
-		$this->setAttribute('postfields', $renderer->getContents());
-		return $this->execute($path);
+		$this->setAttribute('postfields', $request->getRenderer()->getContents());
+		return $this->send($request);
 	}
 
-	/**
-	 * リクエスト実行
-	 *
-	 * @param string $path パス
-	 * @access protected
-	 * @return BSHTTPResponse レスポンス
-	 */
-	protected function execute ($path) {
-		$url = $this->createRequestURL($path);
-		$this->setAttribute('url', $url->getContents());
-
+	protected function send (BSHTTPRequest $request) {
+		$request->removeHeader('Content-Transfer-Encoding');
 		$headers = array();
-		foreach ($this->headers as $header) {
+		foreach ($request->getHeaders() as $header) {
 			$headers[] = $header->getName() . ': ' . $header->getContents();
 		}
 		$this->setAttribute('httpheader', $headers);
+		$this->setAttribute('url', $request->getURL()->getContents());
 
 		$response = new BSHTTPResponse;
-		$response->setURL($url);
+		$response->setURL($request->getURL());
 		if (($contents = curl_exec($this->getEngine())) === false) {
 			throw new BSHTTPException($url . 'へ送信できません。');
 		}
@@ -177,16 +169,6 @@ class BSCurlHTTP extends BSHTTP {
 				return;
 			}
 		}
-	}
-
-	/**
-	 * ヘッダを設定
-	 *
-	 * @access public
-	 * @param BSMIMEHeader $header ヘッダ
-	 */
-	public function setHeader (BSMIMEHeader $header) {
-		$this->headers[$header->getName()] = $header;
 	}
 
 	/**

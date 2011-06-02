@@ -230,7 +230,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$params->join('|'),
 		));
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
-			$response = $this->sendGET($this->getImageQuery($geocode, $params));
+			$response = $this->sendGET($this->getImageURL($geocode, $params)->getFullPath());
 			$image = new BSImage;
 			$image->setImage($response->getRenderer()->getContents());
 			$file = $dir->createEntry($name, 'BSImageFile');
@@ -241,15 +241,15 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 
 	/**
-	 * Google Static Maps APIのクエリー文字列を返す
+	 * Google Static Maps APIのクエリーURLを返す
 	 *
 	 * @access protected
 	 * @param BSGeocodeEntry $geocode ジオコード
 	 * @param BSArray $params パラメータ配列
-	 * @return BSString クエリー文字列
+	 * @return BSHTTPURL クエリーURL
 	 * @link http://code.google.com/intl/ja/apis/maps/documentation/staticmaps/
 	 */
-	protected function getImageQuery (BSGeocodeEntry $geocode, BSArray $params) {
+	protected function getImageURL (BSGeocodeEntry $geocode, BSArray $params) {
 		$info = $this->useragent->getDisplayInfo();
 		$size = new BSStringFormat('%dx%d');
 		$size[] = $info['width'];
@@ -264,7 +264,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		foreach ($params as $key => $value) {
 			$url->setParameter($key, $value);
 		}
-		return $url->getFullPath();
+		return $url;
 	}
 }
 

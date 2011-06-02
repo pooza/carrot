@@ -280,8 +280,9 @@ abstract class BSRequest extends BSHTTPRequest {
 	 */
 	public function getRealUserAgent () {
 		if ($header = $this->getHeader('user-agent')) {
-			$this->setUserAgent($header->getEntity());
+			return $header->getEntity();
 		}
+		return $this->getUserAgent();
 	}
 
 	/**

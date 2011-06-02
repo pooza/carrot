@@ -59,7 +59,7 @@ class BSOAuthSignature extends BSParameterHolder {
 	 * @return string ベース文字列
 	 */
 	protected function getBaseString () {
-		$url = clone $this->url;
+		$url = $this->url->createURL();
 		$url['query'] = null;
 
 		$params = new BSArray($this->getParameters());
@@ -126,7 +126,7 @@ class BSOAuthSignature extends BSParameterHolder {
 	 * @param BSHTTPRedirector $url URL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
-		$this->url = clone $url->getURL();
+		$this->url = $url->createURL();
 	}
 }
 

@@ -19,28 +19,26 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 	 * @param BSBlogUpdatePingRequest $xml リクエスト文書
 	 */
 	public function sendPing ($href, BSBlogUpdatePingRequest $xml) {
-		$url = $this->createRequestURL($href);
-
-		$request = new BSHTTPRequest;
-		$request->setURL($url);
-		$request->setMethod('post');
+		$request = $this->createRequest();
+		$request->setMethod('POST');
 		$request->setRenderer($xml);
+		$request->setURL($this->createRequestURL($href));
 		$this->setAttribute('post', true);
-		$this->setAttribute('customrequest', $request->getContents());
+		$this->setAttribute('postfields', $request->getRenderer()->getContents());
 
 		try {
-			$response = $this->execute($href);
+			$response = $this->send($request);
 			$xml = new SimpleXMLElement($response->getRenderer()->getContents());
 			$element = $xml->params->param->value->struct;
 			if ($element->member[0]->value->boolean->__toString() !== '0') {
 				throw new BSBlogException($element->member[1]->value->string->__toString());
 			}
 			$message = new BSStringFormat('%sへ更新Pingを送信しました。');
-			$message[] = $url->getContents();
+			$message[] = $request->getURL()->getContents();
 			BSLogManager::getInstance()->put($message, $this);
 		} catch (Exception $e) {
 			$message = new BSStringFormat('%sへの更新Ping送信に失敗しました。 (%s)');
-			$message[] = $url->getContents();
+			$message[] = $request->getURL()->getContents();
 			$message[] = $e->getMessage();
 			throw new BSBlogException($message);
 		}

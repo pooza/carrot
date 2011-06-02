@@ -53,7 +53,7 @@ class BSFileUtility {
 	 */
 	static public function createURL ($name, $path = '') {
 		if (self::getDirectory($name)) {
-			$url = clone BSDirectoryLayout::getInstance()->getURL($name);
+			$url = clone BSDirectoryLayout::getInstance()->createURL($name);
 			if (!BSString::isBlank($path)) {
 				$url['path'] .= $path;
 			}

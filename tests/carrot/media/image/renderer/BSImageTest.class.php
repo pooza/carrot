@@ -1,11 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- */
-
-/**
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @abstract
  */
 class BSImageTest extends BSTest {
 	public function execute () {

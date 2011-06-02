@@ -12,6 +12,7 @@
 class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $name;
 	protected $title;
+	protected $url;
 	protected $directories;
 	protected $actions;
 	protected $config = array();
@@ -417,9 +418,11 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = BSURL::create(null, 'carrot');
-		$url['module'] = $this;
-		return $url;
+		if (!$this->url) {
+			$this->url = BSURL::create(null, 'carrot');
+			$this->url['module'] = $this;
+		}
+		return $this->url;
 	}
 
 	/**
@@ -430,6 +433,16 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function redirect () {
 		return $this->getURL()->redirect();
+	}
+
+	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this->getURL();
 	}
 
 	/**

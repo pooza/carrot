@@ -34,15 +34,14 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$header = BSMIMEHeader::create('Content-Type');
-		$header->setContents('application/json');
-		$this->setHeader($header);
-
-		$renderer = new BSJSONRenderer;
-		$renderer->setContents(new BSArray($params));
+		$request = $this->createRequest();
+		$request->setMethod('POST');
+		$request->setRenderer(new BSJSONRenderer);
+		$request->getRenderer()->setContents(new BSArray($params));
+		$request->setURL($this->createRequestURL($path));
 		$this->setAttribute('post', true);
-		$this->setAttribute('postfields', $renderer->getContents());
-		return $this->execute($path);
+		$this->setAttribute('postfields', $request->getRenderer()->getContents());
+		return $this->send($request);
 	}
 
 	/**

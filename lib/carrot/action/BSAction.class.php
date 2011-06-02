@@ -13,6 +13,7 @@
 abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorContainer {
 	protected $name;
 	protected $title;
+	protected $url;
 	protected $config;
 	protected $module;
 	protected $methods;
@@ -423,9 +424,11 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSURL
 	 */
 	public function getURL () {
-		$url = BSURL::create(null, 'carrot');
-		$url['action'] = $this;
-		return $url;
+		if (!$this->url) {
+			$this->url = BSURL::create(null, 'carrot');
+			$this->url['action'] = $this;
+		}
+		return $this->url;
 	}
 
 	/**
@@ -436,6 +439,16 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function redirect () {
 		return $this->getURL()->redirect();
+	}
+
+	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this->getURL();
 	}
 
 	/**

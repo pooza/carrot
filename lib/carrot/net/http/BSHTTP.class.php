@@ -19,7 +19,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendHEAD ($path = '/') {
-		$request = new BSHTTPRequest;
+		$request = $this->createRequest();
 		$request->setMethod('HEAD');
 		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
@@ -33,7 +33,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendGET ($path = '/') {
-		$request = new BSHTTPRequest;
+		$request = $this->createRequest();
 		$request->setMethod('GET');
 		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
@@ -48,7 +48,7 @@ class BSHTTP extends BSSocket {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$request = new BSHTTPRequest;
+		$request = $this->createRequest();
 		$request->setMethod('POST');
 		$request->setRenderer(new BSWWWFormRenderer);
 		$request->getRenderer()->setParameters($params);
@@ -76,14 +76,18 @@ class BSHTTP extends BSSocket {
 		return $url;
 	}
 
-	private function send (BSHTTPRequest $request) {
+	protected function createRequest () {
+		$request = new BSHTTPRequest;
+		$request->setHeader('User-Agent', BSController::getInstance()->getName('en'));
+		return $request;
+	}
+
+	protected function send (BSHTTPRequest $request) {
 		if ($this->isOpened()) {
 			throw new BSHTTPException($this . 'は既に開いています。');
 		}
 
-		$request->setHeader('User-Agent', BSController::getInstance()->getName('en'));
 		$this->putLine($request->getContents());
-
 		$response = new BSHTTPResponse;
 		$response->setContents($this->getLines()->join("\n"));
 		$response->setURL($request->getURL());

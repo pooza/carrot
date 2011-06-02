@@ -20,6 +20,7 @@
 {else}
 	{form module=$module.name action='Login'}
 		<a href="{$oauth.url}" target="_blank">認証コードを取得</a><br/>
+		{include file='ErrorMessages'}
 		<input type="text" name="verifier" />
 		<input type="submit" value="ログイン" />
 	{/form}

@@ -19,7 +19,7 @@ class OptimizeAction extends BSAction {
 	public function execute () {
 		$this->getDatabase()->optimize();
 
-		$url = $this->getModule()->getAction('Database')->getURL();
+		$url = $this->getModule()->getAction('Database')->createURL();
 		$url->setParameter('database', $this->getDatabase()->getName());
 		return $url->redirect();
 	}

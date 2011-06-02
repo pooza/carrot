@@ -52,7 +52,7 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 	 */
 	public function setURL ($url) {
 		if ($url instanceof BSHTTPRedirector) {
-			$url = $url->getURL();
+			$url = $url->createURL();
 		} else {
 			$url = BSURL::create();
 			if (!($url instanceof BSHTTPURL)) {

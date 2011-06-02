@@ -13,10 +13,11 @@
 abstract class BSRecord implements ArrayAccess,
 	BSSerializable, BSAssignable, BSAttachmentContainer, BSImageContainer, BSHTTPRedirector {
 
-	private $attributes;
-	private $table;
-	private $criteria;
-	private $records;
+	protected $attributes;
+	protected $table;
+	protected $url;
+	protected $criteria;
+	protected $records;
 
 	/**
 	 * @access public
@@ -544,15 +545,17 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSURL
 	 */
 	public function getURL () {
-		if (BSString::isBlank($this['url'])) {
-			$url = BSURL::create(null, 'carrot');
-			$url['module'] = 'User' . BSString::pascalize($this->getTable()->getName());
-			$url['action'] = 'Detail';
-			$url['record'] = $this;
-		} else {
-			$url = BSURL::create($this['url']);
+		if (!$this->url) {
+			if (BSString::isBlank($this['url'])) {
+				$this->url = BSURL::create(null, 'carrot');
+				$this->url['module'] = 'User' . BSString::pascalize($this->getTable()->getName());
+				$this->url['action'] = 'Detail';
+				$this->url['record'] = $this;
+			} else {
+				$this->url = BSURL::create($this['url']);
+			}
 		}
-		return $url;
+		return $this->url;
 	}
 
 	/**
@@ -562,7 +565,17 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return string ビュー名
 	 */
 	public function redirect () {
-		return BSController::getInstance()->redirect($this);
+		return $this->getURL()->redirect();
+	}
+
+	/**
+	 * URLをクローンして返す
+	 *
+	 * @access public
+	 * @return BSURL
+	 */
+	public function createURL () {
+		return clone $this->getURL();
 	}
 
 	/**
