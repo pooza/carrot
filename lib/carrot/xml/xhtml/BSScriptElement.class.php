@@ -37,7 +37,7 @@ class BSScriptElement extends BSXHTMLElement {
 
 		BSUtility::includeFile('jsmin');
 		$body = BSString::convertEncoding($body, 'utf-8');
-		$body = JSMin::minify($body);
+		$body = ltrim(JSMin::minify($body));
 		$this->body = $body;
 		$this->contents = null;
 	}
