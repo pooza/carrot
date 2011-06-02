@@ -60,6 +60,15 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	abstract protected function getDocumentClass ();
 
 	/**
+	 * ディレクトリ名を返す
+	 *
+	 * @access protected
+	 * @return string ディレクトリ名
+	 * @abstract
+	 */
+	abstract protected function getDirectoryName ();
+
+	/**
 	 * ソースディレクトリを返す
 	 *
 	 * 書類クラスがファイルではないレンダラーなら、nullを返すように
@@ -68,16 +77,19 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 * @return BSDirectory ソースディレクトリ
 	 * @abstract
 	 */
-	abstract protected function getSourceDirectory ();
+	protected function getSourceDirectory () {
+		return BSFileUtility::getDirectory($this->getDirectoryName());
+	}
 
 	/**
 	 * キャッシュディレクトリを返す
 	 *
 	 * @access protected
 	 * @return BSDirectory キャッシュディレクトリ
-	 * @abstract
 	 */
-	abstract protected function getCacheDirectory ();
+	protected function getCacheDirectory () {
+		return BSFileUtility::getDirectory($this->getDirectoryName() . '_cache');
+	}
 
 	/**
 	 * キャッシュファイルを返す
@@ -336,7 +348,13 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 * @return BSURL
 	 */
 	public function getURL () {
-		throw new BSViewException(get_class($this) . '::getURLが未実装です。');
+		if (!$this->url) {
+			$this->url = BSFileUtility::createURL(
+				$this->getDirectoryName() . '_cache',
+				$this->getCacheFile()->getName()
+			);
+		}
+		return $this->url;
 	}
 
 	/**
