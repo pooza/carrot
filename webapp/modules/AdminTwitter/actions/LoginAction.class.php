@@ -8,8 +8,13 @@
  */
 class LoginAction extends BSAction {
 	public function execute () {
-		$account = BSAuthorRole::getInstance()->getTwitterAccount();
-		$account->login($this->request['verifier']);
+		try {
+			$account = BSAuthorRole::getInstance()->getTwitterAccount();
+			$account->login($this->request['verifier']);
+		} catch (Exception $e) {
+			$this->request->setError('twitter', $e->getMessage());
+			$this->user->setAttribute('errors', $this->request->getErrors());
+		}
 		return $this->getModule()->redirect();
 	}
 }
