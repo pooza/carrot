@@ -52,7 +52,6 @@ class BSHTTP extends BSSocket {
 		$request->setMethod('POST');
 		$request->setRenderer(new BSWWWFormRenderer);
 		$request->getRenderer()->setParameters($params);
-		$request->removeHeader('Content-Transfer-Encoding');
 		$request->setURL($this->createRequestURL($path));
 		return $this->send($request);
 	}

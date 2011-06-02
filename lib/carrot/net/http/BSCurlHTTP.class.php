@@ -73,7 +73,6 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	protected function send (BSHTTPRequest $request) {
-		$request->removeHeader('Content-Transfer-Encoding');
 		$headers = array();
 		foreach ($request->getHeaders() as $header) {
 			$headers[] = $header->getName() . ': ' . $header->getContents();

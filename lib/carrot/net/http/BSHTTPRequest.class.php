@@ -49,6 +49,22 @@ class BSHTTPRequest extends BSMIMEDocument {
 	}
 
 	/**
+	 * レンダラーを設定
+	 *
+	 * @access public
+	 * @param BSRenderer $renderer レンダラー
+	 * @param integer $flags フラグのビット列
+	 *   BSMIMEUtility::WITHOUT_HEADER ヘッダを修正しない
+	 *   BSMIMEUtility::WITH_HEADER ヘッダも修正
+	 */
+	public function setRenderer (BSRenderer $renderer, $flags = BSMIMEUtility::WITH_HEADER) {
+		$this->renderer = $renderer;
+		if ($flags & BSMIMEUtility::WITH_HEADER) {
+			$this->setHeader('Content-Type', $renderer);
+		}
+	}
+
+	/**
 	 * 送信先URLを返す
 	 *
 	 * @access public
