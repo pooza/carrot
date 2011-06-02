@@ -22,9 +22,9 @@ class BSTwitterService extends BSCurlHTTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
 			$host = new BSHost(self::DEFAULT_HOST);
+			$this->setSSL(true);
 		}
 		parent::__construct($host, $port);
-		$this->setSSL(true);
 	}
 
 	/**
@@ -48,36 +48,6 @@ class BSTwitterService extends BSCurlHTTP {
 	}
 
 	/**
-	 * GETリクエスト
-	 *
-	 * @access public
-	 * @param string $path パス
-	 * @return BSHTTPResponse レスポンス
-	 */
-	public function sendGET ($path = '/') {
-		if (!$this->oauth) {
-			return parent::sendGET($path);
-		}
-		return $this->sendOauthRequest($this->createRequestURL($path), 'GET', new BSArray);
-	}
-
-	/**
-	 * POSTリクエスト
-	 *
-	 * @access public
-	 * @param string $path パス
-	 * @param BSParameterHolder $params パラメータの配列
-	 * @return BSHTTPResponse レスポンス
-	 */
-	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$params = new BSArray($params);
-		if (!$this->oauth) {
-			return parent::sendPOST($path, $params);
-		}
-		return $this->sendOauthRequest($this->createRequestURL($path), 'POST', $params);
-	}
-
-	/**
 	 * パスからリクエストURLを生成して返す
 	 *
 	 * @access protected
@@ -91,21 +61,28 @@ class BSTwitterService extends BSCurlHTTP {
 		return parent::createRequestURL($href);
 	}
 
-	private function sendOauthRequest (BSHTTPURL $url, $method, BSArray $params) {
-		$contents = $this->oauth->OAuthRequest(
-			$url->getContents(),
-			$method,
-			$params->getParameters()
-		);
-
-		$response = new BSHTTPResponse;
-		$response->setStatus($this->oauth->http_code);
-		$response->getRenderer()->setContents($contents);
-		foreach ($this->oauth->http_header as $key => $value) {
-			$key = str_replace('_', '-', $key);
-			$response->setHeader($key, $value);
+	protected function send (BSHTTPRequest $request) {
+		if ($oauth = $this->oauth) {
+			switch ($method = $request->getMethod()) {
+				case 'HEAD':
+				case 'GET':
+					$params = array();
+					break;
+				default:
+					$params = $request->getRenderer()->getParameters();
+					break;
+			}
+			$contents = $oauth->OAuthRequest($request->getURL()->getContents(), $method, $params);
+			$response = new BSHTTPResponse;
+			$response->setStatus($oauth->http_code);
+			$response->getRenderer()->setContents($contents);
+			foreach ($oauth->http_header as $key => $value) {
+				$key = str_replace('_', '-', $key);
+				$response->setHeader($key, $value);
+			}
+			return $response;
 		}
-		return $response;
+		return parent::send($request);
 	}
 
 	/**
