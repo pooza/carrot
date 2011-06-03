@@ -28,16 +28,6 @@ class BSWebKitUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * 一致すべきパターンを返す
-	 *
-	 * @access public
-	 * @return string パターン
-	 */
-	public function getPattern () {
-		return 'AppleWebKit';
-	}
-
-	/**
 	 * Google Chromeか？
 	 *
 	 * @access public
@@ -45,6 +35,41 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 */
 	public function isChrome () {
 		return BSString::isContain('Chrome', $this->getName());
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		if (!$this['version']) {
+			if (mb_ereg('AppleWebKit/([.[:digit:]]+)', $this->getName(), $matches)) {
+				$this['version'] = $matches[1];
+			}
+		}
+		return $this['version'];
+	}
+
+	/**
+	 * レガシー環境/旧機種か？
+	 *
+	 * @access public
+	 * @return boolean レガシーならばTrue
+	 */
+	public function isLegacy () {
+		return version_compare($this->getVersion(), '530.0', '<'); // Safari 4.0未満
+	}
+
+	/**
+	 * 一致すべきパターンを返す
+	 *
+	 * @access public
+	 * @return string パターン
+	 */
+	public function getPattern () {
+		return 'AppleWebKit';
 	}
 }
 

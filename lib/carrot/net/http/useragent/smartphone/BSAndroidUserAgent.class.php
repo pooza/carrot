@@ -75,6 +75,16 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	}
 
 	/**
+	 * レガシー環境/旧機種か？
+	 *
+	 * @access public
+	 * @return boolean レガシーならばTrue
+	 */
+	public function isLegacy () {
+		return version_compare($this->getVersion(), '528.0', '<'); // Android 1.5未満
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

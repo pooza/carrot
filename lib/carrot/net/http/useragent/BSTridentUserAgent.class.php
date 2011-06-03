@@ -20,8 +20,6 @@ class BSTridentUserAgent extends BSUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->bugs['cache_control'] = true;
-		$this['is_kuso'] = ($this->getVersion() < 8);
-		$this['is_ie' . floor($this->getVersion())] = true;
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
@@ -44,36 +42,6 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * プラットホームを返す
-	 *
-	 * @access public
-	 * @return string プラットホーム
-	 */
-	public function getPlatform () {
-		if (!$this['platform']) {
-			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
-				$this['platform'] = $matches[2];
-			}
-		}
-		return $this['platform'];
-	}
-
-	/**
-	 * メジャーバージョンを返す
-	 *
-	 * @access public
-	 * @return string メジャーバージョン
-	 */
-	public function getVersion () {
-		if (!$this['version']) {
-			if (mb_ereg($this->getPattern(), $this->getName(), $matches)) {
-				$this['version'] = (int)$matches[1];
-			}
-		}
-		return $this['version'];
-	}
-
-	/**
 	 * レンダリング用ダイジェストを返す
 	 *
 	 * @access public
@@ -90,13 +58,30 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * バージョンを返す
+	 *
+	 * 取得できないケースがある為、IEとしてのバージョンで代用。
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		if (!$this['version']) {
+			if (mb_ereg('MSIE ([.[:digit:]]+);', $this->getName(), $matches)) {
+				$this['version'] = $matches[1];
+			}
+		}
+		return $this['version'];
+	}
+
+	/**
 	 * レガシー環境/旧機種か？
 	 *
 	 * @access public
 	 * @return boolean レガシーならばTrue
 	 */
 	public function isLegacy () {
-		return $this->getVersion() < 6;
+		return $this->getVersion() < 6; // IE6未満
 	}
 
 	/**
@@ -106,7 +91,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'MSIE ([[:digit:].]+); ([^;]+);';
+		return 'MSIE';
 	}
 }
 

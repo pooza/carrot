@@ -24,6 +24,31 @@ class BSGeckoUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		if (!$this['version']) {
+			if (mb_ereg('rv:([.[:digit:]]+)', $this->getName(), $matches)) {
+				$this['version'] = $matches[1];
+			}
+		}
+		return $this['version'];
+	}
+
+	/**
+	 * レガシー環境/旧機種か？
+	 *
+	 * @access public
+	 * @return boolean レガシーならばTrue
+	 */
+	public function isLegacy () {
+		return version_compare($this->getVersion(), '1.9', '<'); // Firefox 3.0未満
+	}
+
+	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public

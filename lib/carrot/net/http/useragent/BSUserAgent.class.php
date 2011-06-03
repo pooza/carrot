@@ -210,22 +210,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	/**
-	 * プラットホームを返す
-	 *
-	 * @access public
-	 * @return string プラットホーム
-	 */
-	public function getPlatform () {
-		if (!$this['platform']) {
-			$pattern = '^Mozilla/[[:digit:]]\\.[[:digit:]]+ \(([^;]+);';
-			if (mb_ereg($pattern, $this->getName(), $matches)) {
-				$this['platform'] = $matches[1];
-			}
-		}
-		return $this['platform'];
-	}
-
-	/**
 	 * ケータイ環境か？
 	 *
 	 * @access public
@@ -253,6 +237,16 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	public function isTablet () {
 		return false;
+	}
+
+	/**
+	 * バージョンを返す
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		return $this['version'];
 	}
 
 	/**

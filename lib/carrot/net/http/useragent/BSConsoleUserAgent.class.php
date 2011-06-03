@@ -31,16 +31,6 @@ class BSConsoleUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * プラットホームを返す
-	 *
-	 * @access public
-	 * @return string プラットホーム
-	 */
-	public function getPlatform () {
-		return null;
-	}
-
-	/**
 	 * セッションハンドラを生成して返す
 	 *
 	 * @access public
