@@ -19,7 +19,8 @@ class BSSendmailMailSender extends BSMailSender {
 	 */
 	public function initialize () {
 		try {
-			!!$this->createCommand();
+			$this->createCommand();
+			return true;
 		} catch (Exception $e) {
 			return false;
 		}
