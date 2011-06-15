@@ -76,7 +76,7 @@ class BSProcess {
 	 * @static
 	 */
 	static public function isExists ($pid) {
-		$command = new BSCommandLine('/bin/ps');
+		$command = new BSCommandLine('ps');
 		$command->push('ax');
 		if ($command->hasError()) {
 			throw new BSConsoleException($command->getResult());

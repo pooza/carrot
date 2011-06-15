@@ -34,7 +34,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return string 結果
 	 */
 	protected function dump () {
-		$command = $this->getCommandLine('mysqldump');
+		$command = $this->createCommand('mysqldump');
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
@@ -48,7 +48,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @param string $command コマンド名
 	 * @return BSCommandLine コマンドライン
 	 */
-	protected function getCommandLine ($command = 'mysql') {
+	protected function createCommand ($command = 'mysql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
 		$command->push('--host=' . $this['host']->getAddress());

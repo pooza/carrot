@@ -62,8 +62,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @access protected
 	 */
 	protected function analyze () {
-		$command = self::getCommandLine();
-		$command->setStderrRedirectable();
+		$command = $this->createCommand();
 		$command->push('-i', null);
 		$command->push($this->getPath());
 		$this->output = $command->getResult()->join("\n");
@@ -281,11 +280,11 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 *
 	 * @access public
 	 * @return BSCommandLine コマンドライン
-	 * @static
 	 */
-	static public function getCommandLine () {
+	public function createCommand () {
 		$command = new BSCommandLine('bin/ffmpeg');
 		$command->setDirectory(BSFileUtility::getDirectory('ffmpeg'));
+		$command->setStderrRedirectable();
 		return $command;
 	}
 

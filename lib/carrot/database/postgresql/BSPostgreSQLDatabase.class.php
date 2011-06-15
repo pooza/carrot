@@ -51,7 +51,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @return string 結果
 	 */
 	protected function dump () {
-		$command = $this->getCommandLine('pg_dump');
+		$command = $this->createCommand('pg_dump');
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult());
 		}
@@ -65,7 +65,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @param string $command コマンド名
 	 * @return BSCommandLine コマンドライン
 	 */
-	protected function getCommandLine ($command = 'psql') {
+	protected function createCommand ($command = 'psql') {
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('pgsql'));
 		$command->push('--host=' . $this['host']->getAddress());

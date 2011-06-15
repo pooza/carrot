@@ -85,8 +85,7 @@ abstract class BSMediaConvertor {
 			$duplicated->rename($file->getName());
 			$file = $duplicated;
 		} else {
-			$command = BSMediaFile::getCommandLine();
-			$command->setStderrRedirectable();
+			$command = $source->createCommand();
 			$command->push('-y', null);
 			$command->push('-i', null);
 			$command->push($source->getPath());
