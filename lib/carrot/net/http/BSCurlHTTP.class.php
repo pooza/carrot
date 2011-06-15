@@ -86,16 +86,7 @@ class BSCurlHTTP extends BSHTTP {
 			throw new BSHTTPException($url . 'へ送信できません。');
 		}
 		$response->setContents($contents);
-
-		if (!$response->validate()) {
-			$message = new BSStringFormat('%sからのレスポンスが不正です。 (%d %s)');
-			$message[] = $this;
-			$message[] = $response->getStatus();
-			$message[] = $response->getError();
-			$exception = new BSHTTPException($message);
-			$exception->setResponse($response);
-			throw $exception;
-		}
+		$this->log($response);
 		return $response;
 	}
 

@@ -85,12 +85,28 @@ class BSHTTP extends BSSocket {
 		if ($this->isOpened()) {
 			throw new BSHTTPException($this . 'は既に開いています。');
 		}
-
 		$this->putLine($request->getContents());
 		$response = new BSHTTPResponse;
 		$response->setContents($this->getLines()->join("\n"));
 		$response->setURL($request->getURL());
+		$this->log($response);
+		return $response;
+	}
 
+	/**
+	 * ログを出力
+	 *
+	 * @access protected
+	 * @param BSHTTPResponse $response レスポンス
+	 */
+	protected function log (BSHTTPResponse $response) {
+		if (BS_DEBUG || !$response->validate()) {
+			$message = new BSStringFormat('%s に "%s" を送信しました。 (%s)');
+			$message[] = $this;
+			$message[] = $response->getURL()->getFullPath();
+			$message[] = self::getStatus($response->getStatus());
+			BSLogManager::getInstance()->put($message, $this);
+		}
 		if (!$response->validate()) {
 			$message = new BSStringFormat('%sからのレスポンスが不正です。 (%d %s)');
 			$message[] = $this;
@@ -100,7 +116,6 @@ class BSHTTP extends BSSocket {
 			$exception->setResponse($response);
 			throw $exception;
 		}
-		return $response;
 	}
 
 	/**

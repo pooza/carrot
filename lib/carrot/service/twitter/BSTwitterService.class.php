@@ -74,12 +74,14 @@ class BSTwitterService extends BSCurlHTTP {
 			}
 			$contents = $oauth->OAuthRequest($request->getURL()->getContents(), $method, $params);
 			$response = new BSHTTPResponse;
+			$response->setURL($request->getURL());
 			$response->setStatus($oauth->http_code);
 			$response->getRenderer()->setContents($contents);
 			foreach ($oauth->http_header as $key => $value) {
 				$key = str_replace('_', '-', $key);
 				$response->setHeader($key, $value);
 			}
+			$this->log($response);
 			return $response;
 		}
 		return parent::send($request);
