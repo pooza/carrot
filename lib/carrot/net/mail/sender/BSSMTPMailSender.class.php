@@ -36,7 +36,7 @@ class BSSMTPMailSender extends BSMailSender {
 		$smtp = self::getServer();
 		$smtp->setMail($mail);
 		$response = $smtp->send();
-		$this->putLog($mail, $response);
+		$this->log($mail, $response);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class BSSMTPMailSender extends BSMailSender {
 	 * @param BSMail $mail 対象メール
 	 * @param string $response レスポンス行
 	 */
-	protected function putLog (BSMail $mail, $response = null) {
+	protected function log (BSMail $mail, $response = null) {
 		$recipients = new BSArray;
 		foreach ($mail->getRecipients() as $email) {
 			$recipients[] = $email->getContents();

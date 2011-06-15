@@ -81,7 +81,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	public function optimize () {
 		$this->exec('VACUUM');
-		$this->putLog($this . 'を最適化しました。');
+		$this->log($this . 'を最適化しました。');
 	}
 
 	/**

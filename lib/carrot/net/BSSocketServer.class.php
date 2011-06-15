@@ -52,7 +52,7 @@ class BSSocketServer {
 
 		$this->open();
 		$this->serialize();
-		$this->putLog('開始しました。');
+		$this->log('開始しました。');
 		$this->execute();
 	}
 
@@ -67,11 +67,11 @@ class BSSocketServer {
 		}
 
 		$this->close();
-		$this->putLog('終了しました。');
+		$this->log('終了しました。');
 		BSController::getInstance()->removeAttribute($this);
 	}
 
-	private function putLog ($body) {
+	private function log ($body) {
 		$message = new BSStringFormat('%s（ポート:%d, PID:%d）');
 		$message[] = $body;
 		$message[] = $this->attributes['port'];

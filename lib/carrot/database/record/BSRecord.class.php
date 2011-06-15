@@ -135,7 +135,7 @@ abstract class BSRecord implements ArrayAccess,
 			BSController::getInstance()->removeAttribute($this);
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
-			$this->getDatabase()->putLog($this . 'を更新しました。');
+			$this->getDatabase()->log($this . 'を更新しました。');
 		}
 	}
 
@@ -198,7 +198,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		BSController::getInstance()->removeAttribute($this);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
-			$this->getDatabase()->putLog($this . 'を削除しました。');
+			$this->getDatabase()->log($this . 'を削除しました。');
 		}
 	}
 

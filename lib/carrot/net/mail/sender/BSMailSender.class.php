@@ -34,7 +34,7 @@ abstract class BSMailSender {
 	 * @access protected
 	 * @param BSMail $mail 対象メール
 	 */
-	protected function putLog (BSMail $mail) {
+	protected function log (BSMail $mail) {
 		$recipients = new BSArray;
 		foreach ($mail->getRecipients() as $email) {
 			$recipients[] = $email->getContents();

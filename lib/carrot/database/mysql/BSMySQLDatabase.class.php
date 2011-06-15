@@ -69,7 +69,7 @@ class BSMySQLDatabase extends BSDatabase {
 		foreach ($this->getTableNames() as $name) {
 			$this->exec('OPTIMIZE TABLE ' . $name);
 		}
-		$this->putLog($this . 'を最適化しました。');
+		$this->log($this . 'を最適化しました。');
 	}
 
 	/**

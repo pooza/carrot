@@ -49,7 +49,7 @@ class BSSendmailMailSender extends BSMailSender {
 		$command->setBackground(true);
 		$command->execute();
 
-		$this->putLog($mail);
+		$this->log($mail);
 	}
 
 	/**

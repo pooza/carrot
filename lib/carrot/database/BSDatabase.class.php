@@ -222,7 +222,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @access public
 	 * @param mixed $log ログメッセージの文字列、又はBSStringFormat
 	 */
-	public function putLog ($log) {
+	public function log ($log) {
 		if ($this->isLoggable()) {
 			BSLogManager::getInstance()->put($log, $this);
 		}
@@ -317,7 +317,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			return;
 		}
 
-		$this->putLog($this . 'のダンプファイルを保存しました。');
+		$this->log($this . 'のダンプファイルを保存しました。');
 		return $file;
 	}
 
