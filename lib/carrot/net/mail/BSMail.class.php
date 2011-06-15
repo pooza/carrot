@@ -72,7 +72,7 @@ class BSMail extends BSMIMEDocument {
 	 * @param string $value 値
 	 */
 	public function send () {
-		self::getSender()->send($this);
+		self::createSender()->send($this);
 	}
 
 	/**
@@ -160,7 +160,7 @@ class BSMail extends BSMIMEDocument {
 	 * @return BSMailSender 送信機能
 	 * @static
 	 */
-	static public function getSender () {
+	static public function createSender () {
 		$sender = BSClassLoader::getInstance()->getObject(BS_MAIL_SENDER, 'MailSender');
 		if (!$sender || !$sender->initialize()) {
 			throw new BSConfigException('BS_MAIL_SENDERが正しくありません。');

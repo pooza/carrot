@@ -19,7 +19,7 @@ class BSMailLogger extends BSLogger {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		return !!BSMail::getSender();
+		return !!BSMail::createSender();
 	}
 
 	/**
