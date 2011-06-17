@@ -21,10 +21,26 @@ class BSProcess {
 	 * 現在のプロセスIDを返す
 	 *
 	 * @access public
+	 * @return integer プロセスID
 	 * @static
 	 */
 	static public function getCurrentID () {
 		return getmypid();
+	}
+
+	/**
+	 * 現在のユーザー名を返す
+	 *
+	 * @access public
+	 * @return string ユーザー名
+	 * @static
+	 */
+	static public function getCurrentUser () {
+		$user = BSController::getInstance()->getAttribute('USER');
+		if (PHP_OS == 'Darwin') {
+			$user = ltrim($user, '_');
+		}
+		return $user;
 	}
 
 	/**
@@ -48,23 +64,6 @@ class BSProcess {
 		if ($result = $command->getResult()) {
 			return (int)$result[0];
 		}
-	}
-
-	/**
-	 * 許可されたユーザーを返す
-	 *
-	 * @access public
-	 * @return BSArray ユーザー名の配列
-	 * @static
-	 */
-	static public function getAllowedUsers () {
-		$users = new BSArray;
-		foreach (array('_', '') as $prefix) {
-			foreach (array('www', 'nobody') as $name) {
-				$users[] = $prefix . $name;
-			}
-		}
-		return $users;
 	}
 
 	/**
