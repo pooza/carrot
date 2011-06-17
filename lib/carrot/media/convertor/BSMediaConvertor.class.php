@@ -135,13 +135,8 @@ abstract class BSMediaConvertor {
 	 * @return string 定数値
 	 */
 	public function getConstant ($name) {
-		$name = new BSArray(array(
-			'ffmpeg',
-			'convert',
-			ltrim($this->getSuffix(), '.'),
-			$name,
-		));
-		return BSConstantHandler::getInstance()->getParameter($name->join('_'));
+		$constants = new BSConstantHandler('FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.'));
+		return $constants[$name];
 	}
 
 	/**

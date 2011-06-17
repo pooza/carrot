@@ -180,7 +180,7 @@ abstract class BSController {
 				}
 			}
 
-			$constants = BSConstantHandler::getInstance();
+			$constants = new BSConstantHandler;
 			if (!BSString::isBlank($value = $constants[$name])) {
 				return $value;
 			}

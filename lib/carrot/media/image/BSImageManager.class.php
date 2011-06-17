@@ -124,7 +124,7 @@ class BSImageManager {
 
 	protected function setFlag ($flag) {
 		if (!is_numeric($flag)) {
-			$constants = BSConstantHandler::getInstance();
+			$constants = new BSConstantHandler;
 			$value = BSString::toUpper($flag);
 			if (BSString::isBlank($flag = $constants['BSImageManager::' . $value])) {
 				$message = new BSStringFormat('BSImageManager::%sが未定義です。');

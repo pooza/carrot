@@ -24,7 +24,7 @@ class BSTranslateManager implements IteratorAggregate {
 			$this->register($dictionary);
 		}
 		$this->setDictionaryPriority('BSDictionaryFile.carrot', BSArray::POSITION_BOTTOM);
-		$this->register(BSConstantHandler::getInstance());
+		$this->register(new BSConstantHandler);
 	}
 
 	/**

@@ -70,7 +70,6 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return BSArray パスワードの候補
 	 */
 	protected function getPasswords () {
-		$constants = BSConstantHandler::getInstance();
 		$passwords = new BSArray;
 		if (!BSString::isBlank($password = $this['password'])) {
 			$passwords[] = BSCrypt::getInstance()->decrypt($password);
@@ -87,9 +86,8 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	 * @return string 定数
 	 */
 	public function getConstant ($name) {
-		return BSConstantHandler::getInstance()->getParameter(
-			'PDO_' . $this->getName() . '_' . $name
-		);
+		$constants = new BSConstantHandler('PDO_' . $this->getName());
+		return $constants[$name];
 	}
 }
 

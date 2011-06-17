@@ -132,8 +132,8 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 	 * @return string デコメールの形式
 	 */
 	public function getDecorationMailType () {
-		$constants = BSConstantHandler::getInstance();
-		return $constants['DECORATION_MAIL_TYPE_' . $this->getName()];
+		$constants = new BSConstantHandler('DECORATION_MAIL_TYPE');
+		return $constants[$this->getName()];
 	}
 
 	/**

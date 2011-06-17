@@ -31,7 +31,7 @@ class BSFPDF extends MBFPDF implements BSRenderer {
 	 * @param string $format 用紙のサイズ
 	 */
 	public function __construct ($orientation = self::PORTRAIT, $unit = 'mm', $format = 'A4') {
-		$constants = BSConstantHandler::getInstance();
+		$constants = new BSConstantHandler;
 		if (!$constants->hasParameter('FPDF_FONTPATH')) {
 			$constants['FPDF_FONTPATH'] =  BS_LIB_DIR . '/fpdf/font/';
 		}

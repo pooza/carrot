@@ -9,34 +9,14 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSConstantHandler extends BSParameterHolder implements BSDictionary {
-	static private $instance;
 	const PREFIX = 'BS';
-
-	/**
-	 * @access private
-	 */
-	private function __construct () {
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSConstantHandler インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
+	private $prefix;
 
 	/**
 	 * @access public
 	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	public function __construct ($prefix = '') {
+		$this->prefix = BSString::toUpper(rtrim($prefix, '_'));
 	}
 
 	/**
@@ -47,7 +27,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		foreach ($this->getSuggestedNames($name) as $name) {
+		foreach ($this->createKeys($name) as $name) {
 			if (defined($name)) {
 				return constant($name);
 			}
@@ -92,19 +72,24 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		if (is_array($name) || is_object($name)) {
 			return false;
 		}
-		foreach ($this->getSuggestedNames($name) as $name) {
+		foreach ($this->createKeys($name) as $name) {
 			if (defined($name)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
-	private function getSuggestedNames ($name) {
+	private function createKeys ($name) {
 		$names = new BSArray;
 		$names[] = $name;
 		if (!BSString::isContain('::', $name)) {
-			$names[] = self::PREFIX . '_' . $name;
+			$keys = new BSArray;
+			$keys[] = self::PREFIX;
+			if (!BSString::isBlank($this->prefix)) {
+				$keys[] = $this->prefix;
+			}
+			$keys[] = $name;
+			$names[] = $keys->join('_');
 			$names = BSString::toUpper($names);
 		}
 		return $names;

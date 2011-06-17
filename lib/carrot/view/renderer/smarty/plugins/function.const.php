@@ -10,7 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_const ($params, &$smarty) {
-	return BSConstantHandler::getInstance()->getParameter($params['name']);
+	$constants = new BSConstantHandler;
+	return $constants[$params['name']];
 }
 
 /* vim:set tabstop=4: */

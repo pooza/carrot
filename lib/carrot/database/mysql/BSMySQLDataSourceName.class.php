@@ -31,7 +31,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	 * @return BSDatabase データベース
 	 */
 	public function connect () {
-		$constants = BSConstantHandler::getInstance();
+		$constants = new BSConstantHandler;
 		$params = array();
 		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = $this->getFile())) {
 			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
