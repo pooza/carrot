@@ -11,14 +11,12 @@
  */
 class BSConsoleSecurityFilter extends BSFilter {
 	public function execute () {
-		if (!BSString::isBlank($user = $this->controller->getAttribute('USER'))) {
-			if (!BSProcess::getAllowedUsers()->isContain($user)) {
-				$message = new BSString('実行ユーザー "%s" が正しくありません。');
-				$message[] = $user;
-				throw new BSConsoleException($message);
-			}
+		if (($user = BSProcess::getCurrentUser()) != BS_APP_PROCESS_UID) {
+			$message = new BSStringFormat('実行ユーザー "%s" が正しくありません。');
+			$message[] = $user;
+			throw new BSConsoleException($message);
 		}
-		if (!($this->request instanceof BSConsoleRequest)) {
+		if (PHP_SAPI != 'cli') {
 			return BSController::COMPLETED;
 		}
 	}
