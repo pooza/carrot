@@ -69,9 +69,6 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasParameter ($name) {
-		if (is_array($name) || is_object($name)) {
-			return false;
-		}
 		foreach ($this->createKeys($name) as $name) {
 			if (defined($name)) {
 				return true;
@@ -80,6 +77,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		return false;
 	}
 	private function createKeys ($name) {
+		$name = (string)$name;
 		$keys = new BSArray;
 		if (BSString::isContain('::', $name)) {
 			$keys[$name] = $name;

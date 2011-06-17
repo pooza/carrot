@@ -75,10 +75,7 @@ abstract class BSParameterHolder
 	 * @return boolean 存在すればTrue
 	 */
 	public function hasParameter ($name) {
-		if (is_array($name) || is_object($name)) {
-			return false;
-		}
-		return array_key_exists($name, $this->params);
+		return array_key_exists((string)$name, $this->params);
 	}
 
 	/**
@@ -89,7 +86,7 @@ abstract class BSParameterHolder
 	 */
 	public function removeParameter ($name) {
 		if ($this->hasParameter($name)) {
-			unset($this->params[$name]);
+			unset($this->params[(string)$name]);
 		}
 	}
 
