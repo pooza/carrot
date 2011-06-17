@@ -83,7 +83,7 @@ class BSCurlHTTP extends BSHTTP {
 		$response = new BSHTTPResponse;
 		$response->setURL($request->getURL());
 		if (($contents = curl_exec($this->getEngine())) === false) {
-			throw new BSHTTPException($url . 'へ送信できません。');
+			throw new BSHTTPException($request->getURL() . 'へ送信できません。');
 		}
 		$response->setContents($contents);
 		$this->log($response);
