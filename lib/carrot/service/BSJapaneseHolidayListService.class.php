@@ -87,11 +87,11 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	/**
 	 * パスからリクエストURLを生成して返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createRequestURL ($href) {
+	public function createRequestURL ($href) {
 		$url = parent::createRequestURL($href);
 		$url->setParameter('json', 1);
 		return $url;

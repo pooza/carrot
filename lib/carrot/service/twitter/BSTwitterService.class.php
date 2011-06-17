@@ -50,11 +50,11 @@ class BSTwitterService extends BSCurlHTTP {
 	/**
 	 * パスからリクエストURLを生成して返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createRequestURL ($href) {
+	public function createRequestURL ($href) {
 		if (!BSString::isContain('.', $href)) {
 			$href .= BS_SERVICE_TWITTER_SUFFIX;
 		}

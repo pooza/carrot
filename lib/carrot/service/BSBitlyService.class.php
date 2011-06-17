@@ -27,11 +27,11 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 	/**
 	 * パスからリクエストURLを生成して返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createRequestURL ($href) {
+	public function createRequestURL ($href) {
 		$url = parent::createRequestURL($href);
 		$url->setParameter('version', BS_SERVICE_BITLY_VERSION);
 		$url->setParameter('login', BS_SERVICE_BITLY_LOGIN);

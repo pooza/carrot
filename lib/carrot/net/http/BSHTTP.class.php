@@ -59,11 +59,11 @@ class BSHTTP extends BSSocket {
 	/**
 	 * パスからリクエストURLを生成して返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string $href パス
 	 * @return BSHTTPURL リクエストURL
 	 */
-	protected function createRequestURL ($href) {
+	public function createRequestURL ($href) {
 		$url = BSURL::create();
 		$url['host'] = $this->getHost();
 		$url['path'] = '/' . ltrim($href, '/');
