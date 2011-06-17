@@ -193,9 +193,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		}
 
 		$this->useragent = $useragent;
-		$this->setParameters($useragent->getQuery());
-		if ($this->isForeign()) {
-			$this->query->removeParameter(BSRequest::getInstance()->getSession()->getName());
+		if (!$this->isForeign()) {
+			$this->setParameters($useragent->getQuery());
 		}
 		return $this;
 	}
