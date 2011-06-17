@@ -146,7 +146,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function createMovieElement (BSParameterHolder $params) {
 		$container = new BSDivisionElement;
-		$container->addElement($anchor = new BSAnchorElement);
+		$anchor = $container->addElement(new BSAnchorElement);
 		$anchor->setURL($params['url']);
 		$anchor->setBody($params['label']);
 		return $container;
