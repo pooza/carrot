@@ -11,7 +11,6 @@
  */
 class BSCurlHTTP extends BSHTTP {
 	protected $engine;
-	protected $attributes;
 	protected $uid;
 	protected $password;
 	protected $ssl = false;
@@ -115,26 +114,6 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性名
-	 * @return mixed 属性値
-	 */
-	public function getAttribute ($name) {
-		$names = array(
-			'curlopt_' . $name,
-			'curl_' . $name,
-			$name,
-		);
-		foreach ($names as $name) {
-			if ($this->attributes->hasParameter($name)) {
-				return $this->attributes[$name];
-			}
-		}
-	}
-
-	/**
 	 * 属性を設定
 	 *
 	 * @access public
@@ -145,16 +124,9 @@ class BSCurlHTTP extends BSHTTP {
 		if (!$this->getEngine()) {
 			return;
 		}
-
-		$names = array(
-			'curlopt_' . $name,
-			'curl_' . $name,
-			$name,
-		);
-		$constants = new BSConstantHandler;
-		foreach ($names as $name) {
+		foreach (array('curlopt', 'curl', null) as $prefix) {
+			$constants = new BSConstantHandler($prefix);
 			if ($constants->hasParameter($name)) {
-				$this->attributes[$name] = $value;
 				curl_setopt($this->getEngine(), $constants[$name], $value);
 				return;
 			}

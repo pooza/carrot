@@ -80,19 +80,26 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		return false;
 	}
 	private function createKeys ($name) {
-		$names = new BSArray;
-		$names[] = $name;
-		if (!BSString::isContain('::', $name)) {
-			$keys = new BSArray;
-			$keys[] = self::PREFIX;
-			if (!BSString::isBlank($this->prefix)) {
-				$keys[] = $this->prefix;
+		$keys = new BSArray;
+		if (BSString::isContain('::', $name)) {
+			$keys[$name] = $name;
+		} else {
+			$key = BSString::toUpper($name);
+			$keys[$key] = $key;
+			foreach (array(self::PREFIX, null) as $prefix) {
+				$key = new BSArray;
+				if (!BSString::isBlank($prefix)) {
+					$key[] = self::PREFIX;
+				}
+				if (!BSString::isBlank($this->prefix)) {
+					$key[] = $this->prefix;
+				}
+				$key[] = $name;
+				$key = BSString::toUpper($key->join('_'));
+				$keys[$key] = $key;
 			}
-			$keys[] = $name;
-			$names[] = $keys->join('_');
-			$names = BSString::toUpper($names);
 		}
-		return $names;
+		return $keys;
 	}
 
 	/**

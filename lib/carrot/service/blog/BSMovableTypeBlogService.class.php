@@ -17,8 +17,8 @@ class BSMovableTypeBlogService {
 			$this->urls = new BSArray;
 		}
 		if (!$url = $this->urls[$type]) {
-			$constants = new BSConstantHandler('BLOG_' . $type);
-			if (!$url = $constants['URL']) {
+			$constants = new BSConstantHandler('BLOG');
+			if (!$url = $constants[$type . '_URL']) {
 				throw new BSConfigException('URLが指定されていません。');
 			}
 			$this->urls[$type] = BSURL::create($url);
