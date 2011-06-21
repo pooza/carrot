@@ -15,9 +15,9 @@ class BSRecordFinder extends BSParameterHolder {
 
 	/**
 	 * @access public
-	 * @param mixed[] $params 要素の配列
+	 * @param BSParameterHolder $params 要素の配列
 	 */
-	public function __construct ($params = array()) {
+	public function __construct (BSParameterHolder $params) {
 		$this->setParameters($params);
 	}
 
@@ -39,11 +39,10 @@ class BSRecordFinder extends BSParameterHolder {
 			if (!$id) {
 				$id = $this['id'];
 			}
-			if (($table = $this->getTable()) && ($record = $table->getRecord($id))) {
-				$this->record = $record;
+			if ($table = $this->getTable()) {
+				$this->record = $table->getRecord($id);
 			} else if (BSString::isBlank($this['class'])) {
-				$module = BSController::getInstance()->getModule();
-				$this->record = $module->getRecord();
+				$this->record = BSController::getInstance()->getModule()->getRecord();
 			}
 		}
 		return $this->record;
@@ -52,11 +51,10 @@ class BSRecordFinder extends BSParameterHolder {
 	private function getTable () {
 		if (!$this->table) {
 			try {
-				if (BSString::isBlank($this['class'])) {
-					$module = BSController::getInstance()->getModule();
-					$this->table = $module->getTable();
+				if (BSString::isBlank($class = $this['class'])) {
+					$this->table = BSController::getInstance()->getModule()->getTable();
 				} else {
-					$this->table = BSTableHandler::create($this['class']);
+					$this->table = BSTableHandler::create($class);
 				}
 			} catch (Exception $e) {
 			}
