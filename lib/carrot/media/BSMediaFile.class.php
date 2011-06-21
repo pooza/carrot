@@ -188,7 +188,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		$url = BSURL::create($params['href_prefix']);
 		$url['path'] .= $this->getName() . $params['href_suffix'];
 		if (BSUser::getInstance()->isAdministrator()) {
-			$url->setParameter('at', BSNumeric::getRandom());
+			$url->setParameter('at', BSNumeric::getRandom(1000, 9999));
 		}
 		return $url;
 	}

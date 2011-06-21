@@ -36,31 +36,6 @@ class BSWebController extends BSController {
 	public function hasServerSideCache () {
 		return (BS_APP_HTTP_CACHE_MODE == 'public');
 	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @param string $redirectTo リダイレクト先
-	 * @return string ビュー名
-	 */
-	public function redirect ($redirectTo) {
-		if ($redirectTo instanceof BSHTTPRedirector) {
-			$url = $redirectTo->createURL();
-		} else {
-			$url = BSURL::create();
-			$url['path'] = $redirectTo;
-		}
-
-		$useragent = $this->request->getUserAgent();
-		$url->setParameters($useragent->getQuery());
-		if ($useragent->hasBug('cache_control')) {
-			$url->setParameter('at', BSNumeric::getRandom());
-		}
-
-		$this->setHeader('Location', $url->getContents());
-		return BSView::NONE;
-	}
 }
 
 /* vim:set tabstop=4: */

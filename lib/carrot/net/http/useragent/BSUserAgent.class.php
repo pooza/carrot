@@ -164,6 +164,9 @@ abstract class BSUserAgent extends BSParameterHolder {
 		if (BS_DEBUG || BSUser::getInstance()->isAdministrator()) {
 			$query[self::ACCESSOR] = $request[self::ACCESSOR];
 		}
+		if ($this->hasBug('cache_control')) {
+			$query['at'] = BSNumeric::getRandom(1000, 9999);
+		}
 		return $query;
 	}
 
