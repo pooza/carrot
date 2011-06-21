@@ -48,7 +48,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 				$this->getType(),
 				$this->getSize(),
 				fileinode($this->getPath()),
-				$this->getUpdateDate()->format('YmdHis'),
+				$this->getUpdateDate()->getTimestamp(),
 			));
 		}
 		return $this->id;

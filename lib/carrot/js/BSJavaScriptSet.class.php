@@ -50,11 +50,7 @@ class BSJavaScriptSet extends BSDocumentSet {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'JavaScriptセット "%s"(%s)',
-			$this->getName(),
-			$this->getCacheFile()->getShortPath()
-		);
+		return sprintf('JavaScriptセット "%s"', $this->getName());
 	}
 }
 

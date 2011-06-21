@@ -16,8 +16,8 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	protected $name;
 	protected $error;
 	protected $type;
+	protected $digest;
 	protected $cacheFile;
-	protected $updateDate;
 	protected $documents;
 	protected $contents;
 	protected $url;
@@ -45,9 +45,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 			}
 			$this->register($name);
 		}
-		if (!!$this->documents->count()) {
-			$this->update();
-		}
+		$this->update();
 	}
 
 	/**
@@ -99,41 +97,12 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	public function getCacheFile () {
 		if (!$this->cacheFile) {
-			$name = $this->getName();
-			if (!BS_DEBUG) {
-				$name = BSCrypt::digest($name);
-			}
-
 			$dir = $this->getCacheDirectory();
-			if (!$this->cacheFile = $dir->getEntry($name)) {
-				$this->cacheFile = $dir->createEntry($name);
+			if (!$this->cacheFile = $dir->getEntry($this->digest())) {
+				$this->cacheFile = $dir->createEntry($this->digest());
 			}
 		}
 		return $this->cacheFile;
-	}
-
-	/**
-	 * 更新日付を返す
-	 *
-	 * @access public
-	 * @return BSate 更新日付
-	 */
-	public function getUpdateDate () {
-		if (!$this->updateDate) {
-			if (!!$this->documents->count()) {
-				$dates = new BSArray;
-				foreach ($this as $file) {
-					$dates[] = $file->getUpdateDate();
-				}
-				foreach ($this->getConfigFiles() as $file) {
-					$dates[] = $file->getUpdateDate();
-				}
-				$this->updateDate = BSDate::getNewest($dates);
-			} else {
-				$this->updateDate = BSDate::getNow();
-			}
-		}
-		return $this->updateDate;
 	}
 
 	/**
@@ -176,6 +145,25 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		if (1 < $name->count()) {
 			return $name[0];
 		}
+	}
+
+	/**
+	 * レンダリング用ダイジェストを返す
+	 *
+	 * @access public
+	 * @return string ダイジェスト
+	 */
+	public function digest () {
+		if (!$this->digest) {
+			$values = new BSArray;
+			$values['class'] = get_class($this);
+			$values['name'] = $this->getName();
+			foreach ($this as $entry) {
+				$values[$entry->getPath()] = $entry->getUpdateDate()->getTimestamp();
+			}
+			$this->digest = BSCrypt::digest($values);
+		}
+		return $this->digest;
 	}
 
 	/**
@@ -233,9 +221,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	public function update () {
 		$cache = $this->getCacheFile();
-		if ((BSString::isBlank($cache->getContents()) && !!$this->documents->count())
-			|| $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
-
+		if (BSString::isBlank($cache->getContents()) && !!$this->documents->count()) {
 			$contents = new BSArray;
 			foreach ($this as $file) {
 				if ($this->isOptimized()) {

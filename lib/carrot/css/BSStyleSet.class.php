@@ -52,11 +52,7 @@ class BSStyleSet extends BSDocumentSet {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return sprintf(
-			'スタイルセット "%s"(%s)',
-			$this->getName(),
-			$this->getCacheFile()->getShortPath()
-		);
+		return sprintf('スタイルセット "%s"', $this->getName());
 	}
 }
 

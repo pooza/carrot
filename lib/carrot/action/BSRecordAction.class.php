@@ -102,7 +102,7 @@ abstract class BSRecordAction extends BSAction {
 			$this->digest = BSCrypt::digest(array(
 				$this->getName(),
 				$this->getRecord()->getID(),
-				$this->getRecord()->getUpdateDate()->format('YmdHis'),
+				$this->getRecord()->getUpdateDate()->getTimestamp(),
 			));
 		}
 		return $this->digest;
