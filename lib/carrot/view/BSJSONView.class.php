@@ -67,6 +67,16 @@ class BSJSONView extends BSView {
 		}
 		parent::render();
 	}
+
+	/**
+	 * HTTPキャッシュ有効か
+	 *
+	 * @access public
+	 * @return boolean 有効ならTrue
+	 */
+	public function isCacheable () {
+		return false;
+	}
 }
 
 /* vim:set tabstop=4: */
