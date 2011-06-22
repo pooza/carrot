@@ -48,6 +48,9 @@ class BSJSONView extends BSView {
 			}
 			$renderer = $dest;
 		}
+		if (!($renderer instanceof BSJSONRenderer)) {
+			throw new BSViewException(get_class($renderer) . 'をセットできません。');
+		}
 		parent::setRenderer($renderer, $flags);
 	}
 
