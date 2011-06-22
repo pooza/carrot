@@ -129,7 +129,6 @@ class BSView extends BSHTTPResponse {
 		}
 
 		$this->setHeader('content-type', BSMIMEUtility::getContentType($this->renderer));
-		//$this->setHeader('content-length', $this->renderer->getSize());
 
 		$this->putHeaders();
 		mb_http_output('pass');
@@ -154,19 +153,6 @@ class BSView extends BSHTTPResponse {
 	 */
 	public function getAction () {
 		return $this->action;
-	}
-
-	/**
-	 * レスポンスを設定
-	 *
-	 * @access public
-	 * @param BSHTTPResponse $response レスポンス
-	 */
-	public function setResponse (BSHTTPResponse $response) {
-		$this->setRenderer($response->getRenderer());
-		foreach ($response->getHeaders() as $header) {
-			$this->setHeader($header->getName(), $header->getContents());
-		}
 	}
 
 	/**
