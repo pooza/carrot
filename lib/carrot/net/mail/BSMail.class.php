@@ -10,8 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMail extends BSMIMEDocument {
-	private $error;
-	private $file;
+	protected $error;
+	protected $file;
 
 	/**
 	 * @access public

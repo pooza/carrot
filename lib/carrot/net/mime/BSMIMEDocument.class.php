@@ -14,6 +14,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	protected $contents;
 	protected $body;
 	protected $renderer;
+	protected $date;
 	protected $filename;
 	protected $boundary;
 	protected $parts;
@@ -104,6 +105,19 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 		if ($header = $this->getHeader('Message-Id')) {
 			return $header->getEntity();
 		}
+	}
+
+	/**
+	 * 送信日付を返す
+	 *
+	 * @access public
+	 * @return BSDate 送信日付
+	 */
+	public function getDate () {
+		if (!$this->date && ($header = $this->getHeader('date'))) {
+			$this->date = $header->getEntity();
+		}
+		return $this->date;
 	}
 
 	/**
