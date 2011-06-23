@@ -7,8 +7,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class LoginView extends BSSmartyView {
-	public function execute () {
-	}
 
 	/**
 	 * HTTPキャッシュ有効か
