@@ -16,6 +16,10 @@ class PingAction extends BSAction {
 			return BSView::ERROR;
 		}
 	}
+
+	protected function getViewClass () {
+		return 'BSJSONView';
+	}
 }
 
 /* vim:set tabstop=4: */

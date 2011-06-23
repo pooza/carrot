@@ -271,12 +271,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			return new BSEmptyView($this, null);
 		}
 
-		if (BSString::isBlank($class = $this->getConfig('view'))) {
-			$class = 'BSSmartyView';
-			if ($this->request->hasAttribute('renderer')) {
-				$class = 'BSView';
-			}
-		}
+		$class = $this->getViewClass();
 		if ($dir = $this->getModule()->getDirectory('views')) {
 			foreach (array($name, null) as $suffix) {
 				$basename = $this->getName() . $suffix . 'View';
@@ -287,8 +282,23 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 				}
 			}
 		}
-
 		return new $class($this, $name, $this->request->getAttribute('renderer'));
+	}
+
+	/**
+	 * ビューのクラス名を返す
+	 *
+	 * @access protected
+	 * @return string クラス名
+	 */
+	protected function getViewClass () {
+		if (BSString::isBlank($class = $this->getConfig('view'))) {
+			$class = 'BSSmartyView';
+			if ($this->request->hasAttribute('renderer')) {
+				$class = 'BSView';
+			}
+		}
+		return $class;
 	}
 
 	/**

@@ -21,6 +21,10 @@ class UploadProgressAction extends BSAction {
 	public function validate () {
 		return extension_loaded('apc');
 	}
+
+	protected function getViewClass () {
+		return 'BSJSONView';
+	}
 }
 
 /* vim:set tabstop=4: */

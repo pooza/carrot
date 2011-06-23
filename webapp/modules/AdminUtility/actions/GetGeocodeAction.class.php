@@ -21,6 +21,10 @@ class GetGeocodeAction extends BSAction {
 		$this->request->setAttribute('renderer', $json);
 		return BSView::SUCCESS;
 	}
+
+	protected function getViewClass () {
+		return 'BSJSONView';
+	}
 }
 
 /* vim:set tabstop=4: */

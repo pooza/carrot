@@ -14,5 +14,3 @@ actions:
     title: リストア
   Pictogram:
     title: 絵文字入力
-  GetGeocode:
-    view: BSJSONView
