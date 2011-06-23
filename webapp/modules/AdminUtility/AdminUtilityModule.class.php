@@ -1,12 +1,12 @@
 <?php
 /**
- * Pictogramアクション
+ * AdminUtilityモジュール
  *
  * @package org.carrot-framework
  * @subpackage AdminUtility
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class PictogramAction extends BSAction {
+class AdminUtilityModule extends BSModule {
 
 	/**
 	 * タイトルを返す
@@ -15,12 +15,7 @@ class PictogramAction extends BSAction {
 	 * @return string タイトル
 	 */
 	public function getTitle () {
-		return '絵文字入力';
-	}
-
-	public function execute () {
-		$this->request->setAttribute('pictograms', BSPictogram::getPictogramImageInfos());
-		return BSView::INPUT;
+		return 'ユーティリティ';
 	}
 }
 

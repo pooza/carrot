@@ -7,6 +7,17 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BackupAction extends BSAction {
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return 'バックアップ';
+	}
+
 	public function execute () {
 		try {
 			if (!$file = BSBackupManager::getInstance()->execute()) {

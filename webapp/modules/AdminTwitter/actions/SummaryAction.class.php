@@ -7,6 +7,17 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class SummaryAction extends BSAction {
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return 'Twitterの状態';
+	}
+
 	public function initialize () {
 		parent::initialize();
 		if ($errors = $this->user->getAttribute('errors')) {

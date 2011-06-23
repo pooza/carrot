@@ -10,6 +10,26 @@ class AdminLogModule extends BSModule {
 	private $logger;
 
 	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return '管理ログ閲覧モジュール';
+	}
+
+	/**
+	 * メニューでのタイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getMenuTitle () {
+		return '管理ログ';
+	}
+
+	/**
 	 * 対象ロガーを返す
 	 *
 	 * @access public

@@ -7,6 +7,17 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class RestoreAction extends BSAction {
+
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return 'リストア';
+	}
+
 	public function execute () {
 		try {
 			BSBackupManager::getInstance()->restore(

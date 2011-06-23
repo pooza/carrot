@@ -9,6 +9,16 @@
 class BrowseAction extends BSAction {
 	private $exception;
 
+	/**
+	 * タイトルを返す
+	 *
+	 * @access public
+	 * @return string タイトル
+	 */
+	public function getTitle () {
+		return '管理ログ';
+	}
+
 	public function execute () {
 		$this->request->setAttribute('dates', $this->getModule()->getDates());
 		$this->request->setAttribute('entries', $this->getModule()->getEntries());
