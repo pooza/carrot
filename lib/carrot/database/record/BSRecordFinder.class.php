@@ -39,8 +39,8 @@ class BSRecordFinder extends BSParameterHolder {
 			if (!$id) {
 				$id = $this['id'];
 			}
-			if ($table = $this->getTable()) {
-				$this->record = $table->getRecord($id);
+			if (($table = $this->getTable()) && ($record = $table->getRecord($id))) {
+				$this->record = $record;
 			} else if (BSString::isBlank($this['class'])) {
 				$this->record = BSController::getInstance()->getModule()->getRecord();
 			}
