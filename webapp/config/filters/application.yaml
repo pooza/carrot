@@ -9,6 +9,9 @@
 - class: BSEncodingRequestFilter
 - class: BSNewLineRequestFilter
 - class: BSCookieFilter
+  params:
+    excluded_actions:
+      - Login
 - class: BSKanaRequestFilter
   params:
     option: KVa
