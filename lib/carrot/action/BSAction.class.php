@@ -473,9 +473,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			throw new BadFunctionCallException($this . 'が初期化できません。');
 		}
 
-		$filters = new BSFilterSet;
-		$filters->loadAction($this);
-		$filters->register(new BSExecutionFilter);
+		$filters = new BSFilterSet($this);
 		$filters->execute();
 		return BSView::NONE;
 	}

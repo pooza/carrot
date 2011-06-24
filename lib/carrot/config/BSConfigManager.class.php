@@ -52,7 +52,9 @@ class BSConfigManager {
 	 */
 	public function compile ($file) {
 		if (!($file instanceof BSFile)) {
-			$file = self::getConfigFile($file);
+			if (!$file = self::getConfigFile($file)) {
+				return;
+			}
 		}
 		if (!$file->isReadable()) {
 			throw new BSConfigException($file . 'が読めません。');
