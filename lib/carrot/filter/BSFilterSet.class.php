@@ -76,13 +76,13 @@ class BSFilterSet extends BSArray {
 	}
 	private function isRegisterable (BSFilter $filter) {
 		$actions = new BSArray($filter['excluded_actions']);
-		return (($filter->isRepeatable() || !$self::executed[$filter->getName()])
+		return (($filter->isRepeatable() || !self::$executed[$filter->getName()])
 			&& !$actions->isContain($this->action->getName())
 		);
 	}
 
 	private function setExecuted (BSFilter $filter) {
-		$self::executed[$filter->getName()] = 1;
+		self::$executed[$filter->getName()] = 1;
 	}
 
 	private function load ($file) {
