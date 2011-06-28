@@ -19,6 +19,9 @@ class BSFilterSet extends BSArray {
 	 * @param BSAction $action アクション
 	 */
 	public function __construct (BSAction $action) {
+		if (!self::$executed) {
+			self::$executed = new BSArray;
+		}
 		$this->action = $action;
 		$this->load('filters/carrot');
 		$this->load('filters/application');
@@ -72,23 +75,14 @@ class BSFilterSet extends BSArray {
 		}
 	}
 	private function isRegisterable (BSFilter $filter) {
-		$executed = $this->getExecuted();
 		$actions = new BSArray($filter['excluded_actions']);
-		return (($filter->isMultiExecutable() || !$executed[$filter->getName()])
+		return (($filter->isRepeatable() || !$self::executed[$filter->getName()])
 			&& !$actions->isContain($this->action->getName())
 		);
 	}
 
-	private function getExecuted () {
-		if (!self::$executed) {
-			self::$executed = new BSArray;
-		}
-		return self::$executed;
-	}
-
 	private function setExecuted (BSFilter $filter) {
-		$executed = $this->getExecuted();
-		$executed[$filter->getName()] = 1;
+		$self::executed[$filter->getName()] = 1;
 	}
 
 	private function load ($file) {

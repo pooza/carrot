@@ -70,9 +70,9 @@ abstract class BSFilter extends BSParameterHolder {
 	 * 二度目も実行するか
 	 *
 	 * @access public
-	 * @return string フィルタ名
+	 * @return boolean 二度目も実行するならTrue
 	 */
-	public function isMultiExecutable () {
+	public function isRepeatable () {
 		return false;
 	}
 }
