@@ -239,6 +239,10 @@ service:
       beacon_href: /carrotlib/php/ga.php
     url_shortener:
       api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
+  nicovideo:
+    live:
+      width: 312
+      height: 176
   twitter:
     consumer:
       key: hhXdKP3kEwvWumb1AFbTlQ

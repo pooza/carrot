@@ -46,12 +46,12 @@ class BSNicovideoLiveService extends BSCurlHTTP {
 	 */
 	public function createElement ($id, BSParameterHolder $params = null) {
 		$params = new BSArray($params);
+		$element = new BSDivisionElement;
 		if ($this->useragent->isMobile()) {
-			$element = new BSDivisionElement;
 			$element->setBody('ケータイには非対応です。');
 		} else {
-			$element = new BSNicovideoLiveInlineFrameElement(null, $this->useragent);
-			$element->setChannel($id);
+			$iframe = $element->addElement(new BSNicovideoLiveInlineFrameElement);
+			$iframe->setChannel($id);
 			$element = $element->setAlignment($params['align']);
 		}
 		return $element;

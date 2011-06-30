@@ -40,7 +40,7 @@ class BSInlineFrameElement extends BSXHTMLElement {
 	 * @param BSHTTPRedirector $url メディアのURL
 	 */
 	public function setURL (BSHTTPRedirector $url) {
-		$this->setAttribute('src', $url->createURL()->getContents());
+		$this->setAttribute('src', $url->getURL()->getContents());
 	}
 }
 

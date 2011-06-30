@@ -18,8 +18,8 @@ class BSNicovideoLiveInlineFrameElement extends BSInlineFrameElement {
 	 */
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
-		$this->setAttribute('width', 312);
-		$this->setAttribute('height', 176);
+		$this->setAttribute('width', BS_SERVICE_NICOVIDEO_LIVE_WIDTH);
+		$this->setAttribute('height', BS_SERVICE_NICOVIDEO_LIVE_HEIGHT);
 		$this->setStyle('border', 'solid 1px #ccc');
 	}
 
