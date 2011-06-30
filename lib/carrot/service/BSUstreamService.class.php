@@ -63,11 +63,14 @@ class BSUstreamService extends BSCurlHTTP {
 		if ($this->useragent->isMobile()) {
 			$element->setBody('ケータイには非対応です。');
 		} else {
-			$info = $this->getChannelInfo($id);
+			$info = $this->getChannelInfo($id, $params);
 			$object = $element->addElement(new BSObjectElement);
-			$object->setContents($info['embedTag']);
-			$object->setStyle('width', $object->getAttribute('width'));
-			$object->setStyle('height', $object->getAttribute('height'));
+			$object->setContents($info['results']);
+			foreach (array('width', 'height') as $key) {
+				if ($value = $object->getAttribute($key)) {
+					$object->setStyle($key, $value);
+				}
+			}
 			$element = $element->setAlignment($params['align']);
 		}
 		return $element;
@@ -78,25 +81,44 @@ class BSUstreamService extends BSCurlHTTP {
 	 *
 	 * @access public
 	 * @param string $name チャンネル名
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSArray チャンネル情報の配列
 	 */
-	public function getChannelInfo ($name) {
-		$key = get_class($this) . '.' . $name;
+	public function getChannelInfo ($name, BSParameterHolder $params) {
+		$params = $this->createParameters($params);
+		$key = get_class($this) . '.' . BSCrypt::digest(array(
+			$name,
+			$params->join("\n", "\t")
+		));
+
 		$controller = BSController::getInstance();
 		$date = BSDate::getNow()->setAttribute('hour', '-1');
 		if (!$controller->getAttribute($key, $date)) {
 			$url = $this->createRequestURL('/json');
 			$url->setParameter('subject', 'channel');
 			$url->setParameter('uid', $name);
-			$url->setParameter('command', 'getinfo');
+			$url->setParameter('command', 'getCustomEmbedTag');
+			$url->setParameter('params', $params->join(';', ':'));
 			$response = $this->sendGET($url->getFullPath());
 
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
-			$result = $json->getResult();
-			$controller->setAttribute($key, $result['results']);
+			$controller->setAttribute($key, $json->getResult());
 		}
 		return new BSArray($controller->getAttribute($key));
+	}
+
+	private function createParameters (BSParameterHolder $params) {
+		$params = new BSArray($params);
+		$params->removeParameter('align');
+		foreach (array('autoplay') as $key) {
+			if ($params[$key]) {
+				$params[$key] = 'true';
+			} else {
+				$params[$key] = 'false';
+			}
+		}
+		return $params;
 	}
 }
 
