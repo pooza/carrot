@@ -84,7 +84,7 @@ class BSUstreamService extends BSCurlHTTP {
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSArray チャンネル情報の配列
 	 */
-	public function getChannelInfo ($name, BSParameterHolder $params) {
+	public function getChannelInfo ($name, BSParameterHolder $params = null) {
 		$params = $this->createParameters($params);
 		$key = get_class($this) . '.' . BSCrypt::digest(array(
 			$name,
@@ -108,7 +108,7 @@ class BSUstreamService extends BSCurlHTTP {
 		return new BSArray($controller->getAttribute($key));
 	}
 
-	private function createParameters (BSParameterHolder $params) {
+	private function createParameters ($params) {
 		$params = new BSArray($params);
 		$params->removeParameter('align');
 		foreach (array('autoplay') as $key) {
