@@ -230,26 +230,6 @@ abstract class BSController {
 	}
 
 	/**
-	 * タイムリミットを設定
-	 *
-	 * @access public
-	 * @param integer $seconds 秒単位のタイムリミット
-	 */
-	public function setTimeLimit ($seconds) {
-		return set_time_limit($seconds);
-	}
-
-	/**
-	 * メモリリミットを設定
-	 *
-	 * @access public
-	 * @param integer $size メモリサイズ
-	 */
-	public function setMemoryLimit ($size) {
-		ini_set('memory_limit', $size);
-	}
-
-	/**
 	 * 検索対象ディレクトリを返す
 	 *
 	 * @access public

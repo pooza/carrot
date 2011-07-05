@@ -38,6 +38,12 @@ class BSExecutionFilter extends BSFilter {
 			if (!BSValidateManager::getInstance()->execute() || !$this->action->validate()) {
 				return $this->action->handleError();
 			}
+			if ($limit = $this->action->getMemoryLimit()) {
+				ini_set('memory_limit', $limit . 'M');
+			}
+			if ($limit = $this->action->getTimeLimit()) {
+				set_time_limit($limit);
+			}
 			return $this->action->execute();
 		} else {
 			return $this->action->getDefaultView();

@@ -20,7 +20,6 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @access public
 	 */
 	public function __construct () {
-		BSController::getInstance()->setTimeLimit(0);
 	}
 
 	/**

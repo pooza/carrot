@@ -9,6 +9,16 @@
 class RestoreAction extends BSAction {
 
 	/**
+	 * メモリ上限を返す
+	 *
+	 * @access public
+	 * @return integer メモリ上限(MB)、設定の必要がない場合はNULL
+	 */
+	public function getMemoryLimit () {
+		return 256;
+	}
+
+	/**
 	 * タイトルを返す
 	 *
 	 * @access public

@@ -302,6 +302,24 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	}
 
 	/**
+	 * メモリ上限を返す
+	 *
+	 * @access public
+	 * @return integer メモリ上限(MB)、設定の必要がない場合はNULL
+	 */
+	public function getMemoryLimit () {
+	}
+
+	/**
+	 * タイムアウト時間を返す
+	 *
+	 * @access public
+	 * @return integer タイムアウト時間(秒)、設定の必要がない場合はNULL
+	 */
+	public function getTimeLimit () {
+	}
+
+	/**
 	 * カレントレコードIDを返す
 	 *
 	 * BSModule::getRecordID()のエイリアス。

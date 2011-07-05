@@ -18,5 +18,6 @@ validators:
   backup_file:
     class: BSFileValidator
     params:
+      size: 1024
       suffixes:
         - .zip
