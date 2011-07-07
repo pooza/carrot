@@ -72,7 +72,7 @@ kana:
 largefile:
   class: BSFileValidator
   params:
-    size: 16
+    size: 1024
     suffixes: attachable
 longtext:
   class: BSStringValidator

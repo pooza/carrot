@@ -21,6 +21,10 @@ RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [
 RewriteRule ^([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
 RewriteRule ^([A-Z][A-Za-z0-9]+)$ /carrotctl.php?a=$1 [L,QSA]
 
+# 大容量ファイルのアップロード
+php_value post_max_size 16M
+php_value upload_max_filesize 16M
+
 # php5
 php_value default_charset UTF-8
 php_value mbstring.language Japanese
