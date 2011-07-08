@@ -57,6 +57,14 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 		$result = new BSArray($result->getIterator()->getFirst());
 		return BSURL::create($result['shortUrl']);
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('bit.ly "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

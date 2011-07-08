@@ -266,6 +266,14 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		}
 		return $url;
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('Google Maps "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

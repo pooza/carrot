@@ -120,6 +120,14 @@ class BSUstreamService extends BSCurlHTTP {
 		}
 		return $params;
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('USTREAM "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

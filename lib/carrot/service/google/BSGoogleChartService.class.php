@@ -87,6 +87,14 @@ class BSGoogleChartService extends BSCurlHTTP {
 		$serializer = new BSPHPSerializer;
 		return BSCrypt::digest($serializer->encode($values->decode()));
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('Google Chart "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

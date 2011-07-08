@@ -84,6 +84,14 @@ class BSYouTubeService extends BSCurlHTTP {
 		$url->setParameter('v', $id);
 		return $url;
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('YouTube "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

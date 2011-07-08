@@ -186,7 +186,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return '日本の祝日(' . $this->getDate()->format('Y-m') . ')';
+		return sprintf('Finds.jp 曜日・祝日計算サービス "%s"', $this->getName());
 	}
 }
 

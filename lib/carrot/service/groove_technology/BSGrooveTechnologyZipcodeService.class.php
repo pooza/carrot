@@ -5,7 +5,7 @@
  */
 
 /**
- * BSGrooveTechnology 郵便番号検索クライアント
+ * GrooveTechnology 郵便番号検索 クライアント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @link http://groovetechnology.co.jp/webservice/zipsearch/
@@ -58,6 +58,14 @@ class BSGrooveTechnologyZipcodeService extends BSCurlHTTP {
 			}
 		} catch (Exception $e) {
 		}
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('GrooveTechnology 郵便番号検索 "%s"', $this->getName());
 	}
 }
 

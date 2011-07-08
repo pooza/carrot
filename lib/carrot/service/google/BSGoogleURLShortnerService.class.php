@@ -77,6 +77,14 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 		$result = $json->decode($response->getRenderer()->getContents());
 		return BSURL::create($result['id']);
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('Google URL Shortner "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

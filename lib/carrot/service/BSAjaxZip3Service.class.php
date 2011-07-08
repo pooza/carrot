@@ -42,6 +42,14 @@ class BSAjaxZip3Service extends BSCurlHTTP {
 		$contents = mb_ereg_replace('\\);[[:space:]]*$', null, $contents);
 		return new BSArray(json_decode($contents, true));
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('AjaxZip3サービス "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

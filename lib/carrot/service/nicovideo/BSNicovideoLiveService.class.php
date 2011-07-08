@@ -56,6 +56,14 @@ class BSNicovideoLiveService extends BSCurlHTTP {
 		}
 		return $element;
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('ニコニコ生放送 "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

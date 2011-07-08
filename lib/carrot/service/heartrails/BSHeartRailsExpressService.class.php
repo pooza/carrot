@@ -82,6 +82,14 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 		}
 		return $stations;
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('HeartRails Express "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

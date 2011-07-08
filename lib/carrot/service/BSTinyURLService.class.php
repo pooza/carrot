@@ -37,6 +37,14 @@ class BSTinyURLService extends BSCurlHTTP implements BSURLShorter {
 		$response = $this->sendGET($url->getFullPath());
 		return BSURL::create($response->getRenderer()->getContents());
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('TinyURL "%s"', $this->getName());
+	}
 }
 
 /* vim:set tabstop=4: */
