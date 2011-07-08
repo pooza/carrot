@@ -19,7 +19,6 @@ class BSYouTubeObjectElement extends BSObjectElement {
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
 		$this->setAttribute('type', BSMIMEType::getType('swf'));
-		$this->setParameter('wmode', 'transparent');
 		$this->setParameter('allowFullScreen', 'true');
 	}
 

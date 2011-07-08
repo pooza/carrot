@@ -20,6 +20,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this->bugs['cache_control'] = true;
+		$this->bugs['object_wmode'] = (8 < $this->getVersion());
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());

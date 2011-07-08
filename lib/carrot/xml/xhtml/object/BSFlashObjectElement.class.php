@@ -24,7 +24,6 @@ class BSFlashObjectElement extends BSObjectElement {
 		$this->setAttribute('height', '100%');
 		$this->setAttribute('type', BSMIMEType::getType('swf'));
 		$this->createElement('p', 'Flash Player ' . BS_FLASH_PLAYER_VER . ' 以上が必要です。');
-		$this->setParameter('wmode', 'transparent');
 	}
 
 	/**

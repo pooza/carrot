@@ -30,6 +30,9 @@ class BSObjectElement extends BSXHTMLElement {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		parent::setUserAgent($useragent);
+		if (!$useragent->hasBug('object_wmode')) {
+			$this->setParameter('wmode', 'transparent');
+		}
 		if (!BS_IMAGE_STORABLE) {
 			if ($useragent->hasSupport('image_copyright')) {
 				$this->setAttribute('copyright', 'yes');
