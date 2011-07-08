@@ -64,7 +64,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return boolean 旧機種ならばTrue
 	 */
 	public function isLegacy () {
-		return !$this->isFOMA();
+		return !$this->isFOMA() && !BSString::isContain('bot', $this->getName());
 	}
 
 	/**
