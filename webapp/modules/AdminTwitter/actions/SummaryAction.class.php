@@ -18,15 +18,6 @@ class SummaryAction extends BSAction {
 		return 'Twitterの状態';
 	}
 
-	public function initialize () {
-		parent::initialize();
-		if ($errors = $this->user->getAttribute('errors')) {
-			$this->request->setErrors($errors);
-			$this->user->removeAttribute('errors');
-		}
-		return true;
-	}
-
 	public function execute () {
 		$account = BSAuthorRole::getInstance()->getTwitterAccount();
 		if ($account->isAuthenticated()) {

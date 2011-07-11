@@ -137,6 +137,10 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return boolean 正常終了ならTrue
 	 */
 	public function initialize () {
+		if ($errors = $this->user->getAttribute('errors')) {
+			$this->request->setErrors($errors);
+			$this->user->removeAttribute('errors');
+		}
 		return true;
 	}
 

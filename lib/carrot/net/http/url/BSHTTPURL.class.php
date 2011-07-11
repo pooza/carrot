@@ -388,6 +388,9 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	public function redirect () {
 		$url = $this->createURL();
 		$url->setParameters(BSRequest::getInstance()->getUserAgent()->getQuery());
+		if (!$this->isForeign()) {
+			BSUser::getInstance()->setAttribute('errors', BSRequest::getInstance()->getErrors());
+		}
 		BSController::getInstance()->setHeader('Location', $url->getContents());
 		return BSView::NONE;
 	}

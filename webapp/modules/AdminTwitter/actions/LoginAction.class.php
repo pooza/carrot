@@ -13,7 +13,6 @@ class LoginAction extends BSAction {
 			$account->login($this->request['verifier']);
 		} catch (Exception $e) {
 			$this->request->setError('twitter', $e->getMessage());
-			$this->user->setAttribute('errors', $this->request->getErrors());
 		}
 		return $this->getModule()->redirect();
 	}
