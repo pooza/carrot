@@ -18,6 +18,7 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 	 */
 	public function __construct ($name = null) {
 		parent::__construct('urlset');
+		$this->setDirty(true);
 		$this->setNamespace('http://www.sitemaps.org/schemas/sitemap/0.9');
 	}
 
@@ -44,16 +45,6 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 			}
 		}
 		return $element;
-	}
-
-	/**
-	 * ダーティモードか？
-	 *
-	 * @access public
-	 * @return boolean ダーティモードならTrue
-	 */
-	public function isDirty () {
-		return true;
 	}
 }
 
