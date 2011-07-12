@@ -132,6 +132,15 @@ class BSArray extends BSParameterHolder {
 	}
 
 	/**
+	 * シャッフル
+	 *
+	 * @access public
+	 */
+	public function shuffle () {
+		shuffle($this->params);
+	}
+
+	/**
 	 * 値が含まれているか？
 	 *
 	 * @access public
