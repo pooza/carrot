@@ -18,6 +18,9 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this['is_web_kit'] = true;
+		$this->supports['html5_audio'] = false;
+		$this->supports['html5_audio_mp3'] = $this->supports['html5_audio'];
+		$this->supports['html5_audio_aac'] = $this->supports['html5_audio'];
 	}
 
 	/**
