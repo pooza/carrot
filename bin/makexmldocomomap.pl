@@ -1,4 +1,12 @@
 #!/usr/local/bin/perl -w
+#
+# docomoの機種一覧XMLを生成
+# CPANモジュール HTTP-MobileAgent から拝借したものを改造
+#
+# @package org.carrot-framework
+# @author 小石達也 <tkoishi@b-shock.co.jp>
+# @link http://search.cpan.org/~kurihara/HTTP-MobileAgent-0.27/
+
 use strict;
 use warnings;
 use utf8;
