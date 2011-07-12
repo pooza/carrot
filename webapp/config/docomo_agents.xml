@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <opt>
+  <CA-01C color="1" depth="16777216" height="650" width="480" />
   <D209I color="1" depth="256" height="90" width="96" />
   <D2101V color="1" depth="262144" height="130" width="120" />
   <D210I color="1" depth="256" height="91" width="96" />
@@ -231,6 +232,7 @@
   <P-04C color="1" depth="262144" height="650" width="480" />
   <P-05A color="1" depth="262144" height="350" width="240" />
   <P-05B color="1" depth="262144" height="331" width="240" />
+  <P-05C color="1" depth="262144" height="650" width="480" />
   <P-06A color="1" depth="262144" height="350" width="240" />
   <P-06B color="1" depth="262144" height="650" width="480" />
   <P-07A color="1" depth="262144" height="662" width="480" />
