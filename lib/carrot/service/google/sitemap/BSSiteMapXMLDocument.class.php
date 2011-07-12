@@ -1,7 +1,7 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage service.google
+ * @subpackage service.google.sitemap
  */
 
 /**
@@ -27,9 +27,10 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 	 * @access public
 	 * @param BSHTTPRedirector $url 対象URL
 	 * $param BSParameterHolder $params パラメータ配列
+	 * @return BSXMLElement 追加されたurl要素
 	 */
 	public function register (BSHTTPRedirector $url, BSParameterHolder $params = null) {
-		$element = new BSXMLElement('url');
+		$element = $this->addElement(new BSXMLElement('url'));
 		$element->createElement('loc', $url->getURL()->getContents());
 		if ($params) {
 			foreach ($params as $key => $value) {
@@ -42,7 +43,17 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 				}
 			}
 		}
-		$this->addElement($element);
+		return $element;
+	}
+
+	/**
+	 * ダーティモードか？
+	 *
+	 * @access public
+	 * @return boolean ダーティモードならTrue
+	 */
+	public function isDirty () {
+		return true;
 	}
 }
 
