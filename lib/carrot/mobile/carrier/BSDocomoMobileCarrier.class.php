@@ -22,7 +22,6 @@ class BSDocomoMobileCarrier extends BSMobileCarrier {
 		if (!$file->getSerialized()) {
 			$agents = new BSArray;
 			$xml = new BSXMLDocument;
-			$xml->setDirty(true);
 			$xml->setContents($file->getContents());
 			foreach ($xml->getElements() as $element) {
 				$agents[$element->getName()] = $element->getAttributes()->getParameters();

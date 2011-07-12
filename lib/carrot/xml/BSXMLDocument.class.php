@@ -88,19 +88,6 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	}
 
 	/**
-	 * XMLをパースして要素と属性を抽出
-	 *
-	 * @access public
-	 * @param $string $contents XML文書
-	 */
-	public function setContents ($contents) {
-		if ($this->isDirty()) {
-			$contents = mb_ereg_replace('[+&]', '', $contents);
-		}
-		parent::setContents($contents);
-	}
-
-	/**
 	 * 妥当な要素か？
 	 *
 	 * @access public

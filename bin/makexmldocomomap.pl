@@ -12,6 +12,7 @@ sub do_task {
     my $dat = WWW::MobileCarrierJP::DoCoMo::Display->scrape;
     my %map;
     for my $phone (@$dat) {
+        $phone->{model} =~ s/[+&]//g; # 2011.07.12 tkoishi@b-shock.co.jp 要素名として正規化。
         $map{ uc $phone->{model} } = +{
             width  => $phone->{width},
             height => $phone->{height},
