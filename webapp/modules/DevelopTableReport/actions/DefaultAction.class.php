@@ -10,6 +10,10 @@ class DefaultAction extends BSAction {
 	public function execute () {
 		return $this->getModule()->getAction('DatabaseList')->forward();
 	}
+
+	public function handleError () {
+		return $this->execute();
+	}
 }
 
 /* vim:set tabstop=4: */
