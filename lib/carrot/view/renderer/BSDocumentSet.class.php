@@ -182,6 +182,9 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		if ($entry instanceof BSSerializable) {
 			$this->documents[] = $entry;
 		}
+		$this->digest = null;
+		$this->cacheFile = null;
+		$this->contents = null;
 	}
 
 	/**
