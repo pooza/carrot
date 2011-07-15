@@ -585,7 +585,9 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return boolean シリアライズするならTrue
 	 */
 	public function isSerializable () {
-		return false;
+		return (($storage = BSSerializeHandler::getInstance()->getStorage())
+			&& ($storage instanceof BSMemcacheSerializeStorage)
+		);
 	}
 
 	/**
