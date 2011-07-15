@@ -582,7 +582,7 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		return $this->format('Y-m-d H:i:s');
 	}
 

@@ -164,7 +164,7 @@ class BSMailAddress implements BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		return $this->getContents();
 	}
 

@@ -185,7 +185,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		return get_object_vars($this);
 	}
 

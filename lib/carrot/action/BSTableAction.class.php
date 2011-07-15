@@ -86,7 +86,7 @@ abstract class BSTableAction extends BSAction {
 			$this->rows = new BSArray;
 			if ($this->isShowable()) {
 				foreach ($this->getTable() as $record) {
-					$this->rows[] = $record->getAssignValue();
+					$this->rows[] = $record->getAssignableValues();
 				}
 			}
 		}
