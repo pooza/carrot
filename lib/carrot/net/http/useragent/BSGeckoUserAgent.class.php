@@ -45,7 +45,7 @@ class BSGeckoUserAgent extends BSUserAgent {
 	 * @return boolean レガシーならばTrue
 	 */
 	public function isLegacy () {
-		return version_compare($this->getVersion(), '1.9', '<'); // Firefox 3.0未満
+		return version_compare($this->getVersion(), '1.7', '<'); // Firefox 1.0未満
 	}
 
 	/**
