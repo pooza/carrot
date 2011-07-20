@@ -32,13 +32,13 @@ class BSUserAgentTest extends BSTest {
 		$this->assert('getInstance_IE10', $useragent instanceof BSTridentUserAgent);
 		$this->assert('getVersion_IE10', $useragent->getVersion() == 10);
 
-		// Mozilla
+		// Firefox 0.10
 		$useragent = BSUserAgent::create(
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113'
+			'Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20040913 Firefox/0.10'
 		);
-		$this->assert('getInstance_Moz', $useragent instanceof BSGeckoUserAgent);
-		$this->assert('getVersion_Moz', $useragent->getVersion() == '1.6');
-		$this->assert('isLegacy_Moz', $useragent->isLegacy());
+		$this->assert('getInstance_Fx010', $useragent instanceof BSGeckoUserAgent);
+		$this->assert('getVersion_Fx010', $useragent->getVersion() == '1.7.3');
+		$this->assert('isLegacy_Fx010', $useragent->isLegacy());
 
 		// Firefox 1.0
 		$useragent = BSUserAgent::create(
