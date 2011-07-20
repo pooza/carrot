@@ -59,7 +59,7 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 * @return boolean レガシーならばTrue
 	 */
 	public function isLegacy () {
-		return version_compare($this->getVersion(), '530.0', '<'); // Safari 4.0未満
+		return version_compare($this->getVersion(), '100.0', '<'); // Safari 1.1未満
 	}
 
 	/**
