@@ -292,8 +292,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 		}
 		if (BSString::isBlank($date)) {
 			$date = self::getNow();
-		} else if (is_array($date) || ($date instanceof BSArray)) {
-			$date = self::getNewest(new BSArray($date));
 		} else if (!($date instanceof BSDate)) {
 			if (!$date = self::create($date)) {
 				throw new BSDateException('日付が正しくありません。');
@@ -609,29 +607,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 		} else {
 			return $date->format($format);
 		}
-	}
-
-	/**
-	 * 配列の中から、最も新しい日付を返す
-	 *
-	 * @access public
-	 * @param BSArray 日付の配列
-	 * @return BSDate 最も新しい日付
-	 * @static
-	 */
-	static public function getNewest (BSArray $dates) {
-		$newest = null;
-		foreach ($dates as $date) {
-			if (!($date instanceof BSDate)) {
-				if (!$date = self::create($date)) {
-					throw new BSDateException('日付でない要素が含まれています。');
-				}
-			}
-			if (!$newest || $newest->isPast($date)) {
-				$newest = $date;
-			}
-		}
-		return $newest;
 	}
 
 	/**
