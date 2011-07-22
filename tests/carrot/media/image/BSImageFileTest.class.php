@@ -7,7 +7,7 @@ class BSImageFileTest extends BSTest {
 	public function execute () {
 		$dir = BSFileUtility::getDirectory('root');
 		$src = $dir->getEntry('www/carrotlib/images/button/pictogram.gif', 'BSImageFile');
-		$dest = BSFileUtility::getTemporaryFile('ico');
+		$dest = BSFileUtility::createTemporaryFile('ico');
 		$dest->setContents($src->getContents());
 		$this->assert('__construct', $dest = new BSImageFile($dest->getPath(), 'BSImagickImage'));
 		$this->assert('setType', !$dest->getRenderer()->setType('image/vnd.microsoft.icon'));

@@ -10,7 +10,7 @@ class BSImageTest extends BSTest {
 
 		$dir = BSFileUtility::getDirectory('root');
 		$src = $dir->getEntry('www/carrotlib/images/button/pictogram.gif', 'BSImageFile');
-		$dest = BSFileUtility::getTemporaryFile('gif', 'BSImageFile');
+		$dest = BSFileUtility::createTemporaryFile('gif', 'BSImageFile');
 		$dest->setContents($src->getContents());
 		$this->assert('getType', $dest->getType() == 'image/gif');
 		$dest->getRenderer()->resize(57, 57);
