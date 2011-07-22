@@ -55,7 +55,7 @@ class BSGoogleFaviconsService extends BSCurlHTTP {
 				$image = new BSImage;
 				$image->setType(BSMIMEType::getType('.png'));
 				$image->setImage($response->getRenderer()->getContents());
-				$file = BSFileUtility::getTemporaryFile('.png', 'BSImageFile');
+				$file = BSFileUtility::createTemporaryFile('.png', 'BSImageFile');
 				$file->setRenderer($image);
 				$file->save();
 				$file->setMode(0666);

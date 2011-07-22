@@ -45,7 +45,7 @@ class BSIniConfigParser implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result) {
-			$file = BSFileUtility::getTemporaryFile('.ini');
+			$file = BSFileUtility::createTemporaryFile('.ini');
 			$file->setContents($this->getContents());
 			$this->result = BSString::convertKana(parse_ini_file($file->getPath(), true), 'KVa');
 			$file->delete();

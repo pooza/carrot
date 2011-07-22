@@ -79,7 +79,7 @@ abstract class BSMediaConvertor {
 	 * @return BSMediaFile 変換後ファイル
 	 */
 	public function execute (BSMediaFile $source) {
-		$file = BSFileUtility::getTemporaryFile($this->getSuffix());
+		$file = BSFileUtility::createTemporaryFile($this->getSuffix());
 		if (!$this->isForceExecutable() && ($source->getType() == $this->getType())) {
 			$duplicated = $source->copyTo($file->getDirectory());
 			$duplicated->rename($file->getName());

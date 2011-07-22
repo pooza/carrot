@@ -90,7 +90,7 @@ class BSRenderManager {
 		}
 		$cache['contents'] = $view->getRenderer()->getContents();
 
-		$file = BSFileUtility::getTemporaryFile();
+		$file = BSFileUtility::createTemporaryFile();
 		$serializer = new BSPHPSerializer;
 		$file->setContents($serializer->encode($cache));
 		$file->setMode(0666);

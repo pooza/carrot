@@ -121,7 +121,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	public function getFile () {
 		if (!$this->file) {
 			$this->temporaryFile = true;
-			$this->file = BSFileUtility::getTemporaryFile('.zip');
+			$this->file = BSFileUtility::createTemporaryFile('.zip');
 		}
 		return $this->file;
 	}

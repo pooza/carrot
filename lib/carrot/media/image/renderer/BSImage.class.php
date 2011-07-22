@@ -83,7 +83,7 @@ class BSImage implements BSImageRenderer {
 				throw new BSCryptException('imagickモジュールがロードされていません。');
 			}
 
-			$file = BSFileUtility::getTemporaryFile();
+			$file = BSFileUtility::createTemporaryFile();
 			$file->setContents($this->getContents());
 			$this->imagick = new Imagick($file->getPath());
 			$file->delete();

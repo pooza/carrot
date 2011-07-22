@@ -83,7 +83,7 @@ class BSMail extends BSMIMEDocument {
 	 */
 	public function getFile () {
 		if (!$this->file || !$this->file->isExists()) {
-			$this->file = BSFileUtility::getTemporaryFile('.eml');
+			$this->file = BSFileUtility::createTemporaryFile('.eml');
 			$this->file->setContents($this->getContents());
 		}
 		return $this->file;

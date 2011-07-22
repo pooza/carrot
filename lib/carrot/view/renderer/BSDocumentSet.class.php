@@ -285,7 +285,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	public function getType () {
 		if (!$this->type) {
-			$file = BSFileUtility::getTemporaryFile(null, $this->getDocumentClass());
+			$file = BSFileUtility::createTemporaryFile(null, $this->getDocumentClass());
 			$this->type = $file->getType();
 			$file->delete();
 		}

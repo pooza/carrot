@@ -359,7 +359,7 @@ class BSTwitterAccount
 		if (!$icon = $this->getIcon()) {
 			return null;
 		}
-		$file = BSFileUtility::getTemporaryFile('.png', 'BSImageFile');
+		$file = BSFileUtility::createTemporaryFile('.png', 'BSImageFile');
 		$file->setEngine($icon);
 		$file->save();
 		$file->setName($this->getImageFileBaseName($size));
