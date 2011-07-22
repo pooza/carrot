@@ -11,6 +11,7 @@
  */
 class BSMemcacheManager {
 	private $server;
+	private $constants;
 	static private $instance;
 	const CONNECT_INET = 'inet';
 	const CONNECT_UNIX = 'unix';
@@ -19,6 +20,7 @@ class BSMemcacheManager {
 	 * @access private
 	 */
 	private function __construct () {
+		$this->constants = new BSConstantHandler('memcache');
 	}
 
 	/**
@@ -59,8 +61,8 @@ class BSMemcacheManager {
 	 * @param string $name 設定名
 	 * @return string 設定値
 	 */
-	public function getConfig ($name) {
-		return BSController::getInstance()->getAttribute('MEMCACHE_' . $name);
+	public function getConstant ($name) {
+		return $this->constants[$name];
 	}
 
 	/**
@@ -75,7 +77,7 @@ class BSMemcacheManager {
 		}
 		if (!$this->server) {
 			$server = new BSMemcache;
-			if ($server->pconnect($this->getConfig('host'), $this->getConfig('port'))) {
+			if ($server->pconnect($this->getConstant('host'), $this->getConstant('port'))) {
 				$this->server = $server;
 			}
 		}

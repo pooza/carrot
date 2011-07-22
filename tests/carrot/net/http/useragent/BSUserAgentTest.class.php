@@ -32,15 +32,15 @@ class BSUserAgentTest extends BSTest {
 		$this->assert('getInstance_IE10', $useragent instanceof BSTridentUserAgent);
 		$this->assert('getVersion_IE10', $useragent->getVersion() == 10);
 
-		// Firefox 2.0
+		// Firefox 0.10
 		$useragent = BSUserAgent::create(
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; ja; rv:1.8.1.20) Gecko/20081217 Firefox/2.0.0.20'
+			'Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20040913 Firefox/0.10'
 		);
-		$this->assert('getInstance_Fx2', $useragent instanceof BSGeckoUserAgent);
-		$this->assert('getVersion_Fx2', $useragent->getVersion() == '1.8.1.20');
-		$this->assert('isLegacy_Fx2', $useragent->isLegacy());
+		$this->assert('getInstance_Fx010', $useragent instanceof BSGeckoUserAgent);
+		$this->assert('getVersion_Fx010', $useragent->getVersion() == '1.7.3');
+		$this->assert('isLegacy_Fx010', $useragent->isLegacy());
 
-		// Firefox 3.0
+		// Firefox 1.0
 		$useragent = BSUserAgent::create(
 			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9) Gecko/2008051206 Firefox/3.0'
 		);
@@ -48,13 +48,13 @@ class BSUserAgentTest extends BSTest {
 		$this->assert('getVersion_Fx3', $useragent->getVersion() == '1.9');
 		$this->assert('isLegacy_Fx3', !$useragent->isLegacy());
 
-		// Safari 3.2
+		// Safari 0.8
 		$useragent = BSUserAgent::create(
-			'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; ja-jp) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1'
+			'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; ja-jp) AppleWebKit/85.7 (KHTML, like Gecko) Safari/85.6'
 		);
-		$this->assert('getInstance_Safari32', $useragent instanceof BSWebKitUserAgent);
-		$this->assert('getVersion_Safari32', $useragent->getVersion() == '525.27.1');
-		$this->assert('isLegacy_Safari32', $useragent->isLegacy());
+		$this->assert('getInstance_Safari08', $useragent instanceof BSWebKitUserAgent);
+		$this->assert('getVersion_Safari08', $useragent->getVersion() == '85.7');
+		$this->assert('isLegacy_Safari08', $useragent->isLegacy());
 
 		// Safari 5.0
 		$useragent = BSUserAgent::create(

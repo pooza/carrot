@@ -478,7 +478,7 @@ class BSTwitterAccount
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		$values = clone $this->profile;
 		$values['timeline_url'] = $this->getURL()->getContents();
 		$values['tweets'] = $this->tweets;

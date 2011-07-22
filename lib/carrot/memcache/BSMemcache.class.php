@@ -113,7 +113,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	public function getProcessID () {
 		if ($this->getConnectionType() == BSMemcacheManager::CONNECT_UNIX) {
 			try {
-				return BSProcess::getID($this->getManager()->getConfig('DAEMON_NAME'));
+				return BSProcess::getID($this->getManager()->getConstant('DAEMON_NAME'));
 			} catch (Exception $e) {
 				return null;
 			}

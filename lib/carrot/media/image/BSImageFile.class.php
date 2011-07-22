@@ -293,7 +293,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		$values = $this->getImageInfo();
 		$values['path'] = $this->getPath();
 		return $values;

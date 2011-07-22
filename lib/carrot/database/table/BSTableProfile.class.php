@@ -149,7 +149,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		$values = array(
 			'name' => $this->getName(),
 			'name_ja' => BSTranslateManager::getInstance()->execute($this->getName(), 'ja'),

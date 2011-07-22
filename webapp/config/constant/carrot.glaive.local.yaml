@@ -39,3 +39,8 @@ ruby:
 awstats:
   log_dir: /var/log/httpd/www.example.com
   server_name_aliases: 
+
+serialize:
+  storage: memcache
+session:
+  storage: memcache

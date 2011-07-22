@@ -585,7 +585,9 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return boolean シリアライズするならTrue
 	 */
 	public function isSerializable () {
-		return false;
+		return (($storage = BSSerializeHandler::getInstance()->getStorage())
+			&& ($storage instanceof BSMemcacheSerializeStorage)
+		);
 	}
 
 	/**
@@ -607,7 +609,7 @@ abstract class BSRecord implements ArrayAccess,
 		if (!$this->isSerializable()) {
 			throw new BSDatabaseException($this . 'はシリアライズできません。');
 		}
-		BSController::getInstance()->setAttribute($this, $this->getFullAttributes());
+		BSController::getInstance()->setAttribute($this, $this->getSerializableValues());
 	}
 
 	/**
@@ -630,7 +632,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access protected
 	 * @return BSArray ファイル属性の配列
 	 */
-	protected function getFullAttributes () {
+	protected function getSerializableValues () {
 		$values = $this->getAttributes();
 		$values['_attributes'] = $this->getAttributes();
 		if ($url = $this->getURL()) {
@@ -654,14 +656,14 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignValue () {
+	public function getAssignableValues () {
 		if ($this->isSerializable()) {
 			if (BSString::isBlank($this->getSerialized())) {
 				$this->serialize();
 			}
 			return $this->getSerialized();
 		} else {
-			return $this->getFullAttributes();
+			return $this->getSerializableValues();
 		}
 	}
 
