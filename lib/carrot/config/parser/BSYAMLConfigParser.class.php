@@ -23,7 +23,11 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 */
 	public function getContents () {
 		if (!$this->contents && $this->result) {
-			$this->contents = $this->dump($this->result);
+			if (extension_loaded('syck')) {
+				$this->contents = syck_dump($this->result);
+			} else {
+				$this->contents = $this->dump($this->result);
+			}
 		}
 		return $this->contents;
 	}
@@ -47,7 +51,14 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result && $this->contents) {
-			$this->result = BSString::convertKana(parent::YAMLLoad($this->contents), 'KVa');
+			if (extension_loaded('syck')) {
+				if (BSString::isBlank($result = syck_load($this->contents))) {
+					$result = array();
+				}
+			} else {
+				$result = parent::YAMLLoad($this->contents);
+			}
+			$this->result = BSString::convertKana($result, 'KVa');
 		}
 		return $this->result;
 	}
