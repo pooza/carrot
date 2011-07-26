@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.108
+  ver: 2.4.109
 
 admin:
   email:
@@ -103,7 +103,7 @@ image:
   qrcode:
     size: 80
   thumbnail:
-    bgcolor: black
+    bgcolor: '000000'
     type: image/png
   apple_icon:
     pixels: 57

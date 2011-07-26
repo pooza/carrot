@@ -6,7 +6,7 @@
 color:
   class: BSRegexValidator
   params:
-    pattern: [[:xdigit:]]{6}
+    pattern: '[[:xdigit:]]{6}'
     match_error: 色指定が正しくありません。
 date:
   class: BSDateValidator
