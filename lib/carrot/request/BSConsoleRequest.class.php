@@ -94,6 +94,18 @@ class BSConsoleRequest extends BSRequest {
 		}
 		return $this->useragent;
 	}
+
+	/**
+	 * 実際のUserAgentを返す
+	 *
+	 * エミュレート環境でも、実際のUserAgentを返す。
+	 *
+	 * @access public
+	 * @return BSUserAgent リモートホストのUserAgent
+	 */
+	public function getRealUserAgent () {
+		return $this->getUserAgent();
+	}
 }
 
 /* vim:set tabstop=4: */
