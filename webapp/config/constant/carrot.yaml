@@ -103,7 +103,7 @@ image:
   qrcode:
     size: 80
   thumbnail:
-    bgcolor: '000000'
+    bgcolor: black
     type: image/png
   apple_icon:
     pixels: 57
