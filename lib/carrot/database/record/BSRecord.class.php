@@ -127,10 +127,10 @@ abstract class BSRecord implements ArrayAccess,
 		}
 
 		$db->exec(BSSQL::getUpdateQueryString($table, $values, $this->getCriteria(), $db));
-		if ($record = $this->getParent()) {
+		$this->attributes->setParameters($values);
+		if (($record = $this->getParent()) && !($flags & BSDatabase::WITHOUT_PARENT)) {
 			$record->touch();
 		}
-		$this->attributes->setParameters($values);
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
 			BSController::getInstance()->removeAttribute($this);
 		}
@@ -179,7 +179,7 @@ abstract class BSRecord implements ArrayAccess,
 				}
 			}
 		}
-		if ($record = $this->getParent()) {
+		if (($record = $this->getParent()) && !($flags & BSDatabase::WITHOUT_PARENT)) {
 			$record->touch();
 		}
 		$this->getDatabase()->exec(
