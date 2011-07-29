@@ -113,6 +113,16 @@ class BSRenderManager {
 	}
 
 	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function removeCache (BSAction $action) {
+		$this->getResourceDirectory($action)->clear();
+	}
+
+	/**
 	 * 全てのキャッシュをクリア
 	 *
 	 * @access public
