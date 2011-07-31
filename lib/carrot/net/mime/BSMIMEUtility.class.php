@@ -81,10 +81,7 @@ class BSMIMEUtility {
 	 * @static
 	 */
 	static public function decodeQuotedPrintable ($str) {
-		foreach (BSString::eregMatchAll('=([[:xdigit:]]{2})', $str) as $matches) {
-			$str = str_replace($matches[0], chr(hexdec($matches[1])), $str);
-		}
-		return $str;
+		return quoted_printable_decode($str);
 	}
 
 	/**
