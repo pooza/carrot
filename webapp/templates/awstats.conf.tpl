@@ -144,3 +144,5 @@ LogoLink="http://awstats.sourceforge.net"
 BarWidth=260
 BarHeight=90
 StyleSheet=""
+
+{* vim: set tabstop=4: *}

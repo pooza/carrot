@@ -17,3 +17,5 @@ Subject: [{const name='app_name_ja'}] {$priority}
 ブラウザ:
 {$useragent.type}系
 {$useragent.name}
+
+{* vim: set tabstop=4: *}
