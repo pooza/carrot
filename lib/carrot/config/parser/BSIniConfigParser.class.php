@@ -20,9 +20,6 @@ class BSIniConfigParser implements BSConfigParser {
 	 * @return string 設定内容
 	 */
 	public function getContents () {
-		if (!$this->contents) {
-			throw new BSConfigException('設定内容が定義されていません。');
-		}
 		return $this->contents;
 	}
 
@@ -33,7 +30,7 @@ class BSIniConfigParser implements BSConfigParser {
 	 * @param string $contents 設定内容
 	 */
 	public function setContents ($contents) {
-		$this->contents = $contents;
+		$this->contents = BSString::convertKana($contents, 'KVa');
 		$this->result = null;
 	}
 
@@ -45,10 +42,7 @@ class BSIniConfigParser implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result) {
-			$file = BSFileUtility::createTemporaryFile('.ini');
-			$file->setContents($this->getContents());
-			$this->result = BSString::convertKana(parse_ini_file($file->getPath(), true), 'KVa');
-			$file->delete();
+			$this->result = parse_ini_string($this->getContents(), true);
 		}
 		return $this->result;
 	}
