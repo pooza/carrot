@@ -35,7 +35,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 * @param string $contents 設定内容
 	 */
 	public function setContents ($contents) {
-		$this->contents = $contents;
+		$this->contents = BSString::convertKana($contents, 'KVa');
 		$this->result = null;
 	}
 
@@ -47,7 +47,7 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	 */
 	public function getResult () {
 		if (!$this->result && !BSString::isBlank($this->contents)) {
-			$this->result = BSString::convertKana(parent::YAMLLoad($this->contents), 'KVa');
+			$this->result = parent::YAMLLoad($this->contents);
 		}
 		return $this->result;
 	}
