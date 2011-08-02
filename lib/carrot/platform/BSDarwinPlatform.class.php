@@ -17,8 +17,8 @@ class BSDarwinPlatform extends BSPlatform {
 	 * @access public
 	 * @return string プロセスオーナーのユーザー名
 	 */
-	public function getCurrentUser () {
-		return ltrim(parent::getCurrentUser(), '_');
+	public function getProcessOwner () {
+		return ltrim(parent::getProcessOwner(), '_');
 	}
 }
 

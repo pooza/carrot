@@ -18,7 +18,7 @@ class BSFreeBSDPlatform extends BSPlatform {
 	 * @param BSFile $file 対象ファイル
 	 * @param string $path リネーム後のパス
 	 */
-	public function rename (BSFile $file, $path) {
+	public function renameFile (BSFile $file, $path) {
 		if (!@rename($file->getPath(), $path)) {
 			throw new BSFileException($this . 'を移動できません。');
 		}
