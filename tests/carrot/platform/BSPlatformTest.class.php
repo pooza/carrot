@@ -8,7 +8,6 @@ class BSPlatformTest extends BSTest {
 		$platform = $this->controller->getPlatform();
 		$this->assert('getPlatform', $platform instanceof BSPlatform);
 		$this->assert('getName', !!$platform->getName());
-p($platform);exit;
 	}
 }
 
