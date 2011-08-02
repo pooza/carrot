@@ -36,11 +36,7 @@ class BSProcess {
 	 * @static
 	 */
 	static public function getCurrentUser () {
-		$user = BSController::getInstance()->getAttribute('USER');
-		if (PHP_OS == 'Darwin') {
-			$user = ltrim($user, '_');
-		}
-		return $user;
+		return BSController::getInstance()->getPlatform()->getProcessOwner();
 	}
 
 	/**

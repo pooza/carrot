@@ -12,6 +12,7 @@
  */
 abstract class BSController {
 	protected $host;
+	protected $platform;
 	protected $headers;
 	protected $actions;
 	protected $searchDirectories;
@@ -98,6 +99,19 @@ abstract class BSController {
 			$this->host = new BSHost($this->getAttribute('SERVER_NAME'));
 		}
 		return $this->host;
+	}
+
+	/**
+	 * サーバプラットフォームを返す
+	 *
+	 * @access public
+	 * @return string サーバホスト
+	 */
+	public function getPlatform () {
+		if (!$this->platform) {
+			$this->platform = BSPlatform::create(PHP_OS);
+		}
+		return $this->platform;
 	}
 
 	/**

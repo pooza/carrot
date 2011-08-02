@@ -78,15 +78,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $this->getDirectory()->getPath() . '/' . basename($name);
-		if (PHP_OS == 'FreeBSD') {
-			if (!@rename($this->getPath(), $path)) {
-				throw new BSFileException($this . 'をリネームできません。');
-			}
-		} else {
-			if (!rename($this->getPath(), $path)) {
-				throw new BSFileException($this . 'をリネームできません。');
-			}
-		}
+		BSController::getInstance()->getPlatform()->renameFile($this, $path);
 		$this->setPath($path);
 	}
 
@@ -157,15 +149,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $dir->getPath() . '/' . $this->getName();
-		if (PHP_OS == 'FreeBSD') {
-			if (!@rename($this->getPath(), $path)) {
-				throw new BSFileException($this . 'を移動できません。');
-			}
-		} else {
-			if (!rename($this->getPath(), $path)) {
-				throw new BSFileException($this . 'を移動できません。');
-			}
-		}
+		BSController::getInstance()->getPlatform()->renameFile($this, $path);
 		$this->setPath($path);
 	}
 
