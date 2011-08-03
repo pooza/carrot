@@ -26,7 +26,8 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function getDirectory ($name) {
-		return BSDirectoryLayout::getInstance()->getDirectory($name);
+		$layout = BSDirectoryLayout::getInstance();
+		return $layout[$name];
 	}
 
 	/**

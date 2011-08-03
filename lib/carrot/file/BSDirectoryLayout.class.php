@@ -10,22 +10,22 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDirectoryLayout extends BSParameterHolder {
+	private $config;
 	static private $instance;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
-		$configure = BSConfigManager::getInstance();
-
+		$this->config = new BSArray;
 		$entries = new BSArray;
 		$entries[] = 'carrot';
 		$entries[] = 'application';
 		$entries[] = BSController::getInstance()->getHost()->getName();
 		foreach ($entries as $entry) {
 			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
-				foreach ($configure->compile($file) as $key => $values) {
-					$this[$key] = new BSArray($values);
+				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
+					$this->config[$key] = new BSArray($values);
 				}
 			}
 		}
@@ -52,43 +52,40 @@ class BSDirectoryLayout extends BSParameterHolder {
 		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
-	/**
-	 * 特別なディレクトリを返す
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @return BSDirectory ディレクトリ
-	 */
-	public function getDirectory ($name) {
-		if (!$info = $this[$name]) {
+	private function getEntry ($name) {
+		if (!$info = $this->config[$name]) {
 			$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
 			$message[] = $name;
 			throw new BSFileException($message);
 		}
-		if (!$info['instance']) {
-			$constants = new BSConstantHandler($name);
+		return $info;
+	}
+
+	/**
+	 * ディレクトリを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリ名
+	 * @return BSDirectory ディレクトリ
+	 */
+	public function getParameter ($name) {
+		if (!$this->hasParameter($name) && ($info = $this->getEntry($name))) {
 			if (!!$info['constant']) {
+				$constants = new BSConstantHandler($name);
 				$dir = new BSDirectory($constants['DIR']);
 			} else if (!!$info['platform']) {
-				$platform = BSController::getInstance()->getPlatform();
-				foreach (array($platform->getName(), 'default') as $suffix) {
-					if (!BSString::isBlank($path = $constants['dir_' . $suffix])) {
-						$dir = new BSDirectory($path);
-						break;
-					}
-				}
+				$dir = BSController::getInstance()->getPlatform()->getDirectory($name);
 			} else if (!BSString::isBlank($info['name'])) {
-				$dir = $this->getDirectory($info['parent'])->getEntry($info['name']);
+				$dir = $this[$info['parent']]->getEntry($info['name']);
 			} else {
-				$dir = $this->getDirectory($info['parent'])->getEntry($name);
+				$dir = $this[$info['parent']]->getEntry($name);
 			}
 
-			if (!$dir || !($dir instanceof BSDirectory)) {
+			if (!($dir instanceof BSDirectory)) {
 				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
 				$message[] = $name;
 				throw new BSFileException($message);
 			}
-
 			if (!BSString::isBlank($info['class'])) {
 				$class = BSClassLoader::getInstance()->getClass($info['class']);
 				$dir = new $class($dir->getPath());
@@ -96,9 +93,9 @@ class BSDirectoryLayout extends BSParameterHolder {
 			if (!BSString::isBlank($info['suffix'])) {
 				$dir->setDefaultSuffix($info['suffix']);
 			}
-			$info['instance'] = $dir;
+			$this->params[$name] = $dir;
 		}
-		return $info['instance'];
+		return $this->params[$name];
 	}
 
 	/**
@@ -109,12 +106,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 * @return BSHTTPURL URL
 	 */
 	public function createURL ($name) {
-		if (!$info = $this[$name]) {
-			$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
-			$message[] = $name;
-			throw new BSFileException($message);
-		}
-		if (!$info['url']) {
+		if (($info = $this->getEntry($name)) && BSString::isBlank($info['url'])) {
 			if (BSString::isBlank($info['href'])) {
 				$info['url'] = $this->getDirectory($name)->getURL();
 			} else {

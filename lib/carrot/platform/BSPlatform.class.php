@@ -75,6 +75,22 @@ abstract class BSPlatform extends BSParameterHolder {
 	}
 
 	/**
+	 * ディレクトリを返す
+	 *
+	 * @access public
+	 * @param string $name ディレクトリ名
+	 * @return BSDirectory ディレクトリ
+	 */
+	public function getDirectory ($name) {
+		$constants = new BSConstantHandler($name);
+		foreach (array($this->getName(), 'default') as $suffix) {
+			if (!BSString::isBlank($path = $constants['dir_' . $suffix])) {
+				return new BSDirectory($path);
+			}
+		}
+	}
+
+	/**
 	 * プロセスのオーナーを返す
 	 *
 	 * @access public
