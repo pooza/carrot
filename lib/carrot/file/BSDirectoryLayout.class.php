@@ -66,13 +66,23 @@ class BSDirectoryLayout extends BSParameterHolder {
 			throw new BSFileException($message);
 		}
 		if (!$info['instance']) {
-			if (!BSString::isBlank($info['constant'])) {
-				$dir = new BSDirectory(BSController::getInstance()->getAttribute($name . '_DIR'));
+			$constants = new BSConstantHandler($name);
+			if (!!$info['constant']) {
+				$dir = new BSDirectory($constants['DIR']);
+			} else if (!!$info['platform']) {
+				$platform = BSController::getInstance()->getPlatform();
+				foreach (array($platform->getName(), 'default') as $suffix) {
+					if (!BSString::isBlank($path = $constants['dir_' . $suffix])) {
+						$dir = new BSDirectory($path);
+						break;
+					}
+				}
 			} else if (!BSString::isBlank($info['name'])) {
 				$dir = $this->getDirectory($info['parent'])->getEntry($info['name']);
 			} else {
 				$dir = $this->getDirectory($info['parent'])->getEntry($name);
 			}
+
 			if (!$dir || !($dir instanceof BSDirectory)) {
 				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
 				$message[] = $name;

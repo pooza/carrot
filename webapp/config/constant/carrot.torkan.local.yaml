@@ -26,18 +26,6 @@ pdo:
     uid: root
     password:
 
-mysql:
-  dir: /opt/local/lib/mysql5
-
-pgsql:
-  dir: /opt/local/lib/postgresql84
-
-php:
-  dir: /opt/local
-
-ruby:
-  dir: /opt/local
-
 awstats:
   log_dir: /var/log/httpd/www.example.com
   server_name_aliases: 

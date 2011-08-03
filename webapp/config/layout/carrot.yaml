@@ -55,7 +55,7 @@ favicon:
   purge:
     day: 7
 ffmpeg:
-  constant: yes
+  platform: yes
 font:
   parent: share
   suffix: .ttf
@@ -65,7 +65,7 @@ image_cache:
   parent: var
   href: /carrotlib/images/cache/
 image_magick:
-  constant: yes
+  platform: yes
 js:
   parent: carrotlib
   suffix: .js
@@ -104,28 +104,28 @@ musics:
   parent: carrotlib
   suffix: .mp3
 mysql:
-  constant: yes
+  platform: yes
 output:
   parent: var
 pictogram:
   parent: images
   suffix: .gif
 pgsql:
-  constant: yes
+  platform: yes
 php:
-  constant: yes
+  platform: yes
 png2ico:
-  constant: yes
+  platform: yes
 proctools:
-  constant: yes
+  platform: yes
 root:
   constant: yes
 ruby:
-  constant: yes
+  platform: yes
 sample:
   parent: share
 sendmail:
-  constant: yes
+  platform: yes
 serialized:
   parent: var
 share:
@@ -136,7 +136,7 @@ sql:
 sqlite3:
   constant: yes
 sudo:
-  constant: yes
+  platform: yes
 swf:
   parent: carrotlib
   suffix: .swf
@@ -155,7 +155,7 @@ twitter_account:
   purge:
     day: 1
 unzip:
-  constant: yes
+  platform: yes
 var:
   constant: yes
 webapp:

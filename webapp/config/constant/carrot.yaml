@@ -51,7 +51,9 @@ decoration_mail:
     au: application/x-kddi-htmlmail
     softbank: application/x-htmlmail-template
 ffmpeg:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    linux: /usr
   convert:
     flv:
       video_codec: flv
@@ -110,7 +112,9 @@ image:
   favicon:
     pixels: 16
 image_magick:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    linux: /usr
 languages:
   - ja
 log:
@@ -180,7 +184,9 @@ music:
       width: 200
       height: 20
 mysql:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    darwin: /opt/local/lib/mysql5
 net:
   resolvable: yes
   url:
@@ -201,21 +207,30 @@ pdo:
   twitter:
     dsn: sqlite:%BS_VAR_DIR%/db/twitter.sqlite3
 pgsql:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    darwin: /opt/local/lib/postgresql84
 php:
-  dir: /usr/local
+  dir:
+    default: /usr/local
 pictogram:
 png2ico:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    linux: /usr
 proctools:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    linux: /usr
 request:
   validate:
     strict: no
 ruby:
-  dir: /usr/local
+  dir:
+    default: /usr/local
 sendmail:
-  dir: /usr
+  dir:
+    default: /usr
 serialize:
   storage: default
   serializer: JSON
@@ -258,11 +273,17 @@ smtp:
   host: localhost
   check_addresses: no
 sqlite3:
-  dir: /usr/local
+  dir:
+    default: /usr/local
+    linux: /usr
 sudo:
-  dir: /usr
+  dir:
+    default: /usr
+    freebsd: /usr/local
 unzip:
-  dir: /usr
+  dir:
+    default: /usr
+    freebsd: /usr/local
 upload:
   progress:
     key: progress_key
