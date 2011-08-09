@@ -17,7 +17,6 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	const FRI = 5;
 	const SAT = 6;
 	const SUN = 7;
-	const GMT = 'GMT';
 	const TIMESTAMP = 1;
 	static private $gengos;
 
@@ -362,16 +361,10 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 *
 	 * @access public
 	 * @param string $format 書式
-	 * @param integer $flags フラグのビット列
-	 *   self::GMT GMT時刻で返す。
 	 * @return string 書式化された日付文字列
 	 */
-	public function format ($format = 'Y/m/d H:i:s', $flags = null) {
+	public function format ($format = 'Y/m/d H:i:s') {
 		$date = clone $this;
-		if ($flags & self::GMT) {
-			$date = self::create(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
-		}
-
 		if (BSString::isContain('%', $format)) {
 			$format = strftime($format, $date->getTimestamp());
 		}
