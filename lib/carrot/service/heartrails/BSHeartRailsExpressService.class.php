@@ -42,7 +42,7 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 		$name[] = $geocode['lat'];
 		$name[] = $geocode['lng'];
 		$name = $name->getContents();
-		$date = BSDate::getNow()->setAttribute('day', '-7');
+		$date = BSDate::getNow()->setParameter('day', '-7');
 		if (($flags & self::FORCE_QUERY) || !$controller->getAttribute($name, $date)) {
 			try {
 				$controller->setAttribute($name, $this->queryStations($geocode));

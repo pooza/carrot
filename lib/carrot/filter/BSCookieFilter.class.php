@@ -27,7 +27,7 @@ class BSCookieFilter extends BSFilter {
 		$methods[] = 'GET';
 
 		if ($methods->isContain($this->request->getMethod())) {
-			$expire = BSDate::getNow()->setAttribute('hour', '+' . BS_COOKIE_CHECKER_HOURS);
+			$expire = BSDate::getNow()->setParameter('hour', '+' . BS_COOKIE_CHECKER_HOURS);
 			$this->user->setAttribute($this->getCookieName(), true, $expire);
 		} else {
 			if (BSString::isBlank($this->user->getAttribute($this->getCookieName()))) {

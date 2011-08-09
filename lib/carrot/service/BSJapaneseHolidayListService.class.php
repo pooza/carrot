@@ -64,7 +64,6 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 		} else {
 			$this->date = BSDate::getNow();
 		}
-		$this->date->setHasTime(false);
 		$this->date['day'] = 1;
 
 		if (BSString::isBlank($this->getSerialized())) {
@@ -149,9 +148,10 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	public function serialize () {
 		try {
+			$date = $this->getDate();
 			$url = $this->createRequestURL('/ws/calendar.php');
-			$url->setParameter('y', $this->getDate()->getAttribute('year'));
-			$url->setParameter('m', $this->getDate()->getAttribute('month'));
+			$url->setParameter('y', $date['year']);
+			$url->setParameter('m', $date['month']);
 			$url->setParameter('t', 'h');
 			$response = $this->sendGET($url->getFullPath());
 
@@ -177,7 +177,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		$date = BSDate::getNow()->setAttribute('month', '-1');
+		$date = BSDate::getNow()->setParameter('month', '-1');
 		return BSController::getInstance()->getAttribute($this, $date);
 	}
 

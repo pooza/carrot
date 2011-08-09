@@ -22,13 +22,13 @@ class BSTimeValidator extends BSValidator {
 	 */
 	protected function getTime ($value) {
 		try {
-			$date = BSDate::getNow()->clearTime();
 			if ($fields = $this['fields']) {
+				$date = BSDate::getNow()->clearTime();
 				foreach ($fields as $key => $value) {
 					$date[$key] = $this->request[$value];
 				}
 			} else {
-				$date->setDate($value);
+				$date = BSDate::create($value);
 			}
 			if ($date->validate()) {
 				return $date->format('H:i:s');

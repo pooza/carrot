@@ -235,7 +235,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function purge (BSDate $date = null) {
 		if (!$date) {
-			$date = BSDate::getNow()->setAttribute('month', '-1');
+			$date = BSDate::getNow()->setParameter('month', '-1');
 		}
 		foreach ($this as $entry) {
 			if ($entry->isIgnore() || $entry->isDotted()) {

@@ -92,7 +92,7 @@ class BSUstreamService extends BSCurlHTTP {
 		));
 
 		$controller = BSController::getInstance();
-		$date = BSDate::getNow()->setAttribute('hour', '-1');
+		$date = BSDate::getNow()->setParameter('hour', '-1');
 		if (!$controller->getAttribute($key, $date)) {
 			$url = $this->createRequestURL('/json');
 			$url->setParameter('subject', 'channel');

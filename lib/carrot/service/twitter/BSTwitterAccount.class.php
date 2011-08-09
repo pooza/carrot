@@ -348,7 +348,7 @@ class BSTwitterAccount
 	public function getImageFile ($size = 'icon') {
 		$dir = BSFileUtility::getDirectory('twitter_account');
 		if ($file = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile')) {
-			$date = BSDate::getNow()->setAttribute('hour', '-1');
+			$date = BSDate::getNow()->setParameter('hour', '-1');
 			if (!$file->getUpdateDate()->isPast($date)) {
 				return $file;
 			}
@@ -468,7 +468,7 @@ class BSTwitterAccount
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		$date = BSDate::getNow()->setAttribute('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
+		$date = BSDate::getNow()->setParameter('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
 		return BSController::getInstance()->getAttribute($this, $date);
 	}
 

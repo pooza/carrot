@@ -58,7 +58,7 @@ class AnalyzeAccessLogAction extends BSAction {
 	private function getPrevLogFile () {
 		if (!$this->prev && BS_AWSTATS_DAILY) {
 			if ($dir = BSFileUtility::getDirectory('awstats_log')) {
-				$yesterday = BSDate::getNow()->setAttribute('day', '-1');
+				$yesterday = BSDate::getNow()->setParameter('day', '-1');
 				if ($dir = $dir->getEntry($yesterday->format('Y'))) {
 					if ($dir = $dir->getEntry($yesterday->format('m'))) {
 						$dir->setDefaultSuffix('.log');

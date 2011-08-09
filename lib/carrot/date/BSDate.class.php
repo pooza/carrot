@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSDate implements ArrayAccess, BSAssignable {
+class BSDate extends BSParameterHolder implements BSAssignable {
 	const MON = 1;
 	const TUE = 2;
 	const WED = 3;
@@ -17,32 +17,34 @@ class BSDate implements ArrayAccess, BSAssignable {
 	const FRI = 5;
 	const SAT = 6;
 	const SUN = 7;
-	private $attributes;
 	const GMT = 'GMT';
 	const TIMESTAMP = 1;
-	const NO_INITIALIZE = 2;
 	static private $gengos;
 
 	/**
 	 * @access private
 	 * @param string $date 日付文字列
 	 * @param integer $flags フラグのビット列
-	 *   self::NO_INITIALIZE 初期化しない
 	 *   self::TIMESTAMP タイムスタンプ形式
 	 */
 	private function __construct ($date, $flags) {
-		$this->attributes = new BSArray;
-		$this->attributes['timestamp'] = null;
-		$this->attributes['has_time'] = false;
-
-		if ($flags & self::NO_INITIALIZE){
-			// 何もしない
-		} else if (BSString::isBlank($date)) {
+		if (BSString::isBlank($date)) {
 			$this->setTimestamp($_SERVER['REQUEST_TIME']);
 		} else if ($flags & self::TIMESTAMP){
 			$this->setTimestamp($date);
+		} else if ($time = strtotime($date)) {
+			$this->setTimestamp($time);
 		} else {
-			$this->setDate($date);
+			$date = mb_ereg_replace('[^[:digit:]]+', '', $date);
+			$this->params['year'] = (int)substr($date, 0, 4);
+			$this->params['month'] = (int)substr($date, 4, 2);
+			$this->params['day'] = (int)substr($date, 6, 2);
+			$this->params['hour'] = (int)substr($date, 8, 2);
+			$this->params['minute'] = (int)substr($date, 10, 2);
+			$this->params['second'] = (int)substr($date, 12, 2);
+			if (!$this->validate()) {
+				throw new BSDateException('日付が正しくありません。');
+			}
 		}
 	}
 
@@ -52,7 +54,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @param string $date 日付文字列
 	 * @return BSDate インスタンス
 	 * @param integer $flags フラグのビット列
-	 *   self::NO_INITIALIZE 初期化しない
 	 *   self::TIMESTAMP タイムスタンプ形式
 	 * @static
 	 */
@@ -60,10 +61,9 @@ class BSDate implements ArrayAccess, BSAssignable {
 		if ($date instanceof BSDate) {
 			return $date;
 		}
-
 		try {
 			$date = new self($date, $flags);
-			if (($flags & self::NO_INITIALIZE) || $date->validate()) {
+			if ($date->validate()) {
 				return $date;
 			}
 		} catch (BSDateException $e) {
@@ -71,37 +71,33 @@ class BSDate implements ArrayAccess, BSAssignable {
 	}
 
 	/**
-	 * @access public
-	 */
-	public function __clone () {
-		$this->attributes = clone $this->attributes;
-	}
-
-	/**
-	 * 日付を設定
+	 * パラメータを設定
 	 *
 	 * @access public
-	 * @param string $date 日付文字列
+	 * @param string $name 属性の名前
+	 * @param integer $value 属性の値、(+|-)で始まる文字列も可。
 	 * @return BSDate 適用後の自分自身
 	 */
-	public function setDate ($date) {
-		if ($time = strtotime($date)) {
-			$this->setTimestamp($time);
-		} else {
-			$date = mb_ereg_replace('[^[:digit:]]+', '', $date);
-			$this['year'] = (int)substr($date, 0, 4);
-			$this['month'] = (int)substr($date, 4, 2);
-			$this['day'] = (int)substr($date, 6, 2);
-			$this['hour'] = (int)substr($date, 8, 2);
-			$this['minute'] = (int)substr($date, 10, 2);
-			$this['second'] = (int)substr($date, 12, 2);
-		}
+	public function setParameter ($name, $value) {
+		$name = BSString::toLower((string)$name);
+		$this->params['timestamp'] = null;
+		$this->params['weekday'] = null;
+		$this->params['weekday_name'] = null;
+		$this->params['gengo'] = null;
+		$this->params['japanese_year'] = null;
 
-		if ($this->validate()) {
-			return $this;
+		if (in_array($value[0], array('+', '-'))) {
+			foreach (array('hour', 'minute', 'second', 'month', 'day', 'year') as $field) {
+				$$field = $this[$field];
+				if ($field == $name) {
+					$$field += (int)$value;
+				}
+			}
+			$this->setTimestamp(mktime($hour, $minute, $second, $month, $day, $year));
 		} else {
-			throw new BSDateException($this . 'は正しくない日付です。');
+			parent::setParameter($name, $value);
 		}
+		return $this;
 	}
 
 	/**
@@ -111,13 +107,13 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return integer UNIXタイムスタンプ
 	 */
 	public function getTimestamp () {
-		if (!$this->attributes['timestamp']) {
-			$this->attributes['timestamp'] = mktime(
+		if (BSString::isBlank($this['timestamp'])) {
+			$this->params['timestamp'] = mktime(
 				$this['hour'], $this['minute'], $this['second'],
 				$this['month'], $this['day'], $this['year']
 			);
 		}
-		return $this->attributes['timestamp'];
+		return $this['timestamp'];
 	}
 
 	/**
@@ -129,54 +125,18 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 */
 	public function setTimestamp ($timestamp) {
 		$info = getdate($timestamp);
-		$this['year'] = $info['year'];
-		$this['month'] = $info['mon'];
-		$this['day'] = $info['mday'];
-		$this['hour'] = $info['hours'];
-		$this['minute'] = $info['minutes'];
-		$this['second'] = $info['seconds'];
-		$this->attributes['timestamp'] = $timestamp;
-
-		if ($this->validate()) {
-			return $this;
-		} else {
-			throw new BSDateException($timestamp . 'は正しくないタイムスタンプです。');
-		}
-	}
-
-	/**
-	 * 時刻を持つか？
-	 *
-	 * @access public
-	 * @return boolean 時刻を持つならTrue
-	 */
-	public function hasTime () {
-		return $this->attribute['has_time'];
-	}
-
-	/**
-	 * 時刻を持つかどうかを設定
-	 *
-	 * @access public
-	 * @param boolean $mode 時刻を持つならTrue
-	 */
-	public function setHasTime ($mode) {
-		if ($this->attributes['has_time'] == $mode) {
-			return;
-		}
-
-		$this->attributes['timestamp'] = null;
-		if ($this->attributes['has_time'] = $mode) {
-			foreach (array('hour', 'minute', 'second') as $name) {
-				if (!$this->attributes->hasParameter($name)) {
-					$this->attributes[$name] = 0;
-				}
-			}
-		} else {
-			foreach (array('hour', 'minute', 'second') as $name) {
-				$this->attributes->removeParameter($name);
-			}
-		}
+		$this->params['year'] = $info['year'];
+		$this->params['month'] = $info['mon'];
+		$this->params['day'] = $info['mday'];
+		$this->params['hour'] = $info['hours'];
+		$this->params['minute'] = $info['minutes'];
+		$this->params['second'] = $info['seconds'];
+		$this->params['timestamp'] = $timestamp;
+		$this->params['weekday'] = null;
+		$this->params['weekday_name'] = null;
+		$this->params['gengo'] = null;
+		$this->params['japanese_year'] = null;
+		return $this;
 	}
 
 	/**
@@ -186,79 +146,9 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return BSDate 自分自身
 	 */
 	public function clearTime () {
-		$this->setHasTime(false);
-		$this->setHasTime(true);
-		return $this;
-	}
-
-	/**
-	 * 属性を返す
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param mixed 属性
-	 */
-	public function getAttribute ($name) {
-		return $this->attributes[$name];
-	}
-
-	/**
-	 * 全ての属性を返す
-	 *
-	 * @access public
-	 * @return BSArray 全ての属性
-	 */
-	public function getAttributes () {
-		// 各属性を再計算
-		$this->getTimestamp();
-		$this->getWeekday();
-		$this->getWeekdayName();
-		$this->getGengo();
-		$this->getJapaneseYear();
-
-		return clone $this->attributes;
-	}
-
-	/**
-	 * 属性を設定
-	 *
-	 * @access public
-	 * @param string $name 属性の名前
-	 * @param integer $value 属性の値、(+|-)で始まる文字列も可。
-	 * @return BSDate 適用後の自分自身
-	 */
-	public function setAttribute ($name, $value) {
-		$name = BSString::toLower($name);
-		switch ($name) {
-			case 'year':
-			case 'month':
-			case 'day':
-				$this->attributes->removeParameter('weekday');
-				$this->attributes->removeParameter('weekday_name');
-				break;
-			case 'hour':
-			case 'minute':
-			case 'second':
-				$this->setHasTime(true);
-				break;
-			default:
-				$message = new BSStringFormat('属性名 "%s"は正しくありません。');
-				$message[] = $name;
-				throw new BSDateException($message);
-		}
-
-		if (($value[0] == '+') || ($value[0] == '-')) {
-			foreach (array('hour', 'minute', 'second', 'month', 'day', 'year') as $item) {
-				$$item = $this->getAttribute($item);
-				if ($item == $name) {
-					$$item += (int)$value;
-				}
-			}
-			$this->setTimestamp(mktime($hour, $minute, $second, $month, $day, $year));
-		} else {
-			$this->attributes[$name] = (int)$value;
-			$this->attributes['timestamp'] = null;
-		}
+		$this->params['hour'] = 0;
+		$this->params['minute'] = 0;
+		$this->params['second'] = 0;
 		return $this;
 	}
 
@@ -287,9 +177,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return boolean 過去日付ならtrue
 	 */
 	public function isPast ($date = null) {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
 		if (BSString::isBlank($date)) {
 			$date = self::getNow();
 		} else if (!($date instanceof BSDate)) {
@@ -308,9 +195,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return boolean 今日の日付ならtrue
 	 */
 	public function isToday (BSDate $now = null) {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
 		if (!$now) {
 			$now = self::getNow();
 		}
@@ -325,10 +209,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return integer 年数
 	 */
 	public function getAge (BSDate $now = null) {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-
 		if (!$now) {
 			$now = self::getNow();
 		}
@@ -349,9 +229,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return BSDate 月末日付
 	 */
 	public function getLastDateOfMonth () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
 		return self::create($this->format('Ymt'));
 	}
 
@@ -363,14 +240,11 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return BSDate 週末日付
 	 */
 	public function getLastDateOfWeek ($weekday = self::SUN) {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		} else if (($weekday < self::MON) || (self::SUN < $weekday)) {
+		if (($weekday < self::MON) || (self::SUN < $weekday)) {
 			throw new BSDateException('曜日が正しくありません。');
 		}
 
 		$date = clone $this;
-		$date->setHasTime(false);
 		while ($date->getWeekday() != $weekday) {
 			$date['day'] = '+1';
 		}
@@ -384,9 +258,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return boolean うるう年ならtrue
 	 */
 	public function isLeapYear () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
 		return ($this->format('L') == 1);
 	}
 
@@ -398,10 +269,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return string 休日の名前
 	 */
 	public function getHolidayName ($country = 'ja') {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-
 		$config = BSConfigManager::getInstance()->compile('date');
 		if (!isset($config['holiday'][$country])) {
 			$message = new BSStringFormat('国名 "%s"の休日が未定義です。');
@@ -431,13 +298,10 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return integer 曜日
 	 */
 	public function getWeekday () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
+		if (BSString::isBlank($this['weekday'])) {
+			$this->params['weekday'] = (int)date('N', $this->getTimestamp());
 		}
-		if (!$this->attributes->hasParameter('weekday')) {
-			$this->attributes['weekday'] = (int)date('N', $this->getTimestamp());
-		}
-		return $this->attributes['weekday'];
+		return $this['weekday'];
 	}
 
 	/**
@@ -447,14 +311,11 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return string 曜日
 	 */
 	public function getWeekdayName () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-		if (!$this->attributes->hasParameter('weekday_name')) {
+		if (BSString::isBlank($this['weekday_name'])) {
 			$weekdays = new BSArray(array(null, '月', '火', '水', '木', '金', '土', '日'));
-			$this->attributes['weekday_name'] = $weekdays[$this->getWeekday()];
+			$this->params['weekday_name'] = $weekdays[$this->getWeekday()];
 		}
-		return $this->attributes['weekday_name'];
+		return $this['weekday_name'];
 	}
 
 	/**
@@ -464,18 +325,15 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return string 元号
 	 */
 	public function getGengo () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-		if (!$this->attributes->hasParameter('gengo')) {
+		if (BSString::isBlank($this['gengo'])) {
 			foreach (self::getGengos() as $gengo) {
 				if (!$this->isPast($gengo['start_date'])) {
-					$this->attributes['gengo'] = $gengo['name'];
+					$this->params['gengo'] = $gengo['name'];
 					break;
 				}
 			}
 		}
-		return $this->attributes['gengo'];
+		return $this['gengo'];
 	}
 
 	/**
@@ -485,19 +343,16 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return integer 和暦年
 	 */
 	public function getJapaneseYear () {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-		if (!$this->attributes->hasParameter('japanese_year')) {
+		if (BSString::isBlank($this['japanese_year'])) {
 			foreach (self::getGengos() as $gengo) {
 				if (!$this->isPast($gengo['start_date'])) {
 					$year = $this['year'] - $gengo['start_date']['year'] + 1;
-					$this->attributes['japanese_year'] = $year;
+					$this->params['japanese_year'] = $year;
 					break;
 				}
 			}
 		}
-		return $this->attributes['japanese_year'];
+		return $this['japanese_year'];
 	}
 
 	/**
@@ -512,13 +367,9 @@ class BSDate implements ArrayAccess, BSAssignable {
 	 * @return string 書式化された日付文字列
 	 */
 	public function format ($format = 'Y/m/d H:i:s', $flags = null) {
-		if (!$this->validate()) {
-			throw new BSDateException('日付が初期化されていません。');
-		}
-
 		$date = clone $this;
 		if ($flags & self::GMT) {
-			$date->setDate(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
+			$date = self::create(gmdate('Y/m/d H:i:s', $this->getTimestamp()));
 		}
 
 		if (BSString::isContain('%', $format)) {
@@ -537,41 +388,6 @@ class BSDate implements ArrayAccess, BSAssignable {
 			$format = str_replace('JY', $year, $format);
 		}
 		return date($format, $date->getTimestamp());
-	}
-
-	/**
-	 * @access public
-	 * @param string $key 添え字
-	 * @return boolean 要素が存在すればTrue
-	 */
-	public function offsetExists ($key) {
-		return $this->attributes->hasParameter($key);
-	}
-
-	/**
-	 * @access public
-	 * @param string $key 添え字
-	 * @return mixed 要素
-	 */
-	public function offsetGet ($key) {
-		return $this->getAttribute($key);
-	}
-
-	/**
-	 * @access public
-	 * @param string $key 添え字
-	 * @param mixed 要素
-	 */
-	public function offsetSet ($key, $value) {
-		$this->setAttribute($key, $value);
-	}
-
-	/**
-	 * @access public
-	 * @param string $key 添え字
-	 */
-	public function offsetUnset ($key) {
-		$this->attributes->removeParameter($key);
 	}
 
 	/**

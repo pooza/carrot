@@ -11,14 +11,14 @@
  */
 class BSDateValidator extends BSValidator {
 	private function getDate ($value) {
-		$date = BSDate::create(null, BSDate::NO_INITIALIZE);
 		if ($fields = $this['fields']) {
+			$date = BSDate::create();
 			foreach ($fields as $key => $value) {
 				$date[$key] = $this->request[$value];
 			}
 		} else {
 			try {
-				$date->setDate($value);
+				$date = BSDate::create($value);
 			} catch (BSDateException $e) {
 				return null;
 			}

@@ -132,7 +132,7 @@ class BSUser extends BSParameterHolder {
 	public function removeAttribute ($name) {
 		$this->attributes->removeParameter($name);
 
-		$expire = BSDate::getNow()->setAttribute('hour', '-1');
+		$expire = BSDate::getNow()->setParameter('hour', '-1');
 		setcookie($name, null, $expire->getTimestamp(), '/');
 	}
 

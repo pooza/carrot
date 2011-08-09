@@ -48,7 +48,7 @@ class BSTwitterSearchService extends BSCurlHTTP {
 	public function searchTweets ($word) {
 		$controller = BSController::getInstance();
 		$key = get_class($this) . '.' . BSCrypt::getSHA1($word);
-		$date = BSDate::getNow()->setAttribute('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
+		$date = BSDate::getNow()->setParameter('minute', '-' . BS_SERVICE_TWITTER_MINUTES);
 		try {
 			if (!$controller->getAttribute($key, $date)) {
 				$tweets = new BSArray;
