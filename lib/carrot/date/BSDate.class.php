@@ -364,23 +364,22 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 * @return string 書式化された日付文字列
 	 */
 	public function format ($format = 'Y/m/d H:i:s') {
-		$date = clone $this;
 		if (BSString::isContain('%', $format)) {
-			$format = strftime($format, $date->getTimestamp());
+			$format = strftime($format, $this->getTimestamp());
 		}
 		if (BSString::isContain('ww', $format)) {
-			$format = str_replace('ww', $date->getWeekdayName(), $format);
+			$format = str_replace('ww', $this->getWeekdayName(), $format);
 		}
 		if (BSString::isContain('JY', $format)) {
-			$year = $date->getGengo();
+			$year = $this->getGengo();
 			if ($this->getJapaneseYear() == 1) {
 				$year .= '元';
 			} else {
-				$year .= $date->getJapaneseYear();
+				$year .= $this->getJapaneseYear();
 			}
 			$format = str_replace('JY', $year, $format);
 		}
-		return date($format, $date->getTimestamp());
+		return date($format, $this->getTimestamp());
 	}
 
 	/**
