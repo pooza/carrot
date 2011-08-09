@@ -102,7 +102,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			return $finfo->file($this->getPath());
 		} else {
-			return BSController::getInstance()->analyzeFile($this);
+			return BSController::getInstance()->getPlatform()->analyzeFile($this);
 		}
 	}
 

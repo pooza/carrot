@@ -70,30 +70,27 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 */
 	public function getParameter ($name) {
 		if (!$this->hasParameter($name) && ($info = $this->getEntry($name))) {
+			$controller = BSController::getInstance();
 			if (!!$info['constant']) {
-				$constants = new BSConstantHandler($name);
-				$dir = new BSDirectory($constants['DIR']);
+				$dir = new BSDirectory($controller->getAttribute($name . '_DIR'));
 			} else if (!!$info['platform']) {
-				$dir = BSController::getInstance()->getPlatform()->getDirectory($name);
+				$dir = $controller->getPlatform()->getDirectory($name);
 			} else if (!BSString::isBlank($info['name'])) {
 				$dir = $this[$info['parent']]->getEntry($info['name']);
 			} else {
 				$dir = $this[$info['parent']]->getEntry($name);
 			}
 
-			if (!($dir instanceof BSDirectory)) {
-				$message = new BSStringFormat('ディレクトリ "%s" が見つかりません。');
-				$message[] = $name;
-				throw new BSFileException($message);
+			if ($dir instanceof BSDirectory) {
+				if (!BSString::isBlank($info['class'])) {
+					$class = BSClassLoader::getInstance()->getClass($info['class']);
+					$dir = new $class($dir->getPath());
+				}
+				if (!BSString::isBlank($info['suffix'])) {
+					$dir->setDefaultSuffix($info['suffix']);
+				}
+				$this->params[$name] = $dir;
 			}
-			if (!BSString::isBlank($info['class'])) {
-				$class = BSClassLoader::getInstance()->getClass($info['class']);
-				$dir = new $class($dir->getPath());
-			}
-			if (!BSString::isBlank($info['suffix'])) {
-				$dir->setDefaultSuffix($info['suffix']);
-			}
-			$this->params[$name] = $dir;
 		}
 		return $this->params[$name];
 	}
@@ -108,7 +105,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 	public function createURL ($name) {
 		if (($info = $this->getEntry($name)) && BSString::isBlank($info['url'])) {
 			if (BSString::isBlank($info['href'])) {
-				$info['url'] = $this->getDirectory($name)->getURL();
+				$info['url'] = $this[$name]->getURL();
 			} else {
 				$info['url'] = BSURL::create();
 				$info['url']['path'] = $info['href'];
