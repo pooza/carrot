@@ -30,7 +30,7 @@ class BSCalendar implements IteratorAggregate {
 
 		$date = clone $this->getStartDate();
 		while ($date->getTimestamp() <= $this->getEndDate()->getTimestamp()) {
-			$values = clone $date->getAttributes();
+			$values = new BSArray($date);
 			$values['date'] = $date->format('Y-m-d');
 			if ($date->isToday()) {
 				$values['today'] = true;
@@ -186,7 +186,7 @@ class BSCalendar implements IteratorAggregate {
 				$weeks[] = $week;
 			}
 			if (!$values = $this->getDate($date)) {
-				$values = new BSArray($date->getAttributes());
+				$values = new BSArray($date);
 				$values['disabled'] = true;
 			}
 			$week[] = $values;
