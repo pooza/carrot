@@ -53,6 +53,8 @@ class BSTridentUserAgent extends BSUserAgent {
 			$this->digest = BSCrypt::digest(array(
 				__CLASS__,
 				$this->getVersion(),
+				$this->isSmartPhone(),
+				$this->isTablet(),
 			));
 		}
 		return $this->digest;
