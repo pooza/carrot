@@ -20,6 +20,7 @@ class BSTridentUserAgentTest extends BSTest {
 		$this->assert('getInstance_IE6', $useragent instanceof BSTridentUserAgent);
 		$this->assert('getVersion_IE6', $useragent->getVersion() == 6);
 		$this->assert('isLegacy_IE6', !$useragent->isLegacy());
+		$this->assert('hasSupport_flash_IE6', $useragent->hasSupport('flash'));
 
 		// IE10
 		$useragent = BSUserAgent::create(
@@ -27,6 +28,7 @@ class BSTridentUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_IE10', $useragent instanceof BSTridentUserAgent);
 		$this->assert('getVersion_IE10', $useragent->getVersion() == 10);
+		$this->assert('hasSupport_flash_IE10', $useragent->hasSupport('flash'));
 	}
 }
 

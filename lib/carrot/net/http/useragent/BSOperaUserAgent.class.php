@@ -21,6 +21,7 @@ class BSOperaUserAgent extends BSUserAgent {
 		$this->supports['html5_audio'] = true;
 		$this->supports['html5_video_webm'] = true;
 		$this->supports['html5_audio_ogg'] = true;
+		$this->supports['flash'] = true;
 	}
 
 	/**

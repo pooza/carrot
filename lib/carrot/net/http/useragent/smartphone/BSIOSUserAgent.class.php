@@ -18,6 +18,7 @@ class BSIOSUserAgent extends BSWebKitUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this['is_web_kit'] = true;
+		$this->supports['flash'] = false;
 	}
 
 	/**

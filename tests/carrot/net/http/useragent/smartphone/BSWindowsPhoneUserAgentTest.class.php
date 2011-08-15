@@ -11,6 +11,7 @@ class BSWindowsPhoneUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_ASUS_Galaxy', $useragent instanceof BSWindowsPhoneUserAgent);
 		$this->assert('isSmartPhone_ASUS_Galaxy', $useragent->isSmartPhone());
+		$this->assert('hasSupport_flash_ASUS_Galaxy', !$useragent->hasSupport('flash'));
 	}
 }
 

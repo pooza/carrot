@@ -12,6 +12,7 @@ class BSAndroidUserAgentTest extends BSTest {
 		$this->assert('getInstance_Xperia', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isSmartPhone_Xperia', $useragent->isSmartPhone());
 		$this->assert('isLegacy_Xperia', !$useragent->isLegacy());
+		$this->assert('hasSupport_flash_Xperia', !$useragent->hasSupport('flash'));
 
 		// Galaxy Tab
 		$useragent = BSUserAgent::create(
@@ -19,6 +20,7 @@ class BSAndroidUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_GalaxyTab', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isTablet_GalaxyTab', $useragent->isTablet());
+		$this->assert('hasSupport_flash_GalaxyTab', $useragent->hasSupport('flash'));
 
 		// Optimus Pad
 		$useragent = BSUserAgent::create(
@@ -26,6 +28,7 @@ class BSAndroidUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_OptimusPad', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isTablet_OptimusPad', $useragent->isTablet());
+		$this->assert('hasSupport_flash_OptimusPad', $useragent->hasSupport('flash'));
 	}
 }
 

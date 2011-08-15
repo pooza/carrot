@@ -24,6 +24,7 @@ class BSTridentUserAgent extends BSUserAgent {
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
+		$this->supports['flash'] = true;
 	}
 
 	/**
@@ -71,7 +72,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	public function getVersion () {
 		if (!$this['version']) {
 			if (mb_ereg('MSIE ([.[:digit:]]+);', $this->getName(), $matches)) {
-				$this['version'] = $matches[1];
+				$this['version'] = (int)$matches[1];
 			}
 		}
 		return $this['version'];

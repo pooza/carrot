@@ -11,6 +11,7 @@ class BSIOSUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_iPhone', $useragent instanceof BSIOSUserAgent);
 		$this->assert('isSmartPhone_iPhone', $useragent->isSmartPhone());
+		$this->assert('hasSupport_flash_iPhone', !$useragent->hasSupport('flash'));
 
 		// iPad
 		$useragent = BSUserAgent::create(
@@ -18,6 +19,7 @@ class BSIOSUserAgentTest extends BSTest {
 		);
 		$this->assert('getInstance_iPad', $useragent instanceof BSIOSUserAgent);
 		$this->assert('isTablet_iPad', $useragent->isTablet());
+		$this->assert('hasSupport_flash_iPad', !$useragent->hasSupport('flash'));
 	}
 }
 
