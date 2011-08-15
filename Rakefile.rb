@@ -23,7 +23,7 @@ task :install => [
 ]
 
 desc 'テストを実行'
-task :test do
+task :test =>['var:classes:clean'] do
   uid = Constants.new['BS_APP_PROCESS_UID']
   sh 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
 end
