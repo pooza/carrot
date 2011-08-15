@@ -367,6 +367,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 
 	static private function getTypes () {
 		return new BSArray(array(
+			'WindowsPhone',
 			'Trident',
 			'Gecko',
 			'Android',
