@@ -12,7 +12,6 @@ class BSAndroidUserAgentTest extends BSTest {
 		$this->assert('getInstance_Xperia', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isSmartPhone_Xperia', $useragent->isSmartPhone());
 		$this->assert('isLegacy_Xperia', !$useragent->isLegacy());
-		$this->assert('hasSupport_flash_Xperia', !$useragent->hasSupport('flash'));
 
 		// Galaxy Tab
 		$useragent = BSUserAgent::create(

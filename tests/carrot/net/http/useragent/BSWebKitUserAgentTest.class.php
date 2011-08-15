@@ -12,7 +12,6 @@ class BSWebKitUserAgentTest extends BSTest {
 		$this->assert('getInstance_Safari08', $useragent instanceof BSWebKitUserAgent);
 		$this->assert('getVersion_Safari08', $useragent->getVersion() == '85.7');
 		$this->assert('isLegacy_Safari08', $useragent->isLegacy());
-		$this->assert('hasSupport_flash_Safari08', $useragent->hasSupport('flash'));
 
 		// Safari 5.0
 		$useragent = BSUserAgent::create(

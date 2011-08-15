@@ -12,16 +12,15 @@ class BSGeckoUserAgentTest extends BSTest {
 		$this->assert('getInstance_Fx010', $useragent instanceof BSGeckoUserAgent);
 		$this->assert('getVersion_Fx010', $useragent->getVersion() == '1.7.3');
 		$this->assert('isLegacy_Fx010', $useragent->isLegacy());
-		$this->assert('hasSupport_flash_Fx010', $useragent->hasSupport('flash'));
 
-		// Firefox 1.0
+		// Firefox 3.0
 		$useragent = BSUserAgent::create(
 			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9) Gecko/2008051206 Firefox/3.0'
 		);
 		$this->assert('getInstance_Fx3', $useragent instanceof BSGeckoUserAgent);
 		$this->assert('getVersion_Fx3', $useragent->getVersion() == '1.9');
 		$this->assert('isLegacy_Fx3', !$useragent->isLegacy());
-		$this->assert('hasSupport_Fx3', $useragent->hasSupport('flash'));
+		$this->assert('hasSupport_flash_Fx3', $useragent->hasSupport('flash'));
 	}
 }
 
