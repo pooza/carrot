@@ -10,7 +10,7 @@ class BSTridentUserAgentTest extends BSTest {
 			'Mozilla/4.0 (compatible; MSIE 5.5; Windows 95)'
 		);
 		$this->assert('create_IE55', $useragent instanceof BSTridentUserAgent);
-		$this->assert('getVersion_IE55', $useragent->getVersion() == 5);
+		$this->assert('getVersion_IE55', $useragent->getVersion() == 5.5);
 		$this->assert('isLegacy_IE55', $useragent->isLegacy());
 
 		// IE6
