@@ -5,11 +5,11 @@
  */
 
 /**
- * Operaユーザーエージェント
+ * Prestoユーザーエージェント
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSOperaUserAgent extends BSUserAgent {
+class BSPrestoUserAgent extends BSUserAgent {
 
 	/**
 	 * @access protected
@@ -25,15 +25,18 @@ class BSOperaUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * ダウンロード用にエンコードされたファイル名を返す
+	 * バージョンを返す
 	 *
 	 * @access public
-	 * @param string $name ファイル名
-	 * @return string エンコード済みファイル名
+	 * @return string バージョン
 	 */
-	public function encodeFileName ($name) {
-		$name = BSString::convertEncoding($name, 'utf-8');
-		return BSString::sanitize($name);
+	public function getVersion () {
+		if (!$this['version']) {
+			if (mb_ereg('Presto/([.[:digit:]]+)', $this->getName(), $matches)) {
+				$this['version'] = $matches[1];
+			}
+		}
+		return $this['version'];
 	}
 
 	/**
@@ -43,7 +46,7 @@ class BSOperaUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'Opera';
+		return 'Presto';
 	}
 }
 

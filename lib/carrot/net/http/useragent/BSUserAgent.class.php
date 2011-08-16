@@ -373,7 +373,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 			'Android',
 			'iOS',
 			'WebKit',
-			'Opera',
+			'Presto',
 			'Tasman',
 			'LegacyMozilla',
 			'Docomo',
