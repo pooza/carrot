@@ -6,7 +6,7 @@
 class BSUserAgentTest extends BSTest {
 	public function execute () {
 		$useragent = BSUserAgent::create(null, 'default');
-		$this->assert('getInstance_Default', $useragent instanceof BSDefaultUserAgent);
+		$this->assert('create_Default', $useragent instanceof BSDefaultUserAgent);
 		$this->assert('isSmartPhone_Default', !$useragent->isSmartPhone());
 	}
 }
