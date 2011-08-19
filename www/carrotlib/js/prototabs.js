@@ -1,3 +1,10 @@
+/**
+ * Prototabs.jsを、carrotむけに拡張したもの
+ *
+ * @package org.carrot-framework
+ * @author 小石達也 <tkoishi@b-shock.co.jp>
+ */
+
 /*  Prototabs
  *  (c) 2007 James Starmer
  *
@@ -8,70 +15,58 @@
 
 var ProtoTabs = Class.create();
 ProtoTabs.prototype = {
-	
-	initialize: function(element, options) {
-		this.options = Object.extend({
-			defaultPanel: '',
-			ajaxUrls: 			{},
-			ajaxLoadingText: 	'Loading...'	
-		}, options || {});
-		
-		this.currentTab = '';
-		
-		this.element = $(element);
-		this.listElements = $A(this.element.getElementsByTagName('LI'));
+  initialize: function(element, options) {
+    this.options = Object.extend({
+      defaultPanel: '',
+      ajaxUrls: {},
+      evalScripts: false,
+      ajaxLoadingText: 'Loading...'
+    }, options || {});
 
-		//loop over each list element
-		for(i = 0; i < this.listElements.length; i++) {	
-			
-			//get the tabs
-			tabLI = this.listElements[i];
-			var itemLinks = tabLI.getElementsByTagName('A');
-			tabLI.itemId = itemLinks[0].href.split("#")[1];
-			tabLI.linkedPanel = $(tabLI.itemId);
-			tabLI.linkedPanel.style.clear = "both";		//firefox hack
+    this.currentTab = '';
+    this.element = $(element);
+    this.listElements = $A(this.element.getElementsByTagName('LI'));
 
-			//check for the intially active tab
-			if((this.options.defaultPanel != '') && (this.options.defaultPanel == tabLI.itemId)){
-				this.openPanel(tabLI);
-			}else{
-				$($(tabLI).linkedPanel).hide();
-			}
-			
-			// watch for clicked
-			$(itemLinks[0]).observe('click', function(event){
-					element = Event.findElement(event, 'LI');
-					this.openPanel(element);					
-					Event.stop(event); // like return false;
-			}.bind(this));
-		}
-		
-	},
-	
-	openPanel: function(tab){
-		tab = $(tab); // ie hack
-		
-		if(this.currentTab != ''){
-			this.currentTab.linkedPanel.hide();
-			this.currentTab.removeClassName('selected');
-		}
-		
-		//set the currently open panel to the new panel
-		this.currentTab = tab;
-		
-		tab.linkedPanel.show();
-		tab.addClassName('selected');
-		var url = this.options.ajaxUrls[tab.itemId];
-		
-		// if there is an ajax url defined update the panel with ajax
-		if(url != undefined){
-			tab.linkedPanel.update(this.options.ajaxLoadingText);
-			new Ajax.Request(url,{
-				onComplete: function(transport) {
-					tab.linkedPanel.update(transport.responseText);
-				}
-			});
-		}
-		
-	}
+    for(i = 0; i < this.listElements.length; i++) {
+      var tabLI = this.listElements[i];
+      var itemLinks = tabLI.getElementsByTagName('A');
+      tabLI.itemId = itemLinks[0].href.split("#")[1];
+      tabLI.linkedPanel = $(tabLI.itemId);
+      tabLI.linkedPanel.style.clear = "both";
+
+      if((this.options.defaultPanel != '') && (this.options.defaultPanel == tabLI.itemId)){
+        this.openPanel(tabLI, this.options);
+      }else{
+        $($(tabLI).linkedPanel).hide();
+      }
+
+      $(itemLinks[0]).observe('click', function(event){
+        var element = Event.findElement(event, 'LI');
+        this.openPanel(element, this.options);
+        Event.stop(event);
+      }.bind(this));
+    }
+  },
+
+  openPanel: function(tab, options){
+    tab = $(tab); // ie hack
+
+    if(this.currentTab != ''){
+      this.currentTab.linkedPanel.hide();
+      this.currentTab.removeClassName('selected');
+    }
+
+    this.currentTab = tab;
+
+    tab.linkedPanel.show();
+    tab.addClassName('selected');
+    var url = this.options.ajaxUrls[tab.itemId];
+
+    if(url != undefined){
+      tab.linkedPanel.update(this.options.ajaxLoadingText);
+      new Ajax.Updater(tab.linkedPanel, url, {
+        evalScripts: !!options.evalScripts
+      });
+    }
+  }
 };
