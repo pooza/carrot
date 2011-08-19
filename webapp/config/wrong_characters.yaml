@@ -3,6 +3,7 @@
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @link http://php.nekosuke.com/000056.htm 参考
+# @link http://d.hatena.ne.jp/tamamo-ch/20090730 波ダッシュを全角チルダに変換
 
 - search: \xE2\x85\xA0
   replace: I
@@ -138,3 +139,7 @@
   replace: (有)
 - search: \xE3\x88\xB9
   replace: (代)
+- search: \xE2\x88\x92
+  replace: －
+- search: \xE3\x80\x9C
+  replace: ～
