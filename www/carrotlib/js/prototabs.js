@@ -25,23 +25,23 @@ ProtoTabs.prototype = {
 
     this.currentTab = '';
     this.element = $(element);
-    this.listElements = $A(this.element.getElementsByTagName('LI'));
+    this.listElements = $A(this.element.getElementsByTagName('li'));
 
-    for(i = 0; i < this.listElements.length; i++) {
-      var tabLI = this.listElements[i];
-      var itemLinks = tabLI.getElementsByTagName('A');
-      tabLI.itemId = itemLinks[0].href.split("#")[1];
-      tabLI.linkedPanel = $(tabLI.itemId);
-      tabLI.linkedPanel.style.clear = "both";
+    for (var i = 0; i < this.listElements.length; i++) {
+      var tab = this.listElements[i];
+      var links = tab.getElementsByTagName('a');
+      tab.itemId = links[0].href.split("#")[1];
+      tab.linkedPanel = $(tab.itemId);
+      tab.linkedPanel.style.clear = "both";
 
-      if((this.options.defaultPanel != '') && (this.options.defaultPanel == tabLI.itemId)){
-        this.openPanel(tabLI, this.options);
+      if ((this.options.defaultPanel != '') && (this.options.defaultPanel == tab.itemId)) {
+        this.openPanel(tab, this.options);
       }else{
-        $($(tabLI).linkedPanel).hide();
+        $($(tab).linkedPanel).hide();
       }
 
-      $(itemLinks[0]).observe('click', function(event){
-        var element = Event.findElement(event, 'LI');
+      $(links[0]).observe('click', function (event) {
+        var element = Event.findElement(event, 'li');
         this.openPanel(element, this.options);
         Event.stop(event);
       }.bind(this));
@@ -51,7 +51,7 @@ ProtoTabs.prototype = {
   openPanel: function(tab, options){
     tab = $(tab); // ie hack
 
-    if(this.currentTab != ''){
+    if (this.currentTab != '') {
       this.currentTab.linkedPanel.hide();
       this.currentTab.removeClassName('selected');
     }
@@ -62,7 +62,7 @@ ProtoTabs.prototype = {
     tab.addClassName('selected');
     var url = this.options.ajaxUrls[tab.itemId];
 
-    if(url != undefined){
+    if (url != undefined) {
       tab.linkedPanel.update(this.options.ajaxLoadingText);
       new Ajax.Updater(tab.linkedPanel, url, {
         evalScripts: !!options.evalScripts
