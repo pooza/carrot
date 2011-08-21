@@ -20,11 +20,10 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 	 * @return mixed 変換後
 	 */
 	protected function convert ($key, $value) {
-		return BSString::convertEncoding(
-			$value,
-			'utf-8',
-			$this->request->getUserAgent()->getDefaultEncoding()
-		);
+		if (BSString::isBlank($encoding = $this->request['encoding'])) {
+			$encoding = $this->request->getUserAgent()->getDefaultEncoding();
+		}
+		return BSString::convertEncoding($value, 'utf-8', $encoding);
 	}
 
 	public function execute () {
