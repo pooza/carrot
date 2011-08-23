@@ -359,7 +359,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		}
 		$this->setExecuted(false);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
-			$message = new BSStringFormat('%s(%d)を作成しました。');
+			$message = new BSStringFormat('%s(%s)を作成しました。');
 			$message[] = BSTranslateManager::getInstance()->execute($this->getName());
 			$message[] = $id;
 			$db->log($message);
