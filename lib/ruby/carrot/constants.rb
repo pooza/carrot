@@ -21,7 +21,15 @@ class Constants
   end
 
   def [] (name)
-    return @constants[name.upcase]
+    names = []
+    names.push((name + '_' + Environment.os).upcase)
+    names.push((name + '_DEFAULT').upcase)
+    names.push(name.upcase)
+    names.each do |name|
+      if @constants[name] != nil
+        return @constants[name]
+      end
+    end
   end
 
   def flatten (prefix, node, glue)
