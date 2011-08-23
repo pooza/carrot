@@ -9,13 +9,13 @@
 class PurgeAction extends BSAction {
 	public function execute () {
 		$dirs = BSDirectoryLayout::getInstance();
-		foreach ($dirs as $name => $values) {
+		foreach ($dirs->getEntries() as $name => $values) {
 			if ($values['purge']) {
 				$date = BSDate::create();
 				foreach ($values['purge'] as $key => $value) {
 					$date[$key] = '-' . $value;
 				}
-				$dirs->getDirectory($name)->purge($date);
+				$dirs[$name]->purge($date);
 			}
 		}
 	}

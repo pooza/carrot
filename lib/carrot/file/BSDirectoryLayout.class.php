@@ -62,6 +62,16 @@ class BSDirectoryLayout extends BSParameterHolder {
 	}
 
 	/**
+	 * 設定を全て返す
+	 *
+	 * @access public
+	 * @return BSArray 全ての設定
+	 */
+	public function getEntries () {
+		return $this->config;
+	}
+
+	/**
 	 * ディレクトリを返す
 	 *
 	 * @access public
