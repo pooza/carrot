@@ -71,21 +71,21 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 *
 	 * 書類クラスがファイルではないレンダラーなら、nullを返すように
 	 *
-	 * @access protected
+	 * @access public
 	 * @return BSDirectory ソースディレクトリ
 	 * @abstract
 	 */
-	protected function getSourceDirectory () {
+	public function getSourceDirectory () {
 		return BSFileUtility::getDirectory($this->getDirectoryName());
 	}
 
 	/**
 	 * キャッシュディレクトリを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return BSDirectory キャッシュディレクトリ
 	 */
-	protected function getCacheDirectory () {
+	public function getCacheDirectory () {
 		return BSFileUtility::getDirectory($this->getDirectoryName() . '_cache');
 	}
 
