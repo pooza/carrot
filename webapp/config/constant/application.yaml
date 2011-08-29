@@ -15,6 +15,7 @@ author:
 
 crypt:
   salt: carrot
+  #engine: cbc
 
 service:
   google:
