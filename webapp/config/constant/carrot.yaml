@@ -25,7 +25,10 @@ app:
     seconds: 60
   force_https: no
   process:
-    uid: nobody
+    uid:
+      default: nobody
+      darwin: www
+      freebsd: www
 author:
   name:
   email:
