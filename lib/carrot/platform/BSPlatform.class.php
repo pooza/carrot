@@ -97,12 +97,9 @@ abstract class BSPlatform extends BSParameterHolder {
 	 * @return string プロセスオーナーのユーザー名
 	 */
 	public function getProcessOwner () {
-		$constants = new BSConstantHandler('app_process_uid');
-		$names = new BSArray;
-		$names[] = $this['name'];
-		$names[] = 'default';
-		foreach ($names as $name) {
-			if ($owner = $constants[$name]) {
+		$constants = new BSConstantHandler('app_process');
+		foreach (array($this->getName(), 'default') as $suffix) {
+			if (!BSString::isBlank($owner = $constants['uid_' . $suffix])) {
 				return $owner;
 			}
 		}
