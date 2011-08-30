@@ -194,20 +194,22 @@ class BSXHTMLElement extends BSXMLElement {
 	 */
 	public function setCaption ($value, $height = 32) {
 		$wrapper = $this->createWrapper();
-		$element = $wrapper->addElement(new BSDivisionElement);
-		if ($this->getUserAgent()->isMobile()) {
-			$element->setAttribute('align', 'center');
-			$element = $element->createElement('font');
-			$element->setAttribute('size', '-1');
-			$element->setAttribute('color', '#888888');
-			$value .= '<br/><br/>';
-		} else {
-			$element->registerStyleClass('caption');
-			if ($wrapper->getStyle('height')) {
-				$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
+		if (!BSString::isBlank($value)) {
+			$element = $wrapper->addElement(new BSDivisionElement);
+			if ($this->getUserAgent()->isMobile()) {
+				$element->setAttribute('align', 'center');
+				$element = $element->createElement('font');
+				$element->setAttribute('size', '-1');
+				$element->setAttribute('color', '#888888');
+				$value .= '<br/><br/>';
+			} else {
+				$element->registerStyleClass('caption');
+				if ($wrapper->getStyle('height')) {
+					$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
+				}
 			}
+			$element->setBody($value);
 		}
-		$element->setBody($value);
 		return $wrapper;
 	}
 
