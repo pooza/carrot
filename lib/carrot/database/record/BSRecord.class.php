@@ -119,8 +119,9 @@ abstract class BSRecord implements ArrayAccess,
 		$db = $this->getDatabase();
 		$table = $this->getTable();
 		$fields = $table->getProfile()->getFields();
-		if ($fields[$table->getUpdateDateField()]) {
-			$values[$table->getUpdateDateField()] = BSDate::getNow('Y-m-d H:i:s');
+		$key = $table->getUpdateDateField();
+		if (!$values->hasParameter($key) && $fields[$key]) {
+			$values[$key] = BSDate::getNow('Y-m-d H:i:s');
 		}
 		if (!$values->count()) {
 			return;
