@@ -12,7 +12,7 @@ class BSException extends Exception {
 
 	/**
 	 * @access public
-	 * $param string $message メッセージ
+	 * @param string $message メッセージ
 	 * @param integer $code コード
 	 * @param Exception $prev 直前の例外。例外の連結に使用。
 	 */

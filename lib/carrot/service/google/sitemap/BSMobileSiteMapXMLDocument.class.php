@@ -26,7 +26,7 @@ class BSMobileSiteMapXMLDocument extends BSSiteMapXMLDocument {
 	 *
 	 * @access public
 	 * @param BSHTTPRedirector $url 対象URL
-	 * $param BSParameterHolder $params パラメータ配列
+	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSXMLElement 追加されたurl要素
 	 */
 	public function register (BSHTTPRedirector $url, BSParameterHolder $params = null) {

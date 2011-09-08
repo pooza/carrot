@@ -144,7 +144,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $name エントリーの名前
-	 * $param string $class クラス名
+	 * @param string $class クラス名
 	 * @return BSFile ファイル
 	 */
 	public function createEntry ($name, $class = null) {
@@ -257,7 +257,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 *
 	 * @access public
 	 * @param string $name ディレクトリの名前
-	 * $param string $class クラス名
+	 * @param string $class クラス名
 	 * @return BSDirectory 作成されたディレクトリ
 	 */
 	public function createDirectory ($name, $class = 'BSDirectory') {
