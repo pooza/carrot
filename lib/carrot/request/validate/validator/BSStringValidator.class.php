@@ -40,6 +40,8 @@ class BSStringValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
+			$value = new BSArray($value);
+			$value->trim();
 			foreach ($value as $entry) {
 				$this->execute($entry);
 			}
