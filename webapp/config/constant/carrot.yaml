@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.121
+  ver: 2.4.122
 
 admin:
   email:
@@ -60,10 +60,10 @@ ffmpeg:
   convert:
     flv:
       video_codec: flv
-      audio_codec: libfaac
+      audio_codec: libmp3lame
     3gp:
       video_codec: mpeg4
-      audio_codec: libfaac
+      audio_codec: libmp3lame
       width: 176
       height: 144
       frame_rate: 10
@@ -73,14 +73,14 @@ ffmpeg:
           max_file_size: 256
     3g2:
       video_codec: mpeg4
-      audio_codec: libfaac
+      audio_codec: libmp3lame
       force: yes
       width: 176
       height: 144
       frame_rate: 10
     mp4:
       video_codec: libx264
-      audio_codec: libfaac
+      audio_codec: libmp3lame
       gop_length: 150
       qp_curve_compression: 0.7
       quantizer_min: 10
