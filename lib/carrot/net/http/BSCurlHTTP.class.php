@@ -33,11 +33,12 @@ class BSCurlHTTP extends BSHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendHEAD ($path = '/') {
+	public function sendHEAD ($path = '/', BSParameterHolder $params = null) {
 		$this->setAttribute('nobody', true);
-		return parent::sendHEAD($path);
+		return parent::sendHEAD($path, $params);
 	}
 
 	/**
@@ -45,11 +46,12 @@ class BSCurlHTTP extends BSHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGET ($path = '/') {
+	public function sendGET ($path = '/', BSParameterHolder $params = null) {
 		$this->setAttribute('httpget', true);
-		return parent::sendGET($path);
+		return parent::sendGET($path, $params);
 	}
 
 	/**

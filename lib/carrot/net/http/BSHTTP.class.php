@@ -16,12 +16,16 @@ class BSHTTP extends BSSocket {
 	 *
 	 * @access public
 	 * @param string $path パス
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendHEAD ($path = '/') {
+	public function sendHEAD ($path = '/', BSParameterHolder $params = null) {
 		$request = $this->createRequest();
 		$request->setMethod('HEAD');
 		$request->setURL($this->createRequestURL($path));
+		if ($params) {
+			$request->getURL()->setParameter($params);
+		}
 		return $this->send($request);
 	}
 
@@ -30,12 +34,16 @@ class BSHTTP extends BSSocket {
 	 *
 	 * @access public
 	 * @param string $path パス
+	 * @param BSParameterHolder $params パラメータの配列
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendGET ($path = '/') {
+	public function sendGET ($path = '/', BSParameterHolder $params = null) {
 		$request = $this->createRequest();
 		$request->setMethod('GET');
 		$request->setURL($this->createRequestURL($path));
+		if ($params) {
+			$request->getURL()->setParameter($params);
+		}
 		return $this->send($request);
 	}
 
