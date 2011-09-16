@@ -11,8 +11,8 @@
  * @abstract
  */
 abstract class BSMediaConvertor {
-	private $name;
-	private $config;
+	protected $name;
+	protected $config;
 	protected $output;
 
 	/**
@@ -156,8 +156,12 @@ abstract class BSMediaConvertor {
 			'max_file_size' => 'fs',
 			'padding_top' => 'paddtop',
 			'padding_bottom' => 'padbottom',
+			'strict' => 'strict',
 
-			// libx264むけ
+			// libmp3lame
+			'audio_sampling' => 'ar',
+
+			// libx264
 			'gop_length' => 'g',
 			'qp_curve_compression' => 'qcomp',
 			'quantizer_min' => 'qmin',
