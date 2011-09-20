@@ -104,6 +104,22 @@ abstract class BSPlatform extends BSParameterHolder {
 			}
 		}
 	}
+
+	/**
+	 * メディアコンバータ定数を返す
+	 *
+	 * @param string $name 定数名
+	 * @param BSPlatform $platform 対象プラットフォーム
+	 * @return string 定数値
+	 */
+	public function getMediaConverterConstant ($name) {
+		foreach (array($this->getName(), 'default') as $prefix) {
+			$constants = new BSConstantHandler('ffmpeg_convert_' . $prefix);
+			if (!BSString::isBlank($value = $constants[$name])) {
+				return $value;
+			}
+		}
+	}
 }
 
 /* vim:set tabstop=4: */
