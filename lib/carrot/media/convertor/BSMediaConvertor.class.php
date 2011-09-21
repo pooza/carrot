@@ -96,13 +96,14 @@ abstract class BSMediaConvertor {
 			$command->push($file->getPath());
 			$this->output = $command->getResult()->join("\n");
 
+			$message = new BSStringFormat('%sを変換しました。(%s)');
+			$message[] = $source;
 			if ($size = $file->getSize()) {
-				$message = new BSStringFormat('%sを変換しました。 (%sB)');
-				$message[] = $source;
-				$message[] = BSNumeric::getBinarySize($size);
+				$message[] = BSNumeric::getBinarySize($size) . 'B';
 				BSLogManager::getInstance()->put($message, $this);
 			} else {
-				throw new BSMediaException($source . 'の変換に失敗しました。');
+				$message[] = 'failed: ' . $command->getContents();
+				throw new BSMediaException($message);
 			}
 		}
 		return BSUtility::executeMethod($this->getClass(), 'search', array($file));
