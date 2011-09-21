@@ -3,13 +3,13 @@
  * @package org.carrot-framework
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSFLVMediaConvertorTest extends BSTest {
+class BS3GPPMediaConvertorTest extends BSTest {
 	public function execute () {
-		$convertor = new BSFLVMediaConvertor;
+		$convertor = new BS3GPPMediaConvertor;
 		if ($file = BSFileUtility::getDirectory('sample')->getEntry('sample.mov')) {
 			$source = $file->copyTo(BSFileUtility::getDirectory('tmp'), 'BSQuickTimeMovieFile');
 			$dest = $convertor->execute($source);
-			$this->assert('analyzeType', ($dest->analyzeType() == 'video/x-flv'));
+			$this->assert('analyzeType', ($dest->analyzeType() == 'video/3gpp'));
 			$source->delete();
 			$dest->delete();
 		}

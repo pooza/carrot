@@ -141,14 +141,11 @@ abstract class BSMediaConvertor {
 	 *
 	 * @access public
 	 * @param string $name 定数名
-	 * @param BSPlatform $platform 対象プラットフォーム
 	 * @return string 定数値
 	 */
-	public function getConstant ($name, $platform = null) {
-		if (!$platform) {
-			$platform = BSController::getInstance()->getPlatform();
-		}
-		return $platform->getMediaConverterConstant($this->getName() . '_' . $name);
+	public function getConstant ($name) {
+		$constants = new BSConstantHandler('FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.'));
+		return $constants[$name];
 	}
 
 	/**
@@ -170,7 +167,6 @@ abstract class BSMediaConvertor {
 			'padding_bottom' => 'padbottom',
 			'strict' => 'strict',
 			'vpre' => 'vpre',
-			'audio_sampling' => 'ar',
 		));
 	}
 
