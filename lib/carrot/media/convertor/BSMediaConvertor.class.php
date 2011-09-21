@@ -169,19 +169,8 @@ abstract class BSMediaConvertor {
 			'padding_top' => 'paddtop',
 			'padding_bottom' => 'padbottom',
 			'strict' => 'strict',
-
-			// libmp3lame
+			'vpre' => 'vpre',
 			'audio_sampling' => 'ar',
-
-			// libx264
-			'gop_length' => 'g',
-			'qp_curve_compression' => 'qcomp',
-			'quantizer_min' => 'qmin',
-			'quantizer_max' => 'qmax',
-			'max_qp_step' => 'qdiff',
-			'subq' => 'subq',
-			'me_range' => 'me_range',
-			'i_qfactor' => 'i_qfactor',
 		));
 	}
 
