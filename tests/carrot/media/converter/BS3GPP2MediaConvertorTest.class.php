@@ -11,7 +11,7 @@ class BS3GPP2MediaConvertorTest extends BSTest {
 			$dest = $convertor->execute($source);
 			$this->assert('analyzeType', ($dest->analyzeType() == 'video/3gpp2'));
 			$source->delete();
-			//$dest->delete();
+			$dest->delete();
 		}
 	}
 }
