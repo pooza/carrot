@@ -296,6 +296,25 @@ abstract class BSRecord implements ArrayAccess,
 	}
 
 	/**
+	 * メールを送信
+	 *
+	 * @access public
+	 * @param string $template テンプレート名
+	 * @param BSParameterHolder $params アサインするパラメータ
+	 */
+	public function sendMail ($template, BSParameterHolder $params = null) {
+		try {
+			$mail = new BSSmartyMail;
+			$mail->getRenderer()->setTemplate(get_class($this) . '.' . $template . '.mail');
+			$mail->getRenderer()->setAttribute(BSString::underscorize(get_class($this)), $this);
+			$mail->getRenderer()->setAttribute('params', $params);
+			$mail->send();
+		} catch (Exception $e) {
+			throw BSMailException('%sのメールの送信に失敗しました。', $this);
+		}
+	}
+
+	/**
 	 * 添付ファイルの情報を返す
 	 *
 	 * @access public
