@@ -39,6 +39,9 @@ class BSZipcodeValidator extends BSRegexValidator {
 			foreach ($fields as $field) {
 				$values[] = $this->request[$field];
 			}
+			if (BSString::isBlank($values->join(''))) {
+				return true;
+			}
 			$value = $values->join('-');
 		}
 		return parent::execute($value);
