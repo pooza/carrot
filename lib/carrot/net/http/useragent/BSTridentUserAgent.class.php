@@ -25,6 +25,7 @@ class BSTridentUserAgent extends BSUserAgent {
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
 		$this->supports['flash'] = true;
+		$this['is_ie' . (int)$this->getVersion()] = true;
 	}
 
 	/**
