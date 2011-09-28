@@ -187,6 +187,16 @@ if (!Number.prototype.suppressZero) {
     return str;
   }
 }
+if (!Array.prototype.contains) {
+  Array.prototype.contains = function (value) {
+    for (var i in this) {
+      if (this.hasOwnProperty(i) && this[i] === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
 
 document.observe('dom:loaded', function () {
   try {
