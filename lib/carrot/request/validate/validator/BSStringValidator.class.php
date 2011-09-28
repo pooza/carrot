@@ -26,7 +26,7 @@ class BSStringValidator extends BSValidator {
 		$this['invalid_error'] = '正しくありません。';
 		$this['pictogram'] = true;
 		$this['pictogram_error'] = '絵文字が含まれています。';
-		$this['wrong_character'] = true;
+		$this['wrong_character'] = false;
 		$this['wrong_character_error'] = '機種依存文字が含まれています。';
 		return parent::initialize($params);
 	}
