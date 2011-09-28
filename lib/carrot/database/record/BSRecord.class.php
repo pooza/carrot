@@ -310,7 +310,7 @@ abstract class BSRecord implements ArrayAccess,
 			$mail->getRenderer()->setAttribute('params', $params);
 			$mail->send();
 		} catch (Exception $e) {
-			throw BSMailException('%sのメールの送信に失敗しました。', $this);
+			throw new BSMailException('メールの送信に失敗しました。', $this);
 		}
 	}
 
