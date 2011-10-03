@@ -98,7 +98,7 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 			$element = $this->createElement('description');
 			$element->setRawMode(true);
 		}
-		$element->setBody(mb_ereg_replace('&[[:alpha:]]+;', '', $body));
+		$element->setBody(BSString::sanitize($body));
 	}
 
 	/**
