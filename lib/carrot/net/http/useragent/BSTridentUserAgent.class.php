@@ -19,8 +19,16 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
+
+		// SSL領域で、 Coache-Control ヘッダを正しく処理できない。
 		$this->bugs['cache_control'] = true;
+
+		// wmode="transparent" を正しく処理できない。
 		$this->bugs['object_wmode'] = (8 < $this->getVersion());
+
+		// 全角スペース等だけで構成されたブロック要素が、widthを持てないケースがある。
+		$this->bugs['block_width'] = (8 < $this->getVersion());
+
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
 		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
