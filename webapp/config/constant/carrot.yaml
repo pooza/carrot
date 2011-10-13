@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.129
+  ver: 2.4.130
 
 admin:
   email:
@@ -159,11 +159,8 @@ module:
 movie:
   flv:
     player:
-      height: 0
-      href: /carrotlib/swf/flowplayer-3.2.5.swf
-      control_bar:
-        href: /carrotlib/swf/flowplayer.controls-3.2.3.swf
-      opacity: 0.9
+      href: /carrotlib/swf/player.swf
+      height: 20
   wmv:
     player:
       clsid: 6BF52A52-394A-11d3-B153-00C04F79FAA6

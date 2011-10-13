@@ -49,7 +49,19 @@ class BSFlashFile extends BSMediaFile {
 			$params['url'] = $this->createURL($params);
 			$container = $useragent->createFlashElement($params);
 		} else {
-			$container = parent::createElement($params);
+			$container = new BSDivisionElement;
+			$container->registerStyleClass($params['style_class']);
+			if ($params['mode'] == 'noscript') {
+				$container->setStyles($this->getStyles($params));
+				$container->addElement($this->createObjectElement($params));
+			} else {
+				if (BSString::isBlank($params['container_id'])) {
+					$params['container_id'] = $this->createContainerID();
+					$inner = $container->addElement(new BSDivisionElement);
+					$inner->setID($params['container_id']);
+				}
+				$container->addElement($this->createScriptElement($params));
+			}
 			if (($info = $params['thumbnail']) && ($inner = $container->getElement('div'))) {
 				$image = $inner->addElement(new BSImageElement);
 				$image->setAttributes(new BSArray($info));

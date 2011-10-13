@@ -109,32 +109,16 @@ class BSMovieFile extends BSMediaFile {
 			return $this->createShadowboxElement($params);
 		}
 
-		$container = parent::createElement($params);
+		$container = new BSDivisionElement;
+		$container->registerStyleClass($params['style_class']);
+		$container->setStyles($this->getStyles($params));
+		if ($element = $this->createObjectElement($params)) {
+			$container->addElement($element);
+		}
 		if ($inner = $container->getElement('div')) { //Gecko対応
 			$inner->setStyles($this->getStyles($params));
 		}
 		return $container;
-	}
-
-	/**
-	 * script要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSScriptElement 要素
-	 */
-	public function createScriptElement (BSParameterHolder $params) {
-		$serializer = new BSJSONSerializer;
-		$element = new BSScriptElement;
-		$statement = new BSStringFormat('flowplayer(%s, %s, %s);');
-		$statement[] = $serializer->encode($params['container_id']);
-		$statement[] = $serializer->encode(array(
-			'src' => BS_MOVIE_FLV_PLAYER_HREF,
-			'wmode' => 'transparent',
-		));
-		$statement[] = $serializer->encode($this->getPlayerConfig($params));
-		$element->setBody($statement);
-		return $element;
 	}
 
 	/**
@@ -147,8 +131,12 @@ class BSMovieFile extends BSMediaFile {
 	public function createObjectElement (BSParameterHolder $params) {
 		$serializer = new BSJSONSerializer;
 		$element = new BSFlashObjectElement;
-		$element->setURL(BSURL::create()->setAttribute('path', BS_MOVIE_FLV_PLAYER_HREF));
-		$element->setFlashVar('config', $serializer->encode($this->getPlayerConfig($params)));
+		$element->setURL(BSURL::create(BS_MOVIE_FLV_PLAYER_HREF));
+		$element->setAttribute('width', $params['width']);
+		$element->setAttribute('height', $params['height']);
+		$element->setParameter('allowfullscreen', 'true');
+		$element->setParameter('allowscriptaccess', 'always');
+		$element->setFlashVar('file', $params['href_prefix'] . $this->getName());
 		return $element;
 	}
 
@@ -194,31 +182,6 @@ class BSMovieFile extends BSMediaFile {
 		$element = new BSVideoElement;
 		$element->registerSource($this->createURL($params));
 		return $element;
-	}
-
-	/**
-	 * flowplayerの設定値をPHP配列で返す
-	 *
-	 * @access protected
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return mixed[] 設定値
-	 */
-	protected function getPlayerConfig (BSParameterHolder $params) {
-		return array(
-			'clip' => array(
-				'scaling' => 'fit',
-				'autoPlay' => false,
-				'autoBuffering' => true,
-				'url' => $this->createURL($params)->getContents(),
-			),
-			'plugins' => array(
-				'controls' => array(
-					'url' => BS_MOVIE_FLV_PLAYER_CONTROL_BAR_HREF,
-					'opacity' => BS_MOVIE_FLV_PLAYER_OPACITY,
-					'fullscreen' => ($params['mode'] != 'noscript'),
-				),
-			),
-		);
 	}
 
 	/**
