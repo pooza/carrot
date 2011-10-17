@@ -11,6 +11,7 @@ types:
   aifc: audio/x-aiff
   aiff: audio/x-aiff
   as:
+  atom: application/atom+xml
   css: text/css
   csv: text/csv
   dat: application/octet-stream

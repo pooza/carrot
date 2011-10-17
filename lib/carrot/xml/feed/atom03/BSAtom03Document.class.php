@@ -186,10 +186,12 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	 * @param BSDate $date 日付
 	 */
 	public function setDate (BSDate $date) {
-		if (!$element = $this->getElement('modified')) {
-			$element = $this->createElement('modified');
+		foreach (array('modified', 'updated') as $field) {
+			if (!$element = $this->getElement($field)) {
+				$element = $this->createElement($field);
+			}
+			$element->setBody($date->format(DateTime::ATOM));
 		}
-		$element->setBody($date->format(DateTime::ATOM));
 	}
 
 	/**
