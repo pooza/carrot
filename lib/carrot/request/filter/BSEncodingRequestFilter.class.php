@@ -26,6 +26,17 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 		return BSString::convertEncoding($value, 'utf-8', $encoding);
 	}
 
+	/**
+	 * 配列を対象とするか
+	 *
+	 * @access protected
+	 * @return boolean 配列を対象とするならTrue
+	 * @abstract
+	 */
+	protected function hasArraySupport () {
+		return true;
+	}
+
 	public function execute () {
 		if (!ini_get('mbstring.encoding_translation') || $this['force']) {
 			parent::execute();

@@ -23,9 +23,20 @@ abstract class BSRequestFilter extends BSFilter {
 	 */
 	abstract protected function convert ($key, $value);
 
+	/**
+	 * 配列を対象とするか
+	 *
+	 * @access protected
+	 * @return boolean 配列を対象とするならTrue
+	 * @abstract
+	 */
+	protected function hasArraySupport () {
+		return false;
+	}
+
 	public function execute () {
 		foreach ($this->request->getParameters() as $key => $value) {
-			if (!BSString::isBlank($value) && !is_array($value)) {
+			if (!BSString::isBlank($value) && (!is_array($value) || $this->hasArraySupport())) {
 				$this->request[$key] = $this->convert($key, $value);
 			}
 		}
