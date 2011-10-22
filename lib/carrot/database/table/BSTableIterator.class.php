@@ -18,7 +18,7 @@ class BSTableIterator extends BSIterator {
 	 */
 	public function __construct (BSTableHandler $table) {
 		$this->table = $table;
-		foreach ($table->getContents() as $row) {
+		foreach ($table->getResult() as $row) {
 			$this->keys[] = $row[$table->getKeyField()];
 		}
 	}
