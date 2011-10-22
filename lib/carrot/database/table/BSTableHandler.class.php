@@ -126,6 +126,36 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * ユーザーエージェントフィールド名
+	 *
+	 * @access public
+	 * @return string ユーザーエージェントフィールド名
+	 */
+	public function getUserAgentField () {
+		return 'useragent';
+	}
+
+	/**
+	 * リモートホストフィールド名
+	 *
+	 * @access public
+	 * @return string リモートホストフィールド名
+	 */
+	public function getRemoteHostField () {
+		return 'remotehost';
+	}
+
+	/**
+	 * リモートアドレスフィールド名
+	 *
+	 * @access public
+	 * @return string リモートアドレスフィールド名
+	 */
+	public function getRemoteAddressField () {
+		return 'remoteaddr';
+	}
+
+	/**
 	 * 抽出条件を返す
 	 *
 	 * @access public
@@ -343,16 +373,8 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			throw new BSDatabaseException($this . 'へのレコード挿入はできません。');
 		}
 
-		$values = new BSArray($values);
-		$fields = $this->getProfile()->getFields();
-		foreach (array($this->getCreateDateField(), $this->getUpdateDateField()) as $key) {
-			if (!$values->hasParameter($key) && $fields[$key]) {
-				$values[$key] = BSDate::getNow('Y-m-d H:i:s');
-			}
-		}
-
 		$db = $this->getDatabase();
-		$db->exec(BSSQL::getInsertQueryString($this, $values, $db));
+		$db->exec(BSSQL::getInsertQueryString($this, $this->applySmartFields($values), $db));
 		if ($this->hasSurrogateKey()) {
 			$id = $db->lastInsertId($db->getSequenceName($this->getName(), $this->getKeyField()));
 		} else {
@@ -382,6 +404,32 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	final public function insertRecord ($values, $flags = null) {
 		return $this->createRecord($values, $flags);
+	}
+
+	/**
+	 * スマートフィールドを適用
+	 *
+	 * @access protected
+	 * @param array $values 処理対象
+	 * @return BSArray 適用後の値
+	 */
+	protected function applySmartFields ($values) {
+		$values = new BSArray($values);
+		$fields = $this->getProfile()->getFields();
+		$request = BSRequest::getInstance();
+		$smartFields = new BSArray(array(
+			$this->getCreateDateField() => BSDate::getNow('Y-m-d H:i:s'),
+			$this->getUpdateDateField() => BSDate::getNow('Y-m-d H:i:s'),
+			$this->getUserAgentField() => $request->getUserAgent()->getName(),
+			$this->getRemoteHostField() => $request->getHost()->getName(),
+			$this->getRemoteAddressField() => $request->getHost()->getAddress(),
+		));
+		foreach ($smartFields as $key => $value) {
+			if (!$values->hasParameter($key) && !!$fields[$key]) {
+				$values[$key] = $value;
+			}
+		}
+		return $values;
 	}
 
 	/**
@@ -483,19 +531,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getProfile () {
 		return $this->getDatabase()->getTableProfile($this->getName());
-	}
-
-	/**
-	 * 内容を返す
-	 *
-	 * getResultのエイリアス
-	 *
-	 * @access public
-	 * @return string[] 結果の配列
-	 * @final
-	 */
-	final public function getContents () {
-		return $this->getResult();
 	}
 
 	/**
