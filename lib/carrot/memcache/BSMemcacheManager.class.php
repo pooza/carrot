@@ -69,14 +69,19 @@ class BSMemcacheManager {
 	 * サーバを返す
 	 *
 	 * @access public
+	 * @param string $class クラス名
 	 * @return BSMemcache サーバ
 	 */
-	public function getServer () {
+	public function getServer ($class = null) {
 		if (!$this->isEnabled()) {
 			throw new BSMemcacheException('memcachedに接続できません。');
 		}
 		if (!$this->server) {
-			$server = new BSMemcache;
+			if ($class) {
+				$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
+			} else {
+				$server = new BSMemcache;
+			}
 			if ($server->pconnect($this->getConstant('host'), $this->getConstant('port'))) {
 				$this->server = $server;
 			}
