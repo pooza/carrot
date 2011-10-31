@@ -26,6 +26,7 @@ class BSWebKitUserAgent extends BSUserAgent {
 		$this->supports['html5_audio_mp3'] = true;
 		$this->supports['html5_audio_aac'] = true;
 		$this->supports['flash'] = true;
+		$this->supports['cookie'] = true;
 	}
 
 	/**

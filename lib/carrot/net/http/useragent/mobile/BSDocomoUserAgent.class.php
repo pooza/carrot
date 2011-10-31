@@ -22,6 +22,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		}
 		parent::__construct($name);
 		$this['is_foma'] = $this->isFOMA();
+		$this->supports['cookie'] = $this->isFOMA() && !BSString::isContain('c100;', $name);
 	}
 
 	/**

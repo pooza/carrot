@@ -22,6 +22,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 		}
 		parent::__construct($name);
 		$this['is_3gc'] = $this->is3GC();
+		$this->supports['cookie'] = true;
 	}
 
 	/**
