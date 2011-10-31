@@ -365,6 +365,19 @@ abstract class BSUserAgent extends BSParameterHolder {
 		return 'utf8';
 	}
 
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function getAssignableValues () {
+		$values = $this->getParameters();
+		$values['supports'] = $this->supports;
+		$values['bugs'] = $this->bugs;
+		return $values;
+	}
+
 	static private function getTypes () {
 		return new BSArray(array(
 			'WindowsPhone',
