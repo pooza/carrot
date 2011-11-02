@@ -20,15 +20,14 @@ class BSSerializeHandler {
 	public function __construct (BSSerializeStorage $storage = null, BSSerializer $serializer = null) {
 		$classes = BSClassLoader::getInstance();
 
-		$class = $classes->getClass(BS_SERIALIZE_SERIALIZER, 'Serializer');
-		$this->serializer = new $class($this);
+		$this->serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		if (!$this->serializer->initialize()) {
 			$this->serializer = new BSPHPSerializer;
 			$this->serializer->initialize();
 		}
 
 		$class = $classes->getClass(BS_SERIALIZE_STORAGE, 'SerializeStorage');
-		$this->storage = new $class($this);
+		$this->storage = new $class($this->serializer);
 		if (!$this->storage->initialize()) {
 			$this->storage = new BSDefaultSerializeStorage;
 			$this->storage->initialize();

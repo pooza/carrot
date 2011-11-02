@@ -11,14 +11,18 @@
  */
 class BSDefaultSerializeStorage implements BSSerializeStorage {
 	private $attributes;
-	private $handler;
+	private $serializer;
 
 	/**
 	 * @access public
-	 * @param BSSerializeHandler $handler
+	 * @param BSSerializer $serializer
 	 */
-	public function __construct (BSSerializeHandler $handler) {
-		$this->handler = $handler;
+	public function __construct (BSSerializer $serializer = null) {
+		if (!$serializer) {
+			$classes = BSClassLoader::getInstance();
+			$serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+		}
+		$this->serializer = $serializer;
 		$this->attributes = new BSArray;
 	}
 
@@ -29,7 +33,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		$this->getDirectory()->setDefaultSuffix($this->handler->getSerializer()->getSuffix());
+		$this->getDirectory()->setDefaultSuffix($this->serializer->getSuffix());
 		return $this->getDirectory()->isWritable();
 	}
 
@@ -47,7 +51,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 	 */
 	public function setAttribute ($name, $value) {
 		$file = $this->getDirectory()->createEntry($name);
-		$file->setContents($serialized = $this->handler->getSerializer()->encode($value));
+		$file->setContents($serialized = $this->serializer->encode($value));
 		$this->attributes[$name] = $value;
 		return $serialized;
 	}
@@ -77,9 +81,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 		if (!$this->attributes->hasParameter($name)) {
 			if (($file = $this->getDirectory()->getEntry($name)) && $file->isReadable()) {
 				if (!$date || !$file->getUpdateDate()->isPast($date)) {
-					$this->attributes[$name] = $this->handler->getSerializer()->decode(
-						$file->getContents()
-					);
+					$this->attributes[$name] = $this->serializer->decode($file->getContents());
 				}
 			}
 		}
