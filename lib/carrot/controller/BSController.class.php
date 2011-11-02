@@ -16,6 +16,7 @@ abstract class BSController {
 	protected $headers;
 	protected $actions;
 	protected $searchDirectories;
+	protected $serializeHandler;
 	static private $instance;
 	const ACTION_REGISTER_LIMIT = 20;
 	const COMPLETED = true;
@@ -115,6 +116,19 @@ abstract class BSController {
 	}
 
 	/**
+	 * BSSerializeHandlerを返す
+	 *
+	 * @access protected
+	 * @return BSSerializeHandler
+	 */
+	protected function getSerializeHandler () {
+		if (!$this->serializeHandler) {
+			$this->serializeHandler = new BSSerializeHandler;
+		}
+		return $this->serializeHandler;
+	}
+
+	/**
 	 * モジュールを返す
 	 *
 	 * @access public
@@ -199,7 +213,7 @@ abstract class BSController {
 				return $value;
 			}
 		}
-		return BSSerializeHandler::getInstance()->getAttribute($name, $date);
+		return $this->getSerializeHandler()->getAttribute($name, $date);
 	}
 
 	/**
@@ -210,7 +224,7 @@ abstract class BSController {
 	 * @param mixed $value 値
 	 */
 	public function setAttribute ($name, $value) {
-		BSSerializeHandler::getInstance()->setAttribute($name, $value);
+		$this->getSerializeHandler()->setAttribute($name, $value);
 	}
 
 	/**
@@ -220,7 +234,7 @@ abstract class BSController {
 	 * @param string $name 属性の名前
 	 */
 	public function removeAttribute ($name) {
-		BSSerializeHandler::getInstance()->removeAttribute($name);
+		$this->getSerializeHandler()->removeAttribute($name);
 	}
 
 	/**
@@ -230,7 +244,7 @@ abstract class BSController {
 	 * @return mixed[] 全ての属性
 	 */
 	public function getAttributes () {
-		return BSSerializeHandler::getInstance()->getAttributes();
+		return $this->getSerializeHandler()->getAttributes();
 	}
 
 	/**

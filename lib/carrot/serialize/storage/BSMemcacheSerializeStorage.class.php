@@ -11,6 +11,15 @@
  */
 class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	private $server;
+	private $handler;
+
+	/**
+	 * @access public
+	 * @param BSSerializeHandler $handler
+	 */
+	public function __construct (BSSerializeHandler $handler) {
+		$this->handler = $handler;
+	}
 
 	/**
 	 * 初期化
@@ -25,10 +34,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 		}
 		$this->server = $manager->getServer();
 		return true;
-	}
-
-	private function getSerializer () {
-		return BSSerializeHandler::getInstance()->getSerializer();
 	}
 
 	/**
@@ -60,7 +65,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 			'update_date' => BSDate::getNow('Y-m-d H:i:s'),
 			'contents' => $value,
 		);
-		$serialized = $this->getSerializer()->encode($values);
+		$serialized = $this->handler->getSerializer()->encode($values);
 		$this->server->set($name, $serialized);
 		return $serialized;
 	}
@@ -99,7 +104,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 
 	private function getEntry ($name) {
 		if ($values = $this->server->get($name)) {
-			$values = $this->getSerializer()->decode($values);
+			$values = $this->handler->getSerializer()->decode($values);
 			$entry = new BSArray($values);
 			$entry['update_date'] = BSDate::create($entry['update_date']);
 			return $entry;

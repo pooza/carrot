@@ -12,6 +12,15 @@
 class BSDatabaseSerializeStorage implements BSSerializeStorage {
 	const TABLE_NAME = 'serialize_entry';
 	private $table;
+	private $handler;
+
+	/**
+	 * @access public
+	 * @param BSSerializeHandler $handler
+	 */
+	public function __construct (BSSerializeHandler $handler) {
+		$this->handler = $handler;
+	}
 
 	/**
 	 * 初期化
@@ -26,10 +35,6 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 		} catch (BSDatabaseException $e) {
 			return false;
 		}
-	}
-
-	private function getSerializer () {
-		return BSSerializeHandler::getInstance()->getSerializer();
 	}
 
 	/**
@@ -51,7 +56,7 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 	 * @return string シリアライズされた値
 	 */
 	public function setAttribute ($name, $value) {
-		$serialized = $this->getSerializer()->encode($value);
+		$serialized = $this->handler->getSerializer()->encode($value);
 		$values = array(
 			'id' => $name,
 			'data' => $serialized,
@@ -95,7 +100,7 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 			$record->delete();
 			return null;
 		}
-		return $this->getSerializer()->decode($record['data']);
+		return $this->handler->getSerializer()->decode($record['data']);
 	}
 
 	/**
