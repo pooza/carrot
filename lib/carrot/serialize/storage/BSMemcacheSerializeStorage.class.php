@@ -114,6 +114,14 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 			return $entry;
 		}
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return 'memcacheシリアライズストレージ';
+	}
 }
 
 /* vim:set tabstop=4: */

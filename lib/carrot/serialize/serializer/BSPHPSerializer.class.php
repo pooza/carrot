@@ -52,6 +52,14 @@ class BSPHPSerializer implements BSSerializer {
 	public function getSuffix () {
 		return '.serialized';
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return 'PHPシリアライザー';
+	}
 }
 
 /* vim:set tabstop=4: */

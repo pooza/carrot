@@ -20,17 +20,20 @@ class BSSerializeHandler {
 	public function __construct (BSSerializeStorage $storage = null, BSSerializer $serializer = null) {
 		$classes = BSClassLoader::getInstance();
 
-		$this->serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+		if (!$serializer) {
+			$serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+		}
+		$this->serializer = $serializer;
 		if (!$this->serializer->initialize()) {
-			$this->serializer = new BSPHPSerializer;
-			$this->serializer->initialize();
+			throw new BSConfigException($serializer . 'が初期化できません。');
 		}
 
-		$class = $classes->getClass(BS_SERIALIZE_STORAGE, 'SerializeStorage');
-		$this->storage = new $class($this->serializer);
+		if (!$storage) {
+			$storage = $classes->getObject(BS_SERIALIZE_STORAGE, 'SerializeStorage');
+		}
+		$this->storage = $storage;
 		if (!$this->storage->initialize()) {
-			$this->storage = new BSDefaultSerializeStorage;
-			$this->storage->initialize();
+			throw new BSConfigException($storage . 'が初期化できません。');
 		}
 	}
 

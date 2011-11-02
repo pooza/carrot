@@ -57,6 +57,14 @@ class BSJSONSerializer implements BSSerializer {
 	public function getSuffix () {
 		return '.json';
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return 'JSONシリアライザー';
+	}
 }
 
 /* vim:set tabstop=4: */

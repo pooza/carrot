@@ -100,6 +100,14 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 			return $file->getUpdateDate();
 		}
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return '規定シリアライズストレージ';
+	}
 }
 
 /* vim:set tabstop=4: */

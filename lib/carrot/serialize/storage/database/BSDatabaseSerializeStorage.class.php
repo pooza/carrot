@@ -120,6 +120,14 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 		}
 		return $record->getUpdateDate();
 	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return 'データベースシリアライズストレージ';
+	}
 }
 
 /* vim:set tabstop=4: */
