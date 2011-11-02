@@ -131,8 +131,8 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function getDisplayInfo () {
 		return new BSArray(array(
-			'width' => BS_IMAGE_MOBILE_SIZE_WIDTH,
-			'height' => BS_IMAGE_MOBILE_SIZE_HEIGHT,
+			'width' => BS_IMAGE_MOBILE_SIZE_QVGA_WIDTH,
+			'height' => BS_IMAGE_MOBILE_SIZE_QVGA_HEIGHT,
 		));
 	}
 

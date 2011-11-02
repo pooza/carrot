@@ -91,8 +91,12 @@ image:
   storable: yes
   mobile:
     size:
-      width: 240
-      height: 320
+      qvga:
+        width: 240
+        height: 320
+      vga:
+        width: 480
+        height: 640
     type:
       docomo: image/jpeg
       au: image/png

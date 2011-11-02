@@ -22,7 +22,8 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		}
 		parent::__construct($name);
 		$this['is_foma'] = $this->isFOMA();
-		$this->supports['cookie'] = $this->isFOMA() && !BSString::isContain('c100;', $name);
+		$this['browser_version'] = $this->getVersion();
+		$this->supports['cookie'] = $this->isFOMA() && (1 < $this->getVersion());
 	}
 
 	/**
@@ -81,6 +82,27 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
+	 * バージョンを返す
+	 *
+	 * iモードブラウザのバージョン
+	 *
+	 * @access public
+	 * @return string バージョン
+	 */
+	public function getVersion () {
+		if (!$this['version']) {
+			if (mb_ereg('[/(]c([[:digit:]]+)[;/]', $this->getName(), $matches)) {
+				if ($matches[1] < 500) {
+					$this['version'] = 1;
+				} else {
+					$this['version'] = 2;
+				}
+			}
+		}
+		return $this['version'];
+	}
+
+	/**
 	 * 画面情報を返す
 	 *
 	 * @access public
@@ -93,7 +115,16 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 				return new BSArray($values);
 			}
 		}
-		return parent::getDisplayInfo();
+
+		$info = new BSArray;
+		if (1 < $this->getVersion()) {
+			$info['width'] = BS_IMAGE_MOBILE_SIZE_VGA_WIDTH;
+			$info['height'] = BS_IMAGE_MOBILE_SIZE_VGA_HEIGHT;
+		} else {
+			$info['width'] = BS_IMAGE_MOBILE_SIZE_QVGA_WIDTH;
+			$info['height'] = BS_IMAGE_MOBILE_SIZE_QVGA_HEIGHT;
+		}
+		return $info;
 	}
 }
 
