@@ -7,10 +7,11 @@ class BSMemcacheSerializeStorageTest extends BSTest {
 	public function execute () {
 		$storage = new BSMemcacheSerializeStorage;
 		if ($storage->initialize()) {
-			$storage->setAttribute('hoge', '木の水晶球');
-			$this->assert('getAttribute_1', ($storage->getAttribute('hoge') == '木の水晶球'));
-			$storage->removeAttribute('hoge');
-			$this->assert('getAttribute_2', BSString::isBlank($storage->getAttribute('hoge')));
+			$key = get_class($this);
+			$storage->setAttribute($key, '木の水晶球');
+			$this->assert('getAttribute_1', ($storage->getAttribute($key) == '木の水晶球'));
+			$storage->removeAttribute($key);
+			$this->assert('getAttribute_2', BSString::isBlank($storage->getAttribute($key)));
 		}
 	}
 }
