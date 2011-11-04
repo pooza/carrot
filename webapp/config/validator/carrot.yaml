@@ -67,6 +67,8 @@ image:
       - image/gif
       - image/jpeg
       - image/png
+infection:
+  class: BSInfectionValidator
 kana:
   class: BSKanaValidator
 largefile:

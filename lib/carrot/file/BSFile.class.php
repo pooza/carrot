@@ -349,6 +349,29 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
+	 * ウィルスなどに感染しているか？
+	 *
+	 * @access public
+	 * @return boolean 感染していたらtrue
+	 */
+	public function isInfected () {
+		$command = new BSCommandLine('bin/' . BS_CLAMAV_COMMAND);
+		$command->setDirectory(BSFileUtility::getDirectory('clamav'));
+		$command->push('--no-summary');
+		$command->push($this->getPath());
+
+		if ($command->getReturnCode() == 1) {
+			$pattern = '^' . $this->getPath() . ': (.*)$';
+			if (mb_ereg($pattern, $command->getResult()->join("\n"), $matches)) {
+				$this->error = $matches[1];
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * gzip圧縮されているか？
 	 *
 	 * @access public

@@ -27,6 +27,8 @@ carrotlib:
 chart:
   parent: var
   suffix: .png
+clamav:
+  platform: yes
 config:
   parent: webapp
 compile:

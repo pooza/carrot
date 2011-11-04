@@ -37,6 +37,11 @@ author:
 awstats:
   daily: yes
   server_name_aliases:
+clamav:
+  command: clamdscan
+  dir:
+    default: /usr/local
+    linux: /usr
 cookie:
   checker:
     hours: 6
