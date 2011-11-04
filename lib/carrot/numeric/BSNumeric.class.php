@@ -85,9 +85,10 @@ class BSNumeric {
 	 * @param float $number 処理対象の数値
 	 * @return string バイナリ書式化された数値
 	 * @static
+	 * @link http://ja.wikipedia.org/wiki/2進接頭辞
 	 */
 	static public function getBinarySize ($num) {
-		foreach (array('', 'K', 'M', 'G', 'T', 'P', 'E', 'Z') as $i => $unit) {
+		foreach (array('', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi') as $i => $unit) {
 			$unitsize = pow(1024, $i);
 			if ($num < ($unitsize * 1024 * 2)) {
 				return number_format(floor($num / $unitsize)) . $unit;
