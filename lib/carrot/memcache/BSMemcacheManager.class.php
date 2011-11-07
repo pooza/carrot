@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMemcacheManager {
-	private $server;
 	private $constants;
 	static private $instance;
 	const CONNECT_INET = 'inet';
@@ -76,17 +75,13 @@ class BSMemcacheManager {
 		if (!$this->isEnabled()) {
 			throw new BSMemcacheException('memcachedに接続できません。');
 		}
-		if (!$this->server) {
-			if ($class) {
-				$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
-			} else {
-				$server = new BSMemcache;
-			}
-			if ($server->pconnect($this->getConstant('host'), $this->getConstant('port'))) {
-				$this->server = $server;
-			}
+		if ($class) {
+			$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
+		} else {
+			$server = new BSMemcache;
 		}
-		return $this->server;
+		$server->pconnect($this->getConstant('host'), $this->getConstant('port'));
+		return $server;
 	}
 }
 
