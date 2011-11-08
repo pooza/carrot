@@ -12,12 +12,12 @@
 interface BSSerializable {
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized ();
+	public function digest ();
 
 	/**
 	 * シリアライズ時の値を返す

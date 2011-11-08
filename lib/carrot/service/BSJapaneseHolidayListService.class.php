@@ -20,6 +20,7 @@
  * @link http://www.finds.jp/wsdocs/calendar/
  */
 class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, BSSerializable {
+	protected $digest;
 	private $date;
 	private $holidays;
 	const DEFAULT_HOST = 'www.finds.jp';
@@ -132,13 +133,20 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		return sprintf('%s.%s', get_class($this), $this->getDate()->format('Y-m'));
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest(array(
+				get_class($this),
+				$this->getDate()->getParameter('Y'),
+				$this->getDate()->getParameter('m'),
+			));
+		}
+		return $this->digest;
 	}
 
 	/**

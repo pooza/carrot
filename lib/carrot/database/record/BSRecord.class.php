@@ -18,6 +18,7 @@ abstract class BSRecord implements ArrayAccess,
 	protected $url;
 	protected $criteria;
 	protected $records;
+	protected $digest;
 
 	/**
 	 * @access public
@@ -610,13 +611,19 @@ abstract class BSRecord implements ArrayAccess,
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		return sprintf('%s.%08d', get_class($this), $this->getID());
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest(array(
+				get_class($this),
+				$this->getID(),
+			));
+		}
+		return $this->digest;
 	}
 
 	/**

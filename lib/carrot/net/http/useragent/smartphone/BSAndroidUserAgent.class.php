@@ -66,7 +66,7 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	}
 
 	/**
-	 * レンダリング用ダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
 	 * @return string ダイジェスト

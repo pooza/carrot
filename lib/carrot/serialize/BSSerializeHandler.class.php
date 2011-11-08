@@ -114,9 +114,9 @@ class BSSerializeHandler {
 	 */
 	public function createKey ($name) {
 		if ($name instanceof BSSerializable) {
-			return $name->digestSerialized();
+			return $name->digest();
 		} else if (is_object($name)) {
-			return get_class($name);
+			return BSCrypt::digest(get_class($name));
 		}
 		return (string)$name;
 	}

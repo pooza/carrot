@@ -14,6 +14,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	protected $database;
 	protected $fields;
 	protected $constraints;
+	protected $digest;
 	private $name;
 
 	/**
@@ -121,13 +122,19 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		return get_class($this) . '.' . $this->getName();
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest(array(
+				get_class($this),
+				$this->getName(),
+			));
+		}
+		return $this->digest;
 	}
 
 	/**

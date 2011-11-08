@@ -54,7 +54,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * レンダリング用ダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
 	 * @return string ダイジェスト

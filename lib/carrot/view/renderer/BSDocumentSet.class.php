@@ -148,7 +148,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	}
 
 	/**
-	 * レンダリング用ダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
 	 * @return string ダイジェスト

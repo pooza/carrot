@@ -20,6 +20,7 @@ class BSTwitterAccount
 	protected $consumerSecret;
 	protected $requestToken;
 	protected $accessToken;
+	protected $digest;
 	private $oauth;
 	private $service;
 	private $record;
@@ -421,13 +422,19 @@ class BSTwitterAccount
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		return get_class($this) . '.' . $this->id;
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest(array(
+				get_class($this),
+				$this->id,
+			));
+		}
+		return $this->digest;
 	}
 
 	/**

@@ -92,7 +92,7 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
-	 * レンダリング用ダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
 	 * @return string ダイジェスト

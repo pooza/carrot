@@ -116,7 +116,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	}
 
 	/**
-	 * レンダリング用ダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
 	 * @return string ダイジェスト

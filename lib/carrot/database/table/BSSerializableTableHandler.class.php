@@ -62,13 +62,13 @@ abstract class BSSerializableTableHandler extends BSTableHandler implements BSSe
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		return get_class($this);
+	public function digest () {
+		return BSCrypt::digest(get_class($this));
 	}
 
 	/**

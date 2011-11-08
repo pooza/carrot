@@ -45,7 +45,6 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 		if (!$this->id) {
 			$this->id = BSCrypt::digest(array(
 				$this->getPath(),
-				$this->getType(),
 				$this->getSize(),
 				fileinode($this->getPath()),
 				$this->getUpdateDate()->getTimestamp(),
@@ -471,16 +470,13 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
-	 * シリアライズのダイジェストを返す
+	 * ダイジェストを返す
 	 *
 	 * @access public
-	 * @return string 属性名
+	 * @return string ダイジェスト
 	 */
-	public function digestSerialized () {
-		$name = new BSArray(get_class($this));
-		$name->merge(explode('/', $this->getShortPath()));
-		$name->trim();
-		return $name->join('.');
+	public function digest () {
+		return $this->getID();
 	}
 
 	/**
