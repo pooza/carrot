@@ -26,7 +26,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 		$element->setStyles($params['style']);
 		$element->registerStyleClass($params['style_class']);
 		$element->setID($params['container_id']);
-	
+
 		switch ($mode = BSString::toLower($params['mode'])) {
 			case 'size':
 				return $info['pixel_size'];
