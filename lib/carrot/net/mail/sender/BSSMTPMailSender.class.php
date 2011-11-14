@@ -55,7 +55,7 @@ class BSSMTPMailSender extends BSMailSender {
 		$message = new BSStringFormat('%sから%s宛に、メールを送信しました。(%s)');
 		$message[] = $mail->getHeader('From')->getEntity()->getContents();
 		$message[] = $recipients->join(',');
-		$message[] = $response;
+		$message[] = rtrim($response);
 
 		BSLogManager::getInstance()->put($message, $this);
 	}
