@@ -32,12 +32,10 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		$manager = BSMemcacheManager::getInstance();
-		if (!$manager->isEnabled()) {
-			return false;
+		if ($this->server = BSMemcacheManager::getInstance()->getServer()) {
+			 return true;
 		}
-		$this->server = $manager->getServer();
-		return true;
+		return false;
 	}
 
 	/**

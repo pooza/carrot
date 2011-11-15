@@ -50,7 +50,7 @@ class BSMemcacheManager {
 	 * @return boolean 有効ならTrue
 	 */
 	public function isEnabled () {
-		return extension_loaded('memcache');
+		return !!extension_loaded('memcache');
 	}
 
 	/**
@@ -72,16 +72,16 @@ class BSMemcacheManager {
 	 * @return BSMemcache サーバ
 	 */
 	public function getServer ($class = null) {
-		if (!$this->isEnabled()) {
-			throw new BSMemcacheException('memcachedに接続できません。');
+		if ($this->isEnabled()) {
+			if ($class) {
+				$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
+			} else {
+				$server = new BSMemcache;
+			}
+			if ($server->pconnect($this->getConstant('host'), $this->getConstant('port'))) {
+				return $server;
+			}
 		}
-		if ($class) {
-			$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
-		} else {
-			$server = new BSMemcache;
-		}
-		$server->pconnect($this->getConstant('host'), $this->getConstant('port'));
-		return $server;
 	}
 }
 
