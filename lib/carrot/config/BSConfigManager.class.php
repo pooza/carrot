@@ -93,6 +93,10 @@ class BSConfigManager {
 				$command->execute();
 			}
 		}
+		if ($server = BSMemcacheManager::getInstance()->getServer()) {
+			$server->flush();
+		}
+		BSRenderManager::getInstance()->clear();
 	}
 
 	/**
