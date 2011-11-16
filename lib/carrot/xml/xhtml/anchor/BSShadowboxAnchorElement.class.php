@@ -55,9 +55,9 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 			$url = $url->createURL();
 		} else {
 			$url = BSURL::create();
-			if (!($url instanceof BSHTTPURL)) {
-				throw new BSNetException('正しいURLではありません。');
-			}
+		}
+		if (!($url instanceof BSHTTPURL)) {
+			throw new BSNetException('正しいURLではありません。');
 		}
 		$url['query'] = null;
 
@@ -75,7 +75,7 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 		if (BSString::isBlank($this->group)) {
 			$rel[] = 'shadowbox';
 		} else {
-			$rel[] = 'shadowbox[. $this->group .]';
+			$rel[] = 'shadowbox[' . $this->group . ']';
 		}
 		if ($this->width && $this->height) {
 			$rel[] = 'width=' . $this->width;
