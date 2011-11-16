@@ -36,8 +36,6 @@ function smarty_function_image_cache ($params, &$smarty) {
 			case 'url':
 				return $info[$mode];
 			case 'lightbox':
-			case 'thickbox':
-			case 'multibox':
 			case 'shadowbox':
 				$anchor = BSClassLoader::getInstance()->getObject($mode, 'AnchorElement');
 				$element = $element->wrap($anchor);
