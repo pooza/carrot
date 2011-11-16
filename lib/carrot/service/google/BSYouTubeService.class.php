@@ -52,7 +52,7 @@ class BSYouTubeService extends BSCurlHTTP {
 				$params['label'] = '動画再生';
 			}
 			$element = new BSAnchorElement;
-			$element->setAttribute('target', '_blank');
+			$element->setTargetBlank(true);
 			$element->setBody($params['label']);
 			$element->setURL($this->createPageURL($id));
 		} else {

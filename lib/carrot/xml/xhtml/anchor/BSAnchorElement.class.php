@@ -37,6 +37,18 @@ class BSAnchorElement extends BSXHTMLElement {
 	}
 
 	/**
+	 * リンク先ターゲットを _blank にする
+	 *
+	 * @access public
+	 * @param boolean $flag _blankにするならTrue
+	 */
+	public function setTargetBlank ($flag) {
+		if (!!$flag) {
+			$this->setAttribute('target', '_blank');
+		}
+	}
+
+	/**
 	 * 対象にリンクを設定
 	 *
 	 * @access public
@@ -47,9 +59,7 @@ class BSAnchorElement extends BSXHTMLElement {
 	public function link (BSXMLElement $element, BSHTTPRedirector $url) {
 		$this->addElement($element);
 		$this->setURL($url);
-		if ($url->isForeign()) {
-			$this->setAttribute('target', '_blank');
-		}
+		$this->setTargetBlank($url->isForeign());
 		return $this;
 	}
 }
