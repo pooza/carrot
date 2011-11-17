@@ -54,9 +54,6 @@ namespace :var do
   desc 'varディレクトリを初期化'
   task :init => [
     :chmod,
-    'images:cache:init',
-    'css:init',
-    'js:init',
   ]
 
   task :chmod do
@@ -75,7 +72,7 @@ namespace :var do
   namespace :output do
     desc 'レンダーキャッシュをクリア'
     task :clean do
-      system 'rm -R var/output/*'
+      system 'sudo rm -R var/output/*'
     end
   end
 
@@ -83,7 +80,7 @@ namespace :var do
     namespace :cache do
       desc 'イメージキャッシュをクリア'
       task :clean do
-        system 'rm -R var/image_cache/*'
+        system 'sudo rm -R var/image_cache/*'
       end
     end
   end
@@ -121,9 +118,7 @@ namespace :var do
             break
           end
         end
-        if is_delete
-          File.delete(path)
-        end
+        File.delete(path) if is_delete
       end
       system 'sudo rm var/cache/*'
     end
