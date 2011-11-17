@@ -182,16 +182,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * 添付可能か？
-	 *
-	 * @access public
-	 * @return boolean 添付可能ならTrue
-	 */
-	public function isAttachable () {
-		return false;
-	}
-
-	/**
 	 * ダイジェストを返す
 	 *
 	 * @access public

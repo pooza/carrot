@@ -23,6 +23,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 		parent::__construct($name);
 		$this['is_3gc'] = $this->is3GC();
 		$this->supports['cookie'] = true;
+		$this->supports['attach_file'] = true;
 	}
 
 	/**
@@ -85,16 +86,6 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 			'width' => (int)$info[0],
 			'height' => (int)$info[1],
 		));
-	}
-
-	/**
-	 * 添付可能か？
-	 *
-	 * @access public
-	 * @return boolean 添付可能ならTrue
-	 */
-	public function isAttachable () {
-		return true;
 	}
 
 	/**

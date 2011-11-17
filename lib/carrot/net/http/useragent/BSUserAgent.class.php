@@ -35,7 +35,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 		$this['is_smartphone'] = $this->isSmartPhone();
 		$this['is_tablet'] = $this->isTablet();
 		$this['is_legacy'] = $this->isLegacy();
-		$this['is_attachable'] = $this->isAttachable();
 	}
 
 	/**
@@ -95,16 +94,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	final public function isDenied () {
 		return $this->isLegacy();
-	}
-
-	/**
-	 * 添付可能か？
-	 *
-	 * @access public
-	 * @return boolean 添付可能ならTrue
-	 */
-	public function isAttachable () {
-		return true;
 	}
 
 	/**

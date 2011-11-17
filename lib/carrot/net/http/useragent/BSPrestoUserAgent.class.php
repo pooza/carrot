@@ -23,6 +23,7 @@ class BSPrestoUserAgent extends BSUserAgent {
 		$this->supports['html5_audio_ogg'] = true;
 		$this->supports['flash'] = true;
 		$this->supports['cookie'] = true;
+		$this->supports['attach_file'] = true;
 	}
 
 	/**
