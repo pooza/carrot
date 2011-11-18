@@ -42,13 +42,9 @@ class BSImageValidator extends BSValidator {
 		$this['types'] = 'jpeg,gif,png';
 		$this['types_error'] = '画像形式が正しくありません。';
 		$this['min_height'] = null;
-		$this['min_height_error'] = '画像の高さが低過ぎます。';
 		$this['max_height'] = null;
-		$this['max_height_error'] = '画像の高さが高過ぎます。';
 		$this['min_width'] = null;
-		$this['min_width_error'] = '画像の幅が狭過ぎます。';
 		$this['max_width'] = null;
-		$this['max_width_error'] = '画像の幅が広過ぎます。';
 		return parent::initialize($params);
 	}
 
@@ -74,13 +70,13 @@ class BSImageValidator extends BSValidator {
 		if (!$this->getAllowedTypes()->isContain($image->getType())) {
 			$this->error = $this['types_error'];
 		} else if ($this['min_width'] && ($image->getWidth() < $this['min_width'])) {
-			$this->error = $this['min_width_error'];
+			$this->error = '幅が' . $this['min_width'] . 'ピクセルより不足しています。';
 		} else if ($this['min_height'] && ($image->getHeight() < $this['min_height'])) {
-			$this->error = $this['min_height_error'];
+			$this->error = '高さが' . $this['min_height'] . 'ピクセルより不足しています。';
 		} else if ($this['max_width'] && ($this['max_width'] < $image->getWidth())) {
-			$this->error = $this['max_width_error'];
+			$this->error = '幅が' . $this['max_width'] . 'ピクセルを超えています。';
 		} else if ($this['max_height'] && ($this['max_height'] < $image->getHeight())) {
-			$this->error = $this['max_height_error'];
+			$this->error = '高さが' . $this['max_height'] . 'ピクセルを超えています。';
 		}
 		return BSString::isBlank($this->error);
 	}
