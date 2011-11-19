@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.140
+  ver: 2.4.141
 
 admin:
   email:
@@ -29,6 +29,7 @@ app:
       default: nobody
       darwin: www
       freebsd: www
+      debian: www-data
 author:
   name:
   email:
@@ -86,6 +87,7 @@ ffmpeg:
     mp4:
       video_codec: libx264
       audio_codec: libfaac
+      vpre: libx264-default
     webm:
     mp3:
 flash:

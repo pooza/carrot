@@ -15,10 +15,6 @@ admin:
     - 192.168.1.0/24
     - 192.168.101.0/24
 
-app:
-  process:
-    uid: www
-
 pdo:
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot

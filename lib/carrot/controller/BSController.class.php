@@ -110,7 +110,13 @@ abstract class BSController {
 	 */
 	public function getPlatform () {
 		if (!$this->platform) {
-			$this->platform = BSPlatform::create(PHP_OS);
+			if (($os = PHP_OS) == 'Linux') {
+				$file = new BSFile('/usr/bin/apt-get');
+				if ($file->isExists()) {
+					$os = 'Debian';
+				}
+			}
+			$this->platform = BSPlatform::create($os);
 		}
 		return $this->platform;
 	}

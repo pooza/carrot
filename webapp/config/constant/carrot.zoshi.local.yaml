@@ -3,15 +3,13 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-root_url: http://carrot.glaive.local/
-root_url_https: http://carrot.glaive.local/
+root_url: http://carrot.zoshi.local/
+root_url_https: http://carrot.zoshi.local/
 debug: yes
 
 admin:
   email: admin@b-shock.co.jp
   password: 7e240de74fb1ed08fa08d38063f6a6a91462a815
-  networks:
-    - 192.168.102.0/24
 
 pdo:
   default:

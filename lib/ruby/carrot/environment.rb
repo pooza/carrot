@@ -15,6 +15,10 @@ class Environment
   end
 
   def Environment.os
-    return `uname`.chomp
+    os = `uname`.chomp
+    if (os == 'Linux') && File.exists?('/usr/bin/apt-get')
+      os = 'Debian'
+    end
+    return os
   end
 end
