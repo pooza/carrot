@@ -19,9 +19,15 @@ abstract class BSMediaConvertor {
 	 * @access public
 	 */
 	public function __construct () {
+		$options = self::getOptions();
+		$constants = BSController::getInstance()->getPlatform()->getConstants(
+			$options->getKeys(),
+			'FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.')
+		);
+		
 		$this->config = new BSArray;
-		foreach (self::getOptions() as $name => $option) {
-			if ($value = $this->getConstant($name)) {
+		foreach ($options as $key => $option) {
+			if ($value = $constants[$key]) {
 				$this->config[$option] = $value;
 			}
 		}

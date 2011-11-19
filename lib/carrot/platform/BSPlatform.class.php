@@ -52,6 +52,27 @@ abstract class BSPlatform extends BSParameterHolder {
 	}
 
 	/**
+	 * 定収を取得して返す
+	 *
+	 * @access public
+	 * @params BSParameterHolder $keys キーの配列
+	 * @params string $prefix プレフィックス
+	 * @return BSArray 定数の配列
+	 */
+	public function getConstants (BSParameterHolder $keys, $prefix = null) {
+		$constants = new BSArray;
+		$handler = new BSConstantHandler($prefix);
+		foreach ($keys as $key) {
+			foreach (array('_' . $this->getName(), '_default', null) as $suffix) {
+				if (!BSString::isBlank($value = $handler[$key . $suffix])) {
+					$constants[$key] = $value;
+				}
+			}
+		}
+		return $constants;
+	}
+
+	/**
 	 * ファイルをリネーム
 	 *
 	 * @access public
