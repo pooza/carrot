@@ -2,3 +2,7 @@
 Thumbs.db
 ._*
 .svn
+
+.buildpath
+.project
+.settings
