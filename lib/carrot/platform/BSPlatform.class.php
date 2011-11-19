@@ -52,7 +52,7 @@ abstract class BSPlatform extends BSParameterHolder {
 	}
 
 	/**
-	 * 定収を取得して返す
+	 * 定数を取得して返す
 	 *
 	 * @access public
 	 * @params BSParameterHolder $keys キーの配列
