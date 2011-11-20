@@ -14,19 +14,17 @@ abstract class BSMediaConvertor {
 	protected $name;
 	protected $config;
 	protected $output;
-	protected $constantHandler;
+	protected $constants;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		$this->constantHandler = new BSConstantHandler(
+		$this->constants = new BSConstantHandler(
 			'FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.')
 		);
-		$values = BSController::getInstance()->getPlatform()->getConstants(
-			self::getOptions()->getKeys(),
-			$this->constantHandler
-		);
+		$platform = BSController::getInstance()->getPlatform();
+		$values = $platform->getConstants(self::getOptions()->getKeys(), $this->constants);
 
 		$this->config = new BSArray;
 		foreach ($values as $key => $value) {
@@ -152,7 +150,7 @@ abstract class BSMediaConvertor {
 	 * @return string 定数値
 	 */
 	public function getConstant ($name) {
-		return $this->constantHandler[$name];
+		return $this->constants[$name];
 	}
 
 	/**
