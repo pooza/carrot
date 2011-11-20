@@ -179,6 +179,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSVideoElement 要素
 	 */
 	public function createVideoElement (BSParameterHolder $params) {
+		$this->resizeByWidth($params, $useragent);
 		$element = new BSVideoElement;
 		$element->registerSource($this->createURL($params));
 		return $element;

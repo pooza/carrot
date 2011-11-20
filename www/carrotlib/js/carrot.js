@@ -102,7 +102,7 @@ var CarrotLib = {
         element.unselectable = 'on';
         element.galleryimg = 'no';
       }
-      if (Prototype.Browser.MobileSafari) {
+      if (Prototype.Browser.MobileSafari || (navigator.userAgent.match(/Android/))) {
         var cover = document.createElement('img');
         cover.src = '/carrotlib/images/spacer.gif';
         Element.setStyle(cover, {
