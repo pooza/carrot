@@ -88,7 +88,7 @@ ffmpeg:
       video_codec: libx264
       audio_codec: libfaac
       vpre:
-        debian: libx264-default
+        linux: libx264-default
     webm:
     mp3:
 flash:
