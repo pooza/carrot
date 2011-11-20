@@ -14,22 +14,23 @@ abstract class BSMediaConvertor {
 	protected $name;
 	protected $config;
 	protected $output;
+	protected $constantHandler;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		$options = self::getOptions();
-		$constants = BSController::getInstance()->getPlatform()->getConstants(
-			$options->getKeys(),
+		$this->constantHandler = new BSConstantHandler(
 			'FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.')
 		);
-		
+		$values = BSController::getInstance()->getPlatform()->getConstants(
+			self::getOptions()->getKeys(),
+			$this->constantHandler
+		);
+
 		$this->config = new BSArray;
-		foreach ($options as $key => $option) {
-			if ($value = $constants[$key]) {
-				$this->config[$option] = $value;
-			}
+		foreach ($values as $key => $value) {
+			$this->setConfig($key, $value);
 		}
 	}
 
@@ -135,9 +136,10 @@ abstract class BSMediaConvertor {
 	 * @param string $value 設定値
 	 */
 	public function setConfig ($name, $value) {
-		if ($option = self::getOptions()->getParameter($name)) {
+		$options = self::getOptions();
+		if ($option = $options[$name]) {
 			$this->config[$option] = $value;
-		} else if (self::getOptions()->isContain($name)) {
+		} else if ($options->isContain($name)) {
 			$this->config[$name] = $value;
 		}
 	}
@@ -150,8 +152,7 @@ abstract class BSMediaConvertor {
 	 * @return string 定数値
 	 */
 	public function getConstant ($name) {
-		$constants = new BSConstantHandler('FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.'));
-		return $constants[$name];
+		return $this->constantHandler[$name];
 	}
 
 	/**
