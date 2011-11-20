@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby -Ku
+#!/usr/bin/env ruby -Ku
 
 # mod_disk_cacheの古いキャッシュをパージ
 #
