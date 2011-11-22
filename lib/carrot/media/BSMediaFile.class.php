@@ -123,26 +123,24 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 */
 	protected function resizeByWidth (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		if ($params['_resized_by_width']) {
-			return;
-		}
+		if (!$params['_resized_by_width']) {
+			if (!$useragent) {
+				$useragent = BSRequest::getInstance()->getUserAgent();
+			}
 
-		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-		}
+			$info = $useragent->getDisplayInfo();
+			if (!$params['max_width'] && $info['width']) {
+				$params['max_width'] = $info['width'] - 20;
+			}
 
-		$info = $useragent->getDisplayInfo();
-		if (!$params['max_width'] && $info['width']) {
-			$params['max_width'] = $info['width'] - 20;
+			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
+				$params['height'] = BSNumeric::round(
+					$params['height'] * $params['max_width'] / $params['width']
+				);
+				$params['width'] = $params['max_width'];
+			}
+			$params['_resized_by_width'] = true;
 		}
-
-		if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
-			$params['height'] = BSNumeric::round(
-				$params['height'] * $params['max_width'] / $params['width']
-			);
-			$params['width'] = $params['max_width'];
-		}
-		$params['_resized_by_width'] = true;
 	}
 
 	/**

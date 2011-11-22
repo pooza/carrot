@@ -29,13 +29,8 @@ class BSImageElement extends BSXHTMLElement {
 	 */
 	public function setUserAgent (BSUserAgent $useragent) {
 		parent::setUserAgent($useragent);
-		if (!BS_IMAGE_STORABLE) {
-			if (!$useragent->isMobile()) {
-				$this->registerStyleClass('deny_take_out');
-			}
-			if ($useragent->hasSupport('image_copyright')) {
-				$this->setAttribute('copyright', 'yes');
-			}
+		if (!BS_IMAGE_STORABLE && $useragent->hasSupport('image_copyright')) {
+			$this->setAttribute('copyright', 'yes');
 		}
 	}
 

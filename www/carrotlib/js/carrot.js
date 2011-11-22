@@ -92,37 +92,38 @@ var CarrotLib = {
     }, 1);
   },
 
-  denyTakeOut: function (selector_name) {
-    var doNothing = function () {return false;}
-    var configureElement = function (element) {
+  denyTakeOut: function () {
+    if (navigator.userAgent.match(/(Android|iPad)/)) {
+      addEventListener('touchstart', function (e) {
+        if (e.target.tagName == 'IMG') {
+          e.preventDefault();
+        }
+      }, false);
+    }
+
+    $$('img').each (function (element) {
       if (!element.oncontextmenu) {
+        var doNothing = function () {return false;}
         element.oncontextmenu = doNothing;
         element.onselectstart = doNothing;
         element.onmousedown = doNothing;
         element.unselectable = 'on';
         element.galleryimg = 'no';
       }
-      if (Prototype.Browser.MobileSafari || (navigator.userAgent.match(/Android/))) {
+
+      if (Prototype.Browser.MobileSafari) {
         var cover = document.createElement('img');
         cover.src = '/carrotlib/images/spacer.gif';
-        Element.setStyle(cover, {
-          'left': element.offsetLeft + 'px',
-          'top': element.offsetTop + 'px',
-          'width': element.width + 'px',
-          'height': element.height + 'px',
-          'position': 'absolute'
+        cover.setStyle({
+          left: element.offsetLeft + 'px',
+          top: element.offsetTop + 'px',
+          width: element.width + 'px',
+          height: element.height + 'px',
+          position: 'absolute'
         });
         element.parentNode.appendChild(cover);
       }
-    }
-  
-    if (!selector_name) {
-      selector_name = '.deny_take_out';
-    }
-    var elements = $$(selector_name);
-    for (var i = 0 ; i < elements.length ; i ++) {
-      configureElement(elements[i]);
-    }
+    });
   },
 
   getQueryParameter: function (name) {
