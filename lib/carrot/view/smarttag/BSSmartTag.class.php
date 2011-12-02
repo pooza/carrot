@@ -19,8 +19,13 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 * @param string[] $contents タグ
 	 */
 	public function __construct ($contents) {
-		$this->contents = '[[' . $contents . ']]';
-		$this->tag = self::unescape(BSString::explode(':', $contents));
+		if (mb_ereg('\\[\\[([^\\]]+)\\]\\]\\n?', $contents, $matches)) {
+			$this->contents = $contents;
+			$this->tag = self::unescape(BSString::explode(':', $matches[1]));
+		} else {
+			$this->contents = '[[' . $contents . ']]';
+			$this->tag = self::unescape(BSString::explode(':', $contents));
+		}
 		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 	}
 
@@ -129,10 +134,10 @@ abstract class BSSmartTag extends BSParameterHolder {
 		$tags->uniquize();
 
 		$text = self::escape($text);
-		foreach (BSString::eregMatchAll('\\[\\[([^\\]]+)\\]\\]', $text) as $matches) {
+		foreach (BSString::eregMatchAll('\\[\\[[^\\]]+\\]\\]\\n?', $text) as $matches) {
 			foreach ($tags as $tag) {
 				$class = BSClassLoader::getInstance()->getClass($tag, 'Tag');
-				$tag = new $class($matches[1]);
+				$tag = new $class($matches[0]);
 				if ($tag->isMatched()) {
 					$tag->setParameters($params);
 					$text = $tag->execute($text);
