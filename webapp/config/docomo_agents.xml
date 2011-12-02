@@ -146,6 +146,7 @@
   <N-03A color="1" depth="262144" height="320" width="240" />
   <N-03B color="1" depth="262144" height="640" width="480" />
   <N-03C color="1" depth="16777216" height="650" width="480" />
+  <N-03D color="1" depth="16777216" height="650" width="480" />
   <N-04A color="1" depth="262144" height="320" width="240" />
   <N-04B color="1" depth="16777216" height="640" width="480" />
   <N-05A color="1" depth="262144" height="320" width="240" />
@@ -230,6 +231,7 @@
   <P-03A color="1" depth="262144" height="350" width="240" />
   <P-03B color="1" depth="262144" height="331" width="240" />
   <P-03C color="1" depth="262144" height="650" width="480" />
+  <P-03D color="1" depth="262144" height="650" width="480" />
   <P-04A color="1" depth="262144" height="350" width="240" />
   <P-04B color="1" depth="262144" height="662" width="480" />
   <P-04C color="1" depth="262144" height="650" width="480" />
