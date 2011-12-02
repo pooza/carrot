@@ -93,35 +93,35 @@ var CarrotLib = {
   },
 
   denyTakeOut: function () {
-    if (navigator.userAgent.match(/(Android|iPad)/)) {
-      addEventListener('touchstart', function (e) {
-        if (e.target.tagName == 'IMG') {
-          e.preventDefault();
-        }
-      }, false);
+    function disableEvent (element, eventName) {
+      element.observe(eventName, function (event) {
+        event.preventDefault();
+      });
+    }
+
+    function cover (element) {
+      var cover = document.createElement('img');
+      cover.src = '/carrotlib/images/spacer.gif';
+      cover.setStyle({
+        left: element.offsetLeft + 'px',
+        top: element.offsetTop + 'px',
+        width: element.width + 'px',
+        height: element.height + 'px',
+        position: 'absolute'
+      });
+      element.parentNode.appendChild(cover);
     }
 
     $$('img').each (function (element) {
-      if (!element.oncontextmenu) {
-        var doNothing = function () {return false;}
-        element.oncontextmenu = doNothing;
-        element.onselectstart = doNothing;
-        element.onmousedown = doNothing;
-        element.unselectable = 'on';
-        element.galleryimg = 'no';
-      }
-
+      disableEvent(element, 'contextmenu');
+      disableEvent(element, 'selectstart');
+      disableEvent(element, 'mousedown');
+      element.unselectable = 'on';
+      element.galleryimg = 'no';
       if (Prototype.Browser.MobileSafari) {
-        var cover = document.createElement('img');
-        cover.src = '/carrotlib/images/spacer.gif';
-        cover.setStyle({
-          left: element.offsetLeft + 'px',
-          top: element.offsetTop + 'px',
-          width: element.width + 'px',
-          height: element.height + 'px',
-          position: 'absolute'
-        });
-        element.parentNode.appendChild(cover);
+        cover(element);
+      } else if (element.parentNode.tagName != 'A') {
+        disableEvent(element, 'touchstart');
       }
     });
   },
