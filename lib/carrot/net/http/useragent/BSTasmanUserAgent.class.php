@@ -7,6 +7,9 @@
 /**
  * Tasmanユーザーエージェント
  *
+ * Mac版InternetExplorer等。
+ * Tasmanエンジンを搭載するのは5.xのみだが、便宜上、それ以前のバージョンも扱う。
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSTasmanUserAgent extends BSUserAgent {
@@ -28,7 +31,7 @@ class BSTasmanUserAgent extends BSUserAgent {
 	 * @return string パターン
 	 */
 	public function getPattern () {
-		return 'MSIE 5\\.[[:digit:]]+; Mac';
+		return 'MSIE [1-5]\\.[[:digit:]]+; Mac';
 	}
 }
 

@@ -47,7 +47,11 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return BSSessionHandler
 	 */
 	public function createSession () {
-		return new BSMobileSessionHandler;
+		if (!!$this->hasSupport('cookie')) {
+			return new BSSessionHandler;
+		} else {
+			return new BSMobileSessionHandler;
+		}
 	}
 
 	/**
@@ -58,8 +62,10 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function getQuery () {
 		$query = parent::getQuery();
-		$session = BSRequest::getInstance()->getSession();
-		$query[$session->getName()] = $session->getID();
+		if (!$this->hasSupport('cookie')) {
+			$session = BSRequest::getInstance()->getSession();
+			$query[$session->getName()] = $session->getID();
+		}
 		if (BSController::getInstance()->hasServerSideCache()) {
 			$query['guid'] = 'ON';
 		}
