@@ -26,9 +26,6 @@ class BSSessionHandler implements BSUserIdentifier {
 			throw new BSSessionException('セッションを開始できません。');
 		}
 		session_start();
-		if (BS_SESSION_REGENERATE_ID) {
-			session_regenerate_id(true);
-		}
 	}
 
 	/**
@@ -49,6 +46,15 @@ class BSSessionHandler implements BSUserIdentifier {
 	 */
 	public function getName () {
 		return session_name();
+	}
+
+	/**
+	 * セッションIDを再生成
+	 *
+	 * @access public
+	 */
+	public function regenerateID () {
+		session_regenerate_id(true);
 	}
 
 	/**
