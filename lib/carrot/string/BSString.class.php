@@ -210,6 +210,29 @@ class BSString {
 	}
 
 	/**
+	 * 数値文字参照に変換
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function convertToNumericReference ($value) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::convertToNumericReference($item, $separator);
+			}
+		} else {
+			$converted = '';
+			for ($i = 0 ; $i < strlen($value) ; $i ++) {
+				$converted .= '&#' . ord($value[$i]) . ';';
+			}
+			$value = $converted;
+		}
+		return $value;
+	}
+
+	/**
 	 * 文字を規定の長さで切り詰める
 	 *
 	 * @access public
