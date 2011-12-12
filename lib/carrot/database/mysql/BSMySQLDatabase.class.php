@@ -35,8 +35,9 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	protected function dump () {
 		$command = $this->createCommand('mysqldump');
+		$command->setStderrRedirectable(true);
 		if ($command->hasError()) {
-			throw new BSDatabaseException($command->getResult());
+			throw new BSDatabaseException($command->getResult()->join(' '));
 		}
 		return $command->getResult()->join("\n");
 	}
@@ -54,7 +55,9 @@ class BSMySQLDatabase extends BSDatabase {
 		$command->push('--host=' . $this['host']->getAddress());
 		$command->push('--user=' . $this['uid']);
 		$command->push($this['database_name']);
-		if (!BSString::isBlank($password = $this['password'])) {
+
+		if (!BSString::isBlank($password = $this->dsn['password'])) {
+			$password = BSCrypt::getInstance()->decrypt($password);
 			$command->push('--password=' . $password);
 		}
 		return $command;

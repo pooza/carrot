@@ -52,8 +52,9 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	protected function dump () {
 		$command = $this->createCommand('pg_dump');
+		$command->setStderrRedirectable(true);
 		if ($command->hasError()) {
-			throw new BSDatabaseException($command->getResult());
+			throw new BSDatabaseException($command->getResult()->join(' '));
 		}
 		return $command->getResult()->join("\n");
 	}
