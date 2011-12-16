@@ -183,9 +183,10 @@ abstract class BSSmartTag extends BSParameterHolder {
 	static public function unescape ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
-				$value[$key] = self::escape($item);
+				$value[$key] = self::unescape($item);
 			}
 		} else {
+			$value = urldecode($value);
 			$value = str_replace('\\:', ':', $value);
 			$value = str_replace('\\[', '[', $value);
 			$value = str_replace('\\]', ']', $value);
