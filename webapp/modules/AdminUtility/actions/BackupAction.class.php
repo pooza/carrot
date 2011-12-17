@@ -19,6 +19,16 @@ class BackupAction extends BSAction {
 	}
 
 	/**
+	 * タイムアウト時間を返す
+	 *
+	 * @access public
+	 * @return integer タイムアウト時間(秒)、設定の必要がない場合はNULL
+	 */
+	public function getTimeLimit () {
+		return 300;
+	}
+
+	/**
 	 * タイトルを返す
 	 *
 	 * @access public
@@ -36,7 +46,7 @@ class BackupAction extends BSAction {
 			$this->request->setAttribute('renderer', $file);
 			$this->request->setAttribute('filename', $file->getName());
 			return BSView::SUCCESS;
-		} catch (BSFileException $e) {
+		} catch (BSException $e) {
 			$message = new BSStringFormat('バックアップに失敗しました。 (%s)');
 			$message[] = $e->getMessage();
 			$this->request->setError('bsutility', $message);

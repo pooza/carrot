@@ -19,6 +19,16 @@ class RestoreAction extends BSAction {
 	}
 
 	/**
+	 * タイムアウト時間を返す
+	 *
+	 * @access public
+	 * @return integer タイムアウト時間(秒)、設定の必要がない場合はNULL
+	 */
+	public function getTimeLimit () {
+		return 300;
+	}
+
+	/**
 	 * タイトルを返す
 	 *
 	 * @access public

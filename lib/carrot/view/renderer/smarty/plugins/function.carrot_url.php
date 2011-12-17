@@ -18,13 +18,16 @@ function smarty_function_carrot_url ($params, &$smarty) {
 		$url = BSURL::create($params['contents']);
 	}
 
-	if (!BSString::isBlank($name = $params[BSUserAgent::ACCESSOR])) {
-		$useragent = BSUserAgent::create($name);
-		$url->setParameter(BSUserAgent::ACCESSOR, $name);
-	} else {
-		$useragent = $smarty->getUserAgent();
+	if (!$params['generic_ua']) {
+		if (!BSString::isBlank($name = $params[BSUserAgent::ACCESSOR])) {
+			$useragent = BSUserAgent::create($name);
+			$url->setParameter(BSUserAgent::ACCESSOR, $name);
+		} else {
+			$useragent = $smarty->getUserAgent();
+		}
+		$url->setUserAgent($useragent);
 	}
-	$url->setUserAgent($useragent);
+
 	return $url->getContents();
 }
 
