@@ -18,6 +18,16 @@ class BSMPEG4MovieFile extends BSQuickTimeMovieFile {
 	public function __toString () {
 		return sprintf('MPEG4動画ファイル "%s"', $this->getShortPath());
 	}
+
+	/**
+	 * プレイヤーの高さを返す
+	 *
+	 * @access public
+	 * @return integer プレイヤーの高さ
+	 */
+	public function getPlayerHeight () {
+		return BS_MOVIE_MP4_PLAYER_HEIGHT;
+	}
 }
 
 /* vim:set tabstop=4: */

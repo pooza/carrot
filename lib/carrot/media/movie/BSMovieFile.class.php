@@ -143,11 +143,11 @@ class BSMovieFile extends BSMediaFile {
 	/**
 	 * Shadowboxへのリンク要素を返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSShadowboxAnchorElement 要素
 	 */
-	protected function createShadowboxElement (BSParameterHolder $params) {
+	public function createShadowboxElement (BSParameterHolder $params) {
 		$params = new BSArray($params);
 		if (!$params['width_movie']) {
 			$params['width_movie'] = $params['width'];

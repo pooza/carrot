@@ -130,13 +130,14 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 
 			$info = $useragent->getDisplayInfo();
 			if (!$params['max_width'] && $info['width']) {
-				$params['max_width'] = $info['width'] - 20;
+				$params['max_width'] = $info['width'];
 			}
 
 			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
+				$height = $params['height'] - $this->getPlayerHeight();
 				$params['height'] = BSNumeric::round(
-					$params['height'] * $params['max_width'] / $params['width']
-				);
+					$height / $params['width'] * $params['max_width']
+				) + $this->getPlayerHeight();
 				$params['width'] = $params['max_width'];
 			}
 			$params['_resized_by_width'] = true;

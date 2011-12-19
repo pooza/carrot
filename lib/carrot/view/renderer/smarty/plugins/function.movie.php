@@ -14,6 +14,14 @@ function smarty_function_movie ($params, &$smarty) {
 	if (!$file = BSMovieFile::search($params)) {
 		return null;
 	}
+	if (BSString::isBlank($params['href_prefix'])) {
+		$finder = new BSRecordFinder($params);
+		if ($record = $finder->execute()) {
+			$url = BSFileUtility::createURL('movies');
+			$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
+			$params['href_prefix'] = $url->getContents();
+		}
+	}
 
 	switch ($mode = BSString::toLower($params['mode'])) {
 		case 'size':
@@ -26,15 +34,9 @@ function smarty_function_movie ($params, &$smarty) {
 		case 'duration':
 		case 'type':
 			return $file[$mode];
+		case 'shadowbox':
+			return $file->createShadowboxElement($params, $smarty->getUserAgent())->getContents();
 		default:
-			if (BSString::isBlank($params['href_prefix'])) {
-				$finder = new BSRecordFinder($params);
-				if ($record = $finder->execute()) {
-					$url = BSFileUtility::createURL('movies');
-					$url['path'] .= $record->getTable()->getDirectory()->getName() . '/';
-					$params['href_prefix'] = $url->getContents();
-				}
-			}
 			return $file->createElement($params, $smarty->getUserAgent())->getContents();
 	}
 }
