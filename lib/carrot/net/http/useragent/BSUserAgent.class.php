@@ -116,6 +116,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 		$view->setAttribute('action', $view->getAction());
 		$view->setAttribute('errors', $request->getErrors());
 		$view->setAttribute('params', $request->getParameters());
+		$view->setAttribute('real_useragent', $request->getRealUserAgent());
 		$view->setAttribute('credentials', $user->getCredentials());
 		$view->setAttribute('client_host', $request->getHost());
 		$view->setAttribute('server_host', $controller->getHost());
