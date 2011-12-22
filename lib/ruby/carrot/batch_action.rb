@@ -18,6 +18,9 @@ class BatchAction < Array
         Constants.new['BS_SUDO_DIR'] + '/bin/sudo',
         '-u',
         Constants.new['BS_APP_PROCESS_UID'],
+        Constants.new['BS_PHP_DIR'] + '/bin/php',
+        '-d',
+        'memory_limit=128M',
         ROOT_DIR + '/bin/carrotctl.php',
       ]
       action.each do |key, value|
