@@ -3,8 +3,8 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-root_url: http://carrot.zoshi.local/
-root_url_https: http://carrot.zoshi.local/
+root_url: http://carrot.zakato.local/
+root_url_https: http://carrot.zakato.local/
 debug: yes
 
 admin:
