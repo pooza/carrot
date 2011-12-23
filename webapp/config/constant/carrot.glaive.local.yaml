@@ -22,9 +22,9 @@ pdo:
 
 awstats:
   log_dir: /var/log/httpd/www.example.com
-  server_name_aliases: 
+  server_name_aliases:
 
 serialize:
-  #storage: memcache
+  storage: memcache
 session:
-  #storage: memcache
+  storage: memcache
