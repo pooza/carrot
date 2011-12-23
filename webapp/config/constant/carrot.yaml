@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.147
+  ver: 2.4.148
 
 admin:
   email:
@@ -304,6 +304,6 @@ xmpp:
 view:
   frame_options: sameorigin
   content_type_options: nosniff
-  ua_compatible: IE=EmulateIE8
+  ua_compatible: IE=edge,chrome=1
   mobile:
     xhtml: no
