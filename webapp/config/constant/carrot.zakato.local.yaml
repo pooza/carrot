@@ -18,11 +18,17 @@ pdo:
     uid: root
     password:
 
+ffmpeg:
+  convert:
+    mp4:
+      vpre:
+        debian: libx264-medium
+
 awstats:
   log_dir: /var/log/httpd/www.example.com
-  server_name_aliases: 
+  server_name_aliases:
 
 serialize:
-  #storage: memcache
+  storage: memcache
 session:
-  #storage: memcache
+  storage: memcache
