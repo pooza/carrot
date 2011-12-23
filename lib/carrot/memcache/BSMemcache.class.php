@@ -121,7 +121,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	}
 
 	/**
-	 * エントリーを追加
+	 * エントリーを取得
 	 *
 	 * @access public
 	 * @param string $name キー
