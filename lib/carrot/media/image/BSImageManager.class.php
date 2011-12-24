@@ -10,10 +10,11 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSImageManager {
-	private $useragent;
-	private $type;
-	private $flags = 0;
-	private $backgroundColor;
+	protected $useragent;
+	protected $type;
+	protected $flags = 0;
+	protected $backgroundColor;
+	protected $directory;
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
 	const WITHOUT_SQUARE = 8;
@@ -24,6 +25,7 @@ class BSImageManager {
 	 * @param mixed $flags フラグのビット列、又は配列
 	 */
 	public function __construct ($flags = null) {
+		$this->directory = BSFileUtility::getDirectory('image_cache');
 		$this->setFlags($flags);
 		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 	}
@@ -166,7 +168,7 @@ class BSImageManager {
 
 		$flags |= $this->flags;
 		$url = BSFileUtility::createURL('image_cache');
-		$url['path'] .= $this->getEntryName($record, $size) . '/' . $file->getName();
+		$url['path'] .= $this->createEntryName($record, $size) . '/' . $file->getName();
 		return $url;
 	}
 
@@ -231,7 +233,7 @@ class BSImageManager {
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
 		$flags |= $this->flags;
 		$dir = $this->getEntryDirectory($record, $size);
-		$name = $this->getFileName($record, $pixel, $flags);
+		$name = $this->createFileName($record, $pixel, $flags);
 		if ($flags & self::FORCE_GIF) {
 			$dir->setDefaultSuffix('.gif');
 		}
@@ -239,7 +241,7 @@ class BSImageManager {
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
 		}
-		$file->setEngine($this->convertImage($record, $pixel, $contents, $flags));
+		$file->setEngine($this->convert($record, $pixel, $contents, $flags));
 		$file->save();
 		return $file->getRenderer();
 	}
@@ -311,7 +313,7 @@ class BSImageManager {
 
 		$flags |= $this->flags;
 		$dir = $this->getEntryDirectory($record, $size);
-		$name = $this->getFileName($record, $pixel, $flags);
+		$name = $this->createFileName($record, $pixel, $flags);
 		if ($flags & self::FORCE_GIF) {
 			$name .= '.gif';
 		}
@@ -334,12 +336,14 @@ class BSImageManager {
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
-	protected function getFileName (BSImageContainer $record, $pixel, $flags = null) {
+	protected function createFileName (BSImageContainer $record, $pixel, $flags = null) {
 		$flags |= $this->flags;
 		$prefix = '';
-		if (!$pixel && ($width = $this->getDefaultWidth())) {
-			$prefix = 'w';
-			$pixel = $width;
+		if (!$pixel) {
+			if ($width = $this->getDefaultWidth()) {
+				$prefix = 'w';
+				$pixel = $width;
+			}
 		} else if ($flags & self::WITHOUT_SQUARE) {
 			$prefix = 's';
 		} else if ($flags & self::WIDTH_FIXED) {
@@ -364,7 +368,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @param BSImage サムネイル
 	 */
-	protected function convertImage (BSImageContainer $record, $pixel, $contents, $flags = null) {
+	protected function convert (BSImageContainer $record, $pixel, $contents, $flags = null) {
 		$image = new BSImage;
 		$image->setBackgroundColor($this->getBackgroundColor());
 		$image->setImage($contents);
@@ -403,7 +407,7 @@ class BSImageManager {
 	 * @param string $size サイズ名
 	 * @return string サムネイル名
 	 */
-	protected function getEntryName (BSImageContainer $record, $size) {
+	protected function createEntryName (BSImageContainer $record, $size) {
 		return BSCrypt::digest(array(
 			get_class($record),
 			$record->getID(),
@@ -420,25 +424,14 @@ class BSImageManager {
 	 * @return string サムネイル名
 	 */
 	protected function getEntryDirectory (BSImageContainer $record, $size) {
-		$name = $this->getEntryName($record, $size);
-		if (!$dir = $this->getDirectory()->getEntry($name)) {
-			$dir = $this->getDirectory()->createDirectory($name);
+		$name = $this->createEntryName($record, $size);
+		if (!$dir = $this->directory->getEntry($name)) {
+			$dir = $this->directory->createDirectory($name);
 			$dir->setMode(0777);
 		}
-
 		$suffixes = BSImage::getSuffixes();
 		$dir->setDefaultSuffix($suffixes[$this->getType()]);
 		return $dir;
-	}
-
-	/**
-	 * ディレクトリを返す
-	 *
-	 * @access protected
-	 * @param BSDirectory ディレクトリ
-	 */
-	protected function getDirectory () {
-		return BSFileUtility::getDirectory('image_cache');
 	}
 
 	/**
