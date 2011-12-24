@@ -128,12 +128,17 @@ class BSUser extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @param string $name 属性名
+	 * @param string $domain Cookieの対象ドメイン
 	 */
-	public function removeAttribute ($name) {
+	public function removeAttribute ($name, $domain = null) {
 		$this->attributes->removeParameter($name);
 
-		$expire = BSDate::getNow()->setParameter('hour', '-1');
-		setcookie($name, null, $expire->getTimestamp(), '/');
+		if (BSString::isBlank($domain)) {
+			$domain = BSController::getInstance()->getHost()->getName();
+		}
+		$expire = BSDate::getNow();
+		$expire['hour'] = '-1';
+		setcookie($name, null, $expire->getTimestamp(), '/', $domain);
 	}
 
 	/**
