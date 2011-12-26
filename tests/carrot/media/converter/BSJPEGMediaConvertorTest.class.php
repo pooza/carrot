@@ -7,7 +7,7 @@ class BSJPEGMediaConvertorTest extends BSTest {
 	public function execute () {
 		$convertor = new BSJPEGMediaConvertor;
 		if ($file = BSFileUtility::getDirectory('sample')->getEntry('sample.mov')) {
-			$source = $file->copyTo(BSFileUtility::getDirectory('tmp'), 'BSImageFile');
+			$source = $file->copyTo(BSFileUtility::getDirectory('tmp'), 'BSQuickTimeMovieFile');
 			$dest = $convertor->execute($source);
 			$this->assert('analyzeType', ($dest->analyzeType() == 'image/jpeg'));
 			$source->delete();
