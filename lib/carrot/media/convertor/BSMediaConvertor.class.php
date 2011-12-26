@@ -171,6 +171,8 @@ abstract class BSMediaConvertor {
 			'padding_bottom' => 'padbottom',
 			'strict' => 'strict',
 			'vpre' => 'vpre',
+			'ss' => 'ss',
+			'vframes' => 'vframes',
 		));
 	}
 

@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.149
+  ver: 2.4.150
 
 admin:
   email:
@@ -90,6 +90,9 @@ ffmpeg:
       vpre:
         linux: libx264-default
         debian: libx264-default
+    jpg:
+      ss: 2
+      vframes: 1
     webm:
     mp3:
 flash:
