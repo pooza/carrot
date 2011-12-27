@@ -18,13 +18,13 @@ abstract class BSPaginateTableAction extends BSTableAction {
 	 * @access protected
 	 * @return integer ページ番号
 	 */
-	protected function getPage () {
+	protected function getPageNumber () {
 		if (!$this->page) {
 			if (!$page = $this->request['page']) {
 				$page = 1;
 			}
-			$this->getTable()->setPage($page);
-			$this->page = $this->getTable()->getPage();
+			$this->getTable()->setPageNumber($page);
+			$this->page = $this->getTable()->getPageNumber();
 		}
 		return $this->page;
 	}
@@ -55,15 +55,15 @@ abstract class BSPaginateTableAction extends BSTableAction {
 			$this->table->setCriteria($this->getCriteria());
 			$this->table->setOrder($this->getOrder());
 			$this->table->setPageSize($this->getPageSize());
-			$this->table->setPage($this->getPage());
+			$this->table->setPageNumber($this->getPageNumber());
 		}
 		return $this->table;
 	}
 
 	public function initialize () {
 		parent::initialize();
-		$this->request->setAttribute('page', $this->getPage());
-		$this->request->setAttribute('lastpage', $this->getTable()->getLastPage());
+		$this->request->setAttribute('page', $this->getPageNumber());
+		$this->request->setAttribute('lastpage', $this->getTable()->getLastPageNumber());
 		return true;
 	}
 }

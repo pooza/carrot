@@ -223,7 +223,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @access public
 	 * @return integer ページ番号
 	 */
-	public function getPage () {
+	public function getPageNumber () {
 		return $this->page;
 	}
 
@@ -233,11 +233,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @access public
 	 * @param integer $page ページ番号
 	 */
-	public function setPage ($page = null) {
+	public function setPageNumber ($page = null) {
 		if (!$page) {
 			//何もしない
-		} else if ($this->getLastPage() < $page) {
-			$page = $this->getLastPage();
+		} else if ($this->getLastPageNumber() < $page) {
+			$page = $this->getLastPageNumber();
 		} else if ($page < 1) {
 			$page = 1;
 		}
@@ -277,7 +277,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getRecent ($limit) {
 		$table = clone $this;
-		$table->setPage(1);
+		$table->setPageNumber(1);
 		$table->setPageSize($limit);
 		return $table;
 	}
@@ -564,7 +564,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return integer レコード数
 	 */
 	public function count () {
-		if (!$this->getPage()) {
+		if (!$this->getPageNumber()) {
 			return $this->countAll();
 		}
 		return count($this->getResult());
@@ -596,14 +596,14 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getQueryString () {
 		if (!$this->queryString) {
-			if ($this->getPage()) {
+			if (!!$this->getPageNumber()) {
 				$this->queryString = BSSQL::getSelectQueryString(
 					$this->getFields(),
 					$this->getName(),
 					$this->getCriteria(),
 					$this->getOrder(),
 					null,
-					$this->getPage(),
+					$this->getPageNumber(),
 					$this->getPageSize()
 				);
 			} else {
@@ -624,7 +624,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @access public
 	 * @return integer ページ数
 	 */
-	public function getLastPage () {
+	public function getLastPageNumber () {
 		if (!$this->lastpage) {
 			if ($page = ceil($this->countAll() / $this->getPageSize())) {
 				$this->lastpage = $page;
@@ -642,7 +642,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return boolean 最終ページならTrue
 	 */
 	public function isLastPage () {
-		return $this->getPage() == $this->getLastPage();
+		return $this->getPageNumber() == $this->getLastPageNumber();
 	}
 
 	/**
