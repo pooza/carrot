@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDateValidator extends BSValidator {
-	private function getDate ($value) {
+	protected function getDate ($value) {
 		if ($fields = $this['fields']) {
 			$date = BSDate::create();
 			foreach ($fields as $key => $value) {
