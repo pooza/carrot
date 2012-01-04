@@ -122,6 +122,19 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	public function getError () {
 		return null;
 	}
+
+	/**
+	 * Excel式を生成して返す
+	 *
+	 * @access public
+	 * @param string $source ソース文字列
+	 * @return string Excel式
+	 */
+	public function createFormula ($source) {
+		$formula = $source;
+		$formula = mb_ereg_replace('@', ($this->row + 1), $formula);
+		return $formula;
+	}
 }
 
 /* vim:set tabstop=4: */
