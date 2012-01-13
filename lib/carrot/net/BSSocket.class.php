@@ -60,7 +60,7 @@ class BSSocket {
 		if (!$this->name) {
 			$host = new BSStringFormat('%s://%s:%s');
 			$host[] = $this->getProtocol();
-			$host[] = $this->getHost()->getAddress();
+			$host[] = $this->getHost()->getName();
 			$host[] = $this->getPort();
 			$this->name = $host->getContents();
 		}

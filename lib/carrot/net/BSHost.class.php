@@ -178,7 +178,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @return string 基本情報
 	 */
 	public function __toString () {
-		return $this->getAddress();
+		return $this->getName();
 	}
 }
 
