@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.151
+  ver: 2.4.152
 
 admin:
   email:
@@ -199,7 +199,6 @@ mysql:
     default: /usr/local
     darwin: /opt/local/lib/mysql5
 net:
-  resolvable: yes
   url:
     shorter: google_url_shortner
 package:
@@ -281,7 +280,6 @@ session:
   storage: default
 smtp:
   host: localhost
-  check_addresses: no
 sqlite3:
   dir:
     default: /usr/local

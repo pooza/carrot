@@ -20,7 +20,7 @@ class BSSMTPMailSender extends BSMailSender {
 	 */
 	public function initialize () {
 		try {
-			return (BS_NET_RESOLVABLE && self::getServer());
+			return !!self::getServer();
 		} catch (Exception $e) {
 			return false;
 		}

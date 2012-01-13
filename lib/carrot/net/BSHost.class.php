@@ -25,17 +25,12 @@ class BSHost implements BSAssignable, BSImageContainer {
 
 		if (mb_ereg('^[.[:digit:]]+$', $address)) {
 			if (!long2ip(ip2long($address))) {
-				throw new BSNetException($address . 'を名前解決できません。');
+				throw new BSNetException($address . 'は正しいIPv4アドレスではありません。');
 			}
 			$this->address = $address;
-			if (BS_NET_RESOLVABLE) {
-				$this->name = gethostbyaddr($address);
-			} else {
-				$this->name = $address;
-			}
+			$this->name = $address;
 		} else {
 			$this->name = $address;
-			$this->address = gethostbyname($this->name);
 		}
 	}
 
@@ -46,6 +41,9 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @return string IPアドレス
 	 */
 	public function getAddress () {
+		if (!$this->address) {
+			$this->address = gethostbyname($this->name);
+		}
 		return $this->address;
 	}
 
@@ -57,20 +55,6 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 */
 	public function getName () {
 		return $this->name;
-	}
-
-	/**
-	 * 名前解決が可能か？
-	 *
-	 * @access public
-	 * @return boolean 可能ならばTrue
-	 */
-	public function isExists () {
-		try {
-			return !BSString::isBlank($this->getName());
-		} catch (BSNetException $e) {
-			return false;
-		}
 	}
 
 	/**

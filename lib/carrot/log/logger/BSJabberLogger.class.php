@@ -29,9 +29,7 @@ class BSJabberLogger extends BSLogger {
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		if (!BS_NET_RESOLVABLE) {
-			return false; 
-		} else if (BS_XMPP_SSL && !extension_loaded('openssl')) {
+		if (BS_XMPP_SSL && !extension_loaded('openssl')) {
 			return false;
 		} else if (BSString::isBlank(BS_APP_XMPP_JID)) {
 			return false;
@@ -74,7 +72,7 @@ class BSJabberLogger extends BSLogger {
 	private function send ($message, $priority) {
 		$message = array(
 			'[' . BS_APP_NAME_JA . ']',
-			'[' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . ']', //BSRequest::getHostは使わない
+			'[' . $_SERVER['REMOTE_ADDR'] . ']',
 			'[' . $priority . ']',
 			$message,
 		);

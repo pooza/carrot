@@ -93,32 +93,6 @@ class BSMailAddress implements BSAssignable {
 		return $this->url;
 	}
 
-	private function getMXRecords () {
-		if (!$this->mx) {
-			getmxrr($this->getDomainName(), $this->mx);
-			$this->mx = new BSArray($this->mx);
-		}
-		return $this->mx;
-	}
-
-	/**
-	 * 正しいドメインか？
-	 *
-	 * @access public
-	 * @return boolean 正しいドメインならTrue
-	 */
-	public function isValidDomain () {
-		$domains = $this->getMXRecords();
-		$domains[] = $this->getDomainName();
-		foreach ($domains as $domain) {
-			$host = new BSHost($domain);
-			if ($host->isExists()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * メールアドレスを書式化
 	 *

@@ -18,8 +18,6 @@ class BSMailAddressValidator extends BSValidator {
 	 * @param string[] $params パラメータ配列
 	 */
 	public function initialize ($params = array()) {
-		$this['domain'] = false;
-		$this['domain_error'] = '正しいドメインではない様です。';
 		$this['mobile_allowed'] = true;
 		$this['mobile_allowed_error'] = 'ケータイ用のアドレスは使用できません。';
 		$this['invalid_error'] = '正しいメールアドレスではありません。';
@@ -38,17 +36,10 @@ class BSMailAddressValidator extends BSValidator {
 			$this->error = $this['invalid_error'];
 			return false;
 		}
-
-		if ($this['domain'] && !$email->isValidDomain()) {
-			$this->error = $this['domain_error'];
-			return false;
-		}
-
 		if (!$this['mobile_allowed'] && $email->isMobile()) {
 			$this->error = $this['mobile_allowed_error'];
 			return false;
 		}
-
 		return true;
 	}
 }

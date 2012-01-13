@@ -109,7 +109,7 @@ class BSLogManager implements IteratorAggregate {
 			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
 				try {
 					$parts = mb_split('[:,]', $value);
-					$host = gethostbyaddr(trim($parts[0]));
+					$host = trim($parts[0]);
 				} catch (Exception $e) {
 					$host = $value;
 				}
