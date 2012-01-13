@@ -46,11 +46,8 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return string エンコード済みファイル名
 	 */
 	public function encodeFileName ($name) {
-		if (6 < $this->getVersion()) {
-			$name = BSURL::encode($name);
-		} else {
-			$name = BSString::convertEncoding($name, 'sjis-win');
-		}
+		$name = BSURL::encode($name);
+		$name = str_replace('+', ' ', $name);
 		return BSString::sanitize($name);
 	}
 
