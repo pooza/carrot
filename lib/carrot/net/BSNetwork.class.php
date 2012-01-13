@@ -34,7 +34,7 @@ class BSNetwork extends BSHost {
 		}
 
 		$this->broadcast = long2ip(ip2long($this->address) |
-			(ip2long($this->netmask) ^ ip2long("255.255.255.255"))
+			(ip2long($this->netmask) ^ ip2long('255.255.255.255'))
 		);
 	}
 
@@ -72,7 +72,7 @@ class BSNetwork extends BSHost {
 		return ($network <= $address) && ($address <= $broadcast);
 	}
 	static private function ip2double ($address) {
-		return (double)(sprintf("%u", ip2long($address)));
+		return (double)(sprintf('%u', ip2long($address)));
 	}
 
 	/**
