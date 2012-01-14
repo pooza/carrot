@@ -129,14 +129,13 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSObjectElement 要素
 	 */
 	public function createObjectElement (BSParameterHolder $params) {
-		$serializer = new BSJSONSerializer;
 		$element = new BSFlashObjectElement;
 		$element->setURL(BSURL::create(BS_MOVIE_FLV_PLAYER_HREF));
 		$element->setAttribute('width', $params['width']);
 		$element->setAttribute('height', $params['height']);
 		$element->setParameter('allowfullscreen', 'true');
 		$element->setParameter('allowscriptaccess', 'always');
-		$element->setFlashVar('file', $params['href_prefix'] . $this->getName());
+		$element->setFlashVar('file', $this->createURL($params)->getContents());
 		return $element;
 	}
 
