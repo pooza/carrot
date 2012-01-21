@@ -429,7 +429,7 @@ class Spreadsheet_Excel_Writer_Format extends PEAR
 
             $header      = pack("vv",       $record, $length);
 
-            $rotation      = $this->_rotation;
+            $rotation      = 0x00;
             $biff8_options = 0x00;
             $data  = pack("vvvC", $ifnt, $ifmt, $style, $align);
             $data .= pack("CCC", $rotation, $biff8_options, $used_attrib);
@@ -455,12 +455,17 @@ class Spreadsheet_Excel_Writer_Format extends PEAR
         $bCharSet   = $this->_font_charset; // Character set
         $encoding   = 0;                    // TODO: Unicode support
 
-        $cch        = strlen($this->_font_name); // Length of font name
+//        $cch        = strlen($this->_font_name); // Length of font name
         $record     = 0x31;                      // Record identifier
         if ($this->_BIFF_version == 0x0500) {
+            $cch        = strlen($this->_font_name); // Length of font name
             $length     = 0x0F + $cch;            // Record length
         } elseif ($this->_BIFF_version == 0x0600) {
-            $length     = 0x10 + $cch;
+            $encoding   = 1;
+            $this->_font_name = mb_convert_encoding($this->_font_name, "UTF-16LE");
+            $cch        = mb_strlen($this->_font_name, "UTF-16LE");
+            $length     = 0x10 + strlen($this->_font_name);
+//            $length     = 0x10 + $cch * 2;
         }
         $reserved   = 0x00;                // Reserved
         $grbit      = 0x00;                // Font attributes
@@ -996,25 +1001,13 @@ class Spreadsheet_Excel_Writer_Format extends PEAR
                 $this->_rotation = 0;
                 break;
             case 90:
-                if ($this->_BIFF_version == 0x0500) {
                 $this->_rotation = 3;
-                } elseif ($this->_BIFF_version == 0x0600) {
-                    $this->_rotation = 180;
-                }
                 break;
             case 270:
-                if ($this->_BIFF_version == 0x0500) {
                 $this->_rotation = 2;
-                } elseif ($this->_BIFF_version == 0x0600) {
-                    $this->_rotation = 90;
-                }
                 break;
             case -1:
-                if ($this->_BIFF_version == 0x0500) {
                 $this->_rotation = 1;
-                } elseif ($this->_BIFF_version == 0x0600) {
-                    $this->_rotation = 255;
-                }
                 break;
             default :
                 return $this->raiseError("Invalid value for angle.".
