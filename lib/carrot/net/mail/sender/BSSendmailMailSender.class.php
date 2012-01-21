@@ -50,6 +50,12 @@ class BSSendmailMailSender extends BSMailSender {
 		$command->setBackground(true);
 		$command->execute();
 
+		if ($code = $command->getReturnCode()) {
+			$message = new BSStringFormat('sendmailが、終了コード%dを返しました。');
+			$message[] = $code;
+			throw new BSMailException($message);
+		}
+
 		$this->log($mail);
 	}
 
