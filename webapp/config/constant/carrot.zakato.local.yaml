@@ -10,24 +10,14 @@ debug: yes
 admin:
   email: admin@b-shock.co.jp
   password: 7e240de74fb1ed08fa08d38063f6a6a91462a815
-
 pdo:
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
-
-ffmpeg:
-  convert:
-    mp4:
-      vpre:
-        debian: libx264-medium
-
 awstats:
   log_dir: /var/log/httpd/www.example.com
-  server_name_aliases:
-
 serialize:
   storage: memcache
 session:

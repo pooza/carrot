@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.153
+  ver: 2.4.154
 
 admin:
   email:
@@ -37,6 +37,7 @@ author:
   twitter: carrot_fw
 awstats:
   daily: yes
+  log_dir:
   server_name_aliases:
 clamav:
   command: clamdscan
@@ -66,10 +67,14 @@ ffmpeg:
   convert:
     flv:
       video_codec: flv
-      audio_codec: libfaac
+      audio_codec:
+        default: libfaac
+        debian: libvo_aacenc
     3gp:
       video_codec: mpeg4
-      audio_codec: libfaac
+      audio_codec:
+        default: libfaac
+        debian: libvo_aacenc
       width: 176
       height: 144
       frame_rate: 10
@@ -79,17 +84,21 @@ ffmpeg:
           max_file_size: 256
     3g2:
       video_codec: mpeg4
-      audio_codec: libfaac
+      audio_codec:
+        default: libfaac
+        debian: libvo_aacenc
       force: yes
       width: 176
       height: 144
       frame_rate: 10
     mp4:
       video_codec: libx264
-      audio_codec: libfaac
+      audio_codec:
+        default: libfaac
+        debian: libvo_aacenc
       vpre:
         linux: libx264-default
-        debian: libx264-default
+        debian: libx264-medium
     jpg:
       ss: 2
       vframes: 1

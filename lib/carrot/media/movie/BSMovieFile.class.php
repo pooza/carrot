@@ -43,14 +43,14 @@ class BSMovieFile extends BSMediaFile {
 			if (!$this->attributes->count()) {
 				$this->analyze();
 			}
-			foreach (array('webm', '3g2') as $movietype) {
-				if ($this->getSuffix() == '.' . $movietype) {
-					return BSMIMEType::getType($movietype);
+			foreach (array('webm', '3g2') as $type) {
+				if ($this->getSuffix() == '.' . $type) {
+					return BSMIMEType::getType($type);
 				}
 			}
 			foreach (array('wmv', 'mpeg') as $movietype) {
-				if (BSString::isContain('Video: ' . $movietype, $this->output)) {
-					return BSMIMEType::getType($movietype);
+				if (BSString::isContain('Video: ' . $type, $this->output)) {
+					return BSMIMEType::getType($type);
 				}
 			}
 		}
