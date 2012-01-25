@@ -270,6 +270,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$id = $id[$this->getTable()->getKeyField()];
 		}
 		$this->user->setAttribute($this->recordIDKey, $id);
+		$this->record = null;
 	}
 
 	/**
