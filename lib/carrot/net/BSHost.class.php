@@ -23,7 +23,9 @@ class BSHost implements BSAssignable, BSImageContainer {
 		$parts = mb_split('[:,]', $address);
 		$address = $parts[0];
 
-		if (mb_ereg('^[.[:digit:]]+$', $address)) {
+		if (BSString::isBlank($address)) {
+			throw new BSNetException('ホスト名又はIPv4アドレスが空欄です。');
+		} else if (mb_ereg('^[.[:digit:]]+$', $address)) {
 			if (!long2ip(ip2long($address))) {
 				throw new BSNetException($address . 'は正しいIPv4アドレスではありません。');
 			}

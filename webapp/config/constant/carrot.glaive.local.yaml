@@ -18,6 +18,8 @@ pdo:
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
+smtp:
+  host: localhost
 awstats:
   log_dir: /var/log/httpd/www.example.com
 serialize:
