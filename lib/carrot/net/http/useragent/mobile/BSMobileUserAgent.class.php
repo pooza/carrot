@@ -198,6 +198,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 			$this->digest = BSCrypt::digest(array(
 				get_class($this),
 				$this->getDisplayInfo()->getParameter('width'),
+				(int)$this->hasSupport('cookie'),
 			));
 		}
 		return $this->digest;
