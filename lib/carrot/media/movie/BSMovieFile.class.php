@@ -138,7 +138,10 @@ class BSMovieFile extends BSMediaFile {
 		$element->setAttribute('height', $params['height']);
 		$element->setParameter('allowfullscreen', 'true');
 		$element->setParameter('allowscriptaccess', 'always');
-		$element->setFlashVar('file', $this->createURL($params)->getContents());
+
+		$url = $this->createURL($params);
+		$url['query'] = null; //クエリー文字列のあるURLを指定するとエラーになる。
+		$element->setFlashVar('file', $url->getContents());
 		return $element;
 	}
 

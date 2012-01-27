@@ -104,14 +104,14 @@ class BSMusicFile extends BSMediaFile {
 	 */
 	public function createObjectElement (BSParameterHolder $params) {
 		$element = new BSFlashObjectElement;
-		$element->setURL(BSURL::create()->setAttribute('path', BS_MUSIC_MP3_PLAYER_HREF));
-		$element->setAttribute('width', $this['width']);
-		$element->setAttribute('height', $this['height']);
-		$element->setFlashVar('mp3', $this->createURL($params)->getContents());
-		$element->setFlashVar('autoload', 1);
-		$element->setFlashVar('showstop', 1);
-		$element->setFlashVar('showvolume', 1);
-		$element->setFlashVar('showloading', 'autohide');
+		$element->setURL(BSURL::create(BS_MUSIC_MP3_PLAYER_HREF));
+		$element->setAttribute('width', BS_MUSIC_MP3_PLAYER_WIDTH);
+		$element->setAttribute('height', BS_MUSIC_MP3_PLAYER_HEIGHT);
+		$element->setParameter('allowscriptaccess', 'always');
+
+		$url = $this->createURL($params);
+		$url['query'] = null; //クエリー文字列のあるURLを指定するとエラーになる。
+		$element->setFlashVar('file', $url->getContents());
 		return $element;
 	}
 

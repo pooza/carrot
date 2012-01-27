@@ -200,7 +200,7 @@ movie:
 music:
   mp3:
     player:
-      href: /carrotlib/swf/player_mp3_maxi.swf
+      href: /carrotlib/swf/player.swf
       width: 200
       height: 20
 mysql:
