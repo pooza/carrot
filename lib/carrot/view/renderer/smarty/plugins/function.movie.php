@@ -34,8 +34,6 @@ function smarty_function_movie ($params, &$smarty) {
 		case 'duration':
 		case 'type':
 			return $file[$mode];
-		case 'shadowbox':
-			return $file->createShadowboxElement($params, $smarty->getUserAgent())->getContents();
 		default:
 			return $file->createElement($params, $smarty->getUserAgent())->getContents();
 	}

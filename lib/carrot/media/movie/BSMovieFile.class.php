@@ -103,12 +103,15 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$params = new BSArray($params);
-		$this->resizeByWidth($params, $useragent);
-		if ($params['mode'] == 'shadowbox') {
-			return $this->createShadowboxElement($params);
+		switch ($params['mode']) {
+			case 'shadowbox':
+				return $this->createShadowboxElement($params);
+			case 'lightpop':
+				return $this->createLightpopElement($params);
 		}
 
+		$params = new BSArray($params);
+		$this->resizeByWidth($params, $useragent);
 		$container = new BSDivisionElement;
 		$container->registerStyleClass($params['style_class']);
 		$container->setStyles($this->getStyles($params));
@@ -159,6 +162,39 @@ class BSMovieFile extends BSMediaFile {
 		$container->setWidth($params['width_movie']);
 		$container->setHeight($params['height_movie']);
 		$container->setURL($this->createURL($params));
+		if ($info = $params['thumbnail']) {
+			$info = new BSArray($info);
+			$image = new BSImageElement;
+			$image->setAttributes($info);
+			$container->addElement($image);
+		} else {
+			$container->setBody($params['label']);
+		}
+		return $container;
+	}
+
+	/**
+	 * jQuery.lightpopへのリンク要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSLightpopAnchorElement 要素
+	 */
+	public function createLightpopElement (BSParameterHolder $params) {
+		$params = new BSArray($params);
+		if (!$params['width_movie']) {
+			$params['width_movie'] = $params['width'];
+		}
+		if (!$params['height_movie']) {
+			$params['height_movie'] = $params['height'];
+		}
+
+		$container = new BSLightpopAnchorElement;
+		$url = $this->createURL($params);
+		$url->setParameter('width', $params['width_movie']);
+		$url->setParameter('height', $params['height_movie']);
+		$container->setURL($url);
+		$container->setAttribute('title', $params['label']);
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
 			$image = new BSImageElement;

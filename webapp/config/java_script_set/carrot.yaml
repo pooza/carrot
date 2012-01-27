@@ -21,3 +21,6 @@ carrot:
     - color_picker
     - carrot
     - application
+lightpop:
+  files:
+    - jquery.lightpop
