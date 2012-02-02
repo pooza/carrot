@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.156
+  ver: 2.4.157
 
 admin:
   email:
@@ -241,6 +241,7 @@ proctools:
   dir:
     default: /usr/local
     linux: /usr
+    freebsd: /usr
 request:
   validate:
     strict: no
