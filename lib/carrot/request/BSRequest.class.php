@@ -233,9 +233,10 @@ abstract class BSRequest extends BSHTTPRequest {
 			foreach (array('X-FORWARDED-FOR', 'REMOTE_ADDR') as $name) {
 				if (!BSString::isBlank($hosts = $this->controller->getAttribute($name))) {
 					$hosts = new BSArray(mb_split(',', $hosts));
-					$host = trim($hosts->getIterator()->getLast());
-					if ($host == 'unknown') {
-						$host = '0.0.0.0';
+					switch ($host = trim($hosts->getIterator()->getLast())) {
+						case 'unknown':
+						case '':
+							$host = '0.0.0.0';
 					}
 					return $this->host = new BSHost($host);
 				}
