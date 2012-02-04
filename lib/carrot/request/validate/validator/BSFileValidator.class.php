@@ -16,7 +16,7 @@ class BSFileValidator extends BSValidator {
 		if (is_array($this['suffixes']) || ($this['suffixes'] instanceof BSParameterHolder)) {
 			$suffixes = new BSArray($this['suffixes']);
 		} else if (BSString::toUpper($this['suffixes']) == self::ATTACHABLE) {
-			$suffixes = BSMIMEType::getAttachableTypes()->getKeys();
+			$suffixes = BSMIMEType::getInstance()->getSuffixes();
 		} else {
 			$suffixes = BSString::explode(',', $this['suffixes']);
 		}

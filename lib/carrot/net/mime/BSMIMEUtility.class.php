@@ -143,19 +143,6 @@ class BSMIMEUtility {
 	}
 
 	/**
-	 * アップロード可能なメディアタイプを返す
-	 *
-	 * BSMIMEType::getAttachableTypesのエイリアス
-	 *
-	 * @access public
-	 * @return BSArray メディアタイプの配列
-	 * @static
-	 */
-	static public function getAttachableTypes () {
-		return BSMIMEType::getAttachableTypes();
-	}
-
-	/**
 	 * 規定のメディアタイプを返す
 	 *
 	 * BSMIMEType::getTypeのエイリアス

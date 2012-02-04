@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSMIMEType extends BSParameterHolder implements BSSerializable {
+class BSMIMEType extends BSParameterHolder {
 	private $suffixes;
 	static private $instance;
 	const DEFAULT_TYPE = 'application/octet-stream';
@@ -18,10 +18,8 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @access private
 	 */
 	private function __construct () {
-		if (!$this->getSerialized()) {
-			$this->serialize();
-		}
-		$this->setParameters($this->getSerialized());
+		$config = BSConfigManager::getInstance()->compile('mime');
+		$this->setParameters($config['types']);
 	}
 
 	/**
@@ -53,47 +51,24 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		return parent::getParameter(ltrim($name, '.'));
+		$name = '.' . ltrim($name, '.');
+		$name = BSString::toLower($name);
+		return parent::getParameter($name);
 	}
 
 	/**
-	 * ダイジェストを返す
+	 * パラメータを設定
 	 *
 	 * @access public
-	 * @return string ダイジェスト
+	 * @param string $name パラメータ名
+	 * @param mixed $value 値
 	 */
-	public function digest () {
-		return BSCrypt::digest(get_class($this));
-	}
-
-	/**
-	 * シリアライズ
-	 *
-	 * @access public
-	 */
-	public function serialize () {
-		$config = BSConfigManager::getInstance()->compile('mime');
-		foreach ($config['types'] as $key => $value) {
-			if (BSString::isBlank($value)) {
-				$this->removeParameter($key);
-			} else {
-				$this[BSString::toLower($key)] = $value;
-			}
+	public function setParameter ($name, $value) {
+		if (!BSString::isBlank($value)) {
+			$name = '.' . ltrim($name, '.');
+			$name = BSString::toLower($name);
+			parent::setParameter($name, $value);
 		}
-		BSController::getInstance()->setAttribute($this, $this->getParameters());
-	}
-
-	/**
-	 * シリアライズ時の値を返す
-	 *
-	 * @access public
-	 * @return mixed シリアライズ時の値
-	 */
-	public function getSerialized () {
-		return BSController::getInstance()->getAttribute(
-			$this,
-			BSConfigManager::getConfigFile('mime')->getUpdateDate()
-		);
 	}
 
 	/**
@@ -106,57 +81,8 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 		if (!$this->suffixes) {
 			$types = new BSArray($this->params);
 			$this->suffixes = $types->createFlipped();
-			$config = BSConfigManager::getInstance()->compile('mime');
-			$this->suffixes->setParameters($config['suffixes']);
-			foreach ($this->suffixes as $type => $suffix) {
-				$this->suffixes[$type] = '.' . $suffix;
-			}
 		}
 		return $this->suffixes;
-	}
-
-	/**
-	 * @access public
-	 * @return string 基本情報
-	 */
-	public function __toString () {
-		return 'MIMEタイプ';
-	}
-
-	/**
-	 * アップロード可能なメディアタイプを返す
-	 *
-	 * @access public
-	 * @return BSArray メディアタイプの配列
-	 * @static
-	 */
-	static public function getAttachableTypes () {
-		$types = new BSArray;
-		$config = BSConfigManager::getInstance()->compile('mime');
-		foreach ($config['types'] as $key => $value) {
-			if ($key && $value) {
-				$types['.' . $key] = $value;
-			}
-		}
-		return $types;
-	}
-
-	/**
-	 * アップロード可能なサフィックスを返す
-	 *
-	 * @access public
-	 * @return BSArray サフィックスの配列
-	 * @static
-	 */
-	static public function getAttachableSuffixes () {
-		$suffixes = self::getAttachableTypes()->createFlipped();
-		$config = BSConfigManager::getInstance()->compile('mime');
-		foreach ($config['suffixes'] as $key => $value) {
-			if ($key && $value) {
-				$suffixes[$key] = '.' . $value;
-			}
-		}
-		return $suffixes;
 	}
 
 	/**
@@ -171,9 +97,10 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 */
 	static public function getType ($suffix, $flags = BSMIMEUtility::IGNORE_INVALID_TYPE) {
 		$types = self::getInstance();
-		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])
-			&& ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE)) {
-			$type = self::DEFAULT_TYPE;
+		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])) {
+			if ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE) {
+				$type = self::DEFAULT_TYPE;
+			}
 		}
 		return $type;
 	}
@@ -187,7 +114,8 @@ class BSMIMEType extends BSParameterHolder implements BSSerializable {
 	 * @static
 	 */
 	static public function getSuffix ($type) {
-		return self::getInstance()->getSuffixes()->getParameter($type);
+		$suffixes = self::getInstance()->getSuffixes();
+		return $suffixes[$type];
 	}
 }
 

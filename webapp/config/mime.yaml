@@ -9,8 +9,6 @@ types:
   aac: audio/x-aac
   ai: application/postscript
   aif: audio/x-aiff
-  aifc: audio/x-aiff
-  aiff: audio/x-aiff
   as:
   atom: application/atom+xml
   css: text/css
@@ -25,22 +23,17 @@ types:
   gif: image/gif
   gz: application/x-gzip
   hmt: application/x-htmlmail-template
-  htm: text/html
   html: text/html
   ico: image/vnd.microsoft.icon
   ini: text/x-ini-file
   jpg: image/jpeg
-  jpeg: image/jpeg
   js: text/javascript
   json: application/json
   khm: application/x-kddi-htmlmail
   m4a: audio/mp4
-  mime: message/rfc822
   mov: video/quicktime
   mp3: audio/mpeg
   mp4: video/mp4
-  mp4a: audio/mp4
-  mpeg: video/mpeg
   mpg: video/mpeg
   odp: application/vnd.oasis.opendocument.presentation
   ods: application/vnd.oasis.opendocument.spreadsheet
@@ -52,13 +45,10 @@ types:
   png: image/png
   ppt: application/vnd.ms-powerpoint
   pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-  qt: video/quicktime
   rb:
   sql:
   swf: application/x-shockwave-flash
-  tgz: application/x-gzip
   tif: image/tiff
-  tiff: image/tiff
   tpl: text/x-smarty-template
   ttf: application/x-truetype-font
   txt: text/plain
@@ -67,30 +57,9 @@ types:
   webm: video/webm
   wmv: video/x-ms-wmv
   yaml: text/yaml
-  yml: text/yaml
   xhtml: application/xhtml+xml
   xls: application/vnd.ms-excel
   xlsx: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   xml: application/xml
   vcf: text/x-vcard
   zip: application/zip
-
-# 上記で複数の拡張子が割り当てられているMIMEタイプに対し、既定の拡張子を設定。
-suffixes:
-  application/vnd.ms-excel: xls
-  application/vnd.ms-powerpoint: ppt
-  application/vnd.ms-word: doc
-  application/xml: xml
-  application/x-gzip: gz
-  audio/mp4: m4a
-  audio/mpeg: mp3
-  audio/x-aiff: aiff
-  image/jpeg: jpg
-  image/tiff: tif
-  message/rfc822: eml
-  text/javascript: js
-  text/html: html
-  text/yaml: yaml
-  video/mpeg: mpeg
-  video/mp4: mp4
-  video/quicktime: mov
