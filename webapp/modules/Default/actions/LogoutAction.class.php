@@ -8,8 +8,6 @@
  */
 class LogoutAction extends BSAction {
 	public function execute () {
-		$this->request->clearAttributes();
-		$this->user->clearAttributes();
 		$this->user->logout();
 		return $this->getModule()->getAction('Login')->redirect();
 	}

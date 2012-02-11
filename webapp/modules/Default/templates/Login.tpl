@@ -12,7 +12,7 @@
 {form id="LoginForm"}
 	<h1>{const name='app_name_ja'}</h1>
 
-	{include file='ErrorMessages' hide_error_code=true}
+	{include file='ErrorMessages'}
 
 	<table>
 		<tr>

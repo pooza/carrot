@@ -14,9 +14,7 @@ class LoginAction extends BSAction {
 	}
 
 	public function getDefaultView () {
-		$this->request->clearAttributes();
-		$this->user->clearAttributes();
-		$this->user->clearCredentials();
+		$this->user->logout();
 		return BSView::INPUT;
 	}
 
