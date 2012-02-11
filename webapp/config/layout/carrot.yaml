@@ -17,9 +17,6 @@ backup:
     month: 1
 bin:
   constant: yes
-cache:
-  parent: var
-  suffix: .cache.php
 carrot:
   parent: lib
 carrotlib:
@@ -31,6 +28,9 @@ clamav:
   platform: yes
 config:
   parent: webapp
+config_cache:
+  parent: var
+  suffix: .cache.php
 compile:
   parent: var
 css:

@@ -84,7 +84,7 @@ class BSConfigManager {
 	 * @access public
 	 */
 	public function clearCache () {
-		foreach (array('serialized', 'cache', 'image_cache') as $name) {
+		foreach (array('serialized', 'config_cache', 'image_cache') as $name) {
 			if ($dir = BSFileUtility::getDirectory($name)) {
 				$command = new BSCommandLine('rm'); //強制的に削除
 				$command->setStderrRedirectable();
