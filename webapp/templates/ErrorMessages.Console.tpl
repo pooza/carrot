@@ -6,7 +6,7 @@
 *}
 {if $errors}
 	{foreach from=$errors key=code item=message}
-		{if !$hide_error_code}{$code|translate:$error_code_dictionary}:{/if}
+		{$code|translate:$error_code_dictionary}:
 		{$message}
 	{/foreach}
 
