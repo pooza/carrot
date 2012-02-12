@@ -63,6 +63,16 @@ class BSUstreamService extends BSCurlHTTP {
 		if ($this->useragent->isMobile()) {
 			$element->setBody('ケータイには非対応です。');
 		} else {
+			$info = $this->useragent->getDisplayInfo();
+			if (!$params['max_width'] && $info['width']) {
+				$params['max_width'] = $info['width'];
+			}
+			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
+				$params['width'] = $params['max_width'];
+				$params['height'] = BSNumeric::round(
+					$params['height'] * $params['width'] / $params['max_width']
+				);
+			}
 			$info = $this->getChannelInfo($id, $params);
 			$object = $element->addElement(new BSObjectElement);
 			$object->setContents($info['results']);
@@ -108,17 +118,20 @@ class BSUstreamService extends BSCurlHTTP {
 		return new BSArray($controller->getAttribute($key));
 	}
 
-	private function createParameters ($params) {
-		$params = new BSArray($params);
-		$params->removeParameter('align');
-		foreach (array('autoplay') as $key) {
-			if ($params[$key]) {
-				$params[$key] = 'true';
-			} else {
-				$params[$key] = 'false';
+	private function createParameters ($src) {
+		$dest = new BSArray;
+		foreach ($src as $key => $value) {
+			if (in_array($key, array('width', 'height'))) {
+				$dest[$key] = $value;
+			}
+			if (in_array($key, array('autoplay'))) {
+				$dest[$key] = 'false';
+				if (!!$value) {
+					$dest[$key] = 'true';
+				}
 			}
 		}
-		return $params;
+		return $dest;
 	}
 
 	/**

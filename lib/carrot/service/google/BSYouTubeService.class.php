@@ -58,8 +58,14 @@ class BSYouTubeService extends BSCurlHTTP {
 		} else {
 			$params->removeParameter('label');
 			$info = $this->useragent->getDisplayInfo();
-			if ($info['width'] && $params['width'] && ($info['width'] < $params['width'])) {
-				$params['width'] = $info['width'];
+			if (!$params['max_width'] && $info['width']) {
+				$params['max_width'] = $info['width'];
+			}
+			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
+				$params['width'] = $params['max_width'];
+				$params['height'] = BSNumeric::round(
+					$params['height'] * $params['width'] / $params['max_width']
+				);
 			}
 			$element = new BSYouTubeObjectElement(null, $this->useragent);
 			$element->setMovie($id, $params);
