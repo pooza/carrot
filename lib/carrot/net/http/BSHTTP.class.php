@@ -65,6 +65,22 @@ class BSHTTP extends BSSocket {
 	}
 
 	/**
+	 * Rendererを指定してのPOSTリクエスト
+	 *
+	 * @access public
+	 * @param string $path パス
+	 * @param BSParameterHolder $params パラメータの配列
+	 * @return BSHTTPResponse レスポンス
+	 */
+	public function sendRawPOST ($path = '/', BSRenderer $renderer) {
+		$request = $this->createRequest();
+		$request->setMethod('POST');
+		$request->setRenderer($renderer);
+		$request->setURL($this->createRequestURL($path));
+		return $this->send($request);
+	}
+
+	/**
 	 * パスからリクエストURLを生成して返す
 	 *
 	 * @access public
