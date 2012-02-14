@@ -3,9 +3,6 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-# mod_authz_host
-Deny from none
-
 # エラーページ
 ErrorDocument 404 /NotFound
 
