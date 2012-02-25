@@ -59,29 +59,10 @@ class BSCurlHTTP extends BSHTTP {
 	 *
 	 * @access public
 	 * @param string $path パス
-	 * @param BSParameterHolder $params パラメータの配列
+	 * @param BSRenderer $renderer レンダラー
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$request = $this->createRequest();
-		$request->setMethod('POST');
-		$request->setRenderer(new BSWWWFormRenderer);
-		$request->getRenderer()->setParameters($params);
-		$request->setURL($this->createRequestURL($path));
-		$this->setAttribute('post', true);
-		$this->setAttribute('postfields', $request->getRenderer()->getContents());
-		return $this->send($request);
-	}
-
-	/**
-	 * Rendererを指定してのPOSTリクエスト
-	 *
-	 * @access public
-	 * @param string $path パス
-	 * @param BSParameterHolder $params パラメータの配列
-	 * @return BSHTTPResponse レスポンス
-	 */
-	public function sendRawPOST ($path = '/', BSRenderer $renderer) {
+	public function sendPOST ($path = '/', BSRenderer $renderer = null) {
 		$request = $this->createRequest();
 		$request->setMethod('POST');
 		$request->setRenderer($renderer);

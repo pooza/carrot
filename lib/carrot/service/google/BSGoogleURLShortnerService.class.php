@@ -26,25 +26,6 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	}
 
 	/**
-	 * POSTリクエスト
-	 *
-	 * @access public
-	 * @param string $path パス
-	 * @param BSParameterHolder $params パラメータの配列
-	 * @return BSHTTPResponse レスポンス
-	 */
-	public function sendPOST ($path = '/', BSParameterHolder $params = null) {
-		$request = $this->createRequest();
-		$request->setMethod('POST');
-		$request->setRenderer(new BSJSONRenderer);
-		$request->getRenderer()->setContents(new BSArray($params));
-		$request->setURL($this->createRequestURL($path));
-		$this->setAttribute('post', true);
-		$this->setAttribute('postfields', $request->getRenderer()->getContents());
-		return $this->send($request);
-	}
-
-	/**
 	 * パスからリクエストURLを生成して返す
 	 *
 	 * @access public
@@ -65,13 +46,12 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	 * @return BSHTTPURL 短縮URL
 	 */
 	public function getShortURL (BSHTTPRedirector $url) {
-		$params = new BSArray(array(
+		$json = new BSJSONRenderer;
+		$json->setContents(array(
 			'longUrl' => $url->getURL()->getContents(),
 		));
-		$response = $this->sendPOST(
-			$this->createRequestURL('/urlshortener/v1/url')->getFullPath(),
-			$params
-		);
+		$url = $this->createRequestURL('/urlshortener/v1/url');
+		$response = $this->sendPOST($url->getFullPath(), $json);
 
 		$json = new BSJSONSerializer;
 		$result = $json->decode($response->getRenderer()->getContents());

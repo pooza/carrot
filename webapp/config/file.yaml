@@ -8,3 +8,4 @@ ignore_patterns:
   - \.svn
   - \.git
   - CVS
+  - \.htaccess

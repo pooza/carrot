@@ -122,14 +122,16 @@ class BSUstreamService extends BSCurlHTTP {
 
 	private function createParameters ($src) {
 		$dest = new BSArray;
-		foreach ($src as $key => $value) {
-			if (in_array($key, array('width', 'height'))) {
-				$dest[$key] = $value;
-			}
-			if (in_array($key, array('autoplay'))) {
-				$dest[$key] = 'false';
-				if (!!$value) {
-					$dest[$key] = 'true';
+		if ($src) {
+			foreach ($src as $key => $value) {
+				if (in_array($key, array('width', 'height'))) {
+					$dest[$key] = $value;
+				}
+				if (in_array($key, array('autoplay'))) {
+					$dest[$key] = 'false';
+					if (!!$value) {
+						$dest[$key] = 'true';
+					}
 				}
 			}
 		}

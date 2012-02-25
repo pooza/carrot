@@ -35,10 +35,12 @@ class BSMovableTypeBlogService {
 	 */
 	public function postComment ($entry, BSArray $values) {
 		$url = $this->getURL('comment');
-		$values['entry_id'] = $entry;
-		$values['post'] = true;
+		$query = new BSWWWFormRenderer;
+		$query->setParameters($values);
+		$query['entry_id'] = $entry;
+		$query['post'] = true;
 		$http = new BSCurlHTTP($url['host']);
-		$http->sendPOST($url->getFullPath(), $values);
+		$http->sendPOST($url->getFullPath(), $query);
 
 		$message = new BSStringFormat('%sにコメントを送信しました。');
 		$message[] = $url;

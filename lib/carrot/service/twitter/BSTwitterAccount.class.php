@@ -281,10 +281,9 @@ class BSTwitterAccount
 		if ($message instanceof BSStringFormat) {
 			$message = $message->getContents();
 		}
-		$response = $this->getService()->sendPOST(
-			'/statuses/update',
-			new BSArray(array('status' => $message))
-		);
+		$query = new BSWWWFormRenderer;
+		$query['status'] = $message;
+		$response = $this->getService()->sendPOST('/statuses/update', $query);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
 
