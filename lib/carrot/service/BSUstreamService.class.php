@@ -53,35 +53,37 @@ class BSUstreamService extends BSCurlHTTP {
 	 * 要素を返す
 	 *
 	 * @access public
-	 * @param integer $id ビデオID
+	 * @param integer $href URLのパス
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @return BSDivisionElement
 	 */
-	public function createElement ($id, BSParameterHolder $params = null) {
+	public function createElement ($href, BSParameterHolder $params = null) {
 		$params = new BSArray($params);
 		$element = new BSDivisionElement;
 		if ($this->useragent->isMobile()) {
 			$element->setBody('ケータイには非対応です。');
 		} else {
 			$info = $this->useragent->getDisplayInfo();
-			if (!$params['max_width'] && $info['width']) {
-				$params['max_width'] = $info['width'];
-			}
 			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
 				$params['width'] = $params['max_width'];
 				$params['height'] = BSNumeric::round(
 					$params['height'] * $params['width'] / $params['max_width']
 				);
 			}
-			$info = $this->getChannelInfo($id, $params);
-			$object = $element->addElement(new BSObjectElement);
-			$object->setContents($info['results']);
-			foreach (array('width', 'height') as $key) {
-				if ($value = $object->getAttribute($key)) {
-					$object->setStyle($key, $value);
-				}
+
+			$iframe = $element->addElement(new BSXHTMLElement('iframe'));
+			$url = BSURL::create('/embed/' . $href);
+			$url['host'] = 'www.ustream.tv';
+			$iframe->setAttribute('src', $url->getContents());
+			$iframe->setAttribute('width', $params['width']);
+			$iframe->setAttribute('height', $params['height']);
+			$iframe->setAttribute('scrolling', 'no');
+			$iframe->setAttribute('frameborder', '0');
+			$iframe->setStyle('border', '0px none transparent');
+			if ($params['align']) {
+				$element->setStyle('width', $params['width']);
+				$element = $element->setAlignment($params['align']);
 			}
-			$element = $element->setAlignment($params['align']);
 		}
 		return $element;
 	}
