@@ -25,7 +25,7 @@ class BSRecordValidator extends BSValidator {
 		$this['exist'] = true;
 		$this['update'] = false;
 		$this['exist_error'] = '登録されていません。';
-		$this['duplicate_error'] = '重複します。';
+		$this['duplicate_error'] = '既に登録されています。';
 		$this['valid_values'] = array();
 		$this['criteria'] = array();
 		return parent::initialize($params);
