@@ -357,14 +357,19 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @param BSFile $file 添付ファイル
 	 * @param string $name 名前
+	 * @param string $filename ファイル名
 	 */
-	public function setAttachment (BSFile $file, $name = null) {
+	public function setAttachment (BSFile $file, $name = null, $filename = null) {
 		if ($old = $this->getAttachment($name)) {
 			$old->delete();
 		}
 		if (BSString::isBlank($suffix = $file->getSuffix())) {
-			$file->setBinary(true);
-			$suffix = BSMIMEType::getSuffix($file->analyzeType());
+			if (BSString::isBlank($filename)) {
+				$file->setBinary(true);
+				$suffix = BSMIMEType::getSuffix($file->analyzeType());
+			} else {
+				$suffix = BSFileUtility::getSuffix($filename);
+			}
 		}
 		$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		$file->moveTo($this->getTable()->getDirectory());
@@ -418,7 +423,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		foreach ($this->getTable()->getAttachmentNames() as $name) {
 			if ($info = $request[$name]) {
-				$this->setAttachment(new BSFile($info['tmp_name']), $name);
+				$this->setAttachment(new BSFile($info['tmp_name']), $name, $info['name']);
 			}
 		}
 	}

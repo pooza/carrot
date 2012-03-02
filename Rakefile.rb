@@ -120,7 +120,7 @@ namespace :var do
         end
         File.delete(path) if is_delete
       end
-      system 'sudo rm var/cache/*'
+      system 'sudo rm var/config_cache/*'
     end
 
     desc '設定キャッシュを全てクリア'
