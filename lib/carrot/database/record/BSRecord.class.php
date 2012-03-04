@@ -665,7 +665,6 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	protected function getSerializableValues () {
 		$values = $this->getAttributes();
-		$values['_attributes'] = $this->getAttributes();
 		if ($url = $this->getURL()) {
 			$values['url'] = $url->getContents();
 		}

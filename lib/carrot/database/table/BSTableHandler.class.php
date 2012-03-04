@@ -176,12 +176,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			return;
 		}
 		if ($criteria instanceof BSCriteriaSet) {
-			$criteria = clone $criteria;
+			$this->criteria = clone $criteria;
 		} else {
-			$criteria = new BSCriteriaSet($criteria);
+			$this->criteria = new BSCriteriaSet($criteria);
 		}
-		$criteria->setDatabase($this->getDatabase());
-		$this->criteria = $criteria;
+		$this->criteria->setDatabase($this->getDatabase());
 		$this->setExecuted(false);
 	}
 
@@ -206,14 +205,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			return;
 		}
 		if ($order instanceof BSTableFieldSet) {
-			$order = clone $order;
+			$this->order = clone $order;
 		} else {
-			$order = new BSTableFieldSet($order);
+			$this->order = new BSTableFieldSet($order);
 		}
-		if (!$order->count()) {
-			$order[] = $this->getKeyField();
+		if (!$this->order->count()) {
+			$this->order[] = $this->getKeyField();
 		}
-		$this->order = $order;
 		$this->setExecuted(false);
 	}
 
@@ -328,9 +326,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 
 		$class = $this->getRecordClass();
 		$record = new $class($this);
-		if ($record->isSerializable() && ($cache = $this->getRecordCache($record, $key))) {
-			return $record->initialize($cache);
-		} else if ($this->isExecuted()) {
+		if ($this->isExecuted()) {
 			foreach ($this->getResult() as $row) {
 				foreach ($key as $field => $value) {
 					if ($row[$field] != $value) {
@@ -347,14 +343,6 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			if ($table->count() == 1) {
 				$table->query();
 				return $record->initialize($table->result[0]);
-			}
-		}
-	}
-	private function getRecordCache (BSRecord $record, BSArray $key) {
-		if ($id = $key[$this->getKeyField()]) {
-			$name = sprintf('%s.%08d', get_class($record), $id);
-			if ($data = BSController::getInstance()->getAttribute($name)) {
-				return $data['_attributes'];
 			}
 		}
 	}
