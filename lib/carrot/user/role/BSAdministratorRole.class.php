@@ -143,6 +143,7 @@ class BSAdministratorRole implements BSRole {
 			$this->credentials[] = self::CREDENTIAL;
 			if (BS_DEBUG) {
 				$this->credentials[] = 'Develop';
+				$this->credentials[] = 'Debug';
 			}
 		}
 		return $this->credentials;
