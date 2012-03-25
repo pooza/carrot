@@ -145,6 +145,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		}
 		$this->query[(string)$name] = $value;
 		$this->fullpath = null;
+		$this->contents = null;
 	}
 
 	/**
