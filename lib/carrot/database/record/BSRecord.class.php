@@ -19,6 +19,7 @@ abstract class BSRecord implements ArrayAccess,
 	protected $criteria;
 	protected $records;
 	protected $digest;
+	const ACCESSOR = 'i';
 
 	/**
 	 * @access public

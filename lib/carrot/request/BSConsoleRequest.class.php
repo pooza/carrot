@@ -19,6 +19,7 @@ class BSConsoleRequest extends BSRequest {
 		$this->options = new BSArray;
 		$this->addOption(BSModule::ACCESSOR);
 		$this->addOption(BSAction::ACCESSOR);
+		$this->addOption(BSRecord::ACCESSOR);
 		$this->parse();
 
 		if (BSString::isBlank($this[BSModule::ACCESSOR])) {
@@ -51,6 +52,7 @@ class BSConsoleRequest extends BSRequest {
 
 		$this->clear();
 		$this->setParameters(getopt($config->join('')));
+		$this['id'] = $this[BSRecord::ACCESSOR];
 	}
 
 	/**
