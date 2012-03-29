@@ -312,7 +312,7 @@ abstract class BSRecord implements ArrayAccess,
 			$mail->getRenderer()->setAttribute('params', $params);
 			$mail->send();
 		} catch (Exception $e) {
-			throw new BSMailException('メールの送信に失敗しました。', $this);
+			throw new BSMailException('メールの送信に失敗しました。', 0, $this);
 		}
 	}
 
@@ -358,13 +358,13 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @param BSFile $file 添付ファイル
 	 * @param string $name 名前
-	 * @param string $filename ヒント用のファイル名、ここに含まれる拡張子を使用することがある
+	 * @param string $filename ファイル名
 	 */
 	public function setAttachment (BSFile $file, $name = null, $filename = null) {
 		if ($old = $this->getAttachment($name)) {
 			$old->delete();
 		}
-		if (BSString::isBlank(ltrim($suffix = $file->getSuffix(), '.'))) {
+		if (BSString::isBlank($suffix = $file->getSuffix())) {
 			if (BSString::isBlank($filename)) {
 				$file->setBinary(true);
 				$suffix = BSMIMEType::getSuffix($file->analyzeType());
