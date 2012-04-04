@@ -103,9 +103,7 @@ class BSSMTP extends BSSocket {
 			}
 			$this->execute('DATA');
 			$this->putLine($this->getMail()->getContents());
-			if ($this->execute('.') != 250) {
-				throw new BSMailException($this->getPrevLine());
-			}
+			$this->execute('.');
 		} catch (BSMailException $e) {
 			throw new BSMailException($this->getMail() . 'を送信できません。');
 		}
@@ -237,7 +235,6 @@ class BSSMTP extends BSSocket {
 			$message[] = $this->getPrevLine();
 			throw new BSMailException($message);
 		}
-
 		if (400 <= ($result = $matches[1])) {
 			$message = new BSStringFormat('%s (%s)');
 			$message[] = $this->getPrevLine();
