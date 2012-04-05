@@ -290,6 +290,7 @@ session:
   storage: default
 smtp:
   host:
+  timeout: 100000 #ミリ秒単位
 sqlite3:
   dir:
     default: /usr/local

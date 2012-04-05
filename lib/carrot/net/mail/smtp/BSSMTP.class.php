@@ -38,7 +38,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function open () {
 		parent::open();
-		stream_set_timeout($this->client, 0, 5000);
+		stream_set_timeout($this->client, 0, BS_SMTP_TIMEOUT);
 		$command = 'EHLO ' . BSController::getInstance()->getHost()->getName();
 		if (!in_array($this->execute($command), array(220, 250))) {
 			$message = new BSStringFormat('%sに接続できません。 (%s)');
