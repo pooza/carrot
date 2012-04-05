@@ -5,9 +5,10 @@
 
 - class: BSFakeUserAgentFilter
 - class: BSLegacyUserAgentFilter
-- class: BSPictogramRequestFilter
+#- class: BSPictogramRequestFilter
 - class: BSEncodingRequestFilter
 - class: BSNewLineRequestFilter
+#- class: BSWrongCharactersRequestFilter
 - class: BSCookieFilter
   params:
     excluded_actions:
