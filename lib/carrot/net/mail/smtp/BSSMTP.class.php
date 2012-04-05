@@ -103,7 +103,9 @@ class BSSMTP extends BSSocket {
 			}
 			$this->execute('DATA');
 			$this->putLine($this->getMail()->getContents());
-			$this->execute('.');
+			if ($this->execute('.') != 250) {
+				throw new BSMailException($this->getPrevLine());
+			}
 		} catch (BSMailException $e) {
 			throw new BSMailException($this->getMail() . 'を送信できません。');
 		}
