@@ -75,7 +75,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 * @return boolean 実行できるならTrue
 	 */
 	public function isExecutable () {
-		return !$this->isExcludedAction() && (!$this->isExecuted() || $this->isRepeatable());
+		return (!$this->isExecuted() || $this->isRepeatable()) && !$this->isExcludedAction();
 	}
 
 	/**

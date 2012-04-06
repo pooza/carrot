@@ -23,11 +23,11 @@ class BSFilterSet extends BSArray {
 			if ($filters = BSConfigManager::getInstance()->compile($file)) {
 				$filters = new BSArray($filters);
 				foreach ($filters as $filter) {
-					$filter['action'] = $action;
 					$this[] = $filter;
 				}
 			}
 		}
+		$this[] = new BSExecutionFilter;
 	}
 
 	/**
@@ -53,14 +53,13 @@ class BSFilterSet extends BSArray {
 	 * @access public
 	 */
 	public function execute () {
-		$this[] = new BSExecutionFilter(array(
-			'action' => $this->action,
-		));
 		foreach ($this as $filter) {
-			if ($filter->execute()) {
-				exit;
+			if ($filter->isExecutable()) {
+				if ($filter->execute()) {
+					exit;
+				}
+				$filter->setExecuted();
 			}
-			$filter->setExecuted();
 		}
 	}
 
@@ -73,7 +72,8 @@ class BSFilterSet extends BSArray {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $filter, $position = self::POSITION_BOTTOM) {
-		if (($filter instanceof BSFilter) && $filter->isExecutable()) {
+		if ($filter instanceof BSFilter) {
+			$filter['action'] = $this->action;
 			if (BSString::isBlank($name)) {
 				$name = $filter->getName();
 			}

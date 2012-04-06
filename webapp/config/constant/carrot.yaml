@@ -60,6 +60,8 @@ decoration_mail:
     docomo: application/x-decomail-template
     au: application/x-kddi-htmlmail
     softbank: application/x-htmlmail-template
+filterset:
+  class: BSFilterSet
 ffmpeg:
   dir:
     default: /usr/local
