@@ -75,6 +75,18 @@ abstract class BSFilter extends BSParameterHolder {
 	public function isRepeatable () {
 		return false;
 	}
+
+	/**
+	 * 除外されたアクションか？
+	 *
+	 * @access public
+	 * @param BSAction $action
+	 * @return boolean 除外されたアクションならTrue
+	 */
+	public function isExcludedAction (BSAction $action) {
+		$actions = new BSArray($this['excluded_actions']);
+		return $actions->isContain($action->getName());
+	}
 }
 
 /* vim:set tabstop=4: */

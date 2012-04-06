@@ -23,22 +23,17 @@ class BSFilterSet extends BSArray {
 			self::$executed = new BSArray;
 		}
 		$this->action = $action;
-		$this->load('filters/carrot');
-		$this->load('filters/application');
-		$this->load('filters/' . BSController::getInstance()->getHost()->getName());
-		$this->load($action->getModule()->getConfigFile('filters'));
 
-		// module.yamlのロード。廃止予定。
-		foreach ((array)$action->getConfig('filters') as $row) {
-			$row = new BSArray($row);
-			if ($row['enabled']) {
-				if (!$this[$row['class']]) {
-					$filter = BSClassLoader::getInstance()->getObject($row['class']);
-					$filter->initialize((array)$row['params']);
+		$files = new BSArray;
+		$files[] = 'filters/carrot';
+		$files[] = 'filters/application';
+		$files[] = 'filters/' . BSController::getInstance()->getHost()->getName();
+		$files[] = $action->getModule()->getConfigFile('filters');
+		foreach ($files as $file) {
+			if ($filters = BSConfigManager::getInstance()->compile($file)) {
+				foreach ((array)$filters as $filter) {
 					$this[] = $filter;
 				}
-			} else {
-				$this->removeParameter($row['class']);
 			}
 		}
 	}
@@ -75,9 +70,8 @@ class BSFilterSet extends BSArray {
 		}
 	}
 	private function isRegisterable (BSFilter $filter) {
-		$actions = new BSArray($filter['excluded_actions']);
-		return (($filter->isRepeatable() || !self::$executed[$filter->getName()])
-			&& !$actions->isContain($this->action->getName())
+		return (($filter->isRepeatable() || !$this->isExecuted($filter))
+			&& !$filter->isExcludedAction($this->action)
 		);
 	}
 
@@ -85,12 +79,8 @@ class BSFilterSet extends BSArray {
 		self::$executed[$filter->getName()] = 1;
 	}
 
-	private function load ($file) {
-		if ($filters = BSConfigManager::getInstance()->compile($file)) {
-			foreach ((array)$filters as $filter) {
-				$this[] = $filter;
-			}
-		}
+	private function isExecuted (BSFilter $filter) {
+		return !!self::$executed[$filter->getName()];
 	}
 }
 
