@@ -12,30 +12,39 @@
  */
 class BSFilterSet extends BSArray {
 	protected $action;
-	static protected $executed;
 
 	/**
 	 * @access public
 	 * @param BSAction $action アクション
 	 */
 	public function __construct (BSAction $action) {
-		if (!self::$executed) {
-			self::$executed = new BSArray;
-		}
 		$this->action = $action;
-
-		$files = new BSArray;
-		$files[] = 'filters/carrot';
-		$files[] = 'filters/application';
-		$files[] = 'filters/' . BSController::getInstance()->getHost()->getName();
-		$files[] = $action->getModule()->getConfigFile('filters');
-		foreach ($files as $file) {
+		foreach ($this->getConfigFiles() as $file) {
 			if ($filters = BSConfigManager::getInstance()->compile($file)) {
-				foreach ((array)$filters as $filter) {
+				$filters = new BSArray($filters);
+				foreach ($filters as $filter) {
+					$filter['action'] = $action;
 					$this[] = $filter;
 				}
 			}
 		}
+	}
+
+	/**
+	 * フィルタ設定ファイルの配列を返す
+	 *
+	 * @access protected
+	 * @return BSArray 設定ファイルの配列
+	 */
+	protected function getConfigFiles () {
+		$files = new BSArray;
+		$files[] = 'filters/carrot';
+		$files[] = 'filters/application';
+		$files[] = 'filters/' . BSController::getInstance()->getHost()->getName();
+		if ($file = $this->action->getModule()->getConfigFile('filters')) {
+			$files[] = $file;
+		}
+		return $files;
 	}
 
 	/**
@@ -44,12 +53,14 @@ class BSFilterSet extends BSArray {
 	 * @access public
 	 */
 	public function execute () {
-		$this[] = new BSExecutionFilter;
+		$this[] = new BSExecutionFilter(array(
+			'action' => $this->action,
+		));
 		foreach ($this as $filter) {
 			if ($filter->execute()) {
 				exit;
 			}
-			$this->setExecuted($filter);
+			$filter->setExecuted();
 		}
 	}
 
@@ -62,27 +73,12 @@ class BSFilterSet extends BSArray {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $filter, $position = self::POSITION_BOTTOM) {
-		if ($filter instanceof BSFilter) {
-			if ($this->isExecuted($filter) && !$filter->isRepeatable()) {
-				return;
-			}
-			if ($filter->isExcludedAction($this->action)) {
-				return;
-			}
-
+		if (($filter instanceof BSFilter) && $filter->isExecutable()) {
 			if (BSString::isBlank($name)) {
 				$name = $filter->getName();
 			}
 			parent::setParameter($name, $filter, $position);
 		}
-	}
-
-	protected function setExecuted (BSFilter $filter) {
-		self::$executed[$filter->getName()] = 1;
-	}
-
-	protected function isExecuted (BSFilter $filter) {
-		return !!self::$executed[$filter->getName()];
 	}
 }
 

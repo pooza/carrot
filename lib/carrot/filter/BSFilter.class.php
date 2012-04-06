@@ -11,12 +11,16 @@
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
+	static protected $executed;
 
 	/**
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
 	public function __construct ($params = array()) {
+		if (!self::$executed) {
+			self::$executed = new BSArray;
+		}
 		$this->initialize($params);
 	}
 
@@ -31,8 +35,6 @@ abstract class BSFilter extends BSParameterHolder {
 			case 'request':
 			case 'user':
 				return BSUtility::executeMethod($name, 'getInstance');
-			case 'action':
-				return BSController::getInstance()->getAction();
 		}
 	}
 
@@ -67,6 +69,16 @@ abstract class BSFilter extends BSParameterHolder {
 	abstract public function execute ();
 
 	/**
+	 * 実行できるか
+	 *
+	 * @access public
+	 * @return boolean 実行できるならTrue
+	 */
+	public function isExecutable () {
+		return !$this->isExcludedAction() && (!$this->isExecuted() || $this->isRepeatable());
+	}
+
+	/**
 	 * 二度目も実行するか
 	 *
 	 * @access public
@@ -77,15 +89,34 @@ abstract class BSFilter extends BSParameterHolder {
 	}
 
 	/**
+	 * 実行済みフラグを設定
+	 *
+	 * @access public
+	 * @param boolean $flag 実行されたならTrue
+	 */
+	public function setExecuted ($flag = true) {
+		self::$executed[$this->getName()] = $flag;
+	}
+
+	/**
+	 * 実行されたか？
+	 *
+	 * @access public
+	 * @return boolean 実行されたならTrue
+	 */
+	public function isExecuted () {
+		return !!self::$executed[$this->getName()];
+	}
+
+	/**
 	 * 除外されたアクションか？
 	 *
 	 * @access public
-	 * @param BSAction $action
 	 * @return boolean 除外されたアクションならTrue
 	 */
-	public function isExcludedAction (BSAction $action) {
+	public function isExcludedAction () {
 		$actions = new BSArray($this['excluded_actions']);
-		return $actions->isContain($action->getName());
+		return $actions->isContain($this['action']->getName());
 	}
 }
 

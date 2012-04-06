@@ -11,9 +11,9 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {
-		if (!BS_DEBUG && $this->action->isCacheable()) {
+		if (!BS_DEBUG && $this['action']->isCacheable()) {
 			$manager = BSRenderManager::getInstance();
-			$action = $this->action;
+			$action = $this['action'];
 			if ($manager->hasCache($action) && ($view = $manager->getCache($action))) {
 				$this->doView($view);
 			} else {
@@ -30,29 +30,29 @@ class BSExecutionFilter extends BSFilter {
 	}
 
 	private function doAction () {
-		if ($this->action->isExecutable()) {
-			if ($file = $this->action->getValidationFile()) {
+		if ($this['action']->isExecutable()) {
+			if ($file = $this['action']->getValidationFile()) {
 				BSConfigManager::getInstance()->compile($file);
 			}
-			$this->action->registerValidators();
-			if (!BSValidateManager::getInstance()->execute() || !$this->action->validate()) {
-				return $this->action->handleError();
+			$this['action']->registerValidators();
+			if (!BSValidateManager::getInstance()->execute() || !$this['action']->validate()) {
+				return $this['action']->handleError();
 			}
-			if ($limit = $this->action->getMemoryLimit()) {
+			if ($limit = $this['action']->getMemoryLimit()) {
 				ini_set('memory_limit', $limit . 'M');
 			}
-			if ($limit = $this->action->getTimeLimit()) {
+			if ($limit = $this['action']->getTimeLimit()) {
 				set_time_limit($limit);
 			}
-			return $this->action->execute();
+			return $this['action']->execute();
 		} else {
-			return $this->action->getDefaultView();
+			return $this['action']->getDefaultView();
 		}
 	}
 
 	private function doView ($view) {
 		if (!($view instanceof BSView)) {
-			$view = $this->action->getView($view);
+			$view = $this['action']->getView($view);
 		}
 		if (!$view->initialize()) {
 			throw new BSViewException($view . 'が初期化できません。');
