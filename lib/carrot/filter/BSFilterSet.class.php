@@ -11,8 +11,8 @@
  * @abstract
  */
 class BSFilterSet extends BSArray {
-	private $action;
-	static private $executed;
+	protected $action;
+	static protected $executed;
 
 	/**
 	 * @access public
@@ -62,24 +62,26 @@ class BSFilterSet extends BSArray {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $filter, $position = self::POSITION_BOTTOM) {
-		if (($filter instanceof BSFilter) && $this->isRegisterable($filter)) {
+		if ($filter instanceof BSFilter) {
+			if ($this->isExecuted($filter) && !$filter->isRepeatable()) {
+				return;
+			}
+			if ($filter->isExcludedAction($this->action)) {
+				return;
+			}
+
 			if (BSString::isBlank($name)) {
 				$name = $filter->getName();
 			}
 			parent::setParameter($name, $filter, $position);
 		}
 	}
-	private function isRegisterable (BSFilter $filter) {
-		return (($filter->isRepeatable() || !$this->isExecuted($filter))
-			&& !$filter->isExcludedAction($this->action)
-		);
-	}
 
-	private function setExecuted (BSFilter $filter) {
+	protected function setExecuted (BSFilter $filter) {
 		self::$executed[$filter->getName()] = 1;
 	}
 
-	private function isExecuted (BSFilter $filter) {
+	protected function isExecuted (BSFilter $filter) {
 		return !!self::$executed[$filter->getName()];
 	}
 }
