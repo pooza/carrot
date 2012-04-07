@@ -256,8 +256,6 @@ sendmail:
 serialize:
   storage: default
   serializer: JSON
-  keep:
-    - BSCounter.*
 service:
   ajaxzip3:
     zipdata:

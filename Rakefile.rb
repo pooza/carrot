@@ -109,23 +109,7 @@ namespace :var do
   namespace :config do
     desc '設定キャッシュをクリア'
     task :clean do
-      patterns = Constants.new['BS_SERIALIZE_KEEP']
-      Dir.glob(File.expand_path('var/serialized/*')).each do |path|
-        is_delete = true
-        patterns.each do |pattern|
-          if File.fnmatch?(pattern, File.basename(path))
-            is_delete = false
-            break
-          end
-        end
-        File.delete(path) if is_delete
-      end
       system 'sudo rm var/config_cache/*'
-    end
-
-    desc '設定キャッシュを全てクリア'
-    task :clean_all do
-      system 'sudo rm var/cache/*'
       system 'sudo rm var/serialized/*'
     end
   end
