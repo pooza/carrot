@@ -90,7 +90,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function getCarrier () {
 		if (!$this->carrier) {
-			$this->carrier = BSClassLoader::getInstance()->getObject(
+			$this->carrier = BSClassLoader::getInstance()->createObject(
 				$this->getType(),
 				'MobileCarrier'
 			);

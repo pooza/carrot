@@ -74,7 +74,7 @@ class BSMemcacheManager {
 	public function getServer ($class = null) {
 		if ($this->isEnabled()) {
 			if ($class) {
-				$server = BSClassLoader::getInstance()->getObject($class, 'Memcache');
+				$server = BSClassLoader::getInstance()->createObject($class, 'Memcache');
 			} else {
 				$server = new BSMemcache;
 			}

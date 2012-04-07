@@ -154,7 +154,7 @@ class BSMail extends BSMIMEDocument {
 	 * @static
 	 */
 	static public function createSender () {
-		$sender = BSClassLoader::getInstance()->getObject(BS_MAIL_SENDER, 'MailSender');
+		$sender = BSClassLoader::getInstance()->createObject(BS_MAIL_SENDER, 'MailSender');
 		if (!$sender || !$sender->initialize()) {
 			throw new BSConfigException('BS_MAIL_SENDERが正しくありません。');
 		}

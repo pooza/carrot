@@ -21,7 +21,7 @@ class BSSerializeHandler {
 		$classes = BSClassLoader::getInstance();
 
 		if (!$serializer) {
-			$serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
 		if (!$this->serializer->initialize()) {
@@ -29,7 +29,7 @@ class BSSerializeHandler {
 		}
 
 		if (!$storage) {
-			$storage = $classes->getObject(BS_SERIALIZE_STORAGE, 'SerializeStorage');
+			$storage = $classes->createObject(BS_SERIALIZE_STORAGE, 'SerializeStorage');
 		}
 		$this->storage = $storage;
 		if (!$this->storage->initialize()) {

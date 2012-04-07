@@ -32,7 +32,7 @@ class BSConfigFile extends BSFile {
 	 */
 	public function getParser () {
 		if (!$this->parser) {
-			$this->parser = BSClassLoader::getInstance()->getObject(
+			$this->parser = BSClassLoader::getInstance()->createObject(
 				ltrim($this->getSuffix(), '.'),
 				'ConfigParser'
 			);

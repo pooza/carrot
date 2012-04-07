@@ -505,7 +505,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSFilterSet フィルターセット
 	 */
 	public function createFilterSet () {
-		return BSClassLoader::getInstance()->getObject(BS_FILTERSET_CLASS, 'FilterSet');
+		return BSClassLoader::getInstance()->createObject(BS_FILTERSET_CLASS, 'FilterSet');
 	}
 
 	/**

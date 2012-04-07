@@ -99,7 +99,7 @@ class BSClassLoader {
 	 * @param string $suffix クラス名サフィックス
 	 * @return string 存在するクラス名
 	 */
-	public function getObject ($class, $suffix = null) {
+	public function createObject ($class, $suffix = null) {
 		$class = $this->getClass($class, $suffix);
 		return new $class;
 	}

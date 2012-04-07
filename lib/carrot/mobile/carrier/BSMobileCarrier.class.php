@@ -55,7 +55,7 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 			foreach (self::getNames() as $name) {
-				$instance = BSClassLoader::getInstance()->getObject($name, 'MobileCarrier');
+				$instance = BSClassLoader::getInstance()->createObject($name, 'MobileCarrier');
 				self::$instances[BSString::underscorize($name)] = $instance;
 			}
 		}

@@ -20,7 +20,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	public function __construct (BSSerializer $serializer = null) {
 		if (!$serializer) {
 			$classes = BSClassLoader::getInstance();
-			$serializer = $classes->getObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
 	}

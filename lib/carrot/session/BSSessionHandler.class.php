@@ -65,7 +65,7 @@ class BSSessionHandler {
 	 */
 	protected function getStorage () {
 		if (!$this->storage) {
-			$this->storage = BSClassLoader::getInstance()->getObject(
+			$this->storage = BSClassLoader::getInstance()->createObject(
 				BS_SESSION_STORAGE,
 				'SessionStorage'
 			);
