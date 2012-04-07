@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
+	protected $action;
 	static protected $executed;
 
 	/**
@@ -58,6 +59,16 @@ abstract class BSFilter extends BSParameterHolder {
 	 */
 	public function getName () {
 		return get_class($this);
+	}
+
+	/**
+	 * 対象アクションを設定
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function setAction (BSAction $action) {
+		$this->action = $action;
 	}
 
 	/**
@@ -116,7 +127,15 @@ abstract class BSFilter extends BSParameterHolder {
 	 */
 	public function isExcludedAction () {
 		$actions = new BSArray($this['excluded_actions']);
-		return $actions->isContain($this['action']->getName());
+		return $actions->isContain($this->action->getName());
+	}
+
+	/**
+	 * @access public
+	 * @return string 基本情報
+	 */
+	public function __toString () {
+		return sprintf('フィルタ "%s"', get_class($this));
 	}
 }
 

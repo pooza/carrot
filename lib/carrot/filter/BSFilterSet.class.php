@@ -21,7 +21,6 @@ class BSFilterSet extends BSArray {
 		$this->action = $action;
 		foreach ($this->getConfigFiles() as $file) {
 			if ($filters = BSConfigManager::getInstance()->compile($file)) {
-				$filters = new BSArray($filters);
 				foreach ($filters as $filter) {
 					$this[] = $filter;
 				}
@@ -72,13 +71,15 @@ class BSFilterSet extends BSArray {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $filter, $position = self::POSITION_BOTTOM) {
-		if ($filter instanceof BSFilter) {
-			$filter['action'] = $this->action;
-			if (BSString::isBlank($name)) {
-				$name = $filter->getName();
-			}
-			parent::setParameter($name, $filter, $position);
+		try {
+			$filter->setAction($this->action);
+		} catch (Exception $e) {
+			throw new BSFilterException('フィルターセットに加えられません。');
 		}
+		if (BSString::isBlank($name)) {
+			$name = $filter->getName();
+		}
+		parent::setParameter($name, $filter, $position);
 	}
 }
 

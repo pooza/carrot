@@ -16,11 +16,14 @@ class BSSecurityFilter extends BSFilter {
 	}
 
 	public function execute () {
+		if (!$this->action) {
+			throw BSFilterException($this . 'のアクションが未定義です。');
+		}
 		if (!$this->user->hasCredential($this['credential'])) {
 			if ($this->request->isAjax() || $this->request->isFlash()) {
 				return $this->controller->getAction('not_found')->forward();
 			}
-			if ($this->controller->getAction()->deny()) {
+			if ($this->action->deny()) {
 				return BSController::COMPLETED;
 			}
 		}
