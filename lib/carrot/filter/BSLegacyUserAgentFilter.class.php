@@ -24,6 +24,8 @@ class BSLegacyUserAgentFilter extends BSFilter {
 			} catch (BSException $e) {
 				$action = $this->controller->getAction('not_found');
 			}
+
+			//フィルタの中からはforwardできないので。
 			$this->controller->registerAction($action);
 		}
 	}

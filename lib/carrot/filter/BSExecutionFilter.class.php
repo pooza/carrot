@@ -11,9 +11,6 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {
-		if (!$this->action) {
-			throw BSFilterException($this . 'のアクションが未定義です。');
-		}
 		if (!BS_DEBUG && $this->action->isCacheable()) {
 			$manager = BSRenderManager::getInstance();
 			$action = $this->action;

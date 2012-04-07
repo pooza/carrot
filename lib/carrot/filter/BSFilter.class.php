@@ -11,7 +11,6 @@
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
-	protected $action;
 	static protected $executed;
 
 	/**
@@ -36,6 +35,8 @@ abstract class BSFilter extends BSParameterHolder {
 			case 'request':
 			case 'user':
 				return BSUtility::executeMethod($name, 'getInstance');
+			case 'action':
+				return $this->controller->getAction();
 		}
 	}
 
@@ -59,16 +60,6 @@ abstract class BSFilter extends BSParameterHolder {
 	 */
 	public function getName () {
 		return get_class($this);
-	}
-
-	/**
-	 * 対象アクションを設定
-	 *
-	 * @access public
-	 * @param BSAction $action アクション
-	 */
-	public function setAction (BSAction $action) {
-		$this->action = $action;
 	}
 
 	/**

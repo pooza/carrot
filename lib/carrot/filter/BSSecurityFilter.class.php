@@ -11,14 +11,11 @@
  */
 class BSSecurityFilter extends BSFilter {
 	public function initialize ($params = array()) {
-		$this['credential'] = $this->controller->getAction()->getCredential();
+		$this['credential'] = $this->action->getCredential();
 		return parent::initialize($params);
 	}
 
 	public function execute () {
-		if (!$this->action) {
-			throw BSFilterException($this . 'のアクションが未定義です。');
-		}
 		if (!$this->user->hasCredential($this['credential'])) {
 			if ($this->request->isAjax() || $this->request->isFlash()) {
 				return $this->controller->getAction('not_found')->forward();

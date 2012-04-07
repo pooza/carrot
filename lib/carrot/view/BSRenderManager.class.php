@@ -93,7 +93,6 @@ class BSRenderManager {
 		$file = BSFileUtility::createTemporaryFile();
 		$serializer = new BSPHPSerializer;
 		$file->setContents($serializer->encode($cache));
-		$file->setMode(0666);
 		$file->moveTo($this->getResourceDirectory($view->getAction()));
 		$file->rename($view->getAction()->digest() . '.serialized');
 	}
@@ -133,9 +132,9 @@ class BSRenderManager {
 
 	private function getResourceDirectory (BSAction $action) {
 		$dir = BSFileUtility::getDirectory('output');
-		if (!$entry = $dir->getEntry($action->getRenderResource())) {
-			$entry = $dir->createDirectory($action->getRenderResource());
-			$entry->setMode(0777);
+		$name = BSCrypt::digest($action->getRenderResource());
+		if (!$entry = $dir->getEntry($name)) {
+			$entry = $dir->createDirectory($name);
 		}
 		$entry->setDefaultSuffix('.serialized');
 		return $entry;

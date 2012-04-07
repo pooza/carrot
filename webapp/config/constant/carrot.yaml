@@ -61,7 +61,7 @@ decoration_mail:
     au: application/x-kddi-htmlmail
     softbank: application/x-htmlmail-template
 filterset:
-  class: BSFilterSet
+  class: default
 ffmpeg:
   dir:
     default: /usr/local

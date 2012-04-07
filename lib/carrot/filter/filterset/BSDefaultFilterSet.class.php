@@ -1,24 +1,21 @@
 <?php
 /**
  * @package org.carrot-framework
- * @subpackage filter
+ * @subpackage filter.filterset
  */
 
 /**
- * フィルタセット
+ * 規定フィルタセット
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-class BSFilterSet extends BSArray {
-	protected $action;
+class BSDefaultFilterSet extends BSArray {
 
 	/**
 	 * @access public
-	 * @param BSAction $action アクション
 	 */
-	public function __construct (BSAction $action) {
-		$this->action = $action;
+	public function __construct () {
 		foreach ($this->getConfigFiles() as $file) {
 			if ($filters = BSConfigManager::getInstance()->compile($file)) {
 				foreach ($filters as $filter) {
@@ -40,7 +37,9 @@ class BSFilterSet extends BSArray {
 		$files[] = 'filters/carrot';
 		$files[] = 'filters/application';
 		$files[] = 'filters/' . BSController::getInstance()->getHost()->getName();
-		if ($file = $this->action->getModule()->getConfigFile('filters')) {
+
+		$module = BSController::getInstance()->getModule();
+		if ($file = $module->getConfigFile('filters')) {
 			$files[] = $file;
 		}
 		return $files;
@@ -54,7 +53,7 @@ class BSFilterSet extends BSArray {
 	public function execute () {
 		foreach ($this as $filter) {
 			if ($filter->isExecutable()) {
-				if ($filter->execute()) {
+				if ($filter->execute() == BSController::COMPLETED) {
 					exit;
 				}
 				$filter->setExecuted();
@@ -71,9 +70,7 @@ class BSFilterSet extends BSArray {
 	 * @param boolean $position 先頭ならTrue
 	 */
 	public function setParameter ($name, $filter, $position = self::POSITION_BOTTOM) {
-		try {
-			$filter->setAction($this->action);
-		} catch (Exception $e) {
+		if (($filter instanceof BSFilter) == false) {
 			throw new BSFilterException('フィルターセットに加えられません。');
 		}
 		if (BSString::isBlank($name)) {
