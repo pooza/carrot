@@ -8,7 +8,7 @@
  */
 class TestAction extends BSAction {
 	public function execute () {
-		BSTestManager::getInstance()->execute();
+		BSTestManager::getInstance()->execute($this->request['id']);
 	}
 }
 

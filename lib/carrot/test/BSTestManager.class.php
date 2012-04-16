@@ -71,17 +71,39 @@ class BSTestManager implements IteratorAggregate {
 	 * 実行
 	 *
 	 * @access public
+	 * @param string $name テスト名
 	 * @return boolean 成功ならTrue
 	 */
-	public function execute () {
+	public function execute ($name = null) {
 		foreach ($this as $test) {
-			print "\n" . get_class($test) . ":\n";
-			$test->execute();
-			$this->errors->merge($test->getErrors());
+			if (BSString::isBlank($name) || $test->isMatched($name)) {
+				$this->put('---');
+				$message = new BSStringFormat('%s:');
+				$message[] = get_class($test);
+				$this->put($message);
+				$test->execute();
+				$this->errors->merge($test->getErrors());
+			}
 		}
-		print "\n============\n";
-		print $this->errors->count() . " errors\n";
+
+		$this->put('===');
+		$message = new BSStringFormat('%d errors');
+		$message[] = $this->errors->count();
+		$this->put($message);
 		return !$this->errors->count();
+	}
+
+	/**
+	 * 標準出力にメッセージを出力
+	 *
+	 * @access public
+	 * @param mixed $message メッセージ
+	 */
+	public function put ($message) {
+		if ($message instanceof BSStringFormat) {
+			$message = $message->getContents();
+		}
+		print $message . "\n";
 	}
 
 	/**

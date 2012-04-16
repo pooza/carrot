@@ -11,6 +11,7 @@ ROOT_DIR = File.dirname(File.expand_path(__FILE__))
 $LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
 
 require 'yaml'
+require 'shellwords'
 require 'carrot/constants'
 require 'carrot/environment'
 require 'webapp/config/Rakefile.local'
@@ -24,8 +25,9 @@ task :install => [
 
 desc 'テストを実行'
 task :test =>['var:classes:clean'] do
-  uid = Constants.new['BS_APP_PROCESS_UID']
-  sh 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
+  cmd = 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
+  cmd += ' -i ' + Shellwords.shellescape(ARGV[1]) if ARGV[1]
+  sh cmd
 end
 
 namespace :database do

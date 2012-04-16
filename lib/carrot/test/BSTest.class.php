@@ -12,6 +12,7 @@
  */
 abstract class BSTest {
 	private $errors;
+	private $name;
 
 	/**
 	 * @access public
@@ -31,7 +32,38 @@ abstract class BSTest {
 			case 'request':
 			case 'user':
 				return BSUtility::executeMethod($name, 'getInstance');
+			case 'manager':
+				return BSUtility::executeMethod('BSTestManager', 'getInstance');
 		}
+	}
+
+	/**
+	 * テスト名を返す
+	 *
+	 * @access public
+	 * @return string テスト名
+	 */
+	public function getName () {
+		if (!$this->name) {
+			if (mb_ereg('BS(.*)Test', get_class($this), $matches)) {
+				$this->name = BSString::toLower($matches[1]);
+			}
+		}
+		return $this->name;
+	}
+
+	/**
+	 * テスト名にマッチするか？
+	 *
+	 * @access public
+	 * @param string $name テスト名
+	 * @param boolean マッチするならTrue
+	 */
+	public function isMatched ($name) {
+		return BSString::isContain(
+			BSString::toLower($name),
+			BSString::toLower(get_class($this))
+		);
 	}
 
 	/**
@@ -55,9 +87,12 @@ abstract class BSTest {
 				return $this->setError($name);
 			}
 		} catch (Exception $e) {
-			return $this->setError($name, $e->getMessage());
+			return $this->setError($name);
 		}
-		print '  ' . $name . " OK\n";
+
+		$message = new BSStringFormat('  %s OK');
+		$message[] = $name;
+		$this->manager->put($message);
 	}
 
 	/**
@@ -68,12 +103,10 @@ abstract class BSTest {
 	 * @param string $message エラーメッセージ
 	 */
 	public function setError ($name, $message = null) {
-		$this->errors[] = new BSArray(array(
-			'test' => get_class($this),
-			'assert' => $name,
-			'message' => $message,
-		));
-		print '  ' . $name . ' NG ' . $message . " !!!!!!!!!!\n";
+		$this->errors[] = $name;
+		$message = new BSStringFormat('  %s NG!!!');
+		$message[] = $name;
+		$this->manager->put($message);
 	}
 
 	/**
