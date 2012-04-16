@@ -46,7 +46,7 @@ abstract class BSTest {
 	public function getName () {
 		if (!$this->name) {
 			if (mb_ereg('BS(.*)Test', get_class($this), $matches)) {
-				$this->name = BSString::toLower($matches[1]);
+				$this->name = $matches[1];
 			}
 		}
 		return $this->name;
