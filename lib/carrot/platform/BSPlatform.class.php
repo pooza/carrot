@@ -31,7 +31,7 @@ abstract class BSPlatform extends BSParameterHolder {
 	 */
 	static public function create ($name) {
 		try {
-			$class = BSClassLoader::getInstance()->getClass($name, 'Platform');
+			$class = BSLoader::getInstance()->getClass($name, 'Platform');
 		} catch (Exception $e) {
 			$class = 'BSDefaultPlatform';
 		}

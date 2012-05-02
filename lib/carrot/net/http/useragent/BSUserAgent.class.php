@@ -50,7 +50,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 		if (!$type) {
 			$type = self::getDefaultType($name);
 		}
-		$class = BSClassLoader::getInstance()->getClass($type, 'UserAgent');
+		$class = BSLoader::getInstance()->getClass($type, 'UserAgent');
 		return new $class($name);
 	}
 
@@ -64,7 +64,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	static public function getDefaultType ($name) {
 		foreach (self::getTypes() as $type) {
-			$class = BSClassLoader::getInstance()->getClass($type, 'UserAgent');
+			$class = BSLoader::getInstance()->getClass($type, 'UserAgent');
 			$instance = new $class;
 			if (mb_ereg($instance->getPattern(), $name)) {
 				return $type;

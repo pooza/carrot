@@ -281,7 +281,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 				$basename = $this->getName() . $suffix . 'View';
 				if ($file = $dir->getEntry($basename . '.class.php')) {
 					require $file->getPath();
-					$class = BSClassLoader::getInstance()->getClass($basename);
+					$class = BSLoader::getInstance()->getClass($basename);
 					break;
 				}
 			}
@@ -505,7 +505,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSFilterSet フィルターセット
 	 */
 	public function createFilterSet () {
-		return BSClassLoader::getInstance()->createObject(BS_FILTERSET_CLASS, 'FilterSet');
+		return BSLoader::getInstance()->createObject(BS_FILTERSET_CLASS, 'FilterSet');
 	}
 
 	/**

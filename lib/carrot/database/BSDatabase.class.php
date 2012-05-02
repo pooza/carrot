@@ -36,7 +36,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			$constants = new BSConstantHandler('PDO');
 			$dsn = $constants[$name . '_DSN'];
 			if (mb_ereg('^([[:alnum:]]+):', $dsn, $matches)) {
-				$class = BSClassLoader::getInstance()->getClass($matches[1], 'DataSourceName');
+				$class = BSLoader::getInstance()->getClass($matches[1], 'DataSourceName');
 				if (($dsn = new $class($dsn, $name)) && ($db = $dsn->connect())) {
 					if ($db->isLegacy()) {
 						throw new BSDatabaseException($db . 'は旧式です。');
@@ -168,7 +168,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 			if (!mb_ereg('^(BS)?(.+)Database$', get_class($this), $matches)) {
 				throw new BSDatabaseException($this . 'のクラス名が正しくありません。');
 			}
-			$class = BSClassLoader::getInstance()->getClass($matches[2], 'TableProfile');
+			$class = BSLoader::getInstance()->getClass($matches[2], 'TableProfile');
 			$this->profiles[$name] = new $class($name, $this);
 		}
 		return $this->profiles[$name];

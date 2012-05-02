@@ -113,7 +113,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	protected function getConfigFiles () {
 		$files = new BSArray;
-		$prefix = mb_ereg_replace('^' . BSClassLoader::PREFIX, null, get_class($this));
+		$prefix = mb_ereg_replace('^' . BSLoader::PREFIX, null, get_class($this));
 		$prefix = BSString::underscorize($prefix);
 		$host = BSController::getInstance()->getHost();
 		foreach (array($host->getName(), 'application', 'carrot') as $name) {

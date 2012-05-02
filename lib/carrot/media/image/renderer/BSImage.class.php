@@ -402,7 +402,7 @@ class BSImage implements BSImageRenderer {
 	public function resize ($width, $height) {
 		foreach (array('imagick', 'gd') as $name) {
 			if (extension_loaded($name)) {
-				$class = BSClassLoader::getInstance()->getClass($name, 'ImageResizer');
+				$class = BSLoader::getInstance()->getClass($name, 'ImageResizer');
 				$resizer = new $class($this);
 				$resizer->setBackgroundColor($this->getBackgroundColor());
 				$this->setImage($resizer->execute($width, $height));

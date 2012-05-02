@@ -124,7 +124,7 @@ class BSFileFinder {
 	 * @param string $class 出力クラス
 	 */
 	public function setOutputClass ($class) {
-		$this->outputClass = BSClassLoader::getInstance()->getClass($class);
+		$this->outputClass = BSLoader::getInstance()->getClass($class);
 	}
 }
 

@@ -38,7 +38,7 @@ function smarty_function_image_cache ($params, &$smarty) {
 			case 'lightbox':
 			case 'lightpop':
 			case 'shadowbox':
-				$anchor = BSClassLoader::getInstance()->createObject($mode, 'AnchorElement');
+				$anchor = BSLoader::getInstance()->createObject($mode, 'AnchorElement');
 				$element = $element->wrap($anchor);
 				$element->setImageGroup($params['group']);
 				$element->setCaption($info['alt']);

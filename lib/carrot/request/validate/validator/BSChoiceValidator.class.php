@@ -53,7 +53,7 @@ class BSChoiceValidator extends BSValidator {
 				$choices = BSString::explode(',', $config);
 			}
 		} else if ($this['class']) {
-			$classes = BSClassLoader::getInstance();
+			$classes = BSLoader::getInstance();
 			try {
 				$class = $classes->getClass($this['class'], BSTableHandler::CLASS_SUFFIX);
 			} catch (Exception $e) {

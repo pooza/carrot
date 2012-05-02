@@ -93,7 +93,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 
 			if ($dir instanceof BSDirectory) {
 				if (!BSString::isBlank($info['class'])) {
-					$class = BSClassLoader::getInstance()->getClass($info['class']);
+					$class = BSLoader::getInstance()->getClass($info['class']);
 					$dir = new $class($dir->getPath());
 				}
 				if (!BSString::isBlank($info['suffix'])) {

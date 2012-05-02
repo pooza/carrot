@@ -177,7 +177,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function copyTo (BSDirectory $dir, $class = 'BSFile') {
 		$file = parent::copyTo($dir);
-		$class = BSClassLoader::getInstance()->getClass($class);
+		$class = BSLoader::getInstance()->getClass($class);
 		return new $class($file->getPath());
 	}
 

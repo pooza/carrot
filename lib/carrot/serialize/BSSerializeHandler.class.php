@@ -18,7 +18,7 @@ class BSSerializeHandler {
 	 * @access public
 	 */
 	public function __construct (BSSerializeStorage $storage = null, BSSerializer $serializer = null) {
-		$classes = BSClassLoader::getInstance();
+		$classes = BSLoader::getInstance();
 
 		if (!$serializer) {
 			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');

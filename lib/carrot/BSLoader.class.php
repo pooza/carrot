@@ -13,7 +13,7 @@ require_once BS_LIB_DIR . '/carrot/BSUtility.class.php';
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSClassLoader {
+class BSLoader {
 	private $classes = array();
 	static private $instance;
 	const PREFIX = 'BS';
@@ -28,7 +28,7 @@ class BSClassLoader {
 	 * シングルトンインスタンスを返す
 	 *
 	 * @access public
-	 * @return BSClassLoader インスタンス
+	 * @return BSLoader インスタンス
 	 * @static
 	 */
 	static public function getInstance () {

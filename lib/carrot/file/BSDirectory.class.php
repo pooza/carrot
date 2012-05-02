@@ -127,7 +127,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		if (BSString::isBlank($class)) {
 			$class = $this->getDefaultEntryClass();
 		}
-		$class = BSClassLoader::getInstance()->getClass($class);
+		$class = BSLoader::getInstance()->getClass($class);
 
 		$path = $this->getPath() . '/' . BSString::stripControlCharacters($name);
 		if ($this->hasSubDirectory() && is_dir($path)) {
@@ -155,7 +155,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 		$name = basename($name, $this->getDefaultSuffix());
 		$path = $this->getPath() . '/' . $name . $this->getDefaultSuffix();
 
-		$class = BSClassLoader::getInstance()->getClass($class);
+		$class = BSLoader::getInstance()->getClass($class);
 		$file = new $class($path);
 		$file->setContents(null);
 		$this->entries = null;

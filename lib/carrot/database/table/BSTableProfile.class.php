@@ -96,11 +96,11 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	protected function getTableClasses () {
 		try {
-			$name = BSClassLoader::getInstance()->getClass(
+			$name = BSLoader::getInstance()->getClass(
 				$this->getName(),
 				BSTableHandler::CLASS_SUFFIX
 			);
-			return new BSArray(BSClassLoader::getParentClasses($name));
+			return new BSArray(BSLoader::getParentClasses($name));
 		} catch (Exception $e) {
 			return new BSArray;
 		}
@@ -114,8 +114,8 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	protected function getRecordClasses () {
 		try {
-			$name = BSClassLoader::getInstance()->getClass($this->getName());
-			return new BSArray(BSClassLoader::getParentClasses($name));
+			$name = BSLoader::getInstance()->getClass($this->getName());
+			return new BSArray(BSLoader::getParentClasses($name));
 		} catch (Exception $e) {
 			return new BSArray;
 		}

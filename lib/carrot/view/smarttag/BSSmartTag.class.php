@@ -136,7 +136,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 		$text = self::escape($text);
 		foreach (BSString::eregMatchAll('\\[\\[[^\\]]+\\]\\]\\n?', $text) as $matches) {
 			foreach ($tags as $tag) {
-				$class = BSClassLoader::getInstance()->getClass($tag, 'Tag');
+				$class = BSLoader::getInstance()->getClass($tag, 'Tag');
 				$tag = new $class($matches[0]);
 				if ($tag->isMatched()) {
 					$tag->setParameters($params);
