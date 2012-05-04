@@ -47,7 +47,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @return BSDivisionElement
 	 */
 	public function createElement ($address, BSParameterHolder $params = null) {
-		$params = new BSArray($params);
+		$params = BSArray::encode($params);
 		$params['address'] = $address;
 		if (!$params['zoom']) {
 			$params['zoom'] = BS_SERVICE_GOOGLE_MAPS_ZOOM;

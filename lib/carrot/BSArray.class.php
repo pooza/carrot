@@ -279,6 +279,29 @@ class BSArray extends BSParameterHolder {
 		}
 		return $values;
 	}
+
+	/**
+	 * 再帰的にBSArrayに変換する
+	 *
+	 * @access public
+	 * @param mixed $src 対象配列
+	 * @return BSArray
+	 * @static
+	 */
+	static public function encode ($src) {
+		if (is_array($src) || ($src instanceof BSParameterHolder)) {
+			$dest = new BSArray;
+			foreach ($src as $key => $value) {
+				if (is_array($value)) {
+					$value = self::encode($value);
+				}
+				$dest[$key] = $value;
+			}
+		} else {
+			$dest = $src;
+		}
+		return $dest;
+	}
 }
 
 /* vim:set tabstop=4: */

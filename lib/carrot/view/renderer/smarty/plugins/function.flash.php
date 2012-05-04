@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_flash ($params, &$smarty) {
-	$params = new BSArray($params);
+	$params = BSArray::encode($params);
 	if (!$file = BSFlashFile::search($params)) {
 		return null;
 	}

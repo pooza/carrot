@@ -27,7 +27,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private function __construct ($id) {
 		$this->id = $id;
 		$config = BSConfigManager::getInstance()->compile('pictogram');
-		$this->codes = new BSArray($config['codes'][$this->getName()]);
+		$this->codes = BSArray::encode($config['codes'][$this->getName()]);
 	}
 
 	/**
@@ -248,11 +248,11 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictogramCode ($name) {
-		$config = BSConfigManager::getInstance()->compile('pictogram');
-		if (is_numeric($name) && isset($config['names'][$name])) {
+		$config = BSArray::encode(BSConfigManager::getInstance()->compile('pictogram'));
+		if (is_numeric($name) && !BSString::isBlank($config['names'][$name])) {
 			return $name;
-		} else if (isset($config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
-			return $config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER];
+		} else if ($code = $config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER]) {
+			return $code;
 		}
 	}
 

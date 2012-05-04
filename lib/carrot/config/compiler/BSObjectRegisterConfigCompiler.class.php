@@ -14,7 +14,7 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 		$this->clearBody();
 		$this->putLine('return array(');
 		foreach ($file->getResult() as $values) {
-			$values = new BSArray($values);
+			$values = BSArray::encode($values);
 			if (BSString::isBlank($values['class'])) {
 				throw new BSConfigException($file . 'で、クラス名が指定されていません。');
 			}

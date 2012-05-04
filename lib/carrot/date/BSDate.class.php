@@ -268,8 +268,8 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 * @return string 休日の名前
 	 */
 	public function getHolidayName ($country = 'ja') {
-		$config = BSConfigManager::getInstance()->compile('date');
-		if (!isset($config['holiday'][$country])) {
+		$config = BSArray::encode(BSConfigManager::getInstance()->compile('date'));
+		if (BSString::isBlank($config['holiday'][$country])) {
 			$message = new BSStringFormat('国名 "%s"の休日が未定義です。');
 			$message[] = $country;
 			throw new BSConfigException($message);
@@ -427,8 +427,8 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	static public function getGengos () {
 		if (!self::$gengos) {
 			self::$gengos = new BSArray;
-			$config = BSConfigManager::getInstance()->compile('date');
-			if (!isset($config['gengo'])) {
+			$config = BSArray::encode(BSConfigManager::getInstance()->compile('date'));
+			if (BSString::isBlank($config['gengo'])) {
 				throw new BSConfigException('元号が設定されていません。');
 			}
 			foreach ($config['gengo'] as $gengo) {

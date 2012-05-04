@@ -24,9 +24,9 @@ class BSDirectoryLayout extends BSParameterHolder {
 		$entries[] = BSController::getInstance()->getHost()->getName();
 		foreach ($entries as $entry) {
 			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
-				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
-					$this->config[$key] = new BSArray($values);
-				}
+				$this->config->setParameters(
+					BSArray::encode(BSConfigManager::getInstance()->compile($file))
+				);
 			}
 		}
 	}

@@ -38,7 +38,7 @@ class BSMenuFilter extends BSFilter {
 	}
 
 	private function getMenuItem ($values) {
-		$values = new BSArray($values);
+		$values = BSArray::encode($values);
 		if (!BSString::isBlank($values['module'])) {
 			if (!$module = $this->controller->getModule($values['module'])) {
 				$message = new BSStringFormat('モジュール "%s" がありません。');

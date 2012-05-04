@@ -61,7 +61,7 @@ class BSSQL {
 			$table = $table->getName();
 		}
 		if (is_array($values)) {
-			$values = new BSArray($values);
+			$values = BSArray::encode($values);
 		} else if ($values instanceof BSParameterHolder) {
 			$values = new BSArray($values->getParameters());
 		}
@@ -97,12 +97,7 @@ class BSSQL {
 			$table = $table->getName();
 		}
 
-		if (is_array($values)) {
-			$values = new BSArray($values);
-		} else if ($values instanceof BSParameterHolder) {
-			$values = new BSArray($values->getParameters());
-		}
-
+		$values = BSArray::encode($values);
 		$fields = new BSArray;
 		foreach ($values as $key => $value) {
 			$fields[] = sprintf('%s=%s', $key, $db->quote($value));

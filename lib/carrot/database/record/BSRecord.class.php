@@ -117,7 +117,7 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
 
-		$values = new BSArray($values);
+		$values = BSArray::encode($values);
 		$db = $this->getDatabase();
 		$table = $this->getTable();
 		$fields = $table->getProfile()->getFields();

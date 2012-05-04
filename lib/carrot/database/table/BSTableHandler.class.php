@@ -402,7 +402,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return BSArray 適用後の値
 	 */
 	protected function applySmartFields ($values) {
-		$values = new BSArray($values);
+		$values = BSArray::encode($values);
 		$fields = $this->getProfile()->getFields();
 		$request = BSRequest::getInstance();
 		$smartFields = new BSArray(array(

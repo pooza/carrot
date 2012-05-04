@@ -78,7 +78,7 @@ class BSMusicFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$params = new BSArray($params);
+		$params = BSArray::encode($params);
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}
