@@ -104,7 +104,7 @@ namespace :var do
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do
-      system 'sudo rm var/serialized/BSClassLoader.*'
+      system 'sudo rm var/serialized/BSLoader.*'
     end
   end
 
