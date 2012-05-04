@@ -71,7 +71,7 @@ class BSImagickImage extends BSImage {
 		$converted->setImageFormat($header['sub_type']);
 		$image = new BSImage;
 		$image->setType($header->getContents());
-		$image->setImage($converted->__toString());
+		$image->setImage((string)$converted);
 		return $image->getGDHandle();
 	}
 
@@ -123,7 +123,7 @@ class BSImagickImage extends BSImage {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return $this->imagick->__toString();
+		return (string)$this->imagick;
 	}
 
 	/**
