@@ -89,7 +89,7 @@ class BSBackupManager {
 			}
 		}
 		$dir = BSFileUtility::getDirectory('serialized');
-		foreach (new BSArray($this->config['serializes']) as $name) {
+		foreach (BSArray::encode($this->config['serializes']) as $name) {
 			foreach (array('.json', '.serialized') as $suffix) {
 				if ($entry = $dir->getEntry($name . $suffix)) {
 					$zip->register($entry);
@@ -146,7 +146,7 @@ class BSBackupManager {
 
 	private function restoreSerializes (BSDirectory $dir) {
 		BSConfigManager::getInstance()->clearCache();
-		foreach (new BSArray($this->config['serializes']) as $name) {
+		foreach (BSArray::encode($this->config['serializes']) as $name) {
 			foreach (array('.json', '.serialized') as $suffix) {
 				if ($file = $dir->getEntry($name . $suffix)) {
 					$file->moveTo(BSFileUtility::getDirectory('serialized'));
