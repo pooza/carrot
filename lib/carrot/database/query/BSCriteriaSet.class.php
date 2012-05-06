@@ -114,8 +114,8 @@ class BSCriteriaSet extends BSArray {
 	public function quote ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			$ids = new BSArray;
-			foreach (new BSArray($value) as $item) {
-				$ids[] = $this->quote($item);
+			foreach (BSArray::encode($value) as $item) {
+				$ids[] = $this->getDatabase()->quote($item);
 			}
 			return $ids;
 		} else {

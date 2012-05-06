@@ -148,7 +148,7 @@ class BSArray extends BSParameterHolder {
 	 * @return boolean 値が含まれていればTrue
 	 */
 	public function isContain ($values) {
-		foreach (new BSArray($values) as $value) {
+		foreach (BSArray::encode($values) as $value) {
 			if (in_array($value, $this->getParameters())) {
 				return true;
 			}
