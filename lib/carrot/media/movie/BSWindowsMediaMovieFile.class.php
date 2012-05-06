@@ -27,7 +27,7 @@ class BSWindowsMediaMovieFile extends BSMovieFile {
 				return $this->createLightpopElement($params);
 		}
 
-		$params = new BSArray($params);
+		$params = BSArray::encode($params);
 		$this->resizeByWidth($params, $useragent);
 		$container = new BSDivisionElement;
 		$container->registerStyleClass($params['style_class']);

@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_carrot_url ($params, &$smarty) {
-	$params = new BSArray($params);
+	$params = BSArray::encode($params);
 
 	if (BSString::isBlank($params['contents'])) {
 		$url = BSURL::create($params, 'carrot');

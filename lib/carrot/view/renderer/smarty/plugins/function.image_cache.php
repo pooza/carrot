@@ -12,7 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_image_cache ($params, &$smarty) {
-	$params = new BSArray($params);
+	$params = BSArray::encode($params);
 	if (BSString::isBlank($params['size'])) {
 		$params['size'] = 'thumbnail';
 	}

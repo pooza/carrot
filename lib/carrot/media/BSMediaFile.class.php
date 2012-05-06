@@ -103,7 +103,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @return BSDivisionElement 要素
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$params = new BSArray($params);
+		$params = BSArray::encode($params);
 		$this->resizeByWidth($params, $useragent);
 
 		$container = new BSDivisionElement;

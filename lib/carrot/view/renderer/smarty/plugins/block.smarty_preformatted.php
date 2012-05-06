@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_block_smarty_preformatted ($params, $contents, &$smarty) {
-	$params = new BSArray($params);
+	$params = BSArray::encode($params);
 	if (BSString::isBlank($params['style_class'])) {
 		$params['style_class'] = 'smarty_preformatted';
 	}
