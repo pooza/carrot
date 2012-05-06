@@ -17,11 +17,7 @@ class BSDefaultFilterSet extends BSArray {
 	 */
 	public function __construct () {
 		foreach ($this->getConfigFiles() as $file) {
-			if ($filters = BSConfigManager::getInstance()->compile($file)) {
-				foreach ($filters as $filter) {
-					$this[] = $filter;
-				}
-			}
+			$this->merge(BSConfigManager::getInstance()->compile($file));
 		}
 		$this[] = new BSExecutionFilter;
 	}

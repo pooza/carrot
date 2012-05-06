@@ -21,7 +21,6 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	protected $documents;
 	protected $contents;
 	protected $url;
-	protected $optimized = true;
 	static protected $entries;
 
 	/**
@@ -188,26 +187,6 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	}
 
 	/**
-	 * 最適化するか
-	 *
-	 * @access public
-	 * @return boolean 最適化するならTrue
-	 */
-	public function isOptimized () {
-		return $this->optimized;
-	}
-
-	/**
-	 * 最適化するかを設定
-	 *
-	 * @access public
-	 * @param boolean $flag 最適化するならTrue
-	 */
-	public function setOptimized ($flag) {
-		$this->optimized = $flag;
-	}
-
-	/**
 	 * 送信内容を返す
 	 *
 	 * @access public
@@ -227,14 +206,10 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		if (BSString::isBlank($cache->getContents()) && !!$this->documents->count()) {
 			$contents = new BSArray;
 			foreach ($this as $file) {
-				if ($this->isOptimized()) {
-					if ($file->getSerialized() === null) {
-						$file->serialize();
-					}
-					$contents[] = $file->getSerialized();
-				} else {
-					$contents[] = $file->getContents();
+				if ($file->getSerialized() === null) {
+					$file->serialize();
 				}
+				$contents[] = $file->getSerialized();
 			}
 			$cache->setContents($contents->join("\n"));
 			BSLogManager::getInstance()->put($this . 'を更新しました。', $this);

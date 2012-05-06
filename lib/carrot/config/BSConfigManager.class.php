@@ -9,17 +9,17 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSConfigManager {
-	private $compilers;
+class BSConfigManager extends BSParameterHolder {
 	static private $instance;
 
 	/**
 	 * @access private
 	 */
 	private function __construct () {
-		$file = self::getConfigFile('config_compilers', 'BSRootConfigFile');
-		$this->compilers = new BSArray($this->compile($file));
-		$this->compilers[] = new BSDefaultConfigCompiler(array('pattern' => '.'));
+		$this[] = $this->compile(
+			self::getConfigFile('config_compilers', 'BSRootConfigFile')
+		);
+		$this[] = new BSDefaultConfigCompiler(array('pattern' => '.'));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class BSConfigManager {
 	 * @return BSConfigCompiler 設定コンパイラ
 	 */
 	public function getCompiler (BSConfigFile $file) {
-		foreach ($this->compilers as $compiler) {
+		foreach ($this as $compiler) {
 			if (mb_ereg($compiler['pattern'], $file->getPath())) {
 				return $compiler;
 			}
