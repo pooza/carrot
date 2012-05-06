@@ -83,20 +83,8 @@ class BSConfigManager {
 	 *
 	 * @access public
 	 */
-	public function clearCache () {
-		foreach (array('serialized', 'config_cache', 'image_cache') as $name) {
-			if ($dir = BSFileUtility::getDirectory($name)) {
-				$command = new BSCommandLine('rm'); //強制的に削除
-				$command->setStderrRedirectable();
-				$command->push('-R');
-				$command->push($dir->getPath() . '/*', null);
-				$command->execute();
-			}
-		}
-		if ($server = BSMemcacheManager::getInstance()->getServer()) {
-			$server->flush();
-		}
-		BSRenderManager::getInstance()->clear();
+	public function clear () {
+		BSFileUtility::getDirectory('config_cache')->clear();
 	}
 
 	/**

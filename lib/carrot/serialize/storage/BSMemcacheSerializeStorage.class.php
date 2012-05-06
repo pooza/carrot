@@ -86,8 +86,18 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * 属性を全て削除
 	 *
 	 * @access public
+	 * @final
 	 */
-	public function clearAttributes () {
+	final public function clearAttributes () {
+		return $this->clear();
+	}
+
+	/**
+	 * クリア
+	 *
+	 * @access public
+	 */
+	public function clear () {
 		return $this->server->flush();
 	}
 

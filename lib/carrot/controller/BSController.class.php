@@ -124,10 +124,10 @@ abstract class BSController {
 	/**
 	 * BSSerializeHandlerを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return BSSerializeHandler
 	 */
-	protected function getSerializeHandler () {
+	public function getSerializeHandler () {
 		if (!$this->serializeHandler) {
 			$this->serializeHandler = new BSSerializeHandler;
 		}

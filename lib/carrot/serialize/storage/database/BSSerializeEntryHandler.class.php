@@ -38,6 +38,16 @@ class BSSerializeEntryHandler extends BSTableHandler {
 	}
 
 	/**
+	 * レコードの全消去が可能か？
+	 *
+	 * @access protected
+	 * @return boolean レコード追加可能ならTrue
+	 */
+	protected function isClearable () {
+		return true;
+	}
+
+	/**
 	 * テーブル名を返す
 	 *
 	 * @access public

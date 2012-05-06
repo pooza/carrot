@@ -61,6 +61,13 @@ interface BSSerializeStorage {
 	 * @return BSDate 更新日
 	 */
 	public function getUpdateDate ($name);
+
+	/**
+	 * クリア
+	 *
+	 * @access public
+	 */
+	public function clear ();
 }
 
 /* vim:set tabstop=4: */
