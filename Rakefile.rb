@@ -111,7 +111,7 @@ namespace :var do
   namespace :config do
     desc '設定キャッシュをクリア'
     task :clean do
-      system 'sudo rm var/config_cache/*'
+      system 'sudo rm -R var/config_cache/*'
       system 'sudo rm var/serialized/*'
     end
   end
