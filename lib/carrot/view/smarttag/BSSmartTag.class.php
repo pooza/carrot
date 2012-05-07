@@ -93,7 +93,10 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 */
 	protected function getQueryParameters () {
 		$params = new BSWWWFormRenderer;
-		$params->setContents(str_replace(';', '&', $this->tag[2]));
+		foreach (BSString::explode(';', $this->tag[2]) as $arg) {
+			$arg = BSString::explode('=', $arg);
+			$params[$arg->shift()] = $arg->join('=');
+		}
 		return $params;
 	}
 
