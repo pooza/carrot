@@ -456,15 +456,12 @@ class BSImageManager {
 	 */
 	public function getContainer (BSParameterHolder $params) {
 		$params = BSArray::encode($params);
-
 		if (!BSString::isBlank($path = $params['src'])) {
 			$finder = new BSFileFinder('BSImageFile');
 			if ($dir = $params['dir']) {
 				$finder->registerDirectory($dir);
 			}
-			if ($file = $finder->execute($path)) {
-				return $file;
-			}
+			return $finder->execute($path);
 		}
 
 		$finder = new BSRecordFinder($params);
@@ -474,15 +471,6 @@ class BSImageManager {
 		if ($container && ($container instanceof BSImageContainer)) {
 			return $container;
 		}
-	}
-
-	/**
-	 * キャッシュをクリア
-	 *
-	 * @access public
-	 */
-	public function clear () {
-		$this->directory->clear();
 	}
 }
 
