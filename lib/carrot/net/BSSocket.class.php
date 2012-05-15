@@ -106,7 +106,7 @@ class BSSocket {
 		if (!$this->isOpened()) {
 			$this->open();
 		}
-		fwrite($this->client, $str . self::LINE_SEPARATOR);
+		fputs($this->client, $str . self::LINE_SEPARATOR);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class BSSocket {
 		} else if ($this->isEof()) {
 			return '';
 		}
-		return $this->line = stream_get_line($this->client, $length);
+		return $this->line = rtrim(fgets($this->client, $length));
 	}
 
 	/**

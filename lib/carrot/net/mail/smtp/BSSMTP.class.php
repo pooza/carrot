@@ -67,26 +67,6 @@ class BSSMTP extends BSSocket {
 	}
 
 	/**
-	 * ストリームから1行読み込む
-	 *
-	 * @access public
-	 * @param integer $length 一度に読み込む最大のサイズ
-	 * @return string 読み込んだ内容
-	 */
-	public function getLine ($length = self::LINE_BUFFER) {
-		if (BSString::isBlank($func = BS_SMTP_READ_FUNCTION)) {
-			return parent::getLine($length);
-		}
-
-		if (!$this->isOpened()) {
-			$this->open();
-		} else if ($this->isEof()) {
-			return '';
-		}
-		return $this->line = $func($this->client, $length);
-	}
-
-	/**
 	 * メールを返す
 	 *
 	 * @access public
@@ -123,7 +103,9 @@ class BSSMTP extends BSSocket {
 			}
 			$this->execute('DATA');
 			$this->putLine($this->getMail()->getContents());
-			$this->execute('.');
+			if ($this->execute('.') != 250) {
+				throw new BSMailException($this->getPrevLine());
+			}
 		} catch (BSMailException $e) {
 			throw new BSMailException($this->getMail() . 'を送信できません。');
 		}
@@ -250,10 +232,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function execute ($command) {
 		$this->putLine($command);
-		if (BSString::isBlank($line = $this->getLine())) {
-			return null;
-		}
-		if (!mb_ereg('^([[:digit:]]+)', $line, $matches)) {
+		if (!mb_ereg('^([[:digit:]]+)', $this->getLine(), $matches)) {
 			$message = new BSStringFormat('不正なレスポンスです。 (%s)');
 			$message[] = $this->getPrevLine();
 			throw new BSMailException($message);
