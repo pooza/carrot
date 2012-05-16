@@ -472,6 +472,15 @@ class BSImageManager {
 			return $container;
 		}
 	}
+
+	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 */
+	public function clear () {
+		$this->directory->clear();
+	}
 }
 
 /* vim:set tabstop=4: */
