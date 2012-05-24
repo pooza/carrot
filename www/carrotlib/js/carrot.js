@@ -33,7 +33,6 @@ var CarrotLib = {
     if (name) {
       name = name.gsub('<', '\\lt').gsub('>', '\\gt');
       name = name.gsub(':', '\\:').gsub('[', '\\[').gsub(']', '\\]');
-      name = name.gsub('：', '\\:').gsub('［', '\\[').gsub('］', '\\]'); //全角
       tag += ':' + name;
       if (params) {
         var encoded = [];
