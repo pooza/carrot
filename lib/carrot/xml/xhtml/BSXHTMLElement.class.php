@@ -240,7 +240,7 @@ class BSXHTMLElement extends BSXMLElement {
 		} else {
 			$element->registerStyleClass('description');
 			$element->registerStyleClass('clearfix');
-			if ($wrapper->getStyle('height')) {
+			if (($style = $wrapper->getStyle('height')) && ($style != 'auto')) {
 				$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
 			}
 		}
