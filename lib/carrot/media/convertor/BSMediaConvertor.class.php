@@ -169,6 +169,7 @@ abstract class BSMediaConvertor {
 			'max_file_size' => 'fs',
 			'padding_top' => 'paddtop',
 			'padding_bottom' => 'padbottom',
+			'audio_sampling_frequency' => 'ar',
 			'strict' => 'strict',
 			'vpre' => 'vpre',
 			'ss' => 'ss',
