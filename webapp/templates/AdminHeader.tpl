@@ -21,21 +21,25 @@
 {if $menu}
 <div id="Menu">
 	<ul>
-{foreach from=$menu item=item}
-	{if $item.separator}
-		<li class="separator">&nbsp;</li>
-	{elseif $item.href}
-		<li><a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a></li>
-	{else}
-		<li><a href="/{$item.module}/{$item.action}">{$item.title}</a></li>
-	{/if}
-{/foreach}
+		{foreach from=$menu item=item}
+			{if $item.separator}
+				<li class="separator">&nbsp;</li>
+			{elseif $item.href}
+				<li><a href="{$item.href}" target="{$item.target|default:'_blank'}">{$item.title}</a></li>
+			{else}
+				<li><a href="/{$item.module}/{$item.action}">{$item.title}</a></li>
+			{/if}
+		{/foreach}
 	</ul>
 </div>
 <script type="text/javascript">
 {literal}
 document.observe('dom:loaded', function () {
-  new Elevator($('Menu'), 10, 30, 10);
+  new Elevator('Menu', {
+    x: 10,
+    yMin: 30,
+    yMargin: 10
+  });
   new PeriodicalExecuter(function () {
     new Ajax.Request('/Ping', {
       method: 'get'

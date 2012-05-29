@@ -60,37 +60,6 @@ var CarrotLib = {
     }
   },
 
-  handleGPS: function (href) {
-    navigator.geolocation.getCurrentPosition(
-      function (result) {
-        var params = {};
-        params.lat = result.coords.latitude;
-        params.lng = result.coords.longitude;
-        document.location.href = href + '?' + $H(params).toQueryString();
-      },
-      function () {
-        alert('Attempt to get location failed.');
-      }
-    );
-  },
-
-  handleUploadProgress: function (element) {
-    var progress = new JS_BRAMUS.jsProgressBar(element, 0);
-    function updateProgress (request) {
-      if (request.responseText) {
-        var json = request.responseText.evalJSON();
-        progress.setPercentage(json.current / json.total * 100);
-      }
-    }
-    new PeriodicalExecuter(function () {
-      new Ajax.Request('/UploadProgress', {
-        method: 'get',
-        parameters: 'd=' + new Date().getTime(),
-        onComplete: updateProgress
-      });
-    }, 1);
-  },
-
   denyTakeOut: function () {
     function disableEvent (element, eventName) {
       element.observe(eventName, function (event) {

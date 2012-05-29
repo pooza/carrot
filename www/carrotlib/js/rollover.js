@@ -1,14 +1,11 @@
 /**
- * ロールオーバーJavaScript
- *
- * prototype.jsを使った実装。
+ * ロールオーバー
  *
  * @package org.carrot-framework
  * @link http://d.hatena.ne.jp/kazeburo/20051227/p1
  */
 
-var RollOverImage = Class.create();
-RollOverImage.prototype = {
+RollOverImage = Class.create({
   initialize: function (img) {
     this.image = $(img);
     this.originalPath = this.image.src;
@@ -39,5 +36,7 @@ RollOverImage.prototype = {
   },
   reversion: function () {
     this.image.src = this.originalPath;
-  }
-};
+  },
+
+  initialized: true
+});
