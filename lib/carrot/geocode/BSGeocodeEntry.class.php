@@ -23,6 +23,43 @@ class BSGeocodeEntry extends BSRecord {
 		return $this['lat'] . $separator . $this['lng'];
 	}
 
+
+	/**
+	 * script要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @return BSDivisionElement
+	 */
+	public function createElement (BSParameterHolder $params) {
+		$params = BSArray::encode(new BSArray($params));
+		$container = new BSDivisionElement;
+		$inner = $container->addElement(new BSDivisionElement);
+		$script = $container->addElement(new BSScriptElement);
+
+		if (BSString::isBlank($id = $params['container_id'])) {
+			$id = 'map_' . BSCrypt::digest($params['address']);
+		}
+		$inner->setID($id);
+		$inner->setStyle('width', $params['width']);
+		$inner->setStyle('height', $params['height']);
+		$inner->setBody('Loading...');
+
+		$serializer = new BSJSONSerializer;
+		$statement = new BSStringFormat('CarrotMapsLib.handleMap($(%s), %f, %f, %d);');
+		$statement[] = $serializer->encode($inner->getID());
+		$statement[] = $this['lat'];
+		$statement[] = $this['lng'];
+		$statement[] = $params['zoom'];
+		$script->setBody($statement);
+
+		if ($params['align']) {
+			$container->setStyle('width', $params['width']);
+			$container = $container->setAlignment($params['align']);
+		}
+		return $container;
+	}
+
 	/**
 	 * 最寄り駅を返す
 	 *
