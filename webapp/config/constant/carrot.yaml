@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.173
+  ver: 2.4.174
 
 admin:
   email:
@@ -201,7 +201,7 @@ music:
 mysql:
   dir:
     default: /usr/local
-    darwin: /opt/local/lib/mysql5
+    darwin: /opt/local/lib/mysql55
 net:
   url:
     shorter: google_url_shortner
@@ -296,9 +296,6 @@ unzip:
   dir:
     default: /usr
     freebsd: /usr/local
-upload:
-  progress:
-    key: progress_key
 user:
   class:
 xmpp:
