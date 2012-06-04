@@ -1319,7 +1319,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
         $row     = $match[2];
 
         // Convert base26 column string to number
-        $chars = split('', $col);
+        $chars = mb_split('', $col);
         $expn  = 0;
         $col   = 0;
 
@@ -2072,7 +2072,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
         // parameters accordingly.
         // Split the dir name and sheet name (if it exists)
         /*if (preg_match("/\#/", $url)) {
-            list($dir_long, $sheet) = split("\#", $url);
+            list($dir_long, $sheet) = mb_split("\#", $url);
         } else {
             $dir_long = $url;
         }
@@ -2080,7 +2080,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
         if (isset($sheet)) {
             $link_type |= 0x08;
             $sheet_len  = pack("V", strlen($sheet) + 0x01);
-            $sheet      = join("\0", split('', $sheet));
+            $sheet      = join("\0", mb_split('', $sheet));
             $sheet     .= "\0\0\0";
         } else {
             $sheet_len   = '';
@@ -2104,7 +2104,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
         $dir_short   = preg_replace("/\.\.\\\/", '', $dir_long) . "\0";
     
         // Store the long dir name as a wchar string (non-null terminated)
-        //$dir_long       = join("\0", split('', $dir_long));
+        //$dir_long       = join("\0", mb_split('', $dir_long));
         $dir_long       = $dir_long . "\0";
     
         // Pack the lengths of the dir strings

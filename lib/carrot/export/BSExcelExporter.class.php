@@ -82,6 +82,16 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	}
 
 	/**
+	 * 現在の行番号を返す
+	 *
+	 * @access public
+	 * @return integer Excelでの行番号（内部表現+1）
+	 */
+	public function getRowNumber () {
+		return $this->row + 1;
+	}
+
+	/**
 	 * メディアタイプを返す
 	 *
 	 * @access public
@@ -132,7 +142,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 */
 	public function createFormula ($source) {
 		$formula = $source;
-		$formula = mb_ereg_replace('@', ($this->row + 1), $formula);
+		$formula = mb_ereg_replace('@', $this->getRowNumber(), $formula);
 		return $formula;
 	}
 }
