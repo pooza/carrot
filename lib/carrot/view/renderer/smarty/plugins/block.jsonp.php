@@ -27,7 +27,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_block_jsonp ($params, $contents, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	$serializer = new BSJSONSerializer;
 	$body = new BSStringFormat('%s(%s);');
 	$body[] = $params['method'];

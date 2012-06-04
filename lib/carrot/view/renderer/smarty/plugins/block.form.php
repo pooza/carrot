@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_block_form ($params, $contents, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	$useragent = $smarty->getUserAgent();
 	$form = new BSFormElement(null, $useragent);
 	$form->setBody($contents);

@@ -39,7 +39,7 @@ class BSFlashFile extends BSMediaFile {
 	 * @return BSDivisionElement 要素
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		if (!$useragent) {
 			$useragent = BSRequest::getInstance()->getUserAgent();
 		}

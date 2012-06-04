@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_gps_link ($params, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	if ($useragent = $smarty->getUserAgent()) {
 		if (BSString::isBlank($params['contents'])) {
 			$url = BSURL::create($params, 'carrot');

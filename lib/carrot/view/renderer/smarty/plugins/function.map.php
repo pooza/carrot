@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_map ($params, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	try {
 		$service = new BSGoogleMapsService;
 		$service->setUserAgent($smarty->getUserAgent());

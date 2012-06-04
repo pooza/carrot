@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_css_cache ($params, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	if (BSString::isBlank($params['name'])) {
 		$params['name'] = 'carrot';
 	}

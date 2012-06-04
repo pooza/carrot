@@ -46,7 +46,7 @@ class BSYouTubeService extends BSCurlHTTP {
 	 * @return BSDivisionElement
 	 */
 	public function createElement ($id, BSParameterHolder $params = null) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		if ($this->useragent->isMobile()) {
 			if (BSString::isBlank($params['label'])) {
 				$params['label'] = '動画再生';

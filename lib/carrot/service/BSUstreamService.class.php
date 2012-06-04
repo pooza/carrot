@@ -58,7 +58,7 @@ class BSUstreamService extends BSCurlHTTP {
 	 * @return BSDivisionElement
 	 */
 	public function createElement ($href, BSParameterHolder $params = null) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		$element = new BSDivisionElement;
 		if ($this->useragent->isMobile()) {
 			$element->setBody('ケータイには非対応です。');

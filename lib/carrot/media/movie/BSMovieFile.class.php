@@ -110,7 +110,7 @@ class BSMovieFile extends BSMediaFile {
 				return $this->createLightpopElement($params);
 		}
 
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		$this->resizeByWidth($params, $useragent);
 		$container = new BSDivisionElement;
 		$container->registerStyleClass($params['style_class']);
@@ -153,7 +153,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSShadowboxAnchorElement 要素
 	 */
 	public function createShadowboxElement (BSParameterHolder $params) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		if (!$params['width_movie']) {
 			$params['width_movie'] = $params['width'];
 		}
@@ -184,7 +184,7 @@ class BSMovieFile extends BSMediaFile {
 	 * @return BSLightpopAnchorElement 要素
 	 */
 	public function createLightpopElement (BSParameterHolder $params) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		if (!$params['width_movie']) {
 			$params['width_movie'] = $params['width'];
 		}

@@ -455,7 +455,7 @@ class BSImageManager {
 	 * @return BSImageContainer 画像コンテナ
 	 */
 	public function getContainer (BSParameterHolder $params) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		if (!BSString::isBlank($path = $params['src'])) {
 			$finder = new BSFileFinder('BSImageFile');
 			if ($dir = $params['dir']) {

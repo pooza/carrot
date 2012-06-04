@@ -32,7 +32,7 @@ class BSGeocodeEntry extends BSRecord {
 	 * @return BSDivisionElement
 	 */
 	public function createElement (BSParameterHolder $params) {
-		$params = BSArray::encode(new BSArray($params));
+		$params = BSArray::create($params);
 		$container = new BSDivisionElement;
 		$inner = $container->addElement(new BSDivisionElement);
 		$script = $container->addElement(new BSScriptElement);

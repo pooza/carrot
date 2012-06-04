@@ -281,14 +281,26 @@ class BSArray extends BSParameterHolder {
 	}
 
 	/**
-	 * 再帰的にBSArrayに変換する
+	 * BSArrayに変換する
 	 *
 	 * @access public
 	 * @param mixed $src 対象配列
 	 * @return BSArray
 	 * @static
 	 */
-	static public function encode ($src) {
+	static public function create ($src) {
+		return self::encode(new BSArray($src));
+	}
+
+	/**
+	 * 再帰的にBSArrayに変換する
+	 *
+	 * @access protected
+	 * @param mixed $src 対象配列
+	 * @return BSArray
+	 * @static
+	 */
+	static protected function encode ($src) {
 		if (is_array($src) || ($src instanceof BSParameterHolder)) {
 			$dest = new BSArray;
 			foreach ($src as $key => $value) {

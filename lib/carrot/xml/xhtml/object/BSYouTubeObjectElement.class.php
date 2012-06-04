@@ -30,7 +30,7 @@ class BSYouTubeObjectElement extends BSObjectElement {
 	 * @param BSParameterHolder $params パラメータ配列
 	 */
 	public function setMovie ($id, BSParameterHolder $params = null) {
-		$params = BSArray::encode($params);
+		$params = BSArray::create($params);
 		$params->removeParameter('width');
 		$params->removeParameter('height');
 

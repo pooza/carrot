@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_function_music ($params, &$smarty) {
-	$params = BSArray::encode($params);
+	$params = BSArray::create($params);
 	if (!$file = BSMusicFile::search($params)) {
 		return null;
 	}
