@@ -22,16 +22,6 @@ abstract class BSImageAnchorElement extends BSAnchorElement {
 	abstract public function setImageGroup ($group);
 
 	/**
-	 * キャプションを設定
-	 *
-	 * @access public
-	 * @param string $caption キャプション
-	 */
-	public function setCaption ($caption) {
-		$this->setAttribute('title', $caption);
-	}
-
-	/**
 	 * リンク対象画像を設定
 	 *
 	 * @access public

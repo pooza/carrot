@@ -204,7 +204,7 @@ class BSXHTMLElement extends BSXMLElement {
 				$value .= '<br/><br/>';
 			} else {
 				$element->registerStyleClass('caption');
-				if ($wrapper->getStyle('height')) {
+				if (($style = $wrapper->getStyle('height')) && ($style != 'auto')) {
 					$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
 				}
 			}
