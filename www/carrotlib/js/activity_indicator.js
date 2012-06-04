@@ -14,12 +14,11 @@ ActivityIndicator = Class.create({
     this.img.style.margin = '10px';
 
     this.container = document.createElement('div');
-    this.container.id = 'activity-indicator';
     this.container.style.display = 'none';
     this.container.style.position = 'fixed';
     this.container.style.left = '50%';
     this.container.style.top = '50%';
-    this.container.style.zIndex = '9999';
+    this.container.style.zIndex = 9999;
     this.container.style.width = '240px';
     this.container.style.height = '40px';
     this.container.style.backgroundColor = '#fff';
@@ -31,8 +30,7 @@ ActivityIndicator = Class.create({
     this.container.style.filter = 'alpha(opacity=90)';
     this.container.appendChild(this.img);
 
-    this.body = document.getElementsByTagName('body').item(0);
-    this.body.appendChild(this.container);
+    $$('body')[0].appendChild(this.container);
   },
 
   show: function () {
