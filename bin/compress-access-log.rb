@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -Ku
+#!/usr/local/bin/ruby -Ku
 
 # 昨日分のアクセスログをgzip圧縮
 #

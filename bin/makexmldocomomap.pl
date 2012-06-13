@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -w
+#!/usr/bin/perl -w
 #
 # docomoの機種一覧XMLを生成
 # CPANモジュール HTTP-MobileAgent から拝借したものを改造

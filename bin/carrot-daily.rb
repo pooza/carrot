@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -Ku
+#!/usr/local/bin/ruby -Ku
 
 # 1日ごとに実行する処理
 #

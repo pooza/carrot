@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -Ku
+#!/usr/local/bin/ruby -Ku
 
 # cronolog/rotatelogsの代用ツール
 #
