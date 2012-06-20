@@ -190,7 +190,7 @@ class BSMIMEHeader extends BSParameterHolder {
 		$header = null;
 		foreach (BSString::explode("\n", $contents) as $line) {
 			if (!BSString::isBlank($header)) {
-				$line = "\t" . $line;
+				$line = ' ' . $line;
 			}
 			$header .= $line . BSMIMEDocument::LINE_SEPARATOR;
 		}
