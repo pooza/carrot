@@ -37,7 +37,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 		try {
 			$body = str_replace('&', '', $value); //実体参照を無視
 			$body = '<div>' . $body . '</div>';
-			$element = new BSXMLElement;
+			$element = new BSDivisionElement;
 			$element->setContents($body);
 			if (!self::isValidElement($element)) {
 				$message = new BSStringFormat('%s (%s)');
@@ -88,7 +88,12 @@ class BSHTMLFragmentValidator extends BSValidator {
 			if ($tags = $this['allowed_tags']) {
 				$this->allowedTags[] = 'div';
 				$this->allowedTags[] = 'span';
-	
+				if (BS_VIEW_HTML5) {
+					$this->allowedTags[] = 'nav';
+					$this->allowedTags[] = 'section';
+					$this->allowedTags[] = 'article';
+				}
+
 				if (!is_array($tags)) {
 					$tags = BSString::explode(',', $tags);
 				}
