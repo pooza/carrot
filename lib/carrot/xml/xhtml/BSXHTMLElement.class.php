@@ -275,7 +275,89 @@ class BSXHTMLElement extends BSXMLElement {
 		} else {
 			$this->attributes->removeParameter('class');
 		}
+
+		if ($this->isHTML5() && !$this->contents) {
+			$this->contents = '<' . $this->getName();
+			foreach ($this->attributes as $key => $value) {
+				if (!BSString::isBlank($value)) {
+					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
+				}
+			}
+			$this->contents .= '>';
+
+			if (!$this->isEmptyElement()) {
+				foreach ($this->elements as $element) {
+					$this->contents .= $element->getContents();
+				}
+				$this->contents .= $this->getBody();
+				$this->contents .= '</' . $this->getName() . '>';
+			}
+		}
 		return parent::getContents();
+	}
+
+	/**
+	 * XMLをパースして要素と属性を抽出
+	 *
+	 * @access public
+	 * @param string $contents XML文書
+	 */
+	public function setContents ($contents) {
+		if ($this->isHTML5()) {
+			$this->attributes->clear();
+			$this->elements->clear();
+			$this->body = null;
+			$this->contents = $contents;
+			if (extension_loaded('tidy')) {
+				$tidy = new tidy;
+				$tidy->parseString($contents);
+
+				$root = $tidy->body()->child[0];
+				if ($root->name != $this->getName()) {
+					throw new BSXMLException($this->getName() . '要素の内容が正しくありません。');
+				}
+				$this->setAttributes((array)$root->attribute);
+				foreach ((array)$root->child as $child) {
+					$this->parseTidy($this, $child);
+				}
+			}
+		} else {
+			return parent::setContents($contents);
+		}
+	}
+
+	/**
+	 * tidyでパース
+	 *
+	 * @access protected
+	 * @param BSXHTMLElement $parent 親要素
+	 * @param tidyNode $node 対象tidyノード
+	 */
+	protected function parseTidy (BSXHTMLElement $parent, tidyNode $node) {
+		switch ($node->type) {
+			case TIDY_NODETYPE_START:
+			case TIDY_NODETYPE_STARTEND:
+				$element = new BSXHTMLElement($node->name);
+				$element->setAttributes((array)$node->attribute);
+				$parent->addElement($element);
+				foreach ((array)$node->child as $child) {
+					$this->parseTidy($element, $child);
+				}
+				break;
+			case TIDY_NODETYPE_TEXT:
+				$parent->setBody($node->value);
+				break;
+		}
+	}
+
+	/**
+	 * HTML5の要素か？
+	 *
+	 * @access protected
+	 * @return boolean HTML5ならTrue
+	 */
+	protected function isHTML5 () {
+		return !!BS_VIEW_HTML5;
 	}
 
 	/**

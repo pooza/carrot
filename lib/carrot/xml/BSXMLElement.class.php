@@ -293,7 +293,7 @@ class BSXMLElement implements IteratorAggregate {
 	 * XMLをパースして要素と属性を抽出
 	 *
 	 * @access public
-	 * @param $string $contents XML文書
+	 * @param string $contents XML文書
 	 */
 	public function setContents ($contents) {
 		$this->attributes->clear();
