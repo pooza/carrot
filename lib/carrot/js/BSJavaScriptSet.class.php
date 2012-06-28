@@ -40,8 +40,10 @@ class BSJavaScriptSet extends BSDocumentSet {
 	public function createElement () {
 		$element = new BSScriptElement;
 		$element->setAttribute('src', $this->getURL()->getContents());
-		$element->setAttribute('type', $this->getType());
-		$element->setAttribute('charset', $this->getEncoding());
+		if (!BS_VIEW_HTML5) {
+			$element->setAttribute('type', $this->getType());
+			$element->setAttribute('charset', $this->getEncoding());
+		}
 		return $element;
 	}
 

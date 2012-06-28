@@ -19,7 +19,7 @@ class BSScriptElement extends BSXHTMLElement {
 	public function __construct ($name = null, BSUserAgent $useragent = null) {
 		parent::__construct($name, $useragent);
 		$this->setAttribute('type', 'text/javascript');
-		if (!$this->getUserAgent()->isMobile()) {
+		if (!$this->getUserAgent()->isMobile() && !BS_VIEW_HTML5) {
 			$this->setAttribute('charset', 'utf-8');
 		}
 	}

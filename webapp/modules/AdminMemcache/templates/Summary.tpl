@@ -11,15 +11,15 @@
 <table class="detail">
 
 {foreach from=$server key='key' item='value'}
-	<tr>
-		<th>{$key}</th>
-		<td>{$value}</td>
-	</tr>
+  <tr>
+    <th>{$key}</th>
+    <td>{$value}</td>
+  </tr>
 {foreachelse}
-	<tr>
-		<th></th>
-		<td class="alert">未接続です。</td>
-	</tr>
+  <tr>
+    <th></th>
+    <td class="alert">未接続です。</td>
+  </tr>
 {/foreach}
 
 </table>

@@ -7,17 +7,17 @@
 *}
 {include file='AdminHeader'}
 
-<div id="BreadCrumbs">
-	<a href="#">{$action.title}</a>
-</div>
+<nav class="bread_crumbs">
+  <a href="#">{$action.title}</a>
+</nav>
 
 <h1>{$action.title}</h1>
 
 {include file='ErrorMessages'}
 
 {form onsubmit=''}
-	バックアップファイルをダウンロードします。<br/>
-	<input type="submit" value="実行" />
+  バックアップファイルをダウンロードします。<br>
+  <input type="submit" value="実行">
 {/form}
 
 {include file='AdminFooter'}

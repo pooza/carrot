@@ -6,7 +6,7 @@ Cookie無効時テンプレート
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
 {include file='UserHeader'}
-Cookieが有効でない可能性があります。<br/>
+Cookieが有効でない可能性があります。<br>
 Webブラウザの設定をお確かめ下さい。
 {include file='UserFooter'}
 

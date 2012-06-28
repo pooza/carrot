@@ -41,9 +41,11 @@ class BSStyleSet extends BSDocumentSet {
 		$element = new BSXHTMLElement('link');
 		$element->setEmptyElement(true);
 		$element->setAttribute('rel', 'stylesheet');
-		$element->setAttribute('type', $this->getType());
-		$element->setAttribute('charset', $this->getEncoding());
 		$element->setAttribute('href', $this->getURL()->getContents());
+		if (!BS_VIEW_HTML5) {
+			$element->setAttribute('type', $this->getType());
+			$element->setAttribute('charset', $this->getEncoding());
+		}
 		return $element;
 	}
 

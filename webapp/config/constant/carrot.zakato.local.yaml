@@ -22,3 +22,5 @@ serialize:
   storage: memcache
 session:
   storage: memcache
+view:
+  html5: yes

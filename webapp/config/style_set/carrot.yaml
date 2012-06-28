@@ -5,23 +5,10 @@
 
 carrot:
   files:
+    - html5-reset
     - carrot
-    - protocalendar
-    - prototabs
-    - application
-
-carrot.Detail:
-  files:
-    - carrot
-    - carrot.Detail
     - protocalendar
     - prototabs
     - lightbox
     - color_picker
-    - application
-
-carrot.LoginForm:
-  files:
-    - carrot
-    - carrot.LoginForm
     - application
