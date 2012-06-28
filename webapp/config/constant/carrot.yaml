@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.4.178
+  ver: 2.5.0
 
 admin:
   email:
@@ -172,7 +172,7 @@ module:
     action: NotFound
   secure:
     module: Default
-    action: NotFound
+    action: Forbidden
   empty_site:
     module: Default
     action: EmptySite
