@@ -122,7 +122,6 @@ if (!$file = BSConfigManager::getConfigFile('constant/' . $_SERVER['SERVER_NAME'
 $configure = BSConfigManager::getInstance();
 $configure->compile($file);
 $configure->compile('constant/application');
-$configure->compile('constant/package');
 $configure->compile('constant/carrot');
 
 set_error_handler('handleError');
