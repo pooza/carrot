@@ -11,7 +11,7 @@
  */
 function smarty_outputfilter_trim ($source, &$smarty) {
 	$source = trim($source);
-	$source = mb_ereg_replace('[ \\t]*\\n\\t*', "\n", $source);
+	$source = mb_ereg_replace('[ \\t]*\\n[ \\t]*', "\n", $source);
 	return $source;
 }
 

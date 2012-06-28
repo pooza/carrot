@@ -242,11 +242,11 @@ nav.bread_crumbs a:hover {
   color: gray;
 }
 
-#contents_column {
+section {
   margin-left: 170px;
 }
 
-#login_page #contents_column {
+#login_page section {
   margin-left: 0;
 }
 

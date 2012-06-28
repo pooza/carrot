@@ -8,7 +8,7 @@
   {const name='app_name_en'} {const name='app_ver'}
   (Powered by {const name='carrot_name'} {const name='carrot_ver'})
 </footer>
-</div>
+</section>
 </body>
 </html>
 

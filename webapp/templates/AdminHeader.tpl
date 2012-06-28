@@ -53,7 +53,7 @@ document.observe('dom:loaded', function () {
 </script>
 {/if}
 
-<div id="contents_column">
+<section>
 
 <header>
   {const name='app_name_ja'} {$title|default:$module.title}
