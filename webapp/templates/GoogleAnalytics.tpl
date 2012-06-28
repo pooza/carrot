@@ -5,7 +5,7 @@ GoogleAnalyticsテンプレート
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
 
-<script type="text/javascript">
+<script>
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-{$params.id}']);
 _gaq.push(['_setDomainName', '{$params.domain}']);
