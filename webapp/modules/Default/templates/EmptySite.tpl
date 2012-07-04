@@ -6,7 +6,7 @@
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="utf-8">
 <title>Not Found</title>
