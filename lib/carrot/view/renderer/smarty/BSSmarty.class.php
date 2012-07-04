@@ -36,7 +36,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->force_compile = BS_DEBUG;
 		$this->error_reporting = E_ALL ^ E_NOTICE;
 		$this->registerDirectory(BSFileUtility::getDirectory('templates'));
-		$this->addModifier('encoding');
+		//$this->addModifier('encoding');
 		$this->setEncoding('utf-8');
 		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
 	}
