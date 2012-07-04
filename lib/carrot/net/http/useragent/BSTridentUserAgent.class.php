@@ -21,7 +21,7 @@ class BSTridentUserAgent extends BSUserAgent {
 		parent::__construct($name);
 
 		// SSL領域で、 Coache-Control ヘッダを正しく処理できない。
-		$this->bugs['cache_control'] = true;
+		$this->bugs['cache_control'] = ($this->getVersion() < 8);
 
 		// wmode="transparent" を正しく処理できない。
 		$this->bugs['object_wmode'] = (8 < $this->getVersion());
