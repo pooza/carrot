@@ -45,8 +45,8 @@ ActivityIndicator = Class.create({
 document.observe('dom:loaded', function () {
   // IE8未満は対象外
   var matched;
-  if (matched = navigator.userAgent.match(/MSIE ([1-7])/)) {
-    if (matched[1] < 8) {
+  if (matched = navigator.userAgent.match(/MSIE ([0-9]+)/)) {
+    if (parseInt(matched[1]) < 8) {
       return;
     }
   }
