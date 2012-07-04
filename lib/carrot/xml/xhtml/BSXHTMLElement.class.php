@@ -276,22 +276,8 @@ class BSXHTMLElement extends BSXMLElement {
 			$this->attributes->removeParameter('class');
 		}
 
-		if ($this->isHTML5() && !$this->contents) {
-			$this->contents = '<' . $this->getName();
-			foreach ($this->attributes as $key => $value) {
-				if (!BSString::isBlank($value)) {
-					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
-				}
-			}
-			$this->contents .= '>';
-
-			if (!$this->isEmptyElement()) {
-				foreach ($this->elements as $element) {
-					$this->contents .= $element->getContents();
-				}
-				$this->contents .= $this->getBody();
-				$this->contents .= '</' . $this->getName() . '>';
-			}
+		if ($this->isHTML5() && BSString::isBlank($this->contents)) {
+			$this->createHTML5Contents();
 		}
 		return parent::getContents();
 	}
@@ -323,6 +309,33 @@ class BSXHTMLElement extends BSXMLElement {
 			}
 		} else {
 			return parent::setContents($contents);
+		}
+	}
+
+	/**
+	 * HTML5としての出力を生成
+	 *
+	 * @access protected
+	 */
+	protected function createHTML5Contents () {
+		$this->contents = '<' . $this->getName();
+		foreach ($this->attributes as $key => $value) {
+			if (!BSString::isBlank($value)) {
+				if ($key == $value) {
+					$this->contents .= sprintf(' %s', $key);
+				} else {
+					$this->contents .= sprintf(' %s="%s"', $key, BSString::sanitize($value));
+				}
+			}
+		}
+		$this->contents .= '>';
+
+		if (!$this->isEmptyElement()) {
+			foreach ($this->elements as $element) {
+				$this->contents .= $element->getContents();
+			}
+			$this->contents .= $this->getBody();
+			$this->contents .= '</' . $this->getName() . '>';
 		}
 	}
 
