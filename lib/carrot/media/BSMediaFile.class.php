@@ -116,6 +116,16 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 
 	/**
+	 * プレイヤーの高さを返す
+	 *
+	 * @access public
+	 * @return integer プレイヤーの高さ
+	 */
+	public function getPlayerHeight () {
+		return 0;
+	}
+
+	/**
 	 * 幅でリサイズ
 	 *
 	 * @access protected
@@ -123,7 +133,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	 * @param BSUserAgent $useragent 対象ブラウザ
 	 */
 	protected function resizeByWidth (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		if (!$params['_resized_by_width']) {
+		if (!$params[__FUNCTION__]) {
 			if (!$useragent) {
 				$useragent = BSRequest::getInstance()->getUserAgent();
 			}
@@ -140,7 +150,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 				) + $this->getPlayerHeight();
 				$params['width'] = $params['max_width'];
 			}
-			$params['_resized_by_width'] = true;
+			$params[__FUNCTION__] = true;
 		}
 	}
 
@@ -180,20 +190,6 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			$url->setParameter('at', BSNumeric::getRandom(1000, 9999));
 		}
 		return $url;
-	}
-
-	/**
-	 * div要素のIDを生成して返す
-	 *
-	 * @access protected
-	 * @return string div要素のID
-	 */
-	protected function createContainerID () {
-		return BSCrypt::digest(array(
-			get_class($this),
-			$this->getID(),
-			BSUtility::getUniqueID(),
-		));
 	}
 
 	/**

@@ -31,6 +31,20 @@ class BSFlashFile extends BSMediaFile {
 	}
 
 	/**
+	 * div要素のIDを生成して返す
+	 *
+	 * @access protected
+	 * @return string div要素のID
+	 */
+	protected function createContainerID () {
+		return BSCrypt::digest(array(
+			get_class($this),
+			$this->getID(),
+			BSUtility::getUniqueID(),
+		));
+	}
+
+	/**
 	 * 表示用のXHTML要素を返す
 	 *
 	 * @access public
@@ -40,9 +54,6 @@ class BSFlashFile extends BSMediaFile {
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		$params = BSArray::create($params);
-		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
-		}
 		$this->resizeByWidth($params, $useragent);
 
 		if ($useragent->isMobile()) {
