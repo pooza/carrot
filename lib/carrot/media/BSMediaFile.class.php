@@ -144,16 +144,9 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			}
 
 			if ($params['max_width'] && ($params['max_width'] < $params['width'])) {
-				if (!!$params['without_player_height']) {
-					$params['height'] = BSNumeric::round(
-						$params['height'] / $params['width'] * $params['max_width']
-					);
-				} else {
-					$height = $params['height'] - $this->getPlayerHeight();
-					$params['height'] = BSNumeric::round(
-						$height / $params['width'] * $params['max_width']
-					) + $this->getPlayerHeight();
-				}
+				$params['height'] = BSNumeric::round(
+					$params['height'] / $params['width'] * $params['max_width']
+				);
 				$params['width'] = $params['max_width'];
 			}
 			$params[__FUNCTION__] = true;
