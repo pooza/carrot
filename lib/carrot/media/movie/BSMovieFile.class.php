@@ -220,6 +220,8 @@ class BSMovieFile extends BSMediaFile {
 		$this->resizeByWidth($params, $useragent);
 		$element = new BSVideoElement;
 		$element->registerSource($this->createURL($params));
+		$element->setAttribute('width', $params['width']);
+		$element->setAttribute('height', $params['height']);
 		return $element;
 	}
 
