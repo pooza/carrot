@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.5.2
+  ver: 2.5.3
 
 admin:
   email:
@@ -267,6 +267,9 @@ service:
       beacon_href: /carrotlib/php/ga.php
     url_shortener:
       api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
+    plus:
+      api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
+      minutes: 5
   nicovideo:
     live:
       width: 312

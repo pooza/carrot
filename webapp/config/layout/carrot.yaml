@@ -61,6 +61,11 @@ ffmpeg:
 font:
   parent: share
   suffix: .ttf
+google_account:
+  parent: var
+  suffix: .png
+  purge:
+    day: 1
 images:
   parent: carrotlib
 image_cache:
