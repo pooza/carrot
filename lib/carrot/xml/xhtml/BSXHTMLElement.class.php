@@ -189,10 +189,9 @@ class BSXHTMLElement extends BSXMLElement {
 	 *
 	 * @access public
 	 * @param string $value キャプション
-	 * @param integer $height 高さ
 	 * @return BSDivisionElement ラッパー要素
 	 */
-	public function setCaption ($value, $height = 32) {
+	public function setCaption ($value) {
 		$wrapper = $this->createWrapper();
 		if (!BSString::isBlank($value)) {
 			$element = $wrapper->addElement(new BSDivisionElement);
@@ -204,9 +203,6 @@ class BSXHTMLElement extends BSXMLElement {
 				$value .= '<br/><br/>';
 			} else {
 				$element->registerStyleClass('caption');
-				if (($style = $wrapper->getStyle('height')) && ($style != 'auto')) {
-					$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
-				}
 			}
 			$element->setBody($value);
 		}
@@ -219,10 +215,9 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @access public
 	 * @param string $value 説明文
 	 * @param BSArray $tags スマートタグのクラス名の配列
-	 * @param integer $height 高さ
 	 * @return BSDivisionElement ラッパー要素
 	 */
-	public function setDescription ($value, BSArray $tags = null, $height = 64) {
+	public function setDescription ($value, BSArray $tags = null) {
 		if (BSString::isBlank($value)) {
 			return $this;
 		}
@@ -240,9 +235,6 @@ class BSXHTMLElement extends BSXMLElement {
 		} else {
 			$element->registerStyleClass('description');
 			$element->registerStyleClass('clearfix');
-			if (($style = $wrapper->getStyle('height')) && ($style != 'auto')) {
-				$wrapper->setStyle('height', $wrapper->getStyle('height') + $height);
-			}
 		}
 		$element->setBody($value);
 		return $wrapper;
