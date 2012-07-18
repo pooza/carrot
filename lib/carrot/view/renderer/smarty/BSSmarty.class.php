@@ -34,7 +34,12 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->plugins_dir[] = BSFileUtility::getPath('carrot') . '/view/renderer/smarty/plugins';
 		$this->plugins_dir[] = BSFileUtility::getPath('lib') . '/Smarty/plugins';
 		$this->force_compile = BS_DEBUG;
-		$this->error_reporting = E_ALL ^ E_NOTICE;
+		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+			$this->error_reporting = E_ALL ^ E_NOTICE;
+		} else {
+			// PHP 5.4対応。未定義の配列要素へのアクセスでE_WARNINGが発生する為。
+			$this->error_reporting = E_ALL ^ E_NOTICE ^ E_STRICT ^ E_WARNING;
+		}
 		$this->registerDirectory(BSFileUtility::getDirectory('templates'));
 		$this->setEncoding('utf-8');
 		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
