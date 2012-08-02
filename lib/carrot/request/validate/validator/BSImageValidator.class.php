@@ -15,7 +15,7 @@ class BSImageValidator extends BSValidator {
 			return BSImage::getTypes();
 		} else {
 			if (is_array($types) || ($types instanceof BSParameterHolder)) {
-				$types = new BSArray($types);
+				$types = BSArray::create($types);
 			} else {
 				$types = BSString::explode(',', $types);
 			}
@@ -39,7 +39,7 @@ class BSImageValidator extends BSValidator {
 	 * @param string[] $params パラメータ配列
 	 */
 	public function initialize ($params = array()) {
-		$this['types'] = 'jpeg,gif,png';
+		$this['types'] = 'jpg,gif,png';
 		$this['types_error'] = '画像形式が正しくありません。';
 		$this['min_height'] = null;
 		$this['max_height'] = null;
