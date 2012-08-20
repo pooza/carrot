@@ -20,8 +20,8 @@ class BSTridentUserAgent extends BSUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 
-		// SSL領域で、 Coache-Control ヘッダを正しく処理できない。
-		$this->bugs['cache_control'] = ($this->getVersion() < 8);
+		// SSL領域で、 Cache-Control ヘッダを正しく処理できない。
+		$this->bugs['cache_control'] = true;
 
 		// wmode="transparent" を正しく処理できない。
 		$this->bugs['object_wmode'] = (8 < $this->getVersion());
