@@ -30,11 +30,15 @@ abstract class BSTableAction extends BSAction {
 		$this->getModule()->clearRecordID();
 
 		$params = new BSArray;
-		$params->setParameters($this->getModule()->getParameterCache());
+		if (BS_MODULE_CACHE_PARAMETERS) {
+			$params->setParameters($this->getModule()->getParameterCache());
+		}
 		$params->setParameters($this->request->getParameters());
 
 		$this->request->setParameters($params);
-		$this->getModule()->cacheParameters($params);
+		if (BS_MODULE_CACHE_PARAMETERS) {
+			$this->getModule()->cacheParameters($params);
+		}
 
 		$this->assignStatusOptions();
 
