@@ -193,15 +193,25 @@ class BSUser extends BSParameterHolder {
 	 */
 	public function login (BSUserIdentifier $identifier = null, $password = null) {
 		if ($identifier && $identifier->auth($password)) {
-			$this->id = $identifier->getID();
-			$this->getSession()->write(__CLASS__, $this->id);
-			$this->getSession()->refresh();
-			foreach ($identifier->getCredentials() as $credential) {
-				$this->addCredential($credential);
-			}
+			$this->pass($identifier);
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 認証をパスする
+	 *
+	 * @access public
+	 * @param BSUserIdentifier $id ユーザーIDを含んだオブジェクト
+	 */
+	public function pass (BSUserIdentifier $identifier) {
+		$this->id = $identifier->getID();
+		$this->getSession()->write(__CLASS__, $this->id);
+		$this->getSession()->refresh();
+		foreach ($identifier->getCredentials() as $credential) {
+			$this->addCredential($credential);
+		}
 	}
 
 	/**

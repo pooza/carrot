@@ -14,7 +14,7 @@ backup:
   parent: var
   suffix: .zip
   purge:
-    month: 1
+    day: 7
 bin:
   constant: yes
 carrot:
