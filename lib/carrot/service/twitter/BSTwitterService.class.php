@@ -11,7 +11,7 @@
  */
 class BSTwitterService extends BSCurlHTTP {
 	private $oauth;
-	const DEFAULT_HOST = 'twitter.com';
+	const DEFAULT_HOST = 'api.twitter.com';
 	const DEFAULT_HOST_MOBILE = 'mobile.twitter.com';
 
 	/**
