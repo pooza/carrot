@@ -30,11 +30,11 @@ ProtoTabs.prototype = {
     for (var i = 0; i < this.listElements.length; i++) {
       var tab = this.listElements[i];
       var links = tab.getElementsByTagName('a');
-      tab.itemId = links[0].href.split("#")[1];
-      tab.linkedPanel = $(tab.itemId);
+      tab.linkedID = links[0].href.split("#")[1];
+      tab.linkedPanel = $(tab.linkedID);
       tab.linkedPanel.style.clear = "both";
 
-      if ((this.options.defaultPanel != '') && (this.options.defaultPanel == tab.itemId)) {
+      if ((this.options.defaultPanel != '') && (this.options.defaultPanel == tab.linkedID)) {
         this.openPanel(tab, this.options);
       }else{
         $($(tab).linkedPanel).hide();
@@ -60,7 +60,7 @@ ProtoTabs.prototype = {
 
     tab.linkedPanel.show();
     tab.addClassName('selected');
-    var url = this.options.ajaxUrls[tab.itemId];
+    var url = this.options.ajaxUrls[tab.linkedID];
 
     if (url != undefined) {
       tab.linkedPanel.update(this.options.ajaxLoadingText);
