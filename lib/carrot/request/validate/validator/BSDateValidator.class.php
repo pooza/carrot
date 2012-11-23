@@ -23,7 +23,7 @@ class BSDateValidator extends BSValidator {
 				return null;
 			}
 		}
-		if ($date->validate()) {
+		if ($date && $date->validate()) {
 			return $date;
 		}
 	}
