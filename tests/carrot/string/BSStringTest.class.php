@@ -12,6 +12,9 @@ class BSStringTest extends BSTest {
 		$records = BSString::convertWrongCharacters($file->getEngine()->getRecords());
 		$this->assert('convertWrongCharacters', $records[0][1] == '(有)');
 		$this->assert('convertWrongCharacters', $records[2][0] == '(2)');
+
+		$string = " \r\n   test\n   ";
+		$this->assert('trim', BSString::trim($string) == "\ntest\n");
 	}
 }
 

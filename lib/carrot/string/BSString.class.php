@@ -561,6 +561,26 @@ class BSString {
 	}
 
 	/**
+	 * 行頭と行末のスペース等を削除
+	 *
+	 * @access public
+	 * @param mixed $value 変換対象の文字列又は配列
+	 * @return mixed 変換後
+	 * @static
+	 */
+	static public function trim ($value) {
+		if (is_array($value) || ($value instanceof BSParameterHolder)) {
+			foreach ($value as $key => $item) {
+				$value[$key] = self::dequote($item);
+			}
+		} else {
+			//$value = trim($value);
+			$value = mb_ereg_replace('[ \\t]*\\r?\\n[ \\t]*', "\n", $value);
+		}
+		return $value;
+	}
+
+	/**
 	 * 繰返し正規表現検索を行う
 	 *
 	 * @access public
