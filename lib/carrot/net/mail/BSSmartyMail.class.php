@@ -12,12 +12,12 @@
 class BSSmartyMail extends BSMail {
 
 	/**
-	 * 既定レンダラーを返す
+	 * 既定レンダラーを生成して返す
 	 *
 	 * @access protected
 	 * @return BSRenderer 既定レンダラー
 	 */
-	protected function getDefaultRenderer () {
+	protected function createRenderer () {
 		$renderer = new BSSmarty;
 		$renderer->setType(BSMIMEType::getType('txt'));
 		$renderer->setEncoding('iso-2022-jp');
