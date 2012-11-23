@@ -30,7 +30,7 @@ abstract class BSRecordAction extends BSAction {
 		} else if ($record = $this->getRecord()) {
 			$name = BSString::underscorize($this->getModule()->getRecordClass());
 			$this->request->setAttribute($name, $record);
-			if (!$this->isExecutable() && BSString::isBlank($this->request['submit'])) {
+			if (!$this->isExecutable() && !$this->request->isSubmitted()) {
 				$this->request->setParameters($record->getAttributes());
 			}
 		}

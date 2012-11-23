@@ -11,6 +11,7 @@
  */
 class BSFormElement extends BSXHTMLElement {
 	const ATTACHABLE_TYPE = 'multipart/form-data';
+	const SUBMITTED_FIELD = '_submitted';
 
 	/**
 	 * @access public
@@ -114,7 +115,7 @@ class BSFormElement extends BSXHTMLElement {
 	 */
 	public function addSubmitFields () {
 		$this->addHiddenField('dummy', '符号形式識別用文字列');
-		$this->addHiddenField('submit', 1);
+		$this->addHiddenField(self::SUBMITTED_FIELD, 1);
 	}
 
 	/**

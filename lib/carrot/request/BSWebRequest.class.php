@@ -217,6 +217,16 @@ class BSWebRequest extends BSRequest {
 	public function isCarrot () {
 		return BSString::isContain(BS_CARROT_NAME, $this->getUserAgent()->getName());
 	}
+
+	/**
+	 * Submitされたか？
+	 *
+	 * @access public
+	 * @return boolean SubmitされたならTrue
+	 */
+	public function isSubmitted () {
+		return !BSString::isBlank($this[BSFormElement::SUBMITTED_FIELD]);
+	}
 }
 
 /* vim:set tabstop=4: */
