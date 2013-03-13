@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSAdministratorRole implements BSRole {
-	protected $networks;
 	protected $credentials;
 	static protected $instance;
 	const CREDENTIAL = 'Admin';
@@ -84,27 +83,6 @@ class BSAdministratorRole implements BSRole {
 		if (!BSString::isBlank(BS_ADMIN_JID)) {
 			return new BSJabberID(BS_ADMIN_JID);
 		}
-	}
-
-	/**
-	 * 許可されたネットワークを返す
-	 *
-	 * @access public
-	 * @return BSArray 許可されたネットワークの配列
-	 */
-	public function getAllowedNetworks () {
-		if (!$this->networks) {
-			$this->networks = new BSArray;
-			if (BSString::isBlank(BS_ADMIN_NETWORKS)) {
-				$this->networks[] = new BSNetwork('0.0.0.0/0');
-			} else {
-				$this->networks[] = new BSNetwork('127.0.0.1/32');
-				foreach (BSString::explode(',', BS_ADMIN_NETWORKS) as $network) {
-					$this->networks[] = new BSNetwork($network);
-				}
-			}
-		}
-		return $this->networks;
 	}
 
 	/**
