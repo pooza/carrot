@@ -125,6 +125,7 @@ table tr.even td {
 
 table tr.alert td {
   background-color: #FF6633;
+  color: #000000;
 }
 
 table th.holiday {
