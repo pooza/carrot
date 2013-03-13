@@ -22,25 +22,19 @@ class BSCookieFilter extends BSFilter {
 			return;
 		}
 
-		$methods = new BSArray;
-		$methods[] = 'HEAD';
-		$methods[] = 'GET';
-
-		if ($methods->isContain($this->request->getMethod())) {
-			$expire = BSDate::getNow()->setParameter('hour', '+' . BS_COOKIE_CHECKER_HOURS);
-			$this->user->setAttribute($this->getCookieName(), true, $expire);
-		} else {
-			if (BSString::isBlank($this->user->getAttribute($this->getCookieName()))) {
-				$this->request->setError('cookie', $this['cookie_error']);
-			}
+		$this->cookieName = BSCrypt::digest($this->controller->getName('en'));
+		switch ($this->request->getMethod()) {
+			case 'HEAD':
+			case 'GET':
+				$time = BSDate::getNow()->setParameter('hour', '+' . BS_COOKIE_CHECKER_HOURS);
+				$this->user->setAttribute($this->cookieName, true, $time);
+				break;
+			default:
+				if (BSString::isBlank($this->user->getAttribute($this->cookieName))) {
+					$this->request->setError('cookie', $this['cookie_error']);
+				}
+				break;
 		}
-	}
-
-	private function getCookieName () {
-		if (!$this->cookieName) {
-			$this->cookieName = BSCrypt::digest($this->controller->getName('en'));
-		}
-		return $this->cookieName;
 	}
 }
 
