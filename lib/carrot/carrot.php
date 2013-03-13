@@ -114,7 +114,7 @@ if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 	$_SERVER['HTTP_USER_AGENT'] = 'Console';
 }
-$_SERVER['SERVER_NAME'] = basename(BS_ROOT_DIR);
+// $_SERVER['SERVER_NAME'] = basename(BS_ROOT_DIR);
 if (!$file = BSConfigManager::getConfigFile('constant/' . $_SERVER['SERVER_NAME'])) {
 	throw new RuntimeException('サーバ定義(' . $_SERVER['SERVER_NAME'] . ') が見つかりません。');
 }
