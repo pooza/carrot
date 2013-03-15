@@ -176,6 +176,9 @@ module:
   empty_site:
     module: Default
     action: EmptySite
+  legacy_user_agent:
+    module: Default
+    action: DeniedUserAgent
 movie:
   flv:
     player:
