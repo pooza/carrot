@@ -16,7 +16,7 @@ class BSHostSecurityFilter extends BSFilter {
 		try {
 			foreach ($this->getNetworks() as $network) {
 				if ($network->isContain($this->request->getHost())) {
-					return true;
+					return false;
 				}
 			}
 			throw new BSNetException('リモートアクセス禁止のホストです。');
