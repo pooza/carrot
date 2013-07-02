@@ -18,8 +18,8 @@ class BSTwitterAccount
 	protected $tweets;
 	protected $consumerKey;
 	protected $consumerSecret;
-	protected $requestToken;
 	protected $accessToken;
+	protected $accessTokenSecret;
 	protected $digest;
 	private $oauth;
 	private $service;
@@ -85,32 +85,16 @@ class BSTwitterAccount
 	 * @return TwitterOAuth
 	 */
 	protected function getOAuth () {
-		if (!$this->oauth && ($token = $this->getAccessToken())) {
+		if (!$this->oauth) {
 			BSUtility::includeFile('twitteroauth');
 			$this->oauth = new TwitterOAuth(
 				$this->getConsumerKey(),
 				$this->getConsumerSecret(),
-				$token['oauth_token'],
-				$token['oauth_token_secret']
+				$this->getAccessToken(),
+				$this->getAccessTokenSecret()
 			);
 		}
 		return $this->oauth;
-	}
-
-	/**
-	 * OAuthの認証済みアクセストークンを返す
-	 *
-	 * @access public
-	 * @return BSArray 認証済みアクセストークン
-	 */
-	public function getAccessToken () {
-		if (!$this->accessToken) {
-			$this->accessToken = new BSArray(array(
-				'oauth_token' => BS_SERVICE_TWITTER_ACCESS_TOKEN,
-				'oauth_token_secret' => BS_SERVICE_TWITTER_ACCESS_TOKEN_SECRET,
-			));
-		}
-		return $this->accessToken;
 	}
 
 	/**
@@ -157,6 +141,52 @@ class BSTwitterAccount
 	 */
 	public function setConsumerSecret ($value) {
 		$this->consumerSecret = $value;
+	}
+
+	/**
+	 * アクセストークンを返す
+	 *
+	 * @access public
+	 * @return string アクセストークン
+	 */
+	public function getAccessToken () {
+		if (!$this->accessToken) {
+			$this->accessToken = BS_SERVICE_TWITTER_ACCESS_TOKEN;
+		}
+		return $this->accessToken;
+	}
+
+	/**
+	 * アクセストークンを設定
+	 *
+	 * @access public
+	 * @param string $value アクセストークン
+	 */
+	public function setAccessToken ($value) {
+		$this->accessToken = $value;
+	}
+
+	/**
+	 * アクセストークンシークレットを返す
+	 *
+	 * @access public
+	 * @return string アクセストークンシークレット
+	 */
+	public function getAccessTokenSecret () {
+		if (!$this->accessTokenSecret) {
+			$this->accessTokenSecret = BS_SERVICE_TWITTER_ACCESS_TOKEN_SECRET;
+		}
+		return $this->accessTokenSecret;
+	}
+
+	/**
+	 * アクセストークンシークレットを設定
+	 *
+	 * @access public
+	 * @param string $value アクセストークンシークレット
+	 */
+	public function setAccessTokenSecret ($value) {
+		$this->accessTokenSecret = $value;
 	}
 
 	/**
