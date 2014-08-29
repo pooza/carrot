@@ -113,19 +113,16 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			return $info;
 		}
 
-		$url = $this->createRequestURL('/maps/geo');
-		$url->setParameter('q', $address);
-		$url->setParameter('output', 'json');
-		$response = $this->sendGET($url->getFullPath());
+		$server = new BSCurlHTTP(new BSHost('maps.googleapis.com'), 80);
+		$url = $server->createRequestURL('/maps/api/geocode/json');
+		$url->setParameter('address', $address);
+		$response = $server->sendGET($url->getFullPath());
 
 		$serializer = new BSJSONSerializer;
-		$result = $serializer->decode($response->getBody());
-		if (isset($result['Placemark'][0]['Point']['coordinates'])) {
-			$coord = $result['Placemark'][0]['Point']['coordinates'];
-			return new BSArray(array(
-				'lat' => $coord[1],
-				'lng' => $coord[0],
-			));
+		$result = $serializer->decode(base64_decode($response->getBody()));
+		if (isset($result['results'][0]['geometry']['location'])) {
+			$coord = $result['results'][0]['geometry']['location'];
+			return new BSArray($coord);
 		}
 	}
 
