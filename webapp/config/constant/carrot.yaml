@@ -43,6 +43,7 @@ clamav:
   command: clamdscan
   dir:
     default: /usr/local
+    darwin: /opt/local
     linux: /usr
 cookie:
   checker:
@@ -65,6 +66,7 @@ filterset:
 ffmpeg:
   dir:
     default: /usr/local
+    darwin: /opt/local
     linux: /usr
   convert:
     flv:
@@ -129,6 +131,7 @@ image:
 image_magick:
   dir:
     default: /usr/local
+    darwin: /opt/local
     linux: /usr
 languages:
   - ja
@@ -204,7 +207,7 @@ music:
 mysql:
   dir:
     default: /usr/local
-    darwin: /opt/local/lib/mysql55
+    darwin: /opt/local/lib/mysql56
 net:
   url:
     shorter: google_url_shortner
@@ -226,26 +229,28 @@ pdo:
 pgsql:
   dir:
     default: /usr/local
-    darwin: /opt/local/lib/postgresql84
+    darwin: /opt/local/lib/postgresql96
 php:
   dir:
     default: /usr/local
+    darwin: /opt/local
 pictogram:
 png2ico:
   dir:
     default: /usr/local
+    darwin: /opt/local
     linux: /usr
 proctools:
   dir:
-    default: /usr/local
-    linux: /usr
-    freebsd: /usr
+    default: /usr
+    darwin: /opt/local
 request:
   validate:
     strict: no
 ruby:
   dir:
     default: /usr/local
+    darwin: /opt/local
 sendmail:
   dir:
     default: /usr
@@ -295,15 +300,16 @@ smtp:
 sqlite3:
   dir:
     default: /usr/local
+    darwin: /opt/local
     linux: /usr
 sudo:
   dir:
     default: /usr
+    darwin: /opt/local
     freebsd: /usr/local
 unzip:
   dir:
     default: /usr
-    freebsd: /usr/local
 user:
   class:
 xmpp:
