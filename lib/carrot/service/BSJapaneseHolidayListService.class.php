@@ -157,6 +157,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 	 */
 	public function serialize () {
 		try {
+/*
 			$date = $this->getDate();
 			$url = $this->createRequestURL('/ws/calendar.php');
 			$url->setParameter('y', $date['year']);
@@ -175,6 +176,7 @@ class BSJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, 
 				}
 			}
 			BSController::getInstance()->setAttribute($this, $holidays);
+*/
 		} catch (Exception $e) {
 		}
 	}

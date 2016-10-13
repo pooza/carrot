@@ -1,14 +1,14 @@
 #!/usr/bin/env rake
+# encoding: utf-8
 
 # carrotユーティリティタスク
 #
 # @package org.carrot-framework
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-$KCODE = 'u'
-
 ROOT_DIR = File.dirname(File.expand_path(__FILE__))
 $LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
+$LOAD_PATH.push(ROOT_DIR)
 
 require 'yaml'
 require 'shellwords'
