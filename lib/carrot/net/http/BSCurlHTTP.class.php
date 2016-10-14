@@ -25,6 +25,9 @@ class BSCurlHTTP extends BSHTTP {
 	 */
 	public function __construct ($host, $port = null, $protocol = BSNetworkService::TCP) {
 		parent::__construct($host, $port, $protocol);
+		if ($port == BSNetworkService::getPort('https')) {
+			$this->setSSL(true);
+		}
 		$this->attributes = new BSArray;
 	}
 
@@ -169,11 +172,6 @@ class BSCurlHTTP extends BSHTTP {
 	public function setSSL ($mode) {
 		$this->ssl = !!$mode;
 		$this->name = null;
-		if ($this->isSSL()) {
-			$this->port = BSNetworkService::getPort('https');
-		} else {
-			$this->port = BSNetworkService::getPort('http');
-		}
 	}
 }
 

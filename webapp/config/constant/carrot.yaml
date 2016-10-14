@@ -267,16 +267,22 @@ service:
     api_key: R_dbbb70d7b5959e23289acfc3458f836f
   google:
     maps:
-      api_key: ABQIAAAATsMwobOX_2h6mtmVGXYj7hRDPMaTZsAqlqCvYqUSXVpA0IN8hBR3QFfr0mhWyh4H99uEfkf2XzBZyA
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
       zoom: 17
+    static_maps:
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
       format: gif
+    maps_geocoding:
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
     analytics:
       id:
       beacon_href: /carrotlib/php/ga.php
+    calendar:
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
     url_shortener:
-      api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
     plus:
-      api_key: AIzaSyBaW8hQuYbXo1hMe-sB1fgZmEOj-p9Spws
+      api_key: AIzaSyAmndtwEGM1gFl1fBHYo4jK2OKqEls0-Dg
       minutes: 5
   nicovideo:
     live:

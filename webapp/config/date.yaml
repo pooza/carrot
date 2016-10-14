@@ -16,4 +16,4 @@ gengo:
 
 holiday:
   ja:
-    class: BSJapaneseHolidayListService
+    class: BSGoogleJapaneseHolidayListService

@@ -13,7 +13,6 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	private $table;
 	private $useragent;
 	const DEFAULT_HOST = 'maps.google.com';
-	const DEFAULT_HOST_MOBILE = 'www.google.co.jp';
 
 	/**
 	 * @access public
@@ -23,6 +22,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
 			$host = new BSHost(self::DEFAULT_HOST);
+			$port = BSNetworkService::getPort('https');
 		}
 		parent::__construct($host, $port);
 		$this->useragent = BSRequest::getInstance()->getUserAgent();
@@ -86,13 +86,8 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @return BSGeocodeEntry ジオコード
 	 */
 	public function getGeocode ($address) {
-		$values = array('addr' => $address);
-		if (!$entry = $this->getTable()->getRecord($values)) {
-			if ($result = $this->queryGeocode($address)) {
-				$entry = $this->getTable()->register($address, $result);
-			}
-		}
-		return $entry;
+		$service = new BSGoogleMapsGeocodingService;
+		return $service->getGeocode($address);
 	}
 
 	/**
@@ -106,31 +101,6 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$url = parent::createRequestURL($href);
 		$url->setParameter('key', BS_SERVICE_GOOGLE_MAPS_API_KEY);
 		return $url;
-	}
-
-	protected function queryGeocode ($address) {
-		if ($info = BSGeocodeEntryHandler::parse($address)) {
-			return $info;
-		}
-
-		$server = new BSCurlHTTP(new BSHost('maps.googleapis.com'), 80);
-		$url = $server->createRequestURL('/maps/api/geocode/json');
-		$url->setParameter('address', $address);
-		$response = $server->sendGET($url->getFullPath());
-
-		$serializer = new BSJSONSerializer;
-		$result = $serializer->decode(base64_decode($response->getBody()));
-		if (isset($result['results'][0]['geometry']['location'])) {
-			$coord = $result['results'][0]['geometry']['location'];
-			return new BSArray($coord);
-		}
-	}
-
-	protected function getTable () {
-		if (!$this->table) {
-			$this->table = new BSGeocodeEntryHandler;
-		}
-		return $this->table;
 	}
 
 	/**
@@ -166,12 +136,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 
 	private function createPageURL ($address, BSArray $params) {
 		$url = BSURL::create();
-		if ($this->useragent->isMobile()) {
-			$url['host'] = self::DEFAULT_HOST_MOBILE;
-			$url['path'] = '/m/local';
-		} else {
-			$url['host'] = self::DEFAULT_HOST;
-		}
+		$url['host'] = self::DEFAULT_HOST;
 		if ($geocode = $this->getGeocode($address)) {
 			$url->setParameter('ll', $geocode->format());
 		}
@@ -221,12 +186,13 @@ class BSGoogleMapsService extends BSCurlHTTP {
 		$size[] = $info['width'];
 		$size[] = BSNumeric::round($info['width'] * 0.75);
 
-		$url = $this->createRequestURL('/staticmap');
-		$url->setParameter('format', BS_SERVICE_GOOGLE_MAPS_FORMAT);
+		$url = $this->createRequestURL('/maps/api/staticmap');
+		$url->setParameter('format', BS_SERVICE_GOOGLE_STATIC_MAPS_FORMAT);
 		$url->setParameter('maptype', 'mobile');
 		$url->setParameter('center', $geocode->format());
 		$url->setParameter('markers', $geocode->format());
 		$url->setParameter('size', $size->getContents());
+		$url->setParameter('key', BS_SERVICE_GOOGLE_STATIC_MAPS_API_KEY);
 		foreach ($params as $key => $value) {
 			$url->setParameter($key, $value);
 		}

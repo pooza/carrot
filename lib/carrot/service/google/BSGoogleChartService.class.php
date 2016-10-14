@@ -20,6 +20,7 @@ class BSGoogleChartService extends BSCurlHTTP {
 	public function __construct (BSHost $host = null, $port = null) {
 		if (!$host) {
 			$host = new BSHost(self::DEFAULT_HOST);
+			$port = BSNetworkService::getPort('https');
 		}
 		parent::__construct($host, $port);
 	}
