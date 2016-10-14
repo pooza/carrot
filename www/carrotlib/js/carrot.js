@@ -168,9 +168,5 @@ if (!Array.prototype.contains) {
 }
 
 document.observe('dom:loaded', function () {
-  try {
-    AjaxZip3.JSONDATA = document.location.protocol
-      + '//ajaxzip3.googlecode.com/svn/trunk/ajaxzip3/zipdata';
-  } catch (e) {
-  }
+  //alert('追加分の処理');
 });
