@@ -12,10 +12,8 @@
 </nav>
 
 <h1>{$action.title}</h1>
-
 {include file='ErrorMessages'}
-
-{form onsubmit=''}
+{form onsubmit='' class='no_indicator'}
   バックアップファイルをダウンロードします。<br>
   <input type="submit" value="実行">
 {/form}

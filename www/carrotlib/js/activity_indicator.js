@@ -53,8 +53,10 @@ document.observe('dom:loaded', function () {
 
   var indicator = new ActivityIndicator();
   $$('form').each(function (frm) {
-    frm.observe('submit', function (event) {
-      indicator.show();
-    });
+    if (!Element.hasClassName(frm, 'no_indicator')) {
+      frm.observe('submit', function (event) {
+        indicator.show();
+      });
+    }
   });
 });
