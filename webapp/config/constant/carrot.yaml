@@ -224,8 +224,6 @@ pdo:
     dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
   serialize:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
-  twitter:
-    dsn: sqlite:%BS_VAR_DIR%/db/twitter.sqlite3
 pgsql:
   dir:
     default: /usr/local

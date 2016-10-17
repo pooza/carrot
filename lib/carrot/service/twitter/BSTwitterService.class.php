@@ -69,7 +69,6 @@ class BSTwitterService extends BSCurlHTTP {
 		if (!$this->consumerSecret) {
 			$this->consumerSecret = BS_SERVICE_TWITTER_CONSUMER_SECRET;
 			$this->credential = null;
-			$this->consumerKey = null;
 		}
 		return $this->consumerSecret;
 	}
@@ -83,7 +82,6 @@ class BSTwitterService extends BSCurlHTTP {
 	public function setConsumerSecret ($value) {
 		$this->consumerSecret = $value;
 		$this->credential = null;
-		$this->consumerKey = null;
 	}
 
 	/**
@@ -118,7 +116,6 @@ class BSTwitterService extends BSCurlHTTP {
 	public function getAccessTokenSecret () {
 		if (!$this->accessTokenSecret) {
 			$this->accessTokenSecret = BS_SERVICE_TWITTER_ACCESS_TOKEN_SECRET;
-			$this->consumerKey = null;
 		}
 		return $this->accessTokenSecret;
 	}
@@ -131,7 +128,6 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	public function setAccessTokenSecret ($value) {
 		$this->accessTokenSecret = $value;
-		$this->consumerKey = null;
 	}
 
 	/**
