@@ -131,12 +131,7 @@ class BSTwitterService extends BSCurlHTTP {
 		return BSMIMEUtility::encodeBase64($values->join(':'));
 	}
 
-	/**
-	 * ベアラートークンを更新
-	 *
-	 * @access public
-	 */
-	public function updateBearerToken () {
+	protected function getBearerToken () {
 		$key = (new BSArray([
 			$this->getConsumerKey(),
 			$this->getConsumerSecret(),
@@ -151,7 +146,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$request->setURL($this->createRequestURL('/oauth2/token'));
 			$request->setHeader('Authorization', 'Basic ' . $this->createCredential());
 			$request->setRenderer(new BSWWWFormRenderer);
-			$request->getRenderer()->setParameter('grant_type', 'client_credentials');
+			$request->getRenderer()['grant_type'] = 'client_credentials';
 			$this->setAttribute('post', true);
 			$this->setAttribute('postfields', $request->getRenderer()->getContents());
 			$response = $this->send($request);
@@ -162,14 +157,14 @@ class BSTwitterService extends BSCurlHTTP {
 			$value = $json->getResult()['access_token'];
 			$this->getSerializeHandler()->setAttribute($key, $value);
 		}
-		$this->bearerToken = $value;
+		return $value;
 	}
 
 	protected function createSignatureKey () {
-		$values = new BSArray;
-		$values[] = BSURL::encode($this->getConsumerSecret());
-		$values[] = BSURL::encode($this->getAccessTokenSecret());
-		return $values->join('&');
+		return (new BSArray([
+			BSURL::encode($this->getConsumerSecret()),
+			BSURL::encode($this->getAccessTokenSecret()),
+		]))->join('&');
 	}
 
 	protected function createSignatureData (BSHTTPRedirector $url, BSWWWFormRenderer $params) {
@@ -184,15 +179,8 @@ class BSTwitterService extends BSCurlHTTP {
 		]))->join('&');
 	}
 
-	/**
-	 * OAuthのパラメータを設定
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $url エンドポイントのURL
-	 * @param BSParameterHolder $params パラメータ
-	 * @return BSWWWFormRenderer OAuthパラメータ
-	 */
-	public function setOAuth (BSHTTPRedirector $url, BSParameterHolder $params) {
+	protected function createOAuth ($path, BSParameterHolder $params) {
+		$url = $this->createRequestURL($path);
 		$params = new BSArray($params);
 		$params['oauth_token'] = $this->getAccessToken();
 		$params['oauth_consumer_key'] = $this->getConsumerKey();
@@ -202,14 +190,15 @@ class BSTwitterService extends BSCurlHTTP {
 		$params['oauth_version'] = '1.0';
 		$params->sort();
 
-		$this->oauth = new BSWWWFormRenderer;
-		$this->oauth->setParameters($params);
-		$this->oauth['oauth_signature'] = base64_encode(hash_hmac(
+		$oauth = new BSWWWFormRenderer;
+		$oauth->setParameters($params);
+		$oauth['oauth_signature'] = BSMIMEUtility::encodeBase64(hash_hmac(
 			'sha1',
-			$this->createSignatureData($url, $this->oauth),
+			$this->createSignatureData($url, $oauth),
 			$this->createSignatureKey(),
 			true
 		));
+		return $oauth;
 	}
 
 	/**
@@ -336,9 +325,7 @@ class BSTwitterService extends BSCurlHTTP {
 	public function sendGET ($path = '/', BSParameterHolder $params = null) {
 		$this->setAttribute('httpget', true);
 		$request = $this->createRequest();
-		if ($this->bearerToken) {
-			$request->setHeader('Authorization', 'Bearer ' . $this->bearerToken);
-		}
+		$request->setHeader('Authorization', 'Bearer ' . $this->getBearerToken());
 		$request->setMethod('GET');
 		$request->setURL($this->createRequestURL($path));
 		if ($params) {
@@ -356,11 +343,13 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @return BSHTTPResponse レスポンス
 	 */
 	public function sendPOST ($path = '/', BSRenderer $renderer = null) {
-		$request = $this->createRequest();
-		if ($oauth = clone $this->oauth) {
-			$oauth->setSeparator(', ');
-			$request->setHeader('Authorization', 'OAuth ' . $oauth->getContents());
+		if (!($renderer instanceof BSWWWFormRenderer)) {
+			throw new BSTwitterException('BSWWWFormRendererではありません。');
 		}
+		$oauth = $this->createOAuth($path, $renderer);
+		$oauth->setSeparator(', ');
+		$request = $this->createRequest();
+		$request->setHeader('Authorization', 'OAuth ' . $oauth->getContents());
 		$request->setMethod('POST');
 		$request->setURL($this->createRequestURL($path));
 		$request->setRenderer($renderer);

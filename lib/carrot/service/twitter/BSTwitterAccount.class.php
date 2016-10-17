@@ -44,17 +44,11 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 		if ($message instanceof BSStringFormat) {
 			$message = $message->getContents();
 		}
-
-		$url = $this->getService()->createRequestURL('/1.1/statuses/update.json');
 		$query = new BSWWWFormRenderer;
 		$query['status'] = $message;
-		$this->getService()->setOAuth($url, $query);
-
-		$response = $this->getService()->sendPOST($url->getFullPath(), $query);
+		$response = $this->getService()->sendPOST('/1.1/statuses/update.json', $query);
 		$json = new BSJSONRenderer;
 		$json->setContents($response->getRenderer()->getContents());
-
-		BSLogManager::getInstance()->put($this . 'がツイートしました。', $this->getService());
 		return $json;
 	}
 
@@ -66,8 +60,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @return BSArray タイムライン
 	 */
 	public function getTimeline ($count = 10) {
-		$this->service->updateBearerToken();
-		return $this->service-getTimeline($this->name, $count);
+		return $this->service->getTimeline($this->name, $count);
 	}
 
 	/**
@@ -77,7 +70,6 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @return BSArray プロフィール
 	 */
 	public function getProfile () {
-		$this->service->updateBearerToken();
 		return $this->service->getProfile($this->name);
 	}
 
@@ -208,7 +200,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		return $this->profile['name'];
+		return $this->getName();
 	}
 
 	/**
