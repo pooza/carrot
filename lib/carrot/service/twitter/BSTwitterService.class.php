@@ -14,9 +14,7 @@ class BSTwitterService extends BSCurlHTTP {
 	protected $consumerSecret;
 	protected $accessToken;
 	protected $accessTokenSecret;
-	protected $credential;
 	protected $bearerToken;
-	protected $signatureKey;
 	protected $oauth;
 	protected $serializeHandler;
 	const DEFAULT_HOST = 'api.twitter.com';
@@ -43,7 +41,6 @@ class BSTwitterService extends BSCurlHTTP {
 	public function getConsumerKey () {
 		if (!$this->consumerKey) {
 			$this->consumerKey = BS_SERVICE_TWITTER_CONSUMER_KEY;
-			$this->credential = null;
 		}
 		return $this->consumerKey;
 	}
@@ -56,7 +53,6 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	public function setConsumerKey ($value) {
 		$this->consumerKey = $value;
-		$this->credential = null;
 	}
 
 	/**
@@ -68,7 +64,6 @@ class BSTwitterService extends BSCurlHTTP {
 	public function getConsumerSecret () {
 		if (!$this->consumerSecret) {
 			$this->consumerSecret = BS_SERVICE_TWITTER_CONSUMER_SECRET;
-			$this->credential = null;
 		}
 		return $this->consumerSecret;
 	}
@@ -81,7 +76,6 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	public function setConsumerSecret ($value) {
 		$this->consumerSecret = $value;
-		$this->credential = null;
 	}
 
 	/**
@@ -130,19 +124,11 @@ class BSTwitterService extends BSCurlHTTP {
 		$this->accessTokenSecret = $value;
 	}
 
-	/**
-	 * クレデンシャルを返す
-	 *
-	 * @access public
-	 * @return string クレデンシャル
-	 */
-	public function getCredential () {
-		if (!$this->credential) {
-			$this->credential = BSMIMEUtility::encodeBase64(
-				$this->getConsumerKey() . ':' . $this->getConsumerSecret()
-			);
-		}
-		return $this->credential;
+	protected function createCredential () {
+		$values = new BSArray;
+		$values[] = $this->getConsumerKey();
+		$values[] = $this->getConsumerSecret();
+		return BSMIMEUtility::encodeBase64($params->join(':'));
 	}
 
 	/**
@@ -163,7 +149,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$request = new BSHTTPRequest;
 			$request->setMethod('POST');
 			$request->setURL($this->createRequestURL('/oauth2/token'));
-			$request->setHeader('Authorization', 'Basic ' . $this->getCredential());
+			$request->setHeader('Authorization', 'Basic ' . $this->createCredential());
 			$request->setRenderer(new BSWWWFormRenderer);
 			$request->getRenderer()->setParameter('grant_type', 'client_credentials');
 			$this->setAttribute('post', true);
@@ -179,14 +165,23 @@ class BSTwitterService extends BSCurlHTTP {
 		$this->bearerToken = $value;
 	}
 
-	protected function getSignatureKey () {
-		if (!$this->signatureKey) {
-			$key = new BSStringFormat('%s&%s');
-			$key[] = BSURL::encode($this->getConsumerSecret());
-			$key[] = BSURL::encode($this->getAccessTokenSecret());
-			$this->signatureKey = $key->getContents();
-		}
-		return $this->signatureKey;
+	protected function createSignatureKey () {
+		$values = new BSArray;
+		$values[] = BSURL::encode($this->getConsumerSecret());
+		$values[] = BSURL::encode($this->getAccessTokenSecret());
+		return $values->join('&');
+	}
+
+	protected function createSignatureData (BSHTTPRedirector $url, BSWWWFormRenderer $params) {
+		return (new BSArray([
+			'POST',
+			BSURL::encode($url->getContents()),
+			BSURL::encode(str_replace(
+				['+' , '%7E'],
+				['%20' , '~'],
+				$params->getContents()
+			)),
+		]))->join('&');
 	}
 
 	/**
@@ -206,23 +201,13 @@ class BSTwitterService extends BSCurlHTTP {
 		$params['oauth_nonce'] = BSDate::getNow('YmdHis') . BSNumeric::getRandom(1000, 9999);
 		$params['oauth_version'] = '1.0';
 		$params->sort();
+
 		$this->oauth = new BSWWWFormRenderer;
 		$this->oauth->setParameters($params);
-
-		$signature = new BSArray([
-			'POST',
-			BSURL::encode($url->getContents()),
-			BSURL::encode(str_replace(
-				['+' , '%7E'],
-				['%20' , '~'],
-				$this->oauth->getContents()
-			)),
-		]);
-
 		$this->oauth['oauth_signature'] = base64_encode(hash_hmac(
 			'sha1',
-			$signature->join('&'),
-			$this->getSignatureKey(),
+			$this->createSignatureData($url, $this->oauth),
+			$this->createSignatureKey(),
 			true
 		));
 	}
