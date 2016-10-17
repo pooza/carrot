@@ -76,14 +76,8 @@ class BSHTTP extends BSSocket {
 		$url['path'] = '/' . ltrim($href, '/');
 		if ($this->isSSL()) {
 			$url['scheme'] = 'https';
-			if ($this->getPort() != BSNetworkService::getPort('https')) {
-				$url['port'] = $this->getPort();
-			}
 		} else {
 			$url['scheme'] = 'http';
-			if ($this->getPort() != BSNetworkService::getPort('http')) {
-				$url['port'] = $this->getPort();
-			}
 		}
 		return $url;
 	}

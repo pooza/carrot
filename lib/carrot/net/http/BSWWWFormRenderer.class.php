@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
+	protected $separator = '&';
 
 	/**
 	 * パラメータを設定
@@ -41,12 +42,22 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	}
 
 	/**
+	 * セパレータを設定
+	 *
+	 * @param string $separator セパレータ
+	 * @access public
+	 */
+	public function setSeparator ($separator) {
+		$this->separator = $separator;
+	}
+
+	/**
 	 * 出力内容を返す
 	 *
 	 * @access public
 	 */
 	public function getContents () {
-		return http_build_query($this->getParameters());
+		return http_build_query($this->getParameters(), '', $this->separator);
 	}
 
 	/**
