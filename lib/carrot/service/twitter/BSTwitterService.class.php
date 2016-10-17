@@ -128,7 +128,7 @@ class BSTwitterService extends BSCurlHTTP {
 		$values = new BSArray;
 		$values[] = $this->getConsumerKey();
 		$values[] = $this->getConsumerSecret();
-		return BSMIMEUtility::encodeBase64($params->join(':'));
+		return BSMIMEUtility::encodeBase64($values->join(':'));
 	}
 
 	/**
@@ -342,7 +342,7 @@ class BSTwitterService extends BSCurlHTTP {
 		$request->setMethod('GET');
 		$request->setURL($this->createRequestURL($path));
 		if ($params) {
-			$request->getURL()->setParameter($params);
+			$request->getURL()->setParameters($params);
 		}
 		return $this->send($request);
 	}

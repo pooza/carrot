@@ -42,7 +42,7 @@ class BSHTTP extends BSSocket {
 		$request->setMethod('GET');
 		$request->setURL($this->createRequestURL($path));
 		if ($params) {
-			$request->getURL()->setParameter($params);
+			$request->getURL()->setParameters($params);
 		}
 		return $this->send($request);
 	}
