@@ -81,9 +81,8 @@ class BSTridentUserAgent extends BSUserAgent {
 		if (!$this['version']) {
 			if (mb_ereg('MSIE ([.[:digit:]]+);', $this->getName(), $matches)) {
 				$this['version'] = $matches[1];
-			}
-			if (mb_ereg('Trident', $this->getName(), $matches)) {
-				$this['version'] = 10;
+			} else if (mb_ereg('Trident', $this->getName(), $matches)) {
+				$this['version'] = 11;
 			}
 		}
 		return $this['version'];

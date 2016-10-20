@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.5.12
+  ver: 2.5.13
 
 admin:
   email:
@@ -256,9 +256,6 @@ serialize:
   storage: default
   serializer: JSON
 service:
-  ajaxzip3:
-    zipdata:
-      href: /svn/trunk/ajaxzip3/zipdata/
   bitly:
     version: 2.0.1
     login: carrotfw

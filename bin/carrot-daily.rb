@@ -15,7 +15,7 @@ $LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
 require 'carrot/batch_action'
 
 puts nil
-puts ROOT_DIR + ' の日次処理:'
+puts File.basename(ROOT_DIR) + ' の日次処理:'
 actions = BatchAction.new
 actions.register('Console', 'Purge')
 actions.execute

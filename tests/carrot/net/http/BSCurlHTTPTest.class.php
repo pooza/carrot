@@ -5,7 +5,7 @@
  */
 class BSCurlHTTPTest extends BSTest {
 	public function execute () {
-		$this->assert('__construct', $http = new BSCurlHTTP('www.b-shock.co.jp'));
+		$this->assert('__construct', $http = new BSCurlHTTP('www.b-shock.co.jp', 443));
 		try {
 			$response = $http->sendGET('/NotFound');
 		} catch (BSHTTPException $e) {

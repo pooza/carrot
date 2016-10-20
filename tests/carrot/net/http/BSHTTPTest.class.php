@@ -7,12 +7,11 @@ class BSHTTPTest extends BSTest {
 	public function execute () {
 		$this->assert('__construct', $http = new BSHTTP('www.b-shock.co.jp'));
 		try {
-			$response = $http->sendGET('/NotFound');
+			$response = $http->sendGET('/');
 		} catch (BSHTTPException $e) {
 			$response = $e->getResponse();
 		}
-		$this->assert('status_404', $response->getStatus() == 404);
-		$this->assert('content-length_404', !!$response->getRenderer()->getSize());
+		$this->assert('status_301', $response->getStatus() == 301);
 	}
 }
 
