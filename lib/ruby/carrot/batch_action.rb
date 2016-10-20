@@ -28,6 +28,7 @@ class BatchAction < Array
         cmd.push('-' + key.to_s)
         cmd.push(value)
       end
+      puts "== module:#{action[:m]} action:#{action[:a]}"
       system(cmd.join(' '))
     end
   end
