@@ -1,40 +1,25 @@
-#!/usr/local/bin/ruby -Ku
+#!/usr/bin/env ruby
 
-# cronolog/rotatelogsの代用ツール
+# /root/binに置き、以下の様に設定して使う。
 #
-# 設置例:
-# LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
-# <VirtualHost *>
-#   VirtualDocumentRoot /home/carrot/sites/%0/www
-#   CustomLog "|/root/bin/divlog.rb" vhost_combined
-# </VirtualHost>
-#
-# @package org.carrot-framework
-# @author 小石達也 <tkoishi@b-shock.co.jp>
+# LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined_vhost
+# CustomLog "|/root/bin/divlog.rb" combined_vhost
 
+require 'fileutils'
+
+SITES_DIR = '/usr/local/www/apache24/data/'
 LOG_DIR = '/var/log/httpd/'
-
-def dig (target_path)
-  path = ''
-  path_array = target_path.split('/')
-  path_array.shift
-  path_array.pop
-  path_array.each do |part|
-    path += '/' + part
-    begin
-      Dir.mkdir(path)
-    rescue
-    end
-  end
-end
 
 ARGF.each do |line|
   entry = line.split(' ')
-  path = LOG_DIR + entry.shift + '/' + Time.now.strftime('%Y/%m/access_%Y%m%d') + '.log'
-  dig(path)
+  domain = entry.shift
+  next unless Dir.exist?(SITES_DIR + domain)
+
+  path = LOG_DIR + domain + '/' + Time.now.strftime('%Y/%m/access_%Y%m%d') + '.log'
+  path_dir = File.dirname(path)
+  FileUtils.mkdir_p(path_dir) unless Dir.exist?(path_dir)
 
   File.open(path, 'a') do |file|
     file.puts entry.join(' ')
   end
 end
-

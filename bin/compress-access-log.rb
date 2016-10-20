@@ -1,16 +1,15 @@
-#!/usr/local/bin/ruby -Ku
-
-# 昨日分のアクセスログをgzip圧縮
-#
-# @package org.carrot-framework
-# @author 小石達也 <tkoishi@b-shock.co.jp>
+#!/usr/bin/env ruby
 
 GZIP_CMD = '/usr/bin/gzip'
-LOG_DIR = '/home/*/logs'
+LOG_DIR = '/var/log/httpd/'
+DAYS = 1
 
-require 'date'
-
-date = Date.today - 1
-command = GZIP_CMD + ' ' + LOG_DIR + '/*/' + date.strftime('%Y/%m') \
-  + '/*_' + date.strftime('%Y%m%d') + '.log'
-system(command)
+puts nil
+puts 'アクセスログを圧縮:'
+expires_on = Time.now - (60 * 60 * 24 * DAYS)
+Dir.glob(LOG_DIR + '*/*/*/*.log').each do |f|
+  if File.new(f).mtime < expires_on
+    puts f
+    system(GZIP_CMD, '-f', f)
+  end
+end
