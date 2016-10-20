@@ -23,11 +23,7 @@ class BSException extends Exception {
 		if (!is_numeric($code)) {
 			$code = 0;
 		}
-		if (!$prev || version_compare(PHP_VERSION, '5.3.0', '<')) {
-			parent::__construct($message, $code);
-		} else {
-			parent::__construct($message, $code, $prev);
-		}
+		parent::__construct($message, $code, $prev);
 		if ($this->isLoggable()) {
 			BSLogManager::getInstance()->put($this);
 		}

@@ -100,6 +100,8 @@ foreach (array('PHP_SELF', 'PATH_INFO') as $name) {
 	);
 }
 
+date_default_timezone_set('Asia/Tokyo');
+
 define('BS_LIB_DIR', BS_ROOT_DIR . '/lib');
 define('BS_SHARE_DIR', BS_ROOT_DIR . '/share');
 define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
@@ -139,9 +141,7 @@ if (BS_DEBUG) {
 	ini_set('display_errors', 1);
 	BSController::getInstance()->dispatch();
 } else {
-	if (defined('E_DEPRECATED')) {
-		error_reporting(error_reporting() & ~E_DEPRECATED);
-	}
+	error_reporting(error_reporting() & ~E_DEPRECATED);
 	ini_set('display_errors', 0);
 	try {
 		BSController::getInstance()->dispatch();

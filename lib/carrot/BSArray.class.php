@@ -163,11 +163,7 @@ class BSArray extends BSParameterHolder {
 	 * @return BSArray 自分自身
 	 */
 	public function uniquize () {
-		if (version_compare(PHP_VERSION, '5.2.9', '<')) {
-			$this->params = array_unique($this->params);
-		} else {
-			$this->params = array_unique($this->params, SORT_STRING);
-		}
+		$this->params = array_unique($this->params, SORT_STRING);
 		return $this;
 	}
 

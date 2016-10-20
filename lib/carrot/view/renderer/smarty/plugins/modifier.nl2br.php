@@ -15,11 +15,7 @@ function smarty_modifier_nl2br ($value) {
 	} else if ($value instanceof BSParameterHolder) {
 		return $value->getParameters();
 	} else if (!BSString::isBlank($value)) {
-		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-			return nl2br($value);
-		} else {
-			return nl2br($value, !BS_VIEW_HTML5);
-		}
+		return nl2br($value, !BS_VIEW_HTML5);
 	}
 	return $value;
 }
