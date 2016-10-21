@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/local/bin/ruby
 
 # /root/binに置き、以下の様に設定して使う。
 #
@@ -15,7 +15,7 @@ ARGF.each do |line|
   domain = entry.shift
   next unless Dir.exist?(SITES_DIR + domain)
 
-  path = LOG_DIR + domain + '/' + Time.now.strftime('%Y/%m/access_%Y%m%d') + '.log'
+  path = "#{LOG_DIR}#{domain}/#{Time.now.strftime('%Y/%m/access_%Y%m%d')}.log"
   path_dir = File.dirname(path)
   FileUtils.mkdir_p(path_dir) unless Dir.exist?(path_dir)
 
