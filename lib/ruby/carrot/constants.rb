@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # carrot定数
 #
 # @package org.carrot-framework

@@ -4,7 +4,7 @@
  * @subpackage config.parser
  */
 
-BSUtility::includeFile('spyc');
+BSUtility::includeFile('Spyc');
 
 /**
  * YAML設定パーサー

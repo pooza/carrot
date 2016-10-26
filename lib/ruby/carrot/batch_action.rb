@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # バッチ処理
 #
 # @package org.carrot-framework

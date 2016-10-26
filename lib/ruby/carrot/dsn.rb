@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # DSN
 #
 # @package org.carrot-framework
@@ -22,7 +20,7 @@ class DSN
 
   def install
     raise 'invalid scheme: ' + @scheme if @scheme != 'sqlite'
-    sh 'sudo rm ' + @db if File.exists?(@db)
+    sh 'sudo rm ' + @db if File.exist?(@db)
     sh 'sqlite3 "' + @db + '" < ' + self.schema_file
     sh 'chmod 666 ' + @db
   end
@@ -31,7 +29,7 @@ class DSN
     ['_init', ''].each do |suffix|
       ['.sqlite.sql', '.sql'].each do |extension|
         path = ROOT_DIR + '/share/sql/' + @name.downcase + suffix + extension
-        if File.exists?(path)
+        if File.exist?(path)
           return path
         end
       end
