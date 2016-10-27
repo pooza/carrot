@@ -1,5 +1,3 @@
-#!/usr/bin/env rake
-
 # carrotユーティリティタスク
 #
 # @package __PACKAGE__

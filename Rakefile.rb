@@ -1,5 +1,3 @@
-#!/usr/bin/env rake
-
 # carrotユーティリティタスク
 #
 # @package org.carrot-framework
@@ -124,7 +122,6 @@ namespace :phpdoc do
 end
 
 namespace :docomo do
-  desc 'docomoの端末リストを取得'
   task :fetch do
     sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
   end
