@@ -23,7 +23,7 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 		$this->supports['html5_audio_aac'] = $this->supports['html5_audio'];
 		$this->supports['html5_video'] = version_compare('534.30', $this->getVersion(), '<');
 		$this->supports['html5_video_webm'] = $this->supports['html5_video'];
-		$this->supports['html5_video_h264'] = false;
+		$this->supports['html5_video_h264'] = $this->supports['html5_video'];
 		$this->supports['flash'] = version_compare('530.0', $this->getVersion(), '<');
 	}
 
