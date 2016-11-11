@@ -8,9 +8,9 @@ $LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
 $LOAD_PATH.push(ROOT_DIR)
 
 require 'yaml'
-require 'shellwords'
 require 'carrot/constants'
 require 'carrot/environment'
+require 'carrot/periodic'
 require 'webapp/config/Rakefile.local'
 
 desc 'インストールを実行'
@@ -45,6 +45,17 @@ namespace :environment do
 
     file Environment.file_path do
       sh 'touch ' + Environment.file_path
+    end
+  end
+end
+
+namespace :periodic do
+  desc 'periodicを登録'
+  task :init => [:daily]
+
+  [:daily].each do |period|
+    task period do
+      Periodic.create(period, "#{ROOT_DIR}/bin/carrot-#{period}.rb")
     end
   end
 end
