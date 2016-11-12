@@ -18,6 +18,9 @@ AddType video/webm .webm
 # mod_rewrite
 RewriteEngine on
 RewriteRule ^(.*/)*\.(svn|git)/ / [F,L]
+#RewriteCond %{SERVER_PORT} !^443$ [OR] #常時httpsのサイトでは以下3行コメントを外し、適切に設定
+#RewriteCond %{HTTPS} off
+#RewriteRule .* https://www.example.com%{REQUEST_URI} [R=301,L] 
 RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)/([A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2&id=$3 [L,QSA]
 RewriteRule ^([A-Z][A-Za-z0-9]+)/([A-Z][A-Za-z0-9]+)$ /carrotctl.php?m=$1&a=$2 [L,QSA]
 RewriteRule ^([A-Z][A-Za-z0-9]+)/$ /carrotctl.php?m=$1 [L,QSA]
@@ -39,3 +42,4 @@ php_flag session.use_only_cookies On
 php_flag session.cookie_httponly On
 php_flag session.use_trans_sid Off
 php_flag session.hash_function On
+#php_flag session.cookie_secure On #常時httpsのサイトではコメントを外す
