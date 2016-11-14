@@ -6,6 +6,8 @@
 require 'carrot/constants'
 
 class BatchAction < Array
+  attr :silent, true
+
   def register (m, a)
     self.push({:m => m, :a => a})
   end
@@ -25,7 +27,7 @@ class BatchAction < Array
         cmd.push('-' + key.to_s)
         cmd.push(value)
       end
-      puts "== module:#{action[:m]} action:#{action[:a]}"
+      puts "== module:#{action[:m]} action:#{action[:a]}" unless @silent
       system(cmd.join(' '))
     end
   end
