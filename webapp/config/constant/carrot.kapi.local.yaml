@@ -3,8 +3,8 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-root_url: http://carrot.torkan.local/
-root_url_https: http://carrot.torkan.local/
+root_url: http://carrot.kapi.local/
+root_url_https: http://carrot.kapi.local/
 debug: yes
 
 admin:
