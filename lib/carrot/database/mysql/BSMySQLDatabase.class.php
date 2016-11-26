@@ -69,7 +69,14 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @access public
 	 */
 	public function optimize () {
-		$this->log($this . 'の最適化は未実装です。');
+		foreach ($this->getTableNames() as $table) {
+			if ($this->getTableProfile($table)->isOptimizable()) {
+				$this->exec('OPTIMIZE TABLE ' . $table);
+			} else {
+				$this->log($table . 'テーブルは最適化できません。');
+			}
+		}
+		$this->log($this . 'を最適化しました。');
 	}
 
 	/**

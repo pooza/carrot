@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMySQLTableProfile extends BSTableProfile {
+	private $storageEngine;
 
 	/**
 	 * @access public
@@ -86,6 +87,38 @@ class BSMySQLTableProfile extends BSTableProfile {
 		$criteria->register('table_schema', $this->database['database_name']);
 		$criteria->register('table_name', $this->getName());
 		return $criteria;
+	}
+
+	/**
+	 * ストレージエンジンを返す
+	 *
+	 * @access public
+	 * @return ストレージエンジン
+	 */
+	public function getStorageEngine () {
+		if (!$this->storageEngine) {
+			$criteria = new BSCriteriaSet;
+			$criteria->register('table_schema', $this->getDatabase()['database_name']);
+			$criteria->register('table_name', $this->getName());
+			$sql = BSSQL::getSelectQueryString(
+				['engine'],
+				['information_schema.tables'],
+				$criteria
+			);
+			$result = $this->getDatabase()->query($sql)->fetchAll()[0];
+			$this->storageEngine = $result['engine'];
+		}
+		return $this->storageEngine;
+	}
+
+	/**
+	 * 最適化可能か？
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isOptimizable () {
+		return ($this->getStorageEngine() != 'InnoDB');
 	}
 }
 
