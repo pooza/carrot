@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.5.16
+  ver: 2.5.17
 
 admin:
   email:
@@ -102,7 +102,7 @@ ffmpeg:
       audio_sampling_frequency: 44100
     mp3:
 flash:
-  player_ver: 9.0.0
+  player_ver: 23.0.0
   installer:
     href: /carrotlib/swf/expressInstall.swf
 image:

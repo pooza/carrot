@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSMPEG4MovieFile extends BSQuickTimeMovieFile {
+class BSMPEG4MovieFile extends BSMovieFile {
 
 	/**
 	 * @access public
@@ -17,6 +17,24 @@ class BSMPEG4MovieFile extends BSQuickTimeMovieFile {
 	 */
 	public function __toString () {
 		return sprintf('MPEG4動画ファイル "%s"', $this->getShortPath());
+	}
+
+	/**
+	 * 表示用のXHTML要素を返す
+	 *
+	 * @access public
+	 * @param BSParameterHolder $params パラメータ配列
+	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSDivisionElement 要素
+	 */
+	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
+		switch ($params['mode']) {
+			case 'shadowbox':
+				return $this->createShadowboxElement($params);
+			case 'lightpop':
+				return $this->createLightpopElement($params);
+		}
+		return $this->createVideoElement($params);
 	}
 
 	/**

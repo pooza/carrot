@@ -19,9 +19,11 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
+		$this['is_chrome'] = $this->isChrome();
+		$this['is_safari'] = $this->isSafari();
 		$this->supports['html5_video'] = true;
 		$this->supports['html5_video_webm'] = $this->isChrome();
-		$this->supports['html5_video_h264'] = !$this->isChrome();
+		$this->supports['html5_video_h264'] = true;
 		$this->supports['html5_audio'] = true;
 		$this->supports['html5_audio_mp3'] = true;
 		$this->supports['html5_audio_aac'] = true;
@@ -38,6 +40,18 @@ class BSWebKitUserAgent extends BSUserAgent {
 	 */
 	public function isChrome () {
 		return BSString::isContain('Chrome', $this->getName());
+	}
+
+	/**
+	 * Safariか？
+	 *
+	 * @access public
+	 * @return boolean SafariならTrue
+	 */
+	public function isSafari () {
+		return (BSString::isContain('Macintosh', $this->getName())
+			&& !BSString::isContain('Chrome', $this->getName())
+		);
 	}
 
 	/**

@@ -223,7 +223,7 @@ class BSMovieFile extends BSMediaFile {
 		$element->registerSource($this->createURL($params));
 		$element->setAttribute('width', $params['width']);
 		$element->setAttribute('height', $params['height']);
-		return $element;
+		return $element->wrap(new BSDivisionElement);
 	}
 
 	/**
