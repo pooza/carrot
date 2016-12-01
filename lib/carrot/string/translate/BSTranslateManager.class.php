@@ -10,42 +10,21 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSTranslateManager implements IteratorAggregate {
+	use BSSingleton;
 	private $language = 'ja';
 	private $dictionaries;
-	static private $instance;
 	static private $languages;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->dictionaries = new BSArray;
 		foreach ($this->getDirectory() as $dictionary) {
 			$this->register($dictionary);
 		}
 		$this->setDictionaryPriority('BSDictionaryFile.carrot', BSArray::POSITION_BOTTOM);
 		$this->register(new BSConstantHandler);
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSTranslateManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	private function getDirectory () {

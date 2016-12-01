@@ -10,39 +10,12 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSCrypt {
+	use BSSingleton;
 	private $engine;
-	static private $instance;
 	const WITH_BASE64 = 1;
 	const SHA1 = 1;
 	const MD5 = 2;
 	const PLAINTEXT = 4;
-
-	/**
-	 * @access private
-	 */
-	private function __construct () {
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSCrypt インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
-	}
 
 	/**
 	 * @access public

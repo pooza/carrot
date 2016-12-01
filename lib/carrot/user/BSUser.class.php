@@ -10,10 +10,10 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSUser extends BSParameterHolder {
+	use BSSingleton;
 	protected $id;
 	private $attributes;
 	private $credentials;
-	static private $instance;
 	const COOKIE = 1;
 
 	/**
@@ -56,13 +56,6 @@ class BSUser extends BSParameterHolder {
 			}
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

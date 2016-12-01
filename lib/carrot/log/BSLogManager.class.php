@@ -10,38 +10,17 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSLogManager implements IteratorAggregate {
+	use BSSingleton;
 	private $loggers;
-	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->loggers = new BSArray;
 		foreach (BSString::explode(',', BS_LOG_LOGGERS) as $class) {
 			$this->register(BSLoader::getInstance()->createObject($class, 'Logger'));
 		}
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSLogManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

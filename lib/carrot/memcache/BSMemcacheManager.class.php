@@ -10,37 +10,16 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMemcacheManager {
+	use BSSingleton;
 	private $constants;
-	static private $instance;
 	const CONNECT_INET = 'inet';
 	const CONNECT_UNIX = 'unix';
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->constants = new BSConstantHandler('memcache');
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSMemcacheManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

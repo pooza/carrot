@@ -11,18 +11,12 @@
  * @abstract
  */
 abstract class BSRequest extends BSHTTPRequest {
+	use BSSingleton;
 	protected $version = null;
 	private $host;
 	private $session;
 	private $attributes;
 	private $errors;
-	static private $instance;
-
-	/**
-	 * @access protected
-	 */
-	protected function __construct () {
-	}
 
 	/**
 	 * シングルトンインスタンスを返す
@@ -40,13 +34,6 @@ abstract class BSRequest extends BSHTTPRequest {
 			}
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

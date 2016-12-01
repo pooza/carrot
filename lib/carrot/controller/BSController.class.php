@@ -11,13 +11,13 @@
  * @abstract
  */
 abstract class BSController {
+	use BSSingleton;
 	protected $host;
 	protected $platform;
 	protected $headers;
 	protected $actions;
 	protected $searchDirectories;
 	protected $serializeHandler;
-	static private $instance;
 	const ACTION_REGISTER_LIMIT = 20;
 	const COMPLETED = true;
 
@@ -58,13 +58,6 @@ abstract class BSController {
 			}
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

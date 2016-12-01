@@ -154,7 +154,7 @@ class BSLoader {
 		if (BSUtility::isPathAbsolute($filename)) {
 			$filename = basename($filename);
 		}
-		if (mb_ereg('(.*?)\\.(class|interface)\\.php', $filename, $matches)) {
+		if (mb_ereg('(.*?)\\.(class|interface|trait)\\.php', $filename, $matches)) {
 			return $matches[1];
 		}
 	}

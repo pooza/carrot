@@ -10,12 +10,12 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable {
-	static private $instance;
+	use BSSingleton;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this['id'] = BS_SERVICE_GOOGLE_ANALYTICS_ID;
 		$this['domain'] = $this->getRootDomainName();
 	}
@@ -27,27 +27,6 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 		}
 		$domain->unshift(null);
 		return $domain->join('.');
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSGoogleAnalyticsService インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

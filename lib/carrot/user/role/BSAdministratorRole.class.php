@@ -10,35 +10,14 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSAdministratorRole implements BSRole {
+	use BSSingleton;
 	protected $credentials;
-	static protected $instance;
 	const CREDENTIAL = 'Admin';
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSAdministratorRole インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	protected function __construct () {
 	}
 
 	/**

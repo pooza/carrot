@@ -10,36 +10,15 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSAuthorRole implements BSRole {
+	use BSSingleton;
 	protected $credentials;
 	protected $twitterAccount;
-	static protected $instance;
 	const CREDENTIAL = 'Author';
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSAuthorRole インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
+	protected function __construct () {
 	}
 
 	/**

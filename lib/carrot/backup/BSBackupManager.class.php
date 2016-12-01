@@ -10,40 +10,19 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSBackupManager {
+	use BSSingleton;
 	private $config;
-	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$this->config = new BSArray;
 		$configure = BSConfigManager::getInstance();
 		foreach ($configure->compile('backup/application') as $key => $values) {
 			$this->config[$key] = new BSArray($values);
 			$this->config[$key]->trim();
 		}
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSBackupManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

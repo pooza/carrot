@@ -14,13 +14,13 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSConsumptionTaxHandler {
+	use BSSingleton;
 	private $rates;
-	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$config = BSConfigManager::getInstance()->compile('consumption_tax');
 		$this->rates = new BSArray;
 		foreach ($config['rates'] as $row) {
@@ -31,27 +31,6 @@ class BSConsumptionTaxHandler {
 			));
 		}
 		$this->rates->sort();
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSConsumptionTaxHandler インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

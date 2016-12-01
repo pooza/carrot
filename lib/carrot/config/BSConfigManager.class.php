@@ -10,37 +10,16 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSConfigManager {
+	use BSSingleton;
 	private $compilers;
-	static private $instance;
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$file = self::getConfigFile('config_compilers', 'BSRootConfigFile');
 		$this->compilers = new BSArray($this->compile($file));
 		$this->compilers[] = new BSDefaultConfigCompiler(array('pattern' => '.'));
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSConfigManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**

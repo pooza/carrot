@@ -11,44 +11,23 @@
  * @version $Id: BSColor.class.php 573 2008-09-13 07:38:10Z pooza $
  */
 class BSFontManager {
+	use BSSingleton;
 	private $config;
 	private $fonts;
-	static private $instance;
 	const DEFAULT_FONT = 'VL-PGothic-Regular';
 	const DEFAULT_FONT_SIZE = 9;
 	const MINCHO_FONT = 'MSPMincho';
 	const GOTHIC_FONT = 'MSPGothic';
 
 	/**
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct () {
+	protected function __construct () {
 		$configure = BSConfigManager::getInstance();
 		$this->config = new BSArray;
 		$this->config->setParameters($configure->compile('font/carrot'));
 		$this->config->setParameters($configure->compile('font/application'));
 		$this->fonts = new BSArray;
-	}
-
-	/**
-	 * シングルトンインスタンスを返す
-	 *
-	 * @access public
-	 * @return BSTranslateManager インスタンス
-	 * @static
-	 */
-	static public function getInstance () {
-		if (!self::$instance) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 */
-	public function __clone () {
-		throw new BadFunctionCallException(__CLASS__ . 'はコピーできません。');
 	}
 
 	/**
