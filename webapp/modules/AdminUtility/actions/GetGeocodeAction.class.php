@@ -14,10 +14,10 @@ class GetGeocodeAction extends BSAction {
 		}
 
 		$json = new BSResultJSONRenderer;
-		$json->setContents(new BSArray(array(
+		$json->setContents(new BSArray([
 			'lat' => $geocode['lat'],
 			'lng' => $geocode['lng'],
-		)));
+		]));
 		$this->request->setAttribute('renderer', $json);
 		return BSView::SUCCESS;
 	}

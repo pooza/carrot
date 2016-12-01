@@ -26,18 +26,18 @@ class BrowseAction extends BSAction {
 	}
 
 	public function handleError () {
-		$this->request->setAttribute('dates', array());
-		$entry = array(
+		$this->request->setAttribute('dates', []);
+		$entry = [
 			'exception' => true,
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
 			'remote_host' => $this->request->getHost()->getName(),
 			'message' => 'ログを取得できません。',
-		);
+		];
 		if ($this->exception) {
 			$entry['priority']= get_class($this->exception);
 			$entry['message'] = $this->exception->getMessage();
 		}
-		$this->request->setAttribute('entries', array($entry));
+		$this->request->setAttribute('entries', [$entry]);
 		return BSView::SUCCESS;
 	}
 
