@@ -19,6 +19,7 @@ carrot:
     - elevator
     - yahoo.color
     - color_picker
+    - activity_indicator
     - carrot
     - application
 lightpop:
