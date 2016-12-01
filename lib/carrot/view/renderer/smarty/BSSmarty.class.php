@@ -29,7 +29,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->finder = new BSFileFinder('BSTemplateFile');
 		$this->finder->clearDirectories();
 		$this->compile_dir = BSFileUtility::getPath('compile');
-		$this->plugins_dir = array();
+		$this->plugins_dir = [];
 		$this->plugins_dir[] = BSFileUtility::getPath('local_lib') . '/smarty';
 		$this->plugins_dir[] = BSFileUtility::getPath('carrot') . '/view/renderer/smarty/plugins';
 		$this->plugins_dir[] = BSFileUtility::getPath('lib') . '/Smarty/plugins';
@@ -79,7 +79,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 * @param string $name 修飾子の名前
 	 */
 	public function clearModifier () {
-		$this->default_modifiers = array();
+		$this->default_modifiers = [];
 	}
 
 	/**
@@ -395,11 +395,11 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$result = $compiler->_compile_file($resource, $source, $compiled);
 
 		if ($compiler->_cache_serial) {
-			$this->_cache_include_info = array(
+			$this->_cache_include_info = [
 				'cache_serial' => $compiler->getAttribute('_cache_serial'),
 				'plugins_code' => $compiler->getAttribute('_plugins_code'),
 				'include_file_path' => $path,
-			);
+			];
 		} else {
 			$this->_cache_include_info = null;
 		}

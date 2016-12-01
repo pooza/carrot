@@ -19,7 +19,7 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 	 * @return mixed[] 変換後
 	 */
 	protected function getContents ($config) {
-		$pictograms = array();
+		$pictograms = [];
 		foreach ((array)$config as $entry) {
 			foreach ($entry['names'] as $name) {
 				$pictograms['codes'][$name] = $entry['pictograms'];

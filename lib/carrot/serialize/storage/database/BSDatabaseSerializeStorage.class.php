@@ -61,11 +61,11 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 	 */
 	public function setAttribute ($name, $value) {
 		$serialized = $this->serializer->encode($value);
-		$values = array(
+		$values = [
 			'id' => $name,
 			'data' => $serialized,
 			'update_date' => BSDate::getNow('Y-m-d H:i:s'),
-		);
+		];
 
 		if ($record = $this->getTable()->getRecord($name)) {
 			$record->update($values);

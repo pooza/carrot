@@ -18,11 +18,11 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	private $pagesize = 20;
 	private $lastpage;
 	private $executed = false;
-	private $result = array();
+	private $result = [];
 	private $queryString;
 	private $recordClass;
 	private $name;
-	private $fieldNames = array();
+	private $fieldNames = [];
 	private $ids;
 	const CLASS_SUFFIX = 'Handler';
 
@@ -321,7 +321,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		if (is_array($key) || ($key instanceof BSParameterHolder)) {
 			$key = new BSArray($key);
 		} else {
-			$key = new BSArray(array($this->getKeyField() => $key));
+			$key = new BSArray([$this->getKeyField() => $key]);
 		}
 
 		$class = $this->getRecordClass();
@@ -405,13 +405,13 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		$values = new BSArray($values);
 		$fields = $this->getProfile()->getFields();
 		$request = BSRequest::getInstance();
-		$smartFields = new BSArray(array(
+		$smartFields = new BSArray([
 			$this->getCreateDateField() => BSDate::getNow('Y-m-d H:i:s'),
 			$this->getUpdateDateField() => BSDate::getNow('Y-m-d H:i:s'),
 			$this->getUserAgentField() => $request->getUserAgent()->getName(),
 			$this->getRemoteHostField() => $request->getHost()->getName(),
 			$this->getRemoteAddressField() => $request->getHost()->getAddress(),
-		));
+		]);
 		foreach ($smartFields as $key => $value) {
 			if (!$values->hasParameter($key) && !!$fields[$key]) {
 				$values[$key] = $value;
@@ -485,7 +485,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	protected function setExecuted ($executed) {
 		if (!$this->executed = $executed) {
 			$this->queryString = null;
-			$this->result = array();
+			$this->result = [];
 		}
 	}
 
@@ -641,7 +641,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return string[] ラベルの配列
 	 */
 	public function getLabels ($language = 'ja') {
-		$labels = array();
+		$labels = [];
 		foreach ($this as $record) {
 			$labels[$record->getID()] = $record->getLabel($language);
 		}
@@ -865,7 +865,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	static public function getStatusOptions () {
 		return BSTranslateManager::getInstance()->getHash(
-			array('show', 'hide')
+			['show', 'hide']
 		);
 	}
 }

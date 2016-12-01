@@ -12,7 +12,7 @@
 abstract class BSParameterHolder
 	implements IteratorAggregate, ArrayAccess, Countable, BSAssignable {
 
-	protected $params = array();
+	protected $params = [];
 
 	/**
 	 * パラメータを返す
@@ -58,7 +58,7 @@ abstract class BSParameterHolder
 		if ($params instanceof BSParameterHolder) {
 			$params = $params->getParameters();
 		} else if (BSNumeric::isZero($params)) {
-			$params = array(0);
+			$params = [0];
 		} else if (!$params) {
 			return;
 		}

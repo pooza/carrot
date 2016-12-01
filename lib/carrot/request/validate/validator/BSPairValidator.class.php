@@ -17,7 +17,7 @@ class BSPairValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['field'] = null;
 		$this['equal'] = true;
 		$this['equal_error'] = '一致しません。';

@@ -98,10 +98,10 @@ class BSUstreamService extends BSCurlHTTP {
 	 */
 	public function getChannelInfo ($name, BSParameterHolder $params = null) {
 		$params = $this->createParameters($params);
-		$key = get_class($this) . '.' . BSCrypt::digest(array(
+		$key = get_class($this) . '.' . BSCrypt::digest([
 			$name,
 			$params->join("\n", "\t")
-		));
+		]);
 
 		$controller = BSController::getInstance();
 		$date = BSDate::getNow()->setParameter('hour', '-1');
@@ -124,10 +124,10 @@ class BSUstreamService extends BSCurlHTTP {
 		$dest = new BSArray;
 		if ($src) {
 			foreach ($src as $key => $value) {
-				if (in_array($key, array('width', 'height'))) {
+				if (in_array($key, ['width', 'height'])) {
 					$dest[$key] = $value;
 				}
-				if (in_array($key, array('autoplay'))) {
+				if (in_array($key, ['autoplay'])) {
 					$dest[$key] = 'false';
 					if (!!$value) {
 						$dest[$key] = 'true';

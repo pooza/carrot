@@ -103,7 +103,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		$var = '$this->_foreach[' . $this->quote($params['name']) . ']';
 		$body = new BSArray;
 		$body[] = sprintf(
-			'<?php %s = array(\'from\' => %s, \'iteration\' => 0);',
+			'<?php %s = [\'from\' => %s, \'iteration\' => 0];',
 			$var, $params['from']
 		);
 		$body[] = sprintf('%s[\'total\'] = count(%s[\'from\']);', $var, $var);

@@ -17,7 +17,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function __construct ($params = array()) {
+	public function __construct ($params = []) {
 		if (!self::$executed) {
 			self::$executed = new BSArray;
 		}
@@ -47,7 +47,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 * @param mixed[] $params パラメータ
 	 * @return boolean 初期化が成功すればTrue
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this->setParameters($params);
 		return true;
 	}

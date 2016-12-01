@@ -36,10 +36,10 @@ class BSUtility {
 	 * @static
 	 */
 	static public function getUniqueID () {
-		return BSCrypt::digest(array(
+		return BSCrypt::digest([
 			BSDate::getNow('YmdHis'),
 			uniqid(BSNumeric::getRandom(), true),
-		));
+		]);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class BSUtility {
 	 * @return mixed メソッドの返値
 	 * @static
 	 */
-	static public function executeMethod ($object, $method, $values = array()) {
+	static public function executeMethod ($object, $method, $values = []) {
 		if (is_string($object)) {
 			$object = BSLoader::getInstance()->getClass($object);
 		}
@@ -103,7 +103,7 @@ class BSUtility {
 			$message[] = $method;
 			throw new BadFunctionCallException($message);
 		}
-		return call_user_func_array(array($object, $method), $values);
+		return call_user_func_array([$object, $method], $values);
 	}
 }
 

@@ -18,11 +18,11 @@ class BSZipcodeValidator extends BSRegexValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['match'] = true;
 		$this['match_error'] = '正しくありません。';
 		$this['pattern'] = self::PATTERN;
-		$this['fields'] = array();
+		$this['fields'] = [];
 		return BSValidator::initialize($params);
 	}
 

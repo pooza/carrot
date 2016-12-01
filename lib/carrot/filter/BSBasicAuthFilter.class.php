@@ -24,7 +24,7 @@ class BSBasicAuthFilter extends BSFilter {
 		return BSController::COMPLETED;
 	}
 
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['user_id'] = $this->controller->getAttribute('ADMIN_EMAIL');
 		$this['password'] = $this->controller->getAttribute('ADMIN_PASSWORD');
 		$this['realm'] = $this->controller->getHost()->getName();

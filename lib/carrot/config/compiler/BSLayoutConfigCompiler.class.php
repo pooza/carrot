@@ -12,17 +12,17 @@
 class BSLayoutConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$this->putLine('return array(');
+		$this->putLine('return [');
 		foreach ($file->getResult() as $name => $params) {
-			$this->putLine(sprintf('  %s => array(', self::quote($name)));
+			$this->putLine(sprintf('  %s => [', self::quote($name)));
 			foreach ($params as $key => $value) {
 				$this->putLine(parent::replaceConstants(
 					sprintf('    %s => %s,', self::quote($key), self::quote($value))
 				));
 			}
-			$this->putLine('  ),');
+			$this->putLine('  ],');
 		}
-		$this->putLine(');');
+		$this->putLine('];');
 		return $this->getBody();
 	}
 }

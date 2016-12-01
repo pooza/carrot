@@ -247,10 +247,10 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		return new BSArray(array(
+		return new BSArray([
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),
-		));
+		]);
 	}
 
 	/**
@@ -277,7 +277,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 
 		$class = $this->getViewClass();
 		if ($dir = $this->getModule()->getDirectory('views')) {
-			foreach (array($name, null) as $suffix) {
+			foreach ([$name, null] as $suffix) {
 				$basename = $this->getName() . $suffix . 'View';
 				if ($file = $dir->getEntry($basename . '.class.php')) {
 					require $file->getPath();

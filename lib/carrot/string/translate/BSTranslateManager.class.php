@@ -103,11 +103,11 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 
 	private function getWords ($string) {
-		return new BSArray(array(
+		return new BSArray([
 			$string,
 			BSString::underscorize($string),
 			BSString::pascalize($string),
-		));
+		]);
 	}
 
 	private function getDictionaryNames ($name) {

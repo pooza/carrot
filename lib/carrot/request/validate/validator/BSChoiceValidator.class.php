@@ -17,7 +17,7 @@ class BSChoiceValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['class'] = null;
 		$this['function'] = 'getStatusOptions';
 		$this['choices'] = null;
@@ -59,7 +59,7 @@ class BSChoiceValidator extends BSValidator {
 			} catch (Exception $e) {
 				$class = $classes->getClass($this['class']);
 			}
-			$choices->setParameters(call_user_func(array($class, $this['function'])));
+			$choices->setParameters(call_user_func([$class, $this['function']]));
 			$choices = $choices->getKeys();
 		}
 		return $choices;

@@ -70,12 +70,12 @@ class BSJabberLogger extends BSLogger {
 	}
 
 	private function send ($message, $priority) {
-		$message = array(
+		$message = [
 			'[' . BS_APP_NAME_JA . ']',
 			'[' . $_SERVER['REMOTE_ADDR'] . ']',
 			'[' . $priority . ']',
 			$message,
-		);
+		];
 		return $this->server->sendMessage(implode(' ', $message));
 	}
 

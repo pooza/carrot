@@ -18,7 +18,7 @@ class BSKanaValidator extends BSRegexValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['match'] = true;
 		$this['match_error'] = '使用出来ない文字が含まれています。';
 		$this['pattern'] = self::PATTERN;

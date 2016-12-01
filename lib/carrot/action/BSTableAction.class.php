@@ -104,7 +104,7 @@ abstract class BSTableAction extends BSAction {
 	 * @return string[] 検索条件
 	 */
 	protected function getCriteria () {
-		return array();
+		return [];
 	}
 
 	/**
@@ -114,7 +114,7 @@ abstract class BSTableAction extends BSAction {
 	 * @return string[] ソート順
 	 */
 	protected function getOrder () {
-		return array();
+		return [];
 	}
 
 	/**

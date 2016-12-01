@@ -18,10 +18,10 @@ class BSFakeUserAgentFilter extends BSFilter {
 			}
 		}
 
-		$names = new BSArray(array(
+		$names = new BSArray([
 			BSTridentUserAgent::ACCESSOR => BSTridentUserAgent::DEFAULT_NAME,
 			BSWebKitUserAgent::ACCESSOR => BSWebKitUserAgent::DEFAULT_NAME,
-		));
+		]);
 		foreach ($names as $field => $name) {
 			if ($this->request[$field] || $this->user->getAttribute($field)) {
 				$this->user->setAttribute($field, 1);

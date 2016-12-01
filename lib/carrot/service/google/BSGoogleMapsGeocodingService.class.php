@@ -34,7 +34,7 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 	 * @return BSGeocodeEntry ジオコード
 	 */
 	public function getGeocode ($address) {
-		$values = array('addr' => $address);
+		$values = ['addr' => $address];
 		if (!$entry = $this->getTable()->getRecord($values)) {
 			if ($result = $this->queryGeocode($address)) {
 				$entry = $this->getTable()->register($address, $result);

@@ -22,12 +22,12 @@ class BSSQLiteTableProfile extends BSTableProfile {
 			$this->fields = new BSArray;
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $row) {
-				$this->fields[$row['name']] = array(
+				$this->fields[$row['name']] = [
 					'column_name' => $row['name'],
 					'data_type' => BSString::toLower($row['type']),
 					'is_nullable' => $row['notnull'],
 					'column_default' => $row['dflt_value'],
-				);
+				];
 			}
 		}
 		return $this->fields;
@@ -44,13 +44,13 @@ class BSSQLiteTableProfile extends BSTableProfile {
 			$this->constraints = new BSArray;
 			$query = 'PRAGMA index_list(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $rowKey) {
-				$key = array(
+				$key = [
 					'name' => $rowKey['name'],
-					'fields' => array(),
-				);
+					'fields' => [],
+				];
 				$query = 'PRAGMA index_info(' . $rowKey['name'] . ')';
 				foreach ($this->getDatabase()->query($query) as $rowField) {
-					$key['fields'][] = array('column_name' => $rowField['name']);
+					$key['fields'][] = ['column_name' => $rowField['name']];
 				}
 				$this->constraints[$rowKey['name']] = $key;
 			}

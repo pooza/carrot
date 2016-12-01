@@ -17,7 +17,7 @@ class BSSmartyValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['invalid_encoding_error'] = '正しいエンコードではありません。';
 		return parent::initialize($params);
 	}

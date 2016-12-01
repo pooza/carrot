@@ -34,8 +34,8 @@ class BSDateValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
-		$this['fields'] = array();
+	public function initialize ($params = []) {
+		$this['fields'] = [];
 		$this['invalid_error'] = '正しい日付ではありません。';
 		$this['today'] = true;
 		$this['today_error'] = '当日の日付は選べません。';

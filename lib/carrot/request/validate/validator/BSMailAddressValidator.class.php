@@ -17,7 +17,7 @@ class BSMailAddressValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['mobile_allowed'] = true;
 		$this['mobile_allowed_error'] = 'ケータイ用のアドレスは使用できません。';
 		$this['invalid_error'] = '正しいメールアドレスではありません。';

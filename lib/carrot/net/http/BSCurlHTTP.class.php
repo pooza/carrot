@@ -76,7 +76,7 @@ class BSCurlHTTP extends BSHTTP {
 	}
 
 	protected function send (BSHTTPRequest $request) {
-		$headers = array();
+		$headers = [];
 		foreach ($request->getHeaders() as $header) {
 			$headers[] = $header->getName() . ': ' . $header->getContents();
 		}
@@ -128,7 +128,7 @@ class BSCurlHTTP extends BSHTTP {
 		if (!$this->getEngine()) {
 			return;
 		}
-		foreach (array('curlopt', 'curl', null) as $prefix) {
+		foreach (['curlopt', 'curl', null] as $prefix) {
 			$constants = new BSConstantHandler($prefix);
 			if ($constants->hasParameter($name)) {
 				curl_setopt($this->getEngine(), $constants[$name], $value);

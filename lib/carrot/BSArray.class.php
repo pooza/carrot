@@ -20,7 +20,7 @@ class BSArray extends BSParameterHolder {
 	 * @access public
 	 * @param mixed[] $params 要素の配列
 	 */
-	public function __construct ($params = array()) {
+	public function __construct ($params = []) {
 		$this->setParameters($params);
 	}
 
@@ -60,7 +60,7 @@ class BSArray extends BSParameterHolder {
 			}
 		} else {
 			if ($position == self::POSITION_TOP) {
-				$this->params = array((string)$name => null) + $this->params;
+				$this->params = [(string)$name => null] + $this->params;
 			}
 			$this->params[(string)$name] = $value;
 		}
@@ -179,7 +179,7 @@ class BSArray extends BSParameterHolder {
 		return $this;
 	}
 	static private function getFlatContents ($prefix, $arg, $glue) {
-		$contents = array();
+		$contents = [];
 		if (is_array($arg) || ($arg instanceof BSParameterHolder)) {
 			foreach ($arg as $key => $value) {
 				if (!BSString::isBlank($prefix)) {

@@ -54,10 +54,10 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 			if ($matches[3] == 'W') {
 				$matches[4] *= -1;
 			}
-			return new BSArray(array(
+			return new BSArray([
 				'lat' => BSGeocodeEntryHandler::dms2deg($matches[2]),
 				'lng' => BSGeocodeEntryHandler::dms2deg($matches[4]),
-			));
+			]);
 		}
 	}
 }

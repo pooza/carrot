@@ -156,10 +156,10 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 */
 	protected function getImageFile (BSGeocodeEntry $geocode, BSArray $params) {
 		$dir = BSFileUtility::getDirectory('maps');
-		$name = BSCrypt::digest(array(
+		$name = BSCrypt::digest([
 			$geocode->format(),
 			$params->join('|'),
-		));
+		]);
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$response = $this->sendGET($this->getImageURL($geocode, $params)->getFullPath());
 			$image = new BSImage;

@@ -14,7 +14,7 @@ require_once BS_LIB_DIR . '/carrot/BSUtility.class.php';
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSLoader {
-	private $classes = array();
+	private $classes = [];
 	static private $instance;
 	const PREFIX = 'BS';
 
@@ -80,7 +80,7 @@ class BSLoader {
 		}
 		$basename = mb_ereg_replace('[_[:cntrl:]]', '', $matches[2]);
 		$classes = $this->getClasses();
-		foreach (array(null, self::PREFIX) as $prefix) {
+		foreach ([null, self::PREFIX] as $prefix) {
 			$name = $prefix . $basename . $suffix;
 			if (class_exists($name, false) || isset($classes[strtolower($name)])) {
 				return $name;
@@ -105,17 +105,17 @@ class BSLoader {
 	}
 
 	private function getClassPaths () {
-		return array(
+		return [
 			BS_LIB_DIR . '/carrot',
 			BS_WEBAPP_DIR . '/lib',
-		);
+		];
 	}
 
 	private function loadPath ($path) {
 		$iterator = new RecursiveDirectoryIterator($path);
-		$entries = array();
+		$entries = [];
 		foreach ($iterator as $entry) {
-			if (in_array($entry->getFilename(), array('.', '..', '.svn', '.git'))) {
+			if (in_array($entry->getFilename(), ['.', '..', '.svn', '.git'])) {
 				continue;
 			} else if ($iterator->isDir()) {
 				$entries += $this->loadPath($entry->getPathname());
@@ -168,7 +168,7 @@ class BSLoader {
 	 * @static
 	 */
 	static public function getParentClasses ($class) {
-		$classes = array();
+		$classes = [];
 		try {
 			$class = new ReflectionClass($class);
 			do {

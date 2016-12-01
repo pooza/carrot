@@ -25,10 +25,10 @@ class BSConsumptionTaxHandler {
 		$this->rates = new BSArray;
 		foreach ($config['rates'] as $row) {
 			$date = BSDate::create($row['start_date']);
-			$this->rates[$date->format('Y-m-d')] = new BSArray(array(
+			$this->rates[$date->format('Y-m-d')] = new BSArray([
 				'start_date' => $date,
 				'rate' => (float)$row['rate'],
-			));
+			]);
 		}
 		$this->rates->sort();
 	}

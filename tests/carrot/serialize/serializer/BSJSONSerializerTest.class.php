@@ -7,7 +7,7 @@ class BSJSONSerializerTest extends BSTest {
 	public function execute () {
 		$serializer = new BSJSONSerializer;
 		if ($serializer->initialize()) {
-			$encoded = $serializer->encode(array('key' => '木の水晶球'));
+			$encoded = $serializer->encode(['key' => '木の水晶球']);
 			$this->assert('encode', $encoded == '{"key":"\u6728\u306e\u6c34\u6676\u7403"}');
 		}
 	}

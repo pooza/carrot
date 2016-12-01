@@ -89,13 +89,13 @@ class BSLogEntryHandler extends BSTableHandler {
 	 * @return BSArray フィールド情報の配列
 	 */
 	public function getSchema () {
-		return new BSArray(array(
+		return new BSArray([
 			'id' => 'integer NOT NULL PRIMARY KEY',
 			'date' => 'datetime NOT NULL',
 			'remote_host' => 'varchar(128) NOT NULL',
 			'priority' => 'varchar(32) NOT NULL',
 			'message' => 'varchar(256)',
-		));
+		]);
 	}
 }
 

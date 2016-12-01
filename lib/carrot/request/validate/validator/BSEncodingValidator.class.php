@@ -17,7 +17,7 @@ class BSEncodingValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['match_error'] = '利用できないエンコード名です。';
 		return BSValidator::initialize($params);
 	}

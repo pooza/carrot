@@ -9,8 +9,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSIterator implements Iterator, Countable {
-	protected $keys = array();
-	protected $values = array();
+	protected $keys = [];
+	protected $values = [];
 	protected $cursor;
 
 	/**

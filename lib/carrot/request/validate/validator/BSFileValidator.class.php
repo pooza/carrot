@@ -31,7 +31,7 @@ class BSFileValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['size'] = 2;
 		$this['size_error'] = 'ファイルサイズが大きすぎます。';
 		$this['invalid_error'] = '正しいファイルではありません。';

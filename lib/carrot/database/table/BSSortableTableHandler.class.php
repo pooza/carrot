@@ -88,7 +88,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 
 		$sql = BSSQL::getUpdateQueryString(
 			$this->getName(),
-			array($this->getRankField() => 0),
+			[$this->getRankField() => 0],
 			$criteria
 		);
 		$this->getDatabase()->exec($sql);

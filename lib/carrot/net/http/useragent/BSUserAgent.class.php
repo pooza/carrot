@@ -125,10 +125,10 @@ abstract class BSUserAgent extends BSParameterHolder {
 		$view->setAttribute('is_ssl', $request->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
 		$view->setAttribute('is_image_storable', BS_IMAGE_STORABLE);
-		$view->setAttribute('session', array(
+		$view->setAttribute('session', [
 			'name' => $request->getSession()->getName(),
 			'id' => $request->getSession()->getID(),
-		));
+		]);
 		return true;
 	}
 
@@ -250,14 +250,14 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				__CLASS__,
 				(int)$this->hasSupport('html5_video_webm'),
 				(int)$this->hasSupport('html5_video_h264'),
 				(int)$this->hasSupport('html5_audio_aac'),
 				(int)$this->hasSupport('html5_audio_mp3'),
 				(int)$this->hasSupport('html5_audio_ogg'),
-			));
+			]);
 		}
 		return $this->digest;
 	}
@@ -369,7 +369,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	static private function getTypes () {
-		return new BSArray(array(
+		return new BSArray([
 			'WindowsPhone',
 			'Tasman',
 			'Trident',
@@ -384,7 +384,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 			'SoftBank',
 			'Console',
 			'Default',
-		));
+		]);
 	}
 }
 

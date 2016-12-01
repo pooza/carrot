@@ -136,10 +136,10 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		return new BSArray(array(
+		return new BSArray([
 			'width' => BS_IMAGE_MOBILE_SIZE_QVGA_WIDTH,
 			'height' => BS_IMAGE_MOBILE_SIZE_QVGA_HEIGHT,
-		));
+		]);
 	}
 
 	/**
@@ -195,11 +195,11 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				get_class($this),
 				$this->getDisplayInfo()->getParameter('width'),
 				(int)$this->hasSupport('cookie'),
-			));
+			]);
 		}
 		return $this->digest;
 	}

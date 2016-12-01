@@ -84,7 +84,7 @@ class BSLogManager implements IteratorAggregate {
 	 * @static
 	 */
 	static public function formatMessage ($message, $priority) {
-		foreach (array('HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR') as $key) {
+		foreach (['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
 			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
 				try {
 					$parts = mb_split('[:,]', $value);
@@ -92,12 +92,12 @@ class BSLogManager implements IteratorAggregate {
 				} catch (Exception $e) {
 					$host = $value;
 				}
-				$message = array(
+				$message = [
 					'[' . date('Y-m-d H:i:s') . ']',
 					'[' . $host . ']', 
 					'[' . $priority . ']',
 					$message,
-				);
+				];
 				return implode(' ', $message);
 			}
 		}

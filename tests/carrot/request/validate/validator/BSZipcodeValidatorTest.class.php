@@ -13,9 +13,9 @@ class BSZipcodeValidatorTest extends BSTest {
 		$this->request['zipcode1'] = '000';
 		$this->request['zipcode2'] = '0000';
 		$this->assert('__construct', $validator = new BSZipcodeValidator);
-		$validator->initialize(array(
-			'fields' => array('zipcode1', 'zipcode2'),
-		));
+		$validator->initialize([
+			'fields' => ['zipcode1', 'zipcode2'],
+		]);
 		$this->assert('execute', $validator->execute(null));
 	}
 }

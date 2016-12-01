@@ -71,10 +71,10 @@ class BSSmartyView extends BSView {
 	 * @param BSTemplateFile テンプレートファイル
 	 */
 	protected function getDefaultTemplate () {
-		$names = array(
+		$names = [
 			$this->getAction()->getName() . '.' . $this->getNameSuffix(),
 			$this->getAction()->getName(),
-		);
+		];
 		foreach ($names as $name) {
 			if ($file = $this->renderer->searchTemplate($name)) {
 				return $file;

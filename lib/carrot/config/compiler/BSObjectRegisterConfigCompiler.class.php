@@ -12,7 +12,7 @@
 class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$this->putLine('return array(');
+		$this->putLine('return [');
 		foreach ($file->getResult() as $values) {
 			$values = new BSArray($values);
 			if (BSString::isBlank($values['class'])) {
@@ -24,7 +24,7 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 			$line[] = self::quote((array)$values['params']);
 			$this->putLine($line);
 		}
-		$this->putLine(');');
+		$this->putLine('];');
 		return $this->getBody();
 	}
 }

@@ -298,7 +298,7 @@ class BSImage implements BSImageRenderer {
 	 *   self::FILLED 塗りつぶす
 	 */
 	public function drawPolygon (BSArray $coords, BSColor $color, $flags = null) {
-		$polygon = array();
+		$polygon = [];
 		foreach ($coords as $coord) {
 			$polygon[] = $coord->getX();
 			$polygon[] = $coord->getY();
@@ -400,7 +400,7 @@ class BSImage implements BSImageRenderer {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		foreach (array('imagick', 'gd') as $name) {
+		foreach (['imagick', 'gd'] as $name) {
 			if (extension_loaded($name)) {
 				$class = BSLoader::getInstance()->getClass($name, 'ImageResizer');
 				$resizer = new $class($this);
@@ -485,11 +485,11 @@ class BSImage implements BSImageRenderer {
 	 */
 	static public function getTypes () {
 		$types = new BSArray;
-		foreach (array('.gif', '.jpg', '.png') as $suffix) {
+		foreach (['.gif', '.jpg', '.png'] as $suffix) {
 			$types[$suffix] = BSMIMEType::getType($suffix);
 		}
 		if (extension_loaded('imagick')) {
-			foreach (array('.tiff', '.tif', '.eps', '.ico', '.pdf') as $suffix) {
+			foreach (['.tiff', '.tif', '.eps', '.ico', '.pdf'] as $suffix) {
 				$types[$suffix] = BSMIMEType::getType($suffix);
 			}
 		}

@@ -242,11 +242,11 @@ class BSView extends BSHTTPResponse {
 	 * @return BSArray 全てのサフィックス
 	 */
 	static public function getNameSuffixes () {
-		return new BSArray(array(
+		return new BSArray([
 			self::ERROR,
 			self::INPUT,
 			self::SUCCESS,
-		));
+		]);
 	}
 
 	/**

@@ -158,7 +158,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 */
 	public function touch () {
-		$this->update(array(), BSDatabase::WITHOUT_LOGGING);
+		$this->update([], BSDatabase::WITHOUT_LOGGING);
 	}
 
 	/**
@@ -507,9 +507,9 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return string ラベル
 	 */
 	public function getLabel ($language = 'ja') {
-		foreach (array('name', 'label', 'title') as $name) {
-			foreach (array(null, $this->getTable()->getName() . '_') as $prefix) {
-				foreach (array(null, '_' . $language) as $suffix) {
+		foreach (['name', 'label', 'title'] as $name) {
+			foreach ([null, $this->getTable()->getName() . '_'] as $prefix) {
+				foreach ([null, '_' . $language] as $suffix) {
 					if (!BSString::isBlank($label = $this[$prefix . $name . $suffix])) {
 						return $label;
 					}
@@ -625,10 +625,10 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				get_class($this),
 				$this->getID(),
-			));
+			]);
 		}
 		return $this->digest;
 	}

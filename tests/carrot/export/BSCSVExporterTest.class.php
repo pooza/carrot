@@ -6,14 +6,14 @@
 class BSCSVExporterTest extends BSTest {
 	public function execute () {
 		$this->assert('__construct', $exporter = new BSCSVExporter);
-		$exporter->addRecord(new BSArray(array(
+		$exporter->addRecord(new BSArray([
 			'name' => 'pooza',
 			'point' => 100,
-		)));
-		$exporter->addRecord(new BSArray(array(
+		]));
+		$exporter->addRecord(new BSArray([
 			'name' => 'ビーショック',
 			'point' => 900,
-		)));
+		]));
 		$this->assert('getType', $exporter->getType() == 'text/csv');
 		$this->assert('getContents', !BSString::isBlank($exporter->getContents()));
 		$exporter->getFile()->delete();

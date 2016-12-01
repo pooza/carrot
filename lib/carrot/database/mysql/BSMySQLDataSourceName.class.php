@@ -32,7 +32,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	 */
 	public function connect () {
 		$constants = new BSConstantHandler;
-		$params = array();
+		$params = [];
 		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = $this->getFile())) {
 			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
 		}
@@ -56,7 +56,7 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	private function getFile () {
 		if (!$this->file) {
 			$dir = BSFileUtility::getDirectory('config');
-			foreach (array('my.cnf.ini', 'my.cnf', 'my.ini') as $name) {
+			foreach (['my.cnf.ini', 'my.cnf', 'my.ini'] as $name) {
 				if ($this->file = $dir->getEntry($name, 'BSConfigFile')) {
 					break;
 				}

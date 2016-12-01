@@ -110,7 +110,7 @@ abstract class BSMediaConvertor {
 				throw new BSMediaException($command->getResult()->getIterator()->getLast());
 			}
 		}
-		return BSUtility::executeMethod($this->getClass(), 'search', array($file));
+		return BSUtility::executeMethod($this->getClass(), 'search', [$file]);
 	}
 
 	/**
@@ -160,7 +160,7 @@ abstract class BSMediaConvertor {
 	 * @static
 	 */
 	static protected function getOptions () {
-		return  new BSArray(array(
+		return  new BSArray([
 			'video_codec' => 'vcodec',
 			'audio_codec' => 'acodec',
 			'size' => 's',
@@ -174,7 +174,7 @@ abstract class BSMediaConvertor {
 			'vpre' => 'vpre',
 			'ss' => 'ss',
 			'vframes' => 'vframes',
-		));
+		]);
 	}
 
 	/**

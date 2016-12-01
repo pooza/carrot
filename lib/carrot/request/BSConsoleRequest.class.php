@@ -34,9 +34,9 @@ class BSConsoleRequest extends BSRequest {
 	 * @param string $name オプション名
 	 */
 	public function addOption ($name) {
-		$this->options[$name] = array(
+		$this->options[$name] = [
 			'name' => $name,
-		);
+		];
 	}
 
 	/**

@@ -73,10 +73,10 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				__CLASS__,
 				$this->isTablet(),
-			));
+			]);
 		}
 		return $this->digest;
 	}

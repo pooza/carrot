@@ -36,7 +36,7 @@ class BSMusicFile extends BSMediaFile {
 			if (!$this->attributes->count()) {
 				$this->analyze();
 			}
-			foreach (array('wma') as $type) {
+			foreach (['wma'] as $type) {
 				if (BSString::isContain('Audio: ' . $type, $this->output)) {
 					return BSMIMEType::getType($type);
 				}

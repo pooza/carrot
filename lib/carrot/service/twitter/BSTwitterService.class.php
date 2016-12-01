@@ -410,10 +410,10 @@ class BSTwitterService extends BSCurlHTTP {
 	 */
 	static public function createTweetURLs ($id, $account, $prefix = 'url') {
 		$urls = new BSArray;
-		$useragents = new BSArray(array(
+		$useragents = new BSArray([
 			null => BSUserAgent::create(BSUserAgent::DEFAULT_NAME),
 			'_mobile' => BSUserAgent::create(BSDocomoUserAgent::DEFAULT_NAME),
-		));
+		]);
 		foreach ($useragents as $suffix => $useragent) {
 			$url = self::createTweetURL($id, $account, $useragent);
 			$urls[$prefix . $suffix] = $url->getContents();

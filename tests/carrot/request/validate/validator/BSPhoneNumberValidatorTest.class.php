@@ -11,9 +11,9 @@ class BSPhoneNumberValidatorTest extends BSTest {
 		$this->assert('execute', !$validator->execute('00000000000'));
 
 		$this->assert('__construct', $validator = new BSPhoneNumberValidator);
-		$validator->initialize(array(
+		$validator->initialize([
 			'loose' => true,
-		));
+		]);
 		$this->assert('execute', $validator->execute('00-0000-0000'));
 		$this->assert('execute', $validator->execute('0000000000'));
 
@@ -21,9 +21,9 @@ class BSPhoneNumberValidatorTest extends BSTest {
 		$this->request['tel2'] = '0000';
 		$this->request['tel3'] = '0000';
 		$this->assert('__construct', $validator = new BSPhoneNumberValidator);
-		$validator->initialize(array(
-			'fields' => array('tel1', 'tel2', 'tel3'),
-		));
+		$validator->initialize([
+			'fields' => ['tel1', 'tel2', 'tel3'],
+		]);
 		$this->assert('execute', $validator->execute(null));
 	}
 }

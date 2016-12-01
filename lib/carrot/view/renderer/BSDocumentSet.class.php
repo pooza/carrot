@@ -115,7 +115,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		$prefix = mb_ereg_replace('^' . BSLoader::PREFIX, null, get_class($this));
 		$prefix = BSString::underscorize($prefix);
 		$host = BSController::getInstance()->getHost();
-		foreach (array($host->getName(), 'application', 'carrot') as $name) {
+		foreach ([$host->getName(), 'application', 'carrot'] as $name) {
 			if ($file = BSConfigManager::getConfigFile($prefix . '/' . $name)) {
 				$files[] = $file;
 			}

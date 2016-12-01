@@ -97,7 +97,7 @@ class BSMail extends BSMIMEDocument {
 	 */
 	public function getRecipients () {
 		$recipients = new BSArray;
-		foreach (array('To', 'Cc', 'Bcc') as $key) {
+		foreach (['To', 'Cc', 'Bcc'] as $key) {
 			if ($header = $this->getHeader($key)) {
 				foreach ($header->getEntity() as $email) {
 					$recipients[$email->getContents()] = $email;

@@ -408,11 +408,11 @@ class BSImageManager {
 	 * @return string サムネイル名
 	 */
 	protected function createEntryName (BSImageContainer $record, $size) {
-		return BSCrypt::digest(array(
+		return BSCrypt::digest([
 			get_class($record),
 			$record->getID(),
 			$size,
-		));
+		]);
 	}
 
 	/**

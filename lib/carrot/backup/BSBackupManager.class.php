@@ -69,7 +69,7 @@ class BSBackupManager {
 		}
 		$dir = BSFileUtility::getDirectory('serialized');
 		foreach (new BSArray($this->config['serializes']) as $name) {
-			foreach (array('.json', '.serialized') as $suffix) {
+			foreach (['.json', '.serialized'] as $suffix) {
 				if ($entry = $dir->getEntry($name . $suffix)) {
 					$zip->register($entry);
 				}
@@ -135,7 +135,7 @@ class BSBackupManager {
 		}
 
 		foreach (new BSArray($this->config['serializes']) as $name) {
-			foreach (array('.json', '.serialized') as $suffix) {
+			foreach (['.json', '.serialized'] as $suffix) {
 				if ($file = $dir->getEntry($name . $suffix)) {
 					$file->moveTo(BSFileUtility::getDirectory('serialized'));
 				}

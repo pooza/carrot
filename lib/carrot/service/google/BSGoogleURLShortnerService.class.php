@@ -47,9 +47,9 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	 */
 	public function getShortURL (BSHTTPRedirector $url) {
 		$json = new BSJSONRenderer;
-		$json->setContents(array(
+		$json->setContents([
 			'longUrl' => $url->getURL()->getContents(),
-		));
+		]);
 		$url = $this->createRequestURL('/urlshortener/v1/url');
 		$response = $this->sendPOST($url->getFullPath(), $json);
 

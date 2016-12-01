@@ -35,10 +35,10 @@ abstract class BSPlatform extends BSParameterHolder {
 		} catch (Exception $e) {
 			$class = 'BSDefaultPlatform';
 		}
-		return new $class(array(
+		return new $class([
 			'name' => $name,
 			'version' => php_uname('r'),
-		));
+		]);
 	}
 
 	/**
@@ -63,11 +63,11 @@ abstract class BSPlatform extends BSParameterHolder {
 		if (!$handler) {
 			$handler = new BSConstantHandler;
 		}
-		$suffixes = new BSArray(array(
+		$suffixes = new BSArray([
 			'_' . $this->getName(),
 			'_default',
 			null,
-		));
+		]);
 
 		$constants = new BSArray;
 		foreach ($keys as $key) {
@@ -113,7 +113,7 @@ abstract class BSPlatform extends BSParameterHolder {
 	 */
 	public function getDirectory ($name) {
 		$constants = new BSConstantHandler($name);
-		foreach (array($this->getName(), 'default') as $suffix) {
+		foreach ([$this->getName(), 'default'] as $suffix) {
 			if (!BSString::isBlank($path = $constants['dir_' . $suffix])) {
 				return new BSDirectory($path);
 			}
@@ -128,7 +128,7 @@ abstract class BSPlatform extends BSParameterHolder {
 	 */
 	public function getProcessOwner () {
 		$constants = new BSConstantHandler('app_process');
-		foreach (array($this->getName(), 'default') as $suffix) {
+		foreach ([$this->getName(), 'default'] as $suffix) {
 			if (!BSString::isBlank($owner = $constants['uid_' . $suffix])) {
 				return $owner;
 			}

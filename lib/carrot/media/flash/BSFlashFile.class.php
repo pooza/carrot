@@ -37,11 +37,11 @@ class BSFlashFile extends BSMediaFile {
 	 * @return string div要素のID
 	 */
 	protected function createContainerID () {
-		return BSCrypt::digest(array(
+		return BSCrypt::digest([
 			get_class($this),
 			$this->getID(),
 			BSUtility::getUniqueID(),
-		));
+		]);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class BSFlashFile extends BSMediaFile {
 		$statement[] = $serializer->encode(BS_FLASH_PLAYER_VER);
 		$statement[] = $serializer->encode(BS_FLASH_INSTALLER_HREF);
 		$statement[] = $serializer->encode(null);
-		$statement[] = $serializer->encode(array('wmode' => 'transparent'));
+		$statement[] = $serializer->encode(['wmode' => 'transparent']);
 		$element->setBody($statement);
 		return $element;
 	}

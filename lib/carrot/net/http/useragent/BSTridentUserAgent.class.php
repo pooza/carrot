@@ -59,12 +59,12 @@ class BSTridentUserAgent extends BSUserAgent {
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				__CLASS__,
 				$this->getVersion(),
 				$this->isSmartPhone(),
 				$this->isTablet(),
-			));
+			]);
 		}
 		return $this->digest;
 	}

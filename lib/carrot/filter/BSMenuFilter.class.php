@@ -69,11 +69,11 @@ class BSMenuFilter extends BSFilter {
 	}
 
 	private function getMenuFile () {
-		$names = new BSArray(array(
+		$names = new BSArray([
 			$this['name'],
 			BSString::pascalize($this->getModule()->getPrefix()),
 			BSString::underscorize($this->getModule()->getPrefix()),
-		));
+		]);
 		foreach ($names as $name) {
 			if ($file = BSConfigManager::getConfigFile('menu/' . $name)) {
 				return $file;

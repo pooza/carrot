@@ -94,10 +94,10 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 			if (BSString::isBlank($request['lon'])) {
 				$request['lon'] = $request['lng'];
 			}
-			return new BSArray(array(
+			return new BSArray([
 				'lat' => BSGeocodeEntryHandler::dms2deg($request['lat']),
 				'lng' => BSGeocodeEntryHandler::dms2deg($request['lon']),
-			));
+			]);
 		}
 	}
 
@@ -144,11 +144,11 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 	 * @static
 	 */
 	static public function getNames () {
-		return new BSArray(array(
+		return new BSArray([
 			'Docomo',
 			'Au',
 			'SoftBank',
-		));
+		]);
 	}
 }
 

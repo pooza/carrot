@@ -17,7 +17,7 @@ class BSRegexValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['match'] = true;
 		$this['match_error'] = '正しくありません。';
 		$this['pattern'] = null;

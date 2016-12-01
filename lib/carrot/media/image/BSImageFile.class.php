@@ -83,7 +83,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 			$info = getimagesize($this->getPath());
 
 			if ($this->rendererClass != 'BSImagickImage') {
-				foreach (array('jpeg', 'gif', 'png') as $suffix) {
+				foreach (['jpeg', 'gif', 'png'] as $suffix) {
 					if ($info['mime'] == BSMIMEType::getType($suffix)) {
 						$class = BSLoader::getInstance()->getClass($this->rendererClass);
 						$this->renderer = new $class($info[0], $info[1]);

@@ -88,7 +88,7 @@ class BSNumeric {
 	 * @link http://ja.wikipedia.org/wiki/2進接頭辞
 	 */
 	static public function getBinarySize ($num) {
-		foreach (array('', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi') as $i => $unit) {
+		foreach (['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi'] as $i => $unit) {
 			$unitsize = pow(1024, $i);
 			if ($num < ($unitsize * 1024 * 2)) {
 				return number_format(floor($num / $unitsize)) . $unit;

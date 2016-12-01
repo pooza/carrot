@@ -129,10 +129,10 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				get_class($this),
 				$this->getName(),
-			));
+			]);
 		}
 		return $this->digest;
 	}
@@ -143,10 +143,10 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @access public
 	 */
 	public function serialize () {
-		$values = array(
+		$values = [
 			'fields' => $this->getFields(),
 			'constraints' => $this->getConstraints(),
-		);
+		];
 		BSController::getInstance()->setAttribute($this, $values);
 	}
 
@@ -157,13 +157,13 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignableValues () {
-		$values = array(
+		$values = [
 			'name' => $this->getName(),
 			'name_ja' => BSTranslateManager::getInstance()->execute($this->getName(), 'ja'),
 			'table_classes' => $this->getTableClasses(),
 			'record_classes' => $this->getRecordClasses(),
 			'constraints' => $this->getConstraints(),
-		);
+		];
 
 		$pattern = '^(' . $this->getDatabase()->getTableNames()->join('|') . ')_id$';
 		foreach ($this->getFields() as $field) {

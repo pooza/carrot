@@ -49,7 +49,7 @@ function handleError ($errno, $errstr, $errfile, $errline) {
  */
 function protect ($values) {
 	if (is_array($values)) {
-		foreach (array('_SESSION', '_COOKIE', '_SERVER', '_ENV', '_FILES', 'GLOBALS') as $name) {
+		foreach (['_SESSION', '_COOKIE', '_SERVER', '_ENV', '_FILES', 'GLOBALS'] as $name) {
 			if (isset($values[$name])) {
 				throw new RuntimeException('失敗しました。');
 			}
@@ -89,13 +89,13 @@ function p ($var) {
 $_GET = protect($_GET);
 $_POST = protect($_POST);
 $_COOKIE = protect($_COOKIE);
-foreach (array('PHP_SELF', 'PATH_INFO') as $name) {
+foreach (['PHP_SELF', 'PATH_INFO'] as $name) {
 	if (!isset($_SERVER[$name])) {
 		continue;
 	}
 	$_SERVER[$name] = str_replace(
-		array('<', '>', "'", '"', "\r", "\n", "\0"),
-		array('%3C', '%3E', '%27', '%22', '', '', ''),
+		['<', '>', "'", '"', "\r", "\n", "\0"],
+		['%3C', '%3E', '%27', '%22', '', '', ''],
 		$_SERVER[$name]
 	);
 }
@@ -109,7 +109,7 @@ define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
 define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
 
 define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
-$dirs = array(BS_LIB_PEAR_DIR, BS_LIB_DIR, get_include_path());
+$dirs = [BS_LIB_PEAR_DIR, BS_LIB_DIR, get_include_path()];
 set_include_path(implode(PATH_SEPARATOR, $dirs));
 
 if (PHP_SAPI == 'cli') {

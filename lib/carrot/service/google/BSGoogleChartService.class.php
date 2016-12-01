@@ -35,10 +35,10 @@ class BSGoogleChartService extends BSCurlHTTP {
 		if (!$size) {
 			$size = BS_IMAGE_QRCODE_SIZE;
 		}
-		$params = new BSArray(array(
+		$params = new BSArray([
 			'chl' => BSString::convertEncoding($data, $encoding),
 			'chld' => 'l|0',
-		));
+		]);
 		return $this->getImageFile('qr', $size, $size, $params);
 	} 
 

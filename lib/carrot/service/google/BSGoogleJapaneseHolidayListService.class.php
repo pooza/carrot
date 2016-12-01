@@ -140,11 +140,11 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 	public function digest () {
 		if (!$this->digest) {
 			$date = $this->getDate();
-			$this->digest = BSCrypt::digest(array(
+			$this->digest = BSCrypt::digest([
 				get_class($this),
 				$date['year'],
 				$date['month'],
-			));
+			]);
 		}
 		return $this->digest;
 	}

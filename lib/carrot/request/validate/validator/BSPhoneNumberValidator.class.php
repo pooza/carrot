@@ -20,7 +20,7 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		if (!isset($params['loose'])) {
 			$params['loose'] = false;
 		}
@@ -30,7 +30,7 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 
 		$this['match'] = true;
 		$this['match_error'] = '正しくありません。';
-		$this['fields'] = array();
+		$this['fields'] = [];
 		$this['pattern'] = self::PATTERN;
 		return BSValidator::initialize($params);
 	}

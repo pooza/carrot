@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSLogFile extends BSFile {
-	private $entries = array();
+	private $entries = [];
 
 	/**
 	 * バイナリファイルか？
@@ -39,13 +39,13 @@ class BSLogFile extends BSFile {
 				if (!mb_ereg($pattern, $line, $matches)) {
 					continue;
 				}
-				$this->entries[] = array(
+				$this->entries[] = [
 					'date' => $matches[1],
 					'remote_host' => $matches[2],
 					'priority' => $matches[3],
 					'exception' => mb_ereg('Exception$', $matches[3]),
 					'message' => $matches[4],
-				);
+				];
 			}
 		}
 		return $this->entries;

@@ -415,12 +415,12 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return mixed アサインすべき値
 	 */
 	public function getAssignableValues () {
-		$values = array(
+		$values = [
 			'name' => $this->getName(),
 			'tables' => $this->getTableNames()->getParameters(),
-		);
+		];
 		foreach ($this->getAttributes() as $key => $value) {
-			if (in_array($key, array('uid', 'password', 'user'))) {
+			if (in_array($key, ['uid', 'password', 'user'])) {
 				continue;
 			} else if ($value instanceof BSFile) {
 				$values['attributes'][$key] = $value->getPath();

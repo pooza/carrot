@@ -12,7 +12,7 @@
 class BSDefineConfigCompiler extends BSConfigCompiler {
 	public function execute (BSConfigFile $file) {
 		$this->clearBody();
-		$this->putLine('$constants = array(');
+		$this->putLine('$constants = [');
 
 		foreach ($this->getConstants($file->getResult()) as $key => $value) {
 			$line = sprintf('  %s => %s,', self::quote($key), self::quote($value));
@@ -20,7 +20,7 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 			$this->putLine($line);
 		}
 
-		$this->putLine(');');
+		$this->putLine('];');
 		$this->putLine('foreach ($constants as $name => $value) {');
 		$this->putLine('  if (!defined($name)) {define($name, $value);}');
 		$this->putLine('}');
@@ -30,16 +30,16 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 	private function getConstants ($arg, $prefix = BSConstantHandler::PREFIX) {
 		if (is_array($arg) || ($arg instanceof BSParameterHolder)) {
 			if (isset($arg[0])) {
-				return array(BSString::toUpper($prefix) => implode(',', $arg));
+				return [BSString::toUpper($prefix) => implode(',', $arg)];
 			} else {
-				$constants = array();
+				$constants = [];
 				foreach ($arg as $key => $value) {
 					$constants += $this->getConstants($value, $prefix . '_' . $key);
 				}
 				return $constants;
 			}
 		} else {
-			return array(BSString::toUpper($prefix) => $arg);
+			return [BSString::toUpper($prefix) => $arg];
 		}
 	}
 }

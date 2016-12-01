@@ -20,7 +20,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 * @return string シーケンス名
 	 */
 	public function getSequenceName ($table, $field = 'id') {
-		return implode('_', array($table, $field, 'seq'));
+		return implode('_', [$table, $field, 'seq']);
 	}
 
 	/**

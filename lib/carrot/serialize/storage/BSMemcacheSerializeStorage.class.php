@@ -63,10 +63,10 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 * @return string シリアライズされた値
 	 */
 	public function setAttribute ($name, $value) {
-		$values = array(
+		$values = [
 			'update_date' => BSDate::getNow('Y-m-d H:i:s'),
 			'contents' => $value,
-		);
+		];
 		$serialized = $this->serializer->encode($values);
 		$this->server->set($name, $serialized);
 		return $serialized;

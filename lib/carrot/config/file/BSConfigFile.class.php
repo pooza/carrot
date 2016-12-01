@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSConfigFile extends BSFile {
-	private $config = array();
+	private $config = [];
 	private $parser;
 	private $cache;
 

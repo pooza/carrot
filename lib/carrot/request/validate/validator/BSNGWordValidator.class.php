@@ -17,7 +17,7 @@ class BSNGWordValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['word_error'] = '不適切な言葉が含まれています。';
 		return parent::initialize($params);
 	}
@@ -31,7 +31,7 @@ class BSNGWordValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		$words = new BSArray;
-		foreach (array('carrot', 'application') as $name) {
+		foreach (['carrot', 'application'] as $name) {
 			$config = BSConfigManager::getInstance()->compile('ng_word/' . $name);
 			$words->merge($config['words']);
 		}

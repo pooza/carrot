@@ -40,7 +40,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function analyzeType () {
 		if (($type = parent::analyzeType()) == BSMIMEType::DEFAULT_TYPE) {
-			foreach (array('.webm', '.3g2') as $type) {
+			foreach (['.webm', '.3g2'] as $type) {
 				if ($this->getSuffix() == $type) {
 					return BSMIMEType::getType($type);
 				}
@@ -48,7 +48,7 @@ class BSMovieFile extends BSMediaFile {
 			if (!$this->attributes->count()) {
 				$this->analyze();
 			}
-			foreach (array('wmv', 'mpeg') as $type) {
+			foreach (['wmv', 'mpeg'] as $type) {
 				if (BSString::isContain('Video: ' . $type, $this->output)) {
 					return BSMIMEType::getType($type);
 				}

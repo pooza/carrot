@@ -85,8 +85,8 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 		$this->params['gengo'] = null;
 		$this->params['japanese_year'] = null;
 
-		if (in_array($value[0], array('+', '-'))) {
-			foreach (array('hour', 'minute', 'second', 'month', 'day', 'year') as $field) {
+		if (in_array($value[0], ['+', '-'])) {
+			foreach (['hour', 'minute', 'second', 'month', 'day', 'year'] as $field) {
 				$$field = $this[$field];
 				if ($field == $name) {
 					$$field += (int)$value;
@@ -311,7 +311,7 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 */
 	public function getWeekdayName () {
 		if (BSString::isBlank($this['weekday_name'])) {
-			$weekdays = new BSArray(array(null, '月', '火', '水', '木', '金', '土', '日'));
+			$weekdays = new BSArray([null, '月', '火', '水', '木', '金', '土', '日']);
 			$this->params['weekday_name'] = $weekdays[$this->getWeekday()];
 		}
 		return $this['weekday_name'];

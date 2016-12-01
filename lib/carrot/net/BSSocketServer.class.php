@@ -113,7 +113,7 @@ class BSSocketServer {
 
 	private function execute () {
 		set_time_limit(0);
-		$dummy = array(); //stream_selectに渡すダミー配列
+		$dummy = []; //stream_selectに渡すダミー配列
 		while ($this->server) {
 			$streams = $this->getStreams();
 			stream_select($streams, $dummy, $dummy, 500000);
@@ -140,7 +140,7 @@ class BSSocketServer {
 	 */
 	private function getStreams () {
 		if (!$this->streams) {
-			$this->streams = array($this->server);
+			$this->streams = [$this->server];
 		}
 		foreach ($this->streams as $index => $stream) {
 			if (!is_resource($stream)) {

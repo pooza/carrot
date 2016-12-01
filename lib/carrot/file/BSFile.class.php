@@ -43,12 +43,12 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getID () {
 		if (!$this->id) {
-			$this->id = BSCrypt::digest(array(
+			$this->id = BSCrypt::digest([
 				$this->getPath(),
 				$this->getSize(),
 				fileinode($this->getPath()),
 				$this->getUpdateDate()->getTimestamp(),
-			));
+			]);
 		}
 		return $this->id;
 	}
@@ -204,7 +204,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $mode モード
 	 */
 	public function open ($mode = 'r') {
-		if (!in_array($mode[0], array('r', 'a', 'w'))) {
+		if (!in_array($mode[0], ['r', 'a', 'w'])) {
 			$message = new BSStringFormat('モード "%s" が正しくありません。');
 			$message[] = $mode;
 			throw new BSFileException($message);
@@ -248,7 +248,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @param string $str 書き込む内容
 	 */
 	public function putLine ($str = '', $separator = self::LINE_SEPARATOR) {
-		if (!$this->isOpened() || !in_array($this->mode[0], array('w', 'a'))) {
+		if (!$this->isOpened() || !in_array($this->mode[0], ['w', 'a'])) {
 			throw new BSFileException($this . 'はw又はaモードで開かれていません。');
 		}
 

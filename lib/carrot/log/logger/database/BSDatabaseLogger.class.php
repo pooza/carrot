@@ -54,12 +54,12 @@ class BSDatabaseLogger extends BSLogger {
 			}
 			$message = $message->getMessage();
 		}
-		$values = array(
+		$values = [
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
 			'remote_host' => BSRequest::getInstance()->getHost()->getName(),
 			'priority' => $priority,
 			'message' => $message,
-		);
+		];
 		$this->getTable()->createRecord($values);
 	}
 

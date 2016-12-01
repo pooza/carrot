@@ -70,12 +70,12 @@ class BSGeocodeEntryHandler extends BSTableHandler {
 	 * @return BSArray フィールド情報の配列
 	 */
 	public function getSchema () {
-		return new BSArray(array(
+		return new BSArray([
 			'id' => 'integer NOT NULL PRIMARY KEY',
 			'addr' => 'varchar(128)',
 			'lat' => 'float',
 			'lng' => 'float',
-		));
+		]);
 	}
 
 	/**

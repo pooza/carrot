@@ -43,8 +43,8 @@ class BSTimeValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
-		$this['fields'] = array();
+	public function initialize ($params = []) {
+		$this['fields'] = [];
 		$this['invalid_error'] = '正しい時刻ではありません。';
 		return parent::initialize($params);
 	}

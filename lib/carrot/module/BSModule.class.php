@@ -15,7 +15,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $url;
 	protected $directories;
 	protected $actions;
-	protected $config = array();
+	protected $config = [];
 	protected $configFiles;
 	protected $prefix;
 	protected $record;
@@ -25,7 +25,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	protected $parameterCacheKey;
 	protected $recordIDKey;
 	static private $instances;
-	static private $prefixes = array();
+	static private $prefixes = [];
 	const ACCESSOR = 'm';
 
 	/**
@@ -102,12 +102,12 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		return new BSArray(array(
+		return new BSArray([
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),
 			'title_menu' => $this->getMenuTitle(),
 			'record_class' => $this->getRecordClass(),
-		));
+		]);
 	}
 
 	/**

@@ -156,8 +156,8 @@ class BSString {
 				$value[$key] = self::convertWrongCharacters($item);
 			}
 		} else {
-			$searches = array();
-			$replaces = array();
+			$searches = [];
+			$replaces = [];
 			foreach (BSConfigManager::getInstance()->compile('wrong_characters') as $rule) {
 				$searches[] = eval('return "' . $rule['search'] . '";');
 				$replaces[] = $rule['replace'];
@@ -608,13 +608,13 @@ class BSString {
 	 * @static
 	 */
 	static public function getEncodings () {
-		return new BSArray(array(
+		return new BSArray([
 			'ascii',
 			'iso-2022-jp',
 			'utf-8',
 			'eucjp-win',
 			'sjis-win',
-		));
+		]);
 	}
 }
 

@@ -19,7 +19,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @access public
 	 * @param string[] $params パラメータ配列
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['element_error'] = '許可されていない要素又は属性が含まれています。';
 		$this['allowed_tags'] = 'a,br,div,li,ol,p,span,ul';
 		$this['javascript_allowed'] = false;

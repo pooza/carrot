@@ -13,10 +13,10 @@ class BSUtilityTest extends BSTest {
 			new BSFile(BS_LIB_DIR . '/jsmin.php')
 		));
 		$this->assert('executeMethod_1', BSUtility::executeMethod(
-			'BSUtility', 'isPathAbsolute', array('/etc/hosts')
+			'BSUtility', 'isPathAbsolute', ['/etc/hosts']
 		));
 		$this->assert('executeMethod_2', !BSUtility::executeMethod(
-			'BSUtility', 'isPathAbsolute', array('www/.htaccess')
+			'BSUtility', 'isPathAbsolute', ['www/.htaccess']
 		));
 	}
 }

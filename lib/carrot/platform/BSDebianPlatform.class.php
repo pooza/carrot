@@ -22,7 +22,7 @@ class BSDebianPlatform extends BSLinuxPlatform {
 	 */
 	public function getDirectory ($name) {
 		$constants = new BSConstantHandler($name);
-		foreach (array($this->getName(), 'linux', 'default') as $suffix) {
+		foreach ([$this->getName(), 'linux', 'default'] as $suffix) {
 			if (!BSString::isBlank($path = $constants['dir_' . $suffix])) {
 				return new BSDirectory($path);
 			}

@@ -19,7 +19,7 @@ class BSConfigManager {
 	protected function __construct () {
 		$file = self::getConfigFile('config_compilers', 'BSRootConfigFile');
 		$this->compilers = new BSArray($this->compile($file));
-		$this->compilers[] = new BSDefaultConfigCompiler(array('pattern' => '.'));
+		$this->compilers[] = new BSDefaultConfigCompiler(['pattern' => '.']);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class BSConfigManager {
 			$name = BS_WEBAPP_DIR . '/config/' . $name;
 		}
 		$class = BSLoader::getInstance()->getClass($class);
-		foreach (array('.yaml', '.ini') as $suffix) {
+		foreach (['.yaml', '.ini'] as $suffix) {
 			$file = new $class($name . $suffix);
 			if ($file->isExists()) {
 				if (!$file->isReadable()) {

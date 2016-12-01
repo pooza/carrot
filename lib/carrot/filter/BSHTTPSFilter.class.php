@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSHTTPSFilter extends BSFilter {
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['base_url'] = BS_ROOT_URL_HTTPS;
 		return parent::initialize($params);
 	}

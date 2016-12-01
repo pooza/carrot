@@ -12,7 +12,7 @@
 class BSCookieFilter extends BSFilter {
 	private $cookieName;
 
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this['cookie_error'] = 'Cookie機能が有効でない、又はセッションのタイムアウトです。';
 		return parent::initialize($params);
 	}

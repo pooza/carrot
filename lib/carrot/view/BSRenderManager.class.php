@@ -58,10 +58,10 @@ class BSRenderManager {
 	 * @param BSHTTPResponse $view キャッシュ対象
 	 */
 	public function cache (BSHTTPResponse $view) {
-		$cache = array(
-			'headers' => array(),
+		$cache = [
+			'headers' => [],
 			'contents' => null,
-		);
+		];
 		foreach ($view->getHeaders() as $header) {
 			if ($header->isVisible() && $header->isCacheable()) {
 				$cache['headers'][$header->getName()] = $header->getContents();

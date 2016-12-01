@@ -84,7 +84,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 		} else {
 			$key = BSString::toUpper($name);
 			$keys[$key] = $key;
-			foreach (array(self::PREFIX, null) as $prefix) {
+			foreach ([self::PREFIX, null] as $prefix) {
 				$key = new BSArray;
 				if (!BSString::isBlank($prefix)) {
 					$key[] = self::PREFIX;
@@ -119,7 +119,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return string 翻訳された文字列
 	 */
 	public function translate ($label, $language) {
-		foreach (array(null, '_' . $language) as $suffix) {
+		foreach ([null, '_' . $language] as $suffix) {
 			if ($this->hasParameter($label . $suffix)) {
 				if (BSString::isBlank($value = $this[$label . $suffix])) {
 					return '';

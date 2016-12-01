@@ -16,7 +16,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @access public
 	 * @param string[] $params パラメータ
 	 */
-	public function __construct ($params = array()) {
+	public function __construct ($params = []) {
 		$this->initialize($params);
 	}
 
@@ -42,7 +42,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 * @return boolean 成功ならばTrue
 	 * @static
 	 */
-	public function initialize ($params = array()) {
+	public function initialize ($params = []) {
 		$this->setParameters($params);
 	}
 
@@ -104,7 +104,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 			foreach ($value as $key => $item) {
 				$body[] = sprintf('%s => %s', self::quote($key), self::quote($item));
 			}
-			return sprintf('array(%s)', $body->join(', '));
+			return sprintf('[%s]', $body->join(', '));
 		} else {
 			$value = trim($value);
 			switch (BSString::toLower($value)) {

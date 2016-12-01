@@ -109,7 +109,7 @@ class BSWebRequest extends BSRequest {
 			} else if (BSString::isContain('apache', PHP_SAPI)) {
 				$headers = apache_request_headers();
 			} else {
-				$headers = array();
+				$headers = [];
 				foreach ($_SERVER as $key => $value) {
 					if (mb_ereg('HTTP_(.*)', $key, $matches)) {
 						$headers[str_replace('_', '-', $matches[1])] = $value;

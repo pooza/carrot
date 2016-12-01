@@ -21,10 +21,10 @@ class BSTestManager implements IteratorAggregate {
 		$this->tests = new BSArray;
 		$this->errors = new BSArray;
 
-		$dirs = new BSArray(array(
+		$dirs = new BSArray([
 			BSFileUtility::getDirectory('tests'),
 			BSFileUtility::getDirectory('local_tests'),
-		));
+		]);
 		foreach ($dirs as $dir) {
 			$this->tests->merge($this->load($dir));
 		}
