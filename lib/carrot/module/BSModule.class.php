@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSModule implements BSHTTPRedirector, BSAssignable {
+	use BSHTTPRedirectorMethods;
 	protected $name;
 	protected $title;
 	protected $url;
@@ -424,26 +425,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			$this->url['module'] = $this;
 		}
 		return $this->url;
-	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @return string ビュー名
-	 */
-	public function redirect () {
-		return $this->getURL()->redirect();
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this->getURL();
 	}
 
 	/**

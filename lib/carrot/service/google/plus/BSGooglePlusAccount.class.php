@@ -12,6 +12,7 @@
 class BSGooglePlusAccount
 	implements BSImageContainer, BSSerializable, BSAssignable, BSHTTPRedirector {
 
+	use BSHTTPRedirectorMethods;
 	protected $id;
 	protected $url;
 	protected $profile;
@@ -300,26 +301,6 @@ class BSGooglePlusAccount
 			$this->url = BSURL::create($this->profile['url']);
 		}
 		return $this->url;
-	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @return string ビュー名
-	 */
-	public function redirect () {
-		return $this->getURL()->redirect();
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this->getURL();
 	}
 
 	/**
