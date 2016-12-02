@@ -105,6 +105,19 @@ class BSUtility {
 		}
 		return call_user_func_array([$object, $method], $values);
 	}
+
+	/**
+	 * 指定したTraitを使用しているか？
+	 *
+	 * @access public
+	 * @param object $object オブジェクト
+	 * @param string $name Traitの名前
+	 * @return mixed 使用していればTrue
+	 * @static
+	 */
+	static public function isUseTrait ($object, $name) {
+		return ($traits = class_uses($object)) && in_array($name, $traits);
+	}
 }
 
 /* vim:set tabstop=4: */

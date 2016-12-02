@@ -29,7 +29,7 @@ abstract class BSAttachmentAction extends BSRecordAction {
 
 	public function validate () {
 		return (parent::validate()
-			&& ($this->getRecord() instanceof BSAttachmentContainer)
+			&& BSUtility::isUseTrait($this->getRecord(), 'BSAttachmentContainer')
 			&& $this->getRecord()->getAttachment($this->request['name'])
 		);
 	}
