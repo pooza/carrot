@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorContainer {
+	use BSHTTPRedirectorMethods;
 	protected $name;
 	protected $title;
 	protected $url;
@@ -461,26 +462,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			$this->url['action'] = $this;
 		}
 		return $this->url;
-	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @return string ビュー名
-	 */
-	public function redirect () {
-		return $this->getURL()->redirect();
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this->getURL();
 	}
 
 	/**

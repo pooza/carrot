@@ -13,6 +13,7 @@
  * @abstract
  */
 abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, IteratorAggregate {
+	use BSHTTPRedirectorMethods;
 	protected $name;
 	protected $error;
 	protected $type;
@@ -319,26 +320,6 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 			);
 		}
 		return $this->url;
-	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @return string ビュー名
-	 */
-	public function redirect () {
-		return $this->getURL()->redirect();
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this->getURL();
 	}
 
 	/**

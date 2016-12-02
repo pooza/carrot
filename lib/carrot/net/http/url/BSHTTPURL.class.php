@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
+	use BSHTTPRedirectorMethods;
 	private $fullpath;
 	private $useragent;
 	private $query;
@@ -394,16 +395,6 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		}
 		BSController::getInstance()->setHeader('Location', $url->getContents());
 		return BSView::NONE;
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this;
 	}
 }
 
