@@ -68,6 +68,7 @@ namespace :var do
 
   task :chmod do
     sh 'chmod 777 var/*'
+    sh 'chmod 666 var/tmp/awstats.conf'
   end
 
   desc '各種キャッシュをクリア'
