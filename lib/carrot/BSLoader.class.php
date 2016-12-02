@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org.carrot-framework
+ * @package jp.co.b-shock.carrot
  */
 
 require_once BS_LIB_DIR . '/carrot/BSUtility.class.php';

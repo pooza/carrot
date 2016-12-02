@@ -1,6 +1,6 @@
 # DSN
 #
-# @package org.carrot-framework
+# @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 require 'rubygems'

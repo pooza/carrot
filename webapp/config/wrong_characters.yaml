@@ -1,6 +1,6 @@
 # 機種依存文字の変換テーブル
 #
-# @package org.carrot-framework
+# @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 # @link http://php.nekosuke.com/000056.htm 参考
 # @link http://d.hatena.ne.jp/tamamo-ch/20090730 波ダッシュを全角チルダに変換

@@ -1,7 +1,7 @@
 {*
 閲覧画面テンプレート
 
-@package org.carrot-framework
+@package jp.co.b-shock.carrot
 @subpackage AdminLog
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}

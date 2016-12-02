@@ -27,7 +27,7 @@
  * });
  * </script>
  *
- * @package org.carrot-framework
+ * @package jp.co.b-shock.carrot
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @link http://www.leigeber.com/2008/04/sliding-javascript-dropdown-menu/ 改造もと
  */

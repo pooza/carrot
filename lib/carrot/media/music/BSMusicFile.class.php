@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org.carrot-framework
+ * @package jp.co.b-shock.carrot
  * @subpackage media.music
  */
 

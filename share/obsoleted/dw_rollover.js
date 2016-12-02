@@ -3,7 +3,7 @@
  *
  * rollover.jsか、jQueryによる実装を推奨。
  *
- * @package org.carrot-framework
+ * @package jp.co.b-shock.carrot
  */
 
 function MM_swapImgRestore() { 

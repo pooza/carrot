@@ -2,7 +2,7 @@
 
 # 1日ごとに実行する処理
 #
-# @package org.carrot-framework
+# @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 path = File.expand_path(__FILE__)

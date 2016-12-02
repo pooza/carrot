@@ -1,7 +1,7 @@
 /**
  * ロールオーバー
  *
- * @package org.carrot-framework
+ * @package jp.co.b-shock.carrot
  * @link http://d.hatena.ne.jp/kazeburo/20051227/p1
  */
 

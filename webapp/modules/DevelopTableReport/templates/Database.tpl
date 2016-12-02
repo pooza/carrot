@@ -1,7 +1,7 @@
 {*
 一覧画面テンプレート
 
-@package org.carrot-framework
+@package jp.co.b-shock.carrot
 @subpackage DevelopTableReport
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}

@@ -1,7 +1,7 @@
 {*
 コンソール用共通ヘッダ テンプレート
  
-@package org.carrot-framework
+@package jp.co.b-shock.carrot
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
 {const name='app_name_ja'} {const name='app_ver'}

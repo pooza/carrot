@@ -1,7 +1,7 @@
 {*
 汎用テンプレート
  
-@package org.carrot-framework
+@package jp.co.b-shock.carrot
 @subpackage Console
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
