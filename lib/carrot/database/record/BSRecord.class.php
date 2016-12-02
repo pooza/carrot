@@ -10,8 +10,11 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable, BSImageContainer, BSHTTPRedirector {
-	use BSAttachmentContainer;
+abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable,
+	BSImageContainer, BSHTTPRedirector, BSAttachmentContainer {
+
+	use BSAttachmentContainerMethods;
+	use BSHTTPRedirectorMethods;
 	protected $attributes;
 	protected $table;
 	protected $url;
@@ -530,26 +533,6 @@ abstract class BSRecord implements ArrayAccess, BSSerializable, BSAssignable, BS
 			}
 		}
 		return $this->url;
-	}
-
-	/**
-	 * リダイレクト
-	 *
-	 * @access public
-	 * @return string ビュー名
-	 */
-	public function redirect () {
-		return $this->getURL()->redirect();
-	}
-
-	/**
-	 * URLをクローンして返す
-	 *
-	 * @access public
-	 * @return BSURL
-	 */
-	public function createURL () {
-		return clone $this->getURL();
 	}
 
 	/**
