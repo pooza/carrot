@@ -86,7 +86,12 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 * @return BSDirectory キャッシュディレクトリ
 	 */
 	public function getCacheDirectory () {
-		return BSFileUtility::getDirectory($this->getDirectoryName() . '_cache');
+		$parent = BSFileUtility::getDirectory($this->getDirectoryName() . '_cache');
+		if (!$dir = $parent->getEntry($this->name)) {
+			$dir = $parent->createDirectory($this->name);
+		}
+		$dir->setDefaultSuffix($parent->getDefaultSuffix());
+		return $dir;
 	}
 
 	/**
@@ -98,8 +103,8 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	public function getCacheFile () {
 		if (!$this->cacheFile) {
 			$dir = $this->getCacheDirectory();
-			if (!$this->cacheFile = $dir->getEntry($this->digest())) {
-				$this->cacheFile = $dir->createEntry($this->digest());
+			if (!$this->cacheFile = $dir->getEntry($this->digest(), $this->getDocumentClass())) {
+				$this->cacheFile = $dir->createEntry($this->digest(), $this->getDocumentClass());
 			}
 		}
 		return $this->cacheFile;
@@ -205,6 +210,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	public function update () {
 		$cache = $this->getCacheFile();
 		if (BSString::isBlank($cache->getContents()) && !!$this->documents->count()) {
+			$cache->getDirectory()->purge(BSDate::create());
 			$contents = new BSArray;
 			foreach ($this as $file) {
 				if ($file->getSerialized() === null) {
@@ -316,7 +322,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		if (!$this->url) {
 			$this->url = BSFileUtility::createURL(
 				$this->getDirectoryName() . '_cache',
-				$this->getCacheFile()->getName()
+				$this->getName() . '/' . $this->getCacheFile()->getName()
 			);
 		}
 		return $this->url;
