@@ -252,11 +252,8 @@ abstract class BSUserAgent extends BSParameterHolder {
 		if (!$this->digest) {
 			$this->digest = BSCrypt::digest([
 				__CLASS__,
-				(int)$this->hasSupport('html5_video_webm'),
-				(int)$this->hasSupport('html5_video_h264'),
-				(int)$this->hasSupport('html5_audio_aac'),
-				(int)$this->hasSupport('html5_audio_mp3'),
-				(int)$this->hasSupport('html5_audio_ogg'),
+				(int)$this->hasSupport('html5_video'),
+				(int)$this->hasSupport('html5_audio'),
 			]);
 		}
 		return $this->digest;

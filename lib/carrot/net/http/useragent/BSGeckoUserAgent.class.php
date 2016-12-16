@@ -19,10 +19,6 @@ class BSGeckoUserAgent extends BSUserAgent {
 		parent::__construct($name);
 		$this->supports['html5_video'] = true;
 		$this->supports['html5_audio'] = true;
-		$this->supports['html5_video_webm'] = true;
-		$this->supports['html5_video_h264'] = true;
-		$this->supports['html5_audio_ogg'] = true;
-		$this->supports['html5_audio_mp3'] = true;
 		$this->supports['flash'] = true;
 		$this->supports['cookie'] = true;
 		$this->supports['attach_file'] = true;

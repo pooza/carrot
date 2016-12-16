@@ -19,8 +19,6 @@ class BSPrestoUserAgent extends BSUserAgent {
 		parent::__construct($name);
 		$this->supports['html5_video'] = true;
 		$this->supports['html5_audio'] = true;
-		$this->supports['html5_video_webm'] = true;
-		$this->supports['html5_audio_ogg'] = true;
 		$this->supports['flash'] = true;
 		$this->supports['cookie'] = true;
 		$this->supports['attach_file'] = true;

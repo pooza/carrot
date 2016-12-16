@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
-	const DEFAULT_NAME = 'DoCoMo/2.0 P07A3(c500;TB;W24H15)';
+	const DEFAULT_NAME = 'DoCoMo/2.0 (c500)';
 
 	/**
 	 * @access protected
@@ -23,7 +23,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		parent::__construct($name);
 		$this['is_foma'] = $this->isFOMA();
 		$this['version'] = $this->getVersion();
-		$this['browser_version'] = $this->getVersion();
 		$this->supports['cookie'] = $this->isFOMA() && (1 < $this->getVersion());
 	}
 

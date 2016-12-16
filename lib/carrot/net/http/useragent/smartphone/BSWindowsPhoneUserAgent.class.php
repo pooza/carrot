@@ -18,7 +18,7 @@ class BSWindowsPhoneUserAgent extends BSTridentUserAgent {
 	protected function __construct ($name = null) {
 		parent::__construct($name);
 		$this['is_trident'] = true;
-		$this->supports['flash'] = (7 < $this->getVersion());;
+		$this->supports['flash'] = false;
 	}
 
 	/**

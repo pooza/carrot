@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSTridentUserAgent extends BSUserAgent {
-	const DEFAULT_NAME = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv 11.0) like Gecko';
+	const DEFAULT_NAME = 'Mozilla/5.0 (Trident/7.0; rv 11.0)';
 	const ACCESSOR = 'force_trident';
 
 	/**
@@ -31,7 +31,6 @@ class BSTridentUserAgent extends BSUserAgent {
 
 		$this->supports['html5_audio'] = (8 < $this->getVersion());
 		$this->supports['html5_video'] = (8 < $this->getVersion());
-		$this->supports['html5_video_h264'] = (8 < $this->getVersion());
 		$this->supports['flash'] = true;
 		$this->supports['cookie'] = true;
 		$this->supports['attach_file'] = true;

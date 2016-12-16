@@ -19,12 +19,8 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 		parent::__construct($name);
 		$this['is_web_kit'] = true;
 		$this->supports['html5_audio'] = version_compare('534.30', $this->getVersion(), '<');
-		$this->supports['html5_audio_mp3'] = $this->supports['html5_audio'];
-		$this->supports['html5_audio_aac'] = $this->supports['html5_audio'];
 		$this->supports['html5_video'] = version_compare('534.30', $this->getVersion(), '<');
-		$this->supports['html5_video_webm'] = $this->supports['html5_video'];
-		$this->supports['html5_video_h264'] = $this->supports['html5_video'];
-		$this->supports['flash'] = version_compare('530.0', $this->getVersion(), '<');
+		$this->supports['flash'] = false;
 	}
 
 	/**
@@ -33,12 +29,9 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 * @access public
 	 * @return boolean スマートフォンならTrue
 	 * @link http://googlewebmastercentral-ja.blogspot.com/2011/05/android.html
-	 * @link http://blog.fkoji.com/2011/05021907.html
 	 */
 	public function isSmartPhone () {
-		return (BSString::isContain('Mobile', $this->getName())
-			&& !BSString::isContain('SC-01C', $this->getName()) //GALAXY Tabは例外として除外
-		);
+		return BSString::isContain('Mobile', $this->getName());
 	}
 
 	/**
@@ -75,6 +68,8 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 		if (!$this->digest) {
 			$this->digest = BSCrypt::digest([
 				__CLASS__,
+				$this->supports['html5_video'],
+				$this->supports['html5_audio'],
 				$this->isTablet(),
 			]);
 		}
