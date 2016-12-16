@@ -571,10 +571,10 @@ class BSString {
 	static public function trim ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
 			foreach ($value as $key => $item) {
-				$value[$key] = self::dequote($item);
+				$value[$key] = self::trim($item);
 			}
 		} else {
-			//$value = trim($value);
+			$value = trim($value);
 			$value = mb_ereg_replace('[ \\t]*\\r?\\n[ \\t]*', "\n", $value);
 		}
 		return $value;
