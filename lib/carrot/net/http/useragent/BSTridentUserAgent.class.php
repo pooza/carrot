@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSTridentUserAgent extends BSUserAgent {
-	const DEFAULT_NAME = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)';
+	const DEFAULT_NAME = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv 11.0) like Gecko';
 	const ACCESSOR = 'force_trident';
 
 	/**
@@ -72,7 +72,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	/**
 	 * バージョンを返す
 	 *
-	 * 取得できないケースがある為、IEとしてのバージョンで代用。
+	 * IEとしてのバージョンを返す。
 	 *
 	 * @access public
 	 * @return string バージョン
@@ -82,7 +82,9 @@ class BSTridentUserAgent extends BSUserAgent {
 			if (mb_ereg('MSIE ([.[:digit:]]+);', $this->getName(), $matches)) {
 				$this['version'] = $matches[1];
 			} else if (mb_ereg('Trident', $this->getName(), $matches)) {
-				$this['version'] = 11;
+				if (mb_ereg('rv[ :]([.[:digit:]]+)', $this->getName(), $matches)) {
+					$this['version'] = $matches[1];
+				}
 			}
 		}
 		return $this['version'];
