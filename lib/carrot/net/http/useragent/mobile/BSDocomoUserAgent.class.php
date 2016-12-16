@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
-	const DEFAULT_NAME = 'DoCoMo/2.0';
+	const DEFAULT_NAME = 'DoCoMo/2.0 P07A3(c500;TB;W24H15)';
 
 	/**
 	 * @access protected
@@ -22,6 +22,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 		}
 		parent::__construct($name);
 		$this['is_foma'] = $this->isFOMA();
+		$this['version'] = $this->getVersion();
 		$this['browser_version'] = $this->getVersion();
 		$this->supports['cookie'] = $this->isFOMA() && (1 < $this->getVersion());
 	}
@@ -66,7 +67,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return boolean 旧機種ならばTrue
 	 */
 	public function isLegacy () {
-		return !$this->isFOMA() && !BSString::isContain('bot', $this->getName());
+		return ($this->getVersion() < 2) && !BSString::isContain('bot', $this->getName());
 	}
 
 	/**
@@ -109,13 +110,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		$carrier = $this->getCarrier();
-		foreach ($carrier['display_infos'] as $pattern => $values) {
-			if (BSString::isContain($pattern, $this->getName(), true)) {
-				return new BSArray($values);
-			}
-		}
-
 		$info = new BSArray;
 		if (1 < $this->getVersion()) {
 			$info['width'] = BS_IMAGE_MOBILE_SIZE_VGA_WIDTH;

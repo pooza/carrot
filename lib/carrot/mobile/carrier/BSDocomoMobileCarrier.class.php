@@ -10,27 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDocomoMobileCarrier extends BSMobileCarrier {
-	const LIST_FILE_NAME = 'docomo_agents.xml';
-
-	/**
-	 * @access public
-	 */
-	public function __construct () {
-		parent::__construct();
-
-		$file = BSFileUtility::getDirectory('config')->getEntry(self::LIST_FILE_NAME);
-		if (!$file->getSerialized()) {
-			$agents = new BSArray;
-			$xml = new BSXMLDocument;
-			$xml->setContents($file->getContents());
-			foreach ($xml->getElements() as $element) {
-				$agents[$element->getName()] = $element->getAttributes()->getParameters();
-			}
-			$agents->sort(BSArray::SORT_KEY_DESC);
-			BSController::getInstance()->setAttribute($file, $agents);
-		}
-		$this['display_infos'] = $file->getSerialized();
-	}
 
 	/**
 	 * ドメインサフィックスを返す

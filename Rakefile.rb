@@ -132,12 +132,3 @@ namespace :phpdoc do
     sh 'phpdoc -d lib/carrot,webapp/lib -t share/man -o HTML:Smarty:HandS'
   end
 end
-
-namespace :docomo do
-  task :fetch do
-    sh 'bin/makexmldocomomap.pl > webapp/config/docomo_agents.xml'
-  end
-
-  desc 'docomoの端末リストを取得'
-  task :update => [:fetch]
-end
