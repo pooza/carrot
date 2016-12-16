@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDocomoUserAgent extends BSMobileUserAgent {
-	const DEFAULT_NAME = 'DoCoMo/2.0 (c500)';
+	const DEFAULT_NAME = 'DoCoMo/2.0 (c500;)';
 
 	/**
 	 * @access protected
