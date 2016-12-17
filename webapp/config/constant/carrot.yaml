@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.4
+  ver: 2.6.5
 
 admin:
   email:
@@ -23,7 +23,6 @@ app:
   http_cache:
     mode: private
     seconds: 60
-  force_https: no
   process:
     uid:
       default: nobody
