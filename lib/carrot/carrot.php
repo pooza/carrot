@@ -137,7 +137,7 @@ ini_set('error_log', BS_VAR_DIR . '/tmp/error_' . BSDate::getNow('Y-m-d') . '.lo
 BSRequest::getInstance()->createSession();
 
 if (BS_DEBUG) {
-	error_reporting(E_ALL | E_STRICT);
+	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	BSController::getInstance()->dispatch();
 } else {
