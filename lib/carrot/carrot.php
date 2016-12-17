@@ -132,7 +132,9 @@ mb_regex_encoding('utf-8');
 date_default_timezone_set(BS_DATE_TIMEZONE);
 ini_set('realpath_cache_size', '128K');
 ini_set('log_errors', 1);
-ini_set('error_log', BS_VAR_DIR . '/tmp/error_' . BSDate::getNow('Y-m-d') . '.log');
+$tmpdir = BSFileUtility::getDirectory('tmp');
+ini_set('error_log', $tmpdir->getPath() . '/error_' . BSDate::getNow('Y-m-d') . '.log');
+ini_set('upload_tmp_dir', $tmpdir->getPath());
 
 BSRequest::getInstance()->createSession();
 
@@ -146,7 +148,7 @@ if (BS_DEBUG) {
 	try {
 		BSController::getInstance()->dispatch();
 	} catch (BSException $e) {
-		print 'サーバへのアクセスが集中しています。しばらくお待ち下さい。';
+		print 'エラーが発生しました。しばらくお待ち下さい。';
 	} catch (Exception $e) {
 		throw new BSException($e->getMessage());
 	}
