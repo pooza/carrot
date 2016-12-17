@@ -13,13 +13,6 @@ class BSAndroidUserAgentTest extends BSTest {
 		$this->assert('isSmartPhone_Xperia', $useragent->isSmartPhone());
 		$this->assert('isLegacy_Xperia', !$useragent->isLegacy());
 
-		// Galaxy Tab
-		$useragent = BSUserAgent::create(
-			'Mozilla/5.0 (Linux; U; Android 2.2; ja-jp; SC-01C Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'
-		);
-		$this->assert('create_GalaxyTab', $useragent instanceof BSAndroidUserAgent);
-		$this->assert('isTablet_GalaxyTab', $useragent->isTablet());
-
 		// Optimus Pad
 		$useragent = BSUserAgent::create(
 			'Mozilla/5.0 (Linux; U; Android 3.0.1; ja-jp; L-06C Build/HRI66) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13'
