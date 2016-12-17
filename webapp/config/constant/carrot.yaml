@@ -49,7 +49,8 @@ cookie:
     hours: 6
 crypt:
   salt: carrot
-  engine: blowfish
+  engine: open_ssl
+  method: AES-128-ECB
   digest:
     method: sha1
 date:
