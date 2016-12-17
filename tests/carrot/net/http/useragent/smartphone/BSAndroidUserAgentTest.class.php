@@ -19,7 +19,6 @@ class BSAndroidUserAgentTest extends BSTest {
 		);
 		$this->assert('create_GalaxyTab', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isTablet_GalaxyTab', $useragent->isTablet());
-		$this->assert('hasSupport_flash_GalaxyTab', $useragent->hasSupport('flash'));
 
 		// Optimus Pad
 		$useragent = BSUserAgent::create(
@@ -27,7 +26,6 @@ class BSAndroidUserAgentTest extends BSTest {
 		);
 		$this->assert('create_OptimusPad', $useragent instanceof BSAndroidUserAgent);
 		$this->assert('isTablet_OptimusPad', $useragent->isTablet());
-		$this->assert('hasSupport_flash_OptimusPad', $useragent->hasSupport('flash'));
 	}
 }
 
