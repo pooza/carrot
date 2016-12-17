@@ -14,7 +14,7 @@ class BSStringTest extends BSTest {
 		$this->assert('convertWrongCharacters', $records[2][0] == '(2)');
 
 		$string = " \r\n   test\n   ";
-		$this->assert('trim', BSString::trim($string) == "\ntest\n");
+		$this->assert('trim', BSString::trim($string) == "test");
 	}
 }
 
