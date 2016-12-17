@@ -60,8 +60,6 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	/**
 	 * 展開
 	 *
-	 * ZipArchive::extractToが未実装っぽい？ので、unzipコマンドをキック。
-	 *
 	 * @access public
 	 * @param mixed $path 展開先パス、又はディレクトリ
 	 * @param mixed $entries 対象エントリー名、又はその配列。
@@ -71,13 +69,13 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 		if ($path instanceof BSDirectory) {
 			$path = $path->getPath() . '/';
 		}
-		$command = new BSCommandLine('bin/unzip');
-		$command->setDirectory(BSFileUtility::getDirectory('unzip'));
-		$command->push($this->getFile()->getPath());
-		$command->push('-d');
-		$command->push($path);
-		$command->execute();
-		return true;
+
+		// 普通にオーバーライドすると何故か動作しないので、委譲を行う。
+		$zip = new ZipArchive;
+		$zip->open($this->getFile()->getPath());
+		$result = $zip->extractTo($path, $entries);
+		$zip->close();
+		return $result;
 	}
 
 	/**
