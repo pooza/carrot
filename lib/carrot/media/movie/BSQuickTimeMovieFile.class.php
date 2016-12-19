@@ -23,8 +23,8 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 		switch ($params['mode']) {
 			case 'shadowbox':
 				return $this->createShadowboxElement($params);
-			case 'lightpop':
-				return $this->createLightpopElement($params);
+			case 'lity':
+				return $this->createLityElement($params);
 		}
 
 		$params = BSArray::create($params);

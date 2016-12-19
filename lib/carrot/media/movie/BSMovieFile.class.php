@@ -106,8 +106,8 @@ class BSMovieFile extends BSMediaFile {
 		switch ($params['mode']) {
 			case 'shadowbox':
 				return $this->createShadowboxElement($params);
-			case 'lightpop':
-				return $this->createLightpopElement($params);
+			case 'lity':
+				return $this->createLityElement($params);
 		}
 
 		$params = BSArray::create($params);
@@ -178,13 +178,13 @@ class BSMovieFile extends BSMediaFile {
 	}
 
 	/**
-	 * jQuery.lightpopへのリンク要素を返す
+	 * Lityへのリンク要素を返す
 	 *
 	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSLightpopAnchorElement 要素
+	 * @return BSDivisionElement 要素
 	 */
-	public function createLightpopElement (BSParameterHolder $params) {
+	public function createLityElement (BSParameterHolder $params) {
 		$params = BSArray::create($params);
 		if (!$params['width_movie']) {
 			$params['width_movie'] = $params['width'];
@@ -193,20 +193,24 @@ class BSMovieFile extends BSMediaFile {
 			$params['height_movie'] = $params['height'];
 		}
 
-		$container = new BSLightpopAnchorElement;
-		$url = $this->createURL($params);
-		$url->setParameter('width', $params['width_movie']);
-		$url->setParameter('height', $params['height_movie']);
-		$container->setURL($url);
-		$container->setAttribute('title', $params['label']);
+		$container = new BSDivisionElement;
+		$anchor = $container->addElement(new BSLityAnchorElement);
+		$id = __CLASS__ . '_' . $this->getID();
+		$anchor->setAttribute('href', '#' . $id);
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
 			$image->setAttributes($info);
-			$container->addElement($image);
+			$anchor->addElement($image);
 		} else {
-			$container->setBody($params['label']);
+			$anchor->setBody($params['label']);
 		}
+
+		$paramsInner = clone $params;
+		$paramsInner['mode'] = null;
+		$inner = $container->addElement($this->createElement($paramsInner));
+		$inner->setID($id);
+		$inner->registerStyleClass('lity-hide');
 		return $container;
 	}
 

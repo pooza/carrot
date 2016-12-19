@@ -31,8 +31,8 @@ class BSMPEG4MovieFile extends BSMovieFile {
 		switch ($params['mode']) {
 			case 'shadowbox':
 				return $this->createShadowboxElement($params);
-			case 'lightpop':
-				return $this->createLightpopElement($params);
+			case 'lity':
+				return $this->createLityElement($params);
 		}
 		return $this->createVideoElement($params);
 	}
