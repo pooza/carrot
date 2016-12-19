@@ -195,8 +195,8 @@ class BSMovieFile extends BSMediaFile {
 
 		$container = new BSDivisionElement;
 		$anchor = $container->addElement(new BSLityAnchorElement);
-		$id = __CLASS__ . '_' . $this->getID();
-		$anchor->setAttribute('href', '#' . $id);
+		$id = __CLASS__ . BSCrypt::digest([$this->getID(), BSNumeric::getRandom()]);
+		$anchor->setURL('#' . $id);
 		if ($info = $params['thumbnail']) {
 			$info = new BSArray($info);
 			$image = new BSImageElement;
