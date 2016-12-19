@@ -22,16 +22,6 @@ class BSLityAnchorElement extends BSImageAnchorElement {
 		parent::__construct($name, $useragent);
 		$this->setAttribute('data-lity', 'data-lity');
 	}
-
-	/**
-	 * グループ名を設定
-	 *
-	 * @access public
-	 * @param string $group グループ名
-	 */
-	public function setImageGroup ($group) {
-		throw new BSMediaException(__CLASS__ . 'はsetImageGroupに非対応です。');
-	}
 }
 
 /* vim:set tabstop=4: */

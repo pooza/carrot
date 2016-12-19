@@ -13,15 +13,6 @@
 abstract class BSImageAnchorElement extends BSAnchorElement {
 
 	/**
-	 * グループ名を設定
-	 *
-	 * @access public
-	 * @param string $group グループ名
-	 * @abstract
-	 */
-	abstract public function setImageGroup ($group);
-
-	/**
 	 * リンク対象画像を設定
 	 *
 	 * @access public

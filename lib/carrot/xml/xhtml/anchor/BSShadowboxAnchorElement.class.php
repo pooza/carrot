@@ -10,19 +10,8 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSShadowboxAnchorElement extends BSImageAnchorElement {
-	private $group;
 	private $width;
 	private $height;
-
-	/**
-	 * グループ名を設定
-	 *
-	 * @access public
-	 * @param string $group グループ名
-	 */
-	public function setImageGroup ($group) {
-		$this->group = $group;
-	}
 
 	/**
 	 * 幅を設定
@@ -72,11 +61,7 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 	 */
 	public function getContents () {
 		$rel = new BSArray;
-		if (BSString::isBlank($this->group)) {
-			$rel[] = 'shadowbox';
-		} else {
-			$rel[] = 'shadowbox[' . $this->group . ']';
-		}
+		$rel[] = 'shadowbox';
 		if ($this->width && $this->height) {
 			$rel[] = 'width=' . $this->width;
 			$rel[] = 'height=' . $this->height;

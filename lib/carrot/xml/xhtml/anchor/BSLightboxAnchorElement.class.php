@@ -20,20 +20,6 @@ class BSLightboxAnchorElement extends BSImageAnchorElement {
 		parent::__construct($name, $useragent);
 		$this->setAttribute('rel', 'lightbox');
 	}
-
-	/**
-	 * グループ名を設定
-	 *
-	 * @access public
-	 * @param string $group グループ名
-	 */
-	public function setImageGroup ($group) {
-		if (BSString::isBlank($group)) {
-			$this->setAttribute('rel', 'lightbox');
-		} else {
-			$this->setAttribute('rel', 'lightbox[' . $group . ']');
-		}
-	}
 }
 
 /* vim:set tabstop=4: */
