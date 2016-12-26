@@ -31,7 +31,7 @@ class BSOpenSSLCryptor implements BSCryptor {
 	 * @return string 暗号化された文字列
 	 */
 	public function encrypt ($value) {
-		return openssl_encrypt($value, BS_CRYPT_METHOD, $this->getSalt(), true);
+		return openssl_encrypt($value, BS_CRYPT_METHOD, $this->getSalt(), OPENSSL_RAW_DATA);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class BSOpenSSLCryptor implements BSCryptor {
 	 * @return string 複号化された文字列
 	 */
 	public function decrypt ($value) {
-		return openssl_decrypt($value, BS_CRYPT_METHOD, $this->getSalt(), true);
+		return openssl_decrypt($value, BS_CRYPT_METHOD, $this->getSalt(), OPENSSL_RAW_DATA);
 	}
 
 	/**
