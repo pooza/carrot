@@ -3,15 +3,15 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-root_url: http://carrot.kapi.local/
-root_url_https: http://carrot.kapi.local/
+root_url: http://carrot.dev.kapi.local/
+root_url_https: http://carrot.dev.kapi.local/
 debug: yes
 
 admin:
   email: admin@b-shock.co.jp
   password: 7e240de74fb1ed08fa08d38063f6a6a91462a815
   networks:
-    - 192.168.100.0/24
+    - 172.16.138.0/24
 pdo:
   default:
     #dsn: mysql:host=127.0.0.1;dbname=carrot
@@ -20,6 +20,9 @@ pdo:
     password:
 awstats:
   log_dir: /var/log/httpd/www.example.com
+memcache:
+  host: unix:///tmp/memcached.sock
+  port: 0
 serialize:
   storage: memcache
 session:
