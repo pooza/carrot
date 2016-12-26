@@ -4,15 +4,14 @@
 @package jp.co.b-shock.carrot
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
-Subject: [{const name='app_name_ja'}] {$priority}
+Subject: [{$server_host.name}] {$priority}
 
 {$priority}:
 {$message}
 
 
 クライアントホスト:
-{$client_host.address}
-{$client_host.name|default:'(名前解決に失敗)'}
+{$client_host.name}
 
 ブラウザ:
 {$useragent.type}系
