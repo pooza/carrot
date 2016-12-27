@@ -21,8 +21,8 @@ pdo:
 awstats:
   log_dir: /var/log/httpd/www.example.com
 memcache:
-  host: unix:///tmp/memcached.sock
-  port: 0
+  #host: localhost
+  #port: 11211
 serialize:
   storage: memcache
 session:

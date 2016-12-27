@@ -154,8 +154,8 @@ mail:
   sender: sendmail
 memcache:
   daemon_name: memcached
-  host: localhost
-  port: 11211
+  host: unix:///tmp/memcached.sock
+  port: 0
 module:
   cache_parameters: yes
   prefixes:

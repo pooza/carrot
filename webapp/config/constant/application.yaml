@@ -13,8 +13,7 @@ author:
   name: 有限会社 ビーショック
   email: info@b-shock.co.jp
 crypt:
-  salt: carrot
-  engine: cbc
+  salt: __YOUR_SALT__
 service:
   google:
     analytics:
