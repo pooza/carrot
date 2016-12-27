@@ -5,6 +5,7 @@
 @author 小石達也 <tkoishi@b-shock.co.jp>
 *}
 Subject: [{$server_host.name}] {$priority}
+From: root@{$server_host.name}
 
 {$priority}:
 {$message}
