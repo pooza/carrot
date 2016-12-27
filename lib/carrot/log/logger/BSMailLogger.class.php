@@ -50,6 +50,10 @@ class BSMailLogger extends BSLogger {
 	private function send ($message, $priority) {
 		$mail = new BSSmartyMail;
 		$mail->getRenderer()->setTemplate('BSException.mail');
+		$mail->getRenderer()->setAttribute(
+			'from',
+			BSRootRole::getInstance()->getMailAddress()->format()
+		);
 		$mail->getRenderer()->setAttribute('message', $message);
 		$mail->getRenderer()->setAttribute('priority', $priority);
 		$mail->send();

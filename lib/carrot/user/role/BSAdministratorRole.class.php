@@ -15,12 +15,6 @@ class BSAdministratorRole implements BSRole {
 	const CREDENTIAL = 'Admin';
 
 	/**
-	 * @access protected
-	 */
-	protected function __construct () {
-	}
-
-	/**
 	 * ユーザーIDを返す
 	 *
 	 * @access public
@@ -38,7 +32,7 @@ class BSAdministratorRole implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 */
 	public function getMailAddress ($language = 'ja') {
-		return BSMailAddress::create(BS_ADMIN_EMAIL, self::getName($language));
+		return BSMailAddress::create(BS_ADMIN_EMAIL, $this->getName($language));
 	}
 
 	/**

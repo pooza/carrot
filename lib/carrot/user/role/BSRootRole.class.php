@@ -5,15 +5,13 @@
  */
 
 /**
- * 発行者ロール
+ * rootロール
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSAuthorRole implements BSRole {
+class BSRootRole implements BSRole {
 	use BSSingleton;
-	protected $credentials;
-	protected $twitterAccount;
-	const CREDENTIAL = 'Author';
+	private $email;
 
 	/**
 	 * ユーザーIDを返す
@@ -33,20 +31,12 @@ class BSAuthorRole implements BSRole {
 	 * @return BSMailAddress メールアドレス
 	 */
 	public function getMailAddress ($language = 'ja') {
-		return BSMailAddress::create(BS_AUTHOR_EMAIL, $this->getName($language));
-	}
-
-	/**
-	 * Twitterアカウントを返す
-	 *
-	 * @access public
-	 * @return BSTwitterAccount アカウント
-	 */
-	public function getTwitterAccount () {
-		if (!$this->twitterAccount && !BSString::isBlank(BS_AUTHOR_TWITTER)) {
-			$this->twitterAccount = new BSTwitterAccount(BS_AUTHOR_TWITTER);
+		if (!$this->email) {
+			$command = new BSCommandLine('hostname');
+			$hostname = $command->getResult()[0];
+			$this->email = BSMailAddress::create('root@' . $hostname, $this->getName($language));
 		}
-		return $this->twitterAccount;
+		return $this->email;
 	}
 
 	/**
@@ -57,10 +47,17 @@ class BSAuthorRole implements BSRole {
 	 * @return string 名前
 	 */
 	public function getName ($language = 'ja') {
-		if (BSString::isBlank($name = BS_AUTHOR_NAME)) {
-			$name = BSController::getInstance()->getAttribute('app_name_' . $language);
-		}
-		return $name;
+		return 'Charlie Root';
+	}
+
+	/**
+	 * JabberIDを返す
+	 *
+	 * @access public
+	 * @return BSJabberID JabberID
+	 */
+	public function getJabberID () {
+		return null;
 	}
 
 	/**
@@ -76,15 +73,14 @@ class BSAuthorRole implements BSRole {
 	/**
 	 * 認証
 	 *
+	 * このロールは認証には使用しない。
+	 *
 	 * @access public
 	 * @param string $password パスワード
 	 * @return boolean 正しいユーザーならTrue
 	 */
 	public function auth ($password = null) {
-		return (!BSString::isBlank(BS_AUTHOR_PASSWORD)
-			&& !BSString::isBlank($password)
-			&& BSCrypt::getInstance()->auth(BS_AUTHOR_PASSWORD, $password)
-		);
+		return false;
 	}
 
 	/**
@@ -94,11 +90,7 @@ class BSAuthorRole implements BSRole {
 	 * @return BSArray クレデンシャルの配列
 	 */
 	public function getCredentials () {
-		if (!$this->credentials) {
-			$this->credentials = new BSArray;
-			$this->credentials[] = self::CREDENTIAL;
-		}
-		return $this->credentials;
+		return new BSArray;
 	}
 }
 
