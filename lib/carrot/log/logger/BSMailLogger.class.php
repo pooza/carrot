@@ -26,24 +26,12 @@ class BSMailLogger extends BSLogger {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param mixed $message ログメッセージ又は例外
+	 * @param string $message ログメッセージ
 	 * @param string $priority 優先順位
 	 */
-	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		if ($message instanceof BSException) {
-			$exception = $message;
-			if ($exception instanceof BSMailException) {
-				return;
-			}
-			foreach ($this->getPatterns() as $pattern) {
-				if ($exception instanceof $pattern) {
-					return $this->send($exception->getMessage(), $exception->getName());
-				}
-			}
-		} else {
-			if ($this->getPatterns()->isContain($priority)) {
-				return $this->send($message, $priority);
-			}
+	public function put ($message, $priority) {
+		if ($this->getPatterns()->isContain($priority)) {
+			return $this->send($message, $priority);
 		}
 	}
 

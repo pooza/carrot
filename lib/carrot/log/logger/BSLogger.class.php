@@ -26,11 +26,11 @@ abstract class BSLogger {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param mixed $message ログメッセージ又は例外
+	 * @param string $message ログメッセージ
 	 * @param string $priority 優先順位
 	 * @abstract
 	 */
-	abstract public function put ($message, $priority = self::DEFAULT_PRIORITY);
+	abstract public function put ($message, $priority);
 
 	/**
 	 * 直近日を返す

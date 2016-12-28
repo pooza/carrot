@@ -55,17 +55,26 @@ class BSFileLogger extends BSLogger {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param mixed $message ログメッセージ又は例外
+	 * @param string $message ログメッセージ
 	 * @param string $priority 優先順位
 	 */
-	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		if ($message instanceof Exception) {
-			if ($priority == self::DEFAULT_PRIORITY) {
-				$priority = $message->getName();
+	public function put ($message, $priority) {
+		foreach (['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
+				try {
+					$host = trim(mb_split('[:,]', $value)[0]);
+				} catch (Exception $e) {
+					$host = $value;
+				}
+				break;
 			}
-			$message = $message->getMessage();
 		}
-		$this->file->putLine(BSLogManager::formatMessage($message, $priority));
+		$this->file->putLine(implode(' ', [
+			'[' . date('Y-m-d H:i:s') . ']',
+			'[' . $priority . ']',
+			'[' . $host . ']', 
+			$message,
+		]));
 	}
 
 	/**

@@ -55,6 +55,9 @@ class BSLogManager implements IteratorAggregate {
 	public function put ($message, $priority = BSLogger::DEFAULT_PRIORITY) {
 		if ($message instanceof BSStringFormat) {
 			$message = $message->getContents();
+		} else if ($message instanceof Exception) {
+			$priority = $message->getName();
+			$message = $message->getMessage();
 		}
 		if (is_object($priority)) {
 			$priority = get_class($priority);
@@ -70,37 +73,6 @@ class BSLogManager implements IteratorAggregate {
 	 */
 	public function getIterator () {
 		return $this->loggers->getIterator();
-	}
-
-	/**
-	 * メッセージを整形
-	 *
-	 * 初期化中のエラーでログが吐かれることも想定し、標準関数のみで実装。
-	 *
-	 * @access public
-	 * @param string $message メッセージ
-	 * @param string $priority 優先順位
-	 * @return string 整形済みメッセージ
-	 * @static
-	 */
-	static public function formatMessage ($message, $priority) {
-		foreach (['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
-			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
-				try {
-					$parts = mb_split('[:,]', $value);
-					$host = trim($parts[0]);
-				} catch (Exception $e) {
-					$host = $value;
-				}
-				$message = [
-					'[' . date('Y-m-d H:i:s') . ']',
-					'[' . $host . ']', 
-					'[' . $priority . ']',
-					$message,
-				];
-				return implode(' ', $message);
-			}
-		}
 	}
 }
 

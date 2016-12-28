@@ -36,20 +36,19 @@ class BSSystemLogger extends BSLogger {
 	 * ログを出力
 	 *
 	 * @access public
-	 * @param mixed $message ログメッセージ又は例外
+	 * @param string $message ログメッセージ
 	 * @param string $priority 優先順位
 	 */
-	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
-		$host = BSController::getInstance()->getHost()->getName();
-		if ($message instanceof Exception) {
-			if (BSString::isBlank($priority)) {
-				$priority = $message->getName();
-			}
-			$message = sprintf('[%s] [%s] %s', $priority, $host, $message->getMessage());
-			syslog(LOG_ERR, $message);
+	public function put ($message, $priority) {
+		$format = new BSStringFormat('[%s] [%s] [%s] %s');
+		$format[] = BSController::getInstance()->getHost()->getName();
+		$format[] = $priority;
+		$format[] = BSRequest::getInstance()->getHost()->getName();
+		$format[] = $message;
+		if ($this->isException($priority)) {
+			syslog(LOG_ERR, $format->getContents());
 		} else {
-			$message = sprintf('[%s] [%s] %s', $priority, $host, $message);
-			syslog(LOG_NOTICE, $message);
+			syslog(LOG_NOTICE, $format->getContents());
 		}
 	}
 }
