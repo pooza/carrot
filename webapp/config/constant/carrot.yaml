@@ -11,6 +11,7 @@ admin:
   email:
   password:
   networks:
+  twitter:
 app:
   name:
     ja: unknown
@@ -141,6 +142,11 @@ log:
   mail:
     patterns:
       - BSDatabaseException
+      - BSFileException
+  twitter:
+    patterns:
+      - BSDatabaseException
+      - BSMailException
       - BSFileException
 mail:
   sender: sendmail
@@ -281,7 +287,6 @@ service:
       secret: m5dkKU4xnuLfD5WHOpctisvR08rSfB80x9Bfy0nnlk
     access_token: 139985635-LEKAX9Soa2zrjjtOf0MWR8KQdFJM8cGCgX7myMo
     access_token_secret: MfGm4toy0En5ZntHJFt6O4xOcZzAnfwnW9rDUaY
-    suffix: .json
     minutes: 5
   ustream:
     api_key: F63FF416CDE35989812DC3F07B1CA6B9

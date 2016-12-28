@@ -12,6 +12,7 @@
 class BSAdministratorRole implements BSRole {
 	use BSSingleton;
 	protected $credentials;
+	protected $twitterAccount;
 	const CREDENTIAL = 'Admin';
 
 	/**
@@ -33,6 +34,19 @@ class BSAdministratorRole implements BSRole {
 	 */
 	public function getMailAddress ($language = 'ja') {
 		return BSMailAddress::create(BS_ADMIN_EMAIL, $this->getName($language));
+	}
+
+	/**
+	 * Twitterアカウントを返す
+	 *
+	 * @access public
+	 * @return BSTwitterAccount アカウント
+	 */
+	public function getTwitterAccount () {
+		if (!$this->twitterAccount && !BSString::isBlank(BS_ADMIN_TWITTER)) {
+			$this->twitterAccount = new BSTwitterAccount(BS_ADMIN_TWITTER);
+		}
+		return $this->twitterAccount;
 	}
 
 	/**

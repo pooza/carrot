@@ -54,6 +54,40 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	}
 
 	/**
+	 * ダイレクトメッセージを送る
+	 *
+	 * @access public
+	 * @param string $message メッセージ
+	 * @param BSTwitterAccount $account 宛先アカウント
+	 * @return BSJSONRenderer 結果文書
+	 */
+	public function sendDirectMessage ($message, BSTwitterAccount $account) {
+		if ($message instanceof BSStringFormat) {
+			$message = $message->getContents();
+		}
+		$query = new BSWWWFormRenderer;
+		$query['screen_name'] = $account->getName();
+		$query['text'] = $message;
+		$response = $this->getService()->sendPOST('/1.1/direct_messages/new.json', $query);
+		$json = new BSJSONRenderer;
+		$json->setContents($response->getRenderer()->getContents());
+		return $json;
+	}
+
+	/**
+	 * ダイレクトメッセージを送る
+	 *
+	 * @access public
+	 * @param string $message メッセージ
+	 * @param BSTwitterAccount $account 宛先アカウント
+	 * @return BSJSONRenderer 結果文書
+	 * @final
+	 */
+	final public function sendDM ($message, BSTwitterAccount $account) {
+		return $this->sendDirectMessage($message, $account);
+	}
+
+	/**
 	 * タイムラインを返す
 	 *
 	 * @access public

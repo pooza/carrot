@@ -13,6 +13,15 @@ class BSTwitterAccountTest extends BSTest {
 				$this->assert('tweet', $response instanceof BSJSONRenderer);
 			} catch (Exception $e) {
 			}
+
+			try {
+				$response = $account->sendDirectMessage(
+					$message,
+					new BSTwitterAccount(BS_ADMIN_TWITTER)
+				);
+				$this->assert('sendDirectMessage', $response instanceof BSJSONRenderer);
+			} catch (Exception $e) {
+			}
 		}
 	}
 }
