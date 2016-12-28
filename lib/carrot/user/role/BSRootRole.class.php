@@ -51,16 +51,6 @@ class BSRootRole implements BSRole {
 	}
 
 	/**
-	 * JabberIDを返す
-	 *
-	 * @access public
-	 * @return BSJabberID JabberID
-	 */
-	public function getJabberID () {
-		return null;
-	}
-
-	/**
 	 * ユーザーIDを返す
 	 *
 	 * @access public

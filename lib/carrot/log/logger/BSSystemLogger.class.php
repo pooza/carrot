@@ -40,14 +40,15 @@ class BSSystemLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority = self::DEFAULT_PRIORITY) {
+		$host = BSController::getInstance()->getHost()->getName();
 		if ($message instanceof Exception) {
 			if (BSString::isBlank($priority)) {
 				$priority = $message->getName();
 			}
-			$message = sprintf('[%s] %s', $priority, $message->getMessage());
+			$message = sprintf('[%s] [%s] %s', $priority, $host, $message->getMessage());
 			syslog(LOG_ERR, $message);
 		} else {
-			$message = sprintf('[%s] %s', $priority, $message);
+			$message = sprintf('[%s] [%s] %s', $priority, $host, $message);
 			syslog(LOG_NOTICE, $message);
 		}
 	}

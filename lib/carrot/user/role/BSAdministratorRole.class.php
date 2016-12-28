@@ -47,18 +47,6 @@ class BSAdministratorRole implements BSRole {
 	}
 
 	/**
-	 * JabberIDを返す
-	 *
-	 * @access public
-	 * @return BSJabberID JabberID
-	 */
-	public function getJabberID () {
-		if (!BSString::isBlank(BS_ADMIN_JID)) {
-			return new BSJabberID(BS_ADMIN_JID);
-		}
-	}
-
-	/**
 	 * ユーザーIDを返す
 	 *
 	 * @access public

@@ -10,16 +10,12 @@ carrot:
 admin:
   email:
   password:
-  jid:
   networks:
 app:
   name:
     ja: unknown
     en: unknown
   ver: unknown
-  xmpp:
-    jid:
-    password:
   http_cache:
     mode: private
     seconds: 60
@@ -139,16 +135,12 @@ log:
   loggers:
     - file
     - mail
+    - system
   syslog:
     facility: LOCAL6
   mail:
     patterns:
       - BSDatabaseException
-      - BSFileException
-  jabber:
-    patterns:
-      - BSDatabaseException
-      - BSMailException
       - BSFileException
 mail:
   sender: sendmail
@@ -313,11 +305,6 @@ unzip:
     default: /usr
 user:
   class:
-xmpp:
-  host: talk.google.com
-  port: 5222
-  server: gmail.com
-  ssl: yes
 view:
   frame_options: sameorigin
   content_type_options: nosniff

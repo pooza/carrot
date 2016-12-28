@@ -52,7 +52,6 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 
 		switch ($params['scheme']) {
 			case 'mailto':
-			case 'xmpp':
 			case 'tel':
 			case 'skype':
 				return new BSContactURL($params);
