@@ -48,13 +48,12 @@ class BSDatabaseLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority) {
-		$values = [
+		$this->getTable()->createRecord([
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
 			'remote_host' => BSRequest::getInstance()->getHost()->getName(),
 			'priority' => $priority,
 			'message' => $message,
-		];
-		$this->getTable()->createRecord($values);
+		]);
 	}
 
 	/**

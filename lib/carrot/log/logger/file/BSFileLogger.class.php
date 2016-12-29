@@ -71,8 +71,8 @@ class BSFileLogger extends BSLogger {
 		}
 		$this->file->putLine(implode(' ', [
 			'[' . date('Y-m-d H:i:s') . ']',
-			'[' . $priority . ']',
 			'[' . $host . ']', 
+			'[' . $priority . ']',
 			$message,
 		]));
 	}
