@@ -29,7 +29,7 @@ class BSSystemLogger extends BSLogger {
 		if (!$facility = $constants['SYSLOG_FACILITY']) {
 			$facility = 'LOCAL6';
 		}
-		return openlog('carrot', LOG_PID | LOG_PERROR, $constants[$facility]);
+		return openlog('carrot', LOG_PID, $constants[$facility]);
 	}
 
 	/**
