@@ -18,8 +18,6 @@ pdo:
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
-awstats:
-  log_dir: /var/log/httpd/www.example.com
 memcache:
   #host: localhost
   #port: 11211

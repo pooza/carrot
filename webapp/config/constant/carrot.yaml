@@ -31,10 +31,6 @@ author:
   email:
   password:
   twitter: carrot_fw
-awstats:
-  daily: yes
-  log_dir:
-  server_name_aliases:
 clamav:
   command: clamdscan
   dir:

@@ -22,9 +22,7 @@ task :install => [
 
 desc 'テストを実行'
 task :test =>['var:classes:clean'] do
-  cmd = 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
-  cmd += ' -i ' + Shellwords.shellescape(ARGV[1]) if ARGV[1]
-  sh cmd
+  system 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
 end
 
 namespace :database do
@@ -68,7 +66,6 @@ namespace :var do
 
   task :chmod do
     sh 'chmod 777 var/*'
-    sh 'chmod 666 var/tmp/awstats.conf'
   end
 
   desc '各種キャッシュをクリア'
@@ -113,7 +110,7 @@ namespace :var do
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do
-      system 'sudo rm var/serialized/BSLoader.*'
+      sh 'touch webapp/config/constant'
     end
   end
 
@@ -123,12 +120,5 @@ namespace :var do
       system 'sudo rm -R var/config_cache/*'
       system 'sudo rm var/serialized/*'
     end
-  end
-end
-
-namespace :phpdoc do
-  desc 'PHPDocumentorを実行'
-  task :build do
-    sh 'phpdoc -d lib/carrot,webapp/lib -t share/man -o HTML:Smarty:HandS'
   end
 end

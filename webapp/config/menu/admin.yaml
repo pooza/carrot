@@ -13,10 +13,6 @@
   action: Restore
 - module: AdminMemcache
 - module: DevelopTableReport
-- title: アクセスログ解析
-  href: /awstats/awstats.pl
-  target: _blank
-  credential: Admin
 - separator: yes
 - title: ログアウト
   module: Default
