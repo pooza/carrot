@@ -19,20 +19,23 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	const WITHOUT_LOGGING = 1;
 	const WITHOUT_SERIALIZE = 2;
 	const WITHOUT_PARENT = 4;
+	const RECONNECT = 1;
 
 	/**
 	 * フライウェイトインスタンスを返す
 	 *
 	 * @access public
 	 * @name string $name データベース名
+	 * @param integer $flags フラグのビット列
+	 *   self::RECONNECT 再接続（取扱注意。基本、使っちゃダメ。）
 	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name = 'default') {
+	static public function getInstance ($name = 'default', $flags = null) {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 		}
-		if (!self::$instances[$name]) {
+		if (!self::$instances[$name] || ($flags & self::RECONNECT)) {
 			$constants = new BSConstantHandler('PDO');
 			$dsn = $constants[$name . '_DSN'];
 			if (mb_ereg('^([[:alnum:]]+):', $dsn, $matches)) {
