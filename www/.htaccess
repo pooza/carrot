@@ -6,6 +6,7 @@
 # 各種セキュリティ
 Header unset X-Powered-By
 Header set X-Content-Type-Options nosniff
+Header set X-XSS-Protection "1; mode=block"
 RequestHeader unset Proxy
 
 # エラーページ
