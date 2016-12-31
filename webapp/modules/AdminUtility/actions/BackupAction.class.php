@@ -7,6 +7,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BackupAction extends BSAction {
+	private $manager;
 
 	/**
 	 * メモリ上限を返す
@@ -38,9 +39,17 @@ class BackupAction extends BSAction {
 		return 'バックアップ';
 	}
 
+	private function getBackupManager () {
+		if (!$this->manager) {
+			$class = BS_BACKUP_CLASS;
+			$this->manager = $class::getInstance();
+		}
+		return $this->manager;
+	}
+
 	public function execute () {
 		try {
-			if (!$file = BSBackupManager::getInstance()->execute()) {
+			if (!$file = $this->getBackupManager()->execute()) {
 				throw new BSFileException('バックアップファイルを取得できません。');
 			}
 			$this->request->setAttribute('renderer', $file);

@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.9
+  ver: 2.6.10
 
 admin:
   email:
@@ -31,6 +31,8 @@ author:
   email:
   password:
   twitter: carrot_fw
+backup:
+  class: BSBackupManager
 clamav:
   command: clamdscan
   dir:

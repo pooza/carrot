@@ -7,6 +7,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class RestoreAction extends BSAction {
+	private $manager;
 
 	/**
 	 * メモリ上限を返す
@@ -38,9 +39,17 @@ class RestoreAction extends BSAction {
 		return 'リストア';
 	}
 
+	private function getBackupManager () {
+		if (!$this->manager) {
+			$class = BS_BACKUP_CLASS;
+			$this->manager = $class::getInstance();
+		}
+		return $this->manager;
+	}
+
 	public function execute () {
 		try {
-			BSBackupManager::getInstance()->restore(
+			$this->getBackupManager()->restore(
 				new BSFile($this->request['file']['tmp_name'])
 			);
 			return $this->getDefaultView();
@@ -55,7 +64,7 @@ class RestoreAction extends BSAction {
 	public function getDefaultView () {
 		$this->request->setAttribute(
 			'is_restoreable',
-			BSBackupManager::getInstance()->isRestoreable()
+			$this->getBackupManager()->isRestoreable()
 		);
 		return BSView::INPUT;
 	}
@@ -65,7 +74,7 @@ class RestoreAction extends BSAction {
 	}
 
 	public function validate () {
-		return parent::validate() && BSBackupManager::getInstance()->isRestoreable();
+		return parent::validate() && $this->getBackupManager()->isRestoreable();
 	}
 }
 

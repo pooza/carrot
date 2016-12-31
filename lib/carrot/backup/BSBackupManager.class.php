@@ -11,7 +11,7 @@
  */
 class BSBackupManager {
 	use BSSingleton;
-	private $config;
+	protected $config;
 
 	/**
 	 * @access protected
@@ -54,7 +54,7 @@ class BSBackupManager {
 		return $file;
 	}
 
-	private function createArchive () {
+	protected function createArchive () {
 		$zip = new BSZipArchive;
 		$zip->open();
 		foreach ($this->config['databases'] as $name) {
@@ -75,8 +75,15 @@ class BSBackupManager {
 				}
 			}
 		}
+		foreach ($this->getOptionalEntries() as $entry) {
+			$zip->register($entry);
+		}
 		$zip->close();
 		return $zip;
+	}
+
+	protected function getOptionalEntries () {
+		return new BSArray;
 	}
 
 	/**
@@ -96,21 +103,41 @@ class BSBackupManager {
 		$zip->extractTo($dir);
 		$zip->close();
 
+		if (!$this->isValidBackup($dir)) {
+			$dir->delete();
+			throw new BSFileException('このバックアップからはリストアできません。');
+		}
+
 		$this->restoreDatabase($dir);
 		$this->restoreDirectories($dir);
-		$this->restoreSerializes($dir);
+		$this->restoreOptional($dir);
 		$dir->delete();
 	}
 
-	private function restoreDatabase (BSDirectory $dir) {
+	protected function isValidBackup (BSDirectory $dir) {
+		foreach ($this->config['databases'] as $name) {
+			if (!$dir->getEntry($name . '.sqlite3')) {
+				return false;
+			}
+		}
+		foreach ($this->config['directories'] as $name) {
+			if (!$dir->getEntry($name)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected function restoreDatabase (BSDirectory $dir) {
 		foreach ($this->config['databases'] as $name) {
 			if ($file = $dir->getEntry($name . '.sqlite3')) {
 				$file->moveTo(BSFileUtility::getDirectory('db'));
+				BSDatabase::getInstance($name, BSDatabase::RECONNECT);
 			}
 		}
 	}
 
-	private function restoreDirectories (BSDirectory $dir) {
+	protected function restoreDirectories (BSDirectory $dir) {
 		foreach ($this->config['directories'] as $name) {
 			if (($src = $dir->getEntry($name)) && ($dest = BSFileUtility::getDirectory($name))) {
 				$dest->clear();
@@ -123,24 +150,8 @@ class BSBackupManager {
 		}
 	}
 
-	private function restoreSerializes (BSDirectory $dir) {
-		BSConfigManager::getInstance()->clear();
-		BSRequest::getInstance()->getUserAgent()->createImageManager()->clear();
-		BSController::getInstance()->getSerializeHandler()->clear();
-		BSRenderManager::getInstance()->clear();
-
-		// 念のためにクリアしておく
-		if ($server = BSMemcacheManager::getInstance()->getServer()) {
-			$server->flush();
-		}
-
-		foreach (new BSArray($this->config['serializes']) as $name) {
-			foreach (['.json', '.serialized'] as $suffix) {
-				if ($file = $dir->getEntry($name . $suffix)) {
-					$file->moveTo(BSFileUtility::getDirectory('serialized'));
-				}
-			}
-		}
+	protected function restoreOptional (BSDirectory $dir) {
+		// 適宜オーバーライド
 	}
 
 	/**
