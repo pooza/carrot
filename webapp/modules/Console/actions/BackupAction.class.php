@@ -8,7 +8,8 @@
  */
 class BackupAction extends BSAction {
 	public function execute () {
-		BSBackupManager::getInstance()->execute();
+		$class = BS_BACKUP_CLASS;
+		$class::getInstance()->execute();
 		return BSView::NONE;
 	}
 }
