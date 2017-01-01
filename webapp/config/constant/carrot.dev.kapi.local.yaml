@@ -14,7 +14,7 @@ admin:
     - 172.16.138.0/24
 pdo:
   default:
-    #dsn: mysql:host=127.0.0.1;dbname=carrot
+    #dsn: mysql:host=127.0.0.1;dbname=carrot;charset=utf8mb4
     #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:

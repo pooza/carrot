@@ -10,7 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMySQLDataSourceName extends BSDataSourceName {
-	private $file;
 
 	/**
 	 * @access public
@@ -33,12 +32,9 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	public function connect () {
 		$constants = new BSConstantHandler;
 		$params = [];
-		if ($constants['PDO::MYSQL_ATTR_READ_DEFAULT_FILE'] && ($file = $this->getFile())) {
-			$params[PDO::MYSQL_ATTR_READ_DEFAULT_FILE] = $file->getPath();
-		}
 		foreach ($this->getPasswords() as $password) {
 			try {
-				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password, $params);
+				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password);
 				if (!$params) {
 					$db->exec('SET NAMES utf8');
 				}
@@ -51,18 +47,6 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		$message = new BSStringFormat('データベース "%s" に接続できません。');
 		$message[] = $this->getName();
 		throw new BSDatabaseException($message);
-	}
-
-	private function getFile () {
-		if (!$this->file) {
-			$dir = BSFileUtility::getDirectory('config');
-			foreach (['my.cnf.ini', 'my.cnf', 'my.ini'] as $name) {
-				if ($this->file = $dir->getEntry($name, 'BSConfigFile')) {
-					break;
-				}
-			}
-		}
-		return $this->file;
 	}
 
 	/**
