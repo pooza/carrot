@@ -5,6 +5,7 @@ database,データベース
 database_name,データベース名
 dbms,DBMS
 dsn,DSN
+charset,文字セット
 encoding,エンコード
 encoding_name,エンコード名
 file,ファイル

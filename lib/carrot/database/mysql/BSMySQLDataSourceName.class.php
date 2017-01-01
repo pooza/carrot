@@ -17,10 +17,10 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	 */
 	public function __construct ($contents, $name = 'default') {
 		parent::__construct($contents, $name);
-		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+)$', $contents, $matches);
+		mb_ereg('^mysql:host=([^;]+);dbname=([^;]+);charset=([^;]+)$', $contents, $matches);
 		$this['host'] = new BSHost($matches[1]);
 		$this['database_name'] = $matches[2];
-		$this['config_file'] = $this->getFile();
+		$this['charset'] = $matches[3];
 	}
 
 	/**
@@ -35,9 +35,6 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 		foreach ($this->getPasswords() as $password) {
 			try {
 				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password);
-				if (!$params) {
-					$db->exec('SET NAMES utf8');
-				}
 				$db->setDSN($this);
 				$this['version'] = $db->getVersion();
 				return $db;
