@@ -138,6 +138,22 @@ class BSFileUtility {
 		}
 		return $file;
 	}
+
+	/**
+	 * 一時ディレクトリを生成して返す
+	 *
+	 * @access public
+	 * @param string $class クラス名
+	 * @return BSDirectory 一時ディレクトリ
+	 * @static
+	 */
+	static public function createTemporaryDirectory ($class = 'BSDirectory') {
+		$name = BSUtility::getUniqueID();
+		if (!$dir = BSFileUtility::getDirectory('tmp')->createDirectory($name, $class)) {
+			throw new BSFileException('一時ディレクトリが生成できません。');
+		}
+		return $dir;
+	}
 }
 
 /* vim:set tabstop=4: */
