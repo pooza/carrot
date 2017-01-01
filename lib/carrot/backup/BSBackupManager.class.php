@@ -12,17 +12,26 @@
 class BSBackupManager {
 	use BSSingleton;
 	protected $config;
+	protected $temporaryDir;
 
 	/**
 	 * @access protected
 	 */
 	protected function __construct () {
 		$this->config = new BSArray;
+		$this->temporaryDir = BSFileUtility::createTemporaryDirectory();
 		$configure = BSConfigManager::getInstance();
 		foreach ($configure->compile('backup/application') as $key => $values) {
 			$this->config[$key] = new BSArray($values);
 			$this->config[$key]->trim();
 		}
+	}
+
+	/**
+	 * @access public
+	 */
+	public function __destruct () {
+		$this->temporaryDir->delete();
 	}
 
 	/**
@@ -67,14 +76,6 @@ class BSBackupManager {
 				$zip->register($dir, null, BSDirectory::WITHOUT_ALL_IGNORE);
 			}
 		}
-		$dir = BSFileUtility::getDirectory('serialized');
-		foreach (new BSArray($this->config['serializes']) as $name) {
-			foreach (['.json', '.serialized'] as $suffix) {
-				if ($entry = $dir->getEntry($name . $suffix)) {
-					$zip->register($entry);
-				}
-			}
-		}
 		foreach ($this->getOptionalEntries() as $entry) {
 			$zip->register($entry);
 		}
@@ -99,63 +100,58 @@ class BSBackupManager {
 
 		$zip = new BSZipArchive;
 		$zip->open($file->getPath());
-		$dir = BSFileUtility::getDirectory('tmp')->createDirectory(BSUtility::getUniqueID());
-		$zip->extractTo($dir);
+		$zip->extractTo($this->temporaryDir);
 		$zip->close();
 
-		if (!$this->isValidBackup($dir)) {
-			$dir->delete();
+		if (!$this->isValidBackup()) {
 			throw new BSFileException('このバックアップからはリストアできません。');
 		}
 
-		$this->restoreDatabase($dir);
-		$this->restoreDirectories($dir);
-		$this->restoreOptional($dir);
-		$dir->delete();
+		$this->restoreDatabase();
+		$this->restoreDirectories();
+		$this->restoreOptional();
 	}
 
-	protected function isValidBackup (BSDirectory $dir) {
+	protected function isValidBackup () {
 		foreach ($this->config['databases'] as $name) {
-			if (!$dir->getEntry($name . '.sqlite3')) {
+			if (!$this->temporaryDir->getEntry($name . '.sqlite3')) {
 				return false;
 			}
 		}
 		foreach ($this->config['directories'] as $name) {
-			if (!$dir->getEntry($name)) {
+			if (!$this->temporaryDir->getEntry($name)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	protected function restoreDatabase (BSDirectory $dir) {
+	protected function restoreDatabase () {
 		foreach ($this->config['databases'] as $name) {
-			if ($file = $dir->getEntry($name . '.sqlite3')) {
-				$file->moveTo(BSFileUtility::getDirectory('db'));
-				BSDatabase::getInstance($name, BSDatabase::RECONNECT);
-			}
+			$file = $this->temporaryDir->getEntry($name . '.sqlite3');
+			$file->moveTo(BSFileUtility::getDirectory('db'));
+			BSDatabase::getInstance($name, BSDatabase::RECONNECT);
 		}
 	}
 
-	protected function restoreDirectories (BSDirectory $dir) {
+	protected function restoreDirectories () {
 		foreach ($this->config['directories'] as $name) {
-			if (($src = $dir->getEntry($name)) && ($dest = BSFileUtility::getDirectory($name))) {
-				$dest->clear();
-				foreach ($src as $file) {
-					if (!$file->isIgnore()) {
-						$file->moveTo($dest);
-					}
+			$dest = BSFileUtility::getDirectory($name);
+			$dest->clear();
+			foreach ($this->temporaryDir->getEntry($name) as $file) {
+				if (!$file->isIgnore()) {
+					$file->moveTo($dest);
 				}
 			}
 		}
 	}
 
-	protected function restoreOptional (BSDirectory $dir) {
+	protected function restoreOptional () {
 		// 適宜オーバーライド
 	}
 
 	/**
-	 * リストアに対応した環境か？
+	 * リストア可能な環境か？
 	 *
 	 * @access public
 	 * @return boolean リストアに対応した環境ならTrue
