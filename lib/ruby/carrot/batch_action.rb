@@ -19,8 +19,6 @@ class BatchAction < Array
         '-u',
         Constants.new['BS_APP_PROCESS_UID'],
         Constants.new['BS_PHP_DIR'] + '/bin/php',
-        '-d',
-        'memory_limit=128M',
         ROOT_DIR + '/bin/carrotctl.php',
       ]
       action.each do |key, value|
@@ -28,7 +26,7 @@ class BatchAction < Array
         cmd.push(value)
       end
       puts "== module:#{action[:m]} action:#{action[:a]}" unless @silent
-      system(cmd.join(' '))
+      system(*cmd)
     end
   end
 end
