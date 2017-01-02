@@ -14,7 +14,6 @@ class BSCrypt {
 	private $engine;
 	const WITH_BASE64 = 1;
 	const SHA1 = 1;
-	const MD5 = 2;
 	const PLAINTEXT = 4;
 
 	/**
@@ -88,7 +87,7 @@ class BSCrypt {
 	 */
 	public function auth ($password, $challenge, $methods = null) {
 		if (!$methods) {
-			$methods = self::SHA1 | self::MD5 | self::PLAINTEXT;
+			$methods = self::SHA1 | self::PLAINTEXT;
 		}
 
 		$targets = new BSArray;
@@ -98,9 +97,6 @@ class BSCrypt {
 		}
 		if ($methods & self::SHA1) {
 			$targets[] = self::getSHA1($challenge);
-		}
-		if ($methods & self::MD5) {
-			$targets[] = self::getMD5($challenge);
 		}
 
 		return $targets->isContain($password);
