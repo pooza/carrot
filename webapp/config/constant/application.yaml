@@ -14,6 +14,8 @@ author:
   email: info@b-shock.co.jp
 crypt:
   password: SCUKY7ADP8SN6HV6
+  digest:
+    salt: SCUKY7ADP8SN6HV6
 service:
   google:
     analytics:

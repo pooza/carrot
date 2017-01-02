@@ -48,6 +48,7 @@ crypt:
   password: __YOUR_PASSWORD__
   digest:
     method: sha1
+    salt: __YOUR_SALT__
 date:
   timezone: Asia/Tokyo
 debug: yes

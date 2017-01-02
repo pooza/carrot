@@ -134,7 +134,7 @@ class BSCrypt {
 			$value = new BSArray($value);
 			$value = $value->join("\n", "\t");
 		}
-		return hash($method, $value);
+		return hash($method, $value . BS_CRYPT_DIGEST_SALT);
 	}
 }
 
