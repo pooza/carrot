@@ -14,6 +14,7 @@ class BSCrypt {
 	private $engine;
 	const WITH_BASE64 = 1;
 	const SHA1 = 1;
+	const PHP_PASSWORD_HASH = 2;
 	const PLAINTEXT = 4;
 
 	/**
@@ -87,16 +88,22 @@ class BSCrypt {
 	 */
 	public function auth ($password, $challenge, $methods = null) {
 		if (!$methods) {
-			$methods = self::SHA1 | self::PLAINTEXT;
+			$methods = self::PHP_PASSWORD_HASH | self::SHA1 | self::PLAINTEXT;
+		}
+
+		if ($methods & self::PHP_PASSWORD_HASH) {
+			if (password_verify($challenge, $password)) {
+				return true;
+			}
 		}
 
 		$targets = new BSArray;
 		$targets[] = $this->encrypt($challenge);
+		if ($methods & self::SHA1) {
+			$targets[] = self::digest($challenge, 'sha1');
+		}
 		if ($methods & self::PLAINTEXT) {
 			$targets[] = $challenge;
-		}
-		if ($methods & self::SHA1) {
-			$targets[] = self::getSHA1($challenge);
 		}
 
 		return $targets->isContain($password);
@@ -108,11 +115,10 @@ class BSCrypt {
 	 * @access public
 	 * @param mixed $value 対象文字列又はその配列
 	 * @param string $method ダイジェスト方法
-	 * @param string $salt ソルト文字列
 	 * @return string ダイジェスト文字列
 	 * @static
 	 */
-	static public function digest ($value, $method = null, $salt = BS_CRYPT_SALT) {
+	static public function digest ($value, $method = null) {
 		if (!extension_loaded('hash')) {
 			throw new BSCryptException('hashモジュールがロードされていません。');
 		}
@@ -128,31 +134,7 @@ class BSCrypt {
 			$value = new BSArray($value);
 			$value = $value->join("\n", "\t");
 		}
-		return hash($method, $value . $salt);
-	}
-
-	/**
-	 * md5ダイジェストを返す
-	 *
-	 * @access public
-	 * @param string $value 対象文字列
-	 * @return string ダイジェスト文字列
-	 * @static
-	 */
-	static public function getMD5 ($value) {
-		return self::digest($value, 'md5', null);
-	}
-
-	/**
-	 * sha1ダイジェストを返す
-	 *
-	 * @access public
-	 * @param string $value 対象文字列
-	 * @return string ダイジェスト文字列
-	 * @static
-	 */
-	static public function getSHA1 ($value) {
-		return self::digest($value, 'sha1', null);
+		return hash($method, $value);
 	}
 }
 

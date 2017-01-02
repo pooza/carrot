@@ -43,10 +43,9 @@ cookie:
   checker:
     hours: 6
 crypt:
-  salt: __YOUR_SALT__
   engine: open_ssl
   method: AES-256-CBC
-  password: SCUKY7ADP8SN6HV6
+  password: __YOUR_PASSWORD__
   digest:
     method: sha1
 date:
