@@ -13,9 +13,8 @@ interface BSCryptor {
 
 	/**
 	 * @access public
-	 * @param string $salt ソルト
 	 */
-	public function __construct ($salt = null);
+	public function __construct ();
 
 	/**
 	 * 暗号化された文字列を返す
@@ -34,22 +33,6 @@ interface BSCryptor {
 	 * @return string 複号化された文字列
 	 */
 	public function decrypt ($value);
-
-	/**
-	 * ソルトを返す
-	 *
-	 * @access public
-	 * @return string ソルト
-	 */
-	public function getSalt ();
-
-	/**
-	 * ソルトを設定
-	 *
-	 * @access public
-	 * @param string $salt ソルト
-	 */
-	public function setSalt ($salt);
 }
 
 /* vim:set tabstop=4: */

@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.12
+  ver: 2.6.13
 
 admin:
   email:
@@ -43,9 +43,10 @@ cookie:
   checker:
     hours: 6
 crypt:
-  salt: carrot
+  salt: __YOUR_SALT__
   engine: open_ssl
-  method: AES-128-ECB
+  method: AES-256-CBC
+  password: SCUKY7ADP8SN6HV6
   digest:
     method: sha1
 date:
