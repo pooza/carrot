@@ -16,6 +16,10 @@ crypt:
   password: SCUKY7ADP8SN6HV6
   digest:
     salt: SCUKY7ADP8SN6HV6
+serialize:
+  storage: memcache
+session:
+  storage: memcache
 service:
   google:
     analytics:
