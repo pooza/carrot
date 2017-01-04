@@ -120,15 +120,6 @@ class BSSerializeHandler {
 		}
 		return (string)$name;
 	}
-
-	/**
-	 * キャッシュをクリア
-	 *
-	 * @access public
-	 */
-	public function clear () {
-		$this->getStorage()->clear();
-	}
 }
 
 /* vim:set tabstop=4: */

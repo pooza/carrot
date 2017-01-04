@@ -93,15 +93,6 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	}
 
 	/**
-	 * クリア
-	 *
-	 * @access public
-	 */
-	public function clear () {
-		return $this->server->flush();
-	}
-
-	/**
 	 * 属性の更新日を返す
 	 *
 	 * @access public
