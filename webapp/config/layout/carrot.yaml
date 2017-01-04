@@ -86,8 +86,6 @@ log:
   class: BSLogDirectory
   purge:
     month: 3
-man:
-  parent: share
 maps:
   parent: var
   suffix: .gif
