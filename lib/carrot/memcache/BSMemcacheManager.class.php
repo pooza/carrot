@@ -29,7 +29,7 @@ class BSMemcacheManager {
 	 * @return boolean 有効ならTrue
 	 */
 	public function isEnabled () {
-		return !!extension_loaded('memcache');
+		return !!extension_loaded('memcached');
 	}
 
 	/**

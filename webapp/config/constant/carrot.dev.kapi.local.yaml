@@ -9,7 +9,7 @@ debug: yes
 
 admin:
   email: admin@b-shock.co.jp
-  password: 7e240de74fb1ed08fa08d38063f6a6a91462a815
+  password: $2y$10$iv12Di/l.VParpPiqrWNUuGAhhl1PklXKj2FhkcFtjDyPsiwnAS8q
   networks:
     - 172.16.138.0/24
 pdo:

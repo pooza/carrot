@@ -7,15 +7,19 @@
 /**
  * memcacheサーバ
  *
+ * PECL::memcachedのラッパー
+ *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSMemcache extends Memcache implements ArrayAccess {
+class BSMemcache implements ArrayAccess {
+	protected $memcached;
 	private $attributes;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
+		$this->memcached = new Memcached;
 		$this->attributes = new BSArray;
 	}
 
@@ -44,6 +48,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 			$this->attributes['socket'] = $host;
 			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_UNIX;
 			$this->attributes['pid'] = $this->getProcessID();
+			$key = $host . ':11211'; //ポート番号は何故か0にならない。PECL::memcachedのバグ。
 		} else {
 			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_INET;
 			if ($host instanceof BSHost) {
@@ -51,13 +56,13 @@ class BSMemcache extends Memcache implements ArrayAccess {
 			}
 			$this->attributes['host'] = $host;
 			$this->attributes['port'] = $port;
+			$key = $host . $port;
 		}
 
-		if (!parent::connect($host, $port)) {
+		if (!$this->memcached->addServer($host, $port)) {
 			return false;
 		}
-		$this->attributes['version'] = $this->getVersion();
-		$this->attributes->setParameters($this->getStats());
+		$this->attributes->setParameters($this->memcached->getStats()[$key]);
 		return true;
 	}
 
@@ -128,7 +133,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @return string エントリーの値
 	 */
 	public function get ($name) {
-		return parent::get($this->createKey($name));
+		return $this->memcached->get($this->createKey($name));
 	}
 
 	/**
@@ -137,18 +142,18 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @access public
 	 * @param string $name エントリー名
 	 * @param string $value エントリーの値
-	 * @param integer $flag フラグ
+	 * @param integer $flag PECL::memcacheとの互換性の為の引数。未使用。
 	 * @param integer $expire 項目の有効期限。秒数又はタイムスタンプ。
 	 * @return boolean 処理の成否
 	 */
-	public function set ($name, $value, $flag = null, $expire = null) {
+	public function set ($name, $value, $flag = null, $expire = 0) {
 		if ($value instanceof BSParameterHolder) {
 			$value = new BSArray($value);
 			$value = $value->decode();
 		} else if (is_object($value)) {
 			throw new BSMemcacheException('オブジェクトを登録できません。');
 		}
-		return parent::set($this->createKey($name), $value, $flag, $expire);
+		return $this->memcached->set($this->createKey($name), $value, $expire);
 	}
 
 	/**
@@ -159,7 +164,7 @@ class BSMemcache extends Memcache implements ArrayAccess {
 	 * @return boolean 処理の成否
 	 */
 	public function delete ($name) {
-		return parent::delete($this->createKey($name));
+		return $this->memcached->delete($this->createKey($name));
 	}
 
 	/**
