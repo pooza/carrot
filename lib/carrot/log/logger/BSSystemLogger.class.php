@@ -41,9 +41,9 @@ class BSSystemLogger extends BSLogger {
 	 */
 	public function put ($message, $priority) {
 		$format = new BSStringFormat('[%s] [%s] [%s] %s');
-		$format[] = BSController::getInstance()->getHost()->getName();
+		$format[] = $this->getServerHostName();
 		$format[] = $priority;
-		$format[] = BSRequest::getInstance()->getHost()->getName();
+		$format[] = $this->getClientHostName();
 		$format[] = $message;
 		if ($this->isException($priority)) {
 			syslog(LOG_ERR, $format->getContents());

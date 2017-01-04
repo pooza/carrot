@@ -50,7 +50,7 @@ class BSDatabaseLogger extends BSLogger {
 	public function put ($message, $priority) {
 		$this->getTable()->createRecord([
 			'date' => BSDate::getNow('Y-m-d H:i:s'),
-			'remote_host' => BSRequest::getInstance()->getHost()->getName(),
+			'remote_host' => $this->getClientHostName(),
 			'priority' => $priority,
 			'message' => $message,
 		]);

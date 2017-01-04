@@ -38,9 +38,9 @@ class BSTwitterLogger extends BSLogger {
 	public function put ($message, $priority) {
 		if ($this->getPatterns()->isContain($priority)) {
 			$format = new BSStringFormat('[%s] [%s] [%s] %s');
-			$format[] = BSController::getInstance()->getHost()->getName();
+			$format[] = $this->getServerHostName();
 			$format[] = $priority;
-			$format[] = BSRequest::getInstance()->getHost()->getName();
+			$format[] = $this->getClientHostName();
 			$format[] = $message;
 			$sendto = BSAdministratorRole::getInstance()->getTwitterAccount();
 			$this->account->sendDM($format->getContents(), $sendto);

@@ -33,6 +33,38 @@ abstract class BSLogger {
 	abstract public function put ($message, $priority);
 
 	/**
+	 * サーバアントホスト名を返す
+	 *
+	 * BSController::getInstance()->getHost()->getName() が利用できない状況がある
+	 *
+	 * @access protected
+	 * @return string サーバホスト名
+	 */
+	protected function getServerHostName () {
+		return $_SERVER['SERVER_NAME'];
+	}
+
+	/**
+	 * クライアントホスト名を返す
+	 *
+	 * BSRequest::getInstance()->getHost()->getName() が利用できない状況がある
+	 *
+	 * @access protected
+	 * @return string クライアントホスト名
+	 */
+	protected function getClientHostName () {
+		foreach (['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
+			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
+				try {
+					return trim(mb_split('[:,]', $value)[0]);
+				} catch (Exception $e) {
+					return $value;
+				}
+			}
+		}
+	}
+
+	/**
 	 * 直近日を返す
 	 *
 	 * @access public

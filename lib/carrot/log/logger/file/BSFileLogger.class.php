@@ -59,19 +59,9 @@ class BSFileLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority) {
-		foreach (['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'] as $key) {
-			if (isset($_SERVER[$key]) && ($value = $_SERVER[$key])) {
-				try {
-					$host = trim(mb_split('[:,]', $value)[0]);
-				} catch (Exception $e) {
-					$host = $value;
-				}
-				break;
-			}
-		}
 		$this->file->putLine(implode(' ', [
 			'[' . date('Y-m-d H:i:s') . ']',
-			'[' . $host . ']', 
+			'[' . $this->getClientHostName() . ']', 
 			'[' . $priority . ']',
 			$message,
 		]));
