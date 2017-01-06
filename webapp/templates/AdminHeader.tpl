@@ -13,9 +13,6 @@
   {const name='app_name_ja'}
   {$title|default:$module.title}
 {/strip}</title>
-{if $useragent.is_trident}
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-{/if}
 {js_cache name=$jsset}
 {css_cache name=$styleset}
 </head>
