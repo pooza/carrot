@@ -114,9 +114,9 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getContents () {
 		if (BSRequest::getInstance()['without_pictogram_emulate']) {
-			$useragent = $request->getUserAgent();
+			$useragent = BSRequest::getInstance()->getUserAgent();
 		} else {
-			$useragent = $request->getRealUserAgent();
+			$useragent = BSRequest::getInstance()->getRealUserAgent();
 		}
 		if ($useragent->isMobile()) {
 			return $this->getNumericReference();
