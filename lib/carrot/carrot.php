@@ -108,8 +108,7 @@ define('BS_VAR_DIR', BS_ROOT_DIR . '/var');
 define('BS_BIN_DIR', BS_ROOT_DIR . '/bin');
 define('BS_WEBAPP_DIR', BS_ROOT_DIR . '/webapp');
 
-define('BS_LIB_PEAR_DIR', BS_LIB_DIR . '/pear');
-set_include_path(implode(PATH_SEPARATOR, [BS_LIB_PEAR_DIR, BS_LIB_DIR, get_include_path()]));
+set_include_path(implode(PATH_SEPARATOR, [BS_LIB_DIR, get_include_path()]));
 
 if (PHP_SAPI == 'cli') {
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';

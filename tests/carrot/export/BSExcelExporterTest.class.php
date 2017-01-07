@@ -14,7 +14,7 @@ class BSExcelExporterTest extends BSTest {
 			'name' => 'ビーショック',
 			'point' => 900,
 		]));
-		$this->assert('getType', $exporter->getType() == 'application/vnd.ms-excel');
+		$this->assert('getType', $exporter->getType() == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		$this->assert('getContents', !BSString::isBlank($exporter->getContents()));
 		$exporter->getFile()->delete();
 	}

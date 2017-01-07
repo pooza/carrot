@@ -16,19 +16,14 @@
 class BSExcelExporter implements BSExporter, BSRenderer {
 	private $file;
 	private $workbook;
-	private $saved = false;
-	private $row = 0;
-	const SHEET_NAME = 'export';
+	private $row = 1;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		BSUtility::includeFile('pear/Spreadsheet/Excel/Writer.php');
-		$this->workbook = new Spreadsheet_Excel_Writer($this->getFile()->getPath());
-		$this->workbook->setVersion(8);
-		$sheet = $this->workbook->addWorksheet(self::SHEET_NAME);
-		$sheet->setInputEncoding('utf-8');
+		BSUtility::includeFile('PHPExcel/PHPExcel.php');
+		$this->workbook = new PHPExcel;
 	}
 
 	/**
@@ -39,8 +34,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 */
 	public function getFile () {
 		if (!$this->file) {
-			$this->file = BSFileUtility::createTemporaryFile('.xls');
-			$this->file->setMode(0600);
+			$this->file = BSFileUtility::createTemporaryFile('.xlsx');
 		}
 		return $this->file;
 	}
@@ -53,21 +47,17 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 */
 	public function addRecord (BSArray $record) {
 		$col = 0;
-		$sheets = $this->workbook->worksheets();
-		$sheet = $sheets[0];
+		$sheet = $this->workbook->getActiveSheet();
 		foreach ($record as $key => $value) {
-			$sheet->write($this->row, $col, $value);
+			$sheet->setCellValueByColumnAndRow($col, $this->row, $value);
 			$col ++;
 		}
 		$this->row ++;
 	}
 
 	private function save () {
-		if ($this->saved) {
-			return;
-		}
-		$this->workbook->close();
-		$this->saved = true;
+		$writer = PHPExcel_IOFactory::createWriter($this->workbook, 'Excel2007');
+		$writer->save($this->getFile()->getPath());
 	}
 
 	/**
@@ -98,7 +88,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		return BSMIMEType::getType('xls');
+		return BSMIMEType::getType('xlsx');
 	}
 
 	/**
@@ -131,19 +121,6 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 */
 	public function getError () {
 		return null;
-	}
-
-	/**
-	 * Excel式を生成して返す
-	 *
-	 * @access public
-	 * @param string $source ソース文字列
-	 * @return string Excel式
-	 */
-	public function createFormula ($source) {
-		$formula = $source;
-		$formula = mb_ereg_replace('@', $this->getRowNumber(), $formula);
-		return $formula;
 	}
 }
 
