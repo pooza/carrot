@@ -11,7 +11,6 @@
  * @abstract
  */
 abstract class BSMobileCarrier extends BSParameterHolder {
-	protected $emoji;
 	static private $instances;
 	const DEFAULT_CARRIER = 'Docomo';
 
@@ -21,16 +20,6 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 	public function __construct () {
 		mb_ereg('^BS([[:alpha:]]+)MobileCarrier$', get_class($this), $matches);
 		$this['name'] = $matches[1];
-
-		$name = BSString::toLower($this['name']);
-		BSUtility::includeFile('pear/HTML/Emoji');
-		BSUtility::includeFile('pear/HTML/Emoji/' . ucfirst($name));
-		$class = 'HTML_Emoji_' . ucfirst($name);
-		$this->emoji = new $class;
-		$this->emoji->_carrier = $name;
-		$this->emoji->setConversionRule('kokogiko');
-		$this->emoji->useHalfwidthKatakana(true);
-		$this->emoji->disableEscaping();
 	}
 
 	/**
@@ -99,30 +88,6 @@ abstract class BSMobileCarrier extends BSParameterHolder {
 				'lng' => BSGeocodeEntryHandler::dms2deg($request['lon']),
 			]);
 		}
-	}
-
-	/**
-	 * 文字列から絵文字を削除する
-	 *
-	 * @access public
-	 * @param string $body 対象文字列
-	 * @return string 変換後文字列
-	 */
-	public function trimPictogram ($body) {
-		$body = $this->emoji->filter($body, 'input');
-		return $this->emoji->removeEmoji($body);
-	}
-
-	/**
-	 * 文字列に絵文字が含まれているか？
-	 *
-	 * @access public
-	 * @param string $body 対象文字列
-	 * @return boolean 絵文字が含まれていればTrue
-	 */
-	public function isContainPictogram ($body) {
-		$body = $this->emoji->filter($body, 'input');
-		return $this->emoji->hasEmoji($body);
 	}
 
 	/**

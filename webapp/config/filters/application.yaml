@@ -5,7 +5,6 @@
 
 - class: BSFakeUserAgentFilter
 - class: BSLegacyUserAgentFilter
-#- class: BSPictogramRequestFilter
 - class: BSEncodingRequestFilter
 - class: BSNewLineRequestFilter
 #- class: BSWrongCharactersRequestFilter

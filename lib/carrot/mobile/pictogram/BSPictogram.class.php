@@ -113,8 +113,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return string 絵文字表記
 	 */
 	public function getContents () {
-		$request = BSRequest::getInstance();
-		if ($request['without_pictogram_emulate']) {
+		if (BSRequest::getInstance()['without_pictogram_emulate']) {
 			$useragent = $request->getUserAgent();
 		} else {
 			$useragent = $request->getRealUserAgent();

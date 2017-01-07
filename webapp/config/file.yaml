@@ -9,3 +9,4 @@ ignore_patterns:
   - \.git
   - CVS
   - \.htaccess
+  - \._
