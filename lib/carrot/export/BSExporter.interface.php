@@ -26,6 +26,14 @@ interface BSExporter {
 	 * @param BSArray $record レコード
 	 */
 	public function addRecord (BSArray $record);
+
+	/**
+	 * タイトル行を設定
+	 *
+	 * @access public
+	 * @param BSArray $row タイトル行
+	 */
+	public function setTitle (BSArray $row);
 }
 
 /* vim:set tabstop=4: */

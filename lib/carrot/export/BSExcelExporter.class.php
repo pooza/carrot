@@ -7,16 +7,16 @@
 /**
  * Excelレンダラー
  *
- * Excel97（BIFF8）形式に対応。
+ * Excel2007（xlsx）形式に対応。
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @link http://d.hatena.ne.jp/kent013/20080205/1202209327
- * @link http://chazuke.com/?p=93
+ * @link https://phpexcel.codeplex.com/
  */
 class BSExcelExporter implements BSExporter, BSRenderer {
 	private $file;
 	private $workbook;
 	private $row = 1;
+	private $freezed = false;
 
 	/**
 	 * @access public
@@ -49,7 +49,9 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 		$col = 0;
 		$sheet = $this->workbook->getActiveSheet();
 		foreach ($record as $key => $value) {
-			$sheet->setCellValueByColumnAndRow($col, $this->row, $value);
+			$cell = $sheet->getCellByColumnAndRow($col, $this->row);
+			$cell->setValueExplicit($value);
+			$cell->getStyle()->getAlignment()->setWrapText(true);
 			$col ++;
 		}
 		$this->row ++;
@@ -58,6 +60,20 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	private function save () {
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, 'Excel2007');
 		$writer->save($this->getFile()->getPath());
+	}
+
+	/**
+	 * タイトル行を設定
+	 *
+	 * @access public
+	 * @param BSArray $row タイトル行
+	 */
+	public function setTitle (BSArray $row) {
+		if (!$this->freezed) {
+			$this->addRecord($row);
+			$this->workbook->getActiveSheet()->freezePaneByColumnAndRow(0, 2);
+			$this->freezed = true;
+		}
 	}
 
 	/**
@@ -75,10 +91,10 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * 現在の行番号を返す
 	 *
 	 * @access public
-	 * @return integer Excelでの行番号（内部表現+1）
+	 * @return integer Excelでの行番号
 	 */
 	public function getRowNumber () {
-		return $this->row + 1;
+		return $this->row;
 	}
 
 	/**
