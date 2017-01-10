@@ -11,17 +11,17 @@
  */
 class BSHost implements BSAssignable, BSImageContainer {
 	protected $name;
+	protected $hostname;
 	protected $address;
 	protected $domain;
 
 	/**
 	 * @access public
-	 * @param string $address ホスト名又はIPアドレス
+	 * @param string $address ホスト名又はIPv4アドレス
 	 */
 	public function __construct ($address) {
 		// アドレスが列挙されていたり、ポート番号が付記されていたら、取り除く。
-		$parts = mb_split('[:,]', $address);
-		$address = $parts[0];
+		$address = mb_split('[:,]', $address)[0];
 
 		if (BSString::isBlank($address)) {
 			throw new BSNetException('ホスト名又はIPv4アドレスが空欄です。');
@@ -37,10 +37,10 @@ class BSHost implements BSAssignable, BSImageContainer {
 	}
 
 	/**
-	 * IPアドレスを返す
+	 * IPv4アドレスを返す
 	 *
 	 * @access public
-	 * @return string IPアドレス
+	 * @return string IPv4アドレス
 	 */
 	public function getAddress () {
 		if (!$this->address) {
@@ -52,11 +52,30 @@ class BSHost implements BSAssignable, BSImageContainer {
 	/**
 	 * ホスト名を返す
 	 *
+	 * コンストラクタに渡した時の名前。IPv4アドレスの場合あり。
+	 *
 	 * @access public
-	 * @return string FQDNホスト名
+	 * @return string FQDNホスト名又はIPv4アドレス
 	 */
 	public function getName () {
 		return $this->name;
+	}
+
+	/**
+	 * コンストラクタに渡した名前がIPv4アドレスならば、逆引きして返す
+	 *
+	 * @access public
+	 * @return string FQDNホスト名
+	 */
+	public function resolveReverse () {
+		if (BSString::isBlank($this->hostname)) {
+			if (BSString::isBlank($this->address)) {
+				$this->hostname = $this->name;
+			} else {
+				$this->hostname = gethostbyaddr($this->name);
+			}
+		}
+		return $this->hostname;
 	}
 
 	/**

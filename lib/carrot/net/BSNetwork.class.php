@@ -17,7 +17,7 @@ class BSNetwork extends BSHost {
 
 	/**
 	 * @access public
-	 * @param string $address CIDR形式のIPアドレス
+	 * @param string $address CIDR形式のIPv4アドレス
 	 */
 	public function __construct ($address) {
 		if (!mb_ereg('^([.[:digit:]]+)/([[:digit:]]+)$', $address, $matches)) {
@@ -39,7 +39,7 @@ class BSNetwork extends BSHost {
 	}
 
 	/**
-	 * CIDR形式IPアドレスを返す
+	 * CIDR形式IPv4アドレスを返す
 	 *
 	 * @access public
 	 * @return string CIDR形式ネットワークアドレス
