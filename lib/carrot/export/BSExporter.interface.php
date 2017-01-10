@@ -33,7 +33,7 @@ interface BSExporter {
 	 * @access public
 	 * @param BSArray $row タイトル行
 	 */
-	public function setTitle (BSArray $row);
+	public function setHeader (BSArray $row);
 }
 
 /* vim:set tabstop=4: */

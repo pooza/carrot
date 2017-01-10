@@ -68,7 +68,7 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	 * @access public
 	 * @param BSArray $row タイトル行
 	 */
-	public function setTitle (BSArray $row) {
+	public function setHeader (BSArray $row) {
 		if (!$this->freezed) {
 			$this->addRecord($row);
 			$this->workbook->getActiveSheet()->freezePaneByColumnAndRow(0, 2);

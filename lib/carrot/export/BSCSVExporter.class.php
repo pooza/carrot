@@ -70,7 +70,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @access public
 	 * @param BSArray $row タイトル行
 	 */
-	public function setTitle (BSArray $row) {
+	public function setHeader (BSArray $row) {
 		$this->addRecord($row);
 	}
 
