@@ -28,6 +28,20 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
+	 * インデックスを作成
+	 *
+	 * @access public
+	 * @param string $table 対象テーブル
+	 * @param BSArray $fields インデックスを構成するフィールドの配列
+	 */
+	public function createIndex ($table, BSArray $fields) {
+		$query = new BSStringFormat('ALTER TABLE %s ADD KEY (%s)');
+		$query[] = $table;
+		$query[] = $fields->join(',');
+		$this->exec($query->getContents());
+	}
+
+	/**
 	 * ダンプ実行
 	 *
 	 * @access protected

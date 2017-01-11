@@ -516,6 +516,37 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 
 	/**
+	 * フィールドを作成
+	 *
+	 * @access protected
+	 * @param string $name フィールド名
+	 * @param string $definition フィールドの定義内容
+	 */
+	protected function createField ($name, $definition) {
+		if (!$this->isTemporary()) {
+			throw new BSDatabaseException('フィールドは一時テーブルにしか追加できません。');
+		}
+		$query = new BSStringFormat('ALTER TABLE %s ADD COLUMN %s %s');
+		$query[] = $this->getName();
+		$query[] = $name;
+		$query[] = $definition;
+		$this->getDatabase()->exec($query->getContents());
+	}
+
+	/**
+	 * インデックスを作成
+	 *
+	 * @access protected
+	 * @param mixed $fields インデックスを構成するフィールドの配列、又はBSParameterHolder
+	 */
+	protected function createIndex ($fields) {
+		if (!$this->isTemporary()) {
+			throw new BSDatabaseException('インデックスは一時テーブルにしか追加できません。');
+		}
+		$this->getDatabase()->createIndex($this->getName(), new BSArray($fields));
+	}
+
+	/**
 	 * テンポラリテーブルか？
 	 *
 	 * @return boolean テンポラリテーブルならTrue

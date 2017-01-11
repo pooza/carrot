@@ -304,6 +304,16 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 
 	/**
+	 * インデックスを作成
+	 *
+	 * @access public
+	 * @param string $table 対象テーブル
+	 * @param BSArray $fields インデックスを構成するフィールドの配列
+	 */
+	public function createIndex ($table, BSArray $fields) {
+	}
+
+	/**
 	 * ダンプファイル生成してを返す
 	 *
 	 * @access public
