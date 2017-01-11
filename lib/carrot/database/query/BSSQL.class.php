@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSQL {
+	const TEMPORARY = 1;
 
 	/**
 	 * @access private
@@ -136,9 +137,11 @@ class BSSQL {
 	 * @access public
 	 * @param string $table テーブル名
 	 * @param string[] $fields フィールド定義等
+	 * @param integer $flags フラグのビット列
+	 *   self::TEMPORARY テンポラリテーブル
 	 * @static
 	 */
-	static public function getCreateTableQueryString ($table, $fields) {
+	static public function getCreateTableQueryString ($table, $fields, $flags = null) {
 		$fields = new BSArray($fields);
 		foreach ($fields as $key => $field) {
 			if (is_numeric($key)) {
@@ -147,7 +150,11 @@ class BSSQL {
 				$fields[$key] = $key . ' ' . $field;
 			}
 		}
-		return sprintf('CREATE TABLE %s (%s)', $table, $fields->join(','));
+		if ($flags & self::TEMPORARY) {
+			return sprintf('CREATE TEMPORARY TABLE %s (%s)', $table, $fields->join(','));
+		} else {
+			return sprintf('CREATE TABLE %s (%s)', $table, $fields->join(','));
+		}
 	}
 
 	/**

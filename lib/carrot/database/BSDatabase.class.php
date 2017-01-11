@@ -271,9 +271,11 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @access public
 	 * @param string $table テーブル名
 	 * @param BSArray $schema スキーマ
+	 * @param integer $flags フラグのビット列
+	 *   BSSQL::TEMPORARY テンポラリテーブル
 	 */
-	public function createTable ($table, BSArray $schema) {
-		$this->exec(BSSQL::getCreateTableQueryString($table, $schema));
+	public function createTable ($table, BSArray $schema, $flags = null) {
+		$this->exec(BSSQL::getCreateTableQueryString($table, $schema, $flags));
 		$this->tables = null;
 	}
 

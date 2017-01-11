@@ -507,8 +507,21 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 			throw new BSDatabaseException($this . 'は既に存在します。');
 		}
 		if ($schema = $this->getSchema()) {
-			$this->getDatabase()->createTable($this->getName(), $schema);
+			$flags = null;
+			if ($this->isTemporary()) {
+				$flags |= BSSQL::TEMPORARY;
+			}
+			$this->getDatabase()->createTable($this->getName(), $schema, $flags);
 		}
+	}
+
+	/**
+	 * テンポラリテーブルか？
+	 *
+	 * @return boolean テンポラリテーブルならTrue
+	 */
+	protected function isTemporary () {
+		return false;
 	}
 
 	/**
