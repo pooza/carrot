@@ -107,6 +107,7 @@ class BSBackupManager {
 			throw new BSFileException('このバックアップからはリストアできません。');
 		}
 
+		(new BSImageManager)->clear();
 		$this->restoreDatabase();
 		$this->restoreDirectories();
 		$this->restoreOptional();
