@@ -152,14 +152,15 @@ abstract class BSSortableRecord extends BSRecord {
 	protected function setRank ($rank) {
 		$db = $this->getTable()->getDatabase();
 		$record = $this;
-		$values = [$record->getTable()->getRankField() => $rank];
+		$table = $record->getTable();
+		$values = [$table->getRankField() => $rank];
 		while ($values) {
-			$table = $record->getTable();
 			$criteria = $db->createCriteriaSet();
 			$criteria->register($table->getKeyField(), $record->getID());
 			$db->exec(BSSQL::getUpdateQueryString($table->getName(), $values, $criteria));
 			if ($record = $record->getParent()) {
-				$values[$table->getUpdateDateField()] = BSDate::getNow('Y-m-d H:i:s');
+				$table = $record->getTable();
+				$values = [$table->getUpdateDateField() => BSDate::getNow('Y-m-d H:i:s')];
 			} else {
 				$values = null;
 			}
