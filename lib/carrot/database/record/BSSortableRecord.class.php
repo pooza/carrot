@@ -144,14 +144,26 @@ abstract class BSSortableRecord extends BSRecord {
 	/**
 	 * 順位を設定
 	 *
+	 * $this->update()を使用すると非常に重くなるので、SQLを直接実行する。
+	 *
 	 * @access protected
 	 * @param integer $rank 順位
 	 */
 	protected function setRank ($rank) {
-		$this->update(
-			[$this->getTable()->getRankField() => $rank],
-			BSDatabase::WITHOUT_LOGGING | BSDatabase::WITHOUT_SERIALIZE
-		);
+		$db = $this->getTable()->getDatabase();
+		$record = $this;
+		$values = [$record->getTable()->getRankField() => $rank];
+		while ($values) {
+			$table = $record->getTable();
+			$criteria = $db->createCriteriaSet();
+			$criteria->register($table->getKeyField(), $record->getID());
+			$db->exec(BSSQL::getUpdateQueryString($table->getName(), $values, $criteria));
+			if ($record = $record->getParent()) {
+				$values[$table->getUpdateDateField()] = BSDate::getNow('Y-m-d H:i:s');
+			} else {
+				$values = null;
+			}
+		}
 	}
 }
 
