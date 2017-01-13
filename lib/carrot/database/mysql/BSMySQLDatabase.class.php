@@ -72,7 +72,7 @@ class BSMySQLDatabase extends BSDatabase {
 
 		if (!BSString::isBlank($password = $this->dsn['password'])) {
 			$password = BSCrypt::getInstance()->decrypt($password);
-			$command->push('--password=' . $password);
+			putenv('MYSQL_PWD=' . $password);
 		}
 		return $command;
 	}
