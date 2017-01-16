@@ -62,8 +62,7 @@ abstract class BSSortableTableHandler extends BSTableHandler {
 			$this->getName(),
 			$this->getCriteria()
 		);
-		$row = $this->getDatabase()->query($sql)->fetch();
-		return $row['last_rank'] + 1;
+		return $this->getDatabase()->query($sql)->fetch()['last_rank'] + 1;
 	}
 
 	/**

@@ -84,20 +84,6 @@ class BSPostgreSQLDatabase extends BSDatabase {
 		$this->exec('VACUUM');
 		$this->log($this . 'を最適化しました。');
 	}
-
-	/**
-	 * バージョンを返す
-	 *
-	 * @access public
-	 * @return float バージョン
-	 */
-	public function getVersion () {
-		if (!$this->version) {
-			$result = PDO::query('SELECT version() AS ver')->fetch();
-			$this->version = $result['ver'];
-		}
-		return $this->version;
-	}
 }
 
 /* vim:set tabstop=4: */

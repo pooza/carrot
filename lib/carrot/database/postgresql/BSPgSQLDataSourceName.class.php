@@ -43,8 +43,8 @@ class BSPgSQLDataSourceName extends BSDataSourceName {
 	 */
 	public function connect () {
 		$db = new BSPostgreSQLDatabase($this->getContents());
-		$db->setDSN($this);
 		$this['version'] = $db->getVersion();
+		$db->setDSN($this);
 		return $db;
 	}
 

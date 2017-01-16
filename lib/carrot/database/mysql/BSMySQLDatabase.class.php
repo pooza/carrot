@@ -94,20 +94,6 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 
 	/**
-	 * バージョンを返す
-	 *
-	 * @access public
-	 * @return float バージョン
-	 */
-	public function getVersion () {
-		if (!$this->version) {
-			$result = PDO::query('SELECT version() AS ver')->fetch();
-			$this->version = $result['ver'];
-		}
-		return $this->version;
-	}
-
-	/**
 	 * 旧式か
 	 *
 	 * @access public

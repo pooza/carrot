@@ -64,18 +64,13 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	abstract public function connect ();
 
 	/**
-	 * パスワードの候補を配列で返す
+	 * 復号したパスワードを返す
 	 *
 	 * @access protected
-	 * @return BSArray パスワードの候補
+	 * @return string パスワード
 	 */
-	protected function getPasswords () {
-		$passwords = new BSArray;
-		if (!BSString::isBlank($password = $this['password'])) {
-			$passwords[] = BSCrypt::getInstance()->decrypt($password);
-		}
-		$passwords[] = $password;
-		return $passwords;
+	protected function decryptPassword () {
+		return BSCrypt::getInstance()->decrypt($this['password']);
 	}
 
 	/**

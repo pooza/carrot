@@ -108,6 +108,10 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return float バージョン
 	 */
 	public function getVersion () {
+		if (!$this->version) {
+			$this->version = PDO::query('SELECT version() AS ver')->fetch()['ver'];
+		}
+		return $this->version;
 	}
 
 	/**

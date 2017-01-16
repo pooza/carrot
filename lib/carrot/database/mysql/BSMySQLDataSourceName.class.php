@@ -30,20 +30,20 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	 * @return BSDatabase データベース
 	 */
 	public function connect () {
-		$constants = new BSConstantHandler;
-		$params = [];
-		foreach ($this->getPasswords() as $password) {
-			try {
-				$db = new BSMySQLDatabase($this->getContents(), $this['uid'], $password);
-				$db->setDSN($this);
-				$this['version'] = $db->getVersion();
-				return $db;
-			} catch (Exception $e) {
-			}
+		try {
+			$db = new BSMySQLDatabase(
+				$this->getContents(),
+				$this['uid'],
+				$this->decryptPassword()
+			);
+			$this['version'] = $db->getVersion();
+			$db->setDSN($this);
+		} catch (Exception $e) {
+			$message = new BSStringFormat('データベース "%s" に接続できません。');
+			$message[] = $this->getName();
+			throw new BSDatabaseException($message);
 		}
-		$message = new BSStringFormat('データベース "%s" に接続できません。');
-		$message[] = $this->getName();
-		throw new BSDatabaseException($message);
+		return $db;
 	}
 
 	/**

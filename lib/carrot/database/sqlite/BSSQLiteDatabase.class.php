@@ -128,8 +128,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	public function getVersion () {
 		if (!$this->version && extension_loaded('sqlite3')) {
-			$ver = SQLite3::version();
-			$this->version = $ver['versionString'];
+			$this->version = SQLite3::version()['versionString'];
 		}
 		return $this->version;
 	}
