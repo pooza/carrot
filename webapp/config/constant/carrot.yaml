@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.19
+  ver: 2.6.20
 
 admin:
   email:
@@ -304,6 +304,9 @@ sudo:
     default: /usr
     darwin: /opt/local
     freebsd: /usr/local
+tidy5:
+  dir:
+    default: /usr/local
 unzip:
   dir:
     default: /usr

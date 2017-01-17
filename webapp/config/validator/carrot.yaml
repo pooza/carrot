@@ -31,35 +31,6 @@ flash:
   class: BSFlashValidator
 html:
   class: BSHTMLFragmentValidator
-  params:
-    allowed_tags:
-      - h1
-      - h2
-      - h3
-      - h4
-      - h5
-      - h6
-      - h7
-      - p
-      - br
-      - table
-      - tbody
-      - th
-      - tr
-      - td
-      - strike
-      - strong
-      - em
-      - b
-      - i
-      - u
-      - font
-      - hr
-      - a
-      - ul
-      - ol
-      - li
-      - img
 image:
   class: BSImageValidator
   params:

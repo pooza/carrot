@@ -14,19 +14,6 @@ class BSHTMLFragmentValidator extends BSValidator {
 	private $invalidNode;
 
 	/**
-	 * 初期化
-	 *
-	 * @access public
-	 * @param string[] $params パラメータ配列
-	 */
-	public function initialize ($params = []) {
-		$this['element_error'] = '許可されていない要素又は属性が含まれています。';
-		$this['allowed_tags'] = 'a,br,div,li,ol,p,span,ul';
-		$this['javascript_allowed'] = false;
-		return parent::initialize($params);
-	}
-
-	/**
 	 * 実行
 	 *
 	 * @access public
@@ -35,78 +22,35 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 */
 	public function execute ($value) {
 		try {
-			$body = str_replace('&', '', $value); //実体参照を無視
-			$body = '<div>' . $body . '</div>';
-			$element = new BSDivisionElement;
-			$element->setContents($body);
-			if (!self::isValidElement($element)) {
-				$message = new BSStringFormat('%s (%s)');
-				$message[] = $this['element_error'];
-				$message[] = $this->invalidNode;
-				throw new BSXMLException($message);
+			$command = $this->createCommand();
+			$html = new BSStringFormat('<!DOCTYPE html><title>0</title><body>%s</body>');
+			$html[] = str_replace("\n", ' ', $value);
+			$command->addValue($html->getContents());
+			$errors = new BSArray;
+			foreach ($command->getResult() as $line) {
+				if (mb_ereg('^line [0-9]+ column [0-9]+ - (.*)$', $line, $matches)) {
+					$errors[] = $matches[1];
+				}
 			}
-		} catch (BSXMLException $e) {
+			if (!!$errors->count()) {
+				$this->error = $errors->join(' | ');
+				return false;
+			}
+		} catch (BSException $e) {
 			$this->error = $e->getMessage();
 			return false;
 		}
 		return true;
 	}
 
-	private function isValidElement (BSXMLElement $element) {
-		if (!!$element->getElements()->count()) {
-			foreach ($element as $child) {
-				if (!self::isValidElement($child)) {
-					return false;
-				}
-			}
-		}
-
-		$tags = $this->getAllowedTags();
-		if (!!$tags->count() && !$tags->isContain($element->getName())) {
-			$this->invalidNode = $element->getName() . '要素';
-			return false;
-		}
-		if (!$this->isJavaScriptAllowed()) {
-			if (BSString::toLower($element->getName()) == 'script') {
-				$this->invalidNode = $element->getName() . '要素';
-				return false;
-			}
-			foreach ($element->getAttributes() as $name => $value) {
-				if (mb_eregi('^on', $name) || mb_eregi('javascript:', $value)) {
-					$this->invalidNode = sprintf('%s要素/%s属性', $element->getName(), $name);
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	private function getAllowedTags () {
-		if (!$this->allowedTags) {
-			$this->allowedTags = new BSArray;
-			if ($tags = $this['allowed_tags']) {
-				$this->allowedTags[] = 'div';
-				$this->allowedTags[] = 'span';
-				if (BS_VIEW_HTML5) {
-					$this->allowedTags[] = 'nav';
-					$this->allowedTags[] = 'section';
-					$this->allowedTags[] = 'article';
-				}
-
-				if (!is_array($tags)) {
-					$tags = BSString::explode(',', $tags);
-				}
-				$this->allowedTags->merge($tags);
-				$this->allowedTags->trim();
-				$this->allowedTags->uniquize();
-			}
-		}
-		return $this->allowedTags;
-	}
-
-	private function isJavaScriptAllowed () {
-		return !!$this['javascript_allowed'];
+	private function createCommand () {
+		$command = new BSCommandLine('echo');
+		$tidy = new BSCommandLine('bin/tidy5');
+		$tidy->setDirectory(BSFileUtility::getDirectory('tidy5'));
+		$tidy->addValue('-e');
+		$command->registerPipe($tidy);
+		$command->setStderrRedirectable();
+		return $command;
 	}
 }
 

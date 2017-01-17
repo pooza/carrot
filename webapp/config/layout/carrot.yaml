@@ -143,6 +143,8 @@ templates:
   suffix: .tpl
 tests:
   parent: root
+tidy5:
+  platform: yes
 tmp:
   parent: var
   purge:
