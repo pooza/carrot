@@ -66,10 +66,10 @@ abstract class BSDataSourceName extends BSParameterHolder {
 	/**
 	 * 復号したパスワードを返す
 	 *
-	 * @access protected
+	 * @access public
 	 * @return string パスワード
 	 */
-	protected function decryptPassword () {
+	public function decryptPassword () {
 		return BSCrypt::getInstance()->decrypt($this['password']);
 	}
 
