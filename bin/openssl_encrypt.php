@@ -31,11 +31,12 @@ foreach ([DOMAIN, 'application', 'carrot'] as $file) {
   }
 }
 
+$source = $_SERVER['argv'][1];
 $cryptor = new BSOpenSSLCryptor;
-$encrypted = base64_encode($cryptor->encrypt($_SERVER['argv'][1]));
+$encrypted = base64_encode($cryptor->encrypt($source));
 $decrypted = $cryptor->decrypt(base64_decode($encrypted));
 ?>
-source:       <?= $_SERVER['argv'][1] ?> 
-method:       <?= BS_CRYPT_METHOD ?> 
-encrypted:    <?= $encrypted ?> 
--> decrypted: <?= $decrypted ?> 
+source:    <?= $source ?> 
+encrypted: <?= $encrypted ?> 
+method:    <?= BS_CRYPT_METHOD ?> 
+verify:    <?= ($source === $decrypted) ? 'OK' : 'NG' ?> 
