@@ -7,39 +7,6 @@
  */
 
 /**
- * @access public
- * @param string $name クラス名
- */
-function __autoload ($name) {
-	require_once BS_LIB_DIR . '/carrot/BSLoader.class.php';
-	$classes = BSLoader::getInstance()->getClasses();
-	if (isset($classes[strtolower($name)])) {
-		require $classes[strtolower($name)];
-	}
-}
-
-/**
- * エラーハンドラ
- *
- * @access public
- * @param integer $errno エラー番号
- * @param string $errstr エラーメッセージ
- * @param string $errfile エラーが発生したファイル名
- * @param string $errline エラーが発生した行数
- */
-function handleError ($errno, $errstr, $errfile, $errline) {
-	if ($errno & error_reporting()) {
-		$message = sprintf(
-			'%s (file:%s line:%d)',
-			$errstr,
-			str_replace(BS_ROOT_DIR . '/', '', $errfile),
-			$errline
-		);
-		throw new RuntimeException($message, $errno);
-	}
-}
-
-/**
  * スーパーグローバル配列の保護
  *
  * @access public
@@ -85,6 +52,26 @@ function p ($var) {
  * ここから処理開始
  */
 
+spl_autoload_register(function ($name) {
+	require_once BS_LIB_DIR . '/carrot/BSLoader.class.php';
+	$classes = BSLoader::getInstance()->getClasses();
+	if (isset($classes[strtolower($name)])) {
+		require $classes[strtolower($name)];
+	}
+});
+
+set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+	if ($errno & error_reporting()) {
+		$message = sprintf(
+			'%s (file:%s line:%d)',
+			$errstr,
+			str_replace(BS_ROOT_DIR . '/', '', $errfile),
+			$errline
+		);
+		throw new RuntimeException($message, $errno);
+	}
+});
+
 // @link http://www.peak.ne.jp/support/phpcyber/ 参考
 $_GET = protect($_GET);
 $_POST = protect($_POST);
@@ -124,7 +111,6 @@ $configure->compile($file);
 $configure->compile('constant/application');
 $configure->compile('constant/carrot');
 
-set_error_handler('handleError');
 mb_internal_encoding('utf-8');
 mb_regex_encoding('utf-8');
 date_default_timezone_set(BS_DATE_TIMEZONE);
