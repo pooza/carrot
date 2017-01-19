@@ -64,15 +64,12 @@ class BSMySQLDatabase extends BSDatabase {
 	 * @return BSCommandLine コマンドライン
 	 */
 	protected function createCommand ($command = 'mysql') {
+		putenv('MYSQL_PWD=' . $this->dsn->decryptPassword());
 		$command = new BSCommandLine('bin/' . $command);
 		$command->setDirectory(BSFileUtility::getDirectory('mysql'));
 		$command->push('--host=' . $this['host']->getAddress());
 		$command->push('--user=' . $this['uid']);
 		$command->push($this['database_name']);
-
-		if (!BSString::isBlank($password = $this->dsn['password'])) {
-			putenv('MYSQL_PWD=' . $this->dsn->decryptPassword());
-		}
 		return $command;
 	}
 
