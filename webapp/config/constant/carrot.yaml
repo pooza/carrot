@@ -216,8 +216,6 @@ pdo:
     loggable: yes
   geocode:
     dsn: sqlite:%BS_VAR_DIR%/db/geocode.sqlite3
-  log:
-    dsn: sqlite:%BS_VAR_DIR%/db/log.sqlite3
   serialize:
     dsn: sqlite:%BS_VAR_DIR%/db/serialize.sqlite3
 pgsql:
