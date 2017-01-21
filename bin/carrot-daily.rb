@@ -16,7 +16,7 @@ require 'carrot/batch_action'
 require 'carrot/environment'
 
 puts nil
-puts Environment.name + ' の日次処理:'
-actions = BatchAction.new
+puts Carrot::Environment.name + ' の日次処理:'
+actions = Carrot::BatchAction.new
 actions.register('Console', 'Purge')
 actions.execute

@@ -5,28 +5,33 @@
 
 require 'carrot/constants'
 
-class BatchAction < Array
-  attr :silent, true
+module Carrot
+  class BatchAction < Array
+    attr :silent, true
 
-  def register (m, a)
-    self.push({:m => m, :a => a})
-  end
+    def register (m, a)
+      self.push({
+        :m => m,
+        :a => a,
+      })
+    end
 
-  def execute
-    self.each do |action|
-      cmd = [
-        Constants.new['BS_SUDO_DIR'] + '/bin/sudo',
-        '-u',
-        Constants.new['BS_APP_PROCESS_UID'],
-        Constants.new['BS_PHP_DIR'] + '/bin/php',
-        ROOT_DIR + '/bin/carrotctl.php',
-      ]
-      action.each do |key, value|
-        cmd.push('-' + key.to_s)
-        cmd.push(value)
+    def execute
+      self.each do |action|
+        cmd = [
+          "#{Carrot::Constants.new['BS_SUDO_DIR']}/bin/sudo",
+          '-u',
+          Carrot::Constants.new['BS_APP_PROCESS_UID'],
+          "#{Carrot::Constants.new['BS_PHP_DIR']}/bin/php",
+          "#{ROOT_DIR}/bin/carrotctl.php",
+        ]
+        action.each do |key, value|
+          cmd.push("-#{key.to_s}")
+          cmd.push(value)
+        end
+        puts "== module:#{action[:m]} action:#{action[:a]}" unless @silent
+        system(*cmd)
       end
-      puts "== module:#{action[:m]} action:#{action[:a]}" unless @silent
-      system(*cmd)
     end
   end
 end

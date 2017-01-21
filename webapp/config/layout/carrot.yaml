@@ -84,8 +84,6 @@ local_tests:
 log:
   parent: var
   class: BSLogDirectory
-  purge:
-    month: 3
 maps:
   parent: var
   suffix: .gif

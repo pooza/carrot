@@ -76,6 +76,7 @@ abstract class BSLogger {
 				return BSDate::create($date);
 			}
 		}
+		return BSDate::create();
 	}
 
 	/**

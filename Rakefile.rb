@@ -11,18 +11,20 @@ require 'yaml'
 require 'carrot/constants'
 require 'carrot/environment'
 require 'carrot/periodic'
+require 'carrot/rsyslog_util'
 require 'webapp/config/Rakefile.local'
 
 desc 'インストールを実行'
 task :install => [
   'var:init',
   'environment:init',
+  'rsyslog:init',
   'local:init',
 ]
 
 desc 'テストを実行'
 task :test =>['var:classes:clean'] do
-  system 'sudo -u ' + Constants.new['BS_APP_PROCESS_UID'] + ' bin/carrotctl.php -a Test'
+  sh "sudo -u #{Carrot::Constants.new['BS_APP_PROCESS_UID']} bin/carrotctl.php -a Test"
 end
 
 namespace :database do
@@ -38,11 +40,24 @@ namespace :environment do
   namespace :file do
     desc 'サーバ環境設定ファイルを初期化'
     task :init => [
-      Environment.file_path,
+      Carrot::Environment.file_path,
     ]
 
-    file Environment.file_path do
-      sh 'touch ' + Environment.file_path
+    file Carrot::Environment.file_path do
+      sh "touch #{Carrot::Environment.file_path}"
+    end
+  end
+end
+
+namespace :rsyslog do
+  task :init => [
+    'config:init',
+  ]
+
+  namespace :config do
+    desc 'rsyslog設定ファイルを設置'
+    task :init do
+      Carrot::RsyslogUtil.create_config_file
     end
   end
 end
@@ -53,7 +68,7 @@ namespace :periodic do
 
   [:daily].each do |period|
     task period do
-      Periodic.create(period, "#{ROOT_DIR}/bin/carrot-#{period}.rb")
+      Carrot::Periodic.create(period, "#{ROOT_DIR}/bin/carrot-#{period}.rb")
     end
   end
 end
@@ -70,7 +85,6 @@ namespace :var do
 
   desc '各種キャッシュをクリア'
   task :clean => [
-    'config:clean',
     'output:clean',
     'css:clean',
     'js:clean',
@@ -80,7 +94,7 @@ namespace :var do
   namespace :output do
     desc 'レンダーキャッシュをクリア'
     task :clean do
-      system 'sudo rm -R var/output/*'
+      sh 'sudo rm -R var/output/*'
     end
   end
 
@@ -88,7 +102,7 @@ namespace :var do
     namespace :cache do
       desc 'イメージキャッシュをクリア'
       task :clean do
-        system 'sudo rm -R var/image_cache/*'
+        sh 'sudo rm -R var/image_cache/*'
       end
     end
   end
@@ -96,14 +110,14 @@ namespace :var do
   namespace :css do
     desc 'cssキャッシュをクリア'
     task :clean do
-      system 'sudo rm var/css_cache/*'
+      sh 'sudo rm var/css_cache/*'
     end
   end
 
   namespace :js do
     desc 'jsキャッシュをクリア'
     task :clean do
-      system 'sudo rm var/js_cache/*'
+      sh 'sudo rm var/js_cache/*'
     end
   end
 
@@ -111,14 +125,6 @@ namespace :var do
     desc 'クラスヒント情報をクリア'
     task :clean do
       sh 'touch webapp/config/constant'
-    end
-  end
-
-  namespace :config do
-    desc '設定キャッシュをクリア'
-    task :clean do
-      system 'sudo rm -R var/config_cache/*'
-      system 'sudo rm var/serialized/*'
     end
   end
 end

@@ -33,18 +33,20 @@ class BSLogFile extends BSFile {
 			if ($this->isOpened()) {
 				throw new BSFileException($this . 'は既に開いています。');
 			}
-
 			foreach ($this->getLines() as $line) {
-				$pattern = '\[([^]]*)\] \[([^]]*)\] \[([^]]*)\] (.*)';
-				if (!mb_ereg($pattern, $line, $matches)) {
-					continue;
+				$fields = new BSArray(mb_split('\s+', $line));
+				$date = BSDate::create($fields[0]);
+				$remoteaddr = $fields[5];
+				$priority = $fields[4];
+				foreach (range(0, 5) as $i) {
+					$fields->removeParameter($i);
 				}
 				$this->entries[] = [
-					'date' => $matches[1],
-					'remote_host' => $matches[2],
-					'priority' => $matches[3],
-					'exception' => mb_ereg('Exception$', $matches[3]),
-					'message' => $matches[4],
+					'date' => $date->format(),
+					'remote_host' => (new BSHost($remoteaddr))->resolveReverse(),
+					'priority' => $priority,
+					'exception' => mb_ereg('Exception$', $fields[4]),
+					'message' => $fields->join(' '),
 				];
 			}
 		}

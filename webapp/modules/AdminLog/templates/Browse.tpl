@@ -20,9 +20,9 @@
     <th width="480">内容</th>
   </tr>
   {foreach from=$entries item=log}
-    <tr {if $log.exception}class="alert"{/if}>
+    <tr class="log {if $log.exception}alert{/if}">
       <td width="60">{$log.date|date_format:'H:i:s'}</td>
-      <td width="90">{$log.remote_host}</td>
+      <td width="150">{$log.remote_host}</td>
       <td width="180">{$log.priority}</td>
       <td width="480">{$log.message}</td>
     </tr>

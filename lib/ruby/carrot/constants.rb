@@ -6,40 +6,40 @@
 require 'yaml'
 require 'carrot/environment'
 
-class Constants
-  def initialize
-    @constants = Hash.new
-    ['carrot', 'package', 'application', Environment.name].each do |name|
-      begin
-        path = ROOT_DIR + '/webapp/config/constant/' + name + '.yaml';
-        @constants.update(flatten('BS', YAML.load_file(path), '_'))
-      rescue
+module Carrot
+  class Constants
+    def initialize
+      @constants = {}
+      ['carrot', 'package', 'application', Carrot::Environment.name].each do |name|
+        begin
+          path = "#{ROOT_DIR}/webapp/config/constant/#{name}.yaml"
+          @constants.update(flatten('BS', YAML.load_file(path), '_'))
+        rescue
+        end
       end
     end
-  end
 
-  def [] (name)
-    names = []
-    names.push((name + '_' + Environment.os).upcase)
-    names.push((name + '_DEFAULT').upcase)
-    names.push(name.upcase)
-    names.each do |name|
-      if @constants[name] != nil
-        return @constants[name]
+    def [] (name)
+      names = []
+      names.push("#{name}_#{Carrot::Environment.os}".upcase)
+      names.push("#{name}_DEFAULT".upcase)
+      names.push(name.upcase)
+      names.each do |name|
+        return @constants[name] if @constants[name]
       end
     end
-  end
 
-  def flatten (prefix, node, glue)
-    contents = Hash.new
-    if node.instance_of?(Hash)
-      node.each do |key, value|
-        key = prefix + glue + key
-        contents.update(flatten(key, value, glue))
+    def flatten (prefix, node, glue)
+      contents = {}
+      if node.instance_of?(Hash)
+        node.each do |key, value|
+          key = prefix + glue + key
+          contents.update(flatten(key, value, glue))
+        end
+      else
+        contents[prefix.upcase] = node
       end
-    else
-      contents[prefix.upcase] = node
+      return contents
     end
-    return contents
   end
 end

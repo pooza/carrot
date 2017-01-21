@@ -5,13 +5,13 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.22
+  ver: 2.6.23
 
 admin:
   email:
   password:
   networks:
-  twitter:
+  twitter: pooza
 app:
   name:
     ja: unknown
@@ -133,9 +133,8 @@ languages:
   - ja
 log:
   loggers:
-    - file
-    - mail
     - system
+    - twitter
   syslog:
     facility: LOCAL6
   mail:
