@@ -5,14 +5,12 @@
 
 ROOT_DIR = File.dirname(File.expand_path(__FILE__))
 $LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
-$LOAD_PATH.push(ROOT_DIR)
 
-require 'yaml'
 require 'carrot/constants'
 require 'carrot/environment'
-require 'carrot/periodic'
+require 'carrot/periodic_creator'
 require 'carrot/rsyslog_util'
-require 'webapp/config/Rakefile.local'
+require File.join(ROOT_DIR, 'webapp/config/Rakefile.local')
 
 desc 'インストールを実行'
 task :install => [
@@ -68,7 +66,10 @@ namespace :periodic do
 
   [:daily].each do |period|
     task period do
-      Carrot::Periodic.create(period, "#{ROOT_DIR}/bin/carrot-#{period}.rb")
+      periodic = Carrot::PeriodicCreator.new
+      periodic[:period] = period
+      periodic[:source] = "#{ROOT_DIR}/bin/carrot-#{period}.rb"
+      periodic.create
     end
   end
 end
