@@ -8,9 +8,7 @@
  */
 class LoginAction extends BSAction {
 	public function execute () {
-		$url = BSURL::create($this->controller->getAttribute('ROOT_URL_HTTPS'));
-		$url['path'] = '/AdminLog/';
-		return $url->redirect();
+		return BSModule::getInstance('AdminLog')->redirect();
 	}
 
 	public function getDefaultView () {
