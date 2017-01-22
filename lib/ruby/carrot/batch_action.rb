@@ -22,8 +22,8 @@ module Carrot
           "#{Carrot::Constants.new['BS_SUDO_DIR']}/bin/sudo",
           '-u',
           Carrot::Constants.new['BS_APP_PROCESS_UID'],
-          "#{Carrot::Constants.new['BS_PHP_DIR']}/bin/php",
-          "#{ROOT_DIR}/bin/carrotctl.php",
+          File.join(Carrot::Constants.new['BS_PHP_DIR'], '/bin/php'),
+          File.join(ROOT_DIR, 'bin/carrotctl.php')
         ]
         action.each do |key, value|
           cmd.push("-#{key.to_s}")

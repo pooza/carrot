@@ -4,7 +4,7 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 ROOT_DIR = File.dirname(File.expand_path(__FILE__))
-$LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
+$LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
 require 'carrot/constants'
 require 'carrot/environment'
@@ -68,7 +68,7 @@ namespace :periodic do
     task period do
       periodic = Carrot::PeriodicCreator.new
       periodic[:period] = period
-      periodic[:source] = "#{ROOT_DIR}/bin/carrot-#{period}.rb"
+      periodic[:source] = File.join(ROOT_DIR, "bin/carrot-#{period}.rb")
       periodic.create
     end
   end

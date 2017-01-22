@@ -12,7 +12,7 @@ module Carrot
       @constants = {}
       ['carrot', 'package', 'application', Carrot::Environment.name].each do |name|
         begin
-          path = "#{ROOT_DIR}/webapp/config/constant/#{name}.yaml"
+          path = File.join(ROOT_DIR, "webapp/config/constant/#{name}.yaml")
           @constants.update(flatten('BS', YAML.load_file(path), '_'))
         rescue
         end
