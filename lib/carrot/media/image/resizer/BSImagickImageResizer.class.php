@@ -10,16 +10,6 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSImagickImageResizer extends BSImageResizer {
-	private $file;
-
-	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		if ($file = $this->file) {
-			$file->delete();
-		}
-	}
 
 	/**
 	 * 実行
