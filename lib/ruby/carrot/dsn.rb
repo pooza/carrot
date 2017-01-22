@@ -9,9 +9,7 @@ require 'carrot/constants'
 
 module Carrot
   class DSN
-    include FileUtils
-
-    def initialize (name)
+    def initialize (name = 'default')
       @name = name
       @dsn = Carrot::Constants.new["BS_PDO_#{name}_DSN"]
       dsn = @dsn.split(':')
@@ -20,10 +18,15 @@ module Carrot
     end
 
     def install
-      raise "invalid scheme: #{@scheme}" if @scheme != 'sqlite'
+      raise "invalid scheme: #{@scheme}" unless installable?
       sh "sudo rm #{@db}" if File.exist?(@db)
-      sh "sqlite3 #{@db} < #{self.schema_file}"
+      sh "sqlite3 #{@db} < #{schema_file}"
       sh "chmod 666 #{@db}"
+    end
+
+    private
+    def installable?
+      return @scheme == 'sqlite'
     end
 
     def schema_file
