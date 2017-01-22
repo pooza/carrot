@@ -140,10 +140,12 @@ log:
   mail:
     patterns:
       - BSDatabaseException
+      - BSMemcacheException
       - BSFileException
   twitter:
     patterns:
       - BSDatabaseException
+      - BSMemcacheException
       - BSMailException
       - BSFileException
 mail:

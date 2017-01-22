@@ -30,23 +30,34 @@ class BSLogFile extends BSFile {
 	 */
 	public function getEntries () {
 		if (!$this->entries) {
-			if ($this->isOpened()) {
-				throw new BSFileException($this . 'は既に開いています。');
-			}
 			foreach ($this->getLines() as $line) {
 				$fields = new BSArray(mb_split('\s+', $line));
 				$date = BSDate::create($fields[0]);
-				$remoteaddr = $fields[5];
-				$priority = $fields[4];
-				foreach (range(0, 5) as $i) {
-					$fields->removeParameter($i);
+				if (mb_ereg('\[client ([.0-9]+):[0-9]+\] (AH[0-9]+): (.*)$', $line, $matches)) {
+					$remoteaddr = $matches[1];
+					$priority = $matches[2];
+					$exception = false;
+					$message = $matches[3];
+				} else if (mb_ereg('\[client ([.0-9]+):[0-9]+\] (.*)$', $line, $matches)) {
+					$remoteaddr = $matches[1];
+					$priority = null;
+					$exception = false;
+					$message = $matches[2];
+				} else {
+					$remoteaddr = $fields[5];
+					$priority = $fields[4];
+					$exception = mb_ereg('Exception$', $priority);
+					foreach (range(0, 5) as $i) {
+						$fields->removeParameter($i);
+					}
+					$message = $fields->join(' ');
 				}
 				$this->entries[] = [
 					'date' => $date->format(),
 					'remote_host' => (new BSHost($remoteaddr))->resolveReverse(),
 					'priority' => $priority,
-					'exception' => mb_ereg('Exception$', $fields[4]),
-					'message' => $fields->join(' '),
+					'exception' => $exception,
+					'message' => $message,
 				];
 			}
 		}

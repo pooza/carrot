@@ -71,7 +71,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 		if (BSString::isBlank($this->hostname)) {
 			if (BSString::isBlank($this->address)) {
 				$this->hostname = $this->name;
-			} else {
+			} else if (mb_ereg('^([0-9]{1,3}\.){3}[0-9]{1,3}$', $this->name)) {
 				$this->hostname = gethostbyaddr($this->name);
 			}
 		}
