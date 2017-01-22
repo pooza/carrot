@@ -14,12 +14,16 @@ module Carrot
     end
 
     def create
-      raise ':sourceが未指定。' unless self[:source]
+      self[:source] = default_source unless self[:source]
       system('sudo', 'mkdir', '-p', File.dirname(dest))
       system('sudo', 'ln', '-s', self[:source], dest) unless File.exist?(dest)
     end
 
     private
+    def default_source
+      return File.join(ROOT_DIR, "bin/#{self[:basename]}-#{self[:period]}.rb")
+    end
+
     def dest
       return "#{prefix}#{self[:basename]}-#{Carrot::Environment.name}"
     end

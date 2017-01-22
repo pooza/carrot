@@ -64,11 +64,10 @@ namespace :periodic do
   desc 'periodicを登録'
   task :init => [:daily]
 
-  [:daily].each do |period|
+  [:daily, :hourly, :frequently].each do |period|
     task period do
       periodic = Carrot::PeriodicCreator.new
       periodic[:period] = period
-      periodic[:source] = File.join(ROOT_DIR, "bin/carrot-#{period}.rb")
       periodic.create
     end
   end
