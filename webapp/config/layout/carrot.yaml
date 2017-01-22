@@ -51,9 +51,6 @@ favicon:
     day: 7
 ffmpeg:
   platform: yes
-font:
-  parent: share
-  suffix: .ttf
 google_account:
   parent: var
   suffix: .png

@@ -16,8 +16,6 @@ class BSImage implements BSImageRenderer {
 	protected $height;
 	protected $width;
 	protected $origin;
-	protected $font;
-	protected $fontsize;
 	protected $backgroundColor;
 	protected $error;
 	const DEFAULT_WIDTH = 320;
@@ -34,9 +32,7 @@ class BSImage implements BSImageRenderer {
 		$this->height = BSNumeric::round($height);
 		$this->setType(BSMIMEType::getType('gif'));
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
-		$this->setFont(BSFontManager::getInstance()->getFont());
-		$this->setFontSize(BSFontManager::DEFAULT_FONT_SIZE);
-		$this->fill($this->getCoordinate(0, 0), $this->getBackgroundColor());
+		$this->fill($this->getOrigin(), $this->getBackgroundColor());
 	}
 
 	/**
@@ -266,29 +262,6 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 文字を書く
-	 *
-	 * @access public
-	 * @param string 文字
-	 * @param BSCoordinate $coord 最初の文字の左下の座標
-	 * @param BSColor $color 色
-	 */
-	public function drawText ($text, BSCoordinate $coord, BSColor $color = null) {
-		if (BSString::isBlank($color)) {
-			$color = new BSColor('black');
-		}
-		imagettftext(
-			$this->getGDHandle(),
-			$this->getFontSize(),
-			0, //角度
-			$coord->getX(), $coord->getY(),
-			$this->getColorID($color),
-			$this->getFont()->getFile()->getPath(),
-			$text
-		);
-	}
-
-	/**
 	 * 多角形を描く
 	 *
 	 * @access public
@@ -338,7 +311,7 @@ class BSImage implements BSImageRenderer {
 	 */
 	public function overlay (BSImage $image, BSCoordinate $coord = null) {
 		if (!$coord) {
-			$coord = $this->getCoordinate(0, 0);
+			$coord = $this->getOrigin();
 		}
 		imagecopy(
 			$this->getGDHandle(),
@@ -347,49 +320,6 @@ class BSImage implements BSImageRenderer {
 			0, 0,
 			$image->getWidth(), $image->getHeight()
 		);
-	}
-
-	/**
-	 * フォントを返す
-	 *
-	 * @access public
-	 * @return string フォント
-	 */
-	public function getFont () {
-		if (!$this->font) {
-			throw new BSImageException('フォントが未定義です。');
-		}
-		return $this->font;
-	}
-
-	/**
-	 * フォントを設定
-	 *
-	 * @access public
-	 * @param BSFont $font フォント
-	 */
-	public function setFont ($font) {
-		$this->font = $font;
-	}
-
-	/**
-	 * フォントサイズを返す
-	 *
-	 * @access public
-	 * @return integer フォントサイズ
-	 */
-	public function getFontSize () {
-		return $this->fontsize;
-	}
-
-	/**
-	 * フォントサイズを設定
-	 *
-	 * @access public
-	 * @param integer $size フォントサイズ
-	 */
-	public function setFontSize ($size) {
-		$this->fontsize = $size;
 	}
 
 	/**
