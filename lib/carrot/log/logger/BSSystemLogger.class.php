@@ -55,7 +55,7 @@ class BSSystemLogger extends BSLogger {
 		if ($this->isException($priority)) {
 			syslog(LOG_ERR, $line->join(' '));
 		} else {
-			syslog(LOG_NOTICE, $line->join(' '));
+			syslog(LOG_INFO, $line->join(' '));
 		}
 	}
 

@@ -22,7 +22,7 @@ module Carrot
     end
 
     def self.template_name
-      return "LogFile#{Carrot::Environment.name.gsub('.', '').capitalize}Path"
+      return "FilePath#{Carrot::Environment.name.gsub('.', '').capitalize}"
     end
 
     def self.log_path

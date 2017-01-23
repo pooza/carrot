@@ -116,9 +116,8 @@ mb_regex_encoding('utf-8');
 date_default_timezone_set(BS_DATE_TIMEZONE);
 ini_set('realpath_cache_size', '128K');
 ini_set('log_errors', 1);
-$tmpdir = BSFileUtility::getDirectory('tmp');
-ini_set('error_log', $tmpdir->getPath() . '/error_' . BSDate::getNow('Y-m-d') . '.log');
-ini_set('upload_tmp_dir', $tmpdir->getPath());
+ini_set('error_log', 'syslog');
+ini_set('upload_tmp_dir', BSFileUtility::getPath('tmp'));
 
 BSRequest::getInstance()->createSession();
 
