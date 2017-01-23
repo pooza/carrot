@@ -21,7 +21,17 @@ class BrowseAction extends BSAction {
 
 	public function execute () {
 		$this->request->setAttribute('dates', $this->getModule()->getDates());
-		$this->request->setAttribute('entries', $this->getModule()->getEntries());
+		$entries = new BSArray;
+		$keyword = $this->request['key'];
+		foreach ($this->getModule()->getEntries() as $entry) {
+			if (BSString::isBlank($keyword)
+				|| BSString::isContain($keyword, $entry['message'])
+				|| ($keyword == $entry['remote_host'])
+			) {
+				$entries[] = $entry;
+			}
+		}
+		$this->request->setAttribute('entries', $entries);
 		return BSView::SUCCESS;
 	}
 
@@ -34,8 +44,10 @@ class BrowseAction extends BSAction {
 			'message' => 'ログを取得できません。',
 		];
 		if ($this->exception) {
-			$entry['priority']= get_class($this->exception);
-			$entry['message'] = $this->exception->getMessage();
+			$message = new BSStringFormat('[%s] %s');
+			$message[] = get_class($this->exception);
+			$message[] = $this->exception->getMessage();
+			$entry['message'] = $message->getContents();
 		}
 		$this->request->setAttribute('entries', [$entry]);
 		return BSView::SUCCESS;

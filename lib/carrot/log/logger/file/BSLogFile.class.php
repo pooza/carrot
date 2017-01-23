@@ -31,33 +31,21 @@ class BSLogFile extends BSFile {
 	public function getEntries () {
 		if (!$this->entries) {
 			foreach ($this->getLines() as $line) {
+				if (!mb_ereg('([0-9]{1,3}\.){3}[0-9]{1,3}', $line, $matches)) {
+					continue;
+				}
+				$remoteaddr = $matches[0];
+				$line = mb_ereg_replace('\[(client|server) [^\]]+\] ', null, $line);
 				$fields = new BSArray(mb_split('\s+', $line));
 				$date = BSDate::create($fields[0]);
-				if (mb_ereg('\[client ([.0-9]+):[0-9]+\] (AH[0-9]+): (.*)$', $line, $matches)) {
-					$remoteaddr = $matches[1];
-					$priority = $matches[2];
-					$exception = false;
-					$message = $matches[3];
-				} else if (mb_ereg('\[client ([.0-9]+):[0-9]+\] (.*)$', $line, $matches)) {
-					$remoteaddr = $matches[1];
-					$priority = null;
-					$exception = false;
-					$message = $matches[2];
-				} else {
-					$remoteaddr = $fields[5];
-					$priority = $fields[4];
-					$exception = mb_ereg('Exception$', $priority);
-					foreach (range(0, 5) as $i) {
-						$fields->removeParameter($i);
-					}
-					$message = $fields->join(' ');
-				}
+				$fields->removeParameter(0);
+				$fields->removeParameter(1);
+				$fields->removeParameter(2);
 				$this->entries[] = [
 					'date' => $date->format(),
 					'remote_host' => (new BSHost($remoteaddr))->resolveReverse(),
-					'priority' => $priority,
-					'exception' => $exception,
-					'message' => $message,
+					'exception' => mb_ereg('Exception', $line),
+					'message' => $fields->join(' '),
 				];
 			}
 		}

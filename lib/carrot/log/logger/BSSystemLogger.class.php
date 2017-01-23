@@ -48,9 +48,9 @@ class BSSystemLogger extends BSLogger {
 	 */
 	public function put ($message, $priority) {
 		$line = new BSArray;
-		$line[] = $this->getServerHostName();
-		$line[] = $priority;
-		$line[] = $this->getClientHostName();
+		$line[] = '[server ' . $this->getServerHostName() . ']';
+		$line[] = '[' . $priority . ']';
+		$line[] = '[client ' . $this->getClientHostName() . ']';
 		$line[] = $message;
 		if ($this->isException($priority)) {
 			syslog(LOG_ERR, $line->join(' '));
