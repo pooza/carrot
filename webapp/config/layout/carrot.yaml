@@ -81,6 +81,8 @@ local_tests:
 log:
   parent: var
   class: BSLogDirectory
+logger:
+  platform: yes
 maps:
   parent: var
   suffix: .gif

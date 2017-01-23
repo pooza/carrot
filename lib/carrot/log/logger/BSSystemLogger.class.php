@@ -15,28 +15,13 @@ class BSSystemLogger extends BSLogger {
 	private $file;
 
 	/**
-	 * @access public
-	 */
-	public function __destruct () {
-		closelog();
-	}
-
-	/**
 	 * 初期化
 	 *
 	 * @access public
 	 * @return string 利用可能ならTrue
 	 */
 	public function initialize () {
-		$constants = new BSConstantHandler('LOG');
-		if (!$facility = $constants['SYSLOG_FACILITY']) {
-			$facility = 'LOCAL6';
-		}
-		return openlog(
-			'carrot-' . $this->getServerHostName(),
-			LOG_PID,
-			$constants[$facility]
-		);
+		return $this->createCommand()->isExists();
 	}
 
 	/**
@@ -47,16 +32,28 @@ class BSSystemLogger extends BSLogger {
 	 * @param string $priority 優先順位
 	 */
 	public function put ($message, $priority) {
+		$command = $this->createCommand();
 		$line = new BSArray;
 		$line[] = '[server ' . $this->getServerHostName() . ']';
 		$line[] = '[' . $priority . ']';
 		$line[] = '[client ' . $this->getClientHostName() . ']';
 		$line[] = $message;
+		$command->push('-p');
 		if ($this->isException($priority)) {
-			syslog(LOG_ERR, $line->join(' '));
+			$command->push('local6.error');
 		} else {
-			syslog(LOG_INFO, $line->join(' '));
+			$command->push('local6.info');
 		}
+		$command->push($line->join(' '));
+		$command->execute();
+	}
+
+	private function createCommand () {
+		$command = new BSCommandLine('bin/logger');
+		$command->setDirectory(BSFileUtility::getDirectory('logger'));
+		$command->push('-t');
+		$command->push('carrot-' . $this->getServerHostName());
+		return $command;
 	}
 
 	/**

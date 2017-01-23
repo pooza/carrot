@@ -135,8 +135,6 @@ log:
   loggers:
     - system
     - twitter
-  syslog:
-    facility: LOCAL6
   mail:
     patterns:
       - BSDatabaseException
@@ -148,6 +146,9 @@ log:
       - BSMemcacheException
       - BSMailException
       - BSFileException
+logger:
+  dir:
+    default: /usr
 mail:
   sender: sendmail
 memcache:

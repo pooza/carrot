@@ -26,7 +26,7 @@ class BSCommandLine {
 	 * @param string $command prefix以降のコマンドパス。 'bin/mysql'等。
 	 */
 	public function __construct ($command) {
-		if (!$command) {
+		if (BSString::isBlank($command)) {
 			throw new BSConsoleException('コマンド名が空です。');
 		}
 		$this->command = $command;
@@ -155,6 +155,27 @@ class BSCommandLine {
 	 */
 	public function setStderrRedirectable ($mode = true) {
 		$this->stderrRedirectable = $mode;
+	}
+
+	/**
+	 * コマンドは存在するか？
+	 *
+	 * @access public
+	 * @return boolean 存在するならTrue
+	 */
+	public function isExists () {
+		if ($this->directory) {
+			return !!$this->directory->getEntry($this->command);
+		} else {
+			$path = BSController::getInstance()->getAttribute('PATH');
+			foreach (BSString::explode(PATH_SEPARATOR, $path) as $dir) {
+				$dir = new BSDirectory($dir);
+				if (!!$dir->getEntry($this->command)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	/**
