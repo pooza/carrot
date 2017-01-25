@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.26
+  ver: 2.6.27
 
 admin:
   email:
@@ -134,7 +134,7 @@ languages:
 log:
   loggers:
     - system
-    - twitter
+    - mail
   mail:
     patterns:
       - BSDatabaseException
@@ -242,6 +242,8 @@ proctools:
 request:
   validate:
     strict: no
+    html_fragment:
+      enable: yes
 ruby:
   dir:
     default: /usr/local
@@ -252,6 +254,7 @@ sendmail:
 serialize:
   storage: default
   serializer: JSON
+  classes:
 service:
   bitly:
     version: 2.0.1

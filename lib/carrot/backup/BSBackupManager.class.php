@@ -108,6 +108,12 @@ class BSBackupManager {
 		}
 
 		(new BSImageManager)->clear();
+		BSRenderManager::getInstance()->clear();
+		foreach (BSSerializeHandler::getClasses() as $class) {
+			foreach (BSTableHandler::create($class) as $record) {
+				$record->clearSerialize();
+			}
+		}
 		$this->restoreDatabase();
 		$this->restoreDirectories();
 		$this->restoreOptional();

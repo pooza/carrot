@@ -120,6 +120,17 @@ class BSSerializeHandler {
 		}
 		return (string)$name;
 	}
+
+	/**
+	 * シリアライズ可能なクラスを返す
+	 *
+	 * @access public
+	 * @return BSArray クラス名の配列
+	 * @static
+	 */
+	static public function getClasses () {
+		return BSString::explode(',', BS_SERIALIZE_CLASSES);
+	}
 }
 
 /* vim:set tabstop=4: */
