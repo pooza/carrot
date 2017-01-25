@@ -21,6 +21,9 @@ class BSHTMLFragmentValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
+		if (!BS_REQUEST_VALIDATE_HTML_FRAGMENT_ENABLE) {
+			return true;
+		}
 		try {
 			$command = $this->createCommand();
 			$html = new BSStringFormat('<!DOCTYPE html><title>0</title><body>%s</body>');
