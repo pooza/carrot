@@ -595,7 +595,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return boolean シリアライズするならTrue
 	 */
 	public function isSerializable () {
-		return false;
+		return BSSerializeHandler::getClasses()->isContain(get_class($this));
 	}
 
 	/**
@@ -624,6 +624,15 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'はシリアライズできません。');
 		}
 		BSController::getInstance()->setAttribute($this, $this->getSerializableValues());
+	}
+
+	/**
+	 * シリアライズされたキャッシュを削除
+	 *
+	 * @access public
+	 */
+	public function clearSerialize () {
+		BSController::getInstance()->removeAttribute($this);
 	}
 
 	/**
