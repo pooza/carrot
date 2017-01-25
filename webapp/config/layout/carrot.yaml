@@ -81,6 +81,8 @@ local_tests:
 log:
   parent: var
   class: BSLogDirectory
+  purge:
+    month: 2
 logger:
   platform: yes
 maps:
