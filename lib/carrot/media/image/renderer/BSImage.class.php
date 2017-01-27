@@ -32,7 +32,7 @@ class BSImage implements BSImageRenderer {
 		$this->height = BSNumeric::round($height);
 		$this->setType(BSMIMEType::getType('gif'));
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
-		$this->fill($this->getOrigin(), $this->getBackgroundColor());
+		//$this->fill($this->getOrigin(), $this->getBackgroundColor());
 	}
 
 	/**
