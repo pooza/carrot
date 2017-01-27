@@ -58,7 +58,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 */
 	public function isLegacy () {
 		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && BSRequest::getInstance()->isSSL()) {
-			return false;
+			return true;
 		}
 		return !$this->isWAP2();
 	}
