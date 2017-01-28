@@ -32,7 +32,7 @@ class BSImage implements BSImageRenderer {
 		$this->height = BSNumeric::round($height);
 		$this->setType(BSMIMEType::getType('gif'));
 		$this->setImage(imagecreatetruecolor($this->getWidth(), $this->getHeight()));
-		//$this->fill($this->getOrigin(), $this->getBackgroundColor());
+		//$this->fill($this->getBackgroundColor());
 	}
 
 	/**
@@ -249,55 +249,13 @@ class BSImage implements BSImageRenderer {
 	 * 塗りつぶす
 	 *
 	 * @access public
-	 * @param BSCoordinate $coord 始点の座標
 	 * @param BSColor $color 色
 	 */
-	public function fill (BSCoordinate $coord, BSColor $color) {
+	public function fill (BSColor $color) {
 		imagefill(
 			$this->getGDHandle(),
-			$coord->getX(),
-			$coord->getY(),
-			$this->getColorID($color)
-		);
-	}
-
-	/**
-	 * 多角形を描く
-	 *
-	 * @access public
-	 * @param BSArray $coords 座標の配列
-	 * @param BSColor $color 描画色
-	 * @param integer $flags フラグのビット列
-	 *   self::FILLED 塗りつぶす
-	 */
-	public function drawPolygon (BSArray $coords, BSColor $color, $flags = null) {
-		$polygon = [];
-		foreach ($coords as $coord) {
-			$polygon[] = $coord->getX();
-			$polygon[] = $coord->getY();
-		}
-
-		if ($flags & self::FILLED) {
-			$function = 'imagefilledpolygon';
-		} else {
-			$function = 'imagepolygon';
-		}
-		$function($this->getGDHandle(), $polygon, $coords->count(), $this->getColorID($color));
-	}
-
-	/**
-	 * 線を引く
-	 *
-	 * @access public
-	 * @param BSCoordinate $start 始点
-	 * @param BSCoordinate $end 終点
-	 * @param BSColor $color 描画色
-	 */
-	public function drawLine (BSCoordinate $start, BSCoordinate $end, BSColor $color) {
-		imageline(
-			$this->getGDHandle(),
-			$start->getX(), $start->getY(),
-			$end->getX(), $end->getY(),
+			$this->getOrigin()->getX(),
+			$this->getOrigin()->getY(),
 			$this->getColorID($color)
 		);
 	}

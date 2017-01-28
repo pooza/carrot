@@ -18,7 +18,7 @@ class BSImagickImage extends BSImage {
 	 */
 	public function __construct ($width = self::DEFAULT_WIDTH, $height = self::DEFAULT_HEIGHT) {
 		if (!extension_loaded('imagick')) {
-			throw new BSCryptException('imagickモジュールがロードされていません。');
+			throw new BSImageException('imagickモジュールがロードされていません。');
 		}
 		$this->width = BSNumeric::round($width);
 		$this->height = BSNumeric::round($height);
@@ -130,48 +130,10 @@ class BSImagickImage extends BSImage {
 	 * 塗りつぶす
 	 *
 	 * @access public
-	 * @param BSCoordinate $coord 始点の座標
 	 * @param BSColor $color 色
 	 */
-	public function fill (BSCoordinate $coord, BSColor $color) {
-		throw new BSImageException('BSImagickImage::fillは未実装です。');
-	}
-
-	/**
-	 * 文字を書く
-	 *
-	 * @access public
-	 * @param string 文字
-	 * @param BSCoordinate $coord 最初の文字の左下の座標
-	 * @param BSColor $color 色
-	 */
-	public function drawText ($text, BSCoordinate $coord, BSColor $color = null) {
-		throw new BSImageException('BSImagickImage::drawTextは未実装です。');
-	}
-
-	/**
-	 * 多角形を描く
-	 *
-	 * @access public
-	 * @param BSArray $coords 座標の配列
-	 * @param BSColor $color 描画色
-	 * @param integer $flags フラグのビット列
-	 *   self::FILLED 塗りつぶす
-	 */
-	public function drawPolygon (BSArray $coords, BSColor $color, $flags = null) {
-		throw new BSImageException('BSImagickImage::drawPolygonは未実装です。');
-	}
-
-	/**
-	 * 線を引く
-	 *
-	 * @access public
-	 * @param BSCoordinate $start 始点
-	 * @param BSCoordinate $end 終点
-	 * @param BSColor $color 描画色
-	 */
-	public function drawLine (BSCoordinate $start, BSCoordinate $end, BSColor $color) {
-		throw new BSImageException('BSImagickImage::drawLineは未実装です。');
+	public function fill (BSColor $color) {
+		$this->imagick->setImageBackgroundColor($color->getContents());
 	}
 
 	/**
@@ -207,7 +169,7 @@ class BSImagickImage extends BSImage {
 	 */
 	public function validate () {
 		if (BSString::isBlank($this->getContents())) {
-			$this->error = 'GD画像リソースが正しくありません。';
+			$this->error = 'imagick画像リソースが正しくありません。';
 			return false;
 		}
 		return true;
