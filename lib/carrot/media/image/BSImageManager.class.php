@@ -466,7 +466,7 @@ class BSImageManager {
 
 		$finder = new BSRecordFinder($params);
 		if (!($container = $finder->execute()) && ($class = $params['class'])) {
-			if ($class instanceof BSRecord) {
+			if (is_subclass_of($class, 'BSRecord')) {
 				$container = BSTableHandler::create($class)->getRecord($params['id']);
 			} else {
 				$container = new $class($params['id']);
