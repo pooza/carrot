@@ -123,7 +123,7 @@ class BSImagickImage extends BSImage {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return (string)$this->imagick;
+		return (string)$this->getImagick();
 	}
 
 	/**
@@ -133,7 +133,7 @@ class BSImagickImage extends BSImage {
 	 * @param BSColor $color 色
 	 */
 	public function fill (BSColor $color) {
-		$this->imagick->setImageBackgroundColor($color->getContents());
+		$this->getImagick()->setImageBackgroundColor($color->getContents());
 	}
 
 	/**
