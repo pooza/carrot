@@ -9,8 +9,8 @@ path = File.expand_path(__FILE__)
 while (File.ftype(path) == 'link')
   path = File.expand_path(File.readlink(path))
 end
-ROOT_DIR = File.dirname(File.dirname(path))
-$LOAD_PATH.push(ROOT_DIR + '/lib/ruby')
+ROOT_DIR = File.expand_path('../..', path)
+$LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
 require 'carrot/batch_action'
 require 'carrot/environment'

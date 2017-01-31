@@ -3,7 +3,7 @@
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-ROOT_DIR = File.dirname(File.expand_path(__FILE__))
+ROOT_DIR = File.expand_path('..', __FILE__)
 $LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
 require 'carrot/constants'
