@@ -122,6 +122,9 @@ class BSNumeric {
 	 * @static
 	 */
 	static public function getRandom ($from = 1000000, $to = 9999999) {
+		if (extension_loaded('openssl')) {
+	 		mt_srand(hexdec(bin2hex(openssl_random_pseudo_bytes(4))));
+		}
 		return mt_rand($from, $to);
 	}
 }
