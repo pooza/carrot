@@ -19,9 +19,9 @@ module Carrot
 
     def install
       raise "invalid scheme: #{@scheme}" unless installable?
-      sh "sudo rm #{@db}" if File.exist?(@db)
-      sh "sqlite3 #{@db} < #{schema_file}"
-      sh "chmod 666 #{@db}"
+      system('sudo', 'rm', @db) if File.exist?(@db)
+      system("sqlite3 #{@db} < #{schema_file}")
+      system('chmod', '666', @db)
     end
 
     private
