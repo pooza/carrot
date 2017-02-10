@@ -112,7 +112,15 @@ class BSUser extends BSParameterHolder {
 			if (BSString::isBlank($domain)) {
 				$domain = BSController::getInstance()->getHost()->getName();
 			}
-			setcookie((string)$name, $value, $expire->getTimestamp(), '/', $domain, false, true);
+			setcookie(
+				(string)$name,
+				$value,
+				$expire->getTimestamp(),
+				'/',
+				$domain,
+				BSRequest::getInstance()->isSSL(), //セキュア属性
+				true //httponly
+			);
 		}
 	}
 

@@ -16,7 +16,6 @@ desc 'インストールを実行'
 task :install => [
   'var:init',
   'environment:init',
-  'rsyslog:init',
   'local:init',
 ]
 
