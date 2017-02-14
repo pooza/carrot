@@ -11,7 +11,7 @@ module Carrot
       @name = name
       @dsn = Carrot::Constants.new["BS_PDO_#{name}_DSN"]
       dsn = @dsn.split(':')
-      @scheme = dsn[0]
+      @scheme = dsn.first
       @db = dsn[1].sub('%BS_VAR_DIR%', File.join(ROOT_DIR, 'var'))
     end
 

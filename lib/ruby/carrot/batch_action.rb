@@ -11,18 +11,18 @@ module Carrot
 
     def register (m, a)
       self.push({
-        :m => m,
-        :a => a,
+        m: m,
+        a: a,
       })
     end
 
     def execute
       self.each do |action|
         cmd = [
-          "#{Carrot::Constants.new['BS_SUDO_DIR']}/bin/sudo",
+          File.join(Carrot::Constants.new['BS_SUDO_DIR'], 'bin/sudo'),
           '-u',
           Carrot::Constants.new['BS_APP_PROCESS_UID'],
-          File.join(Carrot::Constants.new['BS_PHP_DIR'], '/bin/php'),
+          File.join(Carrot::Constants.new['BS_PHP_DIR'], 'bin/php'),
           File.join(ROOT_DIR, 'bin/carrotctl.php')
         ]
         action.each do |key, value|
