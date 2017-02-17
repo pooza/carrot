@@ -334,6 +334,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			$contents = gzencode($contents, 9);
 		}
 		file_put_contents($this->getPath(), $contents, LOCK_EX);
+		$this->size = null;
 	}
 
 	/**
