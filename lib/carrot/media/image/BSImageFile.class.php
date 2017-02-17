@@ -12,14 +12,16 @@
 class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable {
 	protected $renderer;
 	protected $rendererClass;
-	const DEFAULT_RENDERER_CLASS = 'BSImage';
 
 	/**
 	 * @access public
 	 * @param string $path パス
 	 * @param string $class レンダラーのクラス名
 	 */
-	public function __construct ($path, $class = self::DEFAULT_RENDERER_CLASS) {
+	public function __construct ($path, $class = null) {
+		if (!$class) {
+			$class = BSImage::getDefaultRendererClass();
+		}
 		$this->setPath($path);
 		$this->attributes = new BSArray;
 		$this->rendererClass = $class;
@@ -80,26 +82,21 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 			if (!$this->isExists() || !$this->getSize()) {
 				throw new BSImageException($this . 'の形式が不明です。');
 			}
-			$info = getimagesize($this->getPath());
-
-			if ($this->rendererClass != 'BSImagickImage') {
-				foreach (['jpeg', 'gif', 'png'] as $suffix) {
-					if ($info['mime'] == BSMIMEType::getType($suffix)) {
-						$class = BSLoader::getInstance()->getClass($this->rendererClass);
-						$this->renderer = new $class($info[0], $info[1]);
-						$this->renderer->setType($info['mime']);
-						$function = 'imagecreatefrom' . $suffix;
-						$this->renderer->setImage($function($this->getPath()));
-						return $this->renderer;
-					}
-				}
+			$this->renderer = new $this->rendererClass;
+			switch ($this->rendererClass) {
+				case 'BSGmagickImage':
+					$this->renderer->setGmagick(new Gmagick($this->getPath()));
+					break;
+				case 'BSImagickImage':
+					$this->renderer->setImagick(new Imagick($this->getPath()));
+					break;
+				case 'BSImagemagick7Image':
+				case 'BSImage':
+					$this->renderer->setImage($this->getContents());
+					break;
+				default:
+					throw new BSImageException($this . 'の形式が不明です。');
 			}
-			if (extension_loaded('imagick')) {
-				$this->renderer = new BSImagickImage;
-				$this->renderer->setImagick(new Imagick($this->getPath()));
-				return $this->renderer;
-			}
-			throw new BSImageException($this . 'の形式が不明です。');
 		}
 		return $this->renderer;
 	}
@@ -163,10 +160,9 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 		$this->setContents($this->getRenderer()->getContents());
 
 		if (!BS_IMAGE_STORABLE) {
-			$dir = BSFileUtility::getDirectory('image_magick');
-			if ($dir->getEntry('bin/mogrify')) {
-				$command = new BSCommandLine('bin/mogrify');
-				$command->setDirectory($dir);
+			$command = new BSCommandLine('bin/mogrify');
+			$command->setDirectory(BSFileUtility::getDirectory('image_magick'));
+			if ($command->isExists()) {
 				$command->addValue('-comment', true);
 				$command->addValue('kddi_copyright=on,copy="NO"');
 				$command->addValue($this->getPath());

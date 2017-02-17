@@ -5,51 +5,51 @@
  */
 
 /**
- * ImageMagick画像レンダラー
+ * GraphicsMagick画像レンダラー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSImagickImage extends BSImage {
-	protected $imagick;
+class BSGmagickImage extends BSImage {
+	protected $gmagick;
 
 	/**
 	 * @access public
 	 */
 	public function __construct () {
-		if (!extension_loaded('imagick')) {
-			throw new BSImageException('imagickモジュールがロードされていません。');
+		if (!extension_loaded('gmagick')) {
+			throw new BSImageException('gmagickモジュールがロードされていません。');
 		}
 	}
 
 	/**
-	 * Imagickオブジェクトを返す
+	 * Gmagickオブジェクトを返す
 	 *
 	 * @access public
-	 * @return Imagick
+	 * @return Gmagick
 	 */
-	public function getImagick () {
-		if (!$this->imagick) {
-			$this->imagick = new Imagick;
-			$this->imagick->newImage(
+	public function getGmagick () {
+		if (!$this->gmagick) {
+			$this->gmagick = new Gmagick;
+			$this->gmagick->newImage(
 				self::DEFAULT_WIDTH,
 				self::DEFAULT_HEIGHT,
-				new ImagickPixel($this->getBackgroundColor()->getContents())
+				$this->getBackgroundColor()->getContents()
 			);
-			$this->imagick->setImageFormat(
+			$this->gmagick->setImageFormat(
 				BSMIMEUtility::getSubType(BS_IMAGE_THUMBNAIL_TYPE)
 			);
 		}
-		return $this->imagick;
+		return $this->gmagick;
 	}
 
 	/**
-	 * Imagickオブジェクトを設定
+	 * Gmagickオブジェクトを設定
 	 *
 	 * @access public
-	 * @param Imagick $imagick
+	 * @param Gmagick $gmagick
 	 */
-	public function setImagick (Imagick $imagick) {
-		$this->imagick = $imagick;
+	public function setGmagick (Gmagick $gmagick) {
+		$this->gmagick = $gmagick;
 	}
 
 	/**
@@ -73,10 +73,10 @@ class BSImagickImage extends BSImage {
 	 */
 	public function setImage ($image) {
 		if ($image instanceof BSImageRenderer) {
-			$this->setImagick($image->getImagick());
+			$this->setGmagick($image->getGmagick());
 			return;
 		} else if ($image instanceof BSImageFile) {
-			$this->setImagick($image->getRenderer()->getImagick());
+			$this->setGmagick($image->getRenderer()->getGmagick());
 			return;
 		}
 		return parent::setImage($image);
@@ -89,11 +89,7 @@ class BSImagickImage extends BSImage {
 	 * @return string メディアタイプ
 	 */
 	public function getType () {
-		switch ($type = $this->getImagick()->getImageMimeType()) {
-			case 'image/x-ico':
-				return BSMIMEType::getType('ico');
-		}
-		return $type;
+		return BSMIMEType::getType($this->getGmagick()->getImageFormat());
 	}
 
 	/**
@@ -108,7 +104,7 @@ class BSImagickImage extends BSImage {
 			$message[] = $type;
 			throw new BSImageException($message);
 		}
-		$this->getImagick()->setImageFormat(ltrim($suffix, '.'));
+		$this->getGmagick()->setImageFormat(ltrim($suffix, '.'));
 	}
 
 	/**
@@ -118,7 +114,7 @@ class BSImagickImage extends BSImage {
 	 * @return integer 幅
 	 */
 	public function getWidth () {
-		return $this->getImagick()->getImageWidth();
+		return $this->getGmagick()->getImageWidth();
 	}
 
 	/**
@@ -128,7 +124,7 @@ class BSImagickImage extends BSImage {
 	 * @return integer 高さ
 	 */
 	public function getHeight () {
-		return $this->getImagick()->getImageHeight();
+		return $this->getGmagick()->getImageHeight();
 	}
 
 	/**
@@ -138,7 +134,14 @@ class BSImagickImage extends BSImage {
 	 * @return string 送信内容
 	 */
 	public function getContents () {
-		return (string)$this->getImagick();
+		$file = BSFileUtility::createTemporaryFile(self::getSuffixes()[$this->getType()]);
+		$this->getGmagick()->writeImage($file->getPath());
+		ob_start();
+		print $file->getContents();
+		$contents = ob_get_contents();
+		ob_end_clean();
+		$file->delete();
+		return $contents;
 	}
 
 	/**
@@ -149,12 +152,12 @@ class BSImagickImage extends BSImage {
 	 * @param integer $height 高さ
 	 */
 	public function resize ($width, $height) {
-		$dest = new BSImagickImage;
-		$dest->setImagick(new Imagick);
-		$dest->getImagick()->newImage(
+		$dest = new BSGmagickImage;
+		$dest->setGmagick(new Gmagick);
+		$dest->getGmagick()->newImage(
 			BSNumeric::round($width),
 			BSNumeric::round($height),
-			new ImagickPixel($this->getBackgroundColor()->getContents())
+			$this->getBackgroundColor()->getContents()
 		);
 		$dest->setType($this->getType());
 		if ($this->getAspect() < $dest->getAspect()) {
@@ -167,14 +170,14 @@ class BSImagickImage extends BSImage {
 			$coord = $dest->getCoordinate(0, $y);
 		}
 
-		$resized = clone $this->getImagick();
+		$resized = clone $this->getGmagick();
 		$resized->thumbnailImage(BSNumeric::round($width), BSNumeric::round($height), false);
-		$dest->getImagick()->compositeImage(
+		$dest->getGmagick()->compositeImage(
 			$resized,
-			Imagick::COMPOSITE_DEFAULT,
+			Gmagick::COMPOSITE_DEFAULT,
 			$coord->getX(), $coord->getY()
 		);
-		$this->setImagick($dest->getImagick());
+		$this->setGmagick($dest->getGmagick());
 	}
 
 	/**
@@ -185,7 +188,7 @@ class BSImagickImage extends BSImage {
 	 */
 	public function validate () {
 		if (BSString::isBlank($this->getContents())) {
-			$this->error = 'Imagick画像リソースが正しくありません。';
+			$this->error = 'Gmagick画像リソースが正しくありません。';
 			return false;
 		}
 		return true;

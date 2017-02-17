@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.32
+  ver: 2.6.33
 
 admin:
   email:
@@ -103,6 +103,7 @@ flash:
     href: /carrotlib/swf/expressInstall.swf
 image:
   storable: yes
+  default_renderer_class: BSImage
   mobile:
     size:
       qvga:

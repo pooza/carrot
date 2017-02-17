@@ -241,7 +241,7 @@ class BSImageManager {
 			$file = $dir->createEntry($name, 'BSImageFile');
 			$file->setMode(0666);
 		}
-		$file->setEngine($this->convert($record, $pixel, $contents, $flags));
+		$file->setRenderer($this->convert($record, $pixel, $contents, $flags));
 		$file->save();
 		return $file->getRenderer();
 	}
@@ -366,10 +366,12 @@ class BSImageManager {
 	 *   self::HEIGHT_FIXED 高さ固定
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 *   self::FORCE_GIF gif形式を強制
-	 * @param BSImage サムネイル
+	 * @param string $class レンダラーのクラス
+	 * @return BSImage サムネイル
 	 */
 	protected function convert (BSImageContainer $record, $pixel, $contents, $flags = null) {
-		$image = new BSImage;
+		$class = BSImage::getDefaultRendererClass();
+		$image = new $class;
 		$image->setBackgroundColor($this->getBackgroundColor());
 		$image->setImage($contents);
 		$flags |= $this->flags;
