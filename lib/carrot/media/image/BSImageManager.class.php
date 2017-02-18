@@ -90,7 +90,7 @@ class BSImageManager {
 	 * @return integer 規定の最大幅
 	 */
 	public function getDefaultWidth () {
-		return $this->getUserAgent()->getDisplayInfo()->getParameter('width');
+		return $this->getUserAgent()->getDisplayInfo()['width'];
 	}
 
 	/**

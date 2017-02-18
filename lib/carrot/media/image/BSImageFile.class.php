@@ -43,7 +43,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param string $name 新しい名前
 	 */
 	public function rename ($name) {
-		$name .= BSImage::getSuffixes()->getParameter($this->getEngine()->getType());
+		$name .= BSImage::getSuffixes()[$this->getEngine()->getType()];
 		parent::rename($name);
 	}
 
@@ -213,8 +213,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
-		$images = new BSImageManager;
-		return $images->getImageInfo($this, $size, $pixel, $flags);
+		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 
 	/**

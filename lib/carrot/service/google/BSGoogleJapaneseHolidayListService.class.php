@@ -111,7 +111,7 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 	 * @return mixed 要素
 	 */
 	public function offsetGet ($key) {
-		return $this->getHolidays()->getParameter($key);
+		return $this->getHolidays()[$key];
 	}
 
 	/**

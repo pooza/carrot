@@ -46,7 +46,7 @@ class BSSoftBankMobileCarrier extends BSMobileCarrier {
 	 * @return BSArray GPS情報
 	 */
 	public function getGPSInfo () {
-		$pos = BSRequest::getInstance()->getParameter('pos');
+		$pos = BSRequest::getInstance()['pos'];
 		if (mb_ereg('(N|S)([.[:digit:]]+)(E|W)([.[:digit:]]+)', $pos, $matches)) {
 			if ($matches[1] == 'S') {
 				$matches[2] *= -1;

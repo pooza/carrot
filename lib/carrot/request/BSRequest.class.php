@@ -66,7 +66,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @return mixed 属性
 	 */
 	public function getAttribute ($name) {
-		return $this->getAttributes()->getParameter($name);
+		return $this->getAttributes()[$name];
 	}
 
 	/**

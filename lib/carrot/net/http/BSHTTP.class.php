@@ -175,7 +175,7 @@ class BSHTTP extends BSSocket {
 	 * @static
 	 */
 	static public function getStatus ($code) {
-		if ($status = self::getAllStatus()->getParameter($code)) {
+		if ($status = self::getAllStatus()[$code]) {
 			return $code . ' ' . $status['status'];
 		}
 

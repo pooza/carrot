@@ -73,7 +73,7 @@ class BSWebRequest extends BSRequest {
 	public function getVersion () {
 		if (!$this->version) {
 			$version = $this->controller->getAttribute('SERVER_PROTOCOL');
-			$this->version = BSString::explode('/', $version)->getParameter(1);
+			$this->version = BSString::explode('/', $version)[1];
 		}
 		return $this->version;
 	}

@@ -35,9 +35,7 @@ class BSGmagickImage extends BSImage {
 				self::DEFAULT_HEIGHT,
 				$this->getBackgroundColor()->getContents()
 			);
-			$this->gmagick->setImageFormat(
-				BSMIMEUtility::getSubType(BS_IMAGE_THUMBNAIL_TYPE)
-			);
+			$this->setType(BS_IMAGE_THUMBNAIL_TYPE);
 		}
 		return $this->gmagick;
 	}
@@ -72,11 +70,14 @@ class BSGmagickImage extends BSImage {
 	 * @param mixed $image GD画像リソース等
 	 */
 	public function setImage ($image) {
+		$renderer = null;
 		if ($image instanceof BSImageRenderer) {
-			$this->setGmagick($image->getGmagick());
-			return;
+			$renderer = $image;
 		} else if ($image instanceof BSImageFile) {
-			$this->setGmagick($image->getRenderer()->getGmagick());
+			$renderer = $image->getRenderer();
+		}
+		if ($renderer && ($renderer instanceof self)) {
+			$this->setGmagick($renderer->getGmagick());
 			return;
 		}
 		return parent::setImage($image);
@@ -125,6 +126,16 @@ class BSGmagickImage extends BSImage {
 	 */
 	public function getHeight () {
 		return $this->getGmagick()->getImageHeight();
+	}
+
+	/**
+	 * 塗る
+	 *
+	 * @access public
+	 * @param BSColor $color 塗る色
+	 */
+	public function fill (BSColor $color) {
+		throw new BSImageException(__CLASS__ . '::' . __METHOD__ . 'は未実装です。');
 	}
 
 	/**

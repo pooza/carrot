@@ -35,7 +35,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		$this->name = $name;
 		$this->documents = new BSArray;
 
-		if (($entry = $this->getEntries()->getParameter($name)) && ($files = $entry['files'])) {
+		if (($entry = $this->getEntries()[$name]) && ($files = $entry['files'])) {
 			foreach ($files as $file) {
 				$this->register($file);
 			}

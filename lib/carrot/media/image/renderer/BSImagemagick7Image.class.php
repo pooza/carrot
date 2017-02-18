@@ -41,12 +41,12 @@ class BSImagemagick7Image extends BSImage {
 	 */
 	public function resize ($width, $height) {
 		$suffixes = BSImage::getSuffixes();
-		$srcFile = BSFileUtility::createTemporaryFile($suffixes[$this->getType()]);
-		$srcFile->setContents($this->getContents());
-		$destFile = BSFileUtility::createTemporaryFile($suffixes[BS_IMAGE_THUMBNAIL_TYPE]);
+		$src = BSFileUtility::createTemporaryFile($suffixes[$this->getType()]);
+		$src->setContents($this->getContents());
+		$dest = BSFileUtility::createTemporaryFile($suffixes[BS_IMAGE_THUMBNAIL_TYPE]);
 
 		$command = $this->createCommand();
-		$command->push($srcFile->getPath());
+		$command->push($src->getPath());
 		$command->push('-resize');
 		$command->push($width . 'x' . $height);
 		$command->push('-size');
@@ -56,12 +56,12 @@ class BSImagemagick7Image extends BSImage {
 		$command->push('-gravity');
 		$command->push('center');
 		$command->push('-composite');
-		$command->push($destFile->getPath());
+		$command->push($dest->getPath());
 		$command->execute();
 
-		$this->setImage($destFile->getContents());
-		$srcFile->delete();
-		$destFile->delete();
+		$this->setImage($dest->getContents());
+		$src->delete();
+		$dest->delete();
 	}
 }
 

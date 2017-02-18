@@ -99,7 +99,7 @@ class BSSystemLogger extends BSLogger {
 	public function getEntries (BSDate $date) {
 		if (!$this->entries) {
 			$this->entries = new BSArray;
-			if ($month = $this->getDates()->getParameter($date->format('Y-m'))) {
+			if ($month = $this->getDates()[$date->format('Y-m')]) {
 				if ($month->hasParameter($name = $date->format('Y-m-d'))) {
 					$file = $this->getDirectory()->getEntry($name);
 					$this->entries->setParameters($file->getEntries());

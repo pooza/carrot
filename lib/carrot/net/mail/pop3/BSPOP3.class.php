@@ -97,7 +97,7 @@ class BSPOP3 extends BSSocket {
 	 * @return BSPOP3Mail メール
 	 */
 	public function getMail ($id) {
-		return $this->getMails()->getParameter($id);
+		return $this->getMails()[$id];
 	}
 
 	/**

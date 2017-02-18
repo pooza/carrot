@@ -30,7 +30,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	public function getHeader ($name) {
 		$header = BSMIMEHeader::create($name);
 		$name = BSString::toLower($header->getName());
-		return $this->getHeaders()->getParameter($name);
+		return $this->getHeaders()[$name];
 	}
 
 	/**
@@ -373,7 +373,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 * マルチパートメールの場合は配列
 	 *
 	 * @access public
-	 * @return mixed 
+	 * @return mixed
 	 */
 	public function getEntities () {
 		if ($this->isMultiPart()) {

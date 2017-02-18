@@ -28,12 +28,7 @@ class BSImage implements BSImageRenderer {
 	public function getGDHandle () {
 		if (!$this->gd) {
 			$this->gd = imagecreatetruecolor(self::DEFAULT_WIDTH, self::DEFAULT_HEIGHT);
-			imagefill(
-				$this->gd,
-				$this->getOrigin()->getX(),
-				$this->getOrigin()->getY(),
-				$this->getColorID($this->getBackgroundColor())
-			);
+			$this->fill($this->getBackgroundColor());
 		}
 		return $this->gd;
 	}
@@ -146,13 +141,28 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 色IDを生成して返す
+	 * 塗る
 	 *
 	 * @access public
+	 * @param BSColor $color 塗る色
+	 */
+	public function fill (BSColor $color) {
+		imagefill(
+			$this->getGDHandle(),
+			$this->getOrigin()->getX(),
+			$this->getOrigin()->getY(),
+			$this->getColorID($color)
+		);
+	}
+
+	/**
+	 * 色IDを生成して返す
+	 *
+	 * @access protected
 	 * @param BSColor $color 色
 	 * @return integer 色ID
 	 */
-	public function getColorID (BSColor $color) {
+	protected function getColorID (BSColor $color) {
 		return imagecolorallocatealpha(
 			$this->getGDHandle(),
 			$color['red'],
@@ -237,12 +247,7 @@ class BSImage implements BSImageRenderer {
 			BSNumeric::round($width),
 			BSNumeric::round($height)
 		));
-		imagefill(
-			$dest->getGDHandle(),
-			$dest->getOrigin()->getX(),
-			$dest->getOrigin()->getY(),
-			$dest->getColorID($this->getBackgroundColor())
-		);
+		$dest->fill($this->getBackgroundColor());
 
 		if ($this->getAspect() < $dest->getAspect()) {
 			$width = ceil($dest->getHeight() * $this->getAspect());

@@ -33,11 +33,9 @@ class BSImagickImage extends BSImage {
 			$this->imagick->newImage(
 				self::DEFAULT_WIDTH,
 				self::DEFAULT_HEIGHT,
-				new ImagickPixel($this->getBackgroundColor()->getContents())
+				$this->getBackgroundColor()->getContents()
 			);
-			$this->imagick->setImageFormat(
-				BSMIMEUtility::getSubType(BS_IMAGE_THUMBNAIL_TYPE)
-			);
+			$this->setType(BS_IMAGE_THUMBNAIL_TYPE);
 		}
 		return $this->imagick;
 	}
@@ -72,11 +70,14 @@ class BSImagickImage extends BSImage {
 	 * @param mixed $image GD画像リソース等
 	 */
 	public function setImage ($image) {
+		$renderer = null;
 		if ($image instanceof BSImageRenderer) {
-			$this->setImagick($image->getImagick());
-			return;
+			$renderer = $image;
 		} else if ($image instanceof BSImageFile) {
-			$this->setImagick($image->getRenderer()->getImagick());
+			$renderer = $image->getRenderer();
+		}
+		if ($renderer && ($renderer instanceof self)) {
+			$this->setImagick($renderer->getImagick());
 			return;
 		}
 		return parent::setImage($image);
@@ -132,6 +133,26 @@ class BSImagickImage extends BSImage {
 	}
 
 	/**
+	 * 塗る
+	 *
+	 * @access public
+	 * @param BSColor $color 塗る色
+	 */
+	public function fill (BSColor $color) {
+		$this->getImagick()->floodFillPaintImage(
+			$color->getContents(),
+			0,
+			$this->getImagick()->getImagePixelColor(
+				$this->getOrigin()->getX(),
+				$this->getOrigin()->getY()
+			),
+			$this->getOrigin()->getX(),
+			$this->getOrigin()->getY(),
+			false
+		);
+	}
+
+	/**
 	 * 送信内容を返す
 	 *
 	 * @access public
@@ -154,7 +175,7 @@ class BSImagickImage extends BSImage {
 		$dest->getImagick()->newImage(
 			BSNumeric::round($width),
 			BSNumeric::round($height),
-			new ImagickPixel($this->getBackgroundColor()->getContents())
+			$this->getBackgroundColor()->getContents()
 		);
 		$dest->setType($this->getType());
 		if ($this->getAspect() < $dest->getAspect()) {
