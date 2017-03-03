@@ -210,12 +210,10 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	public function update () {
 		$cache = $this->getCacheFile();
 		if (BSString::isBlank($cache->getContents()) && !!$this->documents->count()) {
-			$cache->getDirectory()->purge(BSDate::create());
+			$cache->getDirectory()->purge(BSDate::getNow());
 			$contents = new BSArray;
 			foreach ($this as $file) {
-				if ($file->getSerialized() === null) {
-					$file->serialize();
-				}
+				$file->serialize();
 				$contents[] = $file->getSerialized();
 			}
 			$cache->setContents($contents->join("\n"));
