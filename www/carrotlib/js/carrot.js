@@ -80,17 +80,23 @@ var CarrotLib = {
       element.parentNode.appendChild(cover);
     }
 
-    $$('img').each (function (element) {
-      disableEvent(element, 'contextmenu');
-      disableEvent(element, 'selectstart');
-      disableEvent(element, 'mousedown');
-      element.unselectable = 'on';
-      element.galleryimg = 'no';
-      if (Prototype.Browser.MobileSafari) {
-        cover(element);
-      } else if (element.parentNode.tagName != 'A') {
-        disableEvent(element, 'touchstart');
-      }
+    ['img', 'area', 'video', 'audio'].each (function (tag) {
+      $$(tag).each (function (element) {
+        disableEvent(element, 'contextmenu');
+        disableEvent(element, 'selectstart');
+        disableEvent(element, 'mousedown');
+        element.unselectable = 'on';
+        element.galleryimg = 'no';
+        if (element.parentNode.tagName.toLowerCase() != 'a') {
+          if (navigator.userAgent.match(/i(Phone|Pad|Pod)/)) {
+            if (!element.getAttribute('usemap')) {
+              cover(element);
+            }
+          } else {
+            disableEvent(element, 'touchstart');
+          }
+        }
+      });
     });
   },
 
