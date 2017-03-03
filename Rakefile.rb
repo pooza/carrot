@@ -109,14 +109,14 @@ namespace :var do
   namespace :css do
     desc 'cssキャッシュをクリア'
     task :clean do
-      sh 'sudo rm var/css_cache/*'
+      sh 'sudo rm -R var/css_cache/*'
     end
   end
 
   namespace :js do
     desc 'jsキャッシュをクリア'
     task :clean do
-      sh 'sudo rm var/js_cache/*'
+      sh 'sudo rm -R var/js_cache/*'
     end
   end
 
