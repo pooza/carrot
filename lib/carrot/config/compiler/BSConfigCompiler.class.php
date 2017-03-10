@@ -119,7 +119,7 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 				case 'false':
 					return 'false';
 				default:
-					if (is_numeric($value)) {
+					if (is_numeric($value) && !mb_ereg('^0', $value)) {
 						return $value;
 					} else {
 						$value = str_replace("\\", "\\\\", $value);
