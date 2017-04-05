@@ -23,14 +23,6 @@ var CarrotLib = {
     }
   },
 
-  openPictogramPallet: function (id) {
-    window.open(
-      '/AdminUtility/Pictogram?field=' + id,
-      'pictogram',
-      'width=240,height=300,scrollbars=yes'
-    );
-  },
-
   putSmartTag: function (tag, field, name, params) {
     var tag = '[[' + tag;
     if (name) {
