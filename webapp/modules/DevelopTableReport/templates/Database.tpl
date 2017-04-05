@@ -15,10 +15,10 @@
 
 <h1>{$action.title}</h1>
 
-{form module=$module.name action='Optimize'}
-  <input type="hidden" name="database" value="{$database.name}">
-  <input type="submit" value="最適化">
-{/form}
+<div>
+  <input id="update_button" type="button" value="テーブル情報更新">
+  <input id="optimize_button" type="button" value="最適化">
+</div>
 
 <h2>基本情報</h2>
 <table class="detail">
@@ -57,6 +57,21 @@
 {/foreach}
 
 </table>
+
+<script>
+document.observe('dom:loaded', function () {ldelim}
+  $('update_button').observe('click', function() {ldelim}
+    CarrotLib.redirect('DevelopTableReport', 'Update', null, {ldelim}
+      'database': '{$database.name}'
+    {rdelim});
+  {rdelim});
+  $('optimize_button').observe('click', function() {ldelim}
+    CarrotLib.redirect('DevelopTableReport', 'Optimize', null, {ldelim}
+      'database': '{$database.name}'
+    {rdelim});
+  {rdelim});
+{rdelim});
+</script>
 
 {include file='AdminFooter'}
 

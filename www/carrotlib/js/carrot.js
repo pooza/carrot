@@ -6,10 +6,13 @@
  */
 
 var CarrotLib = {
-  redirect: function (module, action, id) {
+  redirect: function (module, action, id, query) {
     var url = '/' + module + '/' + action;
     if (id) {
       url += '/' + id;
+    }
+    if (query) {
+      url += '?' + $H(query).toQueryString();
     }
     window.location.href = url;
   },
@@ -172,7 +175,3 @@ if (!Array.prototype.contains) {
     return false;
   }
 }
-
-document.observe('dom:loaded', function () {
-  //alert('追加分の処理');
-});
