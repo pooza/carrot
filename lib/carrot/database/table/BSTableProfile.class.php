@@ -143,11 +143,10 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @access public
 	 */
 	public function serialize () {
-		$values = [
+		BSController::getInstance()->setAttribute($this, [
 			'fields' => $this->getFields(),
 			'constraints' => $this->getConstraints(),
-		];
-		BSController::getInstance()->setAttribute($this, $values);
+		]);
 	}
 
 	/**
