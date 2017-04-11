@@ -10,12 +10,9 @@ module Carrot
   class Constants
     def initialize
       @constants = {}
-      ['carrot', 'package', 'application', Carrot::Environment.name].each do |name|
-        begin
-          path = File.join(ROOT_DIR, "webapp/config/constant/#{name}.yaml")
-          @constants.update(flatten('BS', YAML.load_file(path), '_'))
-        rescue
-        end
+      ['carrot', 'application', Carrot::Environment.name].each do |name|
+        path = File.join(ROOT_DIR, 'webapp/config/constant', "#{name}.yaml")
+        @constants.update(flatten('BS', YAML.load_file(path), '_'))
       end
     end
 
@@ -29,6 +26,7 @@ module Carrot
       end
     end
 
+    private
     def flatten (prefix, node, glue)
       contents = {}
       if node.instance_of?(Hash)
