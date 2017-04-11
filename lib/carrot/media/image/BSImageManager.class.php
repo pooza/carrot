@@ -233,13 +233,12 @@ class BSImageManager {
 	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
 		$flags |= $this->flags;
 		$dir = $this->getEntryDirectory($record, $size);
-		$name = $this->createFileName($record, $pixel, $flags);
+		$name = $this->createFileName($record->getImageFile($size), $pixel, $flags);
 		if ($flags & self::FORCE_GIF) {
 			$dir->setDefaultSuffix('.gif');
 		}
 		if (!$file = $dir->getEntry($name, 'BSImageFile')) {
 			$file = $dir->createEntry($name, 'BSImageFile');
-			$file->setMode(0666);
 		}
 		$file->setRenderer($this->convert($record, $pixel, $contents, $flags));
 		$file->save();
@@ -313,7 +312,7 @@ class BSImageManager {
 
 		$flags |= $this->flags;
 		$dir = $this->getEntryDirectory($record, $size);
-		$name = $this->createFileName($record, $pixel, $flags);
+		$name = $this->createFileName($record->getImageFile($size), $pixel, $flags);
 		if ($flags & self::FORCE_GIF) {
 			$name .= '.gif';
 		}
@@ -328,7 +327,7 @@ class BSImageManager {
 	 * サムネイルファイルのファイル名を返す
 	 *
 	 * @access protected
-	 * @param BSImageContainer $record 対象レコード
+	 * @param BSImageFile $file 対象ファイル
 	 * @param integer $pixel ピクセル数
 	 * @param integer $flags フラグのビット列
 	 *   self::WIDTH_FIXED 幅固定
@@ -336,22 +335,25 @@ class BSImageManager {
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
-	protected function createFileName (BSImageContainer $record, $pixel, $flags = null) {
+	protected function createFileName (BSImageFile $file, $pixel, $flags = null) {
+		$values = new BSArray([
+			'id' => $file->getID(),
+			'pixel' => $pixel,
+		]);
 		$flags |= $this->flags;
-		$prefix = '';
 		if (!$pixel) {
 			if ($width = $this->getDefaultWidth()) {
-				$prefix = 'w';
-				$pixel = $width;
+				$values['prefix'] = 'w';
+				$values['pixel'] = $width;
 			}
 		} else if ($flags & self::WITHOUT_SQUARE) {
-			$prefix = 's';
+			$values['prefix'] = 's';
 		} else if ($flags & self::WIDTH_FIXED) {
-			$prefix = 'w';
+			$values['prefix'] = 'w';
 		} else if ($flags & self::HEIGHT_FIXED) {
-			$prefix = 'h';
+			$values['prefix'] = 'h';
 		}
-		return $prefix . sprintf('%04d', $pixel);
+		return BSCrypt::digest($values);
 	}
 
 	/**
@@ -429,7 +431,6 @@ class BSImageManager {
 		$name = $this->createEntryName($record, $size);
 		if (!$dir = $this->directory->getEntry($name)) {
 			$dir = $this->directory->createDirectory($name);
-			$dir->setMode(0777);
 		}
 		$suffixes = BSImage::getSuffixes();
 		$dir->setDefaultSuffix($suffixes[$this->getType()]);
