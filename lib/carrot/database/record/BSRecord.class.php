@@ -49,7 +49,7 @@ abstract class BSRecord implements ArrayAccess,
 				$this->records[$name] = $table->getRecord($this[$table->getName() . '_id']);
 			}
 			return $this->records[$name];
-		} 
+		}
 
 		$message = new BSStringFormat('仮想メソッド"%s"は未定義です。');
 		$message[] = $method;
@@ -419,9 +419,17 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param BSWebRequest $request リクエスト
 	 */
 	public function setAttachments (BSWebRequest $request) {
+		$dir = $request->getSession()->getDirectory();
 		foreach ($this->getTable()->getImageNames() as $name) {
 			if ($info = $request[$name]) {
 				$this->setImageFile(new BSImageFile($info['tmp_name']), $name);
+			} else {
+				foreach (BSImage::getSuffixes() as $suffix) {
+					if ($file = $dir->getEntry($name . $suffix, 'BSImageFile')) {
+						$this->setImageFile($file, $name);
+						break;
+					}
+				}
 			}
 		}
 		foreach ($this->getTable()->getAttachmentNames() as $name) {
@@ -482,11 +490,11 @@ abstract class BSRecord implements ArrayAccess,
 	public function setImageFile (BSImageFile $file, $size = 'thumbnail') {
 		if ($old = $this->getImageFile($size)) {
 			$old->delete();
+			$this->clearImageCache($size);
 		}
 		$file->setMode(0666);
 		$file->rename($this->getImageFileBaseName($size));
 		$file->moveTo($this->getTable()->getDirectory());
-		$this->clearImageCache($size);
 	}
 
 	/**
