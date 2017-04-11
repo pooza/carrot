@@ -85,6 +85,7 @@ class BSMail extends BSMIMEDocument {
 		if (!$this->file || !$this->file->isExists()) {
 			$this->file = BSFileUtility::createTemporaryFile('.eml');
 			$this->file->setContents($this->getContents());
+			$this->file->setMode(0600);
 		}
 		return $this->file;
 	}
@@ -148,7 +149,7 @@ class BSMail extends BSMIMEDocument {
 
 	/**
 	 * 送信機能を返す
-	 * 
+	 *
 	 * @access public
 	 * @return BSMailSender 送信機能
 	 * @static
