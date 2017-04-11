@@ -11,6 +11,7 @@
  */
 class BSSessionHandler {
 	private $storage;
+	protected $directory;
 
 	/**
 	 * @access public
@@ -114,6 +115,21 @@ class BSSessionHandler {
 		if (isset($_SESSION[$key])) {
 			unset($_SESSION[$key]);
 		}
+	}
+
+	/**
+	 * セッションディレクトリを返す
+	 *
+	 * @access public
+	 * @return BSDirectory セッションディレクトリ
+	 */
+	public function getDirectory () {
+		if (!$this->directory) {
+			if (!$this->directory = BSFileUtility::getDirectory('tmp')->getEntry($this->getID())) {
+				$this->directory = BSFileUtility::getDirectory('tmp')->createDirectory($this->getID());
+			}
+		}
+		return $this->directory;
 	}
 }
 
