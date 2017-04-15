@@ -39,18 +39,14 @@ ActivityIndicator = Class.create({
     this.container.style.marginTop = (-0.5 * this.img.offsetHeight) + 'px';
   },
 
+  hide: function () {
+    this.container.style.display = 'none';
+  },
+
   initialized: true
 });
 
 document.observe('dom:loaded', function () {
-  // IE8未満は対象外
-  var matched;
-  if (matched = navigator.userAgent.match(/MSIE ([0-9]+)/)) {
-    if (parseInt(matched[1]) < 8) {
-      return;
-    }
-  }
-
   var indicator = new ActivityIndicator();
   $$('form').each(function (frm) {
     if (!Element.hasClassName(frm, 'no_indicator')) {
