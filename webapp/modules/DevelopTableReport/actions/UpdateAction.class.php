@@ -18,10 +18,10 @@ class UpdateAction extends BSAction {
 
 	public function execute () {
 		foreach ($this->getDatabase()->getTableNames() as $table) {
-			$table = $this->getDatabase()->getTableProfile($table);
-			$table->serialize();
+			BSController::getInstance()->removeAttribute(
+				$this->getDatabase()->getTableProfile($table)
+			);
 		}
-
 		$url = $this->getModule()->getAction('Database')->createURL();
 		$url->setParameter('database', $this->getDatabase()->getName());
 		return $url->redirect();
