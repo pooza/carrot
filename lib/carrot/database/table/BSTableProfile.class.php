@@ -35,9 +35,8 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 		if (!$this->getSerialized()) {
 			$this->serialize();
 		}
-		$profile = $this->getSerialized();
-		$this->fields = new BSArray($profile['fields']);
-		$this->constraints = new BSArray($profile['constraints']);
+		$this->fields = new BSArray($this->getSerialized()['fields']);
+		$this->constraints = new BSArray($this->getSerialized()['constraints']);
 	}
 
 	/**
