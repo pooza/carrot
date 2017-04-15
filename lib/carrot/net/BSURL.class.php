@@ -165,6 +165,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @return BSURL 自分自身
 	 */
 	public function setAttribute ($name, $value) {
+		$this->contents = null;
 		switch ($name) {
 			case 'scheme':
 				$this->attributes['scheme'] = $value;
@@ -183,7 +184,6 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 				$this->attributes[$name] = $value;
 				break;
 		}
-		$this->contents = null;
 		return $this;
 	}
 

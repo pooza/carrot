@@ -44,6 +44,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @return BSHTTPURL 自分自身
 	 */
 	public function setAttribute ($name, $value) {
+		$this->contents = null;
 		$this->fullpath = null;
 		switch ($name) {
 			case 'path':
