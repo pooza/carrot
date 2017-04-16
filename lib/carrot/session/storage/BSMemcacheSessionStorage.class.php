@@ -21,8 +21,11 @@ class BSMemcacheSessionStorage implements BSSessionStorage {
 		if (!BSMemcacheManager::getInstance()->isEnabled()) {
 			return false;
 		}
+		$path = new BSStringFormat('%s:%s');
+		$path[] = BS_MEMCACHE_DEFAULT_HOST;
+		$path[] = BS_MEMCACHE_DEFAULT_PORT;
 		ini_set('session.save_handler', 'memcached');
-		ini_set('session.save_path', BS_MEMCACHE_HOST . ':' . BS_MEMCACHE_PORT);
+		ini_set('session.save_path', $path->getContents());
 		return true;
 	}
 }

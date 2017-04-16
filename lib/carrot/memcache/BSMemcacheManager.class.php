@@ -12,6 +12,7 @@
 class BSMemcacheManager {
 	use BSSingleton;
 	private $constants;
+	private $serverNames;
 	const CONNECT_INET = 'inet';
 	const CONNECT_UNIX = 'unix';
 
@@ -44,20 +45,43 @@ class BSMemcacheManager {
 	}
 
 	/**
+	 * サーバ名を全て返す
+	 *
+	 * @access public
+	 * @return BSArray サーバ名の配列
+	 */
+	public function getServerNames () {
+		if (!$this->serverNames) {
+			$this->serverNames = new BSArray;
+			$pattern = '^' . BSConstantHandler::PREFIX . '_MEMCACHE_([A-Z]+)_';
+			foreach ($this->constants->getParameters() as $key => $value) {
+				if (mb_ereg($pattern, $key, $matches)) {
+					$this->serverNames[] = BSString::toLower($matches[1]);
+				}
+			}
+			$this->serverNames->uniquize();
+		}
+		return $this->serverNames;
+	}
+
+	/**
 	 * サーバを返す
 	 *
 	 * @access public
-	 * @param string $class クラス名
+	 * @param string $name サーバ名
+	 * @param string $class クラス
 	 * @return BSMemcache サーバ
 	 */
-	public function getServer ($class = null) {
+	public function getServer ($name = 'default', $class = null) {
 		if ($this->isEnabled()) {
 			if ($class) {
 				$server = BSLoader::getInstance()->createObject($class, 'Memcache');
 			} else {
 				$server = new BSMemcache;
 			}
-			if ($server->pconnect($this->getConstant('host'), $this->getConstant('port'))) {
+			$host = $this->getConstant($name . '_host');
+			$port = $this->getConstant($name . '_port');
+			if ($server->pconnect($host, $port)) {
 				return $server;
 			}
 		}

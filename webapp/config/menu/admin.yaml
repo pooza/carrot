@@ -12,6 +12,8 @@
   module: AdminUtility
   action: Restore
 - module: AdminMemcache
+  href: /AdminMemcache/?pane=default_pane
+  target: _self
 - module: DevelopTableReport
 - separator: yes
 - title: ログアウト

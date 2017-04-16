@@ -167,3 +167,44 @@ if (!Array.prototype.contains) {
     return false;
   }
 }
+
+document.observe('dom:loaded', function () {
+  $$('.date_picker').each(function (element) {
+    new InputCalendar(element.id, {
+      lang: 'ja',
+      format: 'yyyy.mm.dd'
+    });
+  });
+  $$('.datetime_picker').each(function (element) {
+    new InputCalendar(element.id, {
+      lang: 'ja',
+      format: 'yyyy.mm.dd HH:MM',
+      enableHourMinute: true
+    });
+  });
+  $$('.color_picker').each(function (element) {
+    new Control.ColorPicker(element.id);
+  });
+});
+
+document.observe('dom:loaded', function () {
+  if ($('tabs')) {
+    var urls = {};
+    $$('.panel').each(function (element) {
+      var href;
+      if (href = element.getAttribute('href')) {
+        urls[element.id] = href;
+      }
+    });
+
+    var pane = 'detail_form_pane';
+    if (CarrotLib.getQueryParameter('pane')) {
+      pane = CarrotLib.getQueryParameter('pane');
+    }
+
+    new ProtoTabs('tabs', {
+      defaultPanel: pane,
+      ajaxUrls: urls
+    });
+  }
+});

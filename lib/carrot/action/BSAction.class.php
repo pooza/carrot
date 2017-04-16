@@ -101,22 +101,6 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	}
 
 	/**
-	 * レンダーリソースを返す
-	 *
-	 * @access public
-	 * @return string レンダーリソース
-	 */
-	public function getRenderResource () {
-		if (!$this->renderResource) {
-			$resource = new BSArray;
-			$resource[] = $this->getModule()->getName();
-			$resource[] = $this->getName();
-			$this->renderResource = $resource->join('_');
-		}
-		return $this->renderResource;
-	}
-
-	/**
 	 * ダイジェストを返す
 	 *
 	 * @access public
@@ -124,7 +108,11 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$this->digest = BSCrypt::digest($this->getName());
+			$this->digest = BSCrypt::digest([
+				$this->controller->getServer()->getName(),
+				$this->getModule()->getName(),
+				$this->getName(),
+			]);
 		}
 		return $this->digest;
 	}

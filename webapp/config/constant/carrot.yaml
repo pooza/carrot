@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.38
+  ver: 2.6.39
 
 admin:
   email:
@@ -153,9 +153,12 @@ logger:
 mail:
   sender: sendmail
 memcache:
-  daemon_name: memcached
-  host: /tmp/memcached.sock
-  port: 0
+  default:
+    host: /tmp/memcached.sock
+    port: 0
+  render:
+    host: /tmp/memcached_render.sock
+    port: 0
 module:
   cache_parameters: yes
   prefixes:

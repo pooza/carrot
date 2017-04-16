@@ -31,6 +31,7 @@ class BSMemcache implements ArrayAccess {
 	 * @access public
 	 * @param mixed $host 接続先ホスト、又はUNIXソケット名
 	 * @param integer $port ポート番号、UNIXソケットの場合は0
+	 * @return 接続の成否
 	 */
 	public function connect ($host, $port) {
 		return $this->pconnect($host, $port);
@@ -42,12 +43,12 @@ class BSMemcache implements ArrayAccess {
 	 * @access public
 	 * @param mixed $host 接続先ホスト、又はUNIXソケット名
 	 * @param integer $port ポート番号、UNIXソケットの場合は0
+	 * @return 接続の成否
 	 */
 	public function pconnect ($host, $port) {
 		if (BSNumeric::isZero($port)) {
 			$this->attributes['socket'] = $host;
 			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_UNIX;
-			$this->attributes['pid'] = $this->getProcessID();
 			$key = $host . ':11211'; //ポート番号は何故か0にならない。PECL::memcachedのバグ。
 		} else {
 			$this->attributes['connection_type'] = BSMemcacheManager::CONNECT_INET;
@@ -60,6 +61,7 @@ class BSMemcache implements ArrayAccess {
 		}
 
 		if (!$this->memcached->addServer($host, $port)) {
+			$this->attributes['error'] = true;
 			return false;
 		}
 		$this->attributes->setParameters($this->memcached->getStats()[$key]);
@@ -107,22 +109,6 @@ class BSMemcache implements ArrayAccess {
 	 */
 	public function getConnectionType () {
 		return $this->getAttribute('connection_type');
-	}
-
-	/**
-	 * プロセスIDを返す
-	 *
-	 * @access public
-	 * @return integer プロセスID
-	 */
-	public function getProcessID () {
-		if ($this->getConnectionType() == BSMemcacheManager::CONNECT_UNIX) {
-			try {
-				return BSProcess::getID($this->getManager()->getConstant('DAEMON_NAME'));
-			} catch (Exception $e) {
-				return null;
-			}
-		}
 	}
 
 	/**
@@ -215,6 +201,16 @@ class BSMemcache implements ArrayAccess {
 	 */
 	public function offsetUnset ($key) {
 		$this->delete($key);
+	}
+
+	/**
+	 * 全て削除
+	 *
+	 * @access public
+	 * @final
+	 */
+	final public function clear () {
+		$this->memcached->flush();
 	}
 }
 

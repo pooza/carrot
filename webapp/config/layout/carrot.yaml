@@ -102,8 +102,6 @@ musics:
   suffix: .mp3
 mysql:
   platform: yes
-output:
-  parent: var
 pictogram:
   parent: images
   suffix: .gif

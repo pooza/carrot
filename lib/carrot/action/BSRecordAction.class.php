@@ -72,25 +72,6 @@ abstract class BSRecordAction extends BSAction {
 	}
 
 	/**
-	 * レンダーリソースを返す
-	 *
-	 * @access public
-	 * @return string レンダーリソース
-	 */
-	public function getRenderResource () {
-		if (!$this->renderResource) {
-			$resource = new BSArray;
-			$resource[] = $this->getModule()->getName();
-			$resource[] = $this->getName();
-			if ($this->getRecord()) {
-				$resource[] = sprintf('%08d', $this->getRecord()->getID());
-			}
-			$this->renderResource = $resource->join('_');
-		}
-		return $this->renderResource;
-	}
-
-	/**
 	 * ダイジェストを返す
 	 *
 	 * @access public
@@ -99,6 +80,8 @@ abstract class BSRecordAction extends BSAction {
 	public function digest () {
 		if (!$this->digest) {
 			$this->digest = BSCrypt::digest([
+				$this->controller->getServer()->getName(),
+				$this->getModule()->getName(),
 				$this->getName(),
 				$this->getRecord()->getID(),
 				$this->getRecord()->getUpdateDate()->getTimestamp(),

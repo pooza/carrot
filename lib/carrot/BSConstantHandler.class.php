@@ -57,8 +57,18 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	 * @return mixed[] 全てのパラメータ
 	 */
 	public function getParameters () {
-		$constants = get_defined_constants(true);
-		return new BSArray($constants['user']);
+		if (BSString::isBlank($this->prefix)) {
+			return BSArray::create(get_defined_constants(true)['user']);
+		} else {
+			$pattern = '^' . self::PREFIX . '_' . $this->prefix;
+			$constants = new BSArray;
+			foreach (get_defined_constants(true)['user'] as $key => $value) {
+				if (mb_ereg($pattern, $key)) {
+					$constants[$key] = $value;
+				}
+			}
+			return $constants;
+		}
 	}
 
 	/**

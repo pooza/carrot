@@ -11,13 +11,13 @@
  */
 class BSRenderManager {
 	use BSSingleton;
-	private $caches;
+	private $memcache;
 
 	/**
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->caches = new BSArray;
+		$this->memcache = BSMemcacheManager::getInstance()->getServer('render');
 	}
 
 	/**
@@ -28,27 +28,20 @@ class BSRenderManager {
 	 * @return BSView キャッシュ
 	 */
 	public function getCache (BSAction $action) {
-		if (!$this->caches[$action->getRenderResource()]) {
-			$this->caches[$action->getRenderResource()] = new BSArray;
-		}
-		if (!$this->caches[$action->getRenderResource()][$action->digest()]) {
-			$dir = $this->getResourceDirectory($action);
-			if ($file = $dir->getEntry($action->digest())) {
-				$serializer = new BSPHPSerializer;
-				$data = $serializer->decode($file->getContents());
-				$view = new BSView($action, 'Success');
-				$view->setRenderer(new BSRawRenderer);
-				$view->getRenderer()->setContents($data['contents']);
-				foreach ($data['headers'] as $key => $value) {
-					$view->setHeader($key, $value);
-				}
-				if ($header = $view->getHeader('content-type')) {
-					$view->getRenderer()->setType($header->getContents());
-				}
-				$this->caches[$action->getRenderResource()][$action->digest()] = $view;
+		if ($data = $this->memcache[$action->digest()]) {
+			$data = (new BSPHPSerializer)->decode($data);
+			$view = new BSView($action, 'Success');
+			$view->setRenderer(new BSRawRenderer);
+			$view->getRenderer()->setContents($data['contents']);
+
+			foreach ($data['headers'] as $key => $value) {
+				$view->setHeader($key, $value);
 			}
+			if ($header = $view->getHeader('content-type')) {
+				$view->getRenderer()->setType($header->getContents());
+			}
+			return $view;
 		}
-		return $this->caches[$action->getRenderResource()][$action->digest()];
 	}
 
 	/**
@@ -58,22 +51,16 @@ class BSRenderManager {
 	 * @param BSHTTPResponse $view キャッシュ対象
 	 */
 	public function cache (BSHTTPResponse $view) {
-		$cache = [
+		$data = [
 			'headers' => [],
-			'contents' => null,
+			'contents' => $view->getRenderer()->getContents(),
 		];
 		foreach ($view->getHeaders() as $header) {
 			if ($header->isVisible() && $header->isCacheable()) {
-				$cache['headers'][$header->getName()] = $header->getContents();
+				$data['headers'][$header->getName()] = $header->getContents();
 			}
 		}
-		$cache['contents'] = $view->getRenderer()->getContents();
-
-		$file = BSFileUtility::createTemporaryFile();
-		$serializer = new BSPHPSerializer;
-		$file->setContents($serializer->encode($cache));
-		$file->moveTo($this->getResourceDirectory($view->getAction()));
-		$file->rename($view->getAction()->digest() . '.serialized');
+		$this->memcache[$view->getAction()->digest()] = (new BSPHPSerializer)->encode($data);
 	}
 
 	/**
@@ -84,20 +71,7 @@ class BSRenderManager {
 	 * @return boolean キャッシュを持っていたらTrue
 	 */
 	public function hasCache (BSAction $action) {
-		if ($this->getResourceDirectory($action)->getEntry($action->digest())) {
-			return !BSString::isBlank($this->getCache($action)->getRenderer()->getContents());
-		}
-		return false;
-	}
-
-	/**
-	 * キャッシュをクリア
-	 *
-	 * @access public
-	 * @param BSAction $action アクション
-	 */
-	public function removeCache (BSAction $action) {
-		$this->getResourceDirectory($action)->clear();
+		return !!$this->memcache[$action->digest()];
 	}
 
 	/**
@@ -106,17 +80,9 @@ class BSRenderManager {
 	 * @access public
 	 */
 	public function clear () {
-		BSFileUtility::getDirectory('output')->clear();
-	}
-
-	private function getResourceDirectory (BSAction $action) {
-		$dir = BSFileUtility::getDirectory('output');
-		$name = BSCrypt::digest($action->getRenderResource());
-		if (!$entry = $dir->getEntry($name)) {
-			$entry = $dir->createDirectory($name);
+		if (!$this->memcache->getAttribute('error')) {
+			$this->memcache->clear();
 		}
-		$entry->setDefaultSuffix('.serialized');
-		return $entry;
 	}
 }
 

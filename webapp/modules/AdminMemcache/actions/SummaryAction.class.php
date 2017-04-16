@@ -19,11 +19,12 @@ class SummaryAction extends BSAction {
 	}
 
 	public function execute () {
-		try {
-			if ($server = BSMemcacheManager::getInstance()->getServer()) {
-				$this->request->setAttribute('server', $server->getAttributes());
+		$manager = BSMemcacheManager::getInstance();
+		$this->request->setAttribute('servers', new BSArray);
+		foreach ($manager->getServerNames() as $name) {
+			if ($server = BSMemcacheManager::getInstance()->getServer($name)) {
+				$this->request->getAttribute('servers')[$name] = $server->getAttributes();
 			}
-		} catch (Exception $e) {
 		}
 		return BSView::SUCCESS;
 	}
