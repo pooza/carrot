@@ -71,11 +71,24 @@ class BSConfigFile extends BSFile {
 	 * @return BSFile 設定キャッシュファイル
 	 */
 	public function compile () {
-		$cache = $this->getCacheFile();
-		if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
-			$cache->setContents($this->getCompiler()->execute($this));
+		if (defined('BS_MEMCACHE_DEFAULT_HOST') && defined('BS_MEMCACHE_DEFAULT_PORT')) {
+			$server = BSMemcacheManager::getInstance()->getServer();
+			$serializer = new BSPHPSerializer;
+			if ($script = $server[$this->getID()]) {
+				$script = $serializer->decode($script);
+			} else {
+				$script = $this->getCompiler()->execute($this);
+				$script = str_replace('<?php', '', $script);
+				$server[$this->getID()] = $serializer->encode($script);
+			}
+			return eval($script);
+		} else {
+			$cache = $this->getCacheFile();
+			if (!$cache->isExists() || $cache->getUpdateDate()->isPast($this->getUpdateDate())) {
+				$cache->setContents($this->getCompiler()->execute($this));
+			}
+			return require $cache->getPath();
 		}
-		return $cache;
 	}
 
 	/**
