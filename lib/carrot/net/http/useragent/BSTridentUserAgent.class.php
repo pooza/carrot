@@ -96,7 +96,7 @@ class BSTridentUserAgent extends BSUserAgent {
 	 * @return boolean レガシーならばTrue
 	 */
 	public function isLegacy () {
-		return $this->getVersion() < 7;
+		return $this->getVersion() < 10;
 	}
 
 	/**

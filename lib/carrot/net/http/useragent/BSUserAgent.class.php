@@ -90,7 +90,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 *
 	 * @access public
 	 * @return boolean レガシーならばTrue
-	 * final
+	 * @final
 	 */
 	final public function isDenied () {
 		return $this->isLegacy();
@@ -254,6 +254,12 @@ abstract class BSUserAgent extends BSParameterHolder {
 				__CLASS__,
 				(int)$this->hasSupport('html5_video'),
 				(int)$this->hasSupport('html5_audio'),
+				(int)$this->hasSupport('flash'),
+				(int)$this->hasSupport('cookie'),
+				(int)$this->hasSupport('attach_file'),
+				(int)$this->isMobile(),
+				(int)$this->isSmartPhone(),
+				(int)$this->isTablet(),
 			]);
 		}
 		return $this->digest;

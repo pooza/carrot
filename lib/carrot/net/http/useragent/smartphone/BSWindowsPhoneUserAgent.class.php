@@ -39,7 +39,7 @@ class BSWindowsPhoneUserAgent extends BSTridentUserAgent {
 	 */
 	public function getDisplayInfo () {
 		$info = new BSArray;
-		$info['width'] = 480;
+		$info['width'] = 640;
 		return $info;
 	}
 
