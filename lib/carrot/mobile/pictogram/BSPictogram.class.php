@@ -126,10 +126,6 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		}
 	}
 
-	private function getCarrier () {
-		return BSMobileCarrier::getInstance(BSMobileCarrier::DEFAULT_CARRIER);
-	}
-
 	/**
 	 * 数値文字参照を返す
 	 *
@@ -137,12 +133,12 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return string 数値文字参照
 	 */
 	public function getNumericReference () {
-		$carrier = $this->getCarrier()->getName();
+		$carrier = 'Docomo';
 		if (BSRequest::getInstance()->isMobile()) {
-			$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier()->getName();
+			$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier();
 		}
 		if (BSString::isBlank($code = $this->codes[$carrier])) {
-			$code = $this->codes[$this->getCarrier()->getName()];
+			$code = $this->codes['Docomo'];
 		}
 		return '&#' . $code . ';';
 	}
@@ -279,9 +275,9 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictogramNames () {
-		$config = BSConfigManager::getInstance()->compile('pictogram');
-		$codes = new BSArray($config['codes']);
-		return $codes->getKeys();
+		return BSArray::create(
+			BSConfigManager::getInstance()->compile('pictogram')['codes']
+		)->getKeys();
 	}
 
 	/**
@@ -297,11 +293,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		if (!$controller->getAttribute($key)) {
 			$urls = new BSArray;
 			foreach (self::getPictograms() as $pictogram) {
-				$info = $pictogram->getImageInfo();
 				foreach ($pictogram->getNames() as $name) {
 					$urls[$name] = new BSArray;
 					$urls[$name]['name'] = $name;
-					$urls[$name]['image'] = $info;
+					$urls[$name]['image'] = $pictogram->getImageInfo();
 				}
 			}
 			$controller->setAttribute($key, $urls);

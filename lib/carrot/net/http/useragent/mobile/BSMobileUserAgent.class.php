@@ -81,6 +81,18 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
+	 * キャリア名を返す
+	 *
+	 * @access public
+	 * @return string キャリア名
+	 */
+	public function getCarrier () {
+		if (mb_ereg('^BS([A-Za-z]+)UserAgent$', get_class($this), $matches)) {
+			return $matches[1];
+		}
+	}
+
+	/**
 	 * 規定の画像形式を返す
 	 *
 	 * @access public
