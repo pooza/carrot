@@ -27,19 +27,6 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * 端末IDを返す
-	 *
-	 * @access public
-	 * @return string 端末ID
-	 */
-	public function getID () {
-		if ($id = BSController::getInstance()->getAttribute('X-DCMGUID')) {
-			return $id;
-		}
-		return parent::getID();
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
@@ -70,6 +57,16 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 			return true;
 		}
 		return ($this->getVersion() < 2) && !BSString::isContain('bot', $this->getName());
+	}
+
+	/**
+	 * 規定の画像形式を返す
+	 *
+	 * @access public
+	 * @return string 規定の画像形式
+	 */
+	public function getDefaultImageType () {
+		return 'image/jpeg';
 	}
 
 	/**

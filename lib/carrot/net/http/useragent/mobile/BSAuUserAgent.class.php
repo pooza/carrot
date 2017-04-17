@@ -28,19 +28,6 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * 端末IDを返す
-	 *
-	 * @access public
-	 * @return string 端末ID
-	 */
-	public function getID () {
-		if ($id = BSController::getInstance()->getAttribute('X-UP-SUBNO')) {
-			return $id;
-		}
-		return parent::getID();
-	}
-
-	/**
 	 * WAP2.0端末か？
 	 *
 	 * @access public

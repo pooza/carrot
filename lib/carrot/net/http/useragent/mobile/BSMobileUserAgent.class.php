@@ -20,9 +20,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
-		$this['id'] = $this->getID();
 		$this['display'] = $this->getDisplayInfo();
-		$this['gps'] = $this->getCarrier()->getGPSInfo();
 	}
 
 	/**
@@ -83,30 +81,13 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * キャリアを返す
-	 *
-	 * @access public
-	 * @return BSMobileCarrier キャリア
-	 */
-	public function getCarrier () {
-		if (!$this->carrier) {
-			$this->carrier = BSLoader::getInstance()->createObject(
-				$this->getType(),
-				'MobileCarrier'
-			);
-		}
-		return $this->carrier;
-	}
-
-	/**
 	 * 規定の画像形式を返す
 	 *
 	 * @access public
 	 * @return string 規定の画像形式
 	 */
 	public function getDefaultImageType () {
-		$constants = new BSConstantHandler('IMAGE_MOBILE_TYPE');
-		return $constants[$this->getCarrier()->getName()];
+		return 'image/png';
 	}
 
 	/**
@@ -117,16 +98,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 */
 	public function getDefaultEncoding () {
 		return 'sjis-win';
-	}
-
-	/**
-	 * デコメールの形式を返す
-	 *
-	 * @access public
-	 * @return string デコメールの形式
-	 */
-	public function getDecorationMailType () {
-		return $this->getCarrier()->getDecorationMailType();
 	}
 
 	/**
@@ -176,18 +147,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 
 	/**
-	 * GPS情報を取得するリンクを返す
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $url 対象リンク
-	 * @param string $label ラベル
-	 * @return BSAnchorElement リンク
-	 */
-	public function createGPSAnchorElement (BSHTTPRedirector $url, $label) {
-		return $this->getCarrier()->createGPSAnchorElement($url, $label);
-	}
-
-	/**
 	 * ダイジェストを返す
 	 *
 	 * @access public
@@ -202,18 +161,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 			]);
 		}
 		return $this->digest;
-	}
-
-	/**
-	 * 端末IDを返す
-	 *
-	 * @access public
-	 * @return string 端末ID
-	 */
-	public function getID () {
-		if (BS_DEBUG) {
-			return BSCrypt::digest(BSRequest::getInstance()->getHost()->getName());
-		}
 	}
 }
 

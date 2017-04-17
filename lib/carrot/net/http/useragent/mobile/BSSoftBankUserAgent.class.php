@@ -27,19 +27,6 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	}
 
 	/**
-	 * 端末IDを返す
-	 *
-	 * @access public
-	 * @return string 端末ID
-	 */
-	public function getID () {
-		if ($id = BSController::getInstance()->getAttribute('X-JPHONE-UID')) {
-			return $id;
-		}
-		return parent::getID();
-	}
-
-	/**
 	 * 3GC端末か？
 	 *
 	 * @access public
