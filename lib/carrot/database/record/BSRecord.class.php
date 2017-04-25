@@ -363,9 +363,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $filename ファイル名
 	 */
 	public function setAttachment (BSFile $file, $name = null, $filename = null) {
-		if ($old = $this->getAttachment($name)) {
-			$old->delete();
-		}
+		$this->removeAttachment($name);
 		if (BSString::isBlank($suffix = $file->getSuffix())) {
 			if (BSString::isBlank($filename)) {
 				$file->setBinary(true);
@@ -376,6 +374,28 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		$file->moveTo($this->getTable()->getDirectory());
+
+		$message = new BSStringFormat('%sの%sを設定しました。');
+		$message[] = $this;
+		$message[] = BSTranslateManager::getInstance()->translate($name);
+		$this->getDatabase()->log($message);
+	}
+
+	/**
+	 * 添付ファイルを削除する
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 */
+	public function removeAttachment ($size = 'thumbnail') {
+		if ($file = $this->getAttachment($size)) {
+			$file->delete();
+
+			$message = new BSStringFormat('%sの%sを削除しました。');
+			$message[] = $this;
+			$message[] = BSTranslateManager::getInstance()->translate($name);
+			$this->getDatabase()->log($message);
+		}
 	}
 
 	/**
@@ -446,8 +466,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $size
 	 */
 	public function clearImageCache ($size = 'thumbnail') {
-		$images = new BSImageManager;
-		$images->removeThumbnail($this, $size);
+		(new BSImageManager)->removeThumbnail($this, $size);
 	}
 
 	/**
@@ -460,8 +479,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @return BSArray 画像の情報
 	 */
 	public function getImageInfo ($size = 'thumbnail', $pixel = null, $flags = null) {
-		$images = new BSImageManager;
-		return $images->getImageInfo($this, $size, $pixel, $flags);
+		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 
 	/**
@@ -488,13 +506,32 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $size サイズ名
 	 */
 	public function setImageFile (BSImageFile $file, $size = 'thumbnail') {
-		if ($old = $this->getImageFile($size)) {
-			$old->delete();
-			$this->clearImageCache($size);
-		}
-		$file->setMode(0666);
+		$this->removeImageFile($size);
 		$file->rename($this->getImageFileBaseName($size));
 		$file->moveTo($this->getTable()->getDirectory());
+
+		$message = new BSStringFormat('%sの%sを設定しました。');
+		$message[] = $this;
+		$message[] = BSTranslateManager::getInstance()->translate($size);
+		$this->getDatabase()->log($message);
+	}
+
+	/**
+	 * 画像ファイルを削除する
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 */
+	public function removeImageFile ($size = 'thumbnail') {
+		if ($file = $this->getImageFile($size)) {
+			$file->delete();
+			$this->clearImageCache($size);
+
+			$message = new BSStringFormat('%sの%sを削除しました。');
+			$message[] = $this;
+			$message[] = BSTranslateManager::getInstance()->translate($size);
+			$this->getDatabase()->log($message);
+		}
 	}
 
 	/**
@@ -684,17 +721,19 @@ abstract class BSRecord implements ArrayAccess,
 	 * アサインすべき値を返す
 	 *
 	 * @access public
-	 * @return mixed アサインすべき値
+	 * @return BSArray アサインすべき値
 	 */
 	public function getAssignableValues () {
 		if ($this->isSerializable()) {
 			if (BSString::isBlank($this->getSerialized())) {
 				$this->serialize();
 			}
-			return $this->getSerialized();
+			$values = $this->getSerialized();
 		} else {
-			return $this->getSerializableValues();
+			$values = $this->getSerializableValues();
 		}
+		$values['is_visible'] = $this->isVisible();
+		return $values;
 	}
 
 	/**
