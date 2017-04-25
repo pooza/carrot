@@ -27,7 +27,7 @@ interface BSAttachmentContainer {
 	 * @param string $name 名前
 	 * @return BSFile 添付ファイル
 	 */
-	public function getAttachment ($name = null);
+	public function getAttachment ($name);
 
 	/**
 	 * 添付ファイルを設定
@@ -36,7 +36,7 @@ interface BSAttachmentContainer {
 	 * @param BSFile $file 添付ファイル
 	 * @param string $name 名前
 	 */
-	public function setAttachment (BSFile $file, $name = null);
+	public function setAttachment (BSFile $file, $name);
 
 	/**
 	 * 添付ファイルベース名を返す

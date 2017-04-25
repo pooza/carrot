@@ -346,7 +346,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $name 名前
 	 * @return BSFile 添付ファイル
 	 */
-	public function getAttachment ($name = null) {
+	public function getAttachment ($name) {
 		$finder = new BSFileFinder;
 		$finder->clearDirectories();
 		$finder->registerDirectory($this->getTable()->getDirectory());
@@ -362,7 +362,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $name 名前
 	 * @param string $filename ファイル名
 	 */
-	public function setAttachment (BSFile $file, $name = null, $filename = null) {
+	public function setAttachment (BSFile $file, $name, $filename = null) {
 		$this->removeAttachment($name);
 		if (BSString::isBlank($suffix = $file->getSuffix())) {
 			if (BSString::isBlank($filename)) {
@@ -385,10 +385,10 @@ abstract class BSRecord implements ArrayAccess,
 	 * 添付ファイルを削除する
 	 *
 	 * @access public
-	 * @param string $size サイズ名
+	 * @param string $name 名前
 	 */
-	public function removeAttachment ($size = 'thumbnail') {
-		if ($file = $this->getAttachment($size)) {
+	public function removeAttachment ($name) {
+		if ($file = $this->getAttachment($name)) {
 			$file->delete();
 
 			$message = new BSStringFormat('%sの%sを削除しました。');
