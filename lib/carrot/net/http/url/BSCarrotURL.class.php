@@ -53,11 +53,11 @@ class BSCarrotURL extends BSHTTPURL {
 			}
 			if (BSString::isBlank($contents['module'])) {
 				if (BSString::isBlank($contents['action'])) {
-					$action = BSController::getInstance()->getAction();
+					$action = $this->controller->getAction();
 					$contents['action'] = $action->getName();
 					$contents['module'] = $action->getModule()->getName();
 				} else {
-					$contents['module'] = BSController::getInstance()->getModule();
+					$contents['module'] = $this->controller->getModule();
 				}
 			}
 		}

@@ -178,7 +178,7 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 					$holidays[$date['day']] = $entry['summary'];
 				}
 			}
-			BSController::getInstance()->setAttribute($this, $holidays);
+			$this->controller->setAttribute($this, $holidays);
 		} catch (Exception $e) {
 		}
 	}
@@ -191,7 +191,7 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 	 */
 	public function getSerialized () {
 		$date = BSDate::getNow()->setParameter('month', '-1');
-		return BSController::getInstance()->getAttribute($this, $date);
+		return $this->controller->getAttribute($this, $date);
 	}
 
 	/**

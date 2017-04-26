@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSView extends BSHTTPResponse {
+	use BSBasicObject;
 	protected $nameSuffix;
 	protected $action;
 	protected $version = '1.0';
@@ -37,24 +38,6 @@ class BSView extends BSHTTPResponse {
 		$this->setHeader('X-Content-Type-Options', BS_VIEW_CONTENT_TYPE_OPTIONS);
 		$this->setHeader('X-UA-Compatible', BS_VIEW_UA_COMPATIBLE);
 		$this->setHeader('X-XSS-Protection', BS_VIEW_XSS_PROTECTION);
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'controller':
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
-			case 'useragent':
-				return BSRequest::getInstance()->getUserAgent();
-			case 'translator':
-				return BSTranslateManager::getInstance();
-		}
 	}
 
 	/**

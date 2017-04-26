@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMailAddress implements BSAssignable {
+	use BSBasicObject;
 	private $contents;
 	private $name;
 	private $account;
@@ -115,7 +116,7 @@ class BSMailAddress implements BSAssignable {
 	 */
 	public function getCarrier () {
 		foreach (BSMobileCarrier::getNames() as $name) {
-			$carrier = BSLoader::getInstance()->createObject($name, 'MobileCarrier');
+			$carrier = $this->loader->createObject($name, 'MobileCarrier');
 			if (BSString::isContain($carrier->getDomainSuffix(), $this->getContents())) {
 				return $carrier;
 			}

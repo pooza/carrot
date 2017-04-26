@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 abstract class BSConfigCompiler extends BSParameterHolder {
+	use BSBasicObject;
 	private $body;
 
 	/**
@@ -18,20 +19,6 @@ abstract class BSConfigCompiler extends BSParameterHolder {
 	 */
 	public function __construct ($params = []) {
 		$this->initialize($params);
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'controller':
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
-		}
 	}
 
 	/**

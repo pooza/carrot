@@ -53,7 +53,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return boolean 旧機種ならばTrue
 	 */
 	public function isLegacy () {
-		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && BSRequest::getInstance()->isSSL()) {
+		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && $this->request->isSSL()) {
 			return true;
 		}
 		return ($this->getVersion() < 2) && !BSString::isContain('bot', $this->getName());

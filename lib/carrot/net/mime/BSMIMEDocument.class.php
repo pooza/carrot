@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
+	use BSBasicObject;
 	protected $headers;
 	protected $contents;
 	protected $body;

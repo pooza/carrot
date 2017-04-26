@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSAuthorRole implements BSRole {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $credentials;
 	protected $twitterAccount;
 	const CREDENTIAL = 'Author';
@@ -58,7 +58,7 @@ class BSAuthorRole implements BSRole {
 	 */
 	public function getName ($language = 'ja') {
 		if (BSString::isBlank($name = BS_AUTHOR_NAME)) {
-			$name = BSController::getInstance()->getAttribute('app_name_' . $language);
+			$name = $this->controller->getAttribute('app_name_' . $language);
 		}
 		return $name;
 	}

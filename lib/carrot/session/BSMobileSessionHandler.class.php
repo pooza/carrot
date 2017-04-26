@@ -33,8 +33,7 @@ class BSMobileSessionHandler extends BSSessionHandler {
 	 * @return integer セッションID
 	 */
 	public function getID () {
-		$request = BSRequest::getInstance();
-		if (!BSString::isBlank($id = $request[$this->getName()])) {
+		if (!BSString::isBlank($id = $this->request[$this->getName()])) {
 			session_id($id);
 		}
 		return parent::getID();

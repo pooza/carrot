@@ -44,7 +44,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return boolean 旧機種ならばTrue
 	 */
 	public function isLegacy () {
-		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && BSRequest::getInstance()->isSSL()) {
+		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && $this->request->isSSL()) {
 			return true;
 		}
 		return !$this->isWAP2();
@@ -57,8 +57,8 @@ class BSAuUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		$controller = BSController::getInstance();
-		if (BSString::isBlank($info = $controller->getAttribute('X-UP-DEVCAP-SCREENPIXELS'))) {
+		$info = $this->controller->getAttribute('X-UP-DEVCAP-SCREENPIXELS');
+		if (BSString::isBlank($info)) {
 			return parent::getDisplayInfo();
 		}
 		$info = BSString::explode(',', $info);

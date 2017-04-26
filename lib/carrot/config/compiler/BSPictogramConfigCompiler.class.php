@@ -23,8 +23,7 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 		foreach ((array)$config as $entry) {
 			foreach ($entry['names'] as $name) {
 				$pictograms['codes'][$name] = $entry['pictograms'];
-				$code = $entry['pictograms'][BSMobileCarrier::DEFAULT_CARRIER];
-				$pictograms['names'][$code][] = $name;
+				$pictograms['names'][$entry['pictograms']['Docomo']][] = $name;
 			}
 		}
 		return $pictograms;

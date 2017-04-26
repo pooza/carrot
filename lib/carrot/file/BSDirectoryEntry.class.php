@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSDirectoryEntry {
+	use BSBasicObject;
 	protected $name;
 	protected $path;
 	protected $id;
@@ -78,7 +79,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $this->getDirectory()->getPath() . '/' . basename($name);
-		BSController::getInstance()->getPlatform()->renameFile($this, $path);
+		$this->controller->getPlatform()->renameFile($this, $path);
 		$this->setPath($path);
 	}
 
@@ -149,7 +150,7 @@ abstract class BSDirectoryEntry {
 		}
 
 		$path = $dir->getPath() . '/' . $this->getName();
-		BSController::getInstance()->getPlatform()->renameFile($this, $path);
+		$this->controller->getPlatform()->renameFile($this, $path);
 		$this->setPath($path);
 	}
 

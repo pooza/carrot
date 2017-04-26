@@ -25,7 +25,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 			$port = BSNetworkService::getPort('https');
 		}
 		parent::__construct($host, $port);
-		$this->useragent = BSRequest::getInstance()->getUserAgent();
+		$this->useragent = $this->request->getUserAgent();
 	}
 
 	/**

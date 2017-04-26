@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDatabaseSerializeStorage implements BSSerializeStorage {
+	use BSBasicObject;
 	const TABLE_NAME = 'serialize_entry';
 	private $table;
 	private $serializer;
@@ -20,8 +21,7 @@ class BSDatabaseSerializeStorage implements BSSerializeStorage {
 	 */
 	public function __construct (BSSerializer $serializer = null) {
 		if (!$serializer) {
-			$classes = BSLoader::getInstance();
-			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+			$serializer = $this->loader->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
 	}

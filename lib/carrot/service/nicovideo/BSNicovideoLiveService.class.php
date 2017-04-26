@@ -23,7 +23,7 @@ class BSNicovideoLiveService extends BSCurlHTTP {
 			$host = new BSHost(self::DEFAULT_HOST);
 		}
 		parent::__construct($host, $port);
-		$this->useragent = BSRequest::getInstance()->getUserAgent();
+		$this->useragent = $this->request->getUserAgent();
 	}
 
 	/**

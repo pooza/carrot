@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSURL implements ArrayAccess, BSAssignable {
+	use BSBasicObject;
 	protected $attributes;
 	protected $contents;
 	const PATTERN = '^[[:alnum:]]+:(//)?[[:graph:]]+$';

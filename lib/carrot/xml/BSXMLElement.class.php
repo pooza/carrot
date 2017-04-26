@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSXMLElement implements IteratorAggregate {
+	use BSBasicObject;
 	protected $contents;
 	protected $body;
 	protected $name;

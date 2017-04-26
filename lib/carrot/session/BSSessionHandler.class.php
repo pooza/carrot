@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSessionHandler {
+	use BSBasicObject;
 	private $storage;
 	protected $directory;
 
@@ -67,7 +68,7 @@ class BSSessionHandler {
 	 */
 	protected function getStorage () {
 		if (!$this->storage) {
-			$this->storage = BSLoader::getInstance()->createObject(
+			$this->storage = $this->loader->createObject(
 				BS_SESSION_STORAGE,
 				'SessionStorage'
 			);

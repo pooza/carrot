@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSMediaConvertor {
+	use BSBasicObject;
 	protected $name;
 	protected $config;
 	protected $output;
@@ -23,7 +24,7 @@ abstract class BSMediaConvertor {
 		$this->constants = new BSConstantHandler(
 			'FFMPEG_CONVERT_' . ltrim($this->getSuffix(), '.')
 		);
-		$platform = BSController::getInstance()->getPlatform();
+		$platform = $this->controller->getPlatform();
 		$values = $platform->getConstants(self::getOptions()->getKeys(), $this->constants);
 
 		$this->config = new BSArray;

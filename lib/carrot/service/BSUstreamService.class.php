@@ -23,7 +23,7 @@ class BSUstreamService extends BSCurlHTTP {
 			$host = new BSHost(self::DEFAULT_HOST);
 		}
 		parent::__construct($host, $port);
-		$this->useragent = BSRequest::getInstance()->getUserAgent();
+		$this->useragent = $this->request->getUserAgent();
 	}
 
 	/**
@@ -103,9 +103,8 @@ class BSUstreamService extends BSCurlHTTP {
 			$params->join("\n", "\t")
 		]);
 
-		$controller = BSController::getInstance();
 		$date = BSDate::getNow()->setParameter('hour', '-1');
-		if (!$controller->getAttribute($key, $date)) {
+		if (!$this->controller->getAttribute($key, $date)) {
 			$url = $this->createRequestURL('/json');
 			$url->setParameter('subject', 'channel');
 			$url->setParameter('uid', $name);
@@ -115,9 +114,9 @@ class BSUstreamService extends BSCurlHTTP {
 
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
-			$controller->setAttribute($key, $json->getResult());
+			$this->controller->setAttribute($key, $json->getResult());
 		}
-		return new BSArray($controller->getAttribute($key));
+		return new BSArray($this->controller->getAttribute($key));
 	}
 
 	private function createParameters ($src) {

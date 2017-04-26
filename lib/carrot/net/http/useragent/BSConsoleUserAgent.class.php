@@ -20,12 +20,12 @@ class BSConsoleUserAgent extends BSUserAgent {
 	 */
 	public function initializeView (BSSmartyView $view) {
 		$view->getRenderer()->setUserAgent($this);
-		$view->setAttributes(BSRequest::getInstance()->getAttributes());
+		$view->setAttributes($this->request->getAttributes());
 		$view->setAttribute('module', $view->getModule());
 		$view->setAttribute('action', $view->getAction());
-		$view->setAttribute('errors', BSRequest::getInstance()->getErrors());
-		$view->setAttribute('params', BSRequest::getInstance()->getParameters());
-		$view->setAttribute('credentials', BSUser::getInstance()->getCredentials());
+		$view->setAttribute('errors', $this->request->getErrors());
+		$view->setAttribute('params', $this->request->getParameters());
+		$view->setAttribute('credentials', $this->user->getCredentials());
 		$view->setAttribute('is_debug', BS_DEBUG);
 		return true;
 	}

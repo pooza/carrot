@@ -34,7 +34,7 @@ class BSMessageIdMIMEHeader extends BSMIMEHeader {
 			$id = new BSStringFormat('%s.%s@%s');
 			$id[] = BSDate::getNow('YmdHis');
 			$id[] = BSUtility::getUniqueID();
-			$id[] = BSController::getInstance()->getHost()->getName();
+			$id[] = $this->controller->getHost()->getName();
 			$this->id = $id->getContents();
 		} else {
 			mb_ereg('^<?([^>]*)>?$', $contents, $matches);

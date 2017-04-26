@@ -77,7 +77,7 @@ abstract class BSSerializableTableHandler extends BSTableHandler implements BSSe
 	 * @access public
 	 */
 	public function serialize () {
-		BSController::getInstance()->setAttribute($this, parent::getResult());
+		$this->controller->setAttribute($this, parent::getResult());
 	}
 
 	/**
@@ -87,7 +87,7 @@ abstract class BSSerializableTableHandler extends BSTableHandler implements BSSe
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return BSController::getInstance()->getAttribute($this);
+		return $this->controller->getAttribute($this);
 	}
 }
 

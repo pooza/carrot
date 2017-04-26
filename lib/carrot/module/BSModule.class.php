@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSModule implements BSHTTPRedirector, BSAssignable {
-	use BSHTTPRedirectorMethods;
+	use BSHTTPRedirectorMethods, BSBasicObject;
 	protected $name;
 	protected $title;
 	protected $url;
@@ -55,20 +55,6 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		$name[] = $key;
 		$name[] = $this->getName();
 		return $name->join('_');
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'controller':
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
-		}
 	}
 
 	/**
@@ -360,7 +346,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		}
 		if (!$this->actions[$name]) {
 			require $file->getPath();
-			$class = BSLoader::getInstance()->getClass($class);
+			$class = $this->loader->getClass($class);
 			$this->actions[$name] = new $class($this);
 		}
 		return $this->actions[$name];
@@ -444,7 +430,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			}
 			if (!BSString::isBlank($name)) {
 				try {
-					$this->recordClass = BSLoader::getInstance()->getClass($name);
+					$this->recordClass = $this->loader->getClass($name);
 				} catch (Exception $e) {
 					return null;
 				}

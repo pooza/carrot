@@ -11,7 +11,7 @@
  * @abstract
  */
 abstract class BSController {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $host;
 	protected $platform;
 	protected $headers;
@@ -27,19 +27,6 @@ abstract class BSController {
 	protected function __construct () {
 		$this->headers = new BSArray;
 		$this->actions = new BSArray;
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'request':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
-		}
 	}
 
 	/**

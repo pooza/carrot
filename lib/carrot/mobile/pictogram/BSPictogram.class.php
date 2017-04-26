@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSPictogram implements BSAssignable, BSImageContainer {
+	use BSBasicObject;
 	private $id;
 	private $name;
 	private $codes;
@@ -113,10 +114,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @return string 絵文字表記
 	 */
 	public function getContents () {
-		if (BSRequest::getInstance()['without_pictogram_emulate']) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
+		if ($this->request['without_pictogram_emulate']) {
+			$useragent = $this->request->getUserAgent();
 		} else {
-			$useragent = BSRequest::getInstance()->getRealUserAgent();
+			$useragent = $this->request->getRealUserAgent();
 		}
 		if ($useragent->isMobile()) {
 			return $this->getNumericReference();
@@ -134,8 +135,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getNumericReference () {
 		$carrier = 'Docomo';
-		if (BSRequest::getInstance()->isMobile()) {
-			$carrier = BSRequest::getInstance()->getUserAgent()->getCarrier();
+		if ($this->request->isMobile()) {
+			$carrier = $this->request->getUserAgent()->getCarrier();
 		}
 		if (BSString::isBlank($code = $this->codes[$carrier])) {
 			$code = $this->codes['Docomo'];
@@ -246,8 +247,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 		$config = BSConfigManager::getInstance()->compile('pictogram');
 		if (is_numeric($name) && isset($config['names'][$name])) {
 			return $name;
-		} else if (isset($config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER])) {
-			return $config['codes'][$name][BSMobileCarrier::DEFAULT_CARRIER];
+		} else if (isset($config['codes'][$name]['Docomo'])) {
+			return $config['codes'][$name]['Docomo'];
 		}
 	}
 
@@ -288,9 +289,8 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @static
 	 */
 	static public function getPictogramImageInfos () {
-		$controller = BSController::getInstance();
 		$key = __CLASS__ . '.' . __FUNCTION__;
-		if (!$controller->getAttribute($key)) {
+		if (!$this->controller->getAttribute($key)) {
 			$urls = new BSArray;
 			foreach (self::getPictograms() as $pictogram) {
 				foreach ($pictogram->getNames() as $name) {
@@ -299,9 +299,9 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 					$urls[$name]['image'] = $pictogram->getImageInfo();
 				}
 			}
-			$controller->setAttribute($key, $urls);
+			$this->controller->setAttribute($key, $urls);
 		}
-		return $controller->getAttribute($key);
+		return $this->controller->getAttribute($key);
 	}
 }
 

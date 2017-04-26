@@ -101,7 +101,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			$type = $finfo->file($this->getPath());
 		} else {
-			$type = BSController::getInstance()->getPlatform()->analyzeFile($this);
+			$type = $this->controller->getPlatform()->analyzeFile($this);
 		}
 
 		if (BSString::isBlank($type)) {
@@ -177,7 +177,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function copyTo (BSDirectory $dir, $class = 'BSFile') {
 		$file = parent::copyTo($dir);
-		$class = BSLoader::getInstance()->getClass($class);
+		$class = $this->loader->getClass($class);
 		return new $class($file->getPath());
 	}
 
@@ -496,7 +496,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return BSController::getInstance()->getAttribute($this, $this->getUpdateDate());
+		return $this->controller->getAttribute($this, $this->getUpdateDate());
 	}
 
 	/**

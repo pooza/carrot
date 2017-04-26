@@ -107,7 +107,7 @@ class BSCurlHTTP extends BSHTTP {
 
 			$this->engine = curl_init();
 			$this->setAttribute('autoreferer', true);
-			$this->setAttribute('useragent', BSController::getInstance()->getName('en'));
+			$this->setAttribute('useragent', $this->controller->getName('en'));
 			$this->setAttribute('followlocation', true);
 			$this->setAttribute('header', true);
 			$this->setAttribute('returntransfer', true);

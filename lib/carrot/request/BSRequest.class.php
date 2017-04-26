@@ -11,7 +11,7 @@
  * @abstract
  */
 abstract class BSRequest extends BSHTTPRequest {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $version = null;
 	private $host;
 	private $session;
@@ -34,19 +34,6 @@ abstract class BSRequest extends BSHTTPRequest {
 			}
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'controller':
-			case 'user':
-				return BSUtility::executeMethod($name, 'getInstance');
-		}
 	}
 
 	/**

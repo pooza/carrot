@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSAdministratorRole implements BSRole {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $credentials;
 	protected $twitterAccount;
 	const CREDENTIAL = 'Admin';
@@ -57,7 +57,7 @@ class BSAdministratorRole implements BSRole {
 	 * @return string 名前
 	 */
 	public function getName ($language = 'ja') {
-		return BSController::getInstance()->getAttribute('app_name_' . $language) . ' 管理者';
+		return $this->controller->getAttribute('app_name_' . $language) . ' 管理者';
 	}
 
 	/**

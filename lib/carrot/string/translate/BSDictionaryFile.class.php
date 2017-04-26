@@ -68,7 +68,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	public function serialize () {
 		$words = clone $this->getEngine()->getRecords();
 		$words->flatten();
-		BSController::getInstance()->setAttribute($this, $words);
+		$this->controller->setAttribute($this, $words);
 	}
 
 	/**

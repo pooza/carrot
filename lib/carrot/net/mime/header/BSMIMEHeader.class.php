@@ -11,6 +11,7 @@
  * @abstract
  */
 class BSMIMEHeader extends BSParameterHolder {
+	use BSBasicObject;
 	protected $part;
 	protected $name;
 	protected $contents;

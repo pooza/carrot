@@ -22,14 +22,14 @@ class BSSmartyMail extends BSMail {
 		$renderer->setType(BSMIMEType::getType('txt'));
 		$renderer->setEncoding('iso-2022-jp');
 		$renderer->addOutputFilter('mail');
-		if ($module = BSController::getInstance()->getModule()) {
+		if ($module = $this->controller->getModule()) {
 			if ($dir = $module->getDirectory('templates')) {
 				$renderer->registerDirectory($dir);
 			}
 		}
 		$renderer->setAttribute('date', BSDate::getNow());
-		$renderer->setAttribute('client_host', BSRequest::getInstance()->getHost());
-		$renderer->setAttribute('server_host', BSController::getInstance()->getHost());
+		$renderer->setAttribute('client_host', $this->request->getHost());
+		$renderer->setAttribute('server_host', $this->controller->getHost());
 		return $renderer;
 	}
 

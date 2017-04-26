@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 
 	/**
 	 * @access protected
@@ -21,7 +21,7 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 	}
 
 	private function getRootDomainName () {
-		$domain = BSString::explode('.', BSController::getInstance()->getHost()->getName());
+		$domain = BSString::explode('.', $this->controller->getHost()->getName());
 		if ($domain->shift() == 'test') {
 			$domain->shift();
 		}
@@ -62,7 +62,7 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 		}
 
 		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
+			$useragent = $this->request->getUserAgent();
 		}
 
 		if ($useragent->isMobile()) {
@@ -83,8 +83,8 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 		$url->setParameter('guid', 'ON');
 		$url->setParameter('utmac', 'MO-' . $this->getID());
 		$url->setParameter('utmn', BSNumeric::getRandom(0, 0x7fffffff));
-		$url->setParameter('utmp', BSRequest::getInstance()->getURL()->getFullPath());
-		if (BSString::isBlank($referer = BSController::getInstance()->getAttribute('REFERER'))) {
+		$url->setParameter('utmp', $this->request->getURL()->getFullPath());
+		if (BSString::isBlank($referer = $this->controller->getAttribute('REFERER'))) {
 			$referer = '-';
 		}
 		$url->setParameter('utmr', $referer);

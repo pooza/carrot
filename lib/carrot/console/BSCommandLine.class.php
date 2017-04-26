@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSCommandLine {
+	use BSBasicObject;
 	private $params;
 	private $pipes;
 	private $command;
@@ -167,7 +168,7 @@ class BSCommandLine {
 		if ($this->directory) {
 			return !!$this->directory->getEntry($this->command);
 		} else {
-			$path = BSController::getInstance()->getAttribute('PATH');
+			$path = $this->controller->getAttribute('PATH');
 			foreach (BSString::explode(PATH_SEPARATOR, $path) as $dir) {
 				$dir = new BSDirectory($dir);
 				if (!!$dir->getEntry($this->command)) {

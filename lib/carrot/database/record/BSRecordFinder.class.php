@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSRecordFinder extends BSParameterHolder {
+	use BSBasicObject;
 	private $table;
 	private $record;
 
@@ -42,7 +43,7 @@ class BSRecordFinder extends BSParameterHolder {
 			if (($table = $this->getTable()) && ($record = $table->getRecord($id))) {
 				$this->record = $record;
 			} else if (BSString::isBlank($this['class'])) {
-				$this->record = BSController::getInstance()->getModule()->getRecord();
+				$this->record = $this->controller->getModule()->getRecord();
 			}
 		}
 		return $this->record;
@@ -52,7 +53,7 @@ class BSRecordFinder extends BSParameterHolder {
 		if (!$this->table) {
 			try {
 				if (BSString::isBlank($class = $this['class'])) {
-					$this->table = BSController::getInstance()->getModule()->getTable();
+					$this->table = $this->controller->getModule()->getTable();
 				} else {
 					$this->table = BSTableHandler::create($class);
 				}

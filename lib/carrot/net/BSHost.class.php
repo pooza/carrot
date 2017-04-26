@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSHost implements BSAssignable, BSImageContainer {
+	use BSBasicObject;
 	protected $name;
 	protected $hostname;
 	protected $address;
@@ -102,7 +103,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 */
 	public function isForeign (BSHost $host = null) {
 		if (!$host) {
-			$host = BSController::getInstance()->getHost();
+			$host = $this->controller->getHost();
 		}
 		return ($this->getName() != $host->getName());
 	}

@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSTest {
+	use BSBasicObject;
 	private $errors;
 	private $name;
 
@@ -31,9 +32,10 @@ abstract class BSTest {
 			case 'controller':
 			case 'request':
 			case 'user':
+			case 'loader':
 				return BSUtility::executeMethod($name, 'getInstance');
 			case 'manager':
-				return BSUtility::executeMethod('BSTestManager', 'getInstance');
+				return BSTestManager::getInstance();
 		}
 	}
 

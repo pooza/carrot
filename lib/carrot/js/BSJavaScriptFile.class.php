@@ -48,7 +48,7 @@ class BSJavaScriptFile extends BSFile {
 	 */
 	public function serialize () {
 		BSUtility::includeFile('jsmin');
-		BSController::getInstance()->setAttribute($this, JSMin::minify($this->getContents()));
+		$this->controller->setAttribute($this, JSMin::minify($this->getContents()));
 	}
 
 	/**

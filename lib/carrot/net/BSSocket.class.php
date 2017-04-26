@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSocket {
+	use BSBasicObject;
 	protected $host;
 	protected $port;
 	protected $protocol;

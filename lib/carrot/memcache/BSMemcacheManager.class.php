@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMemcacheManager {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	private $constants;
 	private $serverNames;
 	const CONNECT_INET = 'inet';
@@ -75,7 +75,7 @@ class BSMemcacheManager {
 	public function getServer ($name = 'default', $class = null) {
 		if ($this->isEnabled()) {
 			if ($class) {
-				$server = BSLoader::getInstance()->createObject($class, 'Memcache');
+				$server = $this->loader->createObject($class, 'Memcache');
 			} else {
 				$server = new BSMemcache;
 			}

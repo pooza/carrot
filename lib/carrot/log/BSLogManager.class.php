@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSLogManager implements IteratorAggregate {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	private $loggers;
 
 	/**
@@ -19,7 +19,7 @@ class BSLogManager implements IteratorAggregate {
 	protected function __construct () {
 		$this->loggers = new BSArray;
 		foreach (BSString::explode(',', BS_LOG_LOGGERS) as $class) {
-			$this->register(BSLoader::getInstance()->createObject($class, 'Logger'));
+			$this->register($this->loader->createObject($class, 'Logger'));
 		}
 	}
 

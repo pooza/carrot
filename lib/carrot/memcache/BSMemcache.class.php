@@ -12,6 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMemcache implements ArrayAccess {
+	use BSBasicObject;
 	protected $memcached;
 	private $attributes;
 
@@ -162,7 +163,7 @@ class BSMemcache implements ArrayAccess {
 	 */
 	protected function createKey ($name) {
 		return BSCrypt::digest([
-			BSController::getInstance()->getHost()->getName(),
+			$this->controller->getHost()->getName(),
 			get_class($this),
 			$name,
 		]);

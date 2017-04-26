@@ -11,7 +11,7 @@
  * @abstract
  */
 abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorContainer {
-	use BSHTTPRedirectorMethods;
+	use BSHTTPRedirectorMethods, BSBasicObject;
 	protected $name;
 	protected $title;
 	protected $url;
@@ -40,6 +40,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 			case 'controller':
 			case 'request':
 			case 'user':
+			case 'loader':
 				return BSUtility::executeMethod($name, 'getInstance');
 			case 'database':
 				if ($table = $this->getModule()->getTable()) {
@@ -270,7 +271,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 				$basename = $this->getName() . $suffix . 'View';
 				if ($file = $dir->getEntry($basename . '.class.php')) {
 					require $file->getPath();
-					$class = BSLoader::getInstance()->getClass($basename);
+					$class = $this->loader->getClass($basename);
 					break;
 				}
 			}
@@ -474,7 +475,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSFilterSet フィルターセット
 	 */
 	public function createFilterSet () {
-		return BSLoader::getInstance()->createObject(BS_FILTERSET_CLASS, 'FilterSet');
+		return $this->loader->createObject(BS_FILTERSET_CLASS, 'FilterSet');
 	}
 
 	/**

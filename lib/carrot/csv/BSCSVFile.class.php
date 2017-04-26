@@ -22,7 +22,7 @@ class BSCSVFile extends BSFile {
 		parent::__construct($path);
 
 		if (!$engine) {
-			$engine = BSLoader::getInstance()->createObject(self::DEFAULT_ENGINE_CLASS);
+			$engine = $this->loader->createObject(self::DEFAULT_ENGINE_CLASS);
 		}
 		$this->setEngine($engine);
 	}

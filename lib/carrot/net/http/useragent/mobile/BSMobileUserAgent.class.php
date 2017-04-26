@@ -61,10 +61,9 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	public function getQuery () {
 		$query = parent::getQuery();
 		if (!$this->hasSupport('cookie')) {
-			$session = BSRequest::getInstance()->getSession();
-			$query[$session->getName()] = $session->getID();
+			$query[$this->request->getSession()->getName()] = $session->getID();
 		}
-		if (BSController::getInstance()->hasServerSideCache()) {
+		if ($this->controller->hasServerSideCache()) {
 			$query['guid'] = 'ON';
 		}
 		return $query;

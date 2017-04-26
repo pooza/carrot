@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSCrypt {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	private $engine;
 	const WITH_BASE64 = 1;
 	const SHA1 = 1;
@@ -34,7 +34,7 @@ class BSCrypt {
 	 */
 	public function getEngine () {
 		if (!$this->engine) {
-			$this->engine = BSLoader::getInstance()->createObject(
+			$this->engine = $this->loader->createObject(
 				BS_CRYPT_ENGINE,
 				'Cryptor'
 			);

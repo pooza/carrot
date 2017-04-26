@@ -21,7 +21,7 @@ class BSMail extends BSMIMEDocument {
 		$this->setHeader('Subject', 'untitled');
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
-		$this->setHeader('X-Mailer', BSController::getInstance()->getName('en'));
+		$this->setHeader('X-Mailer', $this->controller->getName('en'));
 		$this->setHeader('X-Priority', 3);
 		$this->setHeader('From', BSAuthorRole::getInstance()->getMailAddress());
 		$this->setHeader('To', BSAdministratorRole::getInstance()->getMailAddress());

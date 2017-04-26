@@ -31,7 +31,7 @@ class BSXHTMLElement extends BSXMLElement {
 		parent::__construct($name);
 
 		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
+			$useragent = $this->request->getUserAgent();
 		}
 		$this->setUserAgent($useragent);
 	}

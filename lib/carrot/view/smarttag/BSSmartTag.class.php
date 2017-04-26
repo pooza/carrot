@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 abstract class BSSmartTag extends BSParameterHolder {
+	use BSBasicObject;
 	private $useragent;
 	protected $tag;
 	protected $contents;
@@ -26,7 +27,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 			$this->contents = '[[' . $contents . ']]';
 			$this->tag = self::unescape(BSString::explode(':', $contents));
 		}
-		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
+		$this->setUserAgent($this->request->getUserAgent());
 	}
 
 	/**

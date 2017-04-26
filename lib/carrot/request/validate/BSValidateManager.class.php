@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSValidateManager implements IteratorAggregate {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	private $fields;
 
 	/**
@@ -18,18 +18,6 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	protected function __construct () {
 		$this->fields = new BSArray;
-	}
-
-	/**
-	 * @access public
-	 * @param string $name プロパティ名
-	 * @return mixed 各種オブジェクト
-	 */
-	public function __get ($name) {
-		switch ($name) {
-			case 'request':
-				return BSUtility::executeMethod($name, 'getInstance');
-		}
 	}
 
 	/**

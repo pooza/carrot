@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSBackupManager {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $config;
 	protected $temporaryDir;
 
@@ -47,7 +47,7 @@ class BSBackupManager {
 		}
 
 		$name = new BSStringFormat('%s_%s.zip');
-		$name[] = BSController::getInstance()->getHost()->getName();
+		$name[] = $this->controller->getHost()->getName();
 		$name[] = BSDate::getNow('Y-m-d');
 
 		try {

@@ -88,14 +88,14 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			$contents = new BSArray($contents);
 		}
 		if (BSString::isBlank($contents['scheme'])) {
-			if (BSRequest::getInstance()->isSSL()) {
+			if ($this->request->isSSL()) {
 				$contents['scheme'] = 'https';
 			} else {
 				$contents['scheme'] = 'http';
 			}
 		}
 		if (BSString::isBlank($contents['host'])) {
-			$contents['host'] = BSController::getInstance()->getHost();
+			$contents['host'] = $this->controller->getHost();
 		}
 		parent::setContents($contents);
 	}
@@ -337,7 +337,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 				$host = new BSHost($host);
 			}
 		} else {
-			$host = BSController::getInstance()->getHost();
+			$host = $this->controller->getHost();
 		}
 		return $this['host']->isForeign($host);
 	}
@@ -350,7 +350,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function getShortURL () {
 		if (!$this->shortURL) {
-			$service = BSLoader::getInstance()->createObject(BS_NET_URL_SHORTER, 'Service');
+			$service = $this->loader->createObject(BS_NET_URL_SHORTER, 'Service');
 			if (!$service || !($service instanceof BSURLShorter)) {
 				throw new BSHTTPException('URL短縮サービスが取得できません。');
 			}
@@ -390,11 +390,11 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 */
 	public function redirect () {
 		$url = $this->createURL();
-		$url->setParameters(BSRequest::getInstance()->getUserAgent()->getQuery());
+		$url->setParameters($this->request->getUserAgent()->getQuery());
 		if (!$this->isForeign()) {
-			BSUser::getInstance()->setAttribute('errors', BSRequest::getInstance()->getErrors());
+			$this->user->setAttribute('errors', $this->request->getErrors());
 		}
-		BSController::getInstance()->setHeader('Location', $url->getContents());
+		$this->controller->setHeader('Location', $url->getContents());
 		return BSView::NONE;
 	}
 }

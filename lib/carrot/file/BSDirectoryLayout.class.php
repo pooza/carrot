@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSDirectoryLayout extends BSParameterHolder {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	private $config;
 
 	/**
@@ -21,7 +21,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 		$entries = new BSArray;
 		$entries[] = 'carrot';
 		$entries[] = 'application';
-		$entries[] = BSController::getInstance()->getHost()->getName();
+		$entries[] = $this->controller->getHost()->getName();
 		foreach ($entries as $entry) {
 			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
 				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
@@ -59,11 +59,10 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 */
 	public function getParameter ($name) {
 		if (!$this->hasParameter($name) && ($info = $this->getEntry($name))) {
-			$controller = BSController::getInstance();
 			if (!!$info['constant']) {
-				$dir = new BSDirectory($controller->getAttribute($name . '_DIR'));
+				$dir = new BSDirectory($this->controller->getAttribute($name . '_DIR'));
 			} else if (!!$info['platform']) {
-				$dir = $controller->getPlatform()->getDirectory($name);
+				$dir = $this->controller->getPlatform()->getDirectory($name);
 			} else if (!BSString::isBlank($info['name'])) {
 				$dir = $this[$info['parent']]->getEntry($info['name']);
 			} else {
@@ -72,7 +71,7 @@ class BSDirectoryLayout extends BSParameterHolder {
 
 			if ($dir instanceof BSDirectory) {
 				if (!BSString::isBlank($info['class'])) {
-					$class = BSLoader::getInstance()->getClass($info['class']);
+					$class = $this->loader->getClass($info['class']);
 					$dir = new $class($dir->getPath());
 				}
 				if (!BSString::isBlank($info['suffix'])) {

@@ -13,7 +13,7 @@
  * @abstract
  */
 abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, IteratorAggregate {
-	use BSHTTPRedirectorMethods;
+	use BSHTTPRedirectorMethods, BSBasicObject;
 	protected $name;
 	protected $error;
 	protected $type;
@@ -120,7 +120,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		$files = new BSArray;
 		$prefix = mb_ereg_replace('^' . BSLoader::PREFIX, null, get_class($this));
 		$prefix = BSString::underscorize($prefix);
-		$host = BSController::getInstance()->getHost();
+		$host = $this->controller->getHost();
 		foreach ([$host->getName(), 'application', 'carrot'] as $name) {
 			if ($file = BSConfigManager::getConfigFile($prefix . '/' . $name)) {
 				$files[] = $file;

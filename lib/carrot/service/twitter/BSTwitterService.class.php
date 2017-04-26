@@ -387,7 +387,7 @@ class BSTwitterService extends BSCurlHTTP {
 		$url = BSURL::create();
 		$url['scheme'] = 'https';
 		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
+			$useragent = $this->request->getUserAgent();
 		}
 		if ($useragent->isMobile()) {
 			$url['host'] = 'mobile.twitter.com';

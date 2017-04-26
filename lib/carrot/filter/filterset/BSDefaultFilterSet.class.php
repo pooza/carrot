@@ -11,6 +11,7 @@
  * @abstract
  */
 class BSDefaultFilterSet extends BSArray {
+	use BSBasicObject;
 
 	/**
 	 * @access public
@@ -36,10 +37,9 @@ class BSDefaultFilterSet extends BSArray {
 		$files = new BSArray;
 		$files[] = 'filters/carrot';
 		$files[] = 'filters/application';
-		$files[] = 'filters/' . BSController::getInstance()->getHost()->getName();
+		$files[] = 'filters/' . $this->controller->getHost()->getName();
 
-		$module = BSController::getInstance()->getModule();
-		if ($file = $module->getConfigFile('filters')) {
+		if ($file = $this->controller->getModule()->getConfigFile('filters')) {
 			$files[] = $file;
 		}
 		return $files;

@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSImageManager {
+	use BSBasicObject;
 	protected $useragent;
 	protected $type;
 	protected $flags = 0;
@@ -27,7 +28,7 @@ class BSImageManager {
 	public function __construct ($flags = null) {
 		$this->directory = BSFileUtility::getDirectory('image_cache');
 		$this->setFlags($flags);
-		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
+		$this->setUserAgent($this->request->getUserAgent());
 	}
 
 	/**

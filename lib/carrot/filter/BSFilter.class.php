@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSFilter extends BSParameterHolder {
+	use BSBasicObject;
 	static protected $executed;
 
 	/**
@@ -34,6 +35,7 @@ abstract class BSFilter extends BSParameterHolder {
 			case 'controller':
 			case 'request':
 			case 'user':
+			case 'loader':
 				return BSUtility::executeMethod($name, 'getInstance');
 			case 'action':
 				return $this->controller->getAction();

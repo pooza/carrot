@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSerializeHandler {
+	use BSBasicObject;
 	private $serializer;
 	private $storage;
 	private $attributes;
@@ -18,10 +19,8 @@ class BSSerializeHandler {
 	 * @access public
 	 */
 	public function __construct (BSSerializeStorage $storage = null, BSSerializer $serializer = null) {
-		$classes = BSLoader::getInstance();
-
 		if (!$serializer) {
-			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+			$serializer = $this->loader->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
 		if (!$this->serializer->initialize()) {
@@ -29,7 +28,7 @@ class BSSerializeHandler {
 		}
 
 		if (!$storage) {
-			$storage = $classes->createObject(BS_SERIALIZE_STORAGE, 'SerializeStorage');
+			$storage = $this->loader->createObject(BS_SERIALIZE_STORAGE, 'SerializeStorage');
 		}
 		$this->storage = $storage;
 		if (!$this->storage->initialize()) {

@@ -35,7 +35,7 @@ abstract class BSLogger {
 	/**
 	 * サーバアントホスト名を返す
 	 *
-	 * BSController::getInstance()->getHost()->getName() が利用できない状況がある
+	 * $this->controller->getHost()->getName() が利用できない状況がある
 	 *
 	 * @access protected
 	 * @return string サーバホスト名
@@ -47,7 +47,7 @@ abstract class BSLogger {
 	/**
 	 * クライアントホスト名を返す
 	 *
-	 * BSRequest::getInstance()->getHost()->getName() が利用できない状況がある
+	 * $this->request->getHost()->getName() が利用できない状況がある
 	 *
 	 * @access protected
 	 * @return string クライアントホスト名

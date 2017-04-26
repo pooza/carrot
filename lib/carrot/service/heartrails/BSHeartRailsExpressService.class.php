@@ -35,7 +35,6 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 	 * @return BSArray 最寄り駅の配列
 	 */
 	public function getStations (BSGeocodeEntry $geocode, $flags = null) {
-		$controller = BSController::getInstance();
 		$name = new BSStringFormat('%s.%s.%011.7f-%011.7f');
 		$name[] = get_class($this);
 		$name[] = __FUNCTION__;
@@ -43,9 +42,9 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 		$name[] = $geocode['lng'];
 		$name = $name->getContents();
 		$date = BSDate::getNow()->setParameter('day', '-7');
-		if (($flags & self::FORCE_QUERY) || !$controller->getAttribute($name, $date)) {
+		if (($flags & self::FORCE_QUERY) || !$this->controller->getAttribute($name, $date)) {
 			try {
-				$controller->setAttribute($name, $this->queryStations($geocode));
+				$this->controller->setAttribute($name, $this->queryStations($geocode));
 				$message = new BSStringFormat('%s,%sの最寄り駅を取得しました。');
 				$message[] = $geocode['lat'];
 				$message[] = $geocode['lng'];
@@ -53,7 +52,7 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 			} catch (Exception $e) {
 			}
 		}
-		return $controller->getAttribute($name);
+		return $this->controller->getAttribute($name);
 	}
 
 	private function queryStations (BSGeocodeEntry $geocode) {

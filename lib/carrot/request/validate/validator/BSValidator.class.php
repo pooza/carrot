@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSValidator extends BSParameterHolder {
+	use BSBasicObject;
 	protected $error;
 
 	/**
@@ -31,6 +32,7 @@ abstract class BSValidator extends BSParameterHolder {
 			case 'controller':
 			case 'request':
 			case 'user':
+			case 'loader':
 				return BSUtility::executeMethod($name, 'getInstance');
 			case 'manager':
 				return BSValidateManager::getInstance();

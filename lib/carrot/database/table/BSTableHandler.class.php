@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssignable {
+	use BSBasicObject;
 	private $fields;
 	private $criteria;
 	private $order;
@@ -404,13 +405,12 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	protected function applySmartFields ($values) {
 		$values = new BSArray($values);
 		$fields = $this->getProfile()->getFields();
-		$request = BSRequest::getInstance();
 		$smartFields = new BSArray([
 			$this->getCreateDateField() => BSDate::getNow('Y-m-d H:i:s'),
 			$this->getUpdateDateField() => BSDate::getNow('Y-m-d H:i:s'),
-			$this->getUserAgentField() => $request->getUserAgent()->getName(),
-			$this->getRemoteHostField() => $request->getHost()->getName(),
-			$this->getRemoteAddressField() => $request->getHost()->getAddress(),
+			$this->getUserAgentField() => $this->request->getUserAgent()->getName(),
+			$this->getRemoteHostField() => $this->request->getHost()->getName(),
+			$this->getRemoteAddressField() => $this->request->getHost()->getAddress(),
 		]);
 		foreach ($smartFields as $key => $value) {
 			if (!$values->hasParameter($key) && !!$fields[$key]) {
@@ -773,7 +773,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		if (!$this->recordClass) {
 			$class = get_class($this);
 			if (mb_ereg('^([[:alpha:]]+)' . self::CLASS_SUFFIX . '$', $class, $matches)) {
-				$this->recordClass = BSLoader::getInstance()->getClass($matches[1]);
+				$this->recordClass = $this->loader->getClass($matches[1]);
 			} else {
 				throw new BSDatabaseException($class . 'のクラス名が正しくありません。');
 			}

@@ -18,7 +18,7 @@ class UpdateAction extends BSAction {
 
 	public function execute () {
 		foreach ($this->getDatabase()->getTableNames() as $table) {
-			BSController::getInstance()->removeAttribute(
+			$this->controller->removeAttribute(
 				$this->getDatabase()->getTableProfile($table)
 			);
 		}

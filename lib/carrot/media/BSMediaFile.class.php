@@ -135,7 +135,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected function resizeByWidth (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		if (!$params[__FUNCTION__]) {
 			if (!$useragent) {
-				$useragent = BSRequest::getInstance()->getUserAgent();
+				$useragent = $this->request->getUserAgent();
 			}
 
 			$info = $useragent->getDisplayInfo();
@@ -185,7 +185,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	protected function createURL (BSParameterHolder $params) {
 		$url = BSURL::create($params['href_prefix']);
 		$url['path'] .= $this->getName() . $params['href_suffix'];
-		if (BSUser::getInstance()->isAdministrator()) {
+		if ($this->user->isAdministrator()) {
 			$url->setParameter('at', BSNumeric::getRandom(1000, 9999));
 		}
 		return $url;

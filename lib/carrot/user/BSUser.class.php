@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSUser extends BSParameterHolder {
-	use BSSingleton;
+	use BSSingleton, BSBasicObject;
 	protected $id;
 	private $attributes;
 	private $credentials;
@@ -49,7 +49,7 @@ class BSUser extends BSParameterHolder {
 		if (!self::$instance) {
 			if (!BSString::isBlank($class = BS_USER_CLASS)) {
 				self::$instance = new $class;
-			} else if (BSRequest::getInstance()->isMobile()) {
+			} else if ($this->request->isMobile()) {
 				self::$instance = new BSMobileUser;
 			} else {
 				self::$instance = new self;
@@ -110,7 +110,7 @@ class BSUser extends BSParameterHolder {
 		$this->attributes[(string)$name] = $value;
 		if ($expire) {
 			if (BSString::isBlank($domain)) {
-				$domain = BSController::getInstance()->getHost()->getName();
+				$domain = $this->controller->getHost()->getName();
 			}
 			setcookie(
 				(string)$name,
@@ -118,7 +118,7 @@ class BSUser extends BSParameterHolder {
 				$expire->getTimestamp(),
 				'/',
 				$domain,
-				BSRequest::getInstance()->isSSL(), //セキュア属性
+				$this->request->isSSL(), //セキュア属性
 				true //httponly
 			);
 		}
@@ -135,7 +135,7 @@ class BSUser extends BSParameterHolder {
 		$this->attributes->removeParameter($name);
 
 		if (BSString::isBlank($domain)) {
-			$domain = BSController::getInstance()->getHost()->getName();
+			$domain = $this->controller->getHost()->getName();
 		}
 		$expire = BSDate::getNow();
 		$expire['hour'] = '-1';
@@ -171,7 +171,7 @@ class BSUser extends BSParameterHolder {
 	 * @return BSSession セッション
 	 */
 	protected function getSession () {
-		return BSRequest::getInstance()->getSession();
+		return $this->request->getSession();
 	}
 
 	/**

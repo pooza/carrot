@@ -21,7 +21,7 @@ class BSMobileUser extends BSUser {
 	 */
 	public function login (BSUserIdentifier $identifier = null, $password = null) {
 		if (!$identifier) {
-			$identifier = BSRequest::getInstance()->getUserAgent();
+			$identifier = $this->request->getUserAgent();
 		}
 		return parent::login($identifier, $password);
 	}

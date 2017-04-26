@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSTableProfile implements BSAssignable, BSSerializable {
+	use BSBasicObject;
 	protected $database;
 	protected $fields;
 	protected $constraints;
@@ -95,7 +96,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	protected function getTableClasses () {
 		try {
-			$name = BSLoader::getInstance()->getClass(
+			$name = $this->loader->getClass(
 				$this->getName(),
 				BSTableHandler::CLASS_SUFFIX
 			);
@@ -113,7 +114,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 */
 	protected function getRecordClasses () {
 		try {
-			$name = BSLoader::getInstance()->getClass($this->getName());
+			$name = $this->loader->getClass($this->getName());
 			return new BSArray(BSLoader::getParentClasses($name));
 		} catch (Exception $e) {
 			return new BSArray;
@@ -142,7 +143,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @access public
 	 */
 	public function serialize () {
-		BSController::getInstance()->setAttribute($this, [
+		$this->controller->setAttribute($this, [
 			'fields' => $this->getFields(),
 			'constraints' => $this->getConstraints(),
 		]);
@@ -184,7 +185,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return BSController::getInstance()->getAttribute($this);
+		return $this->controller->getAttribute($this);
 	}
 
 	/**

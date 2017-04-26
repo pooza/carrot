@@ -12,7 +12,7 @@
 class BSGooglePlusAccount
 	implements BSImageContainer, BSSerializable, BSAssignable, BSHTTPRedirector {
 
-	use BSHTTPRedirectorMethods;
+	use BSHTTPRedirectorMethods, BSBasicObject;
 	protected $id;
 	protected $url;
 	protected $profile;
@@ -264,7 +264,7 @@ class BSGooglePlusAccount
 			throw new BSGooglePlusException('アクティビティが取得できません。');
 		}
 
-		BSController::getInstance()->setAttribute($this, $values);
+		$this->controller->setAttribute($this, $values);
 	}
 
 	/**
@@ -275,7 +275,7 @@ class BSGooglePlusAccount
 	 */
 	public function getSerialized () {
 		$date = BSDate::getNow()->setParameter('minute', '-' . BS_SERVICE_GOOGLE_PLUS_MINUTES);
-		return BSController::getInstance()->getAttribute($this, $date);
+		return $this->controller->getAttribute($this, $date);
 	}
 
 	/**

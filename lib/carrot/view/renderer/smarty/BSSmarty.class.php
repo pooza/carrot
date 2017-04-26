@@ -12,6 +12,7 @@ BSUtility::includeFile('Smarty/Smarty.class');
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSmarty extends Smarty implements BSTextRenderer {
+	use BSBasicObject;
 	private $type;
 	private $encoding;
 	private $template;
@@ -37,7 +38,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->error_reporting = E_ALL ^ E_NOTICE ^ E_STRICT ^ E_WARNING;
 		$this->registerDirectory(BSFileUtility::getDirectory('templates'));
 		$this->setEncoding('utf-8');
-		$this->setUserAgent(BSRequest::getInstance()->getUserAgent());
+		$this->setUserAgent($this->request->getUserAgent());
 	}
 
 	/**

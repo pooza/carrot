@@ -13,7 +13,7 @@
 abstract class BSRecord implements ArrayAccess,
 	BSSerializable, BSAssignable, BSAttachmentContainer, BSImageContainer, BSHTTPRedirector {
 
-	use BSHTTPRedirectorMethods;
+	use BSHTTPRedirectorMethods, BSBasicObject;
 	protected $attributes;
 	protected $table;
 	protected $url;
@@ -136,7 +136,7 @@ abstract class BSRecord implements ArrayAccess,
 			$record->touch();
 		}
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
-			BSController::getInstance()->removeAttribute($this);
+			$this->controller->removeAttribute($this);
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->log($this . 'を更新しました。');
@@ -200,7 +200,7 @@ abstract class BSRecord implements ArrayAccess,
 				$file->delete();
 			}
 		}
-		BSController::getInstance()->removeAttribute($this);
+		$this->controller->removeAttribute($this);
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->log($this . 'を削除しました。');
 		}
@@ -668,7 +668,7 @@ abstract class BSRecord implements ArrayAccess,
 		if (!$this->isSerializable()) {
 			throw new BSDatabaseException($this . 'はシリアライズできません。');
 		}
-		BSController::getInstance()->setAttribute($this, $this->getSerializableValues());
+		$this->controller->setAttribute($this, $this->getSerializableValues());
 	}
 
 	/**
@@ -677,7 +677,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 */
 	public function clearSerialize () {
-		BSController::getInstance()->removeAttribute($this);
+		$this->controller->removeAttribute($this);
 	}
 
 	/**
@@ -688,9 +688,9 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function getSerialized () {
 		if ($date = $this->getUpdateDate()) {
-			return BSController::getInstance()->getAttribute($this, $date);
+			return $this->controller->getAttribute($this, $date);
 		} else {
-			return BSController::getInstance()->getAttribute($this);
+			return $this->controller->getAttribute($this);
 		}
 	}
 

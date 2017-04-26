@@ -84,7 +84,7 @@ class BSHTTP extends BSSocket {
 
 	protected function createRequest () {
 		$request = new BSHTTPRequest;
-		$request->setHeader('User-Agent', BSController::getInstance()->getName('en'));
+		$request->setHeader('User-Agent', $this->controller->getName('en'));
 		return $request;
 	}
 

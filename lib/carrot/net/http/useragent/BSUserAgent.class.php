@@ -11,6 +11,7 @@
  * @abstract
  */
 abstract class BSUserAgent extends BSParameterHolder {
+	use BSBasicObject;
 	protected $bugs;
 	protected $supports;
 	protected $digest;
@@ -104,30 +105,26 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @return boolean 成功時にTrue
 	 */
 	public function initializeView (BSSmartyView $view) {
-		$controller = BSController::getInstance();
-		$request = BSRequest::getInstance();
-		$user = BSUser::getInstance();
-
 		$view->getRenderer()->setUserAgent($this);
 		$view->getRenderer()->addModifier('sanitize');
 		$view->getRenderer()->addOutputFilter('trim');
-		$view->setAttributes($request->getAttributes());
+		$view->setAttributes($this->request->getAttributes());
 		$view->setAttribute('module', $view->getModule());
 		$view->setAttribute('action', $view->getAction());
-		$view->setAttribute('errors', $request->getErrors());
-		$view->setAttribute('params', $request->getParameters());
-		$view->setAttribute('real_useragent', $request->getRealUserAgent());
-		$view->setAttribute('credentials', $user->getCredentials());
-		$view->setAttribute('client_host', $request->getHost());
-		$view->setAttribute('server_host', $controller->getHost());
-		$view->setAttribute('has_proxy_server', $controller->hasServerSideCache());
-		$view->setAttribute('has_server_side_cache', $controller->hasServerSideCache());
-		$view->setAttribute('is_ssl', $request->isSSL());
+		$view->setAttribute('errors', $this->request->getErrors());
+		$view->setAttribute('params', $this->request->getParameters());
+		$view->setAttribute('real_useragent', $this->request->getRealUserAgent());
+		$view->setAttribute('credentials', $this->user->getCredentials());
+		$view->setAttribute('client_host', $this->request->getHost());
+		$view->setAttribute('server_host', $this->controller->getHost());
+		$view->setAttribute('has_proxy_server', $this->controller->hasServerSideCache());
+		$view->setAttribute('has_server_side_cache', $this->controller->hasServerSideCache());
+		$view->setAttribute('is_ssl', $this->request->isSSL());
 		$view->setAttribute('is_debug', BS_DEBUG);
 		$view->setAttribute('is_image_storable', BS_IMAGE_STORABLE);
 		$view->setAttribute('session', [
-			'name' => $request->getSession()->getName(),
-			'id' => $request->getSession()->getID(),
+			'name' => $this->request->getSession()->getName(),
+			'id' => $this->request->getSession()->getID(),
 		]);
 		return true;
 	}
@@ -150,9 +147,8 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 */
 	public function getQuery () {
 		$query = new BSWWWFormRenderer;
-		$request = BSRequest::getInstance();
-		if (BS_DEBUG || BSUser::getInstance()->isAdministrator()) {
-			$query[self::ACCESSOR] = $request[self::ACCESSOR];
+		if (BS_DEBUG || $this->user->isAdministrator()) {
+			$query[self::ACCESSOR] = $this->request[self::ACCESSOR];
 		}
 		if ($this->hasBug('cache_control')) {
 			$query['at'] = BSNumeric::getRandom(1000, 9999);

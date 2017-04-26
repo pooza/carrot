@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSMemcacheSerializeStorage implements BSSerializeStorage {
+	use BSBasicObject;
 	private $server;
 	private $serializer;
 
@@ -19,8 +20,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	 */
 	public function __construct (BSSerializer $serializer = null) {
 		if (!$serializer) {
-			$classes = BSLoader::getInstance();
-			$serializer = $classes->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
+			$serializer = $this->loader->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
 	}

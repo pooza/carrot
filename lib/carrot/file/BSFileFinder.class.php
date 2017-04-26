@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSFileFinder {
+	use BSBasicObject;
 	private $directories;
 	private $suffixes;
 	private $pattern;
@@ -23,7 +24,7 @@ class BSFileFinder {
 		$this->directories = new BSArray;
 		$this->suffixes = new BSArray;
 		$this->suffixes[] = null;
-		foreach (BSController::getInstance()->getSearchDirectories() as $dir) {
+		foreach ($this->controller->getSearchDirectories() as $dir) {
 			$this->registerDirectory($dir);
 		}
 		$this->setOutputClass($class);
@@ -124,7 +125,7 @@ class BSFileFinder {
 	 * @param string $class 出力クラス
 	 */
 	public function setOutputClass ($class) {
-		$this->outputClass = BSLoader::getInstance()->getClass($class);
+		$this->outputClass = $this->loader->getClass($class);
 	}
 }
 

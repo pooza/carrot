@@ -12,6 +12,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSSocketServer {
+	use BSBasicObject;
 	protected $attributes;
 	protected $server;
 	private $name;
@@ -44,7 +45,7 @@ class BSSocketServer {
 	 * @access public
 	 */
 	public function start () {
-		if (!(BSRequest::getInstance() instanceof BSConsoleRequest)) {
+		if (!($this->request instanceof BSConsoleRequest)) {
 			$message = new BSStringFormat('%sを開始できません。');
 			$message[] = get_class($this);
 			throw new BSConsoleException($message);
@@ -68,7 +69,7 @@ class BSSocketServer {
 
 		$this->close();
 		$this->log('終了しました。');
-		BSController::getInstance()->removeAttribute($this);
+		$this->controller->removeAttribute($this);
 	}
 
 	private function log ($body) {
@@ -220,7 +221,7 @@ class BSSocketServer {
 	 * @access public
 	 */
 	public function serialize () {
-		BSController::getInstance()->setAttribute($this, $this->attributes);
+		$this->controller->setAttribute($this, $this->attributes);
 	}
 
 	/**
@@ -230,7 +231,7 @@ class BSSocketServer {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return BSController::getInstance()->getAttribute($this);
+		return $this->controller->getAttribute($this);
 	}
 
 	/**

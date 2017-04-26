@@ -21,7 +21,7 @@ class BS3GPPMovieFile extends BSQuickTimeMovieFile {
 	 */
 	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		if (!$useragent) {
-			$useragent = BSRequest::getInstance()->getUserAgent();
+			$useragent = $this->request->getUserAgent();
 		}
 		if ($useragent->isMobile()) {
 			$params = BSArray::create($params);

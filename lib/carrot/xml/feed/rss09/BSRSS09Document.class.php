@@ -20,7 +20,7 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 		parent::__construct('rss');
 		$this->setAttribute('version', $this->version);
 		$this->setDate(BSDate::getNow());
-		$this->getChannel()->createElement('generator', BSController::getInstance()->getName());
+		$this->getChannel()->createElement('generator', $this->controller->getName());
 		$author = BSAuthorRole::getInstance();
 		$this->setAuthor($author->getName('ja'), $author->getMailAddress('ja'));
 	}

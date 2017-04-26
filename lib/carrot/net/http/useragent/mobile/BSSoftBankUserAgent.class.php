@@ -43,7 +43,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return boolean 旧機種ならばTrue
 	 */
 	public function isLegacy () {
-		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && BSRequest::getInstance()->isSSL()) {
+		if (BS_USERAGENT_MOBILE_DENY_ON_HTTPS && $this->request->isSSL()) {
 			return true;
 		}
 		return !$this->is3GC();
@@ -66,8 +66,7 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		$controller = BSController::getInstance();
-		if (BSString::isBlank($info = $controller->getAttribute('X-JPHONE-DISPLAY'))) {
+		if (BSString::isBlank($info = $this->controller->getAttribute('X-JPHONE-DISPLAY'))) {
 			return parent::getDisplayInfo();
 		}
 		$info = BSString::explode('*', $info);
