@@ -49,7 +49,7 @@ class BSUser extends BSParameterHolder {
 		if (!self::$instance) {
 			if (!BSString::isBlank($class = BS_USER_CLASS)) {
 				self::$instance = new $class;
-			} else if ($this->request->isMobile()) {
+			} else if (BSRequest::getInstance()->isMobile()) {
 				self::$instance = new BSMobileUser;
 			} else {
 				self::$instance = new self;
