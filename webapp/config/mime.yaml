@@ -4,8 +4,6 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 types:
-  3gp: video/3gpp
-  3g2: video/3gpp2
   aac: audio/x-aac
   ai: application/postscript
   aif: audio/x-aiff
@@ -14,7 +12,6 @@ types:
   css: text/css
   csv: text/csv
   dat: application/octet-stream
-  dmt: application/x-decomail-template
   doc: application/vnd.ms-word
   docx: application/vnd.openxmlformats-officedocument.wordprocessingml.document
   eml: message/rfc822
@@ -22,19 +19,16 @@ types:
   flv: video/x-flv
   gif: image/gif
   gz: application/x-gzip
-  hmt: application/x-htmlmail-template
   html: text/html
   ico: image/vnd.microsoft.icon
   ini: text/x-ini-file
   jpg: image/jpeg
   js: text/javascript
   json: application/json
-  khm: application/x-kddi-htmlmail
   m4a: audio/mp4
   mov: video/quicktime
   mp3: audio/mpeg
   mp4: video/mp4
-  mpg: video/mpeg
   odp: application/vnd.oasis.opendocument.presentation
   ods: application/vnd.oasis.opendocument.spreadsheet
   odt: application/vnd.oasis.opendocument.text
