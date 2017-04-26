@@ -77,11 +77,11 @@ class BSMovieFile extends BSMediaFile {
 	 * @return integer プレイヤーの高さ
 	 */
 	public function getPlayerHeight () {
-		return BS_MOVIE_FLV_PLAYER_HEIGHT;
+		return BS_MOVIE_MP4_PLAYER_HEIGHT;
 	}
 
 	/**
-	 * FLVに変換して返す
+	 * MPEG4変換して返す
 	 *
 	 * @access public
 	 * @param BSMediaConvertor $convertor コンバータ
@@ -89,7 +89,7 @@ class BSMovieFile extends BSMediaFile {
 	 */
 	public function convert (BSMediaConvertor $convertor = null) {
 		if (!$convertor) {
-			$convertor = new BSFLVMediaConvertor;
+			$convertor = new BSMPEG4MediaConvertor;
 		}
 		return $convertor->execute($this);
 	}
@@ -109,41 +109,7 @@ class BSMovieFile extends BSMediaFile {
 			case 'lity':
 				return $this->createLityElement($params);
 		}
-
-		$params = BSArray::create($params);
-		$this->resizeByWidth($params, $useragent);
-		$container = new BSDivisionElement;
-		$container->registerStyleClass($params['style_class']);
-		$container->setStyles($this->getStyles($params));
-		$container->setStyle('height', 'auto');
-		if ($element = $this->createObjectElement($params)) {
-			$container->addElement($element);
-		}
-		if ($inner = $container->getElement('div')) { //Gecko対応
-			$inner->setStyles($this->getStyles($params));
-		}
-		return $container;
-	}
-
-	/**
-	 * object要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @return BSObjectElement 要素
-	 */
-	public function createObjectElement (BSParameterHolder $params) {
-		$element = new BSFlashObjectElement;
-		$element->setURL(BSURL::create(BS_MOVIE_FLV_PLAYER_HREF));
-		$element->setAttribute('width', $params['width']);
-		$element->setAttribute('height', $params['height'] + $this->getPlayerHeight());
-		$element->setParameter('allowfullscreen', 'true');
-		$element->setParameter('allowscriptaccess', 'always');
-
-		$url = $this->createURL($params);
-		$url['query'] = null; //クエリー文字列のあるURLを指定するとエラーになる。
-		$element->setFlashVar('file', $url->getContents());
-		return $element;
+		return $this->createVideoElement($params);
 	}
 
 	/**

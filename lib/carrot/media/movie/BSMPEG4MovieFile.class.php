@@ -20,24 +20,6 @@ class BSMPEG4MovieFile extends BSMovieFile {
 	}
 
 	/**
-	 * 表示用のXHTML要素を返す
-	 *
-	 * @access public
-	 * @param BSParameterHolder $params パラメータ配列
-	 * @param BSUserAgent $useragent 対象ブラウザ
-	 * @return BSDivisionElement 要素
-	 */
-	public function createElement (BSParameterHolder $params, BSUserAgent $useragent = null) {
-		switch ($params['mode']) {
-			case 'shadowbox':
-				return $this->createShadowboxElement($params);
-			case 'lity':
-				return $this->createLityElement($params);
-		}
-		return $this->createVideoElement($params);
-	}
-
-	/**
 	 * プレイヤーの高さを返す
 	 *
 	 * @access public
