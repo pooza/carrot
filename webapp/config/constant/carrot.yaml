@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.43
+  ver: 2.6.44
 
 admin:
   email:
@@ -68,23 +68,6 @@ ffmpeg:
     flv:
       video_codec: flv
       audio_codec: aac
-    3gp:
-      video_codec: mpeg4
-      audio_codec: aac
-      width: 176
-      height: 144
-      frame_rate: 10
-      force: yes
-      mobile:
-        softbank:
-          max_file_size: 256
-    3g2:
-      video_codec: mpeg4
-      audio_codec: aac
-      force: yes
-      width: 176
-      height: 144
-      frame_rate: 10
     mp4:
       video_codec: libx264
       audio_codec: aac
