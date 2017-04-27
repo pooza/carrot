@@ -231,12 +231,14 @@ class BSMovieFile extends BSMediaFile {
 			return;
 		}
 		switch ($file->getType()) {
-			case BSMIMEType::getType('mov'):
-				return parent::search($file, 'BSQuickTimeMovieFile');
 			case BSMIMEType::getType('mp4'):
 				return parent::search($file, 'BSMPEG4MovieFile');
 			case BSMIMEType::getType('webm'):
 				return parent::search($file, 'BSWebMMovieFile');
+			case BSMIMEType::getType('flv'):
+				return parent::search($file, 'BSFLVMovieFile');
+			case BSMIMEType::getType('mov'):
+				return parent::search($file, 'BSQuickTimeMovieFile');
 			case BSMIMEType::getType('wmv'):
 				return parent::search($file, 'BSWindowsMediaMovieFile');
 		}
