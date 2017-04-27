@@ -8,9 +8,8 @@
  * シリアライズ可能なデータベーステーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @abstract
  */
-abstract class BSSerializableTableHandler extends BSTableHandler implements BSSerializable {
+trait BSSerializableTable {
 
 	/**
 	 * @access public
