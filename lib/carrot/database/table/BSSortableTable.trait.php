@@ -8,9 +8,8 @@
  * ソート可能なテーブル
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @abstract
  */
-abstract class BSSortableTableHandler extends BSTableHandler {
+trait BSSortableTable {
 
 	/**
 	 * @access public

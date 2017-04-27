@@ -8,16 +8,11 @@
  * ソート可能なテーブルのレコード
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
- * @abstract
  */
-abstract class BSSortableRecord extends BSRecord {
+trait BSSortableRecord {
 	protected $next;
 	protected $prev;
 	protected $similars;
-	const RANK_UP = 'up';
-	const RANK_DOWN = 'down';
-	const RANK_TOP = 'top';
-	const RANK_BOTTOM = 'bottom';
 
 	/**
 	 * 前レコードを返す
@@ -98,7 +93,7 @@ abstract class BSSortableRecord extends BSRecord {
 	 * 順位を変更
 	 *
 	 * @access public
-	 * @param string $option (self::RANK_UP|self::RANK_DOWN)
+	 * @param string $option (up|down|top|bottom)
 	 */
 	public function setOrder ($option) {
 		$rank = 0;
@@ -110,23 +105,23 @@ abstract class BSSortableRecord extends BSRecord {
 		}
 
 		switch ($option) {
-			case self::RANK_UP:
+			case 'up':
 				if ($ids[$rank - 1]) {
 					$ids[$rank] = $ids[$rank - 1];
 					$ids[$rank - 1] = $this->getID();
 				}
 				break;
-			case self::RANK_DOWN:
+			case 'down':
 				if ($ids[$rank + 1]) {
 					$ids[$rank] = $ids[$rank + 1];
 					$ids[$rank + 1] = $this->getID();
 				}
 				break;
-			case self::RANK_TOP:
+			case 'top':
 				$ids->removeParameter($rank);
 				$ids->unshift($this->getID());
 				break;
-			case self::RANK_BOTTOM:
+			case 'bottom':
 				$ids->removeParameter($rank);
 				$ids[] = $this->getID();
 				break;
