@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSRecordValidator extends BSValidator {
-	private $table;
+	protected $table;
 
 	/**
 	 * 初期化
@@ -59,7 +59,14 @@ class BSRecordValidator extends BSValidator {
 		return true;
 	}
 
-	private function isExists ($id) {
+	/**
+	 * レコードが存在するか
+	 *
+	 * @access protected
+	 * @param integer $id レコードのID
+	 * @return boolean 存在するならばTrue
+	 */
+	protected function isExists ($id) {
 		if ($recordFound = $this->getRecord($id)) {
 			if ($this['update']) {
 				if ($recordModule = $this->controller->getModule()->getRecord()) {
@@ -74,23 +81,35 @@ class BSRecordValidator extends BSValidator {
 		return false;
 	}
 
-	private function validateValues ($id) {
+	/**
+	 * 妥当な値か
+	 *
+	 * @access protected
+	 * @param integer $id レコードのID
+	 * @return boolean 妥当な値ならばTrue
+	 */
+	protected function validateValues ($id) {
 		$record = $this->getRecord($id);
 		foreach ($this['valid_values'] as $field => $value) {
 			$values = new BSArray($value);
 			if (!$values->isContain($record[$field])) {
-				$message = sprintf(
-					'%sが正しくありません。',
-					BSTranslateManager::getInstance()->execute($field)
-				);
-				$this->error = $message;
+				$message = new BSStringFormat('%sが正しくありません。');
+				$message[] = BSTranslateManager::getInstance()->execute($field);
+				$this->error = $message->getContents();
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private function executeModuleFunction ($function) {
+	/**
+	 * クラスのstaticメソッドを実行
+	 *
+	 * @access protected
+	 * @param string $function メソッド名
+	 * @return boolean メソッドの戻り値
+	 */
+	protected function executeModuleFunction ($function) {
 		$value = $this->controller->getModule()->$function();
 		if ($value instanceof BSRecord) {
 			$value = $value->getID();
@@ -98,7 +117,14 @@ class BSRecordValidator extends BSValidator {
 		return $value;
 	}
 
-	private function getRecord ($id) {
+	/**
+	 * 対象レコードを取得
+	 *
+	 * @access protected
+	 * @param integer $id レコードのID
+	 * @return BSRecord 対象レコード
+	 */
+	protected function getRecord ($id) {
 		try {
 			$values = [$this['field'] => $id];
 			foreach ((array)$this['criteria'] as $field => $value) {
@@ -112,7 +138,13 @@ class BSRecordValidator extends BSValidator {
 		}
 	}
 
-	private function getTable () {
+	/**
+	 * 対象テーブルを取得
+	 *
+	 * @access protected
+	 * @return BSTableHandler 対象テーブル
+	 */
+	protected function getTable () {
 		if (!$this->table) {
 			if (BSString::isBlank($class = $this['class'])) {
 				$class = $this['table'];
