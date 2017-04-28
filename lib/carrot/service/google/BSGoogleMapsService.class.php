@@ -86,8 +86,7 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	 * @return BSGeocodeEntry ジオコード
 	 */
 	public function getGeocode ($address) {
-		$service = new BSGoogleMapsGeocodingService;
-		return $service->getGeocode($address);
+		return (new BSGoogleMapsGeocodingService)->getGeocode($address);
 	}
 
 	/**

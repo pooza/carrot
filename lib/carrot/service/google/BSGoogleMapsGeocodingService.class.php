@@ -34,13 +34,12 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 	 * @return BSGeocodeEntry ジオコード
 	 */
 	public function getGeocode ($address) {
-		$values = ['addr' => $address];
-		if (!$entry = $this->getTable()->getRecord($values)) {
-			if ($result = $this->queryGeocode($address)) {
-				$entry = $this->getTable()->register($address, $result);
-			}
+		$key = BSCrypt::digest([get_class($this), $address]);
+		if (!$geocode = $this->controller->getAttribute($key)) {
+			$geocode = $this->query($address);
+			$this->controller->setAttribute($key, $geocode);
 		}
-		return $entry;
+		return new BSGeocodeEntry($geocode);
 	}
 
 	/**
@@ -56,11 +55,7 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 		return $url;
 	}
 
-	protected function queryGeocode ($address) {
-		if ($info = BSGeocodeEntryHandler::parse($address)) {
-			return $info;
-		}
-
+	protected function query ($address) {
 		$url = $this->createRequestURL('/maps/api/geocode/json');
 		$url->setParameter('address', $address);
 		$response = $this->sendGET($url->getFullPath());
@@ -68,16 +63,8 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode(base64_decode($response->getBody()));
 		if (isset($result['results'][0]['geometry']['location'])) {
-			$coord = $result['results'][0]['geometry']['location'];
-			return new BSArray($coord);
+			return BSArray::create($result['results'][0]['geometry']['location']);
 		}
-	}
-
-	protected function getTable () {
-		if (!$this->table) {
-			$this->table = new BSGeocodeEntryHandler;
-		}
-		return $this->table;
 	}
 
 	/**
