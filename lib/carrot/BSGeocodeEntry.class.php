@@ -1,16 +1,37 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage geocode
  */
 
 /**
- * ジオコード エントリーレコード
+ * ジオコードエントリー
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSGeocodeEntry extends BSRecord {
+class BSGeocodeEntry extends BSParameterHolder {
 	private $stations;
+
+	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($params = []) {
+		$this->setParameters($params);
+	}
+
+	/**
+	 * パラメータを設定
+	 *
+	 * @access public
+	 * @param string $name パラメータ名
+	 * @param mixed $value 値
+	 */
+	public function setParameter ($name, $value) {
+		if ($name == 'lon') {
+			$name = 'lng';
+		}
+		parent::setParameter($name, $value);
+	}
 
 	/**
 	 * 書式化して返す
@@ -22,7 +43,6 @@ class BSGeocodeEntry extends BSRecord {
 	public function format ($separator = ',') {
 		return $this['lat'] . $separator . $this['lng'];
 	}
-
 
 	/**
 	 * script要素を返す
