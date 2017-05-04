@@ -355,16 +355,21 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $filename ファイル名
 	 */
 	public function setAttachment ($name, BSFile $file, $filename = null) {
-		$this->removeAttachment($name);
-		if (BSString::isBlank($suffix = $file->getSuffix())) {
-			if (BSString::isBlank($filename)) {
-				$file->setBinary(true);
-				$suffix = BSMIMEType::getSuffix($file->analyzeType());
-			} else {
-				$suffix = BSFileUtility::getSuffix($filename);
+		if ($file instanceof BSImageContainer) {
+			$this->removeImageFile($name);
+			$file->rename($this->getImageFileBaseName($name));
+		} else {
+			$this->removeAttachment($name);
+			if (BSString::isBlank($suffix = $file->getSuffix())) {
+				if (BSString::isBlank($filename)) {
+					$file->setBinary(true);
+					$suffix = BSMIMEType::getSuffix($file->analyzeType());
+				} else {
+					$suffix = BSFileUtility::getSuffix($filename);
+				}
 			}
+			$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		}
-		$file->rename($this->getAttachmentBaseName($name) . $suffix);
 		$file->moveTo($this->getTable()->getDirectory());
 
 		$message = new BSStringFormat('%sの%sを設定しました。');
@@ -382,7 +387,6 @@ abstract class BSRecord implements ArrayAccess,
 	public function removeAttachment ($name) {
 		if ($file = $this->getAttachment($name)) {
 			$file->delete();
-
 			$message = new BSStringFormat('%sの%sを削除しました。');
 			$message[] = $this;
 			$message[] = BSTranslateManager::getInstance()->translate($name);
@@ -498,15 +502,8 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $size サイズ名
 	 */
 	public function removeImageFile ($size) {
-		if ($file = $this->getImageFile($size)) {
-			$file->delete();
-			$this->removeImageCache($size);
-
-			$message = new BSStringFormat('%sの%sを削除しました。');
-			$message[] = $this;
-			$message[] = BSTranslateManager::getInstance()->translate($size);
-			$this->getDatabase()->log($message);
-		}
+		$this->removeImageCache($size);
+		$this->removeAttachment($size);
 	}
 
 	/**
