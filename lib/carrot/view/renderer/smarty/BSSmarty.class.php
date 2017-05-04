@@ -320,7 +320,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function setAttribute ($name, $value) {
 		if ($value instanceof BSAssignable) {
-			$this->assign((string)$name, $value->getAssignableValues());
+			$this->assign((string)$name, $value->assign());
 		} else if (!BSString::isBlank($value)) {
 			$this->assign((string)$name, $value);
 		}

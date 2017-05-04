@@ -78,16 +78,6 @@ trait BSSerializableTable {
 	public function serialize () {
 		$this->controller->setAttribute($this, parent::getResult());
 	}
-
-	/**
-	 * シリアライズ時の値を返す
-	 *
-	 * @access public
-	 * @return mixed シリアライズ時の値
-	 */
-	public function getSerialized () {
-		return $this->controller->getAttribute($this);
-	}
 }
 
 /* vim:set tabstop=4: */

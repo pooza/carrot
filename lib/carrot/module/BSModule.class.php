@@ -450,7 +450,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return $this->getAttributes();
 	}
 

@@ -111,7 +111,7 @@ class BSBackupManager {
 		BSRenderManager::getInstance()->clear();
 		foreach (BSSerializeHandler::getClasses() as $class) {
 			foreach (BSTableHandler::create($class) as $record) {
-				$record->clearSerialize();
+				$record->removeSerialized();
 			}
 		}
 		$this->restoreDatabase();

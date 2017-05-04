@@ -170,7 +170,7 @@ abstract class BSParameterHolder
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return $this->getParameters();
 	}
 

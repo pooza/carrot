@@ -824,7 +824,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return $this->getLabels();
 	}
 

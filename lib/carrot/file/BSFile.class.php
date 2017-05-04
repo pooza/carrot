@@ -10,6 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
+	use BSSerializableMethods;
 	protected $error;
 	protected $handle;
 	private $mode;

@@ -433,7 +433,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		$values = [
 			'name' => $this->getName(),
 			'tables' => $this->getTableNames()->getParameters(),

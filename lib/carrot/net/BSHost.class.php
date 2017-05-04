@@ -114,9 +114,9 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = 'favicon') {
+	public function removeImageCache ($size) {
 		if ($file = $this->getImageFile($size)) {
-			$file->clearImageCache();
+			$file->removeImageCache('image');
 		}
 	}
 
@@ -129,10 +129,9 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile($size)) {
-			$images = new BSImageManager;
-			$info = $images->getImageInfo($file, $size, $pixel, $flags);
+			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getID();
 			return $info;
 		}
@@ -145,9 +144,8 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = 'favicon') {
-		$service = new BSGoogleFaviconsService;
-		return $service->getImageFile($this);
+	public function getImageFile ($size) {
+		return (new BSGoogleFaviconsService)->getImageFile($this);
 	}
 
 	/**
@@ -191,7 +189,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return get_object_vars($this);
 	}
 

@@ -17,7 +17,7 @@ interface BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues ();
+	public function assign ();
 }
 
 /* vim:set tabstop=4: */

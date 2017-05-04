@@ -139,7 +139,7 @@ class BSMailAddress implements BSAssignable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return $this->getContents();
 	}
 

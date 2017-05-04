@@ -13,7 +13,7 @@
 abstract class BSRecord implements ArrayAccess,
 	BSSerializable, BSAssignable, BSAttachmentContainer, BSImageContainer, BSHTTPRedirector {
 
-	use BSHTTPRedirectorMethods, BSBasicObject;
+	use BSHTTPRedirectorMethods, BSBasicObject, BSSerializableMethods;
 	protected $attributes;
 	protected $table;
 	protected $url;
@@ -136,7 +136,7 @@ abstract class BSRecord implements ArrayAccess,
 			$record->touch();
 		}
 		if ($this->isSerializable() && !($flags & BSDatabase::WITHOUT_SERIALIZE)) {
-			$this->controller->removeAttribute($this);
+			$this->removeSerialized();
 		}
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->log($this . 'を更新しました。');
@@ -190,17 +190,12 @@ abstract class BSRecord implements ArrayAccess,
 			BSSQL::getDeleteQueryString($this->getTable(), $this->getCriteria())
 		);
 		foreach ($this->getTable()->getImageNames() as $field) {
-			if ($file = $this->getImageFile($field)) {
-				$file->delete();
-			}
-			$this->clearImageCache($field);
+			$this->removeImageFile($field);
 		}
 		foreach ($this->getTable()->getAttachmentNames() as $field) {
-			if ($file = $this->getAttachment($field)) {
-				$file->delete();
-			}
+			$this->removeAttachment($field);
 		}
-		$this->controller->removeAttribute($this);
+		$this->removeSerialized();
 		if (!($flags & BSDatabase::WITHOUT_LOGGING)) {
 			$this->getDatabase()->log($this . 'を削除しました。');
 		}
@@ -325,16 +320,13 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $name 名前
 	 * @return string[] 添付ファイルの情報
 	 */
-	public function getAttachmentInfo ($name = null) {
+	public function getAttachmentInfo ($name) {
 		if ($file = $this->getAttachment($name)) {
 			$info = new BSArray;
 			$info['path'] = $file->getPath();
 			$info['size'] = $file->getSize();
 			$info['type'] = $file->getType();
 			$info['filename'] = $this->getAttachmentFileName($name);
-			if ($url = $this->getAttachmentURL($name)) {
-				$info['url'] = $url->getContents();
-			}
 			return $info;
 		}
 	}
@@ -358,11 +350,11 @@ abstract class BSRecord implements ArrayAccess,
 	 * 添付ファイルを設定
 	 *
 	 * @access public
-	 * @param BSFile $file 添付ファイル
 	 * @param string $name 名前
+	 * @param BSFile $file 添付ファイル
 	 * @param string $filename ファイル名
 	 */
-	public function setAttachment (BSFile $file, $name, $filename = null) {
+	public function setAttachment ($name, BSFile $file, $filename = null) {
 		$this->removeAttachment($name);
 		if (BSString::isBlank($suffix = $file->getSuffix())) {
 			if (BSString::isBlank($filename)) {
@@ -416,20 +408,10 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $name 名前
 	 * @return string ダウンロード時ファイル名
 	 */
-	public function getAttachmentFileName ($name = null) {
+	public function getAttachmentFileName ($name) {
 		if ($file = $this->getAttachment($name)) {
 			return $this->getAttachmentBaseName($name) . $file->getSuffix();
 		}
-	}
-
-	/**
-	 * 添付ファイルのURLを返す
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @return BSURL 添付ファイルURL
-	 */
-	public function getAttachmentURL ($name = null) {
 	}
 
 	/**
@@ -442,11 +424,11 @@ abstract class BSRecord implements ArrayAccess,
 		$dir = $request->getSession()->getDirectory();
 		foreach ($this->getTable()->getImageNames() as $name) {
 			if ($info = $request[$name]) {
-				$this->setImageFile(new BSImageFile($info['tmp_name']), $name);
+				$this->setImageFile($name, new BSImageFile($info['tmp_name']));
 			} else {
 				foreach (BSImage::getSuffixes() as $suffix) {
 					if ($file = $dir->getEntry($name . $suffix, 'BSImageFile')) {
-						$this->setImageFile($file, $name);
+						$this->setImageFile($name, $file);
 						break;
 					}
 				}
@@ -454,7 +436,7 @@ abstract class BSRecord implements ArrayAccess,
 		}
 		foreach ($this->getTable()->getAttachmentNames() as $name) {
 			if ($info = $request[$name]) {
-				$this->setAttachment(new BSFile($info['tmp_name']), $name, $info['name']);
+				$this->setAttachment($name, new BSFile($info['tmp_name']), $info['name']);
 			}
 		}
 	}
@@ -465,7 +447,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = 'thumbnail') {
+	public function removeImageCache ($size = 'thumbnail') {
 		(new BSImageManager)->removeThumbnail($this, $size);
 	}
 
@@ -478,7 +460,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = 'thumbnail', $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 
@@ -499,21 +481,14 @@ abstract class BSRecord implements ArrayAccess,
 	}
 
 	/**
-	 * 画像ファイルを設定する
+	 * 画像ファイルを設定
 	 *
 	 * @access public
+	 * @param string $size 画像名
 	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
 	 */
-	public function setImageFile (BSImageFile $file, $size = 'thumbnail') {
-		$this->removeImageFile($size);
-		$file->rename($this->getImageFileBaseName($size));
-		$file->moveTo($this->getTable()->getDirectory());
-
-		$message = new BSStringFormat('%sの%sを設定しました。');
-		$message[] = $this;
-		$message[] = BSTranslateManager::getInstance()->translate($size);
-		$this->getDatabase()->log($message);
+	public function setImageFile ($size, BSImageFile $file) {
+		$this->setAttachment($size, $file);
 	}
 
 	/**
@@ -522,10 +497,10 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @param string $size サイズ名
 	 */
-	public function removeImageFile ($size = 'thumbnail') {
+	public function removeImageFile ($size) {
 		if ($file = $this->getImageFile($size)) {
 			$file->delete();
-			$this->clearImageCache($size);
+			$this->removeImageCache($size);
 
 			$message = new BSStringFormat('%sの%sを削除しました。');
 			$message[] = $this;
@@ -672,15 +647,6 @@ abstract class BSRecord implements ArrayAccess,
 	}
 
 	/**
-	 * シリアライズされたキャッシュを削除
-	 *
-	 * @access public
-	 */
-	public function clearSerialize () {
-		$this->controller->removeAttribute($this);
-	}
-
-	/**
 	 * シリアライズ時の値を返す
 	 *
 	 * @access public
@@ -706,10 +672,13 @@ abstract class BSRecord implements ArrayAccess,
 			$values['url'] = $url->getContents();
 		}
 		foreach ($this->getTable()->getImageNames() as $field) {
-			$values['has_' . $field] = !!$this->getImageFile($field);
+			if (!!$this->getImageFile($field)) {
+				$values['has_' . $field] = true;
+				$values[$field] = $this->getImageInfo($field);
+			}
 		}
 		foreach ($this->getTable()->getAttachmentNames() as $field) {
-			if ($this->getAttachment($field)) {
+			if (!!$this->getAttachment($field)) {
 				$values['has_' . $field] = true;
 				$values[$field] = $this->getAttachmentInfo($field);
 			}
@@ -723,7 +692,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @return BSArray アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		if ($this->isSerializable()) {
 			if (BSString::isBlank($this->getSerialized())) {
 				$this->serialize();

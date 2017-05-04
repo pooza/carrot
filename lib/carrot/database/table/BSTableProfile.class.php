@@ -11,7 +11,7 @@
  * @abstract
  */
 abstract class BSTableProfile implements BSAssignable, BSSerializable {
-	use BSBasicObject;
+	use BSBasicObject, BSSerializableMethods;
 	protected $database;
 	protected $fields;
 	protected $constraints;
@@ -155,7 +155,7 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		$values = [
 			'name' => $this->getName(),
 			'name_ja' => BSTranslateManager::getInstance()->execute($this->getName(), 'ja'),
@@ -176,16 +176,6 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 		}
 
 		return $values;
-	}
-
-	/**
-	 * シリアライズ時の値を返す
-	 *
-	 * @access public
-	 * @return mixed シリアライズ時の値
-	 */
-	public function getSerialized () {
-		return $this->controller->getAttribute($this);
 	}
 
 	/**

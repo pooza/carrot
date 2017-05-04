@@ -360,7 +360,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		$values = $this->getParameters();
 		$values['supports'] = $this->supports;
 		$values['bugs'] = $this->bugs;
