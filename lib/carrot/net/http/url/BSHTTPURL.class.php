@@ -235,9 +235,9 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = 'favicon') {
+	public function removeImageCache ($size) {
 		if ($file = $this->getImageFile($size)) {
-			$file->clearImageCache();
+			$file->removeImageCache('image');
 		}
 	}
 
@@ -250,10 +250,9 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = 'favicon', $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile($size)) {
-			$images = new BSImageManager;
-			$info = $images->getImageInfo($file, $size, $pixel, $flags);
+			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getID();
 			return $info;
 		}
@@ -266,14 +265,12 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = 'favicon') {
+	public function getImageFile ($size) {
 		switch ($size) {
 			case 'favicon':
-				$service = new BSGoogleFaviconsService;
-				return $service->getImageFile($this['host']);
+				return (new BSGoogleFaviconsService)->getImageFile($this['host']);
 			case 'qr':
-				$service = new BSGoogleChartService;
-				return $service->getQRCodeImageFile($this->getContents());
+				return (new BSGoogleChartService)->getQRCodeImageFile($this->getContents());
 		}
 	}
 

@@ -67,7 +67,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @access public
 	 */
 	public function delete () {
-		$this->clearImageCache();
+		$this->removeImageCache('image');
 		parent::delete();
 	}
 
@@ -156,7 +156,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 			throw new BSImageException($this . 'のメディアタイプがレンダラーと一致しません。');
 		}
 
-		$this->clearImageCache();
+		$this->removeImageCache('image');
 		$this->setContents($this->getRenderer()->getContents());
 
 		if (!BS_IMAGE_STORABLE) {
@@ -198,9 +198,8 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = null) {
-		$images = new BSImageManager;
-		$images->removeThumbnail($this, $size);
+	public function removeImageCache ($size) {
+		(new BSImageManager)->removeThumbnail($this, $size);
 	}
 
 	/**
@@ -212,7 +211,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 
@@ -223,7 +222,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = null) {
+	public function getImageFile ($size) {
 		return $this;
 	}
 
@@ -231,10 +230,10 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * 画像ファイルを設定
 	 *
 	 * @access public
+	 * @param string $name 画像名
 	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
 	 */
-	public function setImageFile (BSImageFile $file, $size = null) {
+	public function setImageFile ($name, BSImageFile $file) {
 		$this->getEngine()->setImage($file);
 		$this->save();
 	}
@@ -288,8 +287,8 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
-		$values = $this->getImageInfo();
+	public function assign () {
+		$values = $this->getImageInfo('image');
 		$values['path'] = $this->getPath();
 		return $values;
 	}

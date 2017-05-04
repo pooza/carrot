@@ -18,7 +18,7 @@ interface BSAttachmentContainer {
 	 * @param string $name 名前
 	 * @return string[] 添付ファイルの情報
 	 */
-	public function getAttachmentInfo ($name = null);
+	public function getAttachmentInfo ($name);
 
 	/**
 	 * 添付ファイルを返す
@@ -28,15 +28,6 @@ interface BSAttachmentContainer {
 	 * @return BSFile 添付ファイル
 	 */
 	public function getAttachment ($name);
-
-	/**
-	 * 添付ファイルを設定
-	 *
-	 * @access public
-	 * @param BSFile $file 添付ファイル
-	 * @param string $name 名前
-	 */
-	public function setAttachment (BSFile $file, $name);
 
 	/**
 	 * 添付ファイルベース名を返す
@@ -54,16 +45,7 @@ interface BSAttachmentContainer {
 	 * @param string $name 名前
 	 * @return string ダウンロード時ファイル名
 	 */
-	public function getAttachmentFileName ($name = null);
-
-	/**
-	 * 添付ファイルのURLを返す
-	 *
-	 * @access public
-	 * @param string $name 名前
-	 * @return BSURL 添付ファイルURL
-	 */
-	public function getAttachmentURL ($name = null);
+	public function getAttachmentFileName ($name);
 }
 
 /* vim:set tabstop=4: */

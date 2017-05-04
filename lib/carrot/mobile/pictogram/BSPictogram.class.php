@@ -123,7 +123,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 			return $this->getNumericReference();
 		} else {
 			$images = $useragent->createImageManager();
-			return $images->createElement($this->getImageInfo())->getContents();
+			return $images->createElement($this->getImageInfo('image'))->getContents();
 		}
 	}
 
@@ -150,7 +150,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = null) {
+	public function removeImageCache ($size) {
 	}
 
 	/**
@@ -162,10 +162,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @param integer $flags ダミー
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if (!$this->imageinfo) {
 			$this->imageinfo = new BSArray;
-			$image = $this->getImageFile()->getEngine();
+			$image = $this->getImageFile('image')->getEngine();
 			$this->imageinfo['url'] = $this->getURL()->getContents();
 			$this->imageinfo['width'] = $image->getWidth();
 			$this->imageinfo['height'] = $image->getHeight();
@@ -183,7 +183,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getURL () {
 		if (!$this->url) {
-			$this->url = BSFileUtility::createURL('pictogram', $this->getImageFile()->getName());
+			$this->url = BSFileUtility::createURL(
+				'pictogram',
+				$this->getImageFile('image')->getName()
+			);
 		}
 		return $this->url;
 	}
@@ -195,7 +198,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = null) {
+	public function getImageFile ($size) {
 		if (!$this->imagefile) {
 			$dir = BSFileUtility::getDirectory('pictogram');
 			$this->imagefile = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile');
@@ -231,7 +234,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @access public
 	 * @return mixed アサインすべき値
 	 */
-	public function getAssignableValues () {
+	public function assign () {
 		return $this->getContents();
 	}
 
@@ -296,7 +299,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 				foreach ($pictogram->getNames() as $name) {
 					$urls[$name] = new BSArray;
 					$urls[$name]['name'] = $name;
-					$urls[$name]['image'] = $pictogram->getImageInfo();
+					$urls[$name]['image'] = $pictogram->getImageInfo('image');
 				}
 			}
 			$this->controller->setAttribute($key, $urls);

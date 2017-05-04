@@ -17,7 +17,7 @@ interface BSImageContainer {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = null);
+	public function removeImageCache ($size);
 
 	/**
 	 * 画像の情報を返す
@@ -28,7 +28,7 @@ interface BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = null, $pixel = null, $flags = null);
+	public function getImageInfo ($size, $pixel = null, $flags = null);
 
 	/**
 	 * 画像ファイルを返す
@@ -37,7 +37,7 @@ interface BSImageContainer {
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = null);
+	public function getImageFile ($size);
 
 	/**
 	 * 画像ファイルベース名を返す

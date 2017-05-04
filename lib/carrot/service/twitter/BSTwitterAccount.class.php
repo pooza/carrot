@@ -134,7 +134,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @access public
 	 * @param string $size
 	 */
-	public function clearImageCache ($size = null) {
+	public function removeImageCache ($size) {
 	}
 
 	/**
@@ -146,7 +146,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size = 'icon', $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile()) {
 			$images = new BSImageManager;
 			$info = $images->getImageInfo($file, $size, $pixel, $flags);
@@ -162,7 +162,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = 'icon') {
+	public function getImageFile ($size) {
 		$dir = BSFileUtility::getDirectory('twitter_account');
 		if ($file = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile')) {
 			$date = BSDate::getNow();
@@ -170,7 +170,6 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 			if (!$file->getUpdateDate()->isPast($date)) {
 				return $file;
 			}
-			$file->clearImageCache($size);
 			$file->delete();
 		}
 
@@ -183,17 +182,6 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 		$file->setName($this->getImageFileBaseName($size));
 		$file->moveTo($dir);
 		return $file;
-	}
-
-	/**
-	 * 画像ファイルを設定する
-	 *
-	 * @access public
-	 * @param BSImageFile $file 画像ファイル
-	 * @param string $size サイズ名
-	 */
-	public function setImageFile (BSImageFile $file, $size = 'icon') {
-		throw new BSServiceException($this . 'の画像ファイルを設定できません。');
 	}
 
 	/**

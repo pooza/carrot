@@ -9,7 +9,7 @@ class BSGooglePlusAccountTest extends BSTest {
 		$this->assert('getLabel', $account->getLabel() == '秋元 康');
 		$this->assert('getName', $account->getName() == '秋元康');
 		$this->assert('getURL', $account->getURL()->getContents() == 'https://plus.google.com/113474433041552257864');
-		$this->assert('getImageFile', $account->getImageFile() instanceof BSImageFile);
+		$this->assert('getImageFile', $account->getImageFile('icon') instanceof BSImageFile);
 		$this->assert('getActivities', $account->getActivities()->count());
 	}
 }
