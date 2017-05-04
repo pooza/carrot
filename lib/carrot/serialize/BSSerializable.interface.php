@@ -28,6 +28,13 @@ interface BSSerializable {
 	public function getSerialized ();
 
 	/**
+	 * シリアライズされたキャッシュを削除
+	 *
+	 * @access public
+	 */
+	public function removeSerialized ();
+
+	/**
 	 * シリアライズ
 	 *
 	 * @access public

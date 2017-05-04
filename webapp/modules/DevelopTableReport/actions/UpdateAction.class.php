@@ -18,9 +18,7 @@ class UpdateAction extends BSAction {
 
 	public function execute () {
 		foreach ($this->getDatabase()->getTableNames() as $table) {
-			$this->controller->removeAttribute(
-				$this->getDatabase()->getTableProfile($table)
-			);
+			$this->getDatabase()->getTableProfile($table)->removeSerialized();
 		}
 		$url = $this->getModule()->getAction('Database')->createURL();
 		$url->setParameter('database', $this->getDatabase()->getName());

@@ -17,6 +17,7 @@
  * @link http://www.finds.jp/wsdocs/calendar/
  */
 class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHolidayList, BSSerializable {
+	use BSSerializableMethods;
 	protected $digest;
 	private $date;
 	private $holidays;
