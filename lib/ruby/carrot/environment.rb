@@ -13,6 +13,10 @@ module Carrot
       return File.join(ROOT_DIR, "webapp/config/constant/#{self.name}.yaml")
     end
 
+    def self.development?
+      return self.name.match(/(test|dev)\./)
+    end
+
     def self.os
       return 'Debian' if File.executable?('/usr/bin/apt-get')
       return `uname`.chomp

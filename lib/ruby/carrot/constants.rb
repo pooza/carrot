@@ -24,6 +24,7 @@ module Carrot
       names.each do |name|
         return @constants[name] if @constants[name]
       end
+      return nil
     end
 
     private

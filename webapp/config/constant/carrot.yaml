@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.46
+  ver: 2.6.47
 
 admin:
   email:
@@ -196,6 +196,17 @@ net:
 package:
   name:
   ver:
+periodic:
+  development:
+    frequently:
+    hourly:
+    daily:
+      - Console:Purge
+  production:
+    frequently:
+    hourly:
+    daily:
+      - Console:Purge
 pdo:
   default:
     dsn: sqlite:%BS_VAR_DIR%/db/default.sqlite3

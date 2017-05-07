@@ -16,6 +16,8 @@ desc 'インストールを実行'
 task :install => [
   'var:init',
   'environment:init',
+  'periodic:init',
+  'rsyslog:init',
   'local:init',
 ]
 
@@ -35,7 +37,7 @@ namespace :environment do
   ]
 
   namespace :file do
-    desc 'サーバ環境設定ファイルを初期化'
+    desc 'サーバ環境設定ファイルを作成'
     task :init => [
       Carrot::Environment.file_path,
     ]
@@ -47,12 +49,12 @@ namespace :environment do
 end
 
 namespace :rsyslog do
+  desc 'rsyslogを設定'
   task :init => [
     'config:init',
   ]
 
   namespace :config do
-    desc 'rsyslog設定ファイルを設置'
     task :init do
       Carrot::RsyslogUtil.create_config_file
     end
@@ -60,10 +62,15 @@ namespace :rsyslog do
 end
 
 namespace :periodic do
-  desc 'periodicを登録'
-  task :init => [:daily]
+  desc 'periodicを全て登録'
+  task :init => [:clean, :daily, :hourly, :frequently]
 
-  [:daily, :hourly, :frequently].each do |period|
+  desc 'periodicをクリア'
+  task :clean do
+    Carrot::PeriodicCreator.clear
+  end
+
+  [:daily, :hourly, :frequently].each do |period|    desc "periodic #{period}を登録"
     task period do
       periodic = Carrot::PeriodicCreator.new
       periodic[:period] = period

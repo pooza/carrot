@@ -1,6 +1,6 @@
 #!/usr/local/bin/ruby
 
-# 1日ごとに実行する処理
+# 1時間ごとに実行する処理
 #
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
@@ -14,4 +14,4 @@ $LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
 require 'carrot/batch_action'
 
-Carrot::BatchAction.new('daily').execute
+Carrot::BatchAction.new('hourly').execute

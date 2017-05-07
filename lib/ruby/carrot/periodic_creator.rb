@@ -7,6 +7,27 @@ require 'carrot/environment'
 
 module Carrot
   class PeriodicCreator < Hash
+    def self.clear
+      dirs = []
+      ['daily', 'hourly', 'frequently'].each do |period|
+        case Carrot::Environment.os
+          when 'FreeBSD', 'Darwin'
+            dirs.push(File.join('/usr/local/etc/periodic', period))
+          when 'Debian'
+            dirs.push(File.join('/etc', "cron.#{period}"))
+        end
+      end
+      dirs.each do |dir|
+        Dir.glob(File.join(dir, '/*')) do |f|
+          next unless File.ftype(f) == 'link'
+          if File.readlink(f).match(ROOT_DIR)
+            puts "delete #{f}"
+            File.unlink(f)
+          end
+        end
+      end
+    end
+
     def initialize
       self[:basename] = 'carrot'
       self[:period] = 'daily'
@@ -14,8 +35,9 @@ module Carrot
     end
 
     def create
-      self[:source] = default_source unless self[:source]
+      self[:source] ||= default_source
       system('sudo', 'mkdir', '-p', File.dirname(dest))
+      puts "create link #{self[:source]} -> #{dest}"
       system('sudo', 'ln', '-s', self[:source], dest) unless File.exist?(dest)
     end
 
