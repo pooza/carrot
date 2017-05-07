@@ -31,7 +31,7 @@ var CarrotLib = {
       tag += ':' + name;
       if (params) {
         var encoded = [];
-        for(var key in params) {
+        for (var key in params) {
           if (params[key] != null) {
             encoded.push(key + '=' + encodeURIComponent(params[key]));
           }
