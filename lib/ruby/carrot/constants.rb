@@ -22,6 +22,7 @@ module Carrot
         "#{name}_DEFAULT",
         name,
       ].each do |name|
+        name.upcase!
         return @constants[name] if @constants[name]
       end
       return nil
