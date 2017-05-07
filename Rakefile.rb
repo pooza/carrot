@@ -49,7 +49,7 @@ namespace :environment do
 end
 
 namespace :rsyslog do
-  desc 'rsyslogを設定'
+  desc 'rsyslogを初期化'
   task :init => [
     'config:init',
   ]
@@ -62,7 +62,7 @@ namespace :rsyslog do
 end
 
 namespace :periodic do
-  desc 'periodicを全て登録'
+  desc 'periodicを初期化'
   task :init => [:clean, :daily, :hourly, :frequently]
 
   desc 'periodicをクリア'
@@ -70,7 +70,8 @@ namespace :periodic do
     Carrot::PeriodicCreator.clear
   end
 
-  [:daily, :hourly, :frequently].each do |period|    desc "periodic #{period}を登録"
+  [:daily, :hourly, :frequently].each do |period|
+    desc "periodic #{period}を登録"
     task period do
       periodic = Carrot::PeriodicCreator.new
       periodic[:period] = period

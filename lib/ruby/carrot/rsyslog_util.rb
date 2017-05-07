@@ -13,6 +13,7 @@ module Carrot
       body.push("$template #{self.template_name}, \"#{self.log_path}\"")
       body.push("$FileOwner #{Carrot::Constants.new['BS_APP_PROCESS_UID']}")
       body.push(":programname, isequal, \"#{self.program_name}\" -?#{self.template_name}")
+      body.push('')
       File.open(self.config_path, 'w') do |file|
         file.write(body.join("\n"))
       end

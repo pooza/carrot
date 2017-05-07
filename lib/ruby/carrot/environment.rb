@@ -3,6 +3,8 @@
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
+require 'carrot/constants'
+
 module Carrot
   class Environment
     def self.name
@@ -14,10 +16,10 @@ module Carrot
     end
 
     def self.development?
-      return self.name.match(/(test|dev)\./)
+      return Carrot::Constants.new["BS_DEBUG"]
     end
 
-    def self.os
+    def self.platform
       return 'Debian' if File.executable?('/usr/bin/apt-get')
       return `uname`.chomp
     end

@@ -17,11 +17,11 @@ module Carrot
     end
 
     def [] (name)
-      names = []
-      names.push("#{name}_#{Carrot::Environment.os}".upcase)
-      names.push("#{name}_DEFAULT".upcase)
-      names.push(name.upcase)
-      names.each do |name|
+      [
+        "#{name}_#{Carrot::Environment.platform}",
+        "#{name}_DEFAULT",
+        name,
+      ].each do |name|
         return @constants[name] if @constants[name]
       end
       return nil

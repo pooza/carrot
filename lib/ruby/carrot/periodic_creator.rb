@@ -4,22 +4,15 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 require 'carrot/environment'
+require 'fileutils'
 
 module Carrot
   class PeriodicCreator < Hash
     def self.clear
-      dirs = []
-      ['daily', 'hourly', 'frequently'].each do |period|
-        case Carrot::Environment.os
-          when 'FreeBSD', 'Darwin'
-            dirs.push(File.join('/usr/local/etc/periodic', period))
-          when 'Debian'
-            dirs.push(File.join('/etc', "cron.#{period}"))
-        end
-      end
-      dirs.each do |dir|
+      self.dirs.each do |dir|
+        next unless Dir.exist?(dir)
         Dir.glob(File.join(dir, '/*')) do |f|
-          next unless File.ftype(f) == 'link'
+          next unless File.symlink?(f)
           if File.readlink(f).match(ROOT_DIR)
             puts "delete #{f}"
             File.unlink(f)
@@ -35,13 +28,27 @@ module Carrot
     end
 
     def create
-      self[:source] ||= default_source
-      system('sudo', 'mkdir', '-p', File.dirname(dest))
-      puts "create link #{self[:source]} -> #{dest}"
-      system('sudo', 'ln', '-s', self[:source], dest) unless File.exist?(dest)
+      unless File.exist?(dest)
+        FileUtils.mkdir_p(File.dirname(dest))
+        self[:source] ||= default_source
+        puts "link #{self[:source]} -> #{dest}"
+        File.symlink(self[:source], dest)
+      end
     end
 
     private
+    def self.dirs
+      dirs = []
+      ['daily', 'hourly', 'frequently'].each do |period|
+        case Carrot::Environment.platform
+          when 'FreeBSD', 'Darwin'
+            dirs.push(File.join('/usr/local/etc/periodic', period))
+          when 'Debian'
+            dirs.push(File.join('/etc', "cron.#{period}"))
+        end
+      end
+    end
+
     def default_source
       return File.join(ROOT_DIR, "bin/#{self[:basename]}-#{self[:period]}.rb")
     end
@@ -51,7 +58,7 @@ module Carrot
     end
 
     def prefix
-      case Carrot::Environment.os
+      case Carrot::Environment.platform
       when 'FreeBSD', 'Darwin'
         return "/usr/local/etc/periodic/#{self[:period]}/900."
       when 'Debian'
