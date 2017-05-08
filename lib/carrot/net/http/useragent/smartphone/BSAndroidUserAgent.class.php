@@ -17,7 +17,6 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
-		$this['is_web_kit'] = true;
 		$this->supports['html5_audio'] = version_compare('534.30', $this->getVersion(), '<');
 		$this->supports['html5_video'] = version_compare('534.30', $this->getVersion(), '<');
 		$this->supports['flash'] = false;
@@ -53,27 +52,9 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	public function getDisplayInfo () {
 		$info = new BSArray;
 		if ($this->isSmartPhone()) {
-			$info['width'] = 640;
+			$info['width'] = BS_VIEW_LAYOUT_SMARTPHONE_WIDTH;
 		}
 		return $info;
-	}
-
-	/**
-	 * ダイジェストを返す
-	 *
-	 * @access public
-	 * @return string ダイジェスト
-	 */
-	public function digest () {
-		if (!$this->digest) {
-			$this->digest = BSCrypt::digest([
-				__CLASS__,
-				$this->supports['html5_video'],
-				$this->supports['html5_audio'],
-				$this->isTablet(),
-			]);
-		}
-		return $this->digest;
 	}
 
 	/**

@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSWindowsPhoneUserAgent extends BSTridentUserAgent {
+class BSWindowsPhoneUserAgent extends BSWebKitUserAgent {
 
 	/**
 	 * @access protected
@@ -17,7 +17,6 @@ class BSWindowsPhoneUserAgent extends BSTridentUserAgent {
 	 */
 	protected function __construct ($name = null) {
 		parent::__construct($name);
-		$this['is_trident'] = true;
 		$this->supports['flash'] = false;
 	}
 
@@ -39,7 +38,7 @@ class BSWindowsPhoneUserAgent extends BSTridentUserAgent {
 	 */
 	public function getDisplayInfo () {
 		$info = new BSArray;
-		$info['width'] = 640;
+		$info['width'] = BS_VIEW_LAYOUT_SMARTPHONE_WIDTH;
 		return $info;
 	}
 

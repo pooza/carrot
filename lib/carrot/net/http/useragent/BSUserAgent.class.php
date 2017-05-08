@@ -14,6 +14,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	use BSBasicObject;
 	protected $bugs;
 	protected $supports;
+	protected $type;
 	protected $digest;
 	const ACCESSOR = 'ua';
 	const DEFAULT_NAME = 'Mozilla/4.0';
@@ -26,16 +27,20 @@ abstract class BSUserAgent extends BSParameterHolder {
 		$this->bugs = new BSArray;
 		$this->supports = new BSArray;
 		$this['name'] = $name;
-
-		mb_ereg('^BS([[:alnum:]]+)UserAgent$', get_class($this), $matches);
-		$this['type'] = $matches[1];
+		$this['type'] = $this->getType();
 		$this['type_lower'] = BSString::toLower($this->getType());
-		$this['is_' . BSString::underscorize($this->getType())] = true;
-
 		$this['is_mobile'] = $this->isMobile();
 		$this['is_smartphone'] = $this->isSmartPhone();
 		$this['is_tablet'] = $this->isTablet();
 		$this['is_legacy'] = $this->isLegacy();
+		$this['display'] = $this->getDisplayInfo();
+
+		$classes = [get_class($this)] + BSLoader::getParentClasses(get_class($this));
+		foreach ($classes as $class) {
+			if (mb_ereg('^BS([[:alnum:]]+)UserAgent$', $class, $matches)) {
+				$this['is_' . BSString::underscorize($matches[1])] = true;
+			}
+		}
 	}
 
 	/**
@@ -331,7 +336,11 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @return string タイプ
 	 */
 	public function getType () {
-		return $this['type'];
+		if (!$this->type) {
+			mb_ereg('^BS([[:alnum:]]+)UserAgent$', get_class($this), $matches);
+			$this->type = $matches[1];
+		}
+		return $this->type;
 	}
 
 	/**

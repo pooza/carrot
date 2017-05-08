@@ -15,15 +15,6 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	const DEFAULT_NAME = 'DoCoMo/2.0 (c500;)';
 
 	/**
-	 * @access protected
-	 * @param string $name ユーザーエージェント名
-	 */
-	protected function __construct ($name = null) {
-		parent::__construct($name);
-		$this['display'] = $this->getDisplayInfo();
-	}
-
-	/**
 	 * ビューを初期化
 	 *
 	 * @access public
