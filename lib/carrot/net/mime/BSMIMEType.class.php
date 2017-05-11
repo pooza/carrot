@@ -18,8 +18,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$config = BSConfigManager::getInstance()->compile('mime');
-		$this->setParameters($config['types']);
+		$this->setParameters(BSConfigManager::getInstance()->compile('mime')['types']);
 	}
 
 	/**
@@ -51,17 +50,30 @@ class BSMIMEType extends BSParameterHolder {
 	}
 
 	/**
-	 * 全てのサフィックスを返す
+	 * サフィックスを返す
+	 *
+	 * @access public
+	 * @return BSArray サフィックス
+	 */
+	public function getSuffixes () {
+		if (!$this->suffixes) {
+			$this->suffixes = BSArray::create($this->params)->createFlipped();
+		}
+		return $this->suffixes;
+	}
+
+	/**
+	 * 非推奨含め、全てのサフィックスを返す
 	 *
 	 * @access public
 	 * @return BSArray 全てのサフィックス
 	 */
-	public function getSuffixes () {
-		if (!$this->suffixes) {
-			$types = new BSArray($this->params);
-			$this->suffixes = $types->createFlipped();
+	public function getAllSuffixes () {
+		$suffixes = new BSArray;
+		foreach ($this->params as $key => $value) {
+			$suffixes[] = $key;
 		}
-		return $this->suffixes;
+		return $suffixes;
 	}
 
 	/**
@@ -93,8 +105,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @static
 	 */
 	static public function getSuffix ($type) {
-		$suffixes = self::getInstance()->getSuffixes();
-		return $suffixes[$type];
+		return self::getInstance()->getSuffixes()[$type];
 	}
 }
 

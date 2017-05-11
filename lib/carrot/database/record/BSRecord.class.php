@@ -342,7 +342,7 @@ abstract class BSRecord implements ArrayAccess,
 		$finder = new BSFileFinder;
 		$finder->clearDirectories();
 		$finder->registerDirectory($this->getTable()->getDirectory());
-		$finder->registerSuffixes(BSMIMEType::getInstance()->getSuffixes());
+		$finder->registerSuffixes(BSMIMEType::getInstance()->getAllSuffixes());
 		return $finder->execute($this->getAttachmentBaseName($name));
 	}
 

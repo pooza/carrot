@@ -3,11 +3,12 @@
 # @package jp.co.b-shock.carrot
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
+# 同じメディアタイプに複数の拡張子を割り当てる時は、優先する拡張子を先に記述する。
 types:
   aac: audio/x-aac
   ai: application/postscript
   aif: audio/x-aiff
-  as:
+  aiff: audio/x-aiff
   atom: application/atom+xml
   css: text/css
   csv: text/csv
@@ -20,29 +21,29 @@ types:
   gif: image/gif
   gz: application/x-gzip
   html: text/html
+  htm: text/html
   ico: image/vnd.microsoft.icon
   ini: text/x-ini-file
   jpg: image/jpeg
+  jpeg: image/jpeg
   js: text/javascript
   json: application/json
   m4a: audio/mp4
   mov: video/quicktime
+  qt: video/quicktime
   mp3: audio/mpeg
   mp4: video/mp4
+  m4v: video/mp4
   odp: application/vnd.oasis.opendocument.presentation
   ods: application/vnd.oasis.opendocument.spreadsheet
   odt: application/vnd.oasis.opendocument.text
   pdf: application/pdf
-  php:
-  pl:
-  pm:
   png: image/png
   ppt: application/vnd.ms-powerpoint
   pptx: application/vnd.openxmlformats-officedocument.presentationml.presentation
-  rb:
-  sql:
   swf: application/x-shockwave-flash
   tif: image/tiff
+  tiff: image/tiff
   tpl: text/x-smarty-template
   ttf: application/x-truetype-font
   txt: text/plain
