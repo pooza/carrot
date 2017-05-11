@@ -300,6 +300,28 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	public function __toString () {
 		return sprintf('画像ファイル "%s"', $this->getShortPath());
 	}
+
+	/**
+	 * 探す
+	 *
+	 * @access public
+	 * @param mixed $file パラメータ配列、BSFile、ファイルパス文字列
+	 * @param string $class クラス名
+	 * @return BSFile ファイル
+	 * @static
+	 */
+	static public function search ($file, $class = 'BSImageFile') {
+		if (!$file = parent::search($file, $class)) {
+			return;
+		}
+		switch ($file->getType()) {
+			case BSMIMEType::getType('jpg'):
+			case BSMIMEType::getType('png'):
+			case BSMIMEType::getType('gif'):
+				return parent::search($file, 'BSImageFile');
+		}
+		return $file;
+	}
 }
 
 /* vim:set tabstop=4: */
