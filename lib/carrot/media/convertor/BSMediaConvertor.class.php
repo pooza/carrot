@@ -86,7 +86,7 @@ abstract class BSMediaConvertor {
 	 */
 	public function execute (BSMediaFile $source) {
 		$file = BSFileUtility::createTemporaryFile($this->getSuffix());
-		if (!$this->isForceExecutable() && ($source->getType() == $this->getType())) {
+		if ($source->getType() == $this->getType()) {
 			$duplicated = $source->copyTo($file->getDirectory());
 			$duplicated->rename($file->getName());
 			$file = $duplicated;
@@ -112,18 +112,6 @@ abstract class BSMediaConvertor {
 			}
 		}
 		return BSUtility::executeMethod($this->getClass(), 'search', [$file]);
-	}
-
-	/**
-	 * 強制的に実行するか？
-	 *
-	 * 変換前後でMIMEタイプが一致する時は、デフォルトでは変換を行わず、単にコピーする。
-	 *
-	 * @access protected
-	 * @return boolean 強制的に実行するならTrue
-	 */
-	protected function isForceExecutable () {
-		return !!$this->getConstant('force');
 	}
 
 	/**

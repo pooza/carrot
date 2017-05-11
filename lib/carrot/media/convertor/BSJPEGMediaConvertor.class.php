@@ -30,6 +30,20 @@ class BSJPEGMediaConvertor extends BSMediaConvertor {
 	public function getClass () {
 		return 'BSImageFile';
 	}
+
+	/**
+	 * 変換して返す
+	 *
+	 * @access public
+	 * @param BSMovieFile $source 変換後ファイル
+	 * @return BSMediaFile 変換後ファイル
+	 */
+	public function execute (BSMediaFile $source) {
+		if ($source['duration'] < BS_FFMPEG_CONVERT_JPG_SS) {
+			$this->setConfig('ss', 0);
+		}
+		return parent::execute($source);
+	}
 }
 
 /* vim:set tabstop=4: */
