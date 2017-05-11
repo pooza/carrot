@@ -56,7 +56,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * 規定サフィックスを設定
 	 *
 	 * @access public
-	 * @param string $suffix 
+	 * @param string $suffix
 	 */
 	public function setDefaultSuffix ($suffix) {
 		$this->suffix = ltrim($suffix, '*');
@@ -113,6 +113,15 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			}
 		}
 		return $this->entries;
+	}
+
+	/**
+	 * エントリー名キャッシュをクリア
+	 *
+	 * @access public
+	 */
+	public function clearEntryNames () {
+		$this->entries = null;
 	}
 
 	/**

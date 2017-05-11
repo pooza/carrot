@@ -140,6 +140,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 				throw new BSFileException($message);
 			}
 			$this->setPath($path);
+			$this->getDirectory()->clearEntryNames();
 		} else {
 			parent::rename($name);
 		}

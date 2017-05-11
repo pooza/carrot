@@ -81,6 +81,7 @@ abstract class BSDirectoryEntry {
 		$path = $this->getDirectory()->getPath() . '/' . basename($name);
 		$this->controller->getPlatform()->renameFile($this, $path);
 		$this->setPath($path);
+		$this->getDirectory()->clearEntryNames();
 	}
 
 	/**
