@@ -18,7 +18,12 @@ class BSMIMEType extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->setParameters(BSConfigManager::getInstance()->compile('mime')['types']);
+		foreach (BSConfigManager::getInstance()->compile('mime') as $entry) {
+			foreach ($entry['suffixes'] as $suffix) {
+				$suffix = '.' . ltrim($suffix, '.');
+				$this[$suffix] = $entry['type'];
+			}
+		}
 	}
 
 	/**
