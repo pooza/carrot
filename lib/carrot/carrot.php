@@ -48,6 +48,16 @@ function p ($var) {
 	}
 }
 
+/**
+ * ログ出力
+ *
+ * @access public
+ * @param mixed $var 出力対象
+ */
+function putlog ($var) {
+	BSLogManager::getInstance()->put($var, 'debug');
+}
+
 /*
  * ここから処理開始
  */
