@@ -185,4 +185,3 @@ abstract class BSParameterHolder
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -29,4 +29,3 @@ class BSPasswordValidator extends BSRegexValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

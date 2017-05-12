@@ -48,4 +48,3 @@ class BSMovableTypeBlogService {
 	}
 }
 
-/* vim:set tabstop=4: */

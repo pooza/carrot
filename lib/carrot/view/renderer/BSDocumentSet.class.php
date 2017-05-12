@@ -335,4 +335,3 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	}
 }
 
-/* vim:set tabstop=4: */

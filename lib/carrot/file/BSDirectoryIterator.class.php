@@ -32,4 +32,3 @@ class BSDirectoryIterator extends BSIterator {
 	}
 }
 
-/* vim:set tabstop=4: */

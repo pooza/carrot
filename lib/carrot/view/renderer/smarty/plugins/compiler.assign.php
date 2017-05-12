@@ -38,4 +38,3 @@ function smarty_compiler_assign ($params, &$compiler) {
 	return '$this->_tpl_vars' . $var . '=' . $params['value'] . ';';
 }
 
-/* vim:set tabstop=4: */

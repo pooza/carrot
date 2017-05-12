@@ -265,4 +265,3 @@ class BSSMTP extends BSSocket {
 	}
 }
 
-/* vim:set tabstop=4: */

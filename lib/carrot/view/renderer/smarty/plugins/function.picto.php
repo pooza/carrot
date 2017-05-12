@@ -14,4 +14,3 @@ function smarty_function_picto ($params, &$smarty) {
 	return $pictogram->getContents();
 }
 
-/* vim:set tabstop=4: */

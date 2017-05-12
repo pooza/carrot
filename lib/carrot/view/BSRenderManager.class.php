@@ -86,4 +86,3 @@ class BSRenderManager {
 	}
 }
 
-/* vim:set tabstop=4: */

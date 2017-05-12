@@ -12,4 +12,3 @@
 class BSFileException extends BSException {
 }
 
-/* vim:set tabstop=4: */

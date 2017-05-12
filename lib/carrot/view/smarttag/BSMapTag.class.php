@@ -43,4 +43,3 @@ class BSMapTag extends BSSmartTag {
 	}
 }
 
-/* vim:set tabstop=4: */

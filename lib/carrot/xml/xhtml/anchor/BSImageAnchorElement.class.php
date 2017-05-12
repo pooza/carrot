@@ -32,4 +32,3 @@ abstract class BSImageAnchorElement extends BSAnchorElement {
 	}
 }
 
-/* vim:set tabstop=4: */

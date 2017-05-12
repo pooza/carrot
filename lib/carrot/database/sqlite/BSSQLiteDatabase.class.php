@@ -134,4 +134,3 @@ class BSSQLiteDatabase extends BSDatabase {
 	}
 }
 
-/* vim:set tabstop=4: */

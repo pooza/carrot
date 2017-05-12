@@ -97,4 +97,3 @@ class BSYouTubeService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -12,4 +12,3 @@
 class BSJavaScriptException extends BSException {
 }
 
-/* vim:set tabstop=4: */

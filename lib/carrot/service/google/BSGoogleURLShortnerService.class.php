@@ -67,4 +67,3 @@ class BSGoogleURLShortnerService extends BSCurlHTTP implements BSURLShorter {
 	}
 }
 
-/* vim:set tabstop=4: */

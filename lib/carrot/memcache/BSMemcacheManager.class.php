@@ -88,4 +88,3 @@ class BSMemcacheManager {
 	}
 }
 
-/* vim:set tabstop=4: */

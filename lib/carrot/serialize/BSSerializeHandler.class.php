@@ -132,4 +132,3 @@ class BSSerializeHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

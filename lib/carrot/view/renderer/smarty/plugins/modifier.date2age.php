@@ -21,4 +21,3 @@ function smarty_modifier_date2age ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

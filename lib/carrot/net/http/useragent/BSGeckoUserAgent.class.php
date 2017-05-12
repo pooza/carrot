@@ -60,4 +60,3 @@ class BSGeckoUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

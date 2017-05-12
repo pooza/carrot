@@ -491,4 +491,3 @@ class BSImageManager {
 	}
 }
 
-/* vim:set tabstop=4: */

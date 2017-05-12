@@ -30,4 +30,3 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 	}
 }
 
-/* vim:set tabstop=4: */

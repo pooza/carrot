@@ -246,4 +246,3 @@ class BSMovieFile extends BSMediaFile {
 	}
 }
 
-/* vim:set tabstop=4: */

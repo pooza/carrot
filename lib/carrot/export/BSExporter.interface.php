@@ -36,4 +36,3 @@ interface BSExporter {
 	public function setHeader (BSArray $row);
 }
 
-/* vim:set tabstop=4: */

@@ -12,4 +12,3 @@ class NotFoundView extends BSSmartyView {
 	}
 }
 
-/* vim:set tabstop=4: */

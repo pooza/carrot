@@ -13,4 +13,3 @@ class BSXMailerMIMEHeader extends BSMIMEHeader {
 	protected $name = 'X-Mailer';
 }
 
-/* vim:set tabstop=4: */

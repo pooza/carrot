@@ -22,4 +22,3 @@ class BSMP3MediaConvertor extends BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

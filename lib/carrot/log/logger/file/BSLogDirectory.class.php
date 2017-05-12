@@ -54,4 +54,3 @@ class BSLogDirectory extends BSDirectory {
 	}
 }
 
-/* vim:set tabstop=4: */

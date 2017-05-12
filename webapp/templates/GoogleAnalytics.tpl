@@ -18,4 +18,3 @@ _gaq.push(['_trackPageview']);
 {rdelim})();
 </script>
 
-{* vim: set tabstop=4: *}

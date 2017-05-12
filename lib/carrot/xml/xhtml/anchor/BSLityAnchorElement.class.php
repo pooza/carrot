@@ -24,4 +24,3 @@ class BSLityAnchorElement extends BSImageAnchorElement {
 	}
 }
 
-/* vim:set tabstop=4: */

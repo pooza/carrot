@@ -173,4 +173,3 @@ class BSBackupManager {
 	}
 }
 
-/* vim:set tabstop=4: */

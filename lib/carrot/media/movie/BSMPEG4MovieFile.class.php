@@ -30,4 +30,3 @@ class BSMPEG4MovieFile extends BSMovieFile {
 	}
 }
 
-/* vim:set tabstop=4: */

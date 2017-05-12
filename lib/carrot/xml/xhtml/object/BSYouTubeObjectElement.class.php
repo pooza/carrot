@@ -44,4 +44,3 @@ class BSYouTubeObjectElement extends BSObjectElement {
 	}
 }
 
-/* vim:set tabstop=4: */

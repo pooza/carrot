@@ -36,4 +36,3 @@ interface BSHTTPRedirector {
 	public function createURL ();
 }
 
-/* vim:set tabstop=4: */

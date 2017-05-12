@@ -38,4 +38,3 @@ class BSCookieFilter extends BSFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

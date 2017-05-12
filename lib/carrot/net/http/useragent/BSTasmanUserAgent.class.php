@@ -35,4 +35,3 @@ class BSTasmanUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

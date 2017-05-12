@@ -21,4 +21,3 @@ function smarty_modifier_user_agent_type ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

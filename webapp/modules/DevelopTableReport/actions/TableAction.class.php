@@ -49,4 +49,3 @@ class TableAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

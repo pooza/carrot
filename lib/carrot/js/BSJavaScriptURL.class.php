@@ -44,4 +44,3 @@ class BSJavaScriptURL extends BSURL {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -61,4 +61,3 @@ class BSLogFile extends BSFile {
 	}
 }
 
-/* vim:set tabstop=4: */

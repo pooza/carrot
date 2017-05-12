@@ -198,4 +198,3 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

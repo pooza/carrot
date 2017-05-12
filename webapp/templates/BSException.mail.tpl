@@ -18,4 +18,3 @@ From: {$from}
 {$useragent.type}系
 {$useragent.name}
 
-{* vim: set tabstop=4: *}

@@ -31,4 +31,3 @@ trait BSBasicObject {
 	}
 }
 
-/* vim:set tabstop=4: */

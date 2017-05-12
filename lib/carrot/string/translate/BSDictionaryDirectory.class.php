@@ -44,4 +44,3 @@ class BSDictionaryDirectory extends BSDirectory {
 	}
 }
 
-/* vim:set tabstop=4: */

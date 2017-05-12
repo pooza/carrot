@@ -187,4 +187,3 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	}
 }
 
-/* vim:set tabstop=4: */

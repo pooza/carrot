@@ -86,4 +86,3 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

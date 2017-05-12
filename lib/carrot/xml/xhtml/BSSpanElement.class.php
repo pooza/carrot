@@ -36,4 +36,3 @@ class BSSpanElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

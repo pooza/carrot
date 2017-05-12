@@ -135,4 +135,3 @@ class BSFeedUtility extends Zend_Feed {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -396,4 +396,3 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */

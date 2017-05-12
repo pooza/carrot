@@ -124,4 +124,3 @@ class BSXMLDocument extends BSXMLElement implements BSTextRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

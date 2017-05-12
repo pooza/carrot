@@ -59,4 +59,3 @@ class BSQuickTimeMovieFile extends BSMovieFile {
 	}
 }
 
-/* vim:set tabstop=4: */

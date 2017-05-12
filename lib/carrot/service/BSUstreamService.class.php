@@ -146,4 +146,3 @@ class BSUstreamService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

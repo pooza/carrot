@@ -119,4 +119,3 @@ class BSYAMLConfigParser extends Spyc implements BSConfigParser {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -187,4 +187,3 @@ class BSHTTPRequest extends BSMIMEDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

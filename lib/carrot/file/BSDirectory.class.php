@@ -388,4 +388,3 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	}
 }
 
-/* vim:set tabstop=4: */

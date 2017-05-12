@@ -12,4 +12,3 @@
 class BSServiceException extends BSException {
 }
 
-/* vim:set tabstop=4: */

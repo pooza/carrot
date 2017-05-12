@@ -20,4 +20,3 @@ interface BSAssignable {
 	public function assign ();
 }
 
-/* vim:set tabstop=4: */

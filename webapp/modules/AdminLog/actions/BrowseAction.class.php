@@ -63,4 +63,3 @@ class BrowseAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

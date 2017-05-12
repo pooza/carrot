@@ -27,4 +27,3 @@ class BSMobileUser extends BSUser {
 	}
 }
 
-/* vim:set tabstop=4: */

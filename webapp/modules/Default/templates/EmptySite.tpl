@@ -15,4 +15,3 @@
 <p>404 Not Found</p>
 </body>
 </html>
-{* vim: set tabstop=4: *}

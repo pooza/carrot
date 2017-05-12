@@ -36,4 +36,3 @@ interface BSImageRenderer extends BSRenderer {
 	public function getHeight ();
 }
 
-/* vim:set tabstop=4: */

@@ -32,4 +32,3 @@ trait BSHTTPRedirectorMethods {
 	}
 }
 
-/* vim:set tabstop=4: */

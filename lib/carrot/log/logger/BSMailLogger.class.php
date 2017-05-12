@@ -55,4 +55,3 @@ class BSMailLogger extends BSLogger {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -21,4 +21,3 @@ class PurgeAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -402,4 +402,3 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	}
 }
 
-/* vim:set tabstop=4: */

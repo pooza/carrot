@@ -34,4 +34,3 @@ function smarty_function_map ($params, &$smarty) {
 	return $element->getContents();
 }
 
-/* vim:set tabstop=4: */

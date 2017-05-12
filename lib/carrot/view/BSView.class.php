@@ -251,4 +251,3 @@ class BSView extends BSHTTPResponse {
 	}
 }
 
-/* vim:set tabstop=4: */

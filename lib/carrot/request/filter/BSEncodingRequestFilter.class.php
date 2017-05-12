@@ -44,4 +44,3 @@ class BSEncodingRequestFilter extends BSRequestFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

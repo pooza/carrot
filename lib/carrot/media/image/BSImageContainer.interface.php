@@ -77,4 +77,3 @@ interface BSImageContainer {
 	public function getLabel ($language = 'ja');
 }
 
-/* vim:set tabstop=4: */

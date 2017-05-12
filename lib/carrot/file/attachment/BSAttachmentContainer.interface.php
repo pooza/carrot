@@ -48,4 +48,3 @@ interface BSAttachmentContainer {
 	public function getAttachmentFileName ($name);
 }
 
-/* vim:set tabstop=4: */

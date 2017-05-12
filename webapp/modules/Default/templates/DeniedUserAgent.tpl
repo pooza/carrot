@@ -16,4 +16,3 @@
 {/if}
 {include file='UserFooter'}
 
-{* vim: set tabstop=4: *}

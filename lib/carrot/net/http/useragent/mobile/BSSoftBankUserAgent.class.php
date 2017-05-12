@@ -88,4 +88,3 @@ class BSSoftBankUserAgent extends BSMobileUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -43,4 +43,3 @@ class OptimizeDatabaseAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

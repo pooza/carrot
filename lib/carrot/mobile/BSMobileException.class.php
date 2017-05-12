@@ -12,4 +12,3 @@
 class BSMobileException extends BSException {
 }
 
-/* vim:set tabstop=4: */

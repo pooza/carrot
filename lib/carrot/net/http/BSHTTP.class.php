@@ -185,4 +185,3 @@ class BSHTTP extends BSSocket {
 	}
 }
 
-/* vim:set tabstop=4: */

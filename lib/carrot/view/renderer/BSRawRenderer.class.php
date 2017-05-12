@@ -86,4 +86,3 @@ class BSRawRenderer implements BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

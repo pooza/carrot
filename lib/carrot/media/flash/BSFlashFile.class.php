@@ -152,4 +152,3 @@ class BSFlashFile extends BSMediaFile {
 	}
 }
 
-/* vim:set tabstop=4: */

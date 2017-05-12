@@ -12,4 +12,3 @@ class EmptySiteAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

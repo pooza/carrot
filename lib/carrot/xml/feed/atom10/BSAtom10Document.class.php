@@ -69,4 +69,3 @@ class BSAtom10Document extends BSAtom03Document {
 	}
 }
 
-/* vim:set tabstop=4: */

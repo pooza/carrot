@@ -36,4 +36,3 @@ class BSMobileSiteMapXMLDocument extends BSSiteMapXMLDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

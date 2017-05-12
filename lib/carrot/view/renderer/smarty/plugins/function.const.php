@@ -14,4 +14,3 @@ function smarty_function_const ($params, &$smarty) {
 	return $constants[$params['name']];
 }
 
-/* vim:set tabstop=4: */

@@ -24,4 +24,3 @@ class BSNewLineRequestFilter extends BSRequestFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

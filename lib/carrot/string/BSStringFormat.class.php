@@ -36,4 +36,3 @@ class BSStringFormat extends BSArray {
 	}
 }
 
-/* vim:set tabstop=4: */

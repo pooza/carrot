@@ -36,4 +36,3 @@ class BSWindowsMediaObjectElement extends BSObjectElement {
 	}
 }
 
-/* vim:set tabstop=4: */

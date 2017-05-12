@@ -31,4 +31,3 @@ class BSHTTPException extends BSNetException {
 	}
 }
 
-/* vim:set tabstop=4: */

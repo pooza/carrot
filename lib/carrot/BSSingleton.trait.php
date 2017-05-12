@@ -39,4 +39,3 @@ trait BSSingleton {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -45,4 +45,3 @@ class BSTableIterator extends BSIterator {
 	}
 }
 
-/* vim:set tabstop=4: */

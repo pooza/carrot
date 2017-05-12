@@ -91,4 +91,3 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

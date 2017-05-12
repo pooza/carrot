@@ -356,4 +356,3 @@ abstract class BSDirectoryEntry {
 	}
 }
 
-/* vim:set tabstop=4: */

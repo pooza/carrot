@@ -20,4 +20,3 @@ interface BSTextRenderer extends BSRenderer {
 	public function getEncoding ();
 }
 
-/* vim:set tabstop=4: */

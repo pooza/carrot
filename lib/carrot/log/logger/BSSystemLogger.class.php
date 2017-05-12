@@ -110,4 +110,3 @@ class BSSystemLogger extends BSLogger {
 	}
 }
 
-/* vim:set tabstop=4: */

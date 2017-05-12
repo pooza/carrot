@@ -56,4 +56,3 @@ class BSJavaScriptSet extends BSDocumentSet {
 	}
 }
 
-/* vim:set tabstop=4: */

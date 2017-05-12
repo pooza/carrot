@@ -25,4 +25,3 @@ class BSReturnPathMIMEHeader extends BSAddressMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

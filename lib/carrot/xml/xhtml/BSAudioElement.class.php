@@ -46,4 +46,3 @@ class BSAudioElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

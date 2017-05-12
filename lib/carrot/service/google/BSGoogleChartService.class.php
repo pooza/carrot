@@ -97,4 +97,3 @@ class BSGoogleChartService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -20,4 +20,3 @@ function smarty_modifier_pascalize ($value) {
 	return $value;
 }
 
-/* vim:set tabstop=4: */

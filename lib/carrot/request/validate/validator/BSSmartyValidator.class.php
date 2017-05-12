@@ -55,4 +55,3 @@ class BSSmartyValidator extends BSValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

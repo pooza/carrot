@@ -274,4 +274,3 @@ class BSCommandLine {
 	}
 }
 
-/* vim:set tabstop=4: */

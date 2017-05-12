@@ -60,4 +60,3 @@ class BSJavaScriptFile extends BSFile {
 	}
 }
 
-/* vim:set tabstop=4: */

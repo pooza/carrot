@@ -32,4 +32,3 @@ class BSMPEG4MediaConvertor extends BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -125,4 +125,3 @@ class BSPOP3Mail extends BSMIMEDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

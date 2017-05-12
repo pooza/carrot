@@ -13,4 +13,3 @@ class BSToMIMEHeader extends BSAddressesMIMEHeader {
 	protected $name = 'To';
 }
 
-/* vim:set tabstop=4: */

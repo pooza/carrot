@@ -32,4 +32,3 @@ class BSLegacyMozillaUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

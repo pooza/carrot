@@ -98,4 +98,3 @@ class BSIniConfigParser implements BSConfigParser {
 	}
 }
 
-/* vim:set tabstop=4: */

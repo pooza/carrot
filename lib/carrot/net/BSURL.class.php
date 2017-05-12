@@ -300,4 +300,3 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	}
 }
 
-/* vim:set tabstop=4: */

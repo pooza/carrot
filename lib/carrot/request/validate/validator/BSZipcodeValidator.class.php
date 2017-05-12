@@ -48,4 +48,3 @@ class BSZipcodeValidator extends BSRegexValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

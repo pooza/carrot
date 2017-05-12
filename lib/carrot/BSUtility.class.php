@@ -120,4 +120,3 @@ class BSUtility {
 	}
 }
 
-/* vim:set tabstop=4: */

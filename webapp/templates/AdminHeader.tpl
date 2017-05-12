@@ -55,5 +55,3 @@ document.observe('dom:loaded', function () {
 <header>
   {const name='app_name_ja'} {$title|default:$module.title}
 </header>
-
-{* vim: set tabstop=4: *}

@@ -215,4 +215,3 @@ class BSSocket {
 	}
 }
 
-/* vim:set tabstop=4: */

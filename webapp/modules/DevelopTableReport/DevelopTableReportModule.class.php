@@ -29,4 +29,3 @@ class DevelopTableReportModule extends BSModule {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -129,4 +129,3 @@ class BSFileFinder {
 	}
 }
 
-/* vim:set tabstop=4: */

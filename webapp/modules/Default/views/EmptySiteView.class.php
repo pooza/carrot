@@ -12,4 +12,3 @@ class EmptySiteView extends BSSmartyView {
 	}
 }
 
-/* vim:set tabstop=4: */

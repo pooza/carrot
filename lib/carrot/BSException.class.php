@@ -50,4 +50,3 @@ class BSException extends Exception {
 	}
 }
 
-/* vim:set tabstop=4: */

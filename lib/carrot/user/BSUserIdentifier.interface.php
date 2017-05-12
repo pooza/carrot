@@ -37,4 +37,3 @@ interface BSUserIdentifier {
 	public function getCredentials ();
 }
 
-/* vim:set tabstop=4: */

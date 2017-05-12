@@ -45,4 +45,3 @@ class BSSQLiteDataSourceName extends BSDataSourceName {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -108,4 +108,3 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 }
 
-/* vim:set tabstop=4: */

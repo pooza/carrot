@@ -32,4 +32,3 @@ class BSFakeUserAgentFilter extends BSFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

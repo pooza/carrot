@@ -121,4 +121,3 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -19,4 +19,3 @@ function smarty_modifier_encoding ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

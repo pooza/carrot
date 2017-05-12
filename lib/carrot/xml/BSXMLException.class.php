@@ -12,4 +12,3 @@
 class BSXMLException extends BSException {
 }
 
-/* vim:set tabstop=4: */

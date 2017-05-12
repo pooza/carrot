@@ -85,4 +85,3 @@ class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

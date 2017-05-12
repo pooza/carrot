@@ -22,4 +22,3 @@ function smarty_function_analytics ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

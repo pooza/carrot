@@ -101,4 +101,3 @@ class BSGeocodeEntry extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -618,4 +618,3 @@ class BSString {
 	}
 }
 
-/* vim:set tabstop=4: */

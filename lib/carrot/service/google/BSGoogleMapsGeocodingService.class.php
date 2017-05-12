@@ -76,4 +76,3 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

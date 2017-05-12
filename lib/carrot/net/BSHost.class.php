@@ -202,4 +202,3 @@ class BSHost implements BSAssignable, BSImageContainer {
 	}
 }
 
-/* vim:set tabstop=4: */

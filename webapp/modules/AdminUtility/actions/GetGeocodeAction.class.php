@@ -27,4 +27,3 @@ class GetGeocodeAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

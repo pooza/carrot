@@ -113,4 +113,3 @@ class BSRSS09Entry extends BSXMLElement implements BSFeedEntry {
 	}
 }
 
-/* vim:set tabstop=4: */

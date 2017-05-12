@@ -20,4 +20,3 @@ function smarty_modifier_underscorize ($value) {
 	return $value;
 }
 
-/* vim:set tabstop=4: */

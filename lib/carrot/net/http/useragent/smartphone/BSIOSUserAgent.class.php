@@ -65,4 +65,3 @@ class BSIOSUserAgent extends BSWebKitUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

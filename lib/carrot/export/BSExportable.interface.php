@@ -36,4 +36,3 @@ interface BSExportable {
 	public function export ();
 }
 
-/* vim:set tabstop=4: */

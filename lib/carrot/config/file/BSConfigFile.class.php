@@ -132,4 +132,3 @@ class BSConfigFile extends BSFile {
 	}
 }
 
-/* vim:set tabstop=4: */

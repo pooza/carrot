@@ -33,4 +33,3 @@ function smarty_function_music ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

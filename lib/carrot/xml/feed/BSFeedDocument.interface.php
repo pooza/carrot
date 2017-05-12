@@ -118,4 +118,3 @@ interface BSFeedDocument {
 	public function getEntryTitles ();
 }
 
-/* vim:set tabstop=4: */

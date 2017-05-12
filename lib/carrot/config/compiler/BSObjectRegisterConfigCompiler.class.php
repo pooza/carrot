@@ -29,4 +29,3 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 	}
 }
 
-/* vim:set tabstop=4: */

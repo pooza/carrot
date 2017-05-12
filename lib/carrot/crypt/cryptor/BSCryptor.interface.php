@@ -35,4 +35,3 @@ interface BSCryptor {
 	public function decrypt ($value);
 }
 
-/* vim:set tabstop=4: */

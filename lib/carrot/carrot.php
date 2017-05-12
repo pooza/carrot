@@ -147,4 +147,3 @@ if (BS_DEBUG) {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -12,4 +12,3 @@ class TestAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

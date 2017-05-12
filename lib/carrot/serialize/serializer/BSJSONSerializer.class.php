@@ -67,4 +67,3 @@ class BSJSONSerializer implements BSSerializer {
 	}
 }
 
-/* vim:set tabstop=4: */

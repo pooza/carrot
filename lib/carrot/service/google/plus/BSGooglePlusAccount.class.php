@@ -299,4 +299,3 @@ class BSGooglePlusAccount
 	}
 }
 
-/* vim:set tabstop=4: */

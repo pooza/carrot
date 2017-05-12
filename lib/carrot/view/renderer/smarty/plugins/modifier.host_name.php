@@ -21,4 +21,3 @@ function smarty_modifier_host_name ($value) {
 		return $url['host']->getName();
 	}
 }
-/* vim:set tabstop=4: */

@@ -102,4 +102,3 @@ class BSGoogleAnalyticsService extends BSParameterHolder implements BSAssignable
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -40,4 +40,3 @@ class BSMobileSessionHandler extends BSSessionHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -227,4 +227,3 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -20,4 +20,3 @@ function smarty_modifier_resolve_reverse ($value) {
 	return $value;
 }
 
-/* vim:set tabstop=4: */

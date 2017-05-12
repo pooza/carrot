@@ -20,4 +20,3 @@ class BSConsoleSessionHandler extends BSSessionHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

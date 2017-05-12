@@ -12,4 +12,3 @@
 class BSMediaException extends BSException {
 }
 
-/* vim:set tabstop=4: */

@@ -15,4 +15,3 @@ class QRCodeAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

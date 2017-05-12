@@ -12,4 +12,3 @@
 class BSRSS20Entry extends BSRSS09Entry {
 }
 
-/* vim:set tabstop=4: */

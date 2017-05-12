@@ -37,4 +37,3 @@ class BSNicovideoLiveInlineFrameElement extends BSInlineFrameElement {
 	}
 }
 
-/* vim:set tabstop=4: */

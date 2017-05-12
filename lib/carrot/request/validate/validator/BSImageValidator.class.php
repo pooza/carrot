@@ -82,4 +82,3 @@ class BSImageValidator extends BSValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

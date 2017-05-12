@@ -22,4 +22,3 @@ class BSLogException extends BSException {
 	}
 }
 
-/* vim:set tabstop=4: */

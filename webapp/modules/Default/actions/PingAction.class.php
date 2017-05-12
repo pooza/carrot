@@ -22,4 +22,3 @@ class PingAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

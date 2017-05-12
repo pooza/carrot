@@ -25,4 +25,3 @@ function smarty_block_smarty_preformatted ($params, $contents, &$smarty) {
 	return $element->getContents();
 }
 
-/* vim:set tabstop=4: */

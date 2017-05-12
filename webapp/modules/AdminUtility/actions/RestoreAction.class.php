@@ -78,4 +78,3 @@ class RestoreAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

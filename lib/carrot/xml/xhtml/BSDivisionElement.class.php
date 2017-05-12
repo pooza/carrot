@@ -32,4 +32,3 @@ class BSDivisionElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

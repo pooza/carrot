@@ -110,4 +110,3 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 	}
 }
 
-/* vim:set tabstop=4: */

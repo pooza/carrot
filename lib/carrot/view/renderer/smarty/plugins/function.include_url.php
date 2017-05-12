@@ -27,4 +27,3 @@ function smarty_function_include_url ($params, &$smarty) {
 	return $url->fetch();
 }
 
-/* vim:set tabstop=4: */

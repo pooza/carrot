@@ -166,4 +166,3 @@ class BSCarrotURL extends BSHTTPURL {
 	}
 }
 
-/* vim:set tabstop=4: */

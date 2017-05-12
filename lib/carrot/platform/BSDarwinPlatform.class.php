@@ -12,4 +12,3 @@
 class BSDarwinPlatform extends BSPlatform {
 }
 
-/* vim:set tabstop=4: */

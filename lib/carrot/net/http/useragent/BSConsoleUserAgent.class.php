@@ -51,4 +51,3 @@ class BSConsoleUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

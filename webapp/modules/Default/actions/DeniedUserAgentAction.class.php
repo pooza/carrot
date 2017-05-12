@@ -12,4 +12,3 @@ class DeniedUserAgentAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

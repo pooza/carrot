@@ -62,4 +62,3 @@ class BSContactURL extends BSURL {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -57,4 +57,3 @@ class BSMySQLDataSourceName extends BSDataSourceName {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -91,4 +91,3 @@ class BSConfigManager {
 	}
 }
 
-/* vim:set tabstop=4: */

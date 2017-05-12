@@ -16,4 +16,3 @@ class DefaultAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -85,4 +85,3 @@ class BSMultiVCardRenderer extends BSArray implements BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

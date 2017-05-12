@@ -44,4 +44,3 @@ class BSDefineConfigCompiler extends BSConfigCompiler {
 	}
 }
 
-/* vim:set tabstop=4: */

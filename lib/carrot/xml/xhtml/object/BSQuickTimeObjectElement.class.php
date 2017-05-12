@@ -40,4 +40,3 @@ class BSQuickTimeObjectElement extends BSObjectElement {
 	}
 }
 
-/* vim:set tabstop=4: */

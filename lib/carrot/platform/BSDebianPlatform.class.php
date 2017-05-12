@@ -30,4 +30,3 @@ class BSDebianPlatform extends BSLinuxPlatform {
 	}
 }
 
-/* vim:set tabstop=4: */

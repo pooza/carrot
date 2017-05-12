@@ -66,4 +66,3 @@ class BSNicovideoLiveService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

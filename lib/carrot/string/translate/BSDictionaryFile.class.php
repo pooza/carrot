@@ -80,4 +80,3 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -35,4 +35,3 @@ function smarty_function_flash ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

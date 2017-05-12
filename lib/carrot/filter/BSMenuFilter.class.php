@@ -90,4 +90,3 @@ class BSMenuFilter extends BSFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

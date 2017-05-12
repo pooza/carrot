@@ -75,4 +75,3 @@ class BSSMTPMailSender extends BSMailSender {
 	}
 }
 
-/* vim:set tabstop=4: */

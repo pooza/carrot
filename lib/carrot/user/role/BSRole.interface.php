@@ -31,4 +31,3 @@ interface BSRole extends BSUserIdentifier {
 	public function getName ($language = 'ja');
 }
 
-/* vim:set tabstop=4: */

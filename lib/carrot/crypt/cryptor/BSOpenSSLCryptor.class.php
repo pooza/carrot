@@ -75,4 +75,3 @@ class BSOpenSSLCryptor implements BSCryptor {
 	}
 }
 
-/* vim:set tabstop=4: */

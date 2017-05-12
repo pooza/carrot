@@ -30,4 +30,3 @@ interface BSHolidayList extends ArrayAccess {
 	public function getHolidays ();
 }
 
-/* vim:set tabstop=4: */

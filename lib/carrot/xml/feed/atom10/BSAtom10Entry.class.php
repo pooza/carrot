@@ -26,4 +26,3 @@ class BSAtom10Entry extends BSAtom03Entry {
 	}
 }
 
-/* vim:set tabstop=4: */

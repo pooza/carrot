@@ -21,4 +21,3 @@ interface BSURLShorter {
 	public function getShortURL (BSHTTPRedirector $url);
 }
 
-/* vim:set tabstop=4: */

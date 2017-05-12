@@ -12,4 +12,3 @@ class ForbiddenAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

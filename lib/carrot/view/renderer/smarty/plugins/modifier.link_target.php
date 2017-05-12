@@ -24,4 +24,3 @@ function smarty_modifier_link_target ($value) {
 		return '_self';
 	}
 }
-/* vim:set tabstop=4: */

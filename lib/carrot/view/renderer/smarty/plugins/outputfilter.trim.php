@@ -13,4 +13,3 @@ function smarty_outputfilter_trim ($source, &$smarty) {
 	return BSString::trim($source);
 }
 
-/* vim:set tabstop=4: */

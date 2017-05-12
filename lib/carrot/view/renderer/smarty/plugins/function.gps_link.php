@@ -23,4 +23,3 @@ function smarty_function_gps_link ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

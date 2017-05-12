@@ -48,4 +48,3 @@ class BSSiteMapXMLDocument extends BSXMLDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -80,4 +80,3 @@ class AdminLogModule extends BSModule {
 	}
 }
 
-/* vim:set tabstop=4: */

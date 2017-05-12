@@ -54,4 +54,3 @@ class BSMessageIdMIMEHeader extends BSMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

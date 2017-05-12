@@ -84,4 +84,3 @@ class BSNetwork extends BSHost {
 	}
 }
 
-/* vim:set tabstop=4: */

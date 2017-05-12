@@ -57,4 +57,3 @@ class BSPairValidator extends BSValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

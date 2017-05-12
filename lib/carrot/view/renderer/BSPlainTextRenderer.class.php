@@ -182,4 +182,3 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	}
 }
 
-/* vim:set tabstop=4: */

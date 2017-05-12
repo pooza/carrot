@@ -20,4 +20,3 @@ function smarty_modifier_nl2br ($value) {
 	return $value;
 }
 
-/* vim:set tabstop=4: */

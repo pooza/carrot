@@ -47,4 +47,3 @@ class BSBlogUpdatePingRequest extends BSXMLDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

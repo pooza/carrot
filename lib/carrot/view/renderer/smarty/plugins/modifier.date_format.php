@@ -26,4 +26,3 @@ function smarty_modifier_date_format ($value, $format = 'Y/m/d H:i:s') {
 	}
 }
 
-/* vim:set tabstop=4: */

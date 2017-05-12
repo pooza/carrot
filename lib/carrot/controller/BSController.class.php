@@ -299,4 +299,3 @@ abstract class BSController {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -82,4 +82,3 @@ class BSJSONView extends BSView {
 	}
 }
 
-/* vim:set tabstop=4: */

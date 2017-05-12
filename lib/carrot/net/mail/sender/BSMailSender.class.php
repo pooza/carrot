@@ -48,4 +48,3 @@ abstract class BSMailSender {
 	}
 }
 
-/* vim:set tabstop=4: */

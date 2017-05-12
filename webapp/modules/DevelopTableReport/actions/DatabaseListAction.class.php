@@ -24,4 +24,3 @@ class DatabaseListAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -138,4 +138,3 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

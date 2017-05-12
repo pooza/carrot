@@ -25,4 +25,3 @@ class BSFreeBSDPlatform extends BSPlatform {
 	}
 }
 
-/* vim:set tabstop=4: */

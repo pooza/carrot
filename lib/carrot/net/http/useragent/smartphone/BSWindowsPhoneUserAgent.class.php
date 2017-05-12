@@ -53,4 +53,3 @@ class BSWindowsPhoneUserAgent extends BSWebKitUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -175,4 +175,3 @@ class BSCurlHTTP extends BSHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

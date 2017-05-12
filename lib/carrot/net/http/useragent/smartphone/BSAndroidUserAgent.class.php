@@ -68,4 +68,3 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

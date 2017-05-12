@@ -50,4 +50,3 @@ function smarty_function_image_cache ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

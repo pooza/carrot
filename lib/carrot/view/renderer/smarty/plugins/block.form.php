@@ -44,4 +44,3 @@ function smarty_block_form ($params, $contents, &$smarty) {
 	return $form->getContents();
 }
 
-/* vim:set tabstop=4: */

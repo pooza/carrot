@@ -477,4 +477,3 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	}
 }
 
-/* vim:set tabstop=4: */

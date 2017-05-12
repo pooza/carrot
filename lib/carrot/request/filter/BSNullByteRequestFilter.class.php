@@ -24,4 +24,3 @@ class BSNullByteRequestFilter extends BSRequestFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

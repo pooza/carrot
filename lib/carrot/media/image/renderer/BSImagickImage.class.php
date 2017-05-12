@@ -213,4 +213,3 @@ class BSImagickImage extends BSImage {
 	}
 }
 
-/* vim:set tabstop=4: */

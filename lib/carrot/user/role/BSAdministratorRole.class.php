@@ -103,4 +103,3 @@ class BSAdministratorRole implements BSRole {
 	}
 }
 
-/* vim:set tabstop=4: */

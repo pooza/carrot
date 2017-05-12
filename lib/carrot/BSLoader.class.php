@@ -180,4 +180,3 @@ class BSLoader {
 	}
 }
 
-/* vim:set tabstop=4: */

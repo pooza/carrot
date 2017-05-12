@@ -40,4 +40,3 @@ class BSNetworkService {
 	}
 }
 
-/* vim:set tabstop=4: */

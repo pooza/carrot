@@ -23,4 +23,3 @@ class BSDefaultModule extends BSModule {
 	}
 }
 
-/* vim:set tabstop=4: */

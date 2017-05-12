@@ -104,4 +104,3 @@ class BSCoordinate {
 	}
 }
 
-/* vim:set tabstop=4: */

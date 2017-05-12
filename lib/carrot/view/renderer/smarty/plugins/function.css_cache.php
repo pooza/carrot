@@ -19,4 +19,3 @@ function smarty_function_css_cache ($params, &$smarty) {
 	return $styleset->createElement()->getContents();
 }
 
-/* vim:set tabstop=4: */

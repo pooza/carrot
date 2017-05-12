@@ -46,4 +46,3 @@ class BSVideoElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -19,4 +19,3 @@ function smarty_modifier_short_url ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

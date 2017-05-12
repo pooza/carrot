@@ -385,4 +385,3 @@ class BSXMLElement implements IteratorAggregate {
 	}
 }
 
-/* vim:set tabstop=4: */

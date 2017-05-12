@@ -26,4 +26,3 @@ class BSRootConfigFile extends BSConfigFile {
 	}
 }
 
-/* vim:set tabstop=4: */

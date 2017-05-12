@@ -16,4 +16,3 @@ class BSStyleSetValidator extends BSChoiceValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

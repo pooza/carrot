@@ -68,4 +68,3 @@ class BSSmartyMail extends BSMail {
 	}
 }
 
-/* vim:set tabstop=4: */

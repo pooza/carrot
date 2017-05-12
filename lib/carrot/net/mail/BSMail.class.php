@@ -163,4 +163,3 @@ class BSMail extends BSMIMEDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -55,4 +55,3 @@ class BSTwitterLogger extends BSLogger {
 	}
 }
 
-/* vim:set tabstop=4: */

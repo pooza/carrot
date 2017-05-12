@@ -55,4 +55,3 @@ class BSResultJSONRenderer extends BSJSONRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

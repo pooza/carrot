@@ -204,4 +204,3 @@ abstract class BSSmartTag extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */

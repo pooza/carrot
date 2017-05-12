@@ -207,4 +207,3 @@ class BSGoogleMapsService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

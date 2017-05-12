@@ -50,4 +50,3 @@ class BSPrestoUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

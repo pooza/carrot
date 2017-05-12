@@ -136,4 +136,3 @@ abstract class BSPlatform extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */

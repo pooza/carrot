@@ -129,4 +129,3 @@ class BSNumeric {
 	}
 }
 
-/* vim:set tabstop=4: */

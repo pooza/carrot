@@ -46,4 +46,3 @@ class BSCSSUtility {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -215,4 +215,3 @@ class BSMemcache implements ArrayAccess {
 	}
 }
 
-/* vim:set tabstop=4: */

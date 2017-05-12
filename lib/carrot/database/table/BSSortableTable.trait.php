@@ -93,4 +93,3 @@ trait BSSortableTable {
 	}
 }
 
-/* vim:set tabstop=4: */

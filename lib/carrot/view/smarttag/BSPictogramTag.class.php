@@ -39,4 +39,3 @@ class BSPictogramTag extends BSSmartTag {
 	}
 }
 
-/* vim:set tabstop=4: */

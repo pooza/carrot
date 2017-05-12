@@ -140,4 +140,3 @@ class BSExcelExporter implements BSExporter, BSRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

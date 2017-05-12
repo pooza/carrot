@@ -301,4 +301,3 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	}
 }
 
-/* vim:set tabstop=4: */

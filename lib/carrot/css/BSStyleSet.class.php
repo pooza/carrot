@@ -58,4 +58,3 @@ class BSStyleSet extends BSDocumentSet {
 	}
 }
 
-/* vim:set tabstop=4: */

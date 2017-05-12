@@ -353,4 +353,3 @@ abstract class BSRequest extends BSHTTPRequest {
 	}
 }
 
-/* vim:set tabstop=4: */

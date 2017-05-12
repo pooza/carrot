@@ -164,4 +164,3 @@ class BSMusicFile extends BSMediaFile {
 	}
 }
 
-/* vim:set tabstop=4: */

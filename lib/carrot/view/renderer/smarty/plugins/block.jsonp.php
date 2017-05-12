@@ -35,4 +35,3 @@ function smarty_block_jsonp ($params, $contents, &$smarty) {
 	return $body->getContents();
 }
 
-/* vim:set tabstop=4: */

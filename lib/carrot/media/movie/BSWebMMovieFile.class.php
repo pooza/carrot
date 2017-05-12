@@ -20,4 +20,3 @@ class BSWebMMovieFile extends BSMovieFile {
 	}
 }
 
-/* vim:set tabstop=4: */

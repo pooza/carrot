@@ -147,4 +147,3 @@ class BSPOP3 extends BSSocket {
 	}
 }
 
-/* vim:set tabstop=4: */

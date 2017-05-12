@@ -45,4 +45,3 @@ class BSGenericTag extends BSSmartTag {
 	}
 }
 
-/* vim:set tabstop=4: */

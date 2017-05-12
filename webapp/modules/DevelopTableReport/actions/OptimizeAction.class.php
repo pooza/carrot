@@ -33,4 +33,3 @@ class OptimizeAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

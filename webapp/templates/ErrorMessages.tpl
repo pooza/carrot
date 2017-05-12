@@ -12,5 +12,3 @@
     {/foreach}
   </p>
 {/if}
-
-{* vim: set tabstop=4: *}

@@ -35,4 +35,3 @@ class BSEmptyView extends BSView {
 	}
 }
 
-/* vim:set tabstop=4: */

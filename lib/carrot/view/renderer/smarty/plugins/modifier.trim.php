@@ -20,4 +20,3 @@ function smarty_modifier_trim ($value) {
 	return $value;
 }
 
-/* vim:set tabstop=4: */

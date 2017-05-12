@@ -94,4 +94,3 @@ class BSImageElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

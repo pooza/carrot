@@ -142,4 +142,3 @@ class BSCriteriaSet extends BSArray {
 	}
 }
 
-/* vim:set tabstop=4: */

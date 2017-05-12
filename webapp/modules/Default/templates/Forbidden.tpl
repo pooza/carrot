@@ -9,4 +9,3 @@
 認証されていません。
 {include file='UserFooter'}
 
-{* vim: set tabstop=4: *}

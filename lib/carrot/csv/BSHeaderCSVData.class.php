@@ -148,4 +148,3 @@ class BSHeaderCSVData extends BSCSVData {
 	}
 }
 
-/* vim:set tabstop=4: */

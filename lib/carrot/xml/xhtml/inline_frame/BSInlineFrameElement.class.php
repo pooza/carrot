@@ -44,4 +44,3 @@ class BSInlineFrameElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

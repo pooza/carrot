@@ -156,4 +156,3 @@ class BSFileUtility {
 	}
 }
 
-/* vim:set tabstop=4: */

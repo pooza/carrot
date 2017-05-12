@@ -47,4 +47,3 @@ class BSGooglePlusService extends BSCurlHTTP {
 	}
 }
 
-/* vim:set tabstop=4: */

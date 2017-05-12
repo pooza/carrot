@@ -64,4 +64,3 @@ class BSAnchorElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

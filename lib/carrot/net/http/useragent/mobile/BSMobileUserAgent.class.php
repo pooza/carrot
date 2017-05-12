@@ -166,4 +166,3 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -51,4 +51,3 @@ interface BSRenderer {
 	public function getError ();
 }
 
-/* vim:set tabstop=4: */

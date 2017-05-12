@@ -39,4 +39,3 @@ function smarty_function_movie ($params, &$smarty) {
 	}
 }
 
-/* vim:set tabstop=4: */

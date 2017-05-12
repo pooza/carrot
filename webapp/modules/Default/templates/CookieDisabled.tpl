@@ -10,4 +10,3 @@ Cookieが有効でない可能性があります。<br>
 Webブラウザの設定をお確かめ下さい。
 {include file='UserFooter'}
 
-{* vim: set tabstop=4: *}

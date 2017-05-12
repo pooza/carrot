@@ -30,4 +30,3 @@ class SummaryAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

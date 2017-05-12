@@ -57,4 +57,3 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 	}
 }
 
-/* vim:set tabstop=4: */

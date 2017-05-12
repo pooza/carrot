@@ -100,4 +100,3 @@ class BSMySQLDatabase extends BSDatabase {
 	}
 }
 
-/* vim:set tabstop=4: */

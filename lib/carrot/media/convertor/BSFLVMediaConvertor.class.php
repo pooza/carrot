@@ -22,4 +22,3 @@ class BSFLVMediaConvertor extends BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

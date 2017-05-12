@@ -11,4 +11,3 @@
   {/foreach}
 
 {/if}
-{* vim: set tabstop=4: *}

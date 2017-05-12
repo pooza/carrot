@@ -251,4 +251,3 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	}
 }
 
-/* vim:set tabstop=4: */

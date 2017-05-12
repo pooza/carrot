@@ -55,4 +55,3 @@ class BSSerializeEntry extends BSRecord {
 	}
 }
 
-/* vim:set tabstop=4: */

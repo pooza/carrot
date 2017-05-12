@@ -151,4 +151,3 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -200,4 +200,3 @@ class BSMIMEUtility {
 	}
 }
 
-/* vim:set tabstop=4: */

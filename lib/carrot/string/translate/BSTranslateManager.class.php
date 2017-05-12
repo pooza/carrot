@@ -213,4 +213,3 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 }
 
-/* vim:set tabstop=4: */

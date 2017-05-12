@@ -22,4 +22,3 @@ class BSWebMMediaConvertor extends BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

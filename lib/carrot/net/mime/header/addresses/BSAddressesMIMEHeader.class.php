@@ -72,4 +72,3 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

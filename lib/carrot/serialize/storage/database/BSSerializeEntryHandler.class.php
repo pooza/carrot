@@ -82,4 +82,3 @@ class BSSerializeEntryHandler extends BSTableHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -122,4 +122,3 @@ abstract class BSTest {
 	}
 }
 
-/* vim:set tabstop=4: */

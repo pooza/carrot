@@ -324,4 +324,3 @@ class BSImageFile extends BSMediaFile implements BSImageContainer, BSAssignable 
 	}
 }
 
-/* vim:set tabstop=4: */

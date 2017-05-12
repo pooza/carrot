@@ -444,4 +444,3 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	}
 }
 
-/* vim:set tabstop=4: */

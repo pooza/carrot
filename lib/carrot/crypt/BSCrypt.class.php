@@ -138,4 +138,3 @@ class BSCrypt {
 	}
 }
 
-/* vim:set tabstop=4: */

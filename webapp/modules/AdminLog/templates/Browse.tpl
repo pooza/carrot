@@ -34,4 +34,3 @@
 
 {include file='AdminFooter'}
 
-{* vim: set tabstop=4: *}

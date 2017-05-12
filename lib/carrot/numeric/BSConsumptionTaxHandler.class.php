@@ -81,4 +81,3 @@ class BSConsumptionTaxHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

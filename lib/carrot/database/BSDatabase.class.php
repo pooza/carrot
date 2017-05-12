@@ -504,4 +504,3 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	}
 }
 
-/* vim:set tabstop=4: */

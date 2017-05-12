@@ -20,4 +20,3 @@ function smarty_modifier_sanitize ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

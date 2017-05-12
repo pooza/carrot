@@ -19,4 +19,3 @@ interface BSValidatorContainer {
 	public function registerValidators ();
 }
 
-/* vim:set tabstop=4: */

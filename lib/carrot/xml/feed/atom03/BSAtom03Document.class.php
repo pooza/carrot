@@ -245,4 +245,3 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -294,4 +294,3 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	}
 }
 
-/* vim:set tabstop=4: */

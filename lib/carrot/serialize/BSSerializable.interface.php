@@ -47,4 +47,3 @@ interface BSSerializable {
 	public function __toString ();
 }
 
-/* vim:set tabstop=4: */

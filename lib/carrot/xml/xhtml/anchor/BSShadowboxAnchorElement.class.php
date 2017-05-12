@@ -71,4 +71,3 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 	}
 }
 
-/* vim:set tabstop=4: */

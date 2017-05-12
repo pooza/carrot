@@ -149,4 +149,3 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	}
 }
 
-/* vim:set tabstop=4: */

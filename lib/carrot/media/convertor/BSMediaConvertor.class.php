@@ -179,4 +179,3 @@ abstract class BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -84,4 +84,3 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

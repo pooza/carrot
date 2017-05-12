@@ -23,4 +23,3 @@ class BSBccMIMEHeader extends BSAddressesMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

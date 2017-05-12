@@ -78,4 +78,3 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	}
 }
 
-/* vim:set tabstop=4: */

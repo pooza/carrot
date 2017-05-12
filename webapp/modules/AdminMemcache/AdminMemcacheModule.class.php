@@ -29,4 +29,3 @@ class AdminMemcacheModule extends BSModule {
 	}
 }
 
-/* vim:set tabstop=4: */

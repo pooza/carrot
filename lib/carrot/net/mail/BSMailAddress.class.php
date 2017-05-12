@@ -152,4 +152,3 @@ class BSMailAddress implements BSAssignable {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -134,4 +134,3 @@ class BSSessionHandler {
 	}
 }
 
-/* vim:set tabstop=4: */

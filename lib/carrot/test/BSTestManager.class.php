@@ -94,4 +94,3 @@ class BSTestManager implements IteratorAggregate {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -156,4 +156,3 @@ class BSRSS10Document extends BSRSS09Document {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -12,4 +12,3 @@
 class BSMemcacheException extends BSException {
 }
 
-/* vim:set tabstop=4: */

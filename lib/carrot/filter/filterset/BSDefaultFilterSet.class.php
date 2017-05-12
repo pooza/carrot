@@ -80,4 +80,3 @@ class BSDefaultFilterSet extends BSArray {
 	}
 }
 
-/* vim:set tabstop=4: */

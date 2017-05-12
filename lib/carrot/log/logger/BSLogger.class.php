@@ -112,4 +112,3 @@ abstract class BSLogger {
 	}
 }
 
-/* vim:set tabstop=4: */

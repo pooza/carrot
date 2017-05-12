@@ -13,4 +13,3 @@ class LogoutAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

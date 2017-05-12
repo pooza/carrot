@@ -64,4 +64,3 @@ class BSRecordFinder extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */

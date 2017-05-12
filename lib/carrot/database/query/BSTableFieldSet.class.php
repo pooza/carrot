@@ -60,4 +60,3 @@ class BSTableFieldSet extends BSArray {
 	}
 }
 
-/* vim:set tabstop=4: */

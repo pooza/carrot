@@ -204,4 +204,3 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -46,4 +46,3 @@ class BSJPEGMediaConvertor extends BSMediaConvertor {
 	}
 }
 
-/* vim:set tabstop=4: */

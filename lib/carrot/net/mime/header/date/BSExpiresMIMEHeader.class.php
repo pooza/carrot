@@ -23,4 +23,3 @@ class BSExpiresMIMEHeader extends BSDateMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -716,4 +716,3 @@ abstract class BSRecord implements ArrayAccess,
 	}
 }
 
-/* vim:set tabstop=4: */

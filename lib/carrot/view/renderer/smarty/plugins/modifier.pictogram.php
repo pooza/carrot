@@ -25,4 +25,3 @@ function smarty_modifier_pictogram ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

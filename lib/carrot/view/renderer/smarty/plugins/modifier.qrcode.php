@@ -20,4 +20,3 @@ function smarty_modifier_qrcode ($value) {
 	return $element->getContents();
 }
 
-/* vim:set tabstop=4: */

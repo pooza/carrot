@@ -12,4 +12,3 @@ class DeniedUserAgentView extends BSSmartyView {
 	}
 }
 
-/* vim:set tabstop=4: */

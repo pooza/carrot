@@ -68,4 +68,3 @@ abstract class BSPaginateTableAction extends BSTableAction {
 	}
 }
 
-/* vim:set tabstop=4: */

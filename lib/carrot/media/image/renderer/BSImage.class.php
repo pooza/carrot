@@ -383,4 +383,3 @@ class BSImage implements BSImageRenderer {
 	}
 }
 
-/* vim:set tabstop=4: */

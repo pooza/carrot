@@ -161,4 +161,3 @@ class BSIterator implements Iterator, Countable {
 	}
 }
 
-/* vim:set tabstop=4: */

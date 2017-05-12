@@ -87,4 +87,3 @@ class BSObjectElement extends BSXHTMLElement {
 	}
 }
 
-/* vim:set tabstop=4: */

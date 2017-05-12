@@ -21,4 +21,3 @@ function smarty_modifier_binary_size_format ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

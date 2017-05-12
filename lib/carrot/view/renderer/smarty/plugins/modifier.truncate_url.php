@@ -22,4 +22,3 @@ function smarty_modifier_truncate_url ($value, $length = 16) {
 	}
 }
 
-/* vim:set tabstop=4: */

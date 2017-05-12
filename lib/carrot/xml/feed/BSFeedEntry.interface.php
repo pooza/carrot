@@ -76,4 +76,3 @@ interface BSFeedEntry {
 	public function setDocument (BSFeedDocument $document);
 }
 
-/* vim:set tabstop=4: */

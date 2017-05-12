@@ -13,4 +13,3 @@ class BSReplyToMIMEHeader extends BSAddressMIMEHeader {
 	protected $name = 'Reply-To';
 }
 
-/* vim:set tabstop=4: */

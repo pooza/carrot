@@ -72,4 +72,3 @@ class BSContentTypeMIMEHeader extends BSMIMEHeader {
 	}
 }
 
-/* vim:set tabstop=4: */

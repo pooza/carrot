@@ -19,4 +19,3 @@ function smarty_modifier_strip_html_tags ($value) {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -38,4 +38,3 @@ class BSWebController extends BSController {
 	}
 }
 
-/* vim:set tabstop=4: */

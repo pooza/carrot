@@ -509,4 +509,3 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	}
 }
 
-/* vim:set tabstop=4: */

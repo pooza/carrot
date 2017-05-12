@@ -86,4 +86,3 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	}
 }
 
-/* vim:set tabstop=4: */

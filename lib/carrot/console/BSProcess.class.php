@@ -87,4 +87,3 @@ class BSProcess {
 	}
 }
 
-/* vim:set tabstop=4: */

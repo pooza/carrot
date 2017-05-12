@@ -24,4 +24,3 @@ class BSWrongCharactersRequestFilter extends BSRequestFilter {
 	}
 }
 
-/* vim:set tabstop=4: */

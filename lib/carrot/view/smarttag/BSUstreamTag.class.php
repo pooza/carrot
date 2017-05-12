@@ -43,4 +43,3 @@ class BSUstreamTag extends BSSmartTag {
 	}
 }
 
-/* vim:set tabstop=4: */

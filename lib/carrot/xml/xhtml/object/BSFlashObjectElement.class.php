@@ -72,4 +72,3 @@ class BSFlashObjectElement extends BSObjectElement {
 	}
 }
 
-/* vim:set tabstop=4: */

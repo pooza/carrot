@@ -54,4 +54,3 @@ class BSCSSSelector extends BSArray {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -123,4 +123,3 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	}
 }
 
-/* vim:set tabstop=4: */

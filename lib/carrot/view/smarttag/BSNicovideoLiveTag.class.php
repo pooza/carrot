@@ -43,4 +43,3 @@ class BSNicovideoLiveTag extends BSSmartTag {
 	}
 }
 
-/* vim:set tabstop=4: */

@@ -34,4 +34,3 @@ class BSRawDictionary implements BSDictionary {
 	}
 }
 
-/* vim:set tabstop=4: */

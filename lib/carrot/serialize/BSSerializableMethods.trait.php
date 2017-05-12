@@ -31,4 +31,3 @@ trait BSSerializableMethods {
 	}
 }
 
-/* vim:set tabstop=4: */

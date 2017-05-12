@@ -32,4 +32,3 @@ class LoginAction extends BSAction {
 	}
 }
 
-/* vim:set tabstop=4: */

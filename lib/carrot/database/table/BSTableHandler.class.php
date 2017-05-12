@@ -914,4 +914,3 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	}
 }
 
-/* vim:set tabstop=4: */
