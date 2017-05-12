@@ -20,8 +20,7 @@ class BSMIMEType extends BSParameterHolder {
 	protected function __construct () {
 		foreach (BSConfigManager::getInstance()->compile('mime') as $entry) {
 			foreach ($entry['suffixes'] as $suffix) {
-				$suffix = '.' . ltrim($suffix, '.');
-				$this[$suffix] = $entry['type'];
+				$this['.' . ltrim($suffix, '.')] = $entry['type'];
 			}
 		}
 	}
@@ -34,9 +33,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @return mixed パラメータ
 	 */
 	public function getParameter ($name) {
-		$name = '.' . ltrim($name, '.');
-		$name = BSString::toLower($name);
-		return parent::getParameter($name);
+		return parent::getParameter('.' . ltrim(BSString::toLower($name), '.'));
 	}
 
 	/**
@@ -62,7 +59,15 @@ class BSMIMEType extends BSParameterHolder {
 	 */
 	public function getSuffixes () {
 		if (!$this->suffixes) {
-			$this->suffixes = BSArray::create($this->params)->createFlipped();
+			$this->suffixes = new BSArray;
+			foreach (BSConfigManager::getInstance()->compile('mime') as $entry) {
+				foreach ($entry['suffixes'] as $suffix) {
+					if ($this->suffixes->hasParameter($entry['type'])) {
+						continue;
+					}
+					$this->suffixes[$entry['type']] = '.' . ltrim($suffix, '.');
+				}
+			}
 		}
 		return $this->suffixes;
 	}
@@ -92,13 +97,11 @@ class BSMIMEType extends BSParameterHolder {
 	 * @static
 	 */
 	static public function getType ($suffix, $flags = BSMIMEUtility::IGNORE_INVALID_TYPE) {
-		$types = self::getInstance();
-		if (BSString::isBlank($type = $types[BSMIMEUtility::getFileNameSuffix($suffix)])) {
-			if ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE) {
-				$type = self::DEFAULT_TYPE;
-			}
+		if ($type = self::getInstance()[BSMIMEUtility::getFileNameSuffix($suffix)]) {
+			return $type;
+		} else if ($flags & BSMIMEUtility::IGNORE_INVALID_TYPE) {
+			return self::DEFAULT_TYPE;
 		}
-		return $type;
 	}
 
 	/**
@@ -114,4 +117,3 @@ class BSMIMEType extends BSParameterHolder {
 	}
 }
 
-/* vim:set tabstop=4: */
