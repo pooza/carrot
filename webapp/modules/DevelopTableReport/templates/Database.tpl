@@ -59,18 +59,18 @@
 </table>
 
 <script>
-document.observe('dom:loaded', function () {ldelim}
-  $('update_button').observe('click', function() {ldelim}
-    CarrotLib.redirect('DevelopTableReport', 'Update', null, {ldelim}
+document.observe('dom:loaded', function () {
+  $('update_button').observe('click', function() {
+    CarrotLib.redirect('DevelopTableReport', 'Update', null, {
       'database': '{$database.name}'
-    {rdelim});
-  {rdelim});
-  $('optimize_button').observe('click', function() {ldelim}
-    CarrotLib.redirect('DevelopTableReport', 'Optimize', null, {ldelim}
+    });
+  });
+  $('optimize_button').observe('click', function() {
+    CarrotLib.redirect('DevelopTableReport', 'Optimize', null, {
       'database': '{$database.name}'
-    {rdelim});
-  {rdelim});
-{rdelim});
+    });
+  });
+});
 </script>
 
 {include file='AdminFooter'}

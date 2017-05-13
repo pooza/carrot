@@ -33,7 +33,6 @@
   </ul>
 </nav>
 <script>
-{literal}
 document.observe('dom:loaded', function () {
   new Elevator('left_menu', {
     x: 10,
@@ -46,7 +45,6 @@ document.observe('dom:loaded', function () {
     });
   }, 300);
 });
-{/literal}
 </script>
 {/if}
 

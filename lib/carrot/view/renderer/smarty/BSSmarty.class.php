@@ -84,26 +84,6 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	}
 
 	/**
-	 * プレフィルタを追加
-	 *
-	 * @access public
-	 * @param string $name プレフィルタの名前
-	 */
-	public function addPreFilter ($name) {
-		$this->load_filter('pre', $name);
-	}
-
-	/**
-	 * ポストフィルタを追加
-	 *
-	 * @access public
-	 * @param string $name ポストフィルタの名前
-	 */
-	public function addPostFilter ($name) {
-		$this->load_filter('post', $name);
-	}
-
-	/**
 	 * 出力フィルタを追加
 	 *
 	 * @access public
