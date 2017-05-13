@@ -155,14 +155,14 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	private function fetchTemplateTags ($source) {
 		$ldq = preg_quote($this->left_delimiter, '~');
 		$rdq = preg_quote($this->right_delimiter, '~');
-		preg_match_all("~{$ldq} *([^\n]*?) *{$rdq}~s", $source, $matches);
+		preg_match_all("~{$ldq} *([^\n]+?) *{$rdq}~s", $source, $matches);
 		return BSArray::create($matches[1]);
 	}
 
 	private function split ($source) {
 		$ldq = preg_quote($this->left_delimiter, '~');
 		$rdq = preg_quote($this->right_delimiter, '~');
-		return BSArray::create(preg_split("~{$ldq}[^\n]*?{$rdq}~s", $source));
+		return BSArray::create(preg_split("~{$ldq}[^\n]+?{$rdq}~s", $source));
 	}
 
 	private function compileTags (BSArray $tags, BSArray $blocks) {
