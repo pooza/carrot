@@ -79,10 +79,9 @@ class BSLoader {
 			throw new RuntimeException($class . 'がロードできません。');
 		}
 		$basename = mb_ereg_replace('[_[:cntrl:]]', '', $matches[2]);
-		$classes = $this->getClasses();
 		foreach ([null, self::PREFIX] as $prefix) {
 			$name = $prefix . $basename . $suffix;
-			if (class_exists($name, false) || isset($classes[strtolower($name)])) {
+			if (class_exists($name, false) || isset($this->getClasses()[strtolower($name)])) {
 				return $name;
 			}
 		}
