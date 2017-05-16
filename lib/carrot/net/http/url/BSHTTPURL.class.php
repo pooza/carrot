@@ -236,8 +236,8 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param string $size
 	 */
 	public function removeImageCache ($size) {
-		if ($file = $this->getImageFile($size)) {
-			$file->removeImageCache('image');
+		if ($file = $this->getImageFile('image')) {
+			$file->removeImageCache($size);
 		}
 	}
 

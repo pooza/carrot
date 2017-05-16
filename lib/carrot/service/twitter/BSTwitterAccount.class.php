@@ -135,6 +135,9 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 * @param string $size
 	 */
 	public function removeImageCache ($size) {
+		if ($file = $this->getImageFile('image')) {
+			$file->removeImageCache($size);
+		}
 	}
 
 	/**
@@ -148,8 +151,7 @@ class BSTwitterAccount implements BSImageContainer, BSHTTPRedirector {
 	 */
 	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile()) {
-			$images = new BSImageManager;
-			$info = $images->getImageInfo($file, $size, $pixel, $flags);
+			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getLabel();
 			return $info;
 		}

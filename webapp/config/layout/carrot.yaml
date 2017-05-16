@@ -7,7 +7,7 @@ backup:
   parent: var
   suffix: .zip
   purge:
-    day: 7
+    day: 2
 bin:
   constant: yes
 carrot:
@@ -43,7 +43,7 @@ dump:
   parent: var
   suffix: .sql
   purge:
-    month: 1
+    day: 2
 favicon:
   parent: var
   suffix: .png
@@ -96,7 +96,12 @@ modules:
   parent: webapp
 movies:
   parent: carrotlib
-  suffix: .flv
+  suffix: .mp4
+movie_file:
+  parent: var
+  suffix: .png
+  purge:
+    month: 1
 musics:
   parent: carrotlib
   suffix: .mp3

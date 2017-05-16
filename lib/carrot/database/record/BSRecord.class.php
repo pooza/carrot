@@ -355,7 +355,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $filename ファイル名
 	 */
 	public function setAttachment ($name, BSFile $file, $filename = null) {
-		if ($file instanceof BSImageContainer) {
+		if ($file instanceof BSImageFile) {
 			$this->removeImageFile($name);
 			$file->rename($this->getImageFileBaseName($name));
 		} else {
@@ -451,7 +451,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @access public
 	 * @param string $size
 	 */
-	public function removeImageCache ($size = 'thumbnail') {
+	public function removeImageCache ($size) {
 		(new BSImageManager)->removeThumbnail($this, $size);
 	}
 
@@ -475,7 +475,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param string $size サイズ名
 	 * @return BSImageFile 画像ファイル
 	 */
-	public function getImageFile ($size = 'thumbnail') {
+	public function getImageFile ($size) {
 		foreach (BSImage::getSuffixes() as $suffix) {
 			$name = $this->getImageFileBaseName($size) . $suffix;
 			if ($file = $this->getTable()->getDirectory()->getEntry($name, 'BSImageFile')) {

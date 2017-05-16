@@ -76,6 +76,9 @@ ffmpeg:
     jpg:
       ss: 2
       vframes: 1
+    png:
+      ss: 2
+      vframes: 1
     webm:
       audio_codec: libvorbis
       audio_sampling_frequency: 44100

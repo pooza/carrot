@@ -9,7 +9,7 @@
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSMovieFile extends BSMediaFile {
+class BSMovieFile extends BSMediaFile implements BSImageContainer {
 
 	/**
 	 * ファイルを解析
@@ -207,6 +207,76 @@ class BSMovieFile extends BSMediaFile {
 			return false;
 		}
 		return (BSMIMEUtility::getMainType($this->analyzeType()) == 'video');
+	}
+
+	/**
+	 * キャッシュをクリア
+	 *
+	 * @access public
+	 * @param string $size
+	 */
+	public function removeImageCache ($size) {
+		if ($file = $this->getImageFile('image')) {
+			$file->removeImageCache($size);
+		}
+	}
+
+	/**
+	 * 画像の情報を返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @param integer $pixel ピクセルサイズ
+	 * @param integer $flags フラグのビット列
+	 * @return BSArray 画像の情報
+	 */
+	public function getImageInfo ($size, $pixel = null, $flags = null) {
+		if ($file = $this->getImageFile('image')) {
+			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
+			$info['alt'] = $this->getLabel();
+			return $info;
+		}
+	}
+
+	/**
+	 * 画像ファイルを返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @return BSImageFile 画像ファイル
+	 */
+	public function getImageFile ($size) {
+		$dir = BSFileUtility::getDirectory('movie_file');
+		if ($file = $dir->getEntry($this->getImageFileBaseName($size), 'BSImageFile')) {
+			return $file;
+		}
+
+		$file = new BSImageFile($this->convert(new BSPNGMediaConvertor)->getPath());
+		$file->setName($this->getImageFileBaseName($size));
+		$file->moveTo($dir);
+		return $file;
+	}
+
+	/**
+	 * 画像ファイルベース名を返す
+	 *
+	 * @access public
+	 * @param string $size サイズ名
+	 * @return string 画像ファイルベース名
+	 */
+	public function getImageFileBaseName ($size) {
+		return $this->getID();
+	}
+
+	/**
+	 * コンテナのラベルを返す
+	 *
+	 * @access public
+	 * @param string $language 言語
+	 * @return string ラベル
+	 */
+	public function getLabel ($language = 'ja') {
+		return $this->getBaseName();
 	}
 
 	/**

@@ -48,7 +48,7 @@ class BSGooglePlusAccount
 			if (!BSString::isBlank($this->profile[$name])) {
 				return $this->profile[$name];
 			}
-		} 
+		}
 	}
 
 	/**
@@ -100,6 +100,9 @@ class BSGooglePlusAccount
 	 * @param string $size
 	 */
 	public function removeImageCache ($size) {
+		if ($file = $this->getImageFile('image')) {
+			$file->removeImageCache($size);
+		}
 	}
 
 	/**
@@ -114,7 +117,7 @@ class BSGooglePlusAccount
 	public function getImageInfo ($size, $pixel = null, $flags = null) {
 		if ($file = $this->getImageFile('image')) {
 			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
-			$info['alt'] = $this->getName();
+			$info['alt'] = $this->getLabel();
 			return $info;
 		}
 	}

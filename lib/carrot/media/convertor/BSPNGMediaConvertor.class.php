@@ -5,11 +5,11 @@
  */
 
 /**
- * JPEGへの変換
+ * PNGへの変換
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSJPEGMediaConvertor extends BSMediaConvertor {
+class BSPNGMediaConvertor extends BSMediaConvertor {
 
 	/**
 	 * 変換後ファイルのサフィックス
@@ -18,7 +18,7 @@ class BSJPEGMediaConvertor extends BSMediaConvertor {
 	 * @return string サフィックス
 	 */
 	public function getSuffix () {
-		return '.jpg';
+		return '.png';
 	}
 
 	/**
