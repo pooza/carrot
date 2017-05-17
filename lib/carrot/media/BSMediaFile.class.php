@@ -128,11 +128,12 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	/**
 	 * 幅でリサイズ
 	 *
-	 * @access protected
+	 * @access public
 	 * @param BSParameterHolder $params パラメータ配列
 	 * @param BSUserAgent $useragent 対象ブラウザ
+	 * @return BSParameterHolder リサイズ後のパラメータ配列
 	 */
-	protected function resizeByWidth (BSParameterHolder $params, BSUserAgent $useragent = null) {
+	public function resizeByWidth (BSParameterHolder $params, BSUserAgent $useragent = null) {
 		if (!$params[__FUNCTION__]) {
 			if (!$useragent) {
 				$useragent = $this->request->getUserAgent();
@@ -151,6 +152,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 			}
 			$params[__FUNCTION__] = true;
 		}
+		return $params;
 	}
 
 	/**
