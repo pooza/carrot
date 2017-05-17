@@ -461,11 +461,16 @@ class BSImageManager {
 	public function getContainer (BSParameterHolder $params) {
 		$params = BSArray::create($params);
 		if (!BSString::isBlank($path = $params['src'])) {
-			$finder = new BSFileFinder('BSImageFile');
+			$finder = new BSFileFinder;
 			if ($dir = $params['dir']) {
 				$finder->registerDirectory($dir);
 			}
-			return $finder->execute($path);
+			$file = $finder->execute($path);
+			if ($file->getMainType() == 'image') {
+				return new BSImageFile($file->getPath());
+			} else if ($file->getMainType() == 'video') {
+				return new BSMovieFile($file->getPath());
+			}
 		}
 
 		$finder = new BSRecordFinder($params);

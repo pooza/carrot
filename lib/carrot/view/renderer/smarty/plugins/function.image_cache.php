@@ -14,7 +14,7 @@
 function smarty_function_image_cache ($params, &$smarty) {
 	$params = BSArray::create($params);
 	if (BSString::isBlank($params['size'])) {
-		$params['size'] = 'thumbnail';
+		$params['size'] = 'image';
 	}
 
 	$manager = $smarty->getUserAgent()->createImageManager($params['flags']);
