@@ -34,8 +34,8 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 		$this->plugins_dir[] = BSFileUtility::getPath('local_lib') . '/smarty';
 		$this->plugins_dir[] = BSFileUtility::getPath('carrot') . '/view/renderer/smarty/plugins';
 		$this->plugins_dir[] = BSFileUtility::getPath('lib') . '/Smarty/plugins';
-		$this->force_compile = BS_DEBUG;
-		$this->error_reporting = E_ALL ^ E_NOTICE ^ E_STRICT ^ E_WARNING;
+		$this->force_compile = !!BS_DEBUG;
+		$this->error_reporting = E_ALL ^ E_NOTICE;
 		$this->registerDirectory(BSFileUtility::getDirectory('templates'));
 		$this->setEncoding('utf-8');
 		$this->setUserAgent($this->request->getUserAgent());
