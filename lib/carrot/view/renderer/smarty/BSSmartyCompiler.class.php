@@ -89,7 +89,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	 * @return string
 	 */
 	public function _compile_foreach_start ($args) {
-		$params = new BSArray($this->_parse_attrs($args));
+		$params = BSArray::create($this->_parse_attrs($args));
 		if (BSString::isBlank($params['name'])) {
 			$params['name'] = 'foreach_' . BSUtility::getUniqueID();
 		}
@@ -133,44 +133,46 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		$this->_load_filters();
 		$this->_current_file = $resource;
 		$source = $this->removeComments($source);
+		$source = $this->pushLiterals($source, ($literals = new BSArray));
 		$blocks = $this->split($source);
-		$compiledTags = $this->compileTags($this->fetchTemplateTags($source), $blocks);
-		$this->parseStripTag($compiledTags, $blocks);
-		$contents = $this->getHeader()->join("\n") . "\n" . $this->join($compiledTags, $blocks);
+		$tags = $this->compileTags($this->fetchTags($source), $blocks);
+		$this->parseStrip($tags, $blocks);
+		$contents = $this->getHeader()->join("\n") . "\n" . $this->join($tags, $blocks);
+		$contents = $this->popLiterals($contents, $literals);
 		return true;
 	}
 
 	private function removeComments ($source) {
-		$ldq = preg_quote($this->left_delimiter, '~');
-		$rdq = preg_quote($this->right_delimiter, '~');
-		return preg_replace_callback(
-			"~{$ldq}\*.*?\*{$rdq}~s",
-			function ($matches) {
-				return str_repeat("\n", substr_count($matches[0], "\n"));
-			},
-			$source
-		);
+		$ldq = $this->left_delimiter;
+		$rdq = $this->right_delimiter;
+		foreach (BSString::eregMatchAll("{$ldq}\*.*?\*{$rdq}", $source) as $matches) {
+			$source = str_replace($matches[0], null, $source);
+		}
+		return $source;
 	}
 
-	private function fetchTemplateTags ($source) {
-		$ldq = preg_quote($this->left_delimiter, '~');
-		$rdq = preg_quote($this->right_delimiter, '~');
-		preg_match_all("~{$ldq} *([^\n]+?) *{$rdq}~s", $source, $matches);
-		return BSArray::create($matches[1]);
+	private function fetchTags ($source) {
+		$ldq = $this->left_delimiter;
+		$rdq = $this->right_delimiter;
+		$tags = new BSArray;
+		foreach (BSString::eregMatchAll("{$ldq} *([^\n]+?) *{$rdq}", $source) as $matches) {
+			$tags[] = $matches[1];
+		}
+		return $tags;
 	}
 
 	private function split ($source) {
-		$ldq = preg_quote($this->left_delimiter, '~');
-		$rdq = preg_quote($this->right_delimiter, '~');
-		return BSArray::create(preg_split("~{$ldq}[^\n]+?{$rdq}~s", $source));
+		$ldq = $this->left_delimiter;
+		$rdq = $this->right_delimiter;
+		return BSArray::create(mb_split("{$ldq}[^\n]+?{$rdq}", $source));
 	}
 
 	private function compileTags (BSArray $tags, BSArray $blocks) {
 		$this->_current_line_no = 1;
-		$compiledTags = new BSArray;
+		$compiled = new BSArray;
 		for ($i = 0 ; $i < count($tags) ; $i ++) {
 			$this->_current_line_no += substr_count($blocks[$i], "\n");
-			$compiledTags[] = $this->_compile_tag($tags[$i]);
+			$compiled[] = $this->_compile_tag($tags[$i]);
 			$this->_current_line_no += substr_count($tags[$i], "\n");
 		}
 		if (0 < count($this->_tag_stack)) {
@@ -181,26 +183,26 @@ class BSSmartyCompiler extends Smarty_Compiler {
 			$message[] = $_line_no;
 			throw new BSViewException($message, $this);
 		}
-		return $compiledTags;
+		return $compiled;
 	}
 
-	private function parseStripTag (BSArray $compiledTags, BSArray $blocks) {
+	private function parseStrip (BSArray $tags, BSArray $blocks) {
 		$strip = false;
-		for ($i = 0 ; $i < $compiledTags->count() ; $i ++) {
-			if ($compiledTags[$i] == '{strip}') {
-				$compiledTags[$i] = '';
+		for ($i = 0 ; $i < $tags->count() ; $i ++) {
+			if ($tags[$i] == '{strip}') {
+				$tags[$i] = '';
 				$strip = true;
 				$blocks[$i + 1] = ltrim($blocks[$i + 1]);
 			}
 			if ($strip) {
-				for ($j = $i + 1 ; $j < $compiledTags->count() ; $j ++) {
-					$blocks[$j] = preg_replace('![\t ]*[\r\n]+[\t ]*!', '', $blocks[$j]);
-					if ($compiledTags[$j] == '{/strip}') {
+				for ($j = $i + 1 ; $j < $tags->count() ; $j ++) {
+					$blocks[$j] = mb_ereg_replace('[\t ]*[\r\n]+[\t ]*', '', $blocks[$j]);
+					if ($tags[$j] == '{/strip}') {
 						$blocks[$j] = rtrim($blocks[$j]);
 					}
 					$blocks[$j] = "<?php echo '" . strtr($blocks[$j], ["'"=>"\'", "\\"=>"\\\\"]) . "'; ?>";
-					if ($compiledTags[$j] == '{/strip}') {
-						$compiledTags[$j] = "\n";
+					if ($tags[$j] == '{/strip}') {
+						$tags[$j] = "\n";
 						$strip = false;
 						$i = $j;
 						break;
@@ -210,21 +212,43 @@ class BSSmartyCompiler extends Smarty_Compiler {
 		}
 	}
 
-	private function join (BSArray $compiledTags, BSArray $blocks) {
-		$contents = new BSArray;
-		$tag_guard = '%%%SMARTYOTG' . BSUtility::getUniqueID() . '%%%';
-		for ($i = 0 ; $i < $compiledTags->count() ; $i ++) {
-			if ($compiledTags[$i] == '') {
-				$blocks[$i + 1] = preg_replace('~^(\r\n|\r|\n)~', '', $blocks[$i + 1]);
-			}
-			$blocks[$i] = str_replace('<?', $tag_guard, $blocks[$i]);
-			$compiledTags[$i] = str_replace('<?', $tag_guard, $compiledTags[$i]);
-			$contents[] = $blocks[$i] . $compiledTags[$i];
+	private function pushLiterals ($source, BSArray $literals) {
+		$ldq = $this->left_delimiter;
+		$rdq = $this->right_delimiter;
+		$pattern = "{$ldq} *literal *{$rdq}(.+?){$ldq} */literal *{$rdq}";
+		$literals->clear();
+		foreach (BSString::eregMatchAll($pattern, $source) as $matches) {
+			$block = $matches[0];
+			$literal = $matches[1];
+			$tag = BSCrypt::digest([get_class($this), $literal]);
+			$literals[$tag] = $literal;
+			$source = str_replace($block, $tag, $source);
 		}
-		$contents[] = str_replace('<?', $tag_guard, $blocks[$i]);
+		return $source;
+	}
+
+	private function popLiterals ($source, BSArray $literals) {
+		foreach ($literals as $tag => $literal) {
+			$source = str_replace($tag, $literal, $source);
+		}
+		return $source;
+	}
+
+	private function join (BSArray $tags, BSArray $blocks) {
+		$contents = new BSArray;
+		$tag = BSCrypt::digest([get_class($this), BSUtility::getUniqueID()]);
+		for ($i = 0 ; $i < $tags->count() ; $i ++) {
+			if ($tags[$i] == '') {
+				$blocks[$i + 1] = mb_ereg_replace('^(\r\n|\r|\n)', '', $blocks[$i + 1]);
+			}
+			$blocks[$i] = str_replace('<?', $tag, $blocks[$i]);
+			$tags[$i] = str_replace('<?', $tag, $tags[$i]);
+			$contents[] = $blocks[$i] . $tags[$i];
+		}
+		$contents[] = str_replace('<?', $tag, $blocks[$i]);
 		$contents = $contents->join();
 		$contents = str_replace('<?', "<?= '<?' ?>\n", $contents);
-		$contents = str_replace($tag_guard, '<?', $contents);
+		$contents = str_replace($tag, '<?', $contents);
 		return trim($contents);
 	}
 
@@ -237,13 +261,7 @@ class BSSmartyCompiler extends Smarty_Compiler {
 			$plugins = ['plugins' => []];
 			foreach ($this->_plugin_info as $type => $plugin) {
 				foreach ($plugin as $name => $info) {
-					$plugins['plugins'][] = [
-						$type,
-						$name,
-						strtr($info[0], ["'" => "\\'", "\\" => "\\\\"]),
-						$info[1],
-						!!$info[2],
-					];
+					$plugins['plugins'][] = [$type, $name, $info[0], $info[1], !!$info[2]];
 				}
 			}
 			$header[] = 'require_once(SMARTY_CORE_DIR . \'core.load_plugins.php\');';
