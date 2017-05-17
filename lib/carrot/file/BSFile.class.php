@@ -65,6 +65,16 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	}
 
 	/**
+	 * メディアタイプのメイン部を返す
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function getMainType () {
+		return BSMIMEUtility::getMainType($this->getType());
+	}
+
+	/**
 	 * バイナリファイルか？
 	 *
 	 * @access public
