@@ -10,7 +10,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  * @abstract
  */
-abstract class BSMediaFile extends BSFile implements ArrayAccess {
+abstract class BSMediaFile extends BSFile implements ArrayAccess, BSAssignable {
 	protected $attributes;
 	protected $output;
 	protected $types;
@@ -22,7 +22,12 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 	public function __construct ($path) {
 		$this->setPath($path);
 		$this->attributes = new BSArray;
-		$this->analyze();
+		if ($serialized = $this->getSerialized()) {
+			$this->attributes->setParameters($serialized);
+		} else if ($this->isExists()) {
+			$this->analyze();
+			$this->serialize();
+		}
 	}
 
 	/**
@@ -272,6 +277,28 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess {
 		$command->setDirectory(BSFileUtility::getDirectory('ffmpeg'));
 		$command->setStderrRedirectable();
 		return $command;
+	}
+
+	/**
+	 * シリアライズ
+	 *
+	 * @access public
+	 */
+	public function serialize () {
+		if (!$this->attributes->count()) {
+			$this->analyze();
+		}
+		$this->controller->setAttribute($this, $this->attributes);
+	}
+
+	/**
+	 * アサインすべき値を返す
+	 *
+	 * @access public
+	 * @return mixed アサインすべき値
+	 */
+	public function assign () {
+		return $this->getSerialized();
 	}
 
 	/**

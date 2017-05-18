@@ -219,7 +219,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 			if ($entry->isDot() || !$entry->isWritable()) {
 				continue;
 			}
-			$this->getEntry($entry)->delete();
+			$this->getEntry($entry->getFileName())->delete();
 		}
 	}
 

@@ -323,6 +323,9 @@ abstract class BSRecord implements ArrayAccess,
 	public function getAttachmentInfo ($name) {
 		if ($file = $this->getAttachment($name)) {
 			$info = new BSArray;
+			if ($file instanceof BSAssignable) {
+				$info->setParameters($file->assign());
+			}
 			$info['path'] = $file->getPath();
 			$info['size'] = $file->getSize();
 			$info['type'] = $file->getType();

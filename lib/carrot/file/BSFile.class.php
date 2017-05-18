@@ -508,7 +508,9 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return $this->controller->getAttribute($this, $this->getUpdateDate());
+		if ($this->isExists()) {
+			return $this->controller->getAttribute($this, $this->getUpdateDate());
+		}
 	}
 
 	/**
