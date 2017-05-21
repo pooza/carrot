@@ -44,7 +44,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 * @param integer $flags フラグのビット列
 	 *   self::WITHOUT_LF フィールド値に改行を含まない
 	 */
-	public function addRecord (BSArray $record, $flags = null) {
+	public function addRecord (BSArray $record, $flags = 0) {
 		$values = new BSArray;
 		foreach ($record as $key => $value) {
 			$value = BSString::convertEncoding($value, $this->getEncoding(), 'utf-8');

@@ -56,7 +56,7 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 *   self::TIMESTAMP タイムスタンプ形式
 	 * @static
 	 */
-	static public function create ($date = null, $flags = null) {
+	static public function create ($date = null, $flags = 0) {
 		if ($date instanceof BSDate) {
 			return $date;
 		}

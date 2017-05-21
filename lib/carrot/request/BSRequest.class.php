@@ -276,7 +276,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 * @param BSRenderer $renderer レンダラー
 	 * @param integer $flags フラグのビット列
 	 */
-	public function setRenderer (BSRenderer $renderer, $flags = null) {
+	public function setRenderer (BSRenderer $renderer, $flags = 0) {
 		throw new BSHTTPException(get_class($this) . 'はレンダラーを設定できません。');
 	}
 

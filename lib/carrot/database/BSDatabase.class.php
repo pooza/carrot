@@ -31,7 +31,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @return BSDatabase インスタンス
 	 * @static
 	 */
-	static public function getInstance ($name = 'default', $flags = null) {
+	static public function getInstance ($name = 'default', $flags = 0) {
 		if (!self::$instances) {
 			self::$instances = new BSArray;
 		}
@@ -278,7 +278,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @param integer $flags フラグのビット列
 	 *   BSSQL::TEMPORARY テンポラリテーブル
 	 */
-	public function createTable ($table, BSArray $schema, $flags = null) {
+	public function createTable ($table, BSArray $schema, $flags = 0) {
 		$this->exec(BSSQL::getCreateTableQueryString($table, $schema, $flags));
 		$this->tables = null;
 	}

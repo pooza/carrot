@@ -113,7 +113,7 @@ abstract class BSRecord implements ArrayAccess,
 	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
 	 *   BSDatabase::WITHOUT_SERIALIZE シリアライズしない
 	 */
-	public function update ($values, $flags = null) {
+	public function update ($values, $flags = 0) {
 		if (!$this->isUpdatable()) {
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
@@ -467,7 +467,7 @@ abstract class BSRecord implements ArrayAccess,
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 

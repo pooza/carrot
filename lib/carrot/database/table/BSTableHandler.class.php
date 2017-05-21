@@ -357,7 +357,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 *   BSDatabase::WITH_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values, $flags = null) {
+	public function createRecord ($values, $flags = 0) {
 		if (!$this->isInsertable()) {
 			throw new BSDatabaseException($this . 'へのレコード挿入はできません。');
 		}
@@ -391,7 +391,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return string レコードの主キー
 	 * @final
 	 */
-	final public function insertRecord ($values, $flags = null) {
+	final public function insertRecord ($values, $flags = 0) {
 		return $this->createRecord($values, $flags);
 	}
 

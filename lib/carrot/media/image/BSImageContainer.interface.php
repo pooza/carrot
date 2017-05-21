@@ -28,7 +28,7 @@ interface BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null);
+	public function getImageInfo ($size, $pixel = null, $flags = 0);
 
 	/**
 	 * 画像ファイルを返す

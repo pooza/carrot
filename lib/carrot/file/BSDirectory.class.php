@@ -332,7 +332,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @param integer $flags フラグのビット列
 	 *   self::WITH_RECURSIVE 再帰的に
 	 */
-	public function setMode ($mode, $flags = null) {
+	public function setMode ($mode, $flags = 0) {
 		parent::setMode($mode);
 		if ($flags & self::WITH_RECURSIVE) {
 			foreach ($this as $entry) {

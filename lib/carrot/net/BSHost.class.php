@@ -129,7 +129,7 @@ class BSHost implements BSAssignable, BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		if ($file = $this->getImageFile($size)) {
 			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getID();

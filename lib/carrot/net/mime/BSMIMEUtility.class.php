@@ -106,7 +106,7 @@ class BSMIMEUtility {
 	 * @return string エンコードされた文字列
 	 * @static
 	 */
-	static public function encodeBase64 ($str, $flags = null) {
+	static public function encodeBase64 ($str, $flags = 0) {
 		$str = base64_encode($str);
 		if ($flags & self::WITH_SPLIT) {
 			$str = chunk_split($str);

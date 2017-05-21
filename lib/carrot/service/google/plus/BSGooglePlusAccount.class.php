@@ -114,7 +114,7 @@ class BSGooglePlusAccount
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		if ($file = $this->getImageFile('image')) {
 			$info = (new BSImageManager)->getImageInfo($file, $size, $pixel, $flags);
 			$info['alt'] = $this->getLabel();

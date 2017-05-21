@@ -35,7 +35,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	 *   self::CHECKCONS
 	 * @return mixed 正常終了時はtrue、それ以外はエラーコード。
 	 */
-	public function open ($path = null, $flags = null) {
+	public function open ($path = null, $flags = 0) {
 		if ($this->opened) {
 			throw new BSFileException($this->getFile() . 'が開かれています。');
 		}
@@ -88,7 +88,7 @@ class BSZipArchive extends ZipArchive implements BSRenderer {
 	 *   BSDirectory::WITHOUT_DOTTED ドットファイルを除く
 	 *   BSDirectory::WITHOUT_IGNORE 無視ファイルを除く
 	 */
-	public function register (BSDirectoryEntry $entry, $prefix = null, $flags = null) {
+	public function register (BSDirectoryEntry $entry, $prefix = null, $flags = 0) {
 		if (($flags & BSDirectory::WITHOUT_DOTTED) && $entry->isDotted()) {
 			return;
 		} else if (($flags & BSDirectory::WITHOUT_IGNORE) && $entry->isIgnore()) {

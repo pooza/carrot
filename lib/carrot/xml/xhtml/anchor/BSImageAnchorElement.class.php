@@ -26,7 +26,7 @@ abstract class BSImageAnchorElement extends BSAnchorElement {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSURL URL
 	 */
-	public function setImage (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	public function setImage (BSImageContainer $record, $size, $pixel = null, $flags = 0) {
 		$images = $this->getUserAgent()->createImageManager($flags);
 		$this->setURL($images->createURL($record, $size, $pixel));
 	}

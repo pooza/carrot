@@ -162,7 +162,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 * @param integer $flags ダミー
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		if (!$this->imageinfo) {
 			$this->imageinfo = new BSArray;
 			$image = $this->getImageFile('image')->getEngine();

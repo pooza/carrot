@@ -76,7 +76,7 @@ class BSUser extends BSParameterHolder {
 	 *   self::COOKIE cookieのみ
 	 * @return mixed 属性値
 	 */
-	public function getAttribute ($name, $flags = null) {
+	public function getAttribute ($name, $flags = 0) {
 		if ($flags & self::COOKIE) {
 			if (isset($_COOKIE[$name])) {
 				return $_COOKIE[$name];

@@ -162,7 +162,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSURL URL
 	 */
-	public function createURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	public function createURL (BSImageContainer $record, $size, $pixel = null, $flags = 0) {
 		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
 		}
@@ -185,7 +185,7 @@ class BSImageManager {
 	 * @param integer $flags フラグのビット列
 	 * @return BSURL URL
 	 */
-	final public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	final public function getURL (BSImageContainer $record, $size, $pixel = null, $flags = 0) {
 		return $this->createURL($record, $size, $pixel, $flags);
 	}
 
@@ -203,7 +203,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSImage サムネイル
 	 */
-	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = null) {
+	public function getThumbnail (BSImageContainer $record, $size, $pixel, $flags = 0) {
 		$flags |= $this->flags;
 		if (!$file = $this->getFile($record, $size, $pixel, $flags)) {
 			return null;
@@ -231,7 +231,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @param BSImage サムネイル
 	 */
-	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = null) {
+	public function setThumbnail (BSImageContainer $record, $size, $pixel, $contents, $flags = 0) {
 		$flags |= $this->flags;
 		$dir = $this->getEntryDirectory($record, $size);
 		$name = $this->createFileName($record->getImageFile($size), $pixel, $flags);
@@ -274,7 +274,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = null) {
+	public function getImageInfo (BSImageContainer $record, $size, $pixel = null, $flags = 0) {
 		$flags |= $this->flags;
 		if (!$image = $this->getThumbnail($record, $size, $pixel, $flags)) {
 			return;
@@ -306,7 +306,7 @@ class BSImageManager {
 	 *   self::FORCE_GIF gif形式を強制
 	 * @return BSFile サムネイルファイル
 	 */
-	protected function getFile (BSImageContainer $record, $size, $pixel, $flags = null) {
+	protected function getFile (BSImageContainer $record, $size, $pixel, $flags = 0) {
 		if (!$source = $record->getImageFile($size)) {
 			return null;
 		}
@@ -336,7 +336,7 @@ class BSImageManager {
 	 *   self::WITHOUT_SQUARE 正方形に整形しない
 	 * @return BSFile サムネイルファイル
 	 */
-	protected function createFileName (BSImageFile $file, $pixel, $flags = null) {
+	protected function createFileName (BSImageFile $file, $pixel, $flags = 0) {
 		$values = new BSArray([
 			'id' => $file->getID(),
 			'pixel' => $pixel,
@@ -372,7 +372,7 @@ class BSImageManager {
 	 * @param string $class レンダラーのクラス
 	 * @return BSImage サムネイル
 	 */
-	protected function convert (BSImageContainer $record, $pixel, $contents, $flags = null) {
+	protected function convert (BSImageContainer $record, $pixel, $contents, $flags = 0) {
 		$class = BSImage::getDefaultRendererClass();
 		$image = new $class;
 		$image->setBackgroundColor($this->getBackgroundColor());

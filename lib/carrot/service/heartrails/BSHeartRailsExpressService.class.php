@@ -34,7 +34,7 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 	 *   self::FORCE_QUERY 新規取得を強制
 	 * @return BSArray 最寄り駅の配列
 	 */
-	public function getStations (BSGeocodeEntry $geocode, $flags = null) {
+	public function getStations (BSGeocodeEntry $geocode, $flags = 0) {
 		$name = new BSStringFormat('%s.%s.%011.7f-%011.7f');
 		$name[] = get_class($this);
 		$name[] = __FUNCTION__;

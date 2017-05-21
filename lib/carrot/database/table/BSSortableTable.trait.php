@@ -44,7 +44,7 @@ trait BSSortableTable {
 	 *   BSDatabase::WITHOUT_LOGGING ログを残さない
 	 * @return string レコードの主キー
 	 */
-	public function createRecord ($values, $flags = null) {
+	public function createRecord ($values, $flags = 0) {
 		$values[$this->getRankField()] = $this->getNextRank();
 		return parent::createRecord($values, $flags);
 	}

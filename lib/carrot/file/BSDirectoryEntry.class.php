@@ -349,7 +349,7 @@ abstract class BSDirectoryEntry {
 	 * @param integer $mode ファイルモード
 	 * @param integer $flags フラグのビット列
 	 */
-	public function setMode ($mode, $flags = null) {
+	public function setMode ($mode, $flags = 0) {
 		if (!$this->isWritable() || !chmod($this->getPath(), $mode)) {
 			throw new BSFileException($this . 'のファイルモードを変更できません。');
 		}

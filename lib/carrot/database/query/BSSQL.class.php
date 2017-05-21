@@ -141,7 +141,7 @@ class BSSQL {
 	 *   self::TEMPORARY テンポラリテーブル
 	 * @static
 	 */
-	static public function getCreateTableQueryString ($table, $fields, $flags = null) {
+	static public function getCreateTableQueryString ($table, $fields, $flags = 0) {
 		$fields = new BSArray($fields);
 		foreach ($fields as $key => $field) {
 			if (is_numeric($key)) {
