@@ -148,13 +148,6 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 			throw new BSFileException($this . 'に書き込むことができません。');
 		}
 
-		$types = new BSArray;
-		$types[] = BSMIMEType::DEFAULT_TYPE;
-		$types[] = $this->getRenderer()->getType();
-		if (!$types->isContain($this->getType())) {
-			throw new BSImageException($this . 'のメディアタイプがレンダラーと一致しません。');
-		}
-
 		$this->removeImageCache('image');
 		$this->setContents($this->getRenderer()->getContents());
 
@@ -210,7 +203,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 	 * @param integer $flags フラグのビット列
 	 * @return BSArray 画像の情報
 	 */
-	public function getImageInfo ($size, $pixel = null, $flags = null) {
+	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		return (new BSImageManager)->getImageInfo($this, $size, $pixel, $flags);
 	}
 

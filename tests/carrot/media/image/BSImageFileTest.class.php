@@ -20,19 +20,6 @@ class BSImageFileTest extends BSTest {
 			$dest->save();
 			$dest->delete();
 		}
-
-		if (extension_loaded('gmagick')) {
-			$dest = BSFileUtility::createTemporaryFile('png');
-			$dest->setContents($src->getContents());
-			$this->assert('__construct', $dest = new BSImageFile($dest->getPath(), 'BSGmagickImage'));
-			$this->assert('setType', !$dest->getRenderer()->setType('image/png'));
-			$this->assert('getType', $dest->getRenderer()->getType() == 'image/png');
-			$dest->getRenderer()->resize(128, 128);
-			$this->assert('getWidth', $dest->getRenderer()->getWidth() == 128);
-			$this->assert('getHeight', $dest->getRenderer()->getHeight() == 128);
-			$dest->save();
-			$dest->delete();
-		}
 	}
 }
 
