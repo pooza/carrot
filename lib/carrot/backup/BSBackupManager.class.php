@@ -117,6 +117,7 @@ class BSBackupManager {
 		$this->restoreDatabase();
 		$this->restoreDirectories();
 		$this->restoreOptional();
+		BSLogManager::getInstance()->put('リストアを実行しました。', $this);
 	}
 
 	protected function isValidBackup () {
