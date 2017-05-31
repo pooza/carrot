@@ -16,7 +16,7 @@ class BackupAction extends BSAction {
 	 * @return integer メモリ上限(MB)、設定の必要がない場合はNULL
 	 */
 	public function getMemoryLimit () {
-		return 256;
+		return 1024;
 	}
 
 	/**
