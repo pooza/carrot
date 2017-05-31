@@ -88,8 +88,7 @@ class BSSerializeHandler {
 	 */
 	public function setAttribute ($name, $value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$value = new BSArray($value);
-			$value = $value->decode();
+			$value = BSArray::create($value)->decode();
 		}
 		$this->storage->setAttribute($this->createKey($name), $value);
 	}
