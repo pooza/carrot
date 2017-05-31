@@ -67,6 +67,8 @@ class BSHTMLFragmentValidator extends BSValidator {
 			'^<([^>]+)> attribute "([^"]+)" not allowed' => '<%s>タグに%s属性を含めることはできません。',
 			'^content occurs after end of body' => '<body>タグを閉じてはいけません。',
 			'^trimming empty <([^>]+)>' => '<%s>タグの中身が空です。',
+			'^<[^>]+> attribute "[^"]+" has invalid value' => null,
+			'^<[^>]+> proprietary attribute "[^"]+"' => null,
 		];
 		$message = str_replace('Warning: ', '', $message);
 		foreach ($templates as $pattern => $template) {
