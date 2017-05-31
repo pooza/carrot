@@ -15,7 +15,7 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 function smarty_compiler_assign ($params, &$compiler) {
-	$params = new BSArray($compiler->_parse_attrs($params));
+	$params = BSArray::create($compiler->_parse_attrs($params));
 
 	if (BSString::isBlank($params['var'])) {
 		$compiler->_syntax_error('assign: varが未定義です。', E_USER_WARNING);
