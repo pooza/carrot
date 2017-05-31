@@ -83,6 +83,8 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess, BSAssignable {
 			$sec = BSString::explode(':', $matches[1]);
 			$this->attributes['seconds'] = ($sec[0] * 3600) + ($sec[1] * 60) + $sec[2];
 		}
+		$this->attributes['path'] = $this->getPath();
+		$this->attributes['name'] = $this->getName();
 		$this->attributes['type'] = $this->analyzeType();
 	}
 
