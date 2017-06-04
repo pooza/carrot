@@ -12,7 +12,7 @@ module Carrot
     end
 
     def self.file_path
-      return File.join(ROOT_DIR, "webapp/config/constant/#{self.name}.yaml")
+      return File.join(ROOT_DIR, "webapp/config/constant/#{name}.yaml")
     end
 
     def self.development?

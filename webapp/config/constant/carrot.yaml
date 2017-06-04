@@ -5,7 +5,7 @@
 
 carrot:
   name: carrot Framework
-  ver: 2.6.59
+  ver: 2.6.60
 
 admin:
   email:
@@ -13,6 +13,9 @@ admin:
   networks:
   twitter: pooza
 app:
+  deploy:
+    dir:
+      freebsd: /usr/local/www/apache24/data
   name:
     ja: unknown
     en: unknown

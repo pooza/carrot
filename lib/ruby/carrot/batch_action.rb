@@ -27,7 +27,7 @@ module Carrot
     private
     def register (task)
       task = task.split(':')
-      self.push({
+      push({
         m: task[0],
         a: task[1],
       })

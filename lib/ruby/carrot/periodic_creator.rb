@@ -8,8 +8,8 @@ require 'fileutils'
 
 module Carrot
   class PeriodicCreator < Hash
-    def self.clear
-      self.dirs.each do |dir|
+    def self.clean
+      dirs.each do |dir|
         next unless Dir.exist?(dir)
         Dir.glob(File.join(dir, '/*')) do |f|
           next unless File.symlink?(f)
@@ -47,6 +47,7 @@ module Carrot
             dirs.push(File.join('/etc', "cron.#{period}"))
         end
       end
+      return dirs
     end
 
     def default_source

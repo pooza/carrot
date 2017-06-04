@@ -8,14 +8,22 @@ require 'carrot/constants'
 
 module Carrot
   class RsyslogUtil
-    def self.create_config_file
+    def self.create
       body = []
-      body.push("$template #{self.template_name}, \"#{self.log_path}\"")
+      body.push("$template #{template_name}, \"#{log_path}\"")
       body.push("$FileOwner #{Carrot::Constants.new['BS_APP_PROCESS_UID']}")
-      body.push(":programname, isequal, \"#{self.program_name}\" -?#{self.template_name}")
+      body.push(":programname, isequal, \"#{program_name}\" -?#{template_name}")
       body.push('')
-      File.open(self.config_path, 'w') do |file|
+      puts "create #{dest}"
+      File.open(dest, 'w') do |file|
         file.write(body.join("\n"))
+      end
+    end
+
+    def self.clean
+      if File.exist?(dest)
+        puts "delete #{dest}"
+        File.unlink(dest)
       end
     end
 
@@ -32,8 +40,8 @@ module Carrot
       return File.join(ROOT_DIR, "/var/log/%$now%.log")
     end
 
-    def self.config_path
-      return "/usr/local/etc/rsyslog.d/#{self.program_name}.conf"
+    def self.dest
+      return "/usr/local/etc/rsyslog.d/#{program_name}.conf"
     end
   end
 end

@@ -8,17 +8,26 @@ $LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
 require 'carrot/constants'
 require 'carrot/environment'
+require 'carrot/deployer'
 require 'carrot/periodic_creator'
 require 'carrot/rsyslog_util'
 require File.join(ROOT_DIR, 'webapp/config/Rakefile.local')
 
-desc 'インストールを実行'
+desc 'インストール'
 task :install => [
   'var:init',
   'environment:init',
+  'htdocs:init',
   'periodic:init',
   'rsyslog:init',
   'local:init',
+]
+
+desc 'アンインストール'
+task :uninstall => [
+  'htdocs:clean',
+  'periodic:clean',
+  'rsyslog:clean',
 ]
 
 desc 'テストを実行'
@@ -49,15 +58,30 @@ namespace :environment do
 end
 
 namespace :rsyslog do
-  desc 'rsyslogを初期化'
-  task :init => [
-    'config:init',
-  ]
+  task :init => [:clean, :create]
 
-  namespace :config do
-    task :init do
-      Carrot::RsyslogUtil.create_config_file
-    end
+  desc 'rsyslog設定をクリア'
+  task :clean do
+    Carrot::RsyslogUtil.clean
+  end
+
+  desc 'rsyslog設定を作成'
+  task :create do
+    Carrot::RsyslogUtil.create
+  end
+end
+
+namespace :htdocs do
+  task :init => [:clean, :create]
+
+  desc 'htdocsをクリア'
+  task :clean do
+    Carrot::Deployer.clean
+  end
+
+  desc 'htdocsにリンクを作成'
+  task :create do
+    Carrot::Deployer.create
   end
 end
 
@@ -67,7 +91,7 @@ namespace :periodic do
 
   desc 'periodicをクリア'
   task :clean do
-    Carrot::PeriodicCreator.clear
+    Carrot::PeriodicCreator.clean
   end
 
   [:daily, :hourly, :frequently].each do |period|
