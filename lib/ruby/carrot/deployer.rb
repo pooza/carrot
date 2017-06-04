@@ -5,7 +5,7 @@ require 'fileutils'
 module Carrot
   class Deployer
     def self.clean
-      if minc?
+      if carrot?
         puts "delete #{dest}"
         File.unlink(dest)
       end
@@ -13,17 +13,15 @@ module Carrot
 
     def self.create
       raise 'kariyonをアンインストールしてください。' if kariyon?
-      unless minc?
+      unless carrot?
         puts "link #{ROOT_DIR} -> #{dest}"
         File.symlink(ROOT_DIR, dest)
       end
     end
 
     private
-    def self.minc?
-      return (File.symlink?(dest) &&
-        File.exist?(File.join(dest, 'webapp/lib/MincSite.class.php'))
-      )
+    def self.carrot?
+      return File.exist?(File.join(dest, 'www/carrotctl.php'))
     end
 
     def self.kariyon?
