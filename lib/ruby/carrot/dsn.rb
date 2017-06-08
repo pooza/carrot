@@ -16,10 +16,24 @@ module Carrot
     end
 
     def install
-      raise "invalid scheme: #{@scheme}" unless installable?
-      File.unlink(@db) if File.exist?(@db)
-      system("sqlite3 #{@db} < #{schema_file}")
-      File.chmod(0666, @db)
+      begin
+        raise "不正なスキーム: #{@scheme}" unless installable?
+        raise "データベース '#{@db}' が既にあります。" if File.exist?(@db)
+        raise "スキーマ '#{schema_file}' がありません。" unless schema_file
+        puts "import #{schema_file} -> #{@db}"
+        system("sqlite3 #{@db} < #{schema_file}")
+        File.chmod(0666, @db)
+      rescue => e
+        puts e.message
+        exit 1
+      end
+    end
+
+    def clean
+      if File.exist?(@db)
+        puts "delete #{@db}"
+        File.unlink(@db)
+      end
     end
 
     private
@@ -28,13 +42,9 @@ module Carrot
     end
 
     def schema_file
-      ['_init', ''].each do |suffix|
-        ['.sqlite.sql', '.sql'].each do |extension|
-          path = File.join(ROOT_DIR, "share/sql/#{@name.downcase}#{suffix}#{extension}")
-          return path if File.exist?(path)
-        end
-      end
-      raise 'invalid schema file'
+      path = File.join(ROOT_DIR, "share/sql/#{@name.downcase}.sqlite.sql")
+      return path if File.exist?(path)
+      return nil
     end
   end
 end

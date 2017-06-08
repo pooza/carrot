@@ -54,9 +54,7 @@ module Carrot
       else
         key = "BS_PERIODIC_PRODUCTION_#{@period}"
       end
-      tasks = Carrot::Constants.new[key]
-      tasks ||= []
-      return tasks
+      return Carrot::Constants.new[key] || []
     end
 
     def silent?

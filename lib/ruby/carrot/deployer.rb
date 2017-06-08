@@ -12,7 +12,10 @@ module Carrot
     end
 
     def self.create
-      raise 'kariyonをアンインストールしてください。' if kariyon?
+      if kariyon?
+        puts 'kariyonをアンインストールしてください。'
+        exit 1
+      end
       unless carrot?
         puts "link #{ROOT_DIR} -> #{dest}"
         File.symlink(ROOT_DIR, dest)
