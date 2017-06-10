@@ -24,15 +24,20 @@ module Carrot
         system("sqlite3 #{@db} < #{schema_file}")
         File.chmod(0666, @db)
       rescue => e
-        puts e.message
+        puts "#{e.class}: #{e.message}"
         exit 1
       end
     end
 
     def clean
-      if File.exist?(@db)
-        puts "delete #{@db}"
-        File.unlink(@db)
+      begin
+        if File.exist?(@db)
+          puts "delete #{@db}"
+          File.unlink(@db)
+        end
+      rescue => e
+        puts "#{e.class}: #{e.message}"
+        exit 1
       end
     end
 

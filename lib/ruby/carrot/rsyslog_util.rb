@@ -9,21 +9,31 @@ require 'carrot/constants'
 module Carrot
   class RsyslogUtil
     def self.create
-      body = []
-      body.push("$template #{template_name}, \"#{log_path}\"")
-      body.push("$FileOwner #{Carrot::Constants.new['BS_APP_PROCESS_UID']}")
-      body.push(":programname, isequal, \"#{program_name}\" -?#{template_name}")
-      body.push('')
-      puts "create #{dest}"
-      File.open(dest, 'w') do |file|
-        file.write(body.join("\n"))
+      begin
+        body = []
+        body.push("$template #{template_name}, \"#{log_path}\"")
+        body.push("$FileOwner #{Carrot::Constants.new['BS_APP_PROCESS_UID']}")
+        body.push(":programname, isequal, \"#{program_name}\" -?#{template_name}")
+        body.push('')
+        puts "create #{dest}"
+        File.open(dest, 'w') do |file|
+          file.write(body.join("\n"))
+        end
+      rescue => e
+        puts "#{e.class}: #{e.message}"
+        exit 1
       end
     end
 
     def self.clean
-      if File.exist?(dest)
-        puts "delete #{dest}"
-        File.unlink(dest)
+      begin
+        if File.exist?(dest)
+          puts "delete #{dest}"
+          File.unlink(dest)
+        end
+      rescue => e
+        puts "#{e.class}: #{e.message}"
+        exit 1
       end
     end
 

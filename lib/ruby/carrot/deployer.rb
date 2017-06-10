@@ -5,32 +5,42 @@ require 'fileutils'
 module Carrot
   class Deployer
     def self.clean
-      if carrot?
-        puts "delete #{dest}"
-        File.unlink(dest)
+      begin
+        raise 'kariyonをアンインストールしてください。' if kariyon?
+        if carrot?
+          puts "delete #{dest}"
+          File.unlink(dest)
+        end
+      rescue => e
+        puts "#{e.class}: #{e.message}"
+        exit 1
       end
     end
 
     def self.create
-      if kariyon?
-        puts 'kariyonをアンインストールしてください。'
+      begin
+        raise 'kariyonをアンインストールしてください。' if kariyon?
+        unless carrot?
+          puts "link #{ROOT_DIR} -> #{dest}"
+          File.symlink(ROOT_DIR, dest)
+        end
+      rescue => e
+        puts "#{e.class}: #{e.message}"
         exit 1
       end
-      unless carrot?
-        puts "link #{ROOT_DIR} -> #{dest}"
-        File.symlink(ROOT_DIR, dest)
-      end
+    end
+
+    def self.carrot? (f = nil)
+      f ||= dest
+      return File.exist?(File.join(f, 'www/carrotctl.php'))
+    end
+
+    def self.kariyon? (f = nil)
+      f ||= dest
+      return File.exist?(File.join(f, '.kariyon'))
     end
 
     private
-    def self.carrot?
-      return File.exist?(File.join(dest, 'www/carrotctl.php'))
-    end
-
-    def self.kariyon?
-      return File.exist?(File.join(dest, '.kariyon'))
-    end
-
     def self.dest
       return File.join(
         Carrot::Constants.new["BS_APP_DEPLOY_DIR"],
