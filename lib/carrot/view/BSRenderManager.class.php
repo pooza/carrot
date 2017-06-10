@@ -30,6 +30,10 @@ class BSRenderManager {
 	public function getCache (BSAction $action) {
 		if ($data = $this->memcache[$action->digest()]) {
 			$data = (new BSPHPSerializer)->decode($data);
+			if (BSString::isBlank($data['contents'])) {
+				return null;
+			}
+
 			$view = new BSView($action, 'Success');
 			$view->setRenderer(new BSRawRenderer);
 			$view->getRenderer()->setContents($data['contents']);
@@ -51,10 +55,10 @@ class BSRenderManager {
 	 * @param BSHTTPResponse $view キャッシュ対象
 	 */
 	public function cache (BSHTTPResponse $view) {
-		$data = [
-			'headers' => [],
-			'contents' => $view->getRenderer()->getContents(),
-		];
+		if (BSString::isBlank($contents = $view->getRenderer()->getContents())) {
+			return;
+		}
+		$data = ['headers' => [], 'contents' => $contents];
 		foreach ($view->getHeaders() as $header) {
 			if ($header->isVisible() && $header->isCacheable()) {
 				$data['headers'][$header->getName()] = $header->getContents();
