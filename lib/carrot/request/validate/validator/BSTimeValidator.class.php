@@ -30,7 +30,7 @@ class BSTimeValidator extends BSValidator {
 			} else {
 				$date = BSDate::create($value);
 			}
-			if ($date->validate()) {
+			if ($date && $date->validate()) {
 				return $date->format('H:i:s');
 			}
 		} catch (BSDateException $e) {
