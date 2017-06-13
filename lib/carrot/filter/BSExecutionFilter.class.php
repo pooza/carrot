@@ -11,7 +11,7 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {
-		if (!!BS_DEBUG || $this->user->isAdministrator() || $this->user->isAuthor()) {
+		if (BS_DEBUG || $this->user->isAdministrator() || $this->user->isAuthor()) {
 			$this->doView($this->doAction());
 		} else if ($this->action->isCacheable()) {
 			$manager = BSRenderManager::getInstance();
