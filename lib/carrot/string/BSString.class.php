@@ -435,20 +435,15 @@ class BSString {
 	 * @param string $str 対象文字列
 	 * @param integer $witdh 半角単位での行幅
 	 * @return string 変換後の文字列
+	 * @link http://qiita.com/saekis/items/7ef6b0d6a9a7180e3ebe 参考
 	 * @static
 	 */
 	static public function split ($str, $width = 74) {
-		$str = self::convertEncoding($str, 'eucjp-win', 'utf-8');
-
-		BSUtility::includeFile('OME');
-		mb_internal_encoding('eucjp-win');
-		$ome = new OME;
-		$ome->setBodyWidth($width);
-		$str = @$ome->devideWithLimitingWidth($str);
-		mb_internal_encoding('utf-8');
-
-		$str = self::convertEncoding($str, 'utf-8', 'eucjp-win');
-		return $str;
+		return mb_ereg_replace(
+			'(.{1,' . $width . '})(?:\\s|$)|(.{' . $width . '})',
+			"\\1\\2\n",
+			$str
+		);
 	}
 
 	/**

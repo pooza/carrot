@@ -19,6 +19,7 @@ class BSMail extends BSMIMEDocument {
 	public function __construct () {
 		$this->setRenderer($this->createRenderer());
 		$this->setHeader('Subject', 'untitled');
+		$this->setHeader('Content-Type', $this->getFullType());
 		$this->setHeader('Date', BSDate::getNow());
 		$this->setHeader('Mime-Version', '1.0');
 		$this->setHeader('X-Mailer', $this->controller->getName('en'));
@@ -40,6 +41,19 @@ class BSMail extends BSMIMEDocument {
 	}
 
 	/**
+	 * 完全なメディアタイプを返す
+	 *
+	 * @access public
+	 * @return string メディアタイプ
+	 */
+	public function getFullType () {
+		$type = new BSStringFormat('%s; charset=%s; format=flowed; delsp=yes;');
+		$type[] = $this->getRenderer()->getType();
+		$type[] = $this->getRenderer()->getEncoding();
+		return $type->getContents();
+	}
+
+	/**
 	 * メッセージIDを更新
 	 *
 	 * @access public
@@ -56,11 +70,12 @@ class BSMail extends BSMIMEDocument {
 	 */
 	protected function createRenderer () {
 		$renderer = new BSPlainTextRenderer;
-		$renderer->setEncoding('iso-2022-jp');
-		$renderer->setWidth(78);
+		$renderer->setEncoding('utf-8');
+		$renderer->setWidth(38);
 		$renderer->setConvertKanaFlag('KV');
 		$renderer->setLineSeparator(self::LINE_SEPARATOR);
 		$renderer->setOptions(BSPlainTextRenderer::TAIL_LF);
+		$renderer->setOptions(BSPlainTextRenderer::FLOWED);
 		return $renderer;
 	}
 

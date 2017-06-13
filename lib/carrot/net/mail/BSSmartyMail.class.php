@@ -20,7 +20,7 @@ class BSSmartyMail extends BSMail {
 	protected function createRenderer () {
 		$renderer = new BSSmarty;
 		$renderer->setType(BSMIMEType::getType('txt'));
-		$renderer->setEncoding('iso-2022-jp');
+		$renderer->setEncoding('utf-8');
 		$renderer->addOutputFilter('mail');
 		if ($module = $this->controller->getModule()) {
 			if ($dir = $module->getDirectory('templates')) {

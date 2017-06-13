@@ -12,7 +12,7 @@
 class BSMIMEUtility {
 	const ATTACHMENT = 'attachment';
 	const INLINE = 'inline';
-	const ENCODE_PREFIX = '=?iso-2022-jp?B?';
+	const ENCODE_PREFIX = '=?utf-8?B?';
 	const ENCODE_SUFFIX = '?=';
 	const WITH_SPLIT = 1;
 	const WITHOUT_HEADER = 0;
@@ -40,7 +40,7 @@ class BSMIMEUtility {
 
 		$str = BSString::convertKana($str, 'KV');
 		foreach (BSString::eregMatchAll('[^[:ascii:]]+', $str) as $matches) {
-			$word = BSString::convertEncoding($matches[0], 'iso-2022-jp');
+			$word = BSString::convertEncoding($matches[0], 'utf-8');
 			$encoded = self::ENCODE_PREFIX . self::encodeBase64($word) . self::ENCODE_SUFFIX;
 			$str = str_replace($matches[0], $encoded, $str);
 		}

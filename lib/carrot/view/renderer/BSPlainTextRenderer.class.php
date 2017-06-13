@@ -17,6 +17,7 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 	private $width = null;
 	private $contents;
 	const TAIL_LF = 1;
+	const FLOWED = 2;
 
 	/**
 	 * 出力内容を返す
@@ -36,6 +37,15 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 			$contents .= "\n\n"; //AppleMail対応
 		}
 		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
+		if ($this->getOption(self::FLOWED)) {
+			$lines = BSString::explode($this->lineSeparator, $contents);
+			foreach ($lines as $index => $line) {
+				if ($this->width <= mb_strlen($line)) {
+					$lines[$index] = $line . ' ';
+				}
+			}
+			$contents = $lines->join($this->lineSeparator);
+		}
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		return $contents;
 	}
