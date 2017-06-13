@@ -217,8 +217,8 @@ class BSSmartyCompiler extends Smarty_Compiler {
 	private function pushLiterals ($source, BSArray $literals) {
 		$ldq = $this->left_delimiter;
 		$rdq = $this->right_delimiter;
-		$pattern = "{$ldq} *literal *{$rdq}(.+?){$ldq} */literal *{$rdq}";
 		$literals->clear();
+		$pattern = "{$ldq} *literal *{$rdq}(.+?){$ldq} */literal *{$rdq}";
 		foreach (BSString::eregMatchAll($pattern, $source) as $matches) {
 			$block = $matches[0];
 			$literal = $matches[1];
