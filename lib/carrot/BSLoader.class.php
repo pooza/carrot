@@ -54,12 +54,17 @@ class BSLoader {
 	public function getClasses () {
 		if (!$this->classes) {
 			if ($this->isUpdated()) {
-				$this->classes = unserialize(file_get_contents($this->getCachePath()));
+				$this->classes = json_decode(file_get_contents($this->getCachePath()), true);
 			} else {
 				foreach ($this->getClassPaths() as $path) {
 					$this->classes += $this->loadPath($path);
 				}
-				file_put_contents($this->getCachePath(), serialize($this->classes), LOCK_EX);
+				file_put_contents(
+					$this->getCachePath(),
+					json_encode($this->classes, JSON_PRETTY_PRINT),
+					LOCK_EX
+				);
+				chmod($this->getCachePath(), 0666);
 			}
 		}
 		return $this->classes;
@@ -126,7 +131,7 @@ class BSLoader {
 	}
 
 	private function getCachePath () {
-		return BS_VAR_DIR . '/serialized/' . get_class($this) . '.serialized';
+		return BS_VAR_DIR . '/serialized/' . get_class($this) . '.json';
 	}
 
 	private function getConstantPath () {

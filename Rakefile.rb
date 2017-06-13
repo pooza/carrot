@@ -147,7 +147,7 @@ namespace :var do
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do
-      sh 'touch webapp/config/constant'
+      sh 'rm var/serialized/BSLoader.json'
     end
   end
 end
