@@ -80,7 +80,7 @@ abstract class BSRecordAction extends BSAction {
 	public function digest () {
 		if (!$this->digest) {
 			$this->digest = BSCrypt::digest([
-				$this->controller->getServer()->getName(),
+				$this->controller->getHost()->getName(),
 				$this->getModule()->getName(),
 				$this->getName(),
 				$this->getRecord()->getID(),

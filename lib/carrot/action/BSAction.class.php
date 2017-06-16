@@ -110,7 +110,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	public function digest () {
 		if (!$this->digest) {
 			$this->digest = BSCrypt::digest([
-				$this->controller->getServer()->getName(),
+				$this->controller->getHost()->getName(),
 				$this->getModule()->getName(),
 				$this->getName(),
 			]);
