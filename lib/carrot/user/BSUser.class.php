@@ -298,6 +298,18 @@ class BSUser extends BSParameterHolder {
 	}
 
 	/**
+	 * キャッシュできるか？
+	 *
+	 * BSRenderManagerでレンダリング結果をキャッシュできるか。
+	 *
+	 * @access public
+	 * @return boolean キャッシュできるならTrue
+	 */
+	public function isCacheable () {
+		return (!BS_DEBUG && !$this->isAdministrator() && !$this->isAuthor());
+	}
+
+	/**
 	 * ゲストユーザーか？
 	 *
 	 * @access public
