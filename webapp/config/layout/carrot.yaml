@@ -48,7 +48,7 @@ favicon:
   parent: var
   suffix: .png
   purge:
-    day: 7
+    day: 1
 ffmpeg:
   platform: yes
 google_account:
@@ -107,6 +107,11 @@ musics:
   suffix: .mp3
 mysql:
   platform: yes
+output:
+  parent: var
+  suffix: .serialized
+  purge:
+    month: 1
 pictogram:
   parent: images
   suffix: .gif

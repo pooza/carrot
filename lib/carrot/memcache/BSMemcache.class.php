@@ -190,7 +190,7 @@ class BSMemcache implements ArrayAccess {
 	/**
 	 * @access public
 	 * @param string $key 添え字
-	 * @param mixed 要素
+	 * @param mixed $value 要素
 	 */
 	public function offsetSet ($key, $value) {
 		$this->set($key, $value);
@@ -208,9 +208,8 @@ class BSMemcache implements ArrayAccess {
 	 * 全て削除
 	 *
 	 * @access public
-	 * @final
 	 */
-	final public function clear () {
+	public function clear () {
 		$this->memcached->flush();
 	}
 }

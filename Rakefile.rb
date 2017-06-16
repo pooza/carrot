@@ -145,6 +145,13 @@ namespace :var do
     end
   end
 
+  namespace :render do
+    desc 'renderキャッシュをクリア'
+    task :clean do
+      sh 'sudo rm -R var/output/*'
+    end
+  end
+
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do

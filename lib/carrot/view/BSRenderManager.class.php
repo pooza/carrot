@@ -10,14 +10,14 @@
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
 class BSRenderManager {
-	use BSSingleton;
-	private $memcache;
+	use BSSingleton, BSBasicObject;
+	private $storage;
 
 	/**
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->memcache = BSMemcacheManager::getInstance()->getServer('render');
+		$this->storage = $this->loader->createObject(BS_RENDER_STORAGE, 'RenderStorage');
 	}
 
 	/**
@@ -28,12 +28,7 @@ class BSRenderManager {
 	 * @return BSView キャッシュ
 	 */
 	public function getCache (BSAction $action) {
-		if ($data = $this->memcache[$action->digest()]) {
-			$data = (new BSPHPSerializer)->decode($data);
-			if (BSString::isBlank($data['contents'])) {
-				return null;
-			}
-
+		if ($data = $this->storage->getCache($action)) {
 			$view = new BSView($action, 'Success');
 			$view->setRenderer(new BSRawRenderer);
 			$view->getRenderer()->setContents($data['contents']);
@@ -55,16 +50,9 @@ class BSRenderManager {
 	 * @param BSHTTPResponse $view キャッシュ対象
 	 */
 	public function cache (BSHTTPResponse $view) {
-		if (BSString::isBlank($contents = $view->getRenderer()->getContents())) {
-			return;
+		if (!BSString::isBlank($contents = $view->getRenderer()->getContents())) {
+			$this->storage->cache($view);
 		}
-		$data = ['headers' => [], 'contents' => $contents];
-		foreach ($view->getHeaders() as $header) {
-			if ($header->isVisible() && $header->isCacheable()) {
-				$data['headers'][$header->getName()] = $header->getContents();
-			}
-		}
-		$this->memcache[$view->getAction()->digest()] = (new BSPHPSerializer)->encode($data);
 	}
 
 	/**
@@ -75,7 +63,7 @@ class BSRenderManager {
 	 * @return boolean キャッシュを持っていたらTrue
 	 */
 	public function hasCache (BSAction $action) {
-		return !!$this->memcache[$action->digest()];
+		return $this->storage->hasCache($action);
 	}
 
 	/**
@@ -84,9 +72,7 @@ class BSRenderManager {
 	 * @access public
 	 */
 	public function clear () {
-		if (!$this->memcache->getAttribute('error')) {
-			$this->memcache->clear();
-		}
+		$this->storage->clear();
 	}
 }
 
