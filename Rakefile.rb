@@ -20,6 +20,7 @@ task :install => [
   'htdocs:init',
   'periodic:init',
   'rsyslog:init',
+  'var:classes:clean',
   'local:init',
 ]
 
