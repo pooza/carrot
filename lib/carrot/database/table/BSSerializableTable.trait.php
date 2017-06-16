@@ -76,7 +76,7 @@ trait BSSerializableTable {
 	 * @access public
 	 */
 	public function serialize () {
-		$this->controller->setAttribute($this, parent::getResult());
+		BSController::getInstance()->setAttribute($this, parent::getResult());
 	}
 }
 

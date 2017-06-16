@@ -18,7 +18,7 @@ trait BSSerializableMethods {
 	 * @return mixed シリアライズ時の値
 	 */
 	public function getSerialized () {
-		return $this->controller->getAttribute($this);
+		return BSController::getInstance()->getAttribute($this);
 	}
 
 	/**
@@ -27,7 +27,7 @@ trait BSSerializableMethods {
 	 * @access public
 	 */
 	public function removeSerialized () {
-		$this->controller->removeAttribute($this);
+		BSController::getInstance()->removeAttribute($this);
 	}
 }
 
