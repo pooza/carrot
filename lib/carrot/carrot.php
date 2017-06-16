@@ -71,15 +71,26 @@ spl_autoload_register(function ($name) {
 });
 
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-	if ($errno & error_reporting()) {
-		$message = sprintf(
-			'%s (file:%s line:%d)',
-			$errstr,
-			str_replace(BS_ROOT_DIR . '/', '', $errfile),
-			$errline
-		);
-		throw new RuntimeException($message, $errno);
+	throw new RuntimeException(sprintf(
+		'%s (file:%s line:%d)',
+		$errstr,
+		str_replace(BS_ROOT_DIR . '/', '', $errfile),
+		$errline
+	), $errno);
+}, error_reporting());
+
+register_shutdown_function(function () {
+	$error = error_get_last();
+	$types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+	if (!in_array($error['type'], $types)) {
+		return;
 	}
+	throw new RuntimeException(sprintf(
+		'%s (file:%s line:%d)',
+		$error['message'],
+		str_replace(BS_ROOT_DIR . '/', '', $error['file']),
+		$error['line']
+	));
 });
 
 // @link http://www.peak.ne.jp/support/phpcyber/ 参考
