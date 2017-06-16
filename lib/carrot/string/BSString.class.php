@@ -434,16 +434,27 @@ class BSString {
 	 * @access public
 	 * @param string $str 対象文字列
 	 * @param integer $witdh 半角単位での行幅
+	 * @param boolean $flowed 行末にスペースを追加するならTrue（RFC3676）
 	 * @return string 変換後の文字列
-	 * @link http://qiita.com/saekis/items/7ef6b0d6a9a7180e3ebe 参考
 	 * @static
 	 */
-	static public function split ($str, $width = 74) {
-		return mb_ereg_replace(
-			'(.{1,' . $width . '})(?:\\s|$)|(.{' . $width . '})',
-			"\\1\\2\n",
-			$str
-		);
+	static public function split ($str, $width = 74, $flowed = false) {
+		$body = new BSArray;
+		foreach (BSString::explode("\n", $str) as $paragraph) {
+			if (BSString::isBlank($paragraph)) {
+				$body[] = '';
+			} else {
+				$length = mb_strlen($paragraph);
+				for ($i = 0 ; $i < $length ; $i += $width) {
+					$line = mb_substr($paragraph, $i, $width);
+					if ($flowed && (($i + $width) < $length)) { // flowedでかつ最終行でなければ
+						$line .= ' ';
+					}
+					$body[] = $line;
+				}
+			}
+		}
+		return $body->join("\n");
 	}
 
 	/**

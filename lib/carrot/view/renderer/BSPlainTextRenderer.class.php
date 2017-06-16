@@ -31,21 +31,12 @@ class BSPlainTextRenderer implements BSTextRenderer, IteratorAggregate {
 			$contents = BSString::convertKana($contents, $this->convertKanaFlag);
 		}
 		if ($this->width) {
-			$contents = BSString::split($contents, $this->width);
+			$contents = BSString::split($contents, $this->width, $this->getOption(self::FLOWED));
 		}
 		if ($this->getOption(self::TAIL_LF)) {
 			$contents .= "\n\n"; //AppleMail対応
 		}
 		$contents = BSString::convertLineSeparator($contents, $this->lineSeparator);
-		if ($this->getOption(self::FLOWED)) {
-			$lines = BSString::explode($this->lineSeparator, $contents);
-			foreach ($lines as $index => $line) {
-				if ($this->width <= mb_strlen($line)) {
-					$lines[$index] = $line . ' ';
-				}
-			}
-			$contents = $lines->join($this->lineSeparator);
-		}
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		return $contents;
 	}
