@@ -13,5 +13,29 @@ class QRCodeAction extends BSAction {
 		$this->request->setAttribute('renderer', $qrcode);
 		return BSView::SUCCESS;
 	}
+
+	public function digest () {
+		if (!$this->digest) {
+			$this->digest = BSCrypt::digest([
+				$this->request['value'],
+				$this->controller->getHost()->getName(),
+				$this->getModule()->getName(),
+				$this->getName(),
+			]);
+		}
+		return $this->digest;
+	}
+
+	public function handleError () {
+		$this->request->setAttribute(
+			'renderer',
+			BSFileUtility::getDirectory('images')->getEntry('spacer.gif')
+		);
+		return BSView::ERROR;
+	}
+
+	public function isCacheable () {
+		return !$this->request->hasErrors();
+	}
 }
 
