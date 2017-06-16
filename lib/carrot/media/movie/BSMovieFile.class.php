@@ -25,7 +25,7 @@ class BSMovieFile extends BSMediaFile implements BSImageContainer {
 			$info = $this->getImageInfo('image');
 			$this->attributes['width'] = $info['width'];
 			$this->attributes['height'] = $info['height'];
-			$this->attributes['height_full'] = $matches[2] + $this->getPlayerHeight();
+			$this->attributes['height_full'] = $info['height'] + $this->getPlayerHeight();
 			$this->attributes['pixel_size'] = $this['width'] . '×' . $this['height'];
 			$this->attributes['aspect'] = $this['width'] / $this['height'];
 		}
