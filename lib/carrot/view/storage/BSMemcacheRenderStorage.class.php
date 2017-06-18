@@ -28,10 +28,7 @@ class BSMemcacheRenderStorage implements BSRenderStorage {
 	 */
 	public function getCache (BSAction $action) {
 		if ($data = $this->memcache[$action->digest()]) {
-			$data = BSArray::create((new BSPHPSerializer)->decode($data));
-			if (!BSString::isBlank($data['contents'])) {
-				return $data;
-			}
+			return BSArray::create((new BSPHPSerializer)->decode($data));
 		}
 	}
 

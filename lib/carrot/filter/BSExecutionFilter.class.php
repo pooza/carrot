@@ -11,10 +11,9 @@
  */
 class BSExecutionFilter extends BSFilter {
 	public function execute () {
-		if ($this->user->isCacheable() && $this->action->isCacheable()) {
+		if ($this->action->isCacheable()) {
 			$manager = BSRenderManager::getInstance();
-			$action = $this->action;
-			if ($manager->hasCache($action) && ($view = $manager->getCache($action))) {
+			if ($view = $manager->getCache($this->action)) {
 				$this->doView($view);
 			} else {
 				if ($view = $this->doAction()) {

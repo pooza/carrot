@@ -28,7 +28,11 @@ class BSRenderManager {
 	 * @return BSView キャッシュ
 	 */
 	public function getCache (BSAction $action) {
-		if ($data = $this->storage->getCache($action)) {
+		if ($action->isCacheable() && ($data = $this->storage->getCache($action))) {
+			if (BSString::isBlank($data['contents'])) {
+				return;
+			}
+
 			$view = new BSView($action, 'Success');
 			$view->setRenderer(new BSRawRenderer);
 			$view->getRenderer()->setContents($data['contents']);
@@ -50,7 +54,13 @@ class BSRenderManager {
 	 * @param BSHTTPResponse $view キャッシュ対象
 	 */
 	public function cache (BSHTTPResponse $view) {
-		if (!BSString::isBlank($contents = $view->getRenderer()->getContents())) {
+		if ($view->getAction()->isCacheable()) {
+			if ($view->getNameSuffix() == BSView::ERROR) {
+				return;
+			}
+			if (BSString::isBlank($view->getRenderer()->getContents())) {
+				return;
+			}
 			$this->storage->cache($view);
 		}
 	}
@@ -63,7 +73,7 @@ class BSRenderManager {
 	 * @return boolean キャッシュを持っていたらTrue
 	 */
 	public function hasCache (BSAction $action) {
-		return $this->storage->hasCache($action);
+		return ($action->isCacheable() && $this->storage->hasCache($action));
 	}
 
 	/**

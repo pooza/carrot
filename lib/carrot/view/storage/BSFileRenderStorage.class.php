@@ -28,10 +28,7 @@ class BSFileRenderStorage implements BSRenderStorage {
 	 */
 	public function getCache (BSAction $action) {
 		if ($file = $this->directory->getEntry($action->digest())) {
-			$data = BSArray::create((new BSPHPSerializer)->decode($file->getContents()));
-			if (!BSString::isBlank($data['contents'])) {
-				return $data;
-			}
+			return BSArray::create((new BSPHPSerializer)->decode($file->getContents()));
 		}
 	}
 
