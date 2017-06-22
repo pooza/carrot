@@ -155,7 +155,7 @@ tidy5:
 tmp:
   parent: var
   purge:
-    day: 3
+    day: 1
 twitter_account:
   parent: var
   suffix: .png

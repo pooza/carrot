@@ -21,6 +21,14 @@ interface BSRenderStorage {
 	public function getCache (BSAction $action);
 
 	/**
+	 * キャッシュを削除
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function removeCache (BSAction $action);
+
+	/**
 	 * レスポンスをキャッシュする
 	 *
 	 * @access public

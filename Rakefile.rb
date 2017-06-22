@@ -6,6 +6,7 @@
 ROOT_DIR = File.expand_path('..', __FILE__)
 $LOAD_PATH.push(File.join(ROOT_DIR, 'lib/ruby'))
 
+require 'fileutils'
 require 'carrot/constants'
 require 'carrot/environment'
 require 'carrot/deployer'
@@ -42,9 +43,7 @@ namespace :database do
 end
 
 namespace :environment do
-  task :init => [
-    'file:init',
-  ]
+  task :init => ['file:init']
 
   namespace :file do
     desc 'サーバ環境設定ファイルを作成'
@@ -53,7 +52,7 @@ namespace :environment do
     ]
 
     file Carrot::Environment.file_path do
-      sh "touch #{Carrot::Environment.file_path}"
+      FileUtils.touch(Carrot::Environment.file_path)
     end
   end
 end
@@ -107,26 +106,28 @@ end
 
 namespace :var do
   desc 'varディレクトリを初期化'
-  task :init => [
-    :chmod,
-  ]
+  task :init => [:chmod]
 
   task :chmod do
-    sh 'chmod 777 var/*'
+    puts "chmod 777 #{File.join(ROOT_DIR, 'var/*')}"
+    FileUtils.chmod(0777, Dir.glob(File.join(ROOT_DIR, 'var/*')))
   end
 
   desc '各種キャッシュをクリア'
   task :clean => [
     'css:clean',
     'js:clean',
-    'images:cache:clean',
+    'image:clean',
+    'render:clean',
+    'classes:clean',
   ]
 
-  namespace :images do
-    namespace :cache do
-      desc 'イメージキャッシュをクリア'
-      task :clean do
-        sh 'sudo rm -R var/image_cache/*'
+  namespace :image do
+    desc 'イメージキャッシュをクリア'
+    task :clean do
+      puts "clear #{File.join(ROOT_DIR, 'var/image_cache')}"
+      Dir.glob(File.join(ROOT_DIR, 'var/image_cache/*')).each do |f|
+        FileUtils.rm_rf(f)
       end
     end
   end
@@ -134,28 +135,36 @@ namespace :var do
   namespace :css do
     desc 'cssキャッシュをクリア'
     task :clean do
-      sh 'sudo rm -R var/css_cache/*'
+      puts "clear #{File.join(ROOT_DIR, 'var/css_cache')}"
+      Dir.glob(File.join(ROOT_DIR, 'var/css_cache/*')).each do |f|
+        FileUtils.rm_rf(f)
+      end
     end
   end
 
   namespace :js do
     desc 'jsキャッシュをクリア'
     task :clean do
-      sh 'sudo rm -R var/js_cache/*'
+      puts "clear #{File.join(ROOT_DIR, 'var/js_cache')}"
+      Dir.glob(File.join(ROOT_DIR, 'var/js_cache/*')).each do |f|
+        FileUtils.rm_rf(f)
+      end
     end
   end
 
   namespace :render do
     desc 'renderキャッシュをクリア'
     task :clean do
-      sh 'sudo rm -R var/output/*'
+      puts "clear #{File.join(ROOT_DIR, 'var/output')}"
+      FileUtils.rm(Dir.glob(File.join(ROOT_DIR, 'var/output/*')))
     end
   end
 
   namespace :classes do
     desc 'クラスヒント情報をクリア'
     task :clean do
-      sh 'rm var/serialized/BSLoader.json'
+      puts "delete #{File.join(ROOT_DIR, 'var/serialized/BSLoader.*')}"
+      FileUtils.rm(Dir.glob(File.join(ROOT_DIR, 'var/serialized/BSLoader.*')))
     end
   end
 end

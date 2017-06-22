@@ -30,6 +30,7 @@ class BSRenderManager {
 	public function getCache (BSAction $action) {
 		if ($action->isCacheable() && ($data = $this->storage->getCache($action))) {
 			if (BSString::isBlank($data['contents'])) {
+				$this->removeCache($action);
 				return;
 			}
 
@@ -63,6 +64,16 @@ class BSRenderManager {
 			}
 			$this->storage->cache($view);
 		}
+	}
+
+	/**
+	 * キャッシュを削除
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function removeCache (BSAction $action) {
+		$this->storage->removeCache($action);
 	}
 
 	/**

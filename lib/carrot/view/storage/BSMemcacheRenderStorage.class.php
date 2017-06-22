@@ -33,6 +33,16 @@ class BSMemcacheRenderStorage implements BSRenderStorage {
 	}
 
 	/**
+	 * キャッシュを削除
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function removeCache (BSAction $action) {
+		$this->memcache->delete($action->digest());
+	}
+
+	/**
 	 * レスポンスをキャッシュする
 	 *
 	 * @access public

@@ -33,6 +33,18 @@ class BSFileRenderStorage implements BSRenderStorage {
 	}
 
 	/**
+	 * キャッシュを削除
+	 *
+	 * @access public
+	 * @param BSAction $action アクション
+	 */
+	public function removeCache (BSAction $action) {
+		if ($file = $this->directory->getEntry($action->digest())) {
+			return $file->delete();
+		}
+	}
+
+	/**
 	 * レスポンスをキャッシュする
 	 *
 	 * @access public
