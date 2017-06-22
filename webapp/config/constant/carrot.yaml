@@ -92,7 +92,9 @@ flash:
     href: /carrotlib/swf/expressInstall.swf
 image:
   storable: yes
-  default_renderer_class: BSImage
+  renderers:
+    default:
+      class: BSImage
   mobile:
     size:
       qvga:

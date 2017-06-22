@@ -16,6 +16,7 @@ class BSImageManager {
 	protected $flags = 0;
 	protected $backgroundColor;
 	protected $directory;
+	static protected $renderers;
 	const WIDTH_FIXED = 2;
 	const HEIGHT_FIXED = 4;
 	const WITHOUT_SQUARE = 8;
@@ -493,6 +494,29 @@ class BSImageManager {
 	 */
 	public function clear () {
 		$this->directory->clear();
+	}
+
+	/**
+	 * レンダラーのエントリーを全て返す
+	 *
+	 * @access public
+	 * @return BSArray レンダラーのエントリー
+	 * @static
+	 */
+	static public function getRendererEntries () {
+		if (!self::$renderers) {
+			self::$renderers = new BSArray;
+			foreach (new BSConstantHandler('IMAGE_RENDERERS') as $key => $value) {
+				$key = BSString::toLower(
+					BSString::explode('_', str_replace('BS_IMAGE_RENDERERS_', '', $key))
+				);
+				if (!self::$renderers->hasParameter($key[0])) {
+					self::$renderers[$key[0]] = new BSArray;
+				}
+				self::$renderers[$key[0]][$key[1]] = $value;
+			}
+		}
+		return self::$renderers;
 	}
 }
 

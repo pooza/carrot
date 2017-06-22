@@ -90,6 +90,7 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 					$this->renderer->setImagick(new Imagick($this->getPath()));
 					break;
 				case 'BSImagemagick7Image':
+				case 'BSPiconImage':
 				case 'BSImage':
 					$this->renderer->setImage($this->getContents());
 					break;

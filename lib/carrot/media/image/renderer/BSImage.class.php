@@ -343,7 +343,7 @@ class BSImage implements BSImageRenderer {
 	 * @static
 	 */
 	static public function getDefaultRendererClass () {
-		return BS_IMAGE_DEFAULT_RENDERER_CLASS;
+		return BS_IMAGE_RENDERERS_DEFAULT_CLASS;
 	}
 
 	/**
