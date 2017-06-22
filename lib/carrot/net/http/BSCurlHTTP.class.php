@@ -82,6 +82,7 @@ class BSCurlHTTP extends BSHTTP {
 		}
 		$this->setAttribute('httpheader', $headers);
 		$this->setAttribute('url', $request->getURL()->getContents());
+		$this->setAttribute('port', $this->port);
 
 		$response = new BSHTTPResponse;
 		$response->setURL($request->getURL());
