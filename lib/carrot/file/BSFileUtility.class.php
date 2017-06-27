@@ -132,7 +132,11 @@ class BSFileUtility {
 	 * @static
 	 */
 	static public function createTemporaryFile ($suffix = null, $class = 'BSFile') {
-		$name = BSUtility::getUniqueID() . '.' . ltrim($suffix, '.');
+		if (BSString::isBlank($suffix)) {
+			$name = BSUtility::getUniqueID();
+		} else {
+			$name = BSUtility::getUniqueID() . '.' . ltrim($suffix, '.');
+		}
 		if (!$file = BSFileUtility::getDirectory('tmp')->createEntry($name, $class)) {
 			throw new BSFileException('一時ファイルが生成できません。');
 		}
