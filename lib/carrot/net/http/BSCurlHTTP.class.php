@@ -110,7 +110,7 @@ class BSCurlHTTP extends BSHTTP {
 			$parts = BSString::explode($delimiter, $contents);
 			if (1 < $parts->count()) {
 				foreach ($parts as $index => $part) {
-					if (mb_eregi('^HTTP/[[:digit:]].[[:digit:]] (100|301|302)', $part)) {
+					if (mb_eregi('^HTTP/[[:digit:]]+.[[:digit:]]+ (100|301|302)', $part)) {
 						$parts->removeParameter($index);
 					}
 				}

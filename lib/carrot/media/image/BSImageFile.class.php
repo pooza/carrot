@@ -12,6 +12,7 @@
 class BSImageFile extends BSMediaFile implements BSImageContainer {
 	protected $renderer;
 	protected $rendererClass;
+	protected $rendererParameters;
 
 	/**
 	 * @access public
@@ -21,6 +22,9 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 	public function __construct ($path, $class = null) {
 		if (BSString::isBlank($class)) {
 			$class = BS_IMAGE_RENDERERS_DEFAULT_CLASS;
+		} else if ($class instanceof BSParameterHolder) {
+			$this->rendererParameters = $class;
+			$class = $class['class'];
 		}
 		$this->rendererClass = $class;
 		parent::__construct($path);
@@ -88,14 +92,27 @@ class BSImageFile extends BSMediaFile implements BSImageContainer {
 					break;
 				case 'BSImagickImage':
 					$this->renderer->setImagick(new Imagick($this->getPath()));
+					if ($this->rendererParameters && $this->rendererParameters['method']) {
+						$this->renderer->setResizeMethod($this->rendererParameters['method']);
+					}
+					break;
+				case 'BSPiconImage':
+					$this->renderer->setImage($this->getContents());
+					if ($this->rendererParameters && $this->rendererParameters['url']) {
+						$this->renderer->setURL(
+							BSURL::create($this->rendererParameters['url'])
+						);
+					}
+					if ($this->rendererParameters && $this->rendererParameters['method']) {
+						$this->renderer->setResizeMethod($this->rendererParameters['method']);
+					}
 					break;
 				case 'BSImagemagick7Image':
-				case 'BSPiconImage':
 				case 'BSImage':
 					$this->renderer->setImage($this->getContents());
 					break;
 				default:
-					throw new BSImageException($this . 'の形式が不明です。');
+					throw new BSImageException($this . 'のレンダラークラスが不明です。');
 			}
 		}
 		return $this->renderer;

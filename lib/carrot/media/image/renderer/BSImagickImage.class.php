@@ -11,6 +11,7 @@
  */
 class BSImagickImage extends BSImage {
 	protected $imagick;
+	protected $method = 'thumbnail';
 
 	/**
 	 * @access public
@@ -163,6 +164,16 @@ class BSImagickImage extends BSImage {
 	}
 
 	/**
+	 * リサイズ関数を設定
+	 *
+	 * @access public
+	 * @param string $function 関数名
+	 */
+	public function setResizeMethod ($method) {
+		$this->method = $method;
+	}
+
+	/**
 	 * サイズ変更
 	 *
 	 * @access public
@@ -189,7 +200,19 @@ class BSImagickImage extends BSImage {
 		}
 
 		$resized = clone $this->getImagick();
-		$resized->thumbnailImage(BSNumeric::round($width), BSNumeric::round($height), false);
+		switch ($this->method) {
+			case '':
+			case 'thumbnail':
+				$resized->thumbnailImage(BSNumeric::round($width), BSNumeric::round($height), false);
+				break;
+			case 'resize':
+				$resized->resizeImage(BSNumeric::round($width), BSNumeric::round($height), 0, 1);
+				break;
+			default:
+				$method = $this->method . 'Image';
+				$resized->$method(BSNumeric::round($width), BSNumeric::round($height));
+				break;
+		}
 		$dest->getImagick()->compositeImage(
 			$resized,
 			Imagick::COMPOSITE_DEFAULT,

@@ -12,6 +12,17 @@
 class BSPiconImage extends BSImage {
 	protected $url;
 	protected $service;
+	protected $method;
+
+	/**
+	 * リサイズ関数を設定
+	 *
+	 * @access public
+	 * @param string $function 関数名
+	 */
+	public function setResizeMethod ($method) {
+		$this->method = $method;
+	}
 
 	/**
 	 * サイズ変更
@@ -34,7 +45,7 @@ class BSPiconImage extends BSImage {
 		if ($this->getWidth() < $width) {
 			return;
 		}
-		$this->getService()->resizeWidth($this, $width);
+		$this->getService()->resizeWidth($this, $width, $this->method);
 	}
 
 	/**

@@ -55,10 +55,12 @@ class BSPiconService extends BSCurlHTTP {
 	 * @access public
 	 * @param BSImageContainer $image 対象画像
 	 * @param integer $width 幅
+	 * @param string $method リサイズ関数
 	 */
-	public function resizeWidth (BSImageRenderer $image, $width) {
+	public function resizeWidth (BSImageRenderer $image, $width, $method = 'thumbnail') {
 		$params = new BSWWWFormRenderer;
 		$params['width'] = $width;
+		$params['method'] = $method;
 		try {
 			$response = $this->sendPOST('/resize_width', $params, $this->createFile($image));
 			$image->setImage($response->getRenderer()->getContents());
