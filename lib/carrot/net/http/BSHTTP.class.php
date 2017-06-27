@@ -79,6 +79,7 @@ class BSHTTP extends BSSocket {
 		} else {
 			$url['scheme'] = 'http';
 		}
+		$url['port'] = $this->port;
 		return $url;
 	}
 
