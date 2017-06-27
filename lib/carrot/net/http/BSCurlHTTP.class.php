@@ -28,7 +28,6 @@ class BSCurlHTTP extends BSHTTP {
 		if ($port == BSNetworkService::getPort('https')) {
 			$this->setSSL(true);
 		}
-		$this->attributes = new BSArray;
 	}
 
 	/**
@@ -63,15 +62,26 @@ class BSCurlHTTP extends BSHTTP {
 	 * @access public
 	 * @param string $path パス
 	 * @param BSRenderer $renderer レンダラー
+	 * @param BSFile $file 添付ファイル
 	 * @return BSHTTPResponse レスポンス
 	 */
-	public function sendPOST ($path = '/', BSRenderer $renderer = null) {
+	public function sendPOST ($path = '/', BSRenderer $renderer = null, BSFile $file = null) {
 		$request = $this->createRequest();
 		$request->setMethod('POST');
 		$request->setRenderer($renderer);
 		$request->setURL($this->createRequestURL($path));
 		$this->setAttribute('post', true);
-		$this->setAttribute('postfields', $request->getRenderer()->getContents());
+		if ($renderer instanceof BSParameterHolder) {
+			$params = $renderer->getParameters();
+			if ($file) {
+				$params['file'] = new CURLFile($file->getPath());
+				$request->setHeader('Content-Type', 'multipart/form-data');
+			}
+			$this->setAttribute('safe_upload', true);
+			$this->setAttribute('postfields', $params);
+		} else {
+			$this->setAttribute('postfields', $request->getRenderer()->getContents());
+		}
 		return $this->send($request);
 	}
 
@@ -89,9 +99,24 @@ class BSCurlHTTP extends BSHTTP {
 		if (($contents = curl_exec($this->getEngine())) === false) {
 			throw new BSHTTPException($request->getURL() . 'へ送信できません。');
 		}
-		$response->setContents($contents);
+		$response->setContents($this->trimResponse($contents));
 		$this->log($response);
 		return $response;
+	}
+
+	protected function trimResponse ($contents) {
+		foreach ([BSMIMEDocument::LINE_SEPARATOR, "\n"] as $separator) {
+			$delimiter = $separator . $separator;
+			$parts = BSString::explode($delimiter, $contents);
+			if (1 < $parts->count()) {
+				foreach ($parts as $index => $part) {
+					if (mb_eregi('^HTTP/[[:digit:]].[[:digit:]] (100|301|302)', $part)) {
+						$parts->removeParameter($index);
+					}
+				}
+				return $parts->join($delimiter);
+			}
+		}
 	}
 
 	/**

@@ -151,7 +151,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$this->setAttribute('postfields', $request->getRenderer()->getContents());
 			$response = $this->send($request);
 			$this->log($response);
-	
+
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
 			$value = $json->getResult()['access_token'];
@@ -224,7 +224,7 @@ class BSTwitterService extends BSCurlHTTP {
 			$url->setParameter('screen_name', $account);
 			$url->setParameter('count', $count);
 			$response = $this->sendGET($url->getFullPath());
-	
+
 			$json = new BSJSONRenderer;
 			$json->setContents($response->getRenderer()->getContents());
 			foreach ($json->getResult() as $entry) {
@@ -340,9 +340,12 @@ class BSTwitterService extends BSCurlHTTP {
 	 * @access public
 	 * @param string $path パス
 	 * @param BSRenderer $renderer レンダラー
+	 * @param BSFile $file 添付ファイル
 	 * @return BSHTTPResponse レスポンス
+	 * @todo ファイル添付が未実装。
 	 */
-	public function sendPOST ($path = '/', BSRenderer $renderer = null) {
+	public function sendPOST ($path = '/', BSRenderer $renderer = null, BSFile $file = null) {
+		$request = $this->createRequest();
 		if (!($renderer instanceof BSWWWFormRenderer)) {
 			throw new BSTwitterException('BSWWWFormRendererではありません。');
 		}
