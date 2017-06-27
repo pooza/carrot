@@ -16,6 +16,8 @@ class BSImage implements BSImageRenderer {
 	protected $contents;
 	protected $backgroundColor;
 	protected $error;
+	static protected $types;
+	static protected $suffixes;
 	const DEFAULT_WIDTH = 320;
 	const DEFAULT_HEIGHT = 240;
 
@@ -336,17 +338,6 @@ class BSImage implements BSImageRenderer {
 	}
 
 	/**
-	 * 規定レンダラークラスを返す
-	 *
-	 * @access public
-	 * @return string 規定レンダラークラス
-	 * @static
-	 */
-	static public function getDefaultRendererClass () {
-		return BS_IMAGE_RENDERERS_DEFAULT_CLASS;
-	}
-
-	/**
 	 * 利用可能なメディアタイプを返す
 	 *
 	 * @access public
@@ -354,21 +345,13 @@ class BSImage implements BSImageRenderer {
 	 * @static
 	 */
 	static public function getTypes () {
-		$types = new BSArray;
-		foreach (['.gif', '.jpg', '.png'] as $suffix) {
-			$types[$suffix] = BSMIMEType::getType($suffix);
-		}
-		if (extension_loaded('imagick')) {
-			foreach (['.tiff', '.tif', '.eps', '.ico', '.pdf'] as $suffix) {
-				$types[$suffix] = BSMIMEType::getType($suffix);
+		if (!self::$types) {
+			self::$types = new BSArray;
+			foreach (self::getSuffixes() as $suffix) {
+				self::$types[$suffix] = BSMIMEType::getType($suffix);
 			}
 		}
-		if (extension_loaded('gmagick')) {
-			foreach (['.tiff', '.tif', '.eps', '.pdf'] as $suffix) {
-				$types[$suffix] = BSMIMEType::getType($suffix);
-			}
-		}
-		return $types;
+		return self::$types;
 	}
 
 	/**
@@ -379,7 +362,21 @@ class BSImage implements BSImageRenderer {
 	 * @static
 	 */
 	static public function getSuffixes () {
-		return self::getTypes()->createFlipped();
+		if (!self::$suffixes) {
+			$suffixes = new BSArray(['.gif', '.jpg', '.png']);
+			if (extension_loaded('imagick')) {
+				$suffixes->merge(['.tif', '.eps', '.ico', '.pdf']);
+			}
+			if (extension_loaded('gmagick')) {
+				$suffixes->merge(['.tif', '.eps', '.pdf']);
+			}
+
+			self::$suffixes = new BSArray;
+			foreach ($suffixes->uniquize() as $suffix) {
+				self::$suffixes[BSMIMEType::getType($suffix)] = $suffix;
+			}
+		}
+		return self::$suffixes;
 	}
 }
 
