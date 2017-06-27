@@ -374,7 +374,7 @@ class BSImageManager {
 	 * @return BSImage サムネイル
 	 */
 	protected function convert (BSImageContainer $record, $pixel, $contents, $flags = 0) {
-		$class = BSImage::getDefaultRendererClass();
+		$class = BS_IMAGE_RENDERERS_DEFAULT_CLASS;
 		$image = new $class;
 		$image->setBackgroundColor($this->getBackgroundColor());
 		$image->setImage($contents);
