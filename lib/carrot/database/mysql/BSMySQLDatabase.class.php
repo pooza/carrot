@@ -49,6 +49,8 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	protected function dump () {
 		$command = $this->createCommand('mysqldump');
+		$command->push('--single-transaction');
+		$command->push('--skip-dump-date');
 		$command->setStderrRedirectable(true);
 		if ($command->hasError()) {
 			throw new BSDatabaseException($command->getResult()->join(' '));
