@@ -363,7 +363,7 @@ class BSImage implements BSImageRenderer {
 	 */
 	static public function getSuffixes () {
 		if (!self::$suffixes) {
-			$suffixes = new BSArray(['.gif', '.jpg', '.png']);
+			$suffixes = BSArray::create(['.gif', '.jpg', '.png']);
 			if (extension_loaded('imagick')) {
 				$suffixes->merge(['.tif', '.eps', '.ico', '.pdf']);
 			}

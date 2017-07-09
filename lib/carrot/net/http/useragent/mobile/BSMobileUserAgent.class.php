@@ -109,7 +109,7 @@ abstract class BSMobileUserAgent extends BSUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		return new BSArray([
+		return BSArray::create([
 			'width' => BS_IMAGE_MOBILE_SIZE_QVGA_WIDTH,
 			'height' => BS_IMAGE_MOBILE_SIZE_QVGA_HEIGHT,
 		]);

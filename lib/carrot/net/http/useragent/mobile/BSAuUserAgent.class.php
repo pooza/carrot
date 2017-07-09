@@ -63,7 +63,7 @@ class BSAuUserAgent extends BSMobileUserAgent {
 		}
 		$info = BSString::explode(',', $info);
 
-		return new BSArray([
+		return BSArray::create([
 			'width' => (int)$info[0],
 			'height' => (int)$info[1],
 		]);

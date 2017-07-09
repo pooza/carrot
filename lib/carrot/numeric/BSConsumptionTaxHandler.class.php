@@ -25,7 +25,7 @@ class BSConsumptionTaxHandler {
 		$this->rates = new BSArray;
 		foreach ($config['rates'] as $row) {
 			$date = BSDate::create($row['start_date']);
-			$this->rates[$date->format('Y-m-d')] = new BSArray([
+			$this->rates[$date->format('Y-m-d')] = BSArray::create([
 				'start_date' => $date,
 				'rate' => (float)$row['rate'],
 			]);

@@ -21,7 +21,7 @@ class BSTestManager implements IteratorAggregate {
 		$this->tests = new BSArray;
 		$this->errors = new BSArray;
 
-		$dirs = new BSArray([
+		$dirs = BSArray::create([
 			BSFileUtility::getDirectory('tests'),
 			BSFileUtility::getDirectory('local_tests'),
 		]);

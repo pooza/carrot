@@ -6,11 +6,11 @@
 class BSCSVExporterTest extends BSTest {
 	public function execute () {
 		$this->assert('__construct', $exporter = new BSCSVExporter);
-		$exporter->addRecord(new BSArray([
+		$exporter->addRecord(BSArray::create([
 			'name' => 'pooza',
 			'point' => 100,
 		]));
-		$exporter->addRecord(new BSArray([
+		$exporter->addRecord(BSArray::create([
 			'name' => 'ビーショック',
 			'point' => 900,
 		]));

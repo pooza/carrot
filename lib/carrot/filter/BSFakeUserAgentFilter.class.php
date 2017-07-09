@@ -18,7 +18,7 @@ class BSFakeUserAgentFilter extends BSFilter {
 			}
 		}
 
-		$names = new BSArray([
+		$names = BSArray::create([
 			BSTridentUserAgent::ACCESSOR => BSTridentUserAgent::DEFAULT_NAME,
 			BSWebKitUserAgent::ACCESSOR => BSWebKitUserAgent::DEFAULT_NAME,
 		]);

@@ -311,7 +311,7 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 */
 	public function getWeekdayName () {
 		if (BSString::isBlank($this['weekday_name'])) {
-			$weekdays = new BSArray([null, '月', '火', '水', '木', '金', '土', '日']);
+			$weekdays = BSArray::create([null, '月', '火', '水', '木', '金', '土', '日']);
 			$this->params['weekday_name'] = $weekdays[$this->getWeekday()];
 		}
 		return $this['weekday_name'];

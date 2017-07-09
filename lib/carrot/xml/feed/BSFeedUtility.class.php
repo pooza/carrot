@@ -49,7 +49,7 @@ class BSFeedUtility extends Zend_Feed {
 	 */
 	static public function convertFeed (Zend_Feed_Abstract $feed) {
 		require_once 'Zend/Feed/Reader.php';
-		$classes = new BSArray([
+		$classes = BSArray::create([
 			Zend_Feed_Reader::TYPE_RSS_090 => 'BSRSS09Document',
 			Zend_Feed_Reader::TYPE_RSS_091 => 'BSRSS09Document',
 			Zend_Feed_Reader::TYPE_RSS_092 => 'BSRSS09Document',
@@ -88,7 +88,7 @@ class BSFeedUtility extends Zend_Feed {
 			if (mb_ereg(self::IGNORE_TITLE_PATTERN, $title = $entry->getTitle())) {
 				continue;
 			}
-			$titles[] = new BSArray([
+			$titles[] = BSArray::create([
 				'title' => $title,
 				'date' => $entry->getDate(),
 				'link' => $entry->getLink(),

@@ -5,7 +5,7 @@
  */
 class BSBlogUpdatePingServiceTest extends BSTest {
 	public function execute () {
-		$params = new BSArray([
+		$params = BSArray::create([
 			'weblogname' => 'b-shock. Fortress',
 			'weblogurl' => 'http://d.hatena.ne.jp/pooza/',
 			'changeurl' => 'http://d.hatena.ne.jp/pooza/',

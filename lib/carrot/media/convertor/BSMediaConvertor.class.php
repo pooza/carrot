@@ -149,7 +149,7 @@ abstract class BSMediaConvertor {
 	 * @static
 	 */
 	static protected function getOptions () {
-		return  new BSArray([
+		return  BSArray::create([
 			'video_codec' => 'vcodec',
 			'audio_codec' => 'acodec',
 			'size' => 's',

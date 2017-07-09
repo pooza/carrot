@@ -614,7 +614,7 @@ class BSString {
 	 * @static
 	 */
 	static public function getEncodings () {
-		return new BSArray([
+		return BSArray::create([
 			'ascii',
 			'iso-2022-jp',
 			'utf-8',

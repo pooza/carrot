@@ -237,7 +237,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 * @return BSArray 属性値
 	 */
 	public function getAttributes () {
-		return new BSArray([
+		return BSArray::create([
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),
 		]);

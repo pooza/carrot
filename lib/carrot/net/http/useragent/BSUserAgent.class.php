@@ -377,7 +377,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	static private function getTypes () {
-		return new BSArray([
+		return BSArray::create([
 			'WindowsPhone',
 			'Tasman',
 			'Trident',

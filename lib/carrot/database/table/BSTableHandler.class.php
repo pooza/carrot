@@ -322,7 +322,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		if (is_array($key) || ($key instanceof BSParameterHolder)) {
 			$key = new BSArray($key);
 		} else {
-			$key = new BSArray([$this->getKeyField() => $key]);
+			$key = BSArray::create([$this->getKeyField() => $key]);
 		}
 
 		$class = $this->getRecordClass();
@@ -405,7 +405,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	protected function applySmartFields ($values) {
 		$values = new BSArray($values);
 		$fields = $this->getProfile()->getFields();
-		$smartFields = new BSArray([
+		$smartFields = BSArray::create([
 			$this->getCreateDateField() => BSDate::getNow('Y-m-d H:i:s'),
 			$this->getUpdateDateField() => BSDate::getNow('Y-m-d H:i:s'),
 			$this->getUserAgentField() => $this->request->getUserAgent()->getName(),

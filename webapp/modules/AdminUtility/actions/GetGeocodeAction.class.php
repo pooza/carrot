@@ -14,7 +14,7 @@ class GetGeocodeAction extends BSAction {
 		}
 
 		$json = new BSResultJSONRenderer;
-		$json->setContents(new BSArray([
+		$json->setContents(BSArray::create([
 			'lat' => $geocode['lat'],
 			'lng' => $geocode['lng'],
 		]));

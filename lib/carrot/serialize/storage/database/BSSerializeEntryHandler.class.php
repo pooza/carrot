@@ -74,7 +74,7 @@ class BSSerializeEntryHandler extends BSTableHandler {
 	 * @return BSArray フィールド情報の配列
 	 */
 	public function getSchema () {
-		return new BSArray([
+		return BSArray::create([
 			'id' => 'varchar(128) NOT NULL PRIMARY KEY',
 			'update_date' => 'timestamp NOT NULL',
 			'data' => 'TEXT',
