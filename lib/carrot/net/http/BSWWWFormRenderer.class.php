@@ -36,7 +36,7 @@ class BSWWWFormRenderer extends BSParameterHolder implements BSRenderer {
 	public function setParameters ($params) {
 		if (!is_array($params) && !($params instanceof BSParameterHolder)) {
 			parse_str($params, $parsed);
-			$params = (array)$parsed;
+			$params = BSArray::create($parsed);
 		}
 		parent::setParameters($params);
 	}

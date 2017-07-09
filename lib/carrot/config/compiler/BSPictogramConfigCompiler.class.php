@@ -20,7 +20,7 @@ class BSPictogramConfigCompiler extends BSDefaultConfigCompiler {
 	 */
 	protected function getContents ($config) {
 		$pictograms = [];
-		foreach ((array)$config as $entry) {
+		foreach (BSArray::create($config) as $entry) {
 			foreach ($entry['names'] as $name) {
 				$pictograms['codes'][$name] = $entry['pictograms'];
 				$pictograms['names'][$entry['pictograms']['Docomo']][] = $name;

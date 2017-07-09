@@ -294,8 +294,8 @@ class BSXHTMLElement extends BSXMLElement {
 				if ($root->name != $this->getName()) {
 					throw new BSXMLException($this->getName() . '要素の内容が正しくありません。');
 				}
-				$this->setAttributes((array)$root->attribute);
-				foreach ((array)$root->child as $child) {
+				$this->setAttributes(BSArray::create($root->attribute));
+				foreach (BSArray::create($root->child) as $child) {
 					$this->parseTidy($this, $child);
 				}
 			}
@@ -343,9 +343,9 @@ class BSXHTMLElement extends BSXMLElement {
 			case TIDY_NODETYPE_START:
 			case TIDY_NODETYPE_STARTEND:
 				$element = new BSXHTMLElement($node->name);
-				$element->setAttributes((array)$node->attribute);
+				$element->setAttributes(BSArray::create($node->attribute));
 				$parent->addElement($element);
-				foreach ((array)$node->child as $child) {
+				foreach (BSArray::create($node->child) as $child) {
 					$this->parseTidy($element, $child);
 				}
 				break;

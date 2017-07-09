@@ -42,10 +42,10 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 			throw new BSModuleException($this . 'のディレクトリが見つかりません。');
 		}
 		if ($file = $this->getConfigFile('module')) {
-			$this->config = (array)BSConfigManager::getInstance()->compile($file);
+			$this->config = BSArray::create(BSConfigManager::getInstance()->compile($file));
 		}
 		if ($file = $this->getConfigFile('filters')) {
-			$this->config['filters'] = $file->getResult();
+			$this->config['filters'] = BSArray::create($file->getResult());
 		}
 	}
 

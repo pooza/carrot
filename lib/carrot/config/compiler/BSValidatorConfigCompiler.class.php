@@ -28,7 +28,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 				$line = new BSStringFormat('  $manager->register(%s, new %s(%s));');
 				$line[] = self::quote($name);
 				$line[] = $this->validators[$validator]['class'];
-				$line[] = self::quote((array)$this->validators[$validator]['params']);
+				$line[] = self::quote(BSArray::create($this->validators[$validator]['params']));
 				$this->putLine($line);
 			}
 		}

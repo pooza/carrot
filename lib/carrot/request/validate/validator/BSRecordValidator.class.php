@@ -127,7 +127,7 @@ class BSRecordValidator extends BSValidator {
 	protected function getRecord ($id) {
 		try {
 			$values = [$this['field'] => $id];
-			foreach ((array)$this['criteria'] as $field => $value) {
+			foreach (BSArray::create($this['criteria']) as $field => $value) {
 				if (isset($value['function'])) {
 					$value = $this->executeModuleFunction($value['function']);
 				}

@@ -21,7 +21,7 @@ class BSObjectRegisterConfigCompiler extends BSConfigCompiler {
 
 			$line = new BSStringFormat('  new %s(%s),');
 			$line[] = $values['class'];
-			$line[] = self::quote((array)$values['params']);
+			$line[] = self::quote(BSArray::create($values['params']));
 			$this->putLine($line);
 		}
 		$this->putLine('];');
