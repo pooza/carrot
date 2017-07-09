@@ -338,7 +338,7 @@ class BSImageManager {
 	 * @return BSFile サムネイルファイル
 	 */
 	protected function createFileName (BSImageFile $file, $pixel, $flags = 0) {
-		$values = new BSArray([
+		$values = BSArray::create([
 			'id' => $file->getID(),
 			'pixel' => $pixel,
 		]);
@@ -466,11 +466,12 @@ class BSImageManager {
 			if ($dir = $params['dir']) {
 				$finder->registerDirectory($dir);
 			}
-			$file = $finder->execute($path);
-			if ($file->getMainType() == 'image') {
-				return new BSImageFile($file->getPath());
-			} else if ($file->getMainType() == 'video') {
-				return new BSMovieFile($file->getPath());
+			if ($file = $finder->execute($path)) {
+				if ($file->getMainType() == 'image') {
+					return new BSImageFile($file->getPath());
+				} else if ($file->getMainType() == 'video') {
+					return new BSMovieFile($file->getPath());
+				}
 			}
 		}
 
