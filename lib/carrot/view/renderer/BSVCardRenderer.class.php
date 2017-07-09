@@ -1,7 +1,7 @@
 <?php
 /**
  * @package jp.co.b-shock.carrot
- * @subpackage view.renderer.vcard
+ * @subpackage view.renderer
  */
 
 /**
