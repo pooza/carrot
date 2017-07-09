@@ -37,35 +37,5 @@ class BSAtom10Document extends BSAtom03Document {
 		}
 		$element->setBody($date->format(DateTime::ATOM));
 	}
-
-	/**
-	 * Zend形式のフィードオブジェクトを変換
-	 *
-	 * @access public
-	 * @param Zend_Feed_Abstract $feed 変換対象
-	 * @return BSFeedDocument
-	 */
-	public function convert (Zend_Feed_Abstract $feed) {
-		$this->setTitle($feed->title());
-		foreach ($feed as $entry) {
-			try {
-				$element = $this->createEntry();
-				$element->setTitle($entry->title());
-
-				$link = $entry->link;
-				if (is_array($link)) {
-					$link = $link[0];
-				}
-				if (!BSString::isBlank($url = $link->getDOM()->getAttribute('href'))) {
-					$element->setLink(BSURL::create($url));
-				}
-
-				if ($values = BSArray::create($entry->updated())) {
-					$element->setDate(BSDate::create($values[0]));
-				}
-			} catch (Exception $e) {
-			}
-		}
-	}
 }
 

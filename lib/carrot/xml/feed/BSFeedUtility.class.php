@@ -4,71 +4,18 @@
  * @subpackage xml.feed
  */
 
-require_once 'Zend/Feed.php';
-
 /**
  * フィードユーティリティ
  *
  * @author 小石達也 <tkoishi@b-shock.co.jp>
  */
-class BSFeedUtility extends Zend_Feed {
+class BSFeedUtility {
 	const IGNORE_TITLE_PATTERN = '^(PR|AD):';
 
 	/**
 	 * @access private
 	 */
 	private function __construct() {
-	}
-
-	/**
-	 * URLからZend形式のフィードを返す
-	 *
-	 * @access public
-	 * @return Zend_Feed_Abstract フィード
-	 * @static
-	 */
-	static public function getFeed (BSHTTPRedirector $url) {
-		try {
-			if ($feeds = self::findFeeds($url->getContents())) {
-				$feed = $feeds[0];
-			} else {
-				$feed = self::import($url->getContents());
-			}
-			return self::convertFeed($feed);
-		} catch (Exception $e) {
-		}
-	}
-
-	/**
-	 * Zend形式のフィードオブジェクトを変換
-	 *
-	 * @access public
-	 * @param Zend_Feed_Abstract $feed 変換対象
-	 * @return BSFeedDocument
-	 * @static
-	 */
-	static public function convertFeed (Zend_Feed_Abstract $feed) {
-		require_once 'Zend/Feed/Reader.php';
-		$classes = BSArray::create([
-			Zend_Feed_Reader::TYPE_RSS_090 => 'BSRSS09Document',
-			Zend_Feed_Reader::TYPE_RSS_091 => 'BSRSS09Document',
-			Zend_Feed_Reader::TYPE_RSS_092 => 'BSRSS09Document',
-			Zend_Feed_Reader::TYPE_RSS_10 => 'BSRSS10Document',
-			Zend_Feed_Reader::TYPE_RSS_20 => 'BSRSS20Document',
-			Zend_Feed_Reader::TYPE_ATOM_03 => 'BSAtom03Document',
-			Zend_Feed_Reader::TYPE_ATOM_10 => 'BSAtom10Document',
-		]);
-
-		$type = Zend_Feed_Reader::detectType($feed->getDOM()->ownerDocument);
-		if (BSString::isBlank($class = $classes[$type])) {
-			$message = new BSStringFormat('フィード形式 "%s" は正しくありません。');
-			$message[] = $type;
-			throw new BSFeedException($message);
-		}
-
-		$document = new $class;
-		$document->convert($feed);
-		return $document;
 	}
 
 	/**
@@ -95,28 +42,6 @@ class BSFeedUtility extends Zend_Feed {
 			]);
 		}
 		return $titles;
-	}
-
-	/**
-	 * Zend_Feed::importのオーバライド
-	 *
-	 * 多少崩れたフィードでも読めるように
-	 *
-	 * @param  string $url
-	 * @throws Zend_Feed_Exception
-	 * @return Zend_Feed_Abstract
-	 * @static
-	 */
-	static public function import ($url) {
-		$url = BSURL::create($url);
-		if (BSString::isBlank($contents = $url->fetch())) {
-			throw new BSFeedException($url . 'を取得できません。');
-		}
-
-		$contents = BSString::convertEncoding($contents, 'utf-8');
-		$contents = mb_ereg_replace('&([^[:alpha:]])', '&amp;\\1', $contents);
-		$contents = mb_ereg_replace('encoding="[-_[:alnum:]]*"', 'encoding="utf-8"', $contents);
-		return parent::importString($contents);
 	}
 
 	/**

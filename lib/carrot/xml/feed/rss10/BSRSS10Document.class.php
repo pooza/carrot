@@ -126,33 +126,5 @@ class BSRSS10Document extends BSRSS09Document {
 		}
 		return $entry;
 	}
-
-	/**
-	 * Zend形式のフィードオブジェクトを変換
-	 *
-	 * @access public
-	 * @param Zend_Feed_Abstract $feed 変換対象
-	 * @return BSFeedDocument
-	 */
-	public function convert (Zend_Feed_Abstract $feed) {
-		$title = $feed->channel->title->getDOM()->firstChild->wholeText;
-		$this->setTitle($title);
-		foreach ($feed as $entry) {
-			try {
-				$element = $this->createEntry();
-				$element->setTitle($entry->title());
-				if ($values = BSArray::create($entry->link())) {
-					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
-						$url = $url->firstChild->wholeText;
-					}
-					$element->setLink(BSURL::create($url));
-				}
-				if ($values = BSArray::create($entry->date())) {
-					$element->setDate(BSDate::create($values[0]));
-				}
-			} catch (Exception $e) {
-			}
-		}
-	}
 }
 
