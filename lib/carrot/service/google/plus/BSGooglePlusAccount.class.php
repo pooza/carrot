@@ -232,7 +232,7 @@ class BSGooglePlusAccount
 	 * @access public
 	 */
 	public function serialize () {
-		$values = new BSArray;
+		$values = BSArray::create();
 
 		try {
 			$response = $this->getService()->sendGET('/plus/v1/people/' . $this->getID());

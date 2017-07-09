@@ -21,7 +21,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess, BSAssignable {
 	 */
 	public function __construct ($path) {
 		$this->setPath($path);
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 		if ($serialized = $this->getSerialized()) {
 			$this->attributes->setParameters($serialized);
 		} else if ($this->isExists()) {
@@ -315,7 +315,7 @@ abstract class BSMediaFile extends BSFile implements ArrayAccess, BSAssignable {
 	static public function search ($file, $class = 'BSFile') {
 		$files = new BSFileFinder($class);
 		if (is_array($file) || ($file instanceof BSParameterHolder)) {
-			$params = new BSArray($file);
+			$params = BSArray::create($file);
 			if (BSString::isBlank($path = $params['src'])) {
 				$records = new BSRecordFinder($params);
 				if ($record = $records->execute()) {

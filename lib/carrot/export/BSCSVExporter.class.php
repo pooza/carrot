@@ -45,7 +45,7 @@ class BSCSVExporter implements BSExporter, BSTextRenderer {
 	 *   self::WITHOUT_LF フィールド値に改行を含まない
 	 */
 	public function addRecord (BSArray $record, $flags = 0) {
-		$values = new BSArray;
+		$values = BSArray::create();
 		foreach ($record as $key => $value) {
 			$value = BSString::convertEncoding($value, $this->getEncoding(), 'utf-8');
 			$value = str_replace('"', '""', $value);

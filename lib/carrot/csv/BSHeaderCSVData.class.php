@@ -18,7 +18,7 @@ class BSHeaderCSVData extends BSCSVData {
 	 * @param string $contents 
 	 */
 	public function __construct ($contents = null) {
-		$this->fields = new BSArray;
+		$this->fields = BSArray::create();
 		parent::__construct($contents);
 	}
 
@@ -105,7 +105,7 @@ class BSHeaderCSVData extends BSCSVData {
 	 */
 	public function addRecord (BSArray $record) {
 		if (BSString::isBlank($record[$this->getFieldName(0)])) {
-			$newRecord = new BSArray;
+			$newRecord = BSArray::create();
 			for ($i = 0 ; $i < $this->getFieldNames()->count() ; $i ++) {
 				$newRecord[$this->getFieldName($i)] = $record[$i];
 			}

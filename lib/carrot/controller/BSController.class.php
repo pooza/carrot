@@ -25,8 +25,8 @@ abstract class BSController {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->headers = new BSArray;
-		$this->actions = new BSArray;
+		$this->headers = BSArray::create();
+		$this->actions = BSArray::create();
 	}
 
 	/**
@@ -180,10 +180,10 @@ abstract class BSController {
 	 */
 	public function getAttribute ($name, BSDate $date = null) {
 		if (!$date && !is_object($name)) {
-			$env = new BSArray;
+			$env = BSArray::create();
 			$env->setParameters($_ENV);
 			$env->setParameters($_SERVER);
-			$keys = new BSArray;
+			$keys = BSArray::create();
 			$keys[] = $name;
 			$keys[] = 'HTTP_' . $name;
 			$keys[] = 'HTTP_' . str_replace('-', '_', $name);
@@ -251,7 +251,7 @@ abstract class BSController {
 	 */
 	public function getSearchDirectories () {
 		if (!$this->searchDirectories) {
-			$this->searchDirectories = new BSArray;
+			$this->searchDirectories = BSArray::create();
 			$this->searchDirectories[] = BSFileUtility::getDirectory('root');
 		}
 		return $this->searchDirectories;

@@ -27,7 +27,7 @@ class BSXHTMLElement extends BSXMLElement {
 		}
 
 		$this->styles = new BSCSSSelector;
-		$this->styleClasses = new BSArray;
+		$this->styleClasses = BSArray::create();
 		parent::__construct($name);
 
 		if (!$useragent) {
@@ -222,7 +222,7 @@ class BSXHTMLElement extends BSXMLElement {
 			return $this;
 		}
 		if ($tags) {
-			$value = BSSmartTag::parse($value, $tags, new BSArray);
+			$value = BSSmartTag::parse($value, $tags, BSArray::create());
 		}
 
 		$wrapper = $this->createWrapper();

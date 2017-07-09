@@ -31,7 +31,7 @@ class BSPostgreSQLDatabase extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$this->tables = new BSArray;
+			$this->tables = BSArray::create();
 			$query = BSSQL::getSelectQueryString(
 				'tablename',
 				'pg_tables',

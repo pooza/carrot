@@ -192,7 +192,7 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function getConfig ($name) {
 		if (!$this->config) {
-			$this->config = new BSArray(
+			$this->config = BSArray::create(
 				$this->getModule()->getConfig($this->getName(), 'actions')
 			);
 		}
@@ -415,9 +415,9 @@ abstract class BSAction implements BSHTTPRedirector, BSAssignable, BSValidatorCo
 	 */
 	public function getRequestMethods () {
 		if (!$this->methods) {
-			$this->methods = new BSArray;
+			$this->methods = BSArray::create();
 			if ($file = $this->getValidationFile()) {
-				$config = new BSArray($file->getResult());
+				$config = BSArray::create($file->getResult());
 				if ($methods = $config['methods']) {
 					$this->methods->merge($config['methods']);
 					return $this->methods;

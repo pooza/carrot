@@ -19,7 +19,7 @@ class BSMySQLDatabase extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$this->tables = new BSArray;
+			$this->tables = BSArray::create();
 			foreach ($this->query('SHOW TABLES')->fetchAll(PDO::FETCH_NUM) as $row) {
 				$this->tables[] = $row[0];
 			}

@@ -31,7 +31,7 @@ class BSCSSUtility {
 	static public function trim ($value, BSArray $properties = null) {
 		$value = BSString::stripControlCharacters($value);
 		if (!$properties) {
-			$properties = new BSArray;
+			$properties = BSArray::create();
 			$properties[] = 'font';
 			$properties[] = 'font-size';
 			$properties[] = 'font-family';

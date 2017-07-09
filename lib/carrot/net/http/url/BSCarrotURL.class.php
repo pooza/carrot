@@ -49,7 +49,7 @@ class BSCarrotURL extends BSHTTPURL {
 				throw new BSNetException('BSCarrotURLは文字列から生成できません。');
 			}
 			if (is_array($contents) || ($contents instanceof BSParameterHolder)) {
-				$contents = new BSArray($contents);
+				$contents = BSArray::create($contents);
 			}
 			if (BSString::isBlank($contents['module'])) {
 				if (BSString::isBlank($contents['action'])) {
@@ -153,7 +153,7 @@ class BSCarrotURL extends BSHTTPURL {
 	}
 
 	private function parsePath () {
-		$path = new BSArray;
+		$path = BSArray::create();
 		$path[] = null;
 		$path[] = $this->getModuleName();
 		$path[] = $this->getActionName();

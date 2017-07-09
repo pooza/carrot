@@ -33,7 +33,7 @@ class BSChoiceValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$choices = new BSArray($value);
+		$choices = BSArray::create($value);
 		$choices->trim();
 		foreach ($choices as $choice) {
 			if (!$this->getChoices()->isContain($choice)) {
@@ -45,7 +45,7 @@ class BSChoiceValidator extends BSValidator {
 	}
 
 	protected function getChoices () {
-		$choices = new BSArray;
+		$choices = BSArray::create();
 		if ($config = $this['choices']) {
 			if (is_array($config) || ($config instanceof BSParameterHolder)) {
 				$choices->setParameters($config);

@@ -132,7 +132,7 @@ abstract class BSSmartTag extends BSParameterHolder {
 	 */
 	static public function parse ($text, BSArray $tags = null, BSParameterHolder $params = null) {
 		if (!$tags) {
-			$tags = new BSArray;
+			$tags = BSArray::create();
 		}
 		$tags[] = 'Generic';
 		$tags->uniquize();

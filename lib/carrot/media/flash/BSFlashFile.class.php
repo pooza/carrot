@@ -75,7 +75,7 @@ class BSFlashFile extends BSMediaFile {
 			}
 			if (($info = $params['thumbnail']) && ($inner = $container->getElement('div'))) {
 				$image = $inner->addElement(new BSImageElement);
-				$image->setAttributes(new BSArray($info));
+				$image->setAttributes(BSArray::create($info));
 			}
 		}
 		return $container;

@@ -19,7 +19,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->dictionaries = new BSArray;
+		$this->dictionaries = BSArray::create();
 		foreach ($this->getDirectory() as $dictionary) {
 			$this->register($dictionary);
 		}
@@ -111,7 +111,7 @@ class BSTranslateManager implements IteratorAggregate {
 	}
 
 	private function getDictionaryNames ($name) {
-		$names = new BSArray;
+		$names = BSArray::create();
 		$names[] = $name;
 		$names[] = 'BSDictionaryFile.' . $name;
 		$names->merge($this->dictionaries->getKeys());
@@ -170,7 +170,7 @@ class BSTranslateManager implements IteratorAggregate {
 	 * @return BSArray ハッシュ
 	 */
 	public function getHash ($words, $language = 'ja') {
-		$hash = new BSArray;
+		$hash = BSArray::create();
 		foreach ($words as $word) {
 			$hash[$word] = $this->execute($word, $language);
 		}

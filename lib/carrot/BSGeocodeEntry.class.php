@@ -90,7 +90,7 @@ class BSGeocodeEntry extends BSParameterHolder {
 	 */
 	public function getStations ($flags = null) {
 		if (!$this->stations) {
-			$this->stations = new BSArray;
+			$this->stations = BSArray::create();
 			try {
 				$service = new BSHeartRailsExpressService;
 				$this->stations->setParameters($service->getStations($this, $flags));

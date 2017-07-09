@@ -95,7 +95,7 @@ class BSAuthorRole implements BSRole {
 	 */
 	public function getCredentials () {
 		if (!$this->credentials) {
-			$this->credentials = new BSArray;
+			$this->credentials = BSArray::create();
 			$this->credentials[] = self::CREDENTIAL;
 		}
 		return $this->credentials;

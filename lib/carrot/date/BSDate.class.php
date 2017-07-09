@@ -426,13 +426,13 @@ class BSDate extends BSParameterHolder implements BSAssignable {
 	 */
 	static public function getGengos () {
 		if (!self::$gengos) {
-			self::$gengos = new BSArray;
+			self::$gengos = BSArray::create();
 			$config = BSConfigManager::getInstance()->compile('date');
 			if (!isset($config['gengo'])) {
 				throw new BSConfigException('元号が設定されていません。');
 			}
 			foreach ($config['gengo'] as $gengo) {
-				$gengo = new BSArray($gengo);
+				$gengo = BSArray::create($gengo);
 				$gengo['start_date'] = self::create($gengo['start_date']);
 				if (!$gengo['start_date']) {
 					continue;

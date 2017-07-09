@@ -19,7 +19,7 @@ class BSSQLiteDatabase extends BSDatabase {
 	 */
 	public function getTableNames () {
 		if (!$this->tables) {
-			$this->tables = new BSArray;
+			$this->tables = BSArray::create();
 			$query = BSSQL::getSelectQueryString(
 				'name',
 				'sqlite_master',

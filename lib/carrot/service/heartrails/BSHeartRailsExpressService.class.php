@@ -65,13 +65,13 @@ class BSHeartRailsExpressService extends BSCurlHTTP {
 		$serializer = new BSJSONSerializer;
 		$result = $serializer->decode($response->getRenderer()->getContents());
 
-		$stations = new BSArray;
+		$stations = BSArray::create();
 		$x = null;
 		$y = null;
 		foreach ($result['response']['station'] as $entry) {
 			if (($x !== $entry['x']) && ($y !== $entry['y'])) {
-				$station = new BSArray($entry);
-				$station['line'] = new BSArray($entry['line']);
+				$station = BSArray::create($entry);
+				$station['line'] = BSArray::create($entry['line']);
 				$stations[] = $station;
 				$x = $entry['x'];
 				$y = $entry['y'];

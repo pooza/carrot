@@ -47,7 +47,7 @@ class BSSMTPMailSender extends BSMailSender {
 	 * @param string $response レスポンス行
 	 */
 	protected function log (BSMail $mail, $response = null) {
-		$recipients = new BSArray;
+		$recipients = BSArray::create();
 		foreach ($mail->getRecipients() as $email) {
 			$recipients[] = $email->getContents();
 		}

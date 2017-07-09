@@ -17,15 +17,15 @@ class BSDirectoryLayout extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->config = new BSArray;
-		$entries = new BSArray;
+		$this->config = BSArray::create();
+		$entries = BSArray::create();
 		$entries[] = 'carrot';
 		$entries[] = 'application';
 		$entries[] = $this->controller->getHost()->getName();
 		foreach ($entries as $entry) {
 			if ($file = BSConfigManager::getConfigFile('layout/' . $entry)) {
 				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
-					$this->config[$key] = new BSArray($values);
+					$this->config[$key] = BSArray::create($values);
 				}
 			}
 		}

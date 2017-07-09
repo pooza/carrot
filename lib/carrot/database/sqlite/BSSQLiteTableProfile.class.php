@@ -19,7 +19,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	 */
 	public function getFields () {
 		if (!$this->fields) {
-			$this->fields = new BSArray;
+			$this->fields = BSArray::create();
 			$query = 'PRAGMA table_info(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $row) {
 				$this->fields[$row['name']] = [
@@ -41,7 +41,7 @@ class BSSQLiteTableProfile extends BSTableProfile {
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
-			$this->constraints = new BSArray;
+			$this->constraints = BSArray::create();
 			$query = 'PRAGMA index_list(' . $this->getName() . ')';
 			foreach ($this->getDatabase()->query($query) as $rowKey) {
 				$key = [

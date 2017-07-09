@@ -33,7 +33,7 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getSelectQueryString ($fields, $tables, $criteria = null, $order = null, $group = null, $page = null, $pagesize = null) {
-		$query = new BSArray;
+		$query = BSArray::create();
 		$query[] = 'SELECT';
 		$query[] = self::getFieldsString($fields);
 		$query[] = self::getFromString($tables);
@@ -62,9 +62,9 @@ class BSSQL {
 			$table = $table->getName();
 		}
 		if (is_array($values)) {
-			$values = new BSArray($values);
+			$values = BSArray::create($values);
 		} else if ($values instanceof BSParameterHolder) {
-			$values = new BSArray($values->getParameters());
+			$values = BSArray::create($values->getParameters());
 		}
 		$values = $db->quote($values);
 
@@ -99,12 +99,12 @@ class BSSQL {
 		}
 
 		if (is_array($values)) {
-			$values = new BSArray($values);
+			$values = BSArray::create($values);
 		} else if ($values instanceof BSParameterHolder) {
-			$values = new BSArray($values->getParameters());
+			$values = BSArray::create($values->getParameters());
 		}
 
-		$fields = new BSArray;
+		$fields = BSArray::create();
 		foreach ($values as $key => $value) {
 			$fields[] = sprintf('%s=%s', $key, $db->quote($value));
 		}
@@ -142,7 +142,7 @@ class BSSQL {
 	 * @static
 	 */
 	static public function getCreateTableQueryString ($table, $fields, $flags = 0) {
-		$fields = new BSArray($fields);
+		$fields = BSArray::create($fields);
 		foreach ($fields as $key => $field) {
 			if (is_numeric($key)) {
 				$fields[$key] = $field;

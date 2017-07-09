@@ -31,8 +31,8 @@ class BSCommandLine {
 			throw new BSConsoleException('コマンド名が空です。');
 		}
 		$this->command = $command;
-		$this->params = new BSArray;
-		$this->pipes = new BSArray;
+		$this->params = BSArray::create();
+		$this->pipes = BSArray::create();
 	}
 
 	/**
@@ -186,7 +186,7 @@ class BSCommandLine {
 	 */
 	public function execute () {
 		exec($this->getContents(), $result, $this->returnCode);
-		$this->result = new BSArray($result);
+		$this->result = BSArray::create($result);
 
 		if ($seconds = $this->sleepSeconds) {
 			sleep($seconds);

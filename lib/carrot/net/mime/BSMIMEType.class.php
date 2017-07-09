@@ -59,7 +59,7 @@ class BSMIMEType extends BSParameterHolder {
 	 */
 	public function getSuffixes () {
 		if (!$this->suffixes) {
-			$this->suffixes = new BSArray;
+			$this->suffixes = BSArray::create();
 			foreach (BSConfigManager::getInstance()->compile('mime') as $entry) {
 				foreach ($entry['suffixes'] as $suffix) {
 					if ($this->suffixes->hasParameter($entry['type'])) {
@@ -79,7 +79,7 @@ class BSMIMEType extends BSParameterHolder {
 	 * @return BSArray 全てのサフィックス
 	 */
 	public function getAllSuffixes () {
-		$suffixes = new BSArray;
+		$suffixes = BSArray::create();
 		foreach ($this->params as $key => $value) {
 			$suffixes[] = $key;
 		}

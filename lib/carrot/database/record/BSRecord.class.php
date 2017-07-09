@@ -29,8 +29,8 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function __construct (BSTableHandler $table, $attributes = null) {
 		$this->table = $table;
-		$this->attributes = new BSArray;
-		$this->records = new BSArray;
+		$this->attributes = BSArray::create();
+		$this->records = BSArray::create();
 		if ($attributes) {
 			$this->initialize($attributes);
 		}
@@ -118,7 +118,7 @@ abstract class BSRecord implements ArrayAccess,
 			throw new BSDatabaseException($this . 'を更新することはできません。');
 		}
 
-		$values = new BSArray($values);
+		$values = BSArray::create($values);
 		$db = $this->getDatabase();
 		$table = $this->getTable();
 		$fields = $table->getProfile()->getFields();
@@ -322,7 +322,7 @@ abstract class BSRecord implements ArrayAccess,
 	 */
 	public function getAttachmentInfo ($name) {
 		if ($file = $this->getAttachment($name)) {
-			$info = new BSArray;
+			$info = BSArray::create();
 			if ($file instanceof BSAssignable) {
 				$info->setParameters($file->assign());
 			}

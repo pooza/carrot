@@ -165,7 +165,7 @@ class BSHTTPRequest extends BSMIMEDocument {
 	 * @static
 	 */
 	static public function getMethods () {
-		$methods = new BSArray;
+		$methods = BSArray::create();
 		$methods[] = 'HEAD';
 		$methods[] = 'GET';
 		$methods[] = 'POST';

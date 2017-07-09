@@ -300,7 +300,7 @@ class BSFile extends BSDirectoryEntry implements BSRenderer, BSSerializable {
 	 */
 	public function getLines () {
 		if (!$this->lines) {
-			$this->lines = new BSArray;
+			$this->lines = BSArray::create();
 			if ($this->isCompressed()) {
 				if (!extension_loaded('zlib')) {
 					throw new BSFileException('zlibモジュールがロードされていません。');

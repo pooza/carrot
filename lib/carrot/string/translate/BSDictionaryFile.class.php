@@ -33,7 +33,7 @@ class BSDictionaryFile extends BSCSVFile implements BSDictionary {
 			if (BSString::isBlank($this->getSerialized())) {
 				$this->serialize();
 			}
-			$this->words = new BSArray($this->getSerialized());
+			$this->words = BSArray::create($this->getSerialized());
 		}
 		return $this->words;
 	}

@@ -22,7 +22,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 	 * @param mixed $contents URL
 	 */
 	protected function __construct ($contents = null) {
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 		$this->query = new BSWWWFormRenderer;
 		$this->setContents($contents);
 	}
@@ -49,7 +49,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 		switch ($name) {
 			case 'path':
 				try {
-					$values = new BSArray(parse_url($value));
+					$values = BSArray::create(parse_url($value));
 					$this->attributes['path'] = '/' . ltrim($values['path'], '/');
 					$this->attributes['fragment'] = $values['fragment'];
 					$this['query'] = $values['query'];
@@ -85,7 +85,7 @@ class BSHTTPURL extends BSURL implements BSHTTPRedirector, BSImageContainer {
 			$contents = parse_url($contents);
 		}
 		if (is_array($contents) || ($contents instanceof BSParameterHolder)) {
-			$contents = new BSArray($contents);
+			$contents = BSArray::create($contents);
 		}
 		if (BSString::isBlank($contents['scheme'])) {
 			if ($this->request->isSSL()) {

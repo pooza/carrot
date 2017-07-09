@@ -19,7 +19,7 @@ abstract class BSTest {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->errors = new BSArray;
+		$this->errors = BSArray::create();
 	}
 
 	/**

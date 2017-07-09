@@ -39,7 +39,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 
 	private function parse (BSConfigFile $file) {
 		$configure = BSConfigManager::getInstance();
-		$this->validators = new BSArray;
+		$this->validators = BSArray::create();
 		$this->validators->setParameters($configure->compile('validator/carrot'));
 		$this->validators->setParameters($configure->compile('validator/application'));
 
@@ -48,10 +48,10 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 			$this->validators->setParameters($configure->compile($config));
 		}
 
-		$config = new BSArray($file->getResult());
-		$this->parseMethods(new BSArray($config['methods']));
-		$this->parseFields(new BSArray($config['fields']));
-		$this->parseValidators(new BSArray($config['validators']));
+		$config = BSArray::create($file->getResult());
+		$this->parseMethods(BSArray::create($config['methods']));
+		$this->parseFields(BSArray::create($config['fields']));
+		$this->parseValidators(BSArray::create($config['validators']));
 	}
 
 	private function parseMethods (BSArray $config) {
@@ -60,7 +60,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 			$config[] = 'POST';
 		}
 
-		$this->methods = new BSArray;
+		$this->methods = BSArray::create();
 		foreach ($config as $method) {
 			$method = BSString::toUpper($method);
 			if (!BSHTTPRequest::isValidMethod($method)) {
@@ -71,11 +71,11 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 	}
 
 	private function parseFields (BSArray $config) {
-		$this->fields = new BSArray;
+		$this->fields = BSArray::create();
 		foreach ($config as $name => $field) {
-			$field = new BSArray($field);
+			$field = BSArray::create($field);
 
-			$this->fields[$name] = new BSArray;
+			$this->fields[$name] = BSArray::create();
 			if ($field['file']) {
 				$this->fields[$name][] = 'file';
 			} else {
@@ -103,7 +103,7 @@ class BSValidatorConfigCompiler extends BSConfigCompiler {
 				$message[] = $name;
 				throw new BSConfigException($message);
 			}
-			$this->validators[$name] = new BSArray($values);
+			$this->validators[$name] = BSArray::create($values);
 		}
 	}
 }

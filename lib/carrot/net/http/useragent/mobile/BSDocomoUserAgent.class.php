@@ -109,7 +109,7 @@ class BSDocomoUserAgent extends BSMobileUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		$info = new BSArray;
+		$info = BSArray::create();
 		if (1 < $this->getVersion()) {
 			$info['width'] = BS_IMAGE_MOBILE_SIZE_VGA_WIDTH;
 			$info['height'] = BS_IMAGE_MOBILE_SIZE_VGA_HEIGHT;

@@ -19,7 +19,7 @@ class BSWebController extends BSController {
 	 */
 	public function getSearchDirectories () {
 		if (!$this->searchDirectories) {
-			$this->searchDirectories = new BSArray;
+			$this->searchDirectories = BSArray::create();
 			foreach (['images', 'carrotlib', 'www', 'root'] as $name) {
 				$this->searchDirectories[] = BSFileUtility::getDirectory($name);
 			}

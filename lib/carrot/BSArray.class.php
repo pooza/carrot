@@ -17,10 +17,10 @@ class BSArray extends BSParameterHolder {
 	const SORT_VALUE_DESC = 'VALUE_DESC';
 
 	/**
-	 * @access public
+	 * @access protected
 	 * @param mixed[] $params 要素の配列
 	 */
-	public function __construct ($params = []) {
+	protected function __construct ($params = []) {
 		$this->setParameters($params);
 	}
 
@@ -118,7 +118,7 @@ class BSArray extends BSParameterHolder {
 	 * @return BSArray 自分自身
 	 */
 	public function sort ($order = self::SORT_KEY_ASC) {
-		$funcs = new BSArray;
+		$funcs = BSArray::create();
 		$funcs[self::SORT_KEY_ASC] = 'ksort';
 		$funcs[self::SORT_KEY_DESC] = 'krsort';
 		$funcs[self::SORT_VALUE_ASC] = 'asort';
@@ -148,7 +148,7 @@ class BSArray extends BSParameterHolder {
 	 * @return boolean 値が含まれていればTrue
 	 */
 	public function isContain ($values) {
-		foreach (new BSArray($values) as $value) {
+		foreach (BSArray::create($values) as $value) {
 			if (in_array($value, $this->getParameters())) {
 				return true;
 			}
@@ -220,7 +220,7 @@ class BSArray extends BSParameterHolder {
 		if (BSString::isBlank($fieldGlue)) {
 			return implode($recordGlue, $this->getParameters());
 		} else {
-			$records = new BSArray;
+			$records = BSArray::create();
 			foreach ($this as $key => $value) {
 				$records[] = $key . $fieldGlue . $value;
 			}
@@ -235,7 +235,7 @@ class BSArray extends BSParameterHolder {
 	 * @return BSArray 添字の配列
 	 */
 	public function getKeys () {
-		return new BSArray(array_keys($this->getParameters()));
+		return BSArray::create(array_keys($this->getParameters()));
 	}
 
 	/**
@@ -245,7 +245,7 @@ class BSArray extends BSParameterHolder {
 	 * @return BSArray 反転した配列
 	 */
 	public function createFlipped () {
-		return new BSArray(array_flip($this->getParameters()));
+		return BSArray::create(array_flip($this->getParameters()));
 	}
 
 	/**
@@ -284,7 +284,7 @@ class BSArray extends BSParameterHolder {
 	 * @return BSArray
 	 * @static
 	 */
-	static public function create ($src) {
+	static public function create ($src = []) {
 		return self::encode(new BSArray($src));
 	}
 

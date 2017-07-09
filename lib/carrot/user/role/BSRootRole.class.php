@@ -80,7 +80,7 @@ class BSRootRole implements BSRole {
 	 * @return BSArray クレデンシャルの配列
 	 */
 	public function getCredentials () {
-		return new BSArray;
+		return BSArray::create();
 	}
 }
 

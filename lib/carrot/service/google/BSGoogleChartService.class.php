@@ -79,11 +79,11 @@ class BSGoogleChartService extends BSCurlHTTP {
 	}
 
 	private function createKey ($type, $width, $height, BSParameterHolder $params) {
-		$values = new BSArray;
+		$values = BSArray::create();
 		$values['type'] = $type;
 		$values['width'] = $width;
 		$values['height'] = $height;
-		$values['params'] = new BSArray($params->getParameters());
+		$values['params'] = BSArray::create($params->getParameters());
 		$serializer = new BSPHPSerializer;
 		return BSCrypt::digest($serializer->encode($values->decode()));
 	}

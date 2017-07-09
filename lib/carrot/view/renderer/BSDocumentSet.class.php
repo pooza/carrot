@@ -33,7 +33,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 			$name = 'carrot';
 		}
 		$this->name = $name;
-		$this->documents = new BSArray;
+		$this->documents = BSArray::create();
 
 		if (($entry = $this->getEntries()[$name]) && ($files = $entry['files'])) {
 			foreach ($files as $file) {
@@ -117,7 +117,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 * @return BSArray 設定ファイルの配列
 	 */
 	protected function getConfigFiles () {
-		$files = new BSArray;
+		$files = BSArray::create();
 		$prefix = mb_ereg_replace('^' . BSLoader::PREFIX, null, get_class($this));
 		$prefix = BSString::underscorize($prefix);
 		$host = $this->controller->getHost();
@@ -160,7 +160,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	public function digest () {
 		if (!$this->digest) {
-			$values = new BSArray;
+			$values = BSArray::create();
 			$values['class'] = get_class($this);
 			$values['name'] = $this->getName();
 			foreach ($this as $entry) {
@@ -211,7 +211,7 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 		$cache = $this->getCacheFile();
 		if (BSString::isBlank($cache->getContents()) && !!$this->documents->count()) {
 			$cache->getDirectory()->purge(BSDate::getNow());
-			$contents = new BSArray;
+			$contents = BSArray::create();
 			foreach ($this as $file) {
 				$file->serialize();
 				$contents[] = $file->getSerialized();
@@ -230,16 +230,16 @@ abstract class BSDocumentSet implements BSTextRenderer, BSHTTPRedirector, Iterat
 	 */
 	protected function getEntries () {
 		if (!self::$entries) {
-			self::$entries = new BSArray;
+			self::$entries = BSArray::create();
 		}
 		if (!self::$entries[get_class($this)]) {
-			self::$entries[get_class($this)] = $entries = new BSArray;
+			self::$entries[get_class($this)] = $entries = BSArray::create();
 			foreach ($this->getSourceDirectory() as $file) {
-				$entries[$file->getBaseName()] = new BSArray;
+				$entries[$file->getBaseName()] = BSArray::create();
 			}
 			foreach ($this->getConfigFiles() as $file) {
 				foreach (BSConfigManager::getInstance()->compile($file) as $key => $values) {
-					$entries[$key] = new BSArray($values);
+					$entries[$key] = BSArray::create($values);
 				}
 			}
 			$entries->sort();

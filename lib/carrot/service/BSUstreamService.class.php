@@ -116,11 +116,11 @@ class BSUstreamService extends BSCurlHTTP {
 			$json->setContents($response->getRenderer()->getContents());
 			$this->controller->setAttribute($key, $json->getResult());
 		}
-		return new BSArray($this->controller->getAttribute($key));
+		return BSArray::create($this->controller->getAttribute($key));
 	}
 
 	private function createParameters ($src) {
-		$dest = new BSArray;
+		$dest = BSArray::create();
 		if ($src) {
 			foreach ($src as $key => $value) {
 				if (in_array($key, ['width', 'height'])) {

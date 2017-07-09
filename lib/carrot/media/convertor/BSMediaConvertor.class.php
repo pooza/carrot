@@ -27,7 +27,7 @@ abstract class BSMediaConvertor {
 		$platform = $this->controller->getPlatform();
 		$values = $platform->getConstants(self::getOptions()->getKeys(), $this->constants);
 
-		$this->config = new BSArray;
+		$this->config = BSArray::create();
 		foreach ($values as $key => $value) {
 			$this->setConfig($key, $value);
 		}

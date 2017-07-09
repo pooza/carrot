@@ -60,7 +60,7 @@ class BSShadowboxAnchorElement extends BSImageAnchorElement {
 	 * @return string XML要素
 	 */
 	public function getContents () {
-		$rel = new BSArray;
+		$rel = BSArray::create();
 		$rel[] = 'shadowbox';
 		if ($this->width && $this->height) {
 			$rel[] = 'width=' . $this->width;

@@ -69,7 +69,7 @@ abstract class BSPlatform extends BSParameterHolder {
 			null,
 		]);
 
-		$constants = new BSArray;
+		$constants = BSArray::create();
 		foreach ($keys as $key) {
 			foreach ($suffixes as $suffix) {
 				if (!BSString::isBlank($value = $handler[$key . $suffix])) {

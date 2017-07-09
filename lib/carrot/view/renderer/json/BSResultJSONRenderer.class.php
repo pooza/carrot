@@ -16,9 +16,9 @@ class BSResultJSONRenderer extends BSJSONRenderer {
 	 * @access public
 	 */
 	public function __construct () {
-		$this->params = new BSArray;
+		$this->params = BSArray::create();
 		$this->params['status'] = 200;
-		$this->result = new BSArray;
+		$this->result = BSArray::create();
 	}
 
 	/**
@@ -51,7 +51,7 @@ class BSResultJSONRenderer extends BSJSONRenderer {
 		if (!($contents instanceof BSParameterHolder)) {
 			throw new BSException(get_class($this) . 'は、配列でない結果文書を返せません。');
 		}
-		$this->result = new BSArray($contents);
+		$this->result = BSArray::create($contents);
 	}
 }
 

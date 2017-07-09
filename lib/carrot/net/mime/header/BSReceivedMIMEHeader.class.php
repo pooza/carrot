@@ -18,7 +18,7 @@ class BSReceivedMIMEHeader extends BSMIMEHeader {
 	 */
 	protected function __construct () {
 		parent::__construct();
-		$this->servers = new BSArray;
+		$this->servers = BSArray::create();
 	}
 
 	/**

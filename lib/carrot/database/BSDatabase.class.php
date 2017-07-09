@@ -33,7 +33,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	static public function getInstance ($name = 'default', $flags = 0) {
 		if (!self::$instances) {
-			self::$instances = new BSArray;
+			self::$instances = BSArray::create();
 		}
 		if (!self::$instances[$name] || ($flags & self::RECONNECT)) {
 			$constants = new BSConstantHandler('PDO');
@@ -169,7 +169,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 */
 	public function getTableProfile ($name) {
 		if (!$this->profiles) {
-			$this->profiles = new BSArray;
+			$this->profiles = BSArray::create();
 		}
 		if (!$this->profiles[$name]) {
 			if (!mb_ereg('^(BS)?(.+)Database$', get_class($this), $matches)) {
@@ -488,7 +488,7 @@ abstract class BSDatabase extends PDO implements ArrayAccess, BSAssignable {
 	 * @static
 	 */
 	static public function getDatabases () {
-		$databases = new BSArray;
+		$databases = BSArray::create();
 		$constants = new BSConstantHandler;
 		foreach ($constants->getParameters() as $key => $value) {
 			$pattern = '^' . BSConstantHandler::PREFIX . '_PDO_([[:upper:]]+)_DSN$';

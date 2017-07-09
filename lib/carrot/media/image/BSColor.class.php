@@ -45,7 +45,7 @@ class BSColor extends BSParameterHolder {
 			$this['blue'] = hexdec($color[2] . $color[2]);
 		} else {
 			$color = BSString::toLower($color);
-			$colors = new BSArray(BSConfigManager::getInstance()->compile('color'));
+			$colors = BSArray::create(BSConfigManager::getInstance()->compile('color'));
 			if (BSString::isBlank($code = $colors[$color])) {
 				$message = new BSStringFormat('色 "%s" は正しくありません。');
 				$message[] = $color;

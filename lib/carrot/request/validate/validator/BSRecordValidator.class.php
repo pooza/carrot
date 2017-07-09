@@ -39,7 +39,7 @@ class BSRecordValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$ids = new BSArray($value);
+		$ids = BSArray::create($value);
 		$ids->trim();
 		foreach ($ids as $id) {
 			if ($this->isExists($id)) {
@@ -91,7 +91,7 @@ class BSRecordValidator extends BSValidator {
 	protected function validateValues ($id) {
 		$record = $this->getRecord($id);
 		foreach ($this['valid_values'] as $field => $value) {
-			$values = new BSArray($value);
+			$values = BSArray::create($value);
 			if (!$values->isContain($record[$field])) {
 				$message = new BSStringFormat('%sが正しくありません。');
 				$message[] = BSTranslateManager::getInstance()->execute($field);

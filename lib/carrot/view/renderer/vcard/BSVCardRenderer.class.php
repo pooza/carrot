@@ -19,7 +19,7 @@ class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			$contents = new BSArray;
+			$contents = BSArray::create();
 			$contents[] = 'BEGIN:VCARD';
 			$contents[] = 'VERSION:2.1';
 			foreach ($this as $key => $value) {
@@ -32,7 +32,7 @@ class BSVCardRenderer extends BSParameterHolder implements BSRenderer {
 	}
 
 	private function getFieldContents ($key) {
-		$entry = new BSArray($this->params[$key]);
+		$entry = BSArray::create($this->params[$key]);
 		$body = $entry->pop();
 		foreach ($entry as $param) {
 			if (mb_eregi('^charset=(.*)$', $param, $matches)) {

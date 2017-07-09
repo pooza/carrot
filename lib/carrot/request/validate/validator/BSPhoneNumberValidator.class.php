@@ -44,7 +44,7 @@ class BSPhoneNumberValidator extends BSRegexValidator {
 	 */
 	public function execute ($value) {
 		if ($fields = $this['fields']) {
-			$values = new BSArray;
+			$values = BSArray::create();
 			foreach ($fields as $field) {
 				$values[] = $this->request[$field];
 			}

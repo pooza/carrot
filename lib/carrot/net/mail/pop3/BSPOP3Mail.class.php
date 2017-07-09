@@ -25,7 +25,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 		$this->id = $fields[0];
 		$this->size = $fields[1];
 		$this->server = $server;
-		$this->executed = new BSArray;
+		$this->executed = BSArray::create();
 	}
 
 	/**
@@ -59,7 +59,7 @@ class BSPOP3Mail extends BSMIMEDocument {
 	 */
 	public function fetch () {
 		$this->server->execute('RETR ' . $this->getID());
-		$body = new BSArray($this->server->getLines());
+		$body = BSArray::create($this->server->getLines());
 		$this->setContents($body->join("\n"));
 		$this->executed['RETR'] = true;
 	}

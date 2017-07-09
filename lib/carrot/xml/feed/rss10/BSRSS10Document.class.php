@@ -141,13 +141,13 @@ class BSRSS10Document extends BSRSS09Document {
 			try {
 				$element = $this->createEntry();
 				$element->setTitle($entry->title());
-				if ($values = new BSArray($entry->link())) {
+				if ($values = BSArray::create($entry->link())) {
 					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
 						$url = $url->firstChild->wholeText;
 					}
 					$element->setLink(BSURL::create($url));
 				}
-				if ($values = new BSArray($entry->date())) {
+				if ($values = BSArray::create($entry->date())) {
 					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {

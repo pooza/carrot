@@ -112,7 +112,7 @@ class BSMail extends BSMIMEDocument {
 	 * @param BSMailAddress $email 送信者
 	 */
 	public function getRecipients () {
-		$recipients = new BSArray;
+		$recipients = BSArray::create();
 		foreach (['To', 'Cc', 'Bcc'] as $key) {
 			if ($header = $this->getHeader($key)) {
 				foreach ($header->getEntity() as $email) {

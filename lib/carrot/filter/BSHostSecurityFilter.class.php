@@ -28,7 +28,7 @@ class BSHostSecurityFilter extends BSFilter {
 
 	private function getNetworks () {
 		if (!$this->networks) {
-			$this->networks = new BSArray;
+			$this->networks = BSArray::create();
 			if (BSString::isBlank(BS_ADMIN_NETWORKS)) {
 				$this->networks[] = new BSNetwork('0.0.0.0/0');
 			} else {

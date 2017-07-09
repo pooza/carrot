@@ -202,13 +202,13 @@ class BSRSS09Document extends BSXMLDocument implements BSFeedDocument {
 			try {
 				$element = $this->createEntry();
 				$element->setTitle($entry->title());
-				if ($values = new BSArray($entry->link())) {
+				if ($values = BSArray::create($entry->link())) {
 					if (!is_string($url = $values[0]) && isset($url->firstChild)) {
 						$url = $url->firstChild->wholeText;
 					}
 					$element->setLink(BSURL::create($url));
 				}
-				if ($values = new BSArray($entry->pubDate())) {
+				if ($values = BSArray::create($entry->pubDate())) {
 					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {

@@ -25,7 +25,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 				$this->getCriteria(),
 				'ordinal_position'
 			);
-			$this->fields = new BSArray;
+			$this->fields = BSArray::create();
 			foreach ($this->database->query($query) as $row) {
 				$this->fields[$row['column_name']] = $row;
 			}
@@ -41,7 +41,7 @@ class BSPostgreSQLTableProfile extends BSTableProfile {
 	 */
 	public function getConstraints () {
 		if (!$this->constraints) {
-			$this->constraints = new BSArray;
+			$this->constraints = BSArray::create();
 			$query = BSSQL::getSelectQueryString(
 				'constraint_name AS name,constraint_type AS type',
 				'information_schema.table_constraints',

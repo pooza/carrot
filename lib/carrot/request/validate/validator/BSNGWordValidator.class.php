@@ -30,7 +30,7 @@ class BSNGWordValidator extends BSValidator {
 	 * @return boolean 妥当な値ならばTrue
 	 */
 	public function execute ($value) {
-		$words = new BSArray;
+		$words = BSArray::create();
 		foreach (['carrot', 'application'] as $name) {
 			$config = BSConfigManager::getInstance()->compile('ng_word/' . $name);
 			$words->merge($config['words']);

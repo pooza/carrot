@@ -21,7 +21,7 @@ class BSMemcache implements ArrayAccess {
 	 */
 	public function __construct () {
 		$this->memcached = new Memcached;
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 	}
 
 	/**
@@ -135,7 +135,7 @@ class BSMemcache implements ArrayAccess {
 	 */
 	public function set ($name, $value, $flag = null, $expire = 0) {
 		if ($value instanceof BSParameterHolder) {
-			$value = new BSArray($value);
+			$value = BSArray::create($value);
 			$value = $value->decode();
 		} else if (is_object($value)) {
 			throw new BSMemcacheException('オブジェクトを登録できません。');

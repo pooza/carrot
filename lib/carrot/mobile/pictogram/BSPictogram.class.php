@@ -28,7 +28,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	private function __construct ($id) {
 		$this->id = $id;
 		$config = BSConfigManager::getInstance()->compile('pictogram');
-		$this->codes = new BSArray($config['codes'][$this->getName()]);
+		$this->codes = BSArray::create($config['codes'][$this->getName()]);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	static public function getInstance ($name) {
 		if (!self::$instances) {
-			self::$instances = new BSArray;
+			self::$instances = BSArray::create();
 		}
 
 		if (BSString::isBlank($id = self::getPictogramCode($name))) {
@@ -75,7 +75,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getNames () {
 		if (!$this->names) {
-			$this->names = new BSArray;
+			$this->names = BSArray::create();
 			$config = BSConfigManager::getInstance()->compile('pictogram');
 			$this->names->merge($config['names'][$this->getID()]);
 		}
@@ -164,7 +164,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	public function getImageInfo ($size, $pixel = null, $flags = 0) {
 		if (!$this->imageinfo) {
-			$this->imageinfo = new BSArray;
+			$this->imageinfo = BSArray::create();
 			$image = $this->getImageFile('image')->getEngine();
 			$this->imageinfo['url'] = $this->getURL()->getContents();
 			$this->imageinfo['width'] = $image->getWidth();
@@ -264,7 +264,7 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	 */
 	static public function getPictograms () {
 		$config = BSConfigManager::getInstance()->compile('pictogram');
-		$pictograms = new BSArray;
+		$pictograms = BSArray::create();
 		foreach ($config['codes'] as $name => $entry) {
 			$pictograms[$name] = self::getInstance($entry[BSMobileCarrier::DEFAULT_CARRIER]);
 		}
@@ -294,10 +294,10 @@ class BSPictogram implements BSAssignable, BSImageContainer {
 	static public function getPictogramImageInfos () {
 		$key = __CLASS__ . '.' . __FUNCTION__;
 		if (!$this->controller->getAttribute($key)) {
-			$urls = new BSArray;
+			$urls = BSArray::create();
 			foreach (self::getPictograms() as $pictogram) {
 				foreach ($pictogram->getNames() as $name) {
-					$urls[$name] = new BSArray;
+					$urls[$name] = BSArray::create();
 					$urls[$name]['name'] = $name;
 					$urls[$name]['image'] = $pictogram->getImageInfo('image');
 				}

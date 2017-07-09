@@ -29,7 +29,7 @@ class BSHTMLFragmentValidator extends BSValidator {
 			$html = new BSStringFormat('<!DOCTYPE html><title>0</title><body>%s</body>');
 			$html[] = str_replace("\n", ' ', $value);
 			$command->addValue($html->getContents());
-			$errors = new BSArray;
+			$errors = BSArray::create();
 			foreach ($command->getResult() as $line) {
 				if (!mb_ereg('^line [0-9]+ column [0-9]+ - (.*)$', $line, $matches)) {
 					continue;

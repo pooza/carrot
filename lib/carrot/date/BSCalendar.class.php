@@ -27,7 +27,7 @@ class BSCalendar extends BSParameterHolder {
 		$this->end = $end;
 		$date = clone $this->getStartDate();
 		while ($date->getTimestamp() <= $this->getEndDate()->getTimestamp()) {
-			$values = new BSArray($date);
+			$values = BSArray::create($date);
 			$values['date'] = $date->format('Y-m-d');
 			$values['today'] = $date->isToday();
 			$values['holiday'] = $date->isHoliday();

@@ -52,7 +52,7 @@ class BSMemcacheManager {
 	 */
 	public function getServerNames () {
 		if (!$this->serverNames) {
-			$this->serverNames = new BSArray;
+			$this->serverNames = BSArray::create();
 			$pattern = '^' . BSConstantHandler::PREFIX . '_MEMCACHE_([A-Z]+)_';
 			foreach ($this->constants->getParameters() as $key => $value) {
 				if (mb_ereg($pattern, $key, $matches)) {

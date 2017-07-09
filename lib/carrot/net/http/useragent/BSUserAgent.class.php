@@ -24,8 +24,8 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @param string $name ユーザーエージェント名
 	 */
 	protected function __construct ($name = null) {
-		$this->bugs = new BSArray;
-		$this->supports = new BSArray;
+		$this->bugs = BSArray::create();
+		$this->supports = BSArray::create();
 		$this['name'] = $name;
 		$this['type'] = $this->getType();
 		$this['type_lower'] = BSString::toLower($this->getType());
@@ -298,7 +298,7 @@ abstract class BSUserAgent extends BSParameterHolder {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		return new BSArray;
+		return BSArray::create();
 	}
 
 	/**

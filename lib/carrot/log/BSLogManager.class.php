@@ -17,7 +17,7 @@ class BSLogManager implements IteratorAggregate {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->loggers = new BSArray;
+		$this->loggers = BSArray::create();
 		foreach (BSString::explode(',', BS_LOG_LOGGERS) as $class) {
 			$this->register($this->loader->createObject($class, 'Logger'));
 		}

@@ -63,7 +63,7 @@ class BSBlogUpdatePingService extends BSCurlHTTP {
 		if (!isset($config['ping']['urls'])) {
 			throw new BSBlogException('更新Pingの送信先を取得できません。');
 		}
-		$urls = new BSArray($config['ping']['urls']);
+		$urls = BSArray::create($config['ping']['urls']);
 
 		$request = new BSBlogUpdatePingRequest;
 		foreach (['weblogname', 'weblogurl'] as $field) {

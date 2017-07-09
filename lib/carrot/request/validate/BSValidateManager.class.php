@@ -17,7 +17,7 @@ class BSValidateManager implements IteratorAggregate {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->fields = new BSArray;
+		$this->fields = BSArray::create();
 	}
 
 	/**
@@ -51,7 +51,7 @@ class BSValidateManager implements IteratorAggregate {
 	 */
 	public function register ($name, BSValidator $validator) {
 		if (!$this->fields[$name]) {
-			$this->fields[$name] = new BSArray;
+			$this->fields[$name] = BSArray::create();
 		}
 		$this->fields[$name][$validator->getName()] = $validator;
 	}
@@ -73,7 +73,7 @@ class BSValidateManager implements IteratorAggregate {
 	 * @return BSArray フィールド値
 	 */
 	public function getFieldValues () {
-		$values = new BSArray;
+		$values = BSArray::create();
 		foreach ($this->getFieldNames() as $name) {
 			$values[$name] = $this->request[$name];
 		}

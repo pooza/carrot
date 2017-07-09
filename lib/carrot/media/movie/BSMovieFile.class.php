@@ -134,7 +134,7 @@ class BSMovieFile extends BSMediaFile implements BSImageContainer {
 		$container->setHeight($params['height_movie']);
 		$container->setURL($this->createURL($params));
 		if ($info = $params['thumbnail']) {
-			$info = new BSArray($info);
+			$info = BSArray::create($info);
 			$image = new BSImageElement;
 			$image->setAttributes($info);
 			$container->addElement($image);
@@ -165,7 +165,7 @@ class BSMovieFile extends BSMediaFile implements BSImageContainer {
 		$id = __CLASS__ . BSCrypt::digest([$this->getID(), BSNumeric::getRandom()]);
 		$anchor->setURL('#' . $id);
 		if ($info = $params['thumbnail']) {
-			$info = new BSArray($info);
+			$info = BSArray::create($info);
 			$image = new BSImageElement;
 			$image->setAttributes($info);
 			$anchor->addElement($image);

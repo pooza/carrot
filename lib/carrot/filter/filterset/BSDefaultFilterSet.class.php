@@ -34,7 +34,7 @@ class BSDefaultFilterSet extends BSArray {
 	 * @return BSArray 設定ファイルの配列
 	 */
 	protected function getConfigFiles () {
-		$files = new BSArray;
+		$files = BSArray::create();
 		$files[] = 'filters/carrot';
 		$files[] = 'filters/application';
 		$files[] = 'filters/' . $this->controller->getHost()->getName();

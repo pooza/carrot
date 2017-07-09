@@ -12,6 +12,14 @@
 class BSCSSSelector extends BSArray {
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($params = []) {
+		parent::__construct($params);
+	}
+
+	/**
 	 * 要素を設定
 	 *
 	 * @access public

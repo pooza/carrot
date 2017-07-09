@@ -164,7 +164,7 @@ class BSHTTP extends BSSocket {
 	 * @static
 	 */
 	static public function getAllStatus () {
-		return new BSArray(BSConfigManager::getInstance()->compile('http_status'));
+		return BSArray::create(BSConfigManager::getInstance()->compile('http_status'));
 	}
 
 	/**

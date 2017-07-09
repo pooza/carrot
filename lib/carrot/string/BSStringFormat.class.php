@@ -14,6 +14,14 @@
 class BSStringFormat extends BSArray {
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($params = []) {
+		parent::__construct($params);
+	}
+
+	/**
 	 * 内容を返す
 	 *
 	 * @access public

@@ -20,7 +20,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 */
 	public function __construct ($params = []) {
 		if (!self::$executed) {
-			self::$executed = new BSArray;
+			self::$executed = BSArray::create();
 		}
 		$this->initialize($params);
 	}
@@ -119,7 +119,7 @@ abstract class BSFilter extends BSParameterHolder {
 	 * @return boolean 除外されたアクションならTrue
 	 */
 	public function isExcludedAction () {
-		$actions = new BSArray($this['excluded_actions']);
+		$actions = BSArray::create($this['excluded_actions']);
 		return $actions->isContain($this->action->getName());
 	}
 

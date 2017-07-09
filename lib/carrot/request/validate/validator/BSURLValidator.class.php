@@ -29,7 +29,7 @@ class BSURLValidator extends BSValidator {
 	}
 
 	private function getSchemes () {
-		return new BSArray($this['schemes']);
+		return BSArray::create($this['schemes']);
 	}
 
 	/**

@@ -44,7 +44,7 @@ class BSJSONView extends BSView {
 		if (!($renderer instanceof BSResultJSONRenderer)) {
 			$dest = new BSResultJSONRenderer;
 			if ($renderer instanceof BSJSONRenderer) {
-				$dest->setContents(new BSArray($renderer->getResult()));
+				$dest->setContents(BSArray::create($renderer->getResult()));
 			}
 			$renderer = $dest;
 		}

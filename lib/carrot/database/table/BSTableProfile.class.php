@@ -36,8 +36,8 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 		if (!$this->getSerialized()) {
 			$this->serialize();
 		}
-		$this->fields = new BSArray($this->getSerialized()['fields']);
-		$this->constraints = new BSArray($this->getSerialized()['constraints']);
+		$this->fields = BSArray::create($this->getSerialized()['fields']);
+		$this->constraints = BSArray::create($this->getSerialized()['constraints']);
 	}
 
 	/**
@@ -100,9 +100,9 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 				$this->getName(),
 				BSTableHandler::CLASS_SUFFIX
 			);
-			return new BSArray(BSLoader::getParentClasses($name));
+			return BSArray::create(BSLoader::getParentClasses($name));
 		} catch (Exception $e) {
-			return new BSArray;
+			return BSArray::create();
 		}
 	}
 
@@ -115,9 +115,9 @@ abstract class BSTableProfile implements BSAssignable, BSSerializable {
 	protected function getRecordClasses () {
 		try {
 			$name = $this->loader->getClass($this->getName());
-			return new BSArray(BSLoader::getParentClasses($name));
+			return BSArray::create(BSLoader::getParentClasses($name));
 		} catch (Exception $e) {
-			return new BSArray;
+			return BSArray::create();
 		}
 	}
 

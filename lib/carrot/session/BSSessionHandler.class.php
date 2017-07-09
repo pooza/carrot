@@ -98,7 +98,7 @@ class BSSessionHandler {
 	 */
 	public function write ($key, $value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$value = new BSArray($value);
+			$value = BSArray::create($value);
 			$value = $value->decode();
 		} else if ($value instanceof BSParameterHolder) {
 			$value = $value->getParameters();

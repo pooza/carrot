@@ -21,7 +21,7 @@ class BrowseAction extends BSAction {
 
 	public function execute () {
 		$this->request->setAttribute('dates', $this->getModule()->getDates());
-		$entries = new BSArray;
+		$entries = BSArray::create();
 		$keyword = $this->request['key'];
 		foreach ($this->getModule()->getEntries() as $entry) {
 			if (BSString::isBlank($keyword)

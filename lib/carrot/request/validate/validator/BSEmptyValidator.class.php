@@ -46,7 +46,7 @@ class BSEmptyValidator extends BSValidator {
 	 */
 	static public function isEmpty ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$value = new BSArray($value);
+			$value = BSArray::create($value);
 			if ($value['is_file']) {
 				return BSString::isBlank($value['name']);
 			} else {

@@ -46,7 +46,7 @@ class BSPOP3 extends BSSocket {
 	 * @return BSArray 読み込んだ内容
 	 */
 	public function getLines () {
-		$lines = new BSArray;
+		$lines = BSArray::create();
 		do {
 			$line = $this->getLine();
 			$lines[] = $line;
@@ -75,7 +75,7 @@ class BSPOP3 extends BSSocket {
 	 */
 	public function getMails () {
 		if (!$this->mails) {
-			$this->mails = new BSArray;
+			$this->mails = BSArray::create();
 			if (!$this->isOpened()) {
 				$this->open();
 			}

@@ -18,7 +18,7 @@ class BSMenuFilter extends BSFilter {
 
 	private function getMenu () {
 		if (!$this->menu) {
-			$this->menu = new BSArray;
+			$this->menu = BSArray::create();
 			$separator = true; //次の仕切りを無視するか？
 			foreach (BSConfigManager::getInstance()->compile($this->getMenuFile()) as $values) {
 				if ($menuitem = $this->getMenuItem($values)) {
@@ -38,7 +38,7 @@ class BSMenuFilter extends BSFilter {
 	}
 
 	private function getMenuItem ($values) {
-		$values = new BSArray($values);
+		$values = BSArray::create($values);
 		if (!BSString::isBlank($values['module'])) {
 			if (!$module = $this->controller->getModule($values['module'])) {
 				$message = new BSStringFormat('モジュール "%s" がありません。');

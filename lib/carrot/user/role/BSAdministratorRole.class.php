@@ -92,7 +92,7 @@ class BSAdministratorRole implements BSRole {
 	 */
 	public function getCredentials () {
 		if (!$this->credentials) {
-			$this->credentials = new BSArray;
+			$this->credentials = BSArray::create();
 			$this->credentials[] = self::CREDENTIAL;
 			if (BS_DEBUG) {
 				$this->credentials[] = 'Develop';

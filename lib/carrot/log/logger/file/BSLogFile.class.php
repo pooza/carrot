@@ -36,7 +36,7 @@ class BSLogFile extends BSFile {
 				}
 				$remoteaddr = $matches[0];
 				$line = mb_ereg_replace('\[(client|server) [^\]]+\] ', null, $line);
-				$fields = new BSArray(mb_split('\s+', $line));
+				$fields = BSArray::create(mb_split('\s+', $line));
 				$date = BSDate::create($fields[0]);
 				$fields->removeParameter(0);
 				$fields->removeParameter(1);

@@ -64,7 +64,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 */
 	public function getAttributes () {
 		if (!$this->attributes) {
-			$this->attributes = new BSArray;
+			$this->attributes = BSArray::create();
 		}
 		return $this->attributes;
 	}
@@ -94,7 +94,7 @@ abstract class BSRequest extends BSHTTPRequest {
 	 */
 	public function getErrors () {
 		if (!$this->errors) {
-			$this->errors = new BSArray;
+			$this->errors = BSArray::create();
 		}
 		return $this->errors;
 	}

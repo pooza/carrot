@@ -97,7 +97,7 @@ class BSCrypt {
 			}
 		}
 
-		$targets = new BSArray;
+		$targets = BSArray::create();
 		$targets[] = $this->encrypt($challenge);
 		if ($methods & self::SHA1) {
 			$targets[] = self::digest($challenge, 'sha1');
@@ -131,7 +131,7 @@ class BSCrypt {
 			throw new BSCryptException($message);
 		}
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$value = new BSArray($value);
+			$value = BSArray::create($value);
 			$value = $value->join("\n", "\t");
 		}
 		return hash($method, $value . BS_CRYPT_DIGEST_SALT);

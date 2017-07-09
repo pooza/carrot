@@ -413,7 +413,7 @@ class BSString {
 	 * @static
 	 */
 	static public function explode ($separator, $str) {
-		return new BSArray(explode($separator, $str));
+		return BSArray::create(explode($separator, $str));
 	}
 
 	/**
@@ -439,7 +439,7 @@ class BSString {
 	 * @static
 	 */
 	static public function split ($str, $width = 74, $flowed = false) {
-		$body = new BSArray;
+		$body = BSArray::create();
 		foreach (BSString::explode("\n", $str) as $paragraph) {
 			if (BSString::isBlank($paragraph)) {
 				$body[] = '';
@@ -596,11 +596,11 @@ class BSString {
 	 * @static
 	 */
 	static public function eregMatchAll ($pattern, $subject) {
-		$matches = new BSArray;
+		$matches = BSArray::create();
 		if (!BSString::isBlank($pattern) && !BSString::isBlank($subject)) {
 			mb_ereg_search_init($subject, $pattern);
 			while ($regs = mb_ereg_search_regs()) {
-				$matches[] = new BSArray($regs);
+				$matches[] = BSArray::create($regs);
 			}
 		}
 		return $matches;

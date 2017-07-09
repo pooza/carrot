@@ -21,7 +21,7 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 	 */
 	public function getEntity () {
 		if (!$this->addresses) {
-			$this->addresses = new BSArray;
+			$this->addresses = BSArray::create();
 		}
 		return $this->addresses;
 	}
@@ -33,7 +33,7 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 	 * @param mixed $contents 内容
 	 */
 	public function setContents ($contents) {
-		$this->addresses = new BSArray;
+		$this->addresses = BSArray::create();
 		$this->appendContents($contents);
 	}
 
@@ -64,7 +64,7 @@ abstract class BSAddressesMIMEHeader extends BSMIMEHeader {
 			}
 		}
 
-		$contents = new BSArray;
+		$contents = BSArray::create();
 		foreach ($addresses as $address) {
 			$contents[] = $address->format();
 		}

@@ -60,7 +60,7 @@ class BSAtom10Document extends BSAtom03Document {
 					$element->setLink(BSURL::create($url));
 				}
 
-				if ($values = new BSArray($entry->updated())) {
+				if ($values = BSArray::create($entry->updated())) {
 					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {

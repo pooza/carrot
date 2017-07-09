@@ -14,6 +14,14 @@ class BSCriteriaSet extends BSArray {
 	private $db;
 
 	/**
+	 * @access public
+	 * @param mixed[] $params 要素の配列
+	 */
+	public function __construct ($params = []) {
+		parent::__construct($params);
+	}
+
+	/**
 	 * 接続子を返す
 	 *
 	 * @access public
@@ -70,14 +78,14 @@ class BSCriteriaSet extends BSArray {
 
 		switch ($operator) {
 			case 'BETWEEN':
-				$values = new BSArray($value);
+				$values = BSArray::create($value);
 				if ($values->count() != 2) {
 					throw new InvalidArgumentException('BETWEEN演算子に与える引数は2個です。');
 				}
 				$this[] = $key . ' BETWEEN ' . $this->quote($values)->join(' AND ');
 				break;
 			case 'NOT IN':
-				$values = new BSArray($value);
+				$values = BSArray::create($value);
 				if ($values->count()) {
 					$values->uniquize();
 					$this[] = $key . ' NOT IN (' . $this->quote($values)->join(',') . ')';
@@ -113,7 +121,7 @@ class BSCriteriaSet extends BSArray {
 	 */
 	public function quote ($value) {
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$ids = new BSArray;
+			$ids = BSArray::create();
 			foreach (BSArray::create($value) as $item) {
 				$ids[] = $this->getDatabase()->quote($item);
 			}
@@ -130,7 +138,7 @@ class BSCriteriaSet extends BSArray {
 	 * @return string 内容
 	 */
 	public function getContents () {
-		$contents = new BSArray;
+		$contents = BSArray::create();
 		foreach ($this as $criteria) {
 			if ($criteria instanceof BSCriteriaSet) {
 				$contents[] = '(' . $criteria->getContents() . ')';

@@ -53,8 +53,8 @@ class BSBitlyService extends BSCurlHTTP implements BSURLShorter {
 
 		$json = new BSJSONSerializer;
 		$result = $json->decode($response->getRenderer()->getContents());
-		$result = new BSArray($result['results']);
-		$result = new BSArray($result->getIterator()->getFirst());
+		$result = BSArray::create($result['results']);
+		$result = BSArray::create($result->getIterator()->getFirst());
 		return BSURL::create($result['shortUrl']);
 	}
 

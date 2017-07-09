@@ -31,7 +31,7 @@ class BSJSONSerializer implements BSSerializer {
 	public function encode ($value) {
 		$value = BSString::convertEncoding($value, 'utf-8');
 		if (is_array($value) || ($value instanceof BSParameterHolder)) {
-			$value = new BSArray($value);
+			$value = BSArray::create($value);
 			$value = $value->decode();
 		}
 		return json_encode($value);

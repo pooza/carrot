@@ -50,7 +50,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	}
 
 	private function createKey ($key) {
-		$name = new BSArray;
+		$name = BSArray::create();
 		$name[] = get_class($this);
 		$name[] = $key;
 		$name[] = $this->getName();
@@ -66,7 +66,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	static public function getInstance ($name) {
 		if (!self::$instances) {
-			self::$instances = new BSArray;
+			self::$instances = BSArray::create();
 		}
 
 		if (!self::$instances[$name]) {
@@ -153,7 +153,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getDirectory ($name = 'module') {
 		if (!$this->directories) {
-			$this->directories = new BSArray;
+			$this->directories = BSArray::create();
 		}
 		if (!$this->directories[$name]) {
 			switch ($name) {
@@ -177,7 +177,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getParameterCache () {
 		if (!$this->params) {
-			$this->params = new BSArray;
+			$this->params = BSArray::create();
 			if ($params = $this->user->getAttribute($this->parameterCacheKey)) {
 				$this->params->setParameters($params);
 			}
@@ -253,7 +253,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		if ($id instanceof BSRecord) {
 			$id = $id->getID();
 		} else if (is_array($id) || ($id instanceof BSParameterHolder)) {
-			$id = new BSArray($id);
+			$id = BSArray::create($id);
 			$id = $id[$this->getTable()->getKeyField()];
 		}
 		$this->user->setAttribute($this->recordIDKey, $id);
@@ -279,7 +279,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 	 */
 	public function getConfigFile ($name = 'module') {
 		if (!$this->configFiles) {
-			$this->configFiles = new BSArray;
+			$this->configFiles = BSArray::create();
 		}
 		if (!$this->configFiles[$name]) {
 			$finder = new BSFileFinder;
@@ -342,7 +342,7 @@ class BSModule implements BSHTTPRedirector, BSAssignable {
 		}
 
 		if (!$this->actions) {
-			$this->actions = new BSArray;
+			$this->actions = BSArray::create();
 		}
 		if (!$this->actions[$name]) {
 			require $file->getPath();

@@ -226,7 +226,7 @@ class BSAtom03Document extends BSXMLDocument implements BSFeedDocument {
 					$element->setLink(BSURL::create($url));
 				}
 
-				if ($values = new BSArray($entry->modified())) {
+				if ($values = BSArray::create($entry->modified())) {
 					$element->setDate(BSDate::create($values[0]));
 				}
 			} catch (Exception $e) {

@@ -50,7 +50,7 @@ class BSAndroidUserAgent extends BSWebKitUserAgent {
 	 * @return BSArray 画面情報
 	 */
 	public function getDisplayInfo () {
-		$info = new BSArray;
+		$info = BSArray::create();
 		if ($this->isSmartPhone()) {
 			$info['width'] = BS_VIEW_LAYOUT_SMARTPHONE_WIDTH;
 		}

@@ -35,7 +35,7 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 			$port = BSNetworkService::getPort('https');
 		}
 		parent::__construct($host, $port);
-		$this->holidays = new BSArray;
+		$this->holidays = BSArray::create();
 	}
 
 	/**
@@ -172,7 +172,7 @@ class BSGoogleJapaneseHolidayListService extends BSCurlHTTP implements BSHoliday
 			$json->setContents($response->getRenderer()->getContents());
 			$result = $json->getResult();
 
-			$holidays = new BSArray;
+			$holidays = BSArray::create();
 			if (isset($result['items']) && is_array($result['items'])) {
 				foreach ($result['items'] as $entry) {
 					$date = BSDate::create($entry['start']['date']);

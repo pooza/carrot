@@ -61,7 +61,7 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 			return BSArray::create(get_defined_constants(true)['user']);
 		} else {
 			$pattern = '^' . self::PREFIX . '_' . $this->prefix;
-			$constants = new BSArray;
+			$constants = BSArray::create();
 			foreach (get_defined_constants(true)['user'] as $key => $value) {
 				if (mb_ereg($pattern, $key)) {
 					$constants[$key] = $value;
@@ -88,14 +88,14 @@ class BSConstantHandler extends BSParameterHolder implements BSDictionary {
 	}
 	private function createKeys ($name) {
 		$name = (string)$name;
-		$keys = new BSArray;
+		$keys = BSArray::create();
 		if (BSString::isContain('::', $name)) {
 			$keys[$name] = $name;
 		} else {
 			$key = BSString::toUpper($name);
 			$keys[$key] = $key;
 			foreach ([self::PREFIX, null] as $prefix) {
-				$key = new BSArray;
+				$key = BSArray::create();
 				if (!BSString::isBlank($prefix)) {
 					$key[] = self::PREFIX;
 				}

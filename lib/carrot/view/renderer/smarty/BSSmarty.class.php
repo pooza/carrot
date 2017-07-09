@@ -138,7 +138,7 @@ class BSSmarty extends Smarty implements BSTextRenderer {
 	 */
 	public function getHeaders () {
 		if (!$this->headers) {
-			$this->headers = new BSArray;
+			$this->headers = BSArray::create();
 		}
 		return $this->headers;
 	}

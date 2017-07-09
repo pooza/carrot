@@ -26,7 +26,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	 * @param string $contents 
 	 */
 	public function __construct ($contents = null) {
-		$this->records = new BSArray;
+		$this->records = BSArray::create();
 		$this->setContents($contents);
 	}
 
@@ -38,7 +38,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	 */
 	public function setLines (BSArray $lines) {
 		$lines = BSString::convertEncoding($lines);
-		$this->records = new BSArray;
+		$this->records = BSArray::create();
 		foreach ($lines as $line) {
 			if (isset($record) && $record) {
 				$record .= "\n" . $line;
@@ -141,7 +141,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			$contents = new BSArray;
+			$contents = BSArray::create();
 			foreach ($this->getRecords() as $key => $record) {
 				foreach ($record as $key => $field) {
 					$field = '"' . str_replace('"', '""', $field) . '"';
@@ -167,7 +167,7 @@ class BSCSVData implements BSTextRenderer, IteratorAggregate, Countable {
 		$contents = BSString::convertLineSeparator($contents, $this->getRecordSeparator());
 		$contents = BSString::convertEncoding($contents, $this->getEncoding());
 		$this->contents = $contents;
-		$this->records = new BSArray;
+		$this->records = BSArray::create();
 	}
 
 	/**

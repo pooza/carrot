@@ -16,7 +16,7 @@ class BSConsoleRequest extends BSRequest {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->options = new BSArray;
+		$this->options = BSArray::create();
 		$this->addOption(BSModule::ACCESSOR);
 		$this->addOption(BSAction::ACCESSOR);
 		$this->addOption(BSRecord::ACCESSOR);
@@ -45,7 +45,7 @@ class BSConsoleRequest extends BSRequest {
 	 * @access public
 	 */
 	public function parse () {
-		$config = new BSArray;
+		$config = BSArray::create();
 		foreach ($this->options as $option) {
 			$config[] = $option['name'] . ':';
 		}

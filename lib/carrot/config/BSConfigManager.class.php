@@ -18,7 +18,7 @@ class BSConfigManager {
 	 */
 	protected function __construct () {
 		$file = self::getConfigFile('config_compilers', 'BSRootConfigFile');
-		$this->compilers = new BSArray($this->compile($file));
+		$this->compilers = BSArray::create($this->compile($file));
 		$this->compilers[] = new BSDefaultConfigCompiler(['pattern' => '.']);
 	}
 

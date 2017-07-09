@@ -320,7 +320,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getRecord ($key) {
 		if (is_array($key) || ($key instanceof BSParameterHolder)) {
-			$key = new BSArray($key);
+			$key = BSArray::create($key);
 		} else {
 			$key = BSArray::create([$this->getKeyField() => $key]);
 		}
@@ -403,7 +403,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @return BSArray 適用後の値
 	 */
 	protected function applySmartFields ($values) {
-		$values = new BSArray($values);
+		$values = BSArray::create($values);
 		$fields = $this->getProfile()->getFields();
 		$smartFields = BSArray::create([
 			$this->getCreateDateField() => BSDate::getNow('Y-m-d H:i:s'),
@@ -543,7 +543,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 		if (!$this->isTemporary()) {
 			throw new BSDatabaseException('インデックスは一時テーブルにしか追加できません。');
 		}
-		$this->getDatabase()->createIndex($this->getName(), new BSArray($fields));
+		$this->getDatabase()->createIndex($this->getName(), BSArray::create($fields));
 	}
 
 	/**
@@ -719,7 +719,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 */
 	public function getIDs () {
 		if (!$this->ids) {
-			$this->ids = new BSArray;
+			$this->ids = BSArray::create();
 			$sql = BSSQL::getSelectQueryString(
 				$this->getKeyField(),
 				$this->getName(),
@@ -859,7 +859,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getChildClasses () {
-		return new BSArray;
+		return BSArray::create();
 	}
 
 	/**
@@ -870,7 +870,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getImageNames () {
-		return new BSArray;
+		return BSArray::create();
 	}
 
 	/**
@@ -881,7 +881,7 @@ abstract class BSTableHandler implements IteratorAggregate, BSDictionary, BSAssi
 	 * @static
 	 */
 	static public function getAttachmentNames () {
-		return new BSArray;
+		return BSArray::create();
 	}
 
 	/**

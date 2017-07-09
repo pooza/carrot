@@ -75,7 +75,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 * @return BSArray 抽出されたエントリー名
 	 */
 	public function getEntryNames ($flags = null) {
-		$names = new BSArray;
+		$names = BSArray::create();
 		foreach ($this->getAllEntryNames() as $name) {
 			if (($flags & self::WITHOUT_DOTTED) && BSFileUtility::isDottedName($name)) {
 				continue;
@@ -99,7 +99,7 @@ class BSDirectory extends BSDirectoryEntry implements IteratorAggregate {
 	 */
 	public function getAllEntryNames () {
 		if (!$this->entries) {
-			$this->entries = new BSArray;
+			$this->entries = BSArray::create();
 			$iterator = new DirectoryIterator($this->getPath());
 			foreach ($iterator as $entry) {
 				if (!$entry->isDot()) {

@@ -108,7 +108,7 @@ class BSMemcacheSerializeStorage implements BSSerializeStorage {
 	private function getEntry ($name) {
 		if ($values = $this->server->get($name)) {
 			$values = $this->serializer->decode($values);
-			$entry = new BSArray($values);
+			$entry = BSArray::create($values);
 			$entry['update_date'] = BSDate::create($entry['update_date']);
 			return $entry;
 		}

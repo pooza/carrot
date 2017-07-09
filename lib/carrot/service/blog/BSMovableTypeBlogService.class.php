@@ -14,7 +14,7 @@ class BSMovableTypeBlogService {
 
 	private function getURL ($type = 'comment') {
 		if (!$this->urls) {
-			$this->urls = new BSArray;
+			$this->urls = BSArray::create();
 		}
 		if (!$url = $this->urls[$type]) {
 			$constants = new BSConstantHandler('BLOG');

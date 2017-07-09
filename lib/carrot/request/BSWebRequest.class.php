@@ -52,7 +52,7 @@ class BSWebRequest extends BSRequest {
 	 */
 	public function getContents () {
 		if (!$this->contents) {
-			$contents = new BSArray;
+			$contents = BSArray::create();
 			$contents[] = $this->getRequestLine();
 			foreach ($this->getHeaders() as $header) {
 				$contents[] = $header->getName() . ': ' . $header->getContents();
@@ -103,7 +103,7 @@ class BSWebRequest extends BSRequest {
 	 */
 	public function getHeaders () {
 		if (!$this->headers) {
-			$this->headers = new BSArray;
+			$this->headers = BSArray::create();
 			if (extension_loaded('http')) {
 				$headers = http_get_request_headers();
 			} else if (BSString::isContain('apache', PHP_SAPI)) {

@@ -21,8 +21,8 @@ class BSFileFinder {
 	 * @param string $class 出力クラス
 	 */
 	public function __construct ($class = 'BSFile') {
-		$this->directories = new BSArray;
-		$this->suffixes = new BSArray;
+		$this->directories = BSArray::create();
+		$this->suffixes = BSArray::create();
 		$this->suffixes[] = null;
 		foreach ($this->controller->getSearchDirectories() as $dir) {
 			$this->registerDirectory($dir);

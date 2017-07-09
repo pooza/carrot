@@ -105,7 +105,7 @@ class BSNumeric {
 	 * @static
 	 */
 	static public function getDigits ($num) {
-		$digits = new BSArray;
+		$digits = BSArray::create();
 		for ($i = 0 ; $i < strlen($num) ; $i ++) {
 			$digits[] = $num[$i];
 		}

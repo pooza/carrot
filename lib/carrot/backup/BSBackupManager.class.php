@@ -18,11 +18,11 @@ class BSBackupManager {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->config = new BSArray;
+		$this->config = BSArray::create();
 		$this->temporaryDir = BSFileUtility::createTemporaryDirectory();
 		$configure = BSConfigManager::getInstance();
 		foreach ($configure->compile('backup/application') as $key => $values) {
-			$this->config[$key] = new BSArray($values);
+			$this->config[$key] = BSArray::create($values);
 			$this->config[$key]->trim();
 		}
 	}
@@ -84,7 +84,7 @@ class BSBackupManager {
 	}
 
 	protected function getOptionalEntries () {
-		return new BSArray;
+		return BSArray::create();
 	}
 
 	/**

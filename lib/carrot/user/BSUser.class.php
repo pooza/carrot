@@ -20,11 +20,11 @@ class BSUser extends BSParameterHolder {
 	 * @access protected
 	 */
 	protected function __construct () {
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 		$this->attributes->setParameters($_COOKIE);
 		$this->attributes->setParameters($this->getSession()->read('attributes'));
 
-		$this->credentials = new BSArray;
+		$this->credentials = BSArray::create();
 		$this->credentials->setParameters($this->getSession()->read('credentials'));
 
 		$this->id = $this->getSession()->read(__CLASS__);

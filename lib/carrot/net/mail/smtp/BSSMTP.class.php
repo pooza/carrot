@@ -28,7 +28,7 @@ class BSSMTP extends BSSocket {
 		}
 		parent::__construct($host, $port, $protocol);
 		$this->setMail(new BSMail);
-		$this->keywords = new BSArray;
+		$this->keywords = BSArray::create();
 	}
 
 	/**
@@ -132,7 +132,7 @@ class BSSMTP extends BSSocket {
 	 */
 	protected function getRecipients ($flags = null) {
 		if (BS_DEBUG || ($flags & self::TEST)) {
-			$recipients = new BSArray;
+			$recipients = BSArray::create();
 			$recipients[] = BSAdministratorRole::getInstance()->getMailAddress();
 			return $recipients;
 		} else {
@@ -148,7 +148,7 @@ class BSSMTP extends BSSocket {
 	 */
 	public function getKeywords () {
 		if (!$this->keywords) {
-			$this->keywords = new BSArray;
+			$this->keywords = BSArray::create();
 		}
 		return $this->keywords;
 	}

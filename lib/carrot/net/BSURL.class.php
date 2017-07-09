@@ -21,7 +21,7 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 	 * @param mixed $contents URL
 	 */
 	protected function __construct ($contents) {
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 		$this->setContents($contents);
 	}
 
@@ -42,11 +42,11 @@ abstract class BSURL implements ArrayAccess, BSAssignable {
 		if (BSString::isBlank($contents)) {
 			return new $class;
 		} else if (is_string($contents)) {
-			$params = new BSArray(parse_url($contents));
+			$params = BSArray::create(parse_url($contents));
 		} else if (is_array($contents)) {
-			$params = new BSArray($contents);
+			$params = BSArray::create($contents);
 		} else if ($contents instanceof BSParameterHolder) {
-			$params = new BSArray($contents->getParameters());
+			$params = BSArray::create($contents->getParameters());
 		} else {
 			return null;
 		}

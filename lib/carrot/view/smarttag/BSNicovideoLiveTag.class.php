@@ -32,7 +32,7 @@ class BSNicovideoLiveTag extends BSSmartTag {
 		try {
 			$service = new BSNicovideoLiveService;
 			$service->setUserAgent($this->getUserAgent());
-			$params = new BSArray($this->params);
+			$params = BSArray::create($this->params);
 			$params->setParameters($this->getQueryParameters());
 			$element = $service->createElement($this->tag[1], $params);
 			$replace = $element->getContents();

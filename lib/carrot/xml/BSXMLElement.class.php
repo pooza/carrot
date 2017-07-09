@@ -24,8 +24,8 @@ class BSXMLElement implements IteratorAggregate {
 	 * @param string $name 要素の名前
 	 */
 	public function __construct ($name = null) {
-		$this->attributes = new BSArray;
-		$this->elements = new BSArray;
+		$this->attributes = BSArray::create();
+		$this->elements = BSArray::create();
 		if (!BSString::isBlank($name)) {
 			$this->setName($name);
 		}
@@ -311,7 +311,7 @@ class BSXMLElement implements IteratorAggregate {
 			throw new BSXMLException($message);
 		}
 
-		$stack = new BSArray;
+		$stack = BSArray::create();
 		$reader = new XMLReader;
 		$reader->xml($contents);
 		while ($reader->read()) {

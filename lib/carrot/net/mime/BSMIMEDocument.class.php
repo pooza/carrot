@@ -91,7 +91,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function getHeaders () {
 		if (!$this->headers) {
-			$this->headers = new BSArray;
+			$this->headers = BSArray::create();
 		}
 		return $this->headers;
 	}
@@ -198,7 +198,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function getParts () {
 		if (!$this->parts) {
-			$this->parts = new BSArray;
+			$this->parts = BSArray::create();
 		}
 		return $this->parts;
 	}
@@ -378,7 +378,7 @@ class BSMIMEDocument extends BSParameterHolder implements BSRenderer {
 	 */
 	public function getEntities () {
 		if ($this->isMultiPart()) {
-			$parts = new BSArray;
+			$parts = BSArray::create();
 			foreach ($this->getParts() as $part) {
 				$name = null;
 				if ($header = $part->getHeader('Content-Disposition')) {

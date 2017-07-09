@@ -33,7 +33,7 @@ class BSSystemLogger extends BSLogger {
 	 */
 	public function put ($message, $priority) {
 		$command = $this->createCommand();
-		$line = new BSArray;
+		$line = BSArray::create();
 		$line[] = '[server ' . $this->getServerHostName() . ']';
 		$line[] = '[' . $priority . ']';
 		$line[] = '[client ' . $this->getClientHostName() . ']';
@@ -74,14 +74,14 @@ class BSSystemLogger extends BSLogger {
 	 */
 	public function getDates () {
 		if (!$this->dates) {
-			$this->dates = new BSArray;
+			$this->dates = BSArray::create();
 			foreach ($this->getDirectory() as $file) {
 				if (!$date = BSDate::create($file->getBaseName())) {
 					continue;
 				}
 				$month = $date->format('Y-m');
 				if (!$this->dates[$month]) {
-					$this->dates[$month] = new BSArray;
+					$this->dates[$month] = BSArray::create();
 				}
 				$this->dates[$month][$date->format('Y-m-d')] = $date->format('Y-m-d(ww)');
 			}
@@ -98,7 +98,7 @@ class BSSystemLogger extends BSLogger {
 	 */
 	public function getEntries (BSDate $date) {
 		if (!$this->entries) {
-			$this->entries = new BSArray;
+			$this->entries = BSArray::create();
 			if ($month = $this->getDates()[$date->format('Y-m')]) {
 				if ($month->hasParameter($name = $date->format('Y-m-d'))) {
 					$file = $this->getDirectory()->getEntry($name);

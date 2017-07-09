@@ -29,7 +29,7 @@ abstract class BSTableAction extends BSAction {
 		parent::initialize();
 		$this->getModule()->clearRecordID();
 
-		$params = new BSArray;
+		$params = BSArray::create();
 		if (BS_MODULE_CACHE_PARAMETERS) {
 			$params->setParameters($this->getModule()->getParameterCache());
 		}
@@ -87,7 +87,7 @@ abstract class BSTableAction extends BSAction {
 	 */
 	protected function getRows () {
 		if (!$this->rows) {
-			$this->rows = new BSArray;
+			$this->rows = BSArray::create();
 			if ($this->isShowable()) {
 				foreach ($this->getTable() as $record) {
 					$this->rows[] = $record->assign();

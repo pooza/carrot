@@ -80,7 +80,7 @@ class BSFeedUtility extends Zend_Feed {
 	 * @static
 	 */
 	static public function getEntryTitles (BSFeedDocument $feed) {
-		$titles = new BSArray;
+		$titles = BSArray::create();
 		foreach ($feed->getEntryRootElement() as $entry) {
 			if ($entry->getName() != $feed->getEntryElementName()) {
 				continue;

@@ -23,7 +23,7 @@ class BSDefaultSerializeStorage implements BSSerializeStorage {
 			$serializer = $this->loader->createObject(BS_SERIALIZE_SERIALIZER, 'Serializer');
 		}
 		$this->serializer = $serializer;
-		$this->attributes = new BSArray;
+		$this->attributes = BSArray::create();
 	}
 
 	/**

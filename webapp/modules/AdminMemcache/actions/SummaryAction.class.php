@@ -20,7 +20,7 @@ class SummaryAction extends BSAction {
 
 	public function execute () {
 		$manager = BSMemcacheManager::getInstance();
-		$this->request->setAttribute('servers', new BSArray);
+		$this->request->setAttribute('servers', BSArray::create());
 		foreach ($manager->getServerNames() as $name) {
 			if ($server = BSMemcacheManager::getInstance()->getServer($name)) {
 				$this->request->getAttribute('servers')[$name] = $server->getAttributes();
