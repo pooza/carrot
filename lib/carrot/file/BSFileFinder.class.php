@@ -57,13 +57,15 @@ class BSFileFinder {
 	 * 検索対象ディレクトリを登録
 	 *
 	 * @access public
-	 * @param BSDirectory $dir 検索対象ディレクトリ
+	 * @param mixed $dir 検索対象ディレクトリ
 	 */
 	public function registerDirectory ($dir) {
-		if (!($dir instanceof BSDirectory)) {
+		if (is_string($dir)) {
 			$dir = BSFileUtility::getDirectory($dir);
 		}
-		$this->directories->unshift($dir);
+		if ($dir instanceof BSDirectory) {
+			$this->directories->unshift($dir);
+		}
 	}
 
 	/**
