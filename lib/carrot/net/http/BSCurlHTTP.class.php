@@ -71,12 +71,10 @@ class BSCurlHTTP extends BSHTTP {
 		$request->setRenderer($renderer);
 		$request->setURL($this->createRequestURL($path));
 		$this->setAttribute('post', true);
-		if ($renderer instanceof BSParameterHolder) {
+		if ($file && ($renderer instanceof ParameterHolder)) {
 			$params = $renderer->getParameters();
-			if ($file) {
-				$params['file'] = new CURLFile($file->getPath());
-				$request->setHeader('Content-Type', 'multipart/form-data');
-			}
+			$params['file'] = new CURLFile($file->getPath());
+			$request->setHeader('Content-Type', 'multipart/form-data');
 			$this->setAttribute('safe_upload', true);
 			$this->setAttribute('postfields', $params);
 		} else {
