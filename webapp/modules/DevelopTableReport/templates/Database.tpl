@@ -61,12 +61,12 @@
 <script>
 document.observe('dom:loaded', function () {
   $('update_button').observe('click', function() {
-    CarrotLib.redirect('DevelopTableReport', 'Update', null, {
+    CarrotLib.redirect('{$module.name}', 'Update', null, {
       'database': '{$database.name}'
     });
   });
   $('optimize_button').observe('click', function() {
-    CarrotLib.redirect('DevelopTableReport', 'Optimize', null, {
+    CarrotLib.redirect('{$module.name}', 'Optimize', null, {
       'database': '{$database.name}'
     });
   });
