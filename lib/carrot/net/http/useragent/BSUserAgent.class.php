@@ -302,25 +302,6 @@ abstract class BSUserAgent extends BSParameterHolder {
 	}
 
 	/**
-	 * GPS情報を取得するリンクを返す
-	 *
-	 * @access public
-	 * @param BSHTTPRedirector $url 対象リンク
-	 * @param string $label ラベル
-	 * @return BSAnchorElement リンク
-	 */
-	public function createGPSAnchorElement (BSHTTPRedirector $url, $label) {
-		$formatter = new BSStringFormat('CarrotLib.handleGPS(\'%s\')');
-		$formatter[] = BSURL::encode($url->getURL()->getContents());
-		$wrapper = BSURL::create('javascript:' . $formatter->getContents());
-
-		$element = new BSAnchorElement;
-		$element->setURL($wrapper);
-		$element->setBody($label);
-		return $element;
-	}
-
-	/**
 	 * 一致すべきパターンを返す
 	 *
 	 * @access public
