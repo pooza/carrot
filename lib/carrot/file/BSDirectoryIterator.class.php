@@ -28,7 +28,9 @@ class BSDirectoryIterator extends BSIterator {
 	 * @return mixed ファイル又はディレクトリ
 	 */
 	public function current () {
-		return $this->directory->getEntry(parent::current());
+		if ($name = parent::current()) {
+			return $this->directory->getEntry($name);
+		}
 	}
 }
 
