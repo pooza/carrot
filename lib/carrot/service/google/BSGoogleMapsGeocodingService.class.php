@@ -56,6 +56,10 @@ class BSGoogleMapsGeocodingService extends BSCurlHTTP {
 	}
 
 	protected function query ($address) {
+		if (mb_ereg('^lat=([0-9]+\\.[0-9]+),lng=([0-9]+\\.[0-9]+)$', $address, $matches)) {
+			return BSArray::create(['lat'=> $matches[1], 'lng'=> $matches[2]]);
+		}
+
 		$url = $this->createRequestURL('/maps/api/geocode/json');
 		$url->setParameter('address', $address);
 		$response = $this->sendGET($url->getFullPath());
