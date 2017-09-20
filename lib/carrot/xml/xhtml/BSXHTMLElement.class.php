@@ -138,8 +138,8 @@ class BSXHTMLElement extends BSXMLElement {
 	 * @param mixed $styles スタイル
 	 */
 	public function setStyles ($styles) {
-		if ($styles instanceof BSCSSSelector) {
-			$this->styles = $styles;
+		if ($styles instanceof BSParameterHolder) {
+			$this->styles = new BSCSSSelector($styles);
 		} else {
 			$this->styles->clear();
 			$this->styles->setContents($styles);
