@@ -8,7 +8,7 @@
  */
 class DeniedUserAgentView extends BSSmartyView {
 	public function execute () {
-		$this->setStatus(400);
+		$this->setStatus(406);
 	}
 }
 
