@@ -4,7 +4,7 @@
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
 root_url: http://carrot.dev.kapi.local/
-root_url_https: http://carrot.dev.kapi.local/
+root_url_https: http://carrot2.kapi.local/
 debug: yes
 
 admin:
