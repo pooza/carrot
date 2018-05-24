@@ -3,23 +3,16 @@
 # @package __PACKAGE__
 # @author 小石達也 <tkoishi@b-shock.co.jp>
 
-root_url: http://carrot.dev.kapi.local/
-root_url_https: http://carrot2.kapi.local/
+root_url: http://carrot.dev.b-shock.local/
+root_url_https: http://carrot2.b-shock.local/
 debug: yes
 
 admin:
   email: admin@b-shock.co.jp
   password: $2y$10$iv12Di/l.VParpPiqrWNUuGAhhl1PklXKj2FhkcFtjDyPsiwnAS8q
-  networks:
-    - 172.16.138.0/24
 pdo:
   default:
-    #dsn: mysql:host=127.0.0.1;dbname=carrot;charset=utf8mb4
-    #dsn: pgsql:host=localhost dbname=carrot user=postgres
     uid: root
     password:
-memcache:
-  #host: localhost
-  #port: 11211
 view:
   html5: yes
